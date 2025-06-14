@@ -1,6 +1,5 @@
 import { Divider, Empty, Pagination, Spin, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import { column } from "./Column";
 
 const CommReportTable = ({ data, isLoading, setPaginationTotal, paginationTotal, totalPage, indexData, setIndexData, setTotalPage }) => {
   const [commLiya, setCommLiya] = useState();
@@ -24,17 +23,7 @@ console.log(data, "adssssa")
   return (
     <>
       <div className="table_section statement_tabs_data ant-spin-nested-loading">
-        {/* <Table
-          loading={isLoading}
-          className="live_table"
-          columns={column}
-          dataSource={data}
-          pagination={{
-            defaultPageSize: 50,
-            pageSizeOptions: [50, 100, 150, 200, 250],
-          }}
-        /> */}
-
+      
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
           <table className="">
             <tr>

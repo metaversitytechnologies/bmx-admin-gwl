@@ -88,10 +88,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
 
   // const [getData, { data: results }] = useLazyIsUserIdQuery();
 
-  const [getUserId, { data: userOrderedId }] = useGetUserIdMutation();
-
- 
-
+  // const [getUserId, { data: userOrderedId }] = useGetUserIdMutation();
 
   const handelUseId = (e) => {
     setCreateUserID(e.target.value);
@@ -101,11 +98,11 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
     useCreateUserMutation();
   const [trigger, { data }] = useLazyCreateUserDataQuery();
 
-  useEffect(() => {
-    getUserId({
-      userType: userTypeOrder,
-    });
-  }, [userTypeOrder, error]);
+  // useEffect(() => {
+  //   getUserId({
+  //     userType: userTypeOrder,
+  //   });
+  // }, [userTypeOrder, error]);
 
   // useEffect(() => {
   //   getData({
@@ -138,23 +135,23 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
     });
   }, [data?.data, parentId]);
 
-  const handelReloadUserId = ()=>{
-    setLoadingSpin(true);
-    getUserId({
-      userType: userTypeOrder,
-    });
-  }
+  const handelReloadUserId = () => {
+    // setLoadingSpin(true);
+    // getUserId({
+    //   userType: userTypeOrder,
+    // });
+  };
 
-  useEffect(()=>{
-  if(userOrderedId?.status == true){
-    setLoadingSpin(false);
-  }
-  }, [userOrderedId?.status])
+  // useEffect(() => {
+  //   if (userOrderedId?.status == true) {
+  //     setLoadingSpin(false);
+  //   }
+  // }, [userOrderedId?.status]);
 
   const onFinish = (values) => {
     setLuPassword("");
     const userData = {
-      userId: userOrderedId?.data?.userId,
+      userId: "demo",
       username: values?.Name,
       mobile: values?.mobile,
       city: "",
@@ -189,9 +186,9 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
       trigger({
         parentId: "" || parentId,
       });
-      getUserId({
-        userType: userTypeOrder,
-      });
+      // getUserId({
+      //   userType: userTypeOrder,
+      // });
     } else if (UserList?.status === false || error?.data?.message) {
       openNotificationError(UserList?.message || error?.data?.message);
     }
@@ -218,336 +215,335 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
 
   return (
     <>
-      {contextHolder}
-      {userTypeCheck != userTyep && (
-        <SelectUpline
-          data={resultData?.data}
-          handleChange={handleChange}
-          handleSelect={handleSelect}
-        />
-      )}
-      {(parentId?.length > 0 || userTypeCheck == userTyep) && (
-        <div className="main_live_section">
-          <div className="_match">
-            <div className="sub_live_section live_report">
-              <div
-                style={{ padding: "5px 8px", fontSize: "22px" }}
-                className="team_name">
-                Create {createName}
-              </div>
-              <div className="show_btn">
-                {userTypeCheck == userTyep && (
-                  <button onClick={() => nav(-1)}>Back</button>
-                )}
-              </div>
+      {/* {contextHolder}
+      {userTypeCheck != userTyep && ( */}
+      <SelectUpline
+        data={resultData?.data}
+        handleChange={handleChange}
+        handleSelect={handleSelect}
+      />
+      {/* )} */}
+      {/* {(parentId?.length > 0 || userTypeCheck == userTyep) && ( */}
+      <div className="main_live_section">
+        <div className="_match">
+          <div className="sub_live_section live_report">
+            <div
+              style={{ padding: "5px 8px", fontSize: "22px" }}
+              className="team_name">
+              Create {createName}
+            </div>
+            <div className="show_btn">
+              {userTypeCheck == userTyep && (
+                <button onClick={() => nav(-1)}>Back</button>
+              )}
             </div>
           </div>
-          <div className="ant-spin-nested-loading">
-            {isLoading ? (
-              <div className="spin_icon">
-                <Spin size="large" />
-              </div>
-            ) : (
-              ""
-            )}
-            <Form
-              className="form_data"
-              form={form}
-              name="basic"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              // initialValues={{ remember: true }}
-              onFinish={onFinish}
-              autoComplete="off"
-              fields={[
-                {
-                  name: "My Coins",
-                  value: data?.data?.myBalance,
-                },
-                {
-                  name: "code",
-                  value: userOrderedId?.data?.userId,
-                },
-                {
-                  name: "MyMatchShare",
-                  value: data?.data?.myShare,
-                },
-                {
-                  name: "MyCasinoShare",
-                  value: data?.data?.myCasinoShare,
-                },
-                {
-                  name: "MyCommtype",
-                  value:
-                    data?.data?.mySessionCommission === 0 &&
-                    data?.data?.myMatchCommission
-                      ? "No Comm"
-                      : "Bet by Bet",
-                },
-                {
-                  name: "cassinoComm",
-                  value: data?.data?.myCasinoCommission,
-                },
-                {
-                  name: "My_Match_comm",
-                  value: data?.data?.myMatchCommission,
-                },
-                {
-                  name: "My_sess_comm",
-                  value: data?.data?.mySessionCommission,
-                },
-              ]}>
-              <div>
-                <Row className="super_agent">
-                  <Col xl={12} lg={12} md={24} xs={24}>
-                    <Form.Item
-                      label="User ID"
-                      name="code"
-                      disabled
-                      // required
-                      // rules={[
-                      //   {
-                      //     required: true,
-                      //     message: "Please Enter UserID",
-                      //   },
-                      //   {
-                      //     validator: async (rules, value) => {
-                      //       try {
-                      //         const results = await axios.post(
-                      //           "user/is-userid-available",
-                      //           {
-                      //             userId: hostname.includes("create-super")
-                      //               ? "S" + value
-                      //               : hostname.includes("create-agent")
-                      //               ? "M" + value
-                      //               : hostname.includes("create-dealer")
-                      //               ? "A" + value
-                      //               : "C" + value,
-                      //           },
-                      //           {
-                      //             headers: {
-                      //               Authorization: `Bearer ${localStorage.getItem(
-                      //                 "token"
-                      //               )}`,
-                      //             },
-                      //             baseURL: import.meta.env.VITE_BASE_URL,
-                      //           }
-                      //         );
+        </div>
+        <div className="ant-spin-nested-loading">
+          {isLoading ? (
+            <div className="spin_icon">
+              <Spin size="large" />
+            </div>
+          ) : (
+            ""
+          )}
+          <Form
+            className="form_data"
+            form={form}
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            // initialValues={{ remember: true }}
+            onFinish={onFinish}
+            autoComplete="off"
+            fields={[
+              {
+                name: "My Coins",
+                value: data?.data?.myBalance,
+              },
+              {
+                name: "code",
+                value: "d0001",
+              },
+              {
+                name: "MyMatchShare",
+                value: data?.data?.myShare,
+              },
+              {
+                name: "MyCasinoShare",
+                value: data?.data?.myCasinoShare,
+              },
+              {
+                name: "MyCommtype",
+                value:
+                  data?.data?.mySessionCommission === 0 &&
+                  data?.data?.myMatchCommission
+                    ? "No Comm"
+                    : "Bet by Bet",
+              },
+              {
+                name: "cassinoComm",
+                value: data?.data?.myCasinoCommission,
+              },
+              {
+                name: "My_Match_comm",
+                value: data?.data?.myMatchCommission,
+              },
+              {
+                name: "My_sess_comm",
+                value: data?.data?.mySessionCommission,
+              },
+            ]}>
+            <div>
+              <Row className="super_agent">
+                <Col xl={12} lg={12} md={24} xs={24}>
+                  <Form.Item
+                    label="User ID"
+                    name="code"
+                    disabled
+                    // required
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "Please Enter UserID",
+                    //   },
+                    //   {
+                    //     validator: async (rules, value) => {
+                    //       try {
+                    //         const results = await axios.post(
+                    //           "user/is-userid-available",
+                    //           {
+                    //             userId: hostname.includes("create-super")
+                    //               ? "S" + value
+                    //               : hostname.includes("create-agent")
+                    //               ? "M" + value
+                    //               : hostname.includes("create-dealer")
+                    //               ? "A" + value
+                    //               : "C" + value,
+                    //           },
+                    //           {
+                    //             headers: {
+                    //               Authorization: `Bearer ${localStorage.getItem(
+                    //                 "token"
+                    //               )}`,
+                    //             },
+                    //             baseURL: import.meta.env.VITE_BASE_URL,
+                    //           }
+                    //         );
 
-                      //         if (results?.data.status === false) {
-                      //           return Promise.reject(
-                      //             new Error(results?.data.message)
-                      //           );
-                      //         }
-                      //       } catch (err) {
-                      //         console.log(err);
-                      //       }
-                      //     },
-                      //   },
-                      // ]}
-                    >
-                      <p className="user_id">
-                        <Input
-                          disabled
-                          type="text"
-                          value={userOrderedId?.data?.userId}
-                          defaultValue={userOrderedId?.data?.userId}
-                          // placeholder="Enter user id"
-                          onChange={(e) => handelUseId(e)}
-                          // onKeyDown={(e) => {
-                          //   if (
-                          //     !e.key.match(/^[a-zA-Z0-9]$/) &&
-                          //     e.key.length === 1
-                          //   ) {
-                          //     e.preventDefault();
-                          //   }
-                          // }}
-                        />
-                        <BiRefresh onClick={handelReloadUserId} className={`loading-icon ${loadingSpin?"loading-icon-animation":""}`} />
-                      </p>
-                    </Form.Item>
-                  </Col>
-                  <Col xl={12} lg={12} md={24} xs={24}>
-                    <Form.Item
-                      label="Name"
-                      name="Name"
-                      required
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please enter name",
-                        },
-                      ]}>
+                    //         if (results?.data.status === false) {
+                    //           return Promise.reject(
+                    //             new Error(results?.data.message)
+                    //           );
+                    //         }
+                    //       } catch (err) {
+                    //         console.log(err);
+                    //       }
+                    //     },
+                    //   },
+                    // ]}
+                  >
+                    <p className="user_id">
                       <Input
+                        disabled
                         type="text"
-                        placeholder="Enter full name"
-                        onKeyDown={(e) => {
+                        value={"d0001"}
+                        defaultValue={"d001"}
+                        // placeholder="Enter user id"
+                        onChange={(e) => handelUseId(e)}
+                        // onKeyDown={(e) => {
+                        //   if (
+                        //     !e.key.match(/^[a-zA-Z0-9]$/) &&
+                        //     e.key.length === 1
+                        //   ) {
+                        //     e.preventDefault();
+                        //   }
+                        // }}
+                      />
+                      <BiRefresh
+                        onClick={handelReloadUserId}
+                        className={`loading-icon ${
+                          loadingSpin ? "loading-icon-animation" : ""
+                        }`}
+                      />
+                    </p>
+                  </Form.Item>
+                </Col>
+                <Col xl={12} lg={12} md={24} xs={24}>
+                  <Form.Item
+                    label="Name"
+                    name="Name"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter name",
+                      },
+                    ]}>
+                    <Input
+                      type="text"
+                      placeholder="Enter full name"
+                      onKeyDown={(e) => {
+                        if (!e.key.match(/^[a-zA-Z ]$/) && e.key.length === 1) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Contact No."
+                    name="mobile"
+                    rules={[
+                      {
+                        validator: async (_, names) => {
                           if (
-                            !e.key.match(/^[a-zA-Z ]$/) &&
-                            e.key.length === 1
+                            !mobileNum.test(names) &&
+                            names != "" &&
+                            names != null
                           ) {
-                            e.preventDefault();
+                            return Promise.reject(
+                              new Error("Please Enter Valid Mobile Number")
+                            );
                           }
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Contact No."
-                      name="mobile"
-                      rules={[
-                        {
-                          validator: async (_, names) => {
-                            if (
-                              !mobileNum.test(names) &&
-                              names != "" &&
-                              names != null
-                            ) {
-                              return Promise.reject(
-                                new Error("Please Enter Valid Mobile Number")
-                              );
-                            }
-                          },
                         },
-                      ]}>
-                      <InputNumber
-                        className="number_field"
-                        min={0}
-                        type="number"
-                        onKeyDown={(e) => {
-                          if (!e.key.match(/^[0-9]$/) && e.key.length === 1) {
-                            e.preventDefault();
+                      },
+                    ]}>
+                    <InputNumber
+                      className="number_field"
+                      min={0}
+                      type="number"
+                      onKeyDown={(e) => {
+                        if (!e.key.match(/^[0-9]$/) && e.key.length === 1) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xl={12} lg={12} md={24} xs={24}>
+                  <Form.Item label="Reference" name="reference">
+                    <Input type="text" placeholder="Enter Reference" />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item label="My Coins" name="My Coins" required={false}>
+                    <Input type="number" disabled />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Coins"
+                    name="Coins"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter valid Coins",
+                      },
+                      {
+                        validator: async (_, values) => {
+                          if (
+                            data?.data?.myBalance < values &&
+                            values != "" &&
+                            values != null
+                          ) {
+                            return Promise.reject(
+                              new Error("Please enter valid Coins")
+                            );
                           }
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col xl={12} lg={12} md={24} xs={24}>
-                    <Form.Item label="Reference" name="reference">
-                      <Input type="text" placeholder="Enter Reference" />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="My Coins"
-                      name="My Coins"
-                      required={false}>
-                      <Input type="number" disabled />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Coins"
-                      name="Coins"
-                      required
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please enter valid Coins",
                         },
-                        {
-                          validator: async (_, values) => {
-                            if (
-                              data?.data?.myBalance < values &&
-                              values != "" &&
-                              values != null
-                            ) {
-                              return Promise.reject(
-                                new Error("Please enter valid Coins")
-                              );
-                            }
-                          },
-                        },
-                      ]}>
-                      <InputNumber
-                        className="number_field"
-                        min={0}
-                        type="number"
-                        placeholder="Enter Coins"
-                        onKeyDown={(e) => {
-                          if (e.key == ".") {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
+                      },
+                    ]}>
+                    <InputNumber
+                      className="number_field"
+                      min={0}
+                      type="number"
+                      placeholder="Enter Coins"
+                      onKeyDown={(e) => {
+                        if (e.key == ".") {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
 
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Password"
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please Enter Password",
-                        },
-                        // {
-                        //   validator: async (_, names) => {
-                        //     if (
-                        //       !passw.test(names) &&
-                        //       names != "" &&
-                        //       names != null
-                        //     ) {
-                        //       return Promise.reject(
-                        //         new Error(
-                        //           "Minimun 6 character, must contain letters and numbers"
-                        //         )
-                        //       );
-                        //     }
-                        //   },
-                        // },
-                      ]}>
-                      <Input type="password" placeholder="Password" />
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <MatchCommission
-                  createName={createName}
-                  commissionType={commissionType}
-                  commiType={commiType}
-                  data={data}
-                  userData={userData}
-                />
-                {/* <CasinoCommission
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please Enter Password",
+                      },
+                      // {
+                      //   validator: async (_, names) => {
+                      //     if (
+                      //       !passw.test(names) &&
+                      //       names != "" &&
+                      //       names != null
+                      //     ) {
+                      //       return Promise.reject(
+                      //         new Error(
+                      //           "Minimun 6 character, must contain letters and numbers"
+                      //         )
+                      //       );
+                      //     }
+                      //   },
+                      // },
+                    ]}>
+                    <Input type="password" placeholder="Password" />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <MatchCommission
+                createName={createName}
+                commissionType={commissionType}
+                commiType={commiType}
+                data={data}
+                userData={userData}
+              />
+              {/* <CasinoCommission
                   createName={createName}
                   commiType={commiType}
                 /> */}
-                <CasinoDetailsAllow casinoDetalisData={casinoDetalisData} />
+              <CasinoDetailsAllow casinoDetalisData={casinoDetalisData} />
 
-                <Row className="super_agent sub_super">
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Transaction Password"
-                      name="lupassword"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please Enter Transaction Password",
-                        },
-                      ]}>
-                      <Input
-                        value={LuPassword}
-                        type="password"
-                        onChange={(e) => handleLupassword(e)}
-                        placeholder="Transaction Password"
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item wrapperCol={{ offset: 19, span: 24 }}>
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </div>
-            </Form>
-          </div>
+              <Row className="super_agent sub_super">
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Transaction Password"
+                    name="lupassword"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please Enter Transaction Password",
+                      },
+                    ]}>
+                    <Input
+                      value={LuPassword}
+                      type="password"
+                      onChange={(e) => handleLupassword(e)}
+                      placeholder="Transaction Password"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item wrapperCol={{ offset: 19, span: 24 }}>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </div>
+          </Form>
         </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   );
 };

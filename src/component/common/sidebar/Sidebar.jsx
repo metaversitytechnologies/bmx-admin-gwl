@@ -21,7 +21,7 @@ const Sidebar = (props) => {
 
   const nav = useNavigate();
 
-  const userType = localStorage.getItem("userType");
+  const userType = 5;
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -32,7 +32,7 @@ const Sidebar = (props) => {
     }
   };
 
-  const uType = localStorage.getItem("userType");
+  const uType = 5;
 
 
   return (

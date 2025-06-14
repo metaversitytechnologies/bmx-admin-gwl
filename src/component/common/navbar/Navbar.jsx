@@ -71,7 +71,7 @@ const Navbar = ({ action, logo }) => {
 
   return (
     <>
-      {localStorage.getItem("token") !== null && (
+      {/* {localStorage.getItem("token") !== null && ( */}
         <div className="nav">
           <div
             style={{
@@ -109,7 +109,7 @@ const Navbar = ({ action, logo }) => {
             </Dropdown>
           </div>
         </div>
-      )}
+      {/* // )} */}
 
       <Modal
         className="change_pass"

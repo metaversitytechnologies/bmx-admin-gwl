@@ -11,161 +11,10 @@ const RoulettePlusMinus = () => {
     nav(-1);
   };
 
-  // const columns = [
-  //   {
-  //     title: (
-  //       <>
-  //         <div className="main_search_droup ">
-  //           <p className="menu_search">Code</p>
-  //           {/* {droupSearch && (
-  //             <Menu className="menu_item search_menu">
-  //               <Form
-  //                 name="code"
-  //                 // form={form}
-  //                 initialValues={{
-  //                   remember: true,
-  //                 }}
-  //                 // onFinish={onFinish}
-  //                 autoComplete="off">
-  //                 <Form.Item name="username">
-  //                   <Input />
-  //                 </Form.Item>
-
-  //                 <div className="agent_search_deatil">
-  //                   <Form.Item>
-  //                     <Button
-  //                       type="primary"
-  //                       htmlType="submit"
-  //                       style={{
-  //                         width: "86px",
-  //                         marginRight: "8px",
-  //                       }}>
-  //                       <SearchOutlined /> Search
-  //                     </Button>
-  //                   </Form.Item>
-  //                   <Form.Item>
-  //                     <Button
-  //                       // onClick={() => form.resetFields()}
-  //                       className="ant_reset_btn"
-  //                       style={{ width: "86px" }}>
-  //                       Reset
-  //                     </Button>
-  //                   </Form.Item>
-  //                 </div>
-  //               </Form>
-  //             </Menu>
-  //           )}
-  //           <p className="search_code">
-  //             <Space>
-  //               <SearchOutlined onClick={() => setDroupSearch(!droupSearch)} />
-  //             </Space>
-  //           </p> */}
-  //         </div>
-  //       </>
-  //     ),
-  //     dataIndex: "userId",
-  //     key: "userId",
-  //   },
-  //   {
-  //     title: "Casino Amt",
-  //     dataIndex: "casinoAmount",
-  //     key: "casinoAmount",
-  //     align: "right",
-  //     render: (text, record) => (
-  //       <span
-  //         className={`text-right ${
-  //           record?.casinoAmount < 0
-  //             ? "text_danger"
-  //             : record?.casinoAmount > 0
-  //             ? "text_success"
-  //             : ""
-  //         }`}>
-  //         {record?.casinoAmount}
-  //       </span>
-  //     ),
-  //   },
-  //   {
-  //     title: "Comm",
-  //     dataIndex: "comm",
-  //     key: "comm",
-  //     align: "right",
-  //     render: (text, record) => (
-  //       <span>
-  //         {record?.isLedgerCreated ? record?.comm :"0"}
-  //       </span>
-  //     ),
-  //     hideen: true
-  //   },
-  //   {
-  //     title: "Total Amount",
-  //     dataIndex: "totalAmount",
-  //     key: "totalAmount",
-  //     align: "right",
-  //     render: (text, record) => (
-  //       <span
-  //         className={`text-right ${
-  //           record?.totalAmount < 0
-  //             ? "text_danger"
-  //             : record?.totalAmount > 0
-  //             ? "text_success"
-  //             : ""
-  //         }`}>
-  //         {record?.totalAmount}
-  //       </span>
-  //     ),
-  //   },
-  //   {
-  //     title: "My Share",
-  //     dataIndex: "myShare",
-  //     key: "myShare",
-  //     align: "right",
-  //     render: (text, record) => (
-  //       <span
-  //         className={`text-right ${
-  //           record?.myShare < 0
-  //             ? "text_danger"
-  //             : record?.myShare > 0
-  //             ? "text_success"
-  //             : ""
-  //         }`}>
-  //         {record?.myShare}
-  //       </span>
-  //     ),
-  //   },
-  //   {
-  //     title: "Net Amount",
-  //     dataIndex: "finalAmount",
-  //     key: "finalAmount",
-  //     align: "right",
-  //     render: (text, record) => (
-  //       <span
-  //         className={`text-right ${
-  //           record?.finalAmount < 0
-  //             ? "text_danger"
-  //             : record?.finalAmount > 0
-  //             ? "text_success"
-  //             : ""
-  //         }`}>
-  //         {record?.finalAmount}
-  //       </span>
-  //     ),
-  //   },
-  // ];
 
   const { state } = useLocation();
   const { id } = useParams();
 
-  // const {
-  //   data: plusMinus,
-  //   isFetching,
-  //   isLoading,
-  // } = useRoulettePlusMinusQuery(
-  //   {
-  //     casinoId: id,
-  //     date: state?.rouletteDate,
-  //   },
-  //   { refetchOnMountOrArgChange: true }
-  // );
   const { data: plusMinusNew, isLoading } = useCasinoBetListNewQuery(
     {
       casinoId: id,
@@ -175,18 +24,8 @@ const RoulettePlusMinus = () => {
   );
   console.log(plusMinusNew?.data, "plusMinusNew");
 
-  // const [plusMinusData, setPlusMinusTable] = useState([]);
 
-  // useEffect(() => {
-  //   if (plusMinus?.data) {
-  //     setPlusMinusTable([
-  //       plusMinus?.data,
-  //       { ...plusMinus?.data, userId: "Total" },
-  //     ]);
-  //   }
-  // }, [plusMinus]);
-
-  const uType = localStorage.getItem("userType");
+  const uType = 5;
 
   return (
     <>
@@ -218,17 +57,7 @@ const RoulettePlusMinus = () => {
         </div>
         <div>
           <div className="table_section" style={{overflowX:"auto", position:"relative"}}>
-            {/* <Table
-              className="live_table roulette_table"
-              bordered
-              columns={columns}
-              loading={isFetching || isLoading}
-              dataSource={plusMinusData}
-              rowClassName={(record) => {
-                return record?.userId == "Total" ? "dateHiglight" : "";
-              }}
-              // pagination={false}
-            /> */}
+          
 
             
               <table className="plus-table plus_minus_sec">
@@ -317,22 +146,7 @@ const RecursiveTable = ({ data, title }) => {
                 <td>
                   <strong>{userKey}</strong>
                 </td>
-                {/* <td
-                  className={
-                    uType == 5 || uType == 0 || uType == 1 || uType == 2
-                      ? ""
-                      : "d_none"
-                  }>
-                  {data[item][userKey].matchAmount?.toFixed(2)}
-                </td>
-                <td
-                  className={
-                    uType == 5 || uType == 0 || uType == 1 || uType == 2
-                      ? ""
-                      : "d_none"
-                  }>
-                  {data[item][userKey].sessionAmount?.toFixed(2)}
-                </td> */}
+                
                 <td
                   style={{
                     borderRightWidth: 2,
@@ -596,22 +410,7 @@ const RecursiveTable = ({ data, title }) => {
               <td>
                 <strong>CLIENT</strong>
               </td>
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                <strong>C AMT</strong>
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                <strong>SESS.</strong>
-              </td> */}
+             
               <td
                 style={{
                   borderRightWidth: 2,
@@ -624,22 +423,7 @@ const RecursiveTable = ({ data, title }) => {
                 }>
                 <strong>CASINO AMT</strong>
               </td>
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                <strong>C. COM</strong>
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                <strong>S. COM</strong>
-              </td> */}
+             
               <td
                 style={{
                   borderRightWidth: 2,
@@ -652,18 +436,7 @@ const RecursiveTable = ({ data, title }) => {
                 }>
                 <strong>CASINO COM </strong>
               </td>
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
-                }>
-                <strong>C. COM</strong>
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
-                }>
-                <strong>S. COM</strong>
-              </td> */}
+             
               <td
                 className={
                   uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
@@ -692,18 +465,7 @@ const RecursiveTable = ({ data, title }) => {
                 }}>
                 <strong>FINAL</strong>
               </td>
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
-                }>
-                <strong>C. COM</strong>
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
-                }>
-                <strong>S. COM</strong>
-              </td> */}
+              
               <td
                 className={
                   uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
@@ -732,12 +494,7 @@ const RecursiveTable = ({ data, title }) => {
                 }}>
                 <strong>FINAL</strong>
               </td>
-              {/* <td className={uType == 5 || uType == 0 ? "" : "d_none"}>
-                <strong>C. COM</strong>
-              </td> */}
-              {/* <td className={uType == 5 || uType == 0 ? "" : "d_none"}>
-                <strong>S. COM</strong>
-              </td> */}
+            
               <td className={uType == 5 || uType == 0 ? "" : "d_none"}>
                 <strong>CASINO COM</strong>
               </td>
@@ -755,12 +512,7 @@ const RecursiveTable = ({ data, title }) => {
                 }}>
                 <strong>FINAL</strong>
               </td>
-              {/* <td className={uType != 5 ? "d_none" : ""}>
-                <strong>C. COM</strong>
-              </td> */}
-              {/* <td className={uType != 5 ? "d_none" : ""}>
-                <strong>S. COM</strong>
-              </td> */}
+            
               <td className={uType != 5 ? "d_none" : ""}>
                 <strong>CASINO COM</strong>
               </td>
@@ -798,22 +550,7 @@ const RecursiveTable = ({ data, title }) => {
               <td>
                 <strong>{data.groupName} .TOTAL</strong>
               </td>
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                {data?.total?.matchAmount?.toFixed(2)}
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                {data?.total?.sessionAmount?.toFixed(2)}
-              </td> */}
+              
               <td
                 style={{
                   borderRightWidth: 2,
@@ -827,22 +564,7 @@ const RecursiveTable = ({ data, title }) => {
                 {data?.total?.totalAmount?.toFixed(2)}
               </td>
 
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                {data?.total?.matchComm?.toFixed(2)}
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                {data?.total?.sessionComm?.toFixed(2)}
-              </td> */}
+              
               <td
                 style={{
                   borderRightWidth: 2,
@@ -856,22 +578,6 @@ const RecursiveTable = ({ data, title }) => {
                 {data?.total?.totalComm?.toFixed(2)}
               </td>
 
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                {data?.total?.dealer?.matchComm?.toFixed(2)}
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 || uType == 2
-                    ? ""
-                    : "d_none"
-                }>
-                {data?.total?.dealer?.sessionComm?.toFixed(2)}
-              </td> */}
               <td
                 className={
                   uType == 5 || uType == 0 || uType == 1 || uType == 2
@@ -908,18 +614,7 @@ const RecursiveTable = ({ data, title }) => {
                 }}>
                 {data?.total?.dealer?.finalAmount?.toFixed(2)}
               </td>
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
-                }>
-                {(data?.total?.master?.matchComm).toFixed(2)}
-              </td> */}
-              {/* <td
-                className={
-                  uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
-                }>
-                {(data?.total?.master?.sessionComm).toFixed(2)}
-              </td> */}
+              
               <td
                 className={
                   uType == 5 || uType == 0 || uType == 1 ? "" : "d_none"
@@ -948,12 +643,7 @@ const RecursiveTable = ({ data, title }) => {
                 }}>
                 {data?.total?.master?.finalAmount?.toFixed(2)}
               </td>
-              {/* <td className={uType == 5 || uType == 0 ? "" : "d_none"}>
-                {data?.total?.superMaster?.matchComm?.toFixed(2)}
-              </td> */}
-              {/* <td className={uType == 5 || uType == 0 ? "" : "d_none"}>
-                {data?.total?.superMaster?.sessionComm?.toFixed(2)}
-              </td> */}
+            
               <td className={uType == 5 || uType == 0 ? "" : "d_none"}>
                 {data?.total?.superMaster?.totalComm?.toFixed(2)}
               </td>
@@ -971,12 +661,7 @@ const RecursiveTable = ({ data, title }) => {
                 }}>
                 {data?.total?.superMaster?.finalAmount?.toFixed(2)}
               </td>
-              {/* <td className={uType != 5 ? "d_none" : ""}>
-                {data?.total?.subAdmin?.matchComm?.toFixed(2)}
-              </td> */}
-              {/* <td className={uType != 5 ? "d_none" : ""}>
-                {data?.total?.subAdmin?.sessionComm?.toFixed(2)}
-              </td> */}
+              
               <td className={uType != 5 ? "d_none" : ""}>
                 {data?.total?.subAdmin?.totalComm?.toFixed(2)}
               </td>

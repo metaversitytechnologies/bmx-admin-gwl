@@ -2,49 +2,30 @@ import { Spin } from "antd";
 import "./ModalsData.scss";
 
 const ModalsData = ({ partnershipDetails, loading }) => {
-  const uType = localStorage.getItem("userType");
+  const uType = localStorage.getItem("userType") || 5;
 
-  // let subAdminTotal;
-  // let subAdminCommTotal;
-  // if (uType == 5) {
-  //   subAdminTotal =
-  //     100 -
-  //     (Number(partnershipDetails?.subadminpartnership) +
-  //       Number(partnershipDetails?.supermastepartnership) +
-  //       Number(partnershipDetails?.masterpartership) +
-  //       Number(partnershipDetails?.delearpartership));
+  // Static data fallback
+  const defaultPartnershipDetails = {
+    uplinepartership: 10,
+    subadminpartnership: 20,
+    supermastepartnership: 25,
+    masterpartership: 30,
+    delearpartership: 15,
 
-  //   subAdminCommTotal =
-  //     100 -
-  //     (Number(partnershipDetails?.subadminpartnershipc) +
-  //       Number(partnershipDetails?.supermastepartnershipc) +
-  //       Number(partnershipDetails?.masterpartershipc) +
-  //       Number(partnershipDetails?.delearpartershipc));
-  // } else if (uType == 0) {
-  //   subAdminTotal =
-  //     100 -
-  //     (Number(partnershipDetails?.supermastepartnership) +
-  //       Number(partnershipDetails?.masterpartership) +
-  //       Number(partnershipDetails?.delearpartership));
-  //   subAdminCommTotal =
-  //     100 -
-  //     (Number(partnershipDetails?.supermastepartnershipc) +
-  //       Number(partnershipDetails?.masterpartershipc) +
-  //       Number(partnershipDetails?.delearpartershipc));
-  // } else if (uType == 1) {
-  //   subAdminTotal =
-  //     100 -
-  //     (Number(partnershipDetails?.masterpartership) +
-  //       Number(partnershipDetails?.delearpartership));
-  //   subAdminCommTotal =
-  //     100 -
-  //     (Number(partnershipDetails?.masterpartershipc) +
-  //       Number(partnershipDetails?.delearpartershipc));
-  // } else if (uType == 2) {
-  //   subAdminTotal = 100 - Number(partnershipDetails?.delearpartership);
-  //   subAdminCommTotal = 100 - Number(partnershipDetails?.delearpartershipc);
-  // }
+    subadminoddsloss: 2,
+    supermasteroddsloss: 1.5,
+    masteroddsloss: 1.2,
+    agentoddsloss: 1,
+    oddsloss: 0.8,
 
+    subadminfancyloss: 1.8,
+    supermasterfancyloss: 1.4,
+    masterfancyloss: 1.1,
+    agentfancyloss: 0.9,
+    fancyloss: 0.7,
+  };
+
+  const details = partnershipDetails || defaultPartnershipDetails;
 
   return (
     <>
@@ -53,56 +34,52 @@ const ModalsData = ({ partnershipDetails, loading }) => {
           <div className="spin_icon">
             <Spin size="large" />
           </div>
-        ) : (
-          ""
-        )}
+        ) : null}
+
         <div className="partnership">
           <div className="sub_partnership">
             <div className="partnership_name">
               <p>Match Share</p>
             </div>
             <div className="partnership_data">
-              <table className="">
+              <table>
                 <tr>
                   <th>Up Line</th>
                   <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ?"": "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>Super</th>
+                  <th className={(uType == 0 || uType == 5) ? "" : "d_none"}>Master</th>
+                  <th className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>Super</th>
                   <th>Agent</th>
                 </tr>
                 <tr>
-                  <td>{partnershipDetails?.uplinepartership}</td>
-                  <td className={uType != 5 && "d_none"}>
-                    {partnershipDetails?.subadminpartnership}
-                  </td>
-                  <td className={(uType == 0 || uType == 5) ?"": "d_none"}>{partnershipDetails?.supermastepartnership}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>{partnershipDetails?.masterpartership}</td>
-                  <td>{partnershipDetails?.delearpartership}</td>
+                  <td>{details.uplinepartership}</td>
+                  <td className={uType != 5 && "d_none"}>{details.subadminpartnership}</td>
+                  <td className={(uType == 0 || uType == 5) ? "" : "d_none"}>{details.supermastepartnership}</td>
+                  <td className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>{details.masterpartership}</td>
+                  <td>{details.delearpartership}</td>
                 </tr>
               </table>
             </div>
           </div>
+
           <div className="sub_partnership">
             <div className="partnership_name">
               <p>Match Commission</p>
             </div>
             <div className="partnership_data">
-              <table className="">
+              <table>
                 <tr>
                   <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ?"": "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>Super</th>
+                  <th className={(uType == 0 || uType == 5) ? "" : "d_none"}>Master</th>
+                  <th className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>Super</th>
                   <th>Agent</th>
                   <th>Client</th>
                 </tr>
                 <tr>
-                  <td className={uType != 5 && "d_none"}>
-                    {partnershipDetails?.subadminoddsloss}
-                  </td>
-                  <td className={(uType == 0 || uType == 5) ?"": "d_none"}>{partnershipDetails?.supermasteroddsloss}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}> {partnershipDetails?.masteroddsloss}</td>
-                  <td>{partnershipDetails?.agentoddsloss}</td>
-                  <td>{partnershipDetails?.oddsloss}</td>
+                  <td className={uType != 5 && "d_none"}>{details.subadminoddsloss}</td>
+                  <td className={(uType == 0 || uType == 5) ? "" : "d_none"}>{details.supermasteroddsloss}</td>
+                  <td className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>{details.masteroddsloss}</td>
+                  <td>{details.agentoddsloss}</td>
+                  <td>{details.oddsloss}</td>
                 </tr>
               </table>
             </div>
@@ -113,77 +90,24 @@ const ModalsData = ({ partnershipDetails, loading }) => {
               <p>Session Commission</p>
             </div>
             <div className="partnership_data">
-              <table className="">
+              <table>
                 <tr>
                   <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ?"": "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>Super</th>
+                  <th className={(uType == 0 || uType == 5) ? "" : "d_none"}>Master</th>
+                  <th className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>Super</th>
                   <th>Agent</th>
                   <th>Client</th>
                 </tr>
                 <tr>
-                  <td className={uType != 5 && "d_none"}>
-                    {partnershipDetails?.subadminfancyloss}
-                  </td>
-                  <td className={(uType == 0 || uType == 5) ?"": "d_none"}>{partnershipDetails?.supermasterfancyloss}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>{partnershipDetails?.masterfancyloss}</td>
-                  <td>{partnershipDetails?.agentfancyloss}</td>
-                  <td>{partnershipDetails?.fancyloss}</td>
+                  <td className={uType != 5 && "d_none"}>{details.subadminfancyloss}</td>
+                  <td className={(uType == 0 || uType == 5) ? "" : "d_none"}>{details.supermasterfancyloss}</td>
+                  <td className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>{details.masterfancyloss}</td>
+                  <td>{details.agentfancyloss}</td>
+                  <td>{details.fancyloss}</td>
                 </tr>
               </table>
             </div>
           </div>
-         
-          {/* <div className="sub_partnership">
-            <div className="partnership_name">
-              <p>Casino Share</p>
-            </div>
-            <div className="partnership_data">
-              <table className="">
-                <tr>
-                  <th>Up Line</th>
-                  <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ?"": "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>Master</th>
-                  <th>Agent</th>
-                </tr>
-                <tr>
-                  <td>{partnershipDetails?.uplinepartershipc}</td>
-                  <td className={uType != 5 && "d_none"}>
-                    {partnershipDetails?.subadminpartnershipc}
-                  </td>
-                  <td className={(uType == 0 || uType == 5) ?"": "d_none"}>{partnershipDetails?.supermastepartnershipc}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>{partnershipDetails?.masterpartershipc}</td>
-                  <td>{partnershipDetails?.delearpartershipc}</td>
-                </tr>
-              </table>
-            </div>
-          </div> */}
-          {/* <div className="sub_partnership">
-            <div className="partnership_name">
-              <p>Casino Commission</p>
-            </div>
-            <div className="partnership_data">
-              <table className="">
-                <tr>
-                  <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ?"": "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>Super</th>
-                  <th>Agent</th>
-                  <th>Client</th>
-                </tr>
-                <tr>
-                  <td className={uType != 5 && "d_none"}>
-                    {partnershipDetails?.subadmincasinocommssion}
-                  </td>
-                  <td className={(uType == 0 || uType == 5) ?"": "d_none"}>{partnershipDetails?.supermastercasinocommssion}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ?"": "d_none"}>{partnershipDetails?.mastercasinocommssion}</td>
-                  <td>{partnershipDetails?.agentcasinocommssion}</td>
-                  <td>{partnershipDetails?.casinocommssion}</td>
-                </tr>
-              </table>
-            </div>
-          </div> */}
         </div>
         <br />
       </div>

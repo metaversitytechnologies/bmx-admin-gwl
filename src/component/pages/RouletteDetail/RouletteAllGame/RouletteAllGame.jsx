@@ -1,105 +1,99 @@
-import { Card, Divider, Empty, Pagination, Spin } from "antd";
+import { Card, Empty, Spin } from "antd";
 import "./RouletteAllGame.scss";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useAllGameQuery } from "../../../../store/service/CasinoServices";
+import { useEffect, useState } from "react";
+
+const mockGames = [
+  {
+    roundId: "R12345",
+    matchName: "Roulette Table A",
+    netPnl: -45.00,
+  },
+  {
+    roundId: "R67890",
+    matchName: "Roulette Table B",
+    netPnl: 120.50,
+  },
+  {
+    roundId: "R11223",
+    matchName: "Roulette Table C",
+    netPnl: 0.00,
+  },
+];
+
 const RouletteAllGame = () => {
+  const { id } = useParams();
+  const { state } = useLocation();
+  const nav = useNavigate();
 
-const {id} = useParams();
-const {state} = useLocation()
+  const [allGamesData, setAllGamesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const {data: allGamesData, isLoading, isError} = useAllGameQuery({
-    casinoId: id,
-    date: state?.rouletteDate,
-  }, {refetchOnMountOrArgChange: true})
+  // Simulate loading data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAllGamesData(mockGames);
+      setIsLoading(false);
+    }, 1000); // simulate network delay
+    return () => clearTimeout(timer);
+  }, []);
 
-    const nav = useNavigate();
-
-    const handleShowBets = (val)=>{
-      nav(`/casino/show-bets/${val}`, {state: {state, id }})
-    }
-
+  const handleShowBets = (val) => {
+    nav(`/casino/show-bets/${val}`, { state: { state, id } });
+  };
 
   return (
     <Card
-    className="sport_detail main_match_ledger"
-    title={`${state?.isAuraDetails} ${state?.rouletteDate}`}
-    extra={<button onClick={() => nav(-1)}>Back</button>}>
-    {/* <div className="matchladger_total">
-      <p
-        style={{
-          fontSize: "20px",
-          textAlign: "center",
-          margin: "10px 0px 40px 0px",
-        }}>
-        Total : -36.96
-      </p>
-    </div> */}
-    <div className="table_section ant-spin-nested-loading" style={{marginBottom:"12px"}}>
-    {isLoading && (
-          <>
-            <Spin
-              className="spin_icon betting_icon comp_spin"
-              size="large"></Spin>
-          </>
-        )}
-      <table>
-        <thead>
-          <tr>
-            <th>S no.</th>
-            <th >Game ID</th>
-            {/* <th className="text-right" >Winner</th> */}
-            {/* <th className="text-right">Pnl</th> */}
-            <th className="text-right">Match Name</th>
-            <th className="text-right">Net Pnl</th>
-            <th className="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allGamesData?.data?.map((res, id) => (
-            <tr key={res.key}>
-              <td>{id + 1}</td>
-              <td >{res?.roundId}</td>
-              {/* <td className="text-right">{res?.result}</td> */}
-              {/* <td className={`text-right ${(res?.netPnl - res?.comm) < 0? "text_danger":(res?.netPnl - res?.comm)>0?"text_success":""}`}>{(res?.netPnl - res?.comm)?.toFixed(2)}</td> */}
-              <td className="text-right">{res?.matchName}</td>
-              <td className={`text-right ${res?.netPnl  < 0? "text_danger":res?.netPnl>0?"text_success":""}`}>{(res?.netPnl)?.toFixed(2)}</td>
-              <td className="text-center">
-                <button className="action_btn" onClick={()=>handleShowBets(res?.roundId)}>Show Bets</button>
-              </td> 
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {allGamesData?.data?.length == 0 || isError ? (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      className="sport_detail main_match_ledger"
+      title={`${state?.isAuraDetails || "Roulette"} ${state?.rouletteDate || ""}`}
+      extra={<button onClick={() => nav(-1)}>Back</button>}
+    >
+      <div className="table_section ant-spin-nested-loading" style={{ marginBottom: "12px" }}>
+        {isLoading ? (
+          <Spin className="spin_icon betting_icon comp_spin" size="large" />
         ) : (
           <>
-            {/* <Divider />
-            <div className="pagination_cus">
-              <Pagination
-                className="pagination_main ledger_pagination"
-                onShowSizeChange={(c, s) => setPaginationTotal(s)}
-                total={
-                  results?.data?.totalPages &&
-                  results?.data?.totalPages * paginationTotal
-                }
-                defaultPageSize={50}
-                pageSizeOptions={[50, 100, 150, 200, 250]}
-                onChange={(e) => setIndexData(e - 1)}
-              />
-            </div> */}
+            <table>
+              <thead>
+                <tr>
+                  <th>S no.</th>
+                  <th>Game ID</th>
+                  <th className="text-right">Match Name</th>
+                  <th className="text-right">Net Pnl</th>
+                  <th className="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allGamesData?.length > 0 ? (
+                  allGamesData.map((res, idx) => (
+                    <tr key={res.roundId}>
+                      <td>{idx + 1}</td>
+                      <td>{res.roundId}</td>
+                      <td className="text-right">{res.matchName}</td>
+                      <td className={`text-right ${res.netPnl < 0 ? "text_danger" : res.netPnl > 0 ? "text_success" : ""}`}>
+                        {res.netPnl.toFixed(2)}
+                      </td>
+                      <td className="text-center">
+                        <button className="action_btn" onClick={() => handleShowBets(res.roundId)}>
+                          Show Bets
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5}>
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </>
         )}
-    </div>
-    {/* <Divider />
-    <Pagination
-      className="pagination_main ledger_pagination"
-      defaultCurrent={1}
-      total={50}
-    /> */}
-  </Card>
-  )
-}
+      </div>
+    </Card>
+  );
+};
 
-export default RouletteAllGame
+export default RouletteAllGame;

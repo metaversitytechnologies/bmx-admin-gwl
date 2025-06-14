@@ -265,9 +265,9 @@ const AgentTransactions = ({ userType, Listname }) => {
       </Card>
 
       <Card className="sport_detail ledger_data">
-        {userTranstionData?.length != 0  && (
+        {/* {userTranstionData?.length != 0  && ( */}
           <TransactionTable clientId={clientId} balanceData = {result?.data?.data?.lenadenabalance}  data={userTranstionData} />
-        )}
+        {/* )} */}
       </Card>
     </>
   );

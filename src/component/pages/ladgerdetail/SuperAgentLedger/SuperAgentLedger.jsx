@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Col, Modal, Row, Table } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  useClientLedgerMutation,
-  useDownlineLedgerQuery,
-} from "../../../../store/service/ledgerServices";
 import LedgerPopUp from "../LedgerPopUp";
 import "./SuperAgentLedger.scss";
 import Withdraw from "../../../common/Withdraw";
@@ -17,8 +13,8 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
   const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
   const [userData, setUserData] = useState({});
   const [modalsName, setModalsName] = useState("");
-  const [clientDataState, setClientDataState] = useState(false)
-  
+  const [clientDataState, setClientDataState] = useState(false);
+
   const nav = useNavigate();
 
   const handleBackbtn = () => {
@@ -33,46 +29,40 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
     setUserData(val);
     setModalsName(name);
     setIsDepositeModalOpen(true);
-    // if (name == "Clear" || userTyep == 3) {
-    //   setIsDepositeModalOpen(false);
-    // }
   };
 
-
-  const columns = [
-    {
-      title: "User Detail",
-      dataIndex: "userId",
-      key: "userId",
-    },
-    {
-      title: "Balance",
-      dataIndex: "balance",
-      key: "balance",
-      render: (text, record) => <span>{Math.abs(record?.balance)}</span>,
-    },
-  ];
-
-  const renderActionButton = (record, name) => {
-    return (
-      <span>
-        <button
-          onClick={() => handleDenaModals(record, name)}
-          className="dena_button">
-          {name}
-        </button>
-      </span>
-    );
+  // Static Ledger Data
+  const staticData = {
+    lena: [
+      { userId: "L1", userName: "Alice", balance: 1500 },
+      { userId: "L2", userName: "Bob", balance: 2000 },
+    ],
+    dena: [
+      { userId: "D1", userName: "Charlie", balance: -1000 },
+      { userId: "D2", userName: "David", balance: -500 },
+    ],
+    clear: [
+      { userId: "C1", userName: "Eve", balance: 0 },
+    ],
   };
 
-  // const renderActionButton = (record, name) => (
-  //   <span>
-  //     <p
-  //       onClick={() => handleDenaModals(record, name)}>
-  //       {record?.userId}
-  //     </p>
-  //   </span>
-  // );
+  const processData = (data) =>
+    data?.map((res) => res?.balance).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+
+  useEffect(() => {
+    const dataToProcess = staticData;
+    setLenaBalance(processData(dataToProcess?.lena));
+    setDenaBalance(processData(dataToProcess?.dena));
+    setClearData(processData(dataToProcess?.clear));
+  }, []);
+
+  const renderActionButton = (record, name) => (
+    <span>
+      <button onClick={() => handleDenaModals(record, name)} className="dena_button">
+        {name}
+      </button>
+    </span>
+  );
 
   const generateColumns = (actionName) =>
     [
@@ -80,13 +70,11 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
         title: "User ID",
         dataIndex: "userId",
         key: "userId",
-        // render: (text, record) => renderActionButton(record, actionName),
       },
       {
         title: "User Name",
         dataIndex: "userName",
-        key: "userId",
-        // render: (text, record) => renderActionButton(record, actionName),
+        key: "userName",
       },
       {
         title: "Balance",
@@ -96,54 +84,18 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
       },
       {
         title: actionName,
-        dataIndex: actionName.toLowerCase(),
         key: actionName.toLowerCase(),
         render: (text, record) => renderActionButton(record, actionName),
-        hidden: userTyep === 3 || actionName == "Clear" ? true : false,
+        hidden: userTyep === 3 || actionName === "Clear",
       },
       {
         title: "Settlement",
-        dataIndex: "Settlement",
-        key: "Settlement",
+        key: "settlement",
         render: (text, record) =>
-          renderActionButton(
-            record,
-            actionName == "Lena" ? "Deposit" : "Withdraw"
-          ),
-        hidden: userTyep !== 3 || actionName == "Clear" ? true : false,
+          renderActionButton(record, actionName === "Lena" ? "Deposit" : "Withdraw"),
+        hidden: userTyep !== 3 || actionName === "Clear",
       },
     ].filter((item) => !item.hidden);
-
-  const {
-    data: ledger,
-    isFetching,
-    isLoading,
-  } = useDownlineLedgerQuery(
-    {
-      userType: userTyep,
-    },
-    { refetchOnMountOrArgChange: true }
-  );
-
-  const [trigger, { data: clientData }] = useClientLedgerMutation();
-
-  useEffect(() => {
-    if (Listname === "Client") {
-      trigger();
-    }
-  }, [Listname, clientDataState]);
-
-  useEffect(() => {
-    const processData = (data) =>
-      data
-        ?.map((res) => res?.balance)
-        .reduce((prev, curr) => Number(prev) + Number(curr), 0);
-    const dataToProcess =
-      Listname === "Client" ? clientData?.data : ledger?.data;
-    setLenaBalance(processData(dataToProcess?.lena));
-    setDenaBalance(processData(dataToProcess?.dena));
-    setClearData(processData(dataToProcess?.clear));
-  }, [ledger?.data, clientData?.data, Listname]);
 
   return (
     <>
@@ -152,17 +104,13 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
         title={`${Listname} Ledger`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <Row className="main_super_super_ledger">
-          {[
-            ["Lena", columns],
-            ["Dena", columns],
-            ["Clear", columns],
-          ].map(([itemName, itemColumns], index) => (
+          {["Lena", "Dena", "Clear"].map((itemName, index) => (
             <Col key={index} xl={8} xs={24} lg={8} md={24}>
               <div className={`super_ledger item${index + 1}`}>
                 <div>{itemName}</div>
                 <div>
                   {itemName === "Dena"
-                    ? Math.abs(denaData?.toFixed(2))
+                    ? Math.abs(denaData)?.toFixed(2)
                     : itemName === "Clear"
                     ? clearData?.toFixed(2)
                     : Math.abs(lenaBalance)?.toFixed(2)}
@@ -174,12 +122,7 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
                   bordered
                   pagination={false}
                   columns={generateColumns(itemName)}
-                  loading={isLoading || isFetching}
-                  dataSource={
-                    Listname === "Client"
-                      ? clientData?.data?.[itemName.toLowerCase()]
-                      : ledger?.data?.[itemName.toLowerCase()]
-                  }
+                  dataSource={staticData?.[itemName.toLowerCase()]}
                 />
               </div>
             </Col>
@@ -196,30 +139,25 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
         footer={false}>
-          {
-            modalsName == "Withdraw" &&  <Withdraw
+        {modalsName === "Withdraw" && (
+          <Withdraw
             userIdData={userData?.userId}
-            handleClose={() => setIsDepositeModalOpen(false)}
+            handleClose={handleClose}
             data={userData?.userId}
             setClientDataState={setClientDataState}
           />
-          }{
-            modalsName == "Deposit" &&  <Deposit
+        )}
+        {modalsName === "Deposit" && (
+          <Deposit
             userIdData={userData?.userId}
-            handleClose={() => setIsDepositeModalOpen(false)}
+            handleClose={handleClose}
             data={userData?.userId}
-            
             setClientDataState={setClientDataState}
           />
-          }
-          {
-            (modalsName == "Lena" || modalsName == "Dena") && <LedgerPopUp
-            handleClose={() => setIsDepositeModalOpen(false)}
-            userData={userData}
-            modalsName={modalsName}
-          />
-          }
-        
+        )}
+        {(modalsName === "Lena" || modalsName === "Dena") && (
+          <LedgerPopUp handleClose={handleClose} userData={userData} modalsName={modalsName} />
+        )}
       </Modal>
     </>
   );

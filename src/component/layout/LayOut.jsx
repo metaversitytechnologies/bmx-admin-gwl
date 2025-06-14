@@ -27,11 +27,11 @@ const LayOut = ({logo, logoData}) => {
 
   const nav = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      nav("/");
-    }
-  }, [nav]);
+  // useEffect(() => {
+  //   if (localStorage.getItem("token") === null) {
+  //     nav("/");
+  //   }
+  // }, [nav]);
 
 
   const handleOk = () => {};

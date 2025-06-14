@@ -1,10 +1,9 @@
 import { Card, Col, DatePicker, Table } from "antd";
 import "./MyLedger.scss";
-import { useMyLedgerQuery } from "../../../../store/service/ledgerServices";
 import moment from "moment";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
 import DownloadReport from "../../../common/DownloadReport/DownloadReport";
 
 const columns = [
@@ -30,26 +29,22 @@ const columns = [
     key: "credit",
     align: "right",
   },
-
   {
     title: "Balance",
     dataIndex: "balance",
     key: "balance",
     align: "right",
-    render: (text, record) => (
-      <span>
-       {Math.abs(record?.balance)}
-      </span>
-    ),
+    render: (text, record) => <span>{Math.abs(record?.balance)}</span>,
   },
   {
     title: "Payment Type",
     dataIndex: "paymentType",
     key: "paymentType",
     render: (text, record) => (
-        // console.log(record, "dsdscsd")
       <span>
-       {`${record?.paymentType} ${record?.showDate ? `- ${record?.dateOnlyStr}`  : ""} ${record?.isRollBack ? "- RollBack" : ""}`}
+        {`${record?.paymentType} ${
+          record?.showDate ? `- ${record?.dateOnlyStr}` : ""
+        } ${record?.isRollBack ? "- RollBack" : ""}`}
       </span>
     ),
   },
@@ -62,36 +57,72 @@ const columns = [
     title: "Rollback",
     dataIndex: "isRollback",
     key: "isRollback",
-    render: (text, record) => (
-      // console.log(record?.isRollback, "dsasasds")
-    <span>
-     {record?.isRollback ? "Yes" : "No"}
-    </span>
-  ),
+    render: (text, record) => <span>{record?.isRollback ? "Yes" : "No"}</span>,
   },
 ];
 
+// Mock response data (replace this with whatever format you want to simulate)
+const mockLedgerData = {
+  list: [
+    {
+      dateStr: "2025-06-13",
+      collectionName: "Account Adjustment",
+      debit: 0,
+      credit: 500,
+      balance: 500,
+      paymentType: "Online",
+      dateOnlyStr: "13-06-2025",
+      showDate: true,
+      isRollBack: false,
+      remarks: "Credit adjustment",
+      isRollback: false,
+    },
+    {
+      dateStr: "2025-06-14",
+      collectionName: "Manual Entry",
+      debit: 200,
+      credit: 0,
+      balance: 300,
+      paymentType: "Cash",
+      dateOnlyStr: "14-06-2025",
+      showDate: true,
+      isRollBack: true,
+      remarks: "Correction",
+      isRollback: true,
+    },
+  ],
+  credit: 500,
+  debit: 200,
+  balance: 300,
+};
+
 const MyLedger = () => {
-  const nav = useNavigate()
+  const nav = useNavigate();
   const handleBackbtn = () => {
     nav(-1);
   };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const timeBefore = moment().subtract(30, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
-  const [dateData, setDateData] = useState([timeBefore,time]);
+  const [dateData, setDateData] = useState([timeBefore, time]);
 
-  const onChange = (date,dateString) => {
+  const onChange = (date, dateString) => {
     setDateData(dateString);
   };
 
-  const { data, isLoading, isFetching } = useMyLedgerQuery({
-    startDate: dateData[0],
-    endDate: dateData[1],
-    index: 0,
-    noOfRecords:100
-  }, {refetchOnMountOrArgChange: true});
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    // Simulate fetching data
+    setIsLoading(true);
+    const timeout = setTimeout(() => {
+      setData({ data: { data: mockLedgerData, list: mockLedgerData.list } });
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [dateData]);
 
   const headerField = [
     "Date",
@@ -103,47 +134,51 @@ const MyLedger = () => {
     "Remark",
     "Rollback",
   ];
-  
-  const lenadenaHeading = [
-    "Lena",
-    "Dena",
-    "Balance",
+
+  const lenadenaHeading = ["Lena", "Dena", "Balance"];
+
+  const arrBalance = [
+    {
+      lena: data?.data?.data?.credit?.toFixed(2),
+      dena: data?.data?.data?.debit?.toFixed(2),
+      balance: data?.data?.data?.balance?.toFixed(2),
+    },
   ];
-
-
-  const arrBalance= [{
-    lena:data?.data?.data?.credit?.toFixed(2),
-    dena:data?.data?.data?.debit?.toFixed(2),
-    balance:data?.data?.data?.balance?.toFixed(2)
-  }]
 
   return (
     <>
-    {
-    
-    isModalOpen && <div onClick={()=>setIsModalOpen(false)} className="report_overlay"></div>
-    }
+      {isModalOpen && (
+        <div onClick={() => setIsModalOpen(false)} className="report_overlay" />
+      )}
       <Card
         className="sport_detail ledger_data"
         title="My Ledger"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
-        <Col lg={8} xs={24} className="match_ladger">
-          <DatePicker.RangePicker style={{margin: "10px 0px 10px 0px"}} defaultValue={[dayjs(timeBefore), dayjs(time)]}  onChange={onChange}/>
-        </Col>
+          <Col lg={8} xs={24} className="match_ladger">
+            <DatePicker.RangePicker
+              style={{ margin: "10px 0" }}
+              defaultValue={[dayjs(timeBefore), dayjs(time)]}
+              onChange={onChange}
+            />
+          </Col>
           <div>
             <h3 style={{ padding: "5px", color: "rgb(51, 181, 28)" }}>
-              Lena : {(data?.data?.data?.credit)?.toFixed(2)}
+              Lena : {data?.data?.data?.credit?.toFixed(2)}
             </h3>
           </div>
           <div>
             <h3 style={{ padding: "5px", color: "rgb(214, 75, 75)" }}>
-              Dena : {(data?.data?.data?.debit)?.toFixed(2)}
+              Dena : {data?.data?.data?.debit?.toFixed(2)}
             </h3>
           </div>
           <div>
-            <h3 className={data?.data?.data?.balance>0?"text_danger":"text_success"}>
-              Balance: {Math.abs(data?.data?.data?.balance?.toFixed(2))}  {data?.data?.data?.balance>0?"( Dena )":"( Lena )"} 
+            <h3
+              className={
+                data?.data?.data?.balance > 0 ? "text_danger" : "text_success"
+              }>
+              Balance: {Math.abs(data?.data?.data?.balance?.toFixed(2))}{" "}
+              {data?.data?.data?.balance > 0 ? "( Dena )" : "( Lena )"}
             </h3>
           </div>
           <div>
@@ -154,6 +189,7 @@ const MyLedger = () => {
               headerField={headerField}
               startDate={dateData[0]}
               endDate={dateData[1]}
+              balanceData={arrBalance}
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}
             />
@@ -164,10 +200,14 @@ const MyLedger = () => {
             className="live_table limit_update"
             bordered
             columns={columns}
-            loading={isFetching||isLoading}
-            pagination={{ defaultPageSize: 50, pageSizeOptions:[50, 100, 150, 200, 250]}}
-            dataSource={data?.data?.list}/>
-        </div> 
+            loading={isLoading}
+            pagination={{
+              defaultPageSize: 50,
+              pageSizeOptions: [50, 100, 150, 200, 250],
+            }}
+            dataSource={data?.data?.list}
+          />
+        </div>
       </Card>
     </>
   );

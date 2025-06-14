@@ -1,18 +1,18 @@
 export const columns = [
     {
       title: "User",
-      dataIndex: "userid",
-      key: "userid",
+      dataIndex: "user",
+      key: "user",
     },
     {
       title: "Type",
-      dataIndex: "action",
-      key: "action",
-      render: (text, record) => (
-        <span>
-         {(record?.action)?.slice(7)}
-        </span>
-      ),
+      dataIndex: "type",
+      key: "type",
+      // render: (text, record) => (
+      //   <span>
+      //    {(record?.type)?.slice(7)}
+      //   </span>
+      // ),
     },
     {
       title: "Old",
@@ -21,22 +21,22 @@ export const columns = [
     },
     {
       title: "New",
-      dataIndex: "newvalue",
-      key: "newvalue",
+      dataIndex: "new",
+      key: "new",
     },
     {
       title: "Done By",
-      dataIndex: "actionby",
-      key: "actionby",
+      dataIndex: "doneBy",
+      key: "doneBy",
     },
     {
       title: "Date",
-      dataIndex: "createdon",
-      key: "createdon",
+      dataIndex: "date",
+      key: "date",
     },
     {
       title: "IP",
-      dataIndex: "ipaddress",
-      key: "ipaddress",
+      dataIndex: "ip",
+      key: "ip",
     },
   ];

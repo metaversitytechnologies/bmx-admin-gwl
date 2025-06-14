@@ -9,27 +9,28 @@ const Signin = ({logo}) => {
   const [trigger, { data: authData, error, isLoading }] =useLoginMutation();
   const nav = useNavigate();
   
-  useEffect(() => {
-    if (authData?.status === false || error?.data?.message) {
-      message.error(authData?.message || error.data?.message);
-    } else if (authData?.token !== null && authData?.token !== undefined) {
-      localStorage.setItem("token", authData?.token);
-      localStorage.setItem("rulesStatus", true)
-      localStorage.setItem("userId", authData?.userId);
-      localStorage.setItem("userType", authData?.userType);
-      localStorage.setItem("passType", authData?.passwordtype);
-      nav("/dashboard");
-    }
-  }, [authData, error]);
+  // useEffect(() => {
+  //   if (authData?.status === false || error?.data?.message) {
+  //     message.error(authData?.message || error.data?.message);
+  //   } else if (authData?.token !== null && authData?.token !== undefined) {
+  //     localStorage.setItem("token", authData?.token);
+  //     localStorage.setItem("rulesStatus", true)
+  //     localStorage.setItem("userId", authData?.userId);
+  //     localStorage.setItem("userType", authData?.userType);
+  //     localStorage.setItem("passType", authData?.passwordtype);
+  //     nav("/dashboard");
+  //   }
+  // }, [authData, error]);
 
   const onFinish = (values) => {
-    const authData = {
-      userId: (values?.username?.trim()),
-      password: (values?.password?.trim()),
-      appUrl: window.location.hostname,
-      // appUrl: "madmin.wbt99.co",
-    };
-    trigger(authData);
+    // const authData = {
+    //   userId: (values?.username?.trim()),
+    //   password: (values?.password?.trim()),
+    //   appUrl: window.location.hostname,
+    //   // appUrl: "madmin.wbt99.co",
+    // };
+    // trigger(authData);
+    nav("/dashboard");
   };
 
 

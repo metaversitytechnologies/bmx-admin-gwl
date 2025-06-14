@@ -1,153 +1,111 @@
-import React from 'react'
-import { Card, Space, Select, Row, Col, Table } from "antd";
+import React from 'react';
+import { Card, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRejectedBetDetailQuery } from '../../../../store/service/SportDetailServices';
 
-// import "./MatchSlips.scss";
-
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
-
+// Mock static data
+const mockData = [
+  {
+    pricevalue: 2.5,
+    stake: 100,
+    matchname: "Team A vs Team B",
+    userid: "Client123",
+    dealerid: "AgentX",
+    date: "2025-06-13 14:30",
+    pnl: -50,
+    bet_status: "Deleted"
+  },
+  {
+    pricevalue: 1.8,
+    stake: 200,
+    matchname: "Team C vs Team D",
+    userid: "Client456",
+    dealerid: "AgentY",
+    date: "2025-06-13 15:00",
+    pnl: 75,
+    bet_status: "Deleted"
+  }
+];
 
 const columns = [
-    {
-      title: 'Rate',
-      dataIndex: 'pricevalue',
-      key: 'pricevalue',
-    },
-    {
-      title: 'Amount',
-      dataIndex: 'stake',
-      key: 'stake',
-    },
-    // {
-    //   title: 'Type',
-    //   dataIndex: 'type',
-    //   key: 'type',
-    // }
-    // ,
-    {
-      title: 'Team',
-      dataIndex: 'matchname',
-      key: 'matchname',
-    },
-    {
-      title: 'Client',
-      dataIndex: 'userid',
-      key: 'userid',
-    },
-    {
-      title: 'Agent',
-      dataIndex: 'dealerid',
-      key: 'dealerid',
-    }
-    ,
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-    }
-    ,
-    {
-      title: 'Loss',
-      dataIndex: 'stake',
-      key: 'stake',
-    }
-    ,
-    {
-      title: 'Profit',
-      dataIndex: 'pnl',
-      key: 'pnl',
-    }
-    ,
-    {
-      title:'Bet Status',
-      dataIndex: 'bet_status',
-      key: 'bet_status',
-    }
-  ];
-  // const data = [
-    
-  // ];
+  {
+    title: 'Rate',
+    dataIndex: 'pricevalue',
+    key: 'pricevalue',
+  },
+  {
+    title: 'Amount',
+    dataIndex: 'stake',
+    key: 'stake',
+  },
+  {
+    title: 'Team',
+    dataIndex: 'matchname',
+    key: 'matchname',
+  },
+  {
+    title: 'Client',
+    dataIndex: 'userid',
+    key: 'userid',
+  },
+  {
+    title: 'Agent',
+    dataIndex: 'dealerid',
+    key: 'dealerid',
+  },
+  {
+    title: 'Date',
+    dataIndex: 'date',
+    key: 'date',
+  },
+  {
+    title: 'Loss',
+    dataIndex: 'stake',
+    key: 'loss',
+    render: (text, record) => (
+      record.pnl < 0 ? <span>{record.stake}</span> : <span>0</span>
+    ),
+  },
+  {
+    title: 'Profit',
+    dataIndex: 'pnl',
+    key: 'profit',
+    render: (text, record) => (
+      record.pnl > 0 ? <span>{record.pnl}</span> : <span>0</span>
+    ),
+  },
+  {
+    title: 'Bet Status',
+    dataIndex: 'bet_status',
+    key: 'bet_status',
+  }
+];
 
 const RejectedBetsByEvent = () => {
-    const nav = useNavigate()
-    const handleBackClick = () =>{
-      nav(-1)
-    }
+  const nav = useNavigate();
+  const { id } = useParams();
 
-    const {id} = useParams()
-
-
-    const {data} = useRejectedBetDetailQuery({
-      matchid:Number(id)
-    }, {refetchOnMountOrArgChange: true})
-
-
+  const handleBackClick = () => {
+    nav(-1);
+  };
 
   return (
-    <>
-       <div className="match_slip">
-        <div>
-          <Card
-            style={{
-              margin: "0px",
-              width: "100%",
-            }}
-            className="sport_detail"
-            title="REJECTED And CANCELLED Bets"
-            extra={<button onClick={handleBackClick}>Back</button>}>
-            
-            {/* <Row className='rejected_row' >
-              <Col xl={4} xs={24} md={24} lg={4}>
-              <Select
-                defaultValue="Select Super"
-               
-                onChange={handleChange}
-                options={[
-                  {
-                    value: "All Supers",
-                    label: "Jack",
-                  }
-                ]}
-              />
-              </Col>
-              <Col xl={4} xs={24} md={24} lg={4}>
-              <Select
-                defaultValue="Select Agent"
-               
-                onChange={handleChange}
-                options={[
-                  {
-                    value: "All Agents",
-                    label: "All Agents",
-                  }
-                ]}
-              />
-              </Col>
-              <Col xl={4} xs={24} md={24} lg={4}>
-              <Select
-                defaultValue="Select Client"
-                onChange={handleChange}
-                options={[
-                  {
-                    value: "All Users",
-                    label: "All Users",
-                  }
-                ]}
-              />
-              </Col>
-            </Row> */}
-
-            <div className="table_section" style={{marginBottom:"10px"}}>
-            <Table columns={columns} dataSource={data?.data?.map((res)=>({...res, bet_status:"Deleted"})) || []} />
-            </div>
-          </Card>
+    <div className="match_slip">
+      <Card
+        style={{ margin: "0px", width: "100%" }}
+        className="sport_detail"
+        title="REJECTED And CANCELLED Bets"
+        extra={<button onClick={handleBackClick}>Back</button>}
+      >
+        <div className="table_section" style={{ marginBottom: "10px" }}>
+          <Table
+            columns={columns}
+            dataSource={mockData}
+            rowKey={(record, index) => index}
+          />
         </div>
-      </div>
-    </>
-  )
-}
+      </Card>
+    </div>
+  );
+};
 
-export default RejectedBetsByEvent
+export default RejectedBetsByEvent;

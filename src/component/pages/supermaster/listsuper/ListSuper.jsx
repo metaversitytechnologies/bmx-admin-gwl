@@ -16,10 +16,6 @@ const ListSuper = ({ userTyep, Listname }) => {
 
   const { id } = useParams();
 
-  // console.log(!id, "dfsdfsdf")
-
-  //   console.log(UserId, parentUserids, "dss")
-
   const nav = useNavigate();
   const handleBackClick = () => {
     nav(-1);
@@ -36,6 +32,9 @@ const ListSuper = ({ userTyep, Listname }) => {
       nav("/client/create-client");
     }
   };
+
+  
+
   return (
     <>
       <div className="main_live_section list_supers">

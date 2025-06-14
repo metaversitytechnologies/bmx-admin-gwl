@@ -1,10 +1,7 @@
-import  React, {useEffect, useState } from "react";
-// import { Divider, Radio, Table } from "antd";
-import "./PlusMinusReport.scss";
+import React, { useEffect, useState } from "react";
 import { Checkbox, Col, notification, Row, Table } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-
-import { useComplteFancyOddsClientsQuery } from "../../../../store/service/supermasteAccountStatementServices";
+import "./PlusMinusReport.scss";
 
 const column = [
   {
@@ -18,6 +15,7 @@ const column = [
     key: 2,
   },
 ];
+
 const columns = [
   {
     title: "Parent",
@@ -25,9 +23,10 @@ const columns = [
     key: 1,
   },
 ];
+
 const clintColumns = [
   {
-    title: "child",
+    title: "Child",
     dataIndex: "userid",
     key: 1,
   },
@@ -35,97 +34,110 @@ const clintColumns = [
 
 const PlusMinusReport = () => {
   const { id } = useParams();
-
-  const [first, setfirst] = useState([]);
+  const [first, setFirst] = useState([]);
   const [secondUserid, setSecondUserid] = useState([]);
-  const [thirdUserid, setThiredUserid] = useState([]);
+  const [thirdUserid, setThirdUserid] = useState([]);
   const [showOdds, setShowOdds] = useState(true);
   const [api, contextHolder] = notification.useNotification();
   const { state } = useLocation();
-
-  const onChange = (e) => {
-    let checked = e.target.checked;
-    setShowOdds(checked);
-  };
-
-  const { data, isFetching, isLoading } = useComplteFancyOddsClientsQuery(
-    {
-      eventId: id,
-    },
-    { refetchOnMountOrArgChange: true }
-  );
-
-const [ParentKey, setParentKey] = useState("")
-  useEffect(()=>{
-    setParentKey(data?.data?.users?.parentKey)
-  }, [data?.data])
+  const [parentKey, setParentKey] = useState("");
 
   const nav = useNavigate();
+
   const handleBackClick = () => {
     nav(-1);
   };
 
-
-
   const handleShowBtn = () => {
-    if (showOdds === false && first?.length === 0 ) {
+    if (!showOdds && first.length === 0) {
       api.error({
-        message: "Please Select at least one fancy or odds",
+        message: "Please select at least one fancy or odds",
         closeIcon: false,
         placement: "top",
       });
-    }
-    else if (secondUserid?.length === 0 && thirdUserid?.length === 0) {
+    } else if (secondUserid.length === 0 && thirdUserid.length === 0) {
       api.error({
-        message: "Please Select at least one client.",
+        message: "Please select at least one client.",
         closeIcon: false,
         placement: "top",
       });
     } else {
       nav(`/Events/${id}/plus-minus-report`, {
-        state: { first, secondUserid, state, thirdUserid, ParentKey, showOdds },
+        state: {
+          first,
+          secondUserid,
+          state,
+          thirdUserid,
+          parentKey,
+          showOdds,
+        },
       });
     }
   };
 
+  const onChange = (e) => {
+    setShowOdds(e.target.checked);
+  };
+
+  // ✅ Static mock data
+  const staticData = {
+    data: {
+      markets: [
+        { marketid: "101", selectionname: "Session A", result: "Yes", marketname: "session" },
+        { marketid: "102", selectionname: "Session B", result: "No", marketname: "session" },
+        { marketid: "103", selectionname: "Match Odds", result: "-", marketname: "match odds" },
+      ],
+      users: {
+        parentKey: "super_123",
+        parent: [
+          { userid: "parent1" },
+          { userid: "parent2" },
+        ],
+        client: [
+          { userid: "client1" },
+          { userid: "client2" },
+        ],
+      },
+    },
+  };
+
   useEffect(() => {
-    
-    if(data?.data?.markets?.length){
-      setfirst(data?.data?.markets?.map(i=>i.marketid))
+    const data = staticData;
+    setParentKey(data?.data?.users?.parentKey);
+
+    if (data?.data?.markets?.length) {
+      setFirst(data.data.markets.map((i) => i.marketid));
     }
-   
-    if(data?.data?.users?.parent?.length){
-      setSecondUserid(data?.data?.users?.parent?.map(i=>i.userid))
-    }   
-    if(data?.data?.users?.client?.length){
-      setThiredUserid(data?.data?.users?.client?.map(i=>i.userid))
+
+    if (data?.data?.users?.parent?.length) {
+      setSecondUserid(data.data.users.parent.map((i) => i.userid));
     }
-    return () => {}
-  }, [data?.data])
-  
-  // console.log(first, secondUserid,thirdUserid, "sdasdasa")
+
+    if (data?.data?.users?.client?.length) {
+      setThirdUserid(data.data.users.client.map((i) => i.userid));
+    }
+  }, []);
+
+  const filteredMarkets = staticData.data.markets.filter(
+    (i) => !["match odds", "bookmaker"].includes(i.marketname?.toLowerCase())
+  );
 
   return (
     <>
       {contextHolder}
       <div className="main_live_section">
         <div className="_match">
-          <div
-            className="sub_live_section live_report"
-            // style={{ marginTop: "35px" }}
-          >
-            <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
-              className="team_name">
-              {state?.dataNameee}
+          <div className="sub_live_section live_report">
+            <div style={{ padding: "5px 8px", fontSize: "22px" }} className="team_name">
+              {state?.dataNameee || "Match Name"}
             </div>
             <div className="show_btn back_show">
               <button onClick={handleShowBtn}>Show</button>
-
               <button onClick={handleBackClick}>Back</button>
             </div>
           </div>
-          <div className="table_section ">
+
+          <div className="table_section">
             <table className="match_table">
               <thead>
                 <tr>
@@ -140,7 +152,8 @@ const [ParentKey, setParentKey] = useState("")
                       className="table_check"
                       defaultChecked
                       checked={showOdds}
-                      onChange={onChange}></Checkbox>
+                      onChange={onChange}
+                    />
                   </td>
                   <td>Odds</td>
                 </tr>
@@ -149,95 +162,57 @@ const [ParentKey, setParentKey] = useState("")
 
             <Row className="de_table">
               <Col lg={12} xs={24}>
-                <div>
-                  <Table
-                    className="session_table table1"
-                    rowSelection={{
-                      type: "checkbox",
-                      onChange: (selectedRowKeys, selectedRows) => {
-                        setfirst(selectedRows.map((i) => i.marketid));},
-                      selectedRowKeys: first,
-                      getCheckboxProps: (record) => ({
-                        // disabled: record.name === 'Disabled User',
-                        // : first.includes(record.marketid),
-                        // Column configuration not to be checked
-                        // name: record.name,
-                        value: record.marketid,
-                        name: record.marketid,
-                      }),
-                    }}
-                    rowKey="marketid"
-                    bordered
-                    columns={column}
-                    loading={isFetching || isLoading}
-                    pagination={false}
-                    dataSource={data?.data?.markets.filter(
-                      (i) =>
-                        !["match odds", "bookmaker"].includes(
-                          i.marketname?.toLowerCase()
-                        )
-                    )}
-                  />
-                </div>
-              </Col>
-              <Col lg={12} xs={24}>
-                <div>
-                  <Table
-                    className="session_table table1
-                  table2"
-                    rowSelection={{
-                      type: "checkbox",
-                      onChange: (selectedRowKeys, selectedRows) => {
-                        setSecondUserid(selectedRows.map((i) => i.userid));
-                      },
-                      selectedRowKeys: secondUserid,
-                      getCheckboxProps: (record) => ({
-                        // disabled: record.name === 'Disabled User',
-                        // : first.includes(record.marketid),
-                        // Column configuration not to be checked
-                        // name: record.name,
-                        value: record.userid,
-                        name: record.userid,
-                      }),
-                    }}
-                    rowKey="userid"
-                    bordered
-                    loading={isFetching || isLoading}
-                    columns={columns}
-                    pagination={false}
-                    dataSource={data?.data?.users?.parent}
-                  />
-                </div>
+                <Table
+                  className="session_table table1"
+                  rowSelection={{
+                    type: "checkbox",
+                    onChange: (selectedRowKeys, selectedRows) => {
+                      setFirst(selectedRows.map((i) => i.marketid));
+                    },
+                    selectedRowKeys: first,
+                  }}
+                  rowKey="marketid"
+                  bordered
+                  columns={column}
+                  pagination={false}
+                  dataSource={filteredMarkets}
+                />
               </Col>
 
               <Col lg={12} xs={24}>
-                <div>
-                  <Table
-                    className="session_table table1
-                  "
-                    rowSelection={{
-                      type: "checkbox",
-                      onChange: (selectedRowKeys, selectedRows) => {
-                        setThiredUserid(selectedRows.map((i) => i.userid));
-                      },
-                      selectedRowKeys: thirdUserid,
-                      getCheckboxProps: (record) => ({
-                        // disabled: record.name === 'Disabled User',
-                        // : first.includes(record.marketid),
-                        // Column configuration not to be checked
-                        // name: record.name,
-                        value: record.userid,
-                        name: record.userid,
-                      }),
-                    }}
-                    rowKey="userid"
-                    bordered
-                    loading={isFetching || isLoading}
-                    columns={clintColumns}
-                    pagination={false}
-                    dataSource={data?.data?.users?.client}
-                  />
-                </div>
+                <Table
+                  className="session_table table2"
+                  rowSelection={{
+                    type: "checkbox",
+                    onChange: (selectedRowKeys, selectedRows) => {
+                      setSecondUserid(selectedRows.map((i) => i.userid));
+                    },
+                    selectedRowKeys: secondUserid,
+                  }}
+                  rowKey="userid"
+                  bordered
+                  columns={columns}
+                  pagination={false}
+                  dataSource={staticData.data.users.parent}
+                />
+              </Col>
+
+              <Col lg={12} xs={24}>
+                <Table
+                  className="session_table"
+                  rowSelection={{
+                    type: "checkbox",
+                    onChange: (selectedRowKeys, selectedRows) => {
+                      setThirdUserid(selectedRows.map((i) => i.userid));
+                    },
+                    selectedRowKeys: thirdUserid,
+                  }}
+                  rowKey="userid"
+                  bordered
+                  columns={clintColumns}
+                  pagination={false}
+                  dataSource={staticData.data.users.client}
+                />
               </Col>
             </Row>
           </div>

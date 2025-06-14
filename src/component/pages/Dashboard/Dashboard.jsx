@@ -35,17 +35,18 @@ const Dashboard = () => {
     cursor:"pointer"
   };
 
-  const { data: dataDes } = useDashboardQuery();
+  // const { data: dataDes } = useDashboardQuery();
 
-  const [logOut, { data: logOutData }] = useLogoutMutation();
+  // const [logOut, { data: logOutData }] = useLogoutMutation();
 
-  const handleLogout = () => {
-    localStorage.clear();
-    nav("/");
-    logOut();
-  };
+  // const handleLogout = () => {
+  //   localStorage.clear();
+  //   nav("/");
+  //   logOut();
+  // };
 
-  const uType = localStorage.getItem("userType");
+  // const uType = localStorage.getItem("userType");
+  const uType =5;
   
   const {data: casinoDetails} = useCreateCasinoListQuery({}, {refetchOnMountOrArgChange: true});
 
@@ -118,7 +119,9 @@ const Dashboard = () => {
         </Card.Grid>
      
         <Card.Grid  hoverable={false} className="" style={gridStyle}>
-          <p onClick={handleLogout}>
+          <p 
+          // onClick={handleLogout}
+          >
             <div className="main_card_section">
               <div className="icon_card_section">
               <CiLogin />
@@ -138,7 +141,8 @@ const Dashboard = () => {
               <HiUser />
             </div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.userid}</h2>
+              {/* <h2 style={{fontSize:"19px"}}>{dataDes?.data?.userid}</h2> */}
+              <h2 style={{fontSize:"19px"}}>Demo</h2>
               <p>
                 You are{" "}
                 {uType == 5
@@ -161,7 +165,7 @@ const Dashboard = () => {
               <SlDiamond />
             </div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.availablebalance}</h2>
+              <h2 style={{fontSize:"19px"}}>1000</h2>
               <p>Chips</p>
             </div>
           </div>
@@ -172,7 +176,7 @@ const Dashboard = () => {
               <HiUser />
             </div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.downline}</h2>
+              <h2 style={{fontSize:"19px"}}>10</h2>
               <p>Members</p>
             </div>
           </div>
@@ -183,7 +187,7 @@ const Dashboard = () => {
               <LuBarChart4 />
             </div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.myshare}</h2>
+              <h2 style={{fontSize:"19px"}}>100</h2>
               <p>My Share</p>
             </div>
           </div>
@@ -194,7 +198,7 @@ const Dashboard = () => {
               <LuBarChart4 />
             </div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.companyshare}</h2>
+              <h2 style={{fontSize:"19px"}}>100</h2>
               <p>Company Share</p>
             </div>
           </div>
@@ -203,7 +207,7 @@ const Dashboard = () => {
           <div className="main_card_section">
             <div className="icon_card_section"></div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.matchcomminssion}%</h2>
+              <h2 style={{fontSize:"19px"}}>90%</h2>
               <p>Match Commission</p>
             </div>
           </div>
@@ -212,7 +216,7 @@ const Dashboard = () => {
           <div className="main_card_section">
             <div className="icon_card_section"></div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.sessioncomminssion}%</h2>
+              <h2 style={{fontSize:"19px"}}>90%</h2>
               <p>Session Commission</p>
             </div>
           </div>
@@ -232,7 +236,7 @@ const Dashboard = () => {
               <HiUser />
             </div>
             <div className="tital_card_section f-w">
-              <h2 style={{fontSize:"19px"}}>{dataDes?.data?.user}</h2>
+              <h2 style={{fontSize:"19px"}}>10</h2>
               <p>Client</p>
             </div>
           </div>
