@@ -20,11 +20,10 @@ const ActiveMatch = () => {
   const handleSportId = (id) => {
     setActtiveTabData(id);
   };
-  
+
   const { data, isLoading, isFetching } = useActiveMatchQuery(activeTabData, {
     refetchOnMountOrArgChange: true,
   });
-  
 
   return (
     <div className="active_slip login_report" style={{ marginBottom: "12px" }}>
@@ -85,7 +84,14 @@ const ActiveMatch = () => {
                       )}
                     </td>
                     <td>
-                      <p style={{ cursor: "pointer" }}>Details</p>
+                      <p
+                        style={{
+                          cursor: "pointer",
+                          color: "#038fde",
+                          fontWeight: 600,
+                        }}>
+                        Details
+                      </p>
                     </td>
                   </tr>
                 );

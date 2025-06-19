@@ -4,7 +4,7 @@ import { Card } from "antd";
 
 const gridStyle = {
     width: "23%",
-    background: "#74766f",
+    background: "#7d5c0e",
     color: "#fff",
     margin: "10px",
   };

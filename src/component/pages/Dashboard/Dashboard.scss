@@ -61,7 +61,6 @@
     justify-content: space-between !important;
   }
 
-
   .ant-col.ant-form-item-control {
     flex-grow: unset;
     flex: 0 0;
@@ -83,14 +82,18 @@
 .modal_dash {
   .ant-modal-content {
     padding: 20px 30px !important;
-    .ant-modal-title{
-      h1{
-
+    .ant-modal-title {
+      h1 {
         font-size: 18px;
       }
     }
     .ant-modal-body {
       margin-top: 25px;
+    }
   }
-  }
+}
+
+.gx-mb-0 {
+  font-size: 14px !important;
+  font-weight: 500 !important;
 }

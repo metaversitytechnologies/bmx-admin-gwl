@@ -34,7 +34,6 @@ const Sidebar = (props) => {
 
   const uType = 5;
 
-
   return (
     <>
       <div className={collapsed ? "logo_icon" : "logo_icon coll_btn"}>
@@ -56,7 +55,10 @@ const Sidebar = (props) => {
         <div
           onClick={() => nav("/dashboard")}
           className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
-          <img src={props?.logo} alt="alt" />
+          <img
+            src={"https://master.antpro99.pro/assets/images/antpro.png"}
+            alt="alt"
+          />
         </div>
       </div>
       <Sider
@@ -66,7 +68,7 @@ const Sidebar = (props) => {
         collapsed={collapsed}
         className={`side_bar coll desk_side`}
         style={{
-          background: "#74766f",
+          background: "#7d5c0e",
           height: "100vh",
           minHeight: "100vh",
           maxHeight: "100vh",
@@ -329,21 +331,13 @@ const Sidebar = (props) => {
               label: "Setting",
               children: [
                 {
-                  className:`${props?.logoData?.data?.selfAllowed ?"":"d-none"}`,
-                  label: (
-                    <Link
-                      to="/set-commission">
-                      Set Commission
-                    </Link>
-                  ),
+                  className: `${
+                    props?.logoData?.data?.selfAllowed ? "" : "d-none"
+                  }`,
+                  label: <Link to="/set-commission">Set Commission</Link>,
                 },
                 {
-                  label: (
-                    <Link
-                      to="/markets">
-                      Setting
-                    </Link>
-                  ),
+                  label: <Link to="/markets">Setting</Link>,
                 },
               ],
             },
@@ -781,7 +775,9 @@ const Sidebar = (props) => {
                 label: "Setting",
                 children: [
                   {
-                    className:`${props?.logoData?.data?.selfAllowed ?"":"d-none"}`,
+                    className: `${
+                      props?.logoData?.data?.selfAllowed ? "" : "d-none"
+                    }`,
                     label: (
                       <Link
                         to="/set-commission"

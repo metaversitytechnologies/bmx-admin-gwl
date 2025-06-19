@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useIt_Self_By_APP_URLQuery } from "../../../store/service/supermasteAccountStatementServices";
 
-const Signin = ({logo}) => {
-  const [trigger, { data: authData, error, isLoading }] =useLoginMutation();
+const Signin = ({ logo }) => {
+  const [trigger, { data: authData, error, isLoading }] = useLoginMutation();
   const nav = useNavigate();
-  
+
   // useEffect(() => {
   //   if (authData?.status === false || error?.data?.message) {
   //     message.error(authData?.message || error.data?.message);
@@ -33,17 +33,15 @@ const Signin = ({logo}) => {
     nav("/dashboard");
   };
 
-
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  useEffect(()=>{
-    if(localStorage.getItem("token") !== null){
-      nav('/dashboard')
+  useEffect(() => {
+    if (localStorage.getItem("token") !== null) {
+      nav("/dashboard");
     }
-  }, [])
-
+  }, []);
 
   return (
     <>
@@ -52,11 +50,11 @@ const Signin = ({logo}) => {
           <div className="gx-app-login-main-content">
             {isLoading ? (
               <>
-              <div className="main_loading_section"> </div>
+                <div className="main_loading_section"> </div>
                 <div className="loading_image">
                   <img src="/Images/loaderfast.svg" alt="helllo" />
                 </div>
-                </>
+              </>
             ) : (
               ""
             )}
@@ -74,7 +72,11 @@ const Signin = ({logo}) => {
                 </p>
               </div>
               <div className="gx-app-logo">
-                <img alt="example" src={logo} />
+                <img
+                  alt="example"
+                  // src={logo}
+                  src={"https://master.antpro99.pro/assets/images/antpro.png"}
+                />
               </div>
             </div>
             <div className="gx-app-login-content">
@@ -93,8 +95,7 @@ const Signin = ({logo}) => {
                   remember: true,
                 }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                >
+                onFinishFailed={onFinishFailed}>
                 <Form.Item
                   name="username"
                   rules={[
@@ -120,24 +121,36 @@ const Signin = ({logo}) => {
                     },
                   ]}>
                   <Input
-                  type="password"
+                    type="password"
                     // onMouseLeave={onFinishFailed}
                     // onFocus={onFinishFailed}
                     onChange={onFinishFailed}
                     placeholder="Password"
                   />
                 </Form.Item>
-                <Form.Item
-                  wrapperCol={{
-                    offset: 8,
-                    span: 16,
-                  }}>
-                  <Button type="primary" htmlType="submit">
+                <Form.Item  className="sign_btn">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                   
+                    style={{
+                      marginBottom: "0px",
+                    }}>
                     Sign in
                   </Button>
                 </Form.Item>
               </Form>
             </div>
+          </div>
+          <div className="gx-text-center gx-py-2 gx-font-weight-bold gx-fs-lg gx-text-white">
+            Note- This Website Is Not For Indian Territory
+          </div>
+          <div
+            className="gx-text-red gx-text-center gx-fs-xl gx-font-weight-bold"
+            style={{
+              marginTop: "12px",
+            }}>
+            18+ Only
           </div>
         </div>
       </div>

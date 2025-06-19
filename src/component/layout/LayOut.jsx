@@ -10,7 +10,7 @@ import { useJwtTokenQuery } from "../../store/service/jwtTokenServices";
 import HomeRules from "../pages/HomeRules";
 import JwtToken from "./JwtToken";
 
-const LayOut = ({logo, logoData}) => {
+const LayOut = ({ logo, logoData }) => {
   const [collapsed, setCollapsed] = useState();
   const [openRules, setOpenRules] = useState(false);
   const [open, setOpen] = useState(false);
@@ -33,13 +33,12 @@ const LayOut = ({logo, logoData}) => {
   //   }
   // }, [nav]);
 
-
   const handleOk = () => {};
 
   useEffect(() => {
-    if((pType == "old" || pType == "Old") && uType == "5"){
+    if ((pType == "old" || pType == "Old") && uType == "5") {
       setOpenRules(localStorage.getItem("false"));
-    }else{
+    } else {
       setOpenRules(localStorage.getItem("rulesStatus"));
     }
   }, []);
@@ -54,17 +53,22 @@ const LayOut = ({logo, logoData}) => {
   };
   const pType = localStorage.getItem("passType");
   const uType = localStorage.getItem("userType");
-  
 
   return (
     <>
-      {(pType == "New" || pType == "new")  && <JwtToken />}
+      {(pType == "New" || pType == "new") && <JwtToken />}
 
       <Layout className="main_layout">
-        <Sidebar logoData={logoData} collll={collll} open={open} logo={logo} action={toggleDarawer} />
-        <Layout>
-          <Header 
+        <Sidebar
+          logoData={logoData}
+          collll={collll}
+          open={open}
           logo={logo}
+          action={toggleDarawer}
+        />
+        <Layout>
+          <Header
+            logo={logo}
             className="header_com"
             style={{
               padding: 0,
@@ -79,7 +83,7 @@ const LayOut = ({logo, logoData}) => {
             <MarqueeTag />
           </div>
           <Content
-            style={{ margin: "2px 1px", padding: 1 }}
+            style={{ margin: "2px 1px", padding: "21px 24px 0" }}
             className="main_section">
             <Outlet />
           </Content>
