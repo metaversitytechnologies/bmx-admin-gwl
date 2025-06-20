@@ -14,14 +14,14 @@
         top: 21px;
       }
       svg.ant-menu-item-icon {
-        font-size: 22px !important;
+        font-size: 25px;
       }
     }
   }
 }
 
 .ant-menu-sub {
-  background: #74766f !important;
+  background: rgb(125, 92, 14) !important;
   border-radius: unset !important;
   color: #fff;
   width: 91%;
@@ -29,9 +29,9 @@
 }
 
 .coll_btn {
-  width: 275px !important;
-  min-width: 275px !important;
-  max-width: 275px !important;
+  width: 280px !important;
+  min-width: 280px !important;
+  max-width: 280px !important;
   height: 72px;
 }
 
@@ -53,8 +53,8 @@
     cursor: pointer;
     img {
       width: 112px;
-      // margin-top: 12px;
-      margin-left: -4px;
+      margin-top: 6px;
+      margin-left: -12px;
     }
   }
   .bm_side_logo_mob {

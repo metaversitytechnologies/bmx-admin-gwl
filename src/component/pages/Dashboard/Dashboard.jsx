@@ -15,9 +15,15 @@ import { useLogoutMutation } from "../../../store/service/authService";
 import { useCreateCasinoListQuery } from "../../../store/service/supermasteAccountStatementServices";
 import CasinoModalsDash from "./CasinoModalsDash";
 import { useDashboardQuery } from "../../../store/service/userlistService";
+import LadgerDetails from "../ladgerdetail/LadgerDetails";
+import CashTransanction from "../CashTransanction/CashTransanction";
+import SettingModals from "./SettingModals";
 
 const Dashboard = () => {
-  const [casinoLockModals, setCasinoLockModals] = useState();
+  const [openModal, setOpenModals] = useState(false);
+  const [openSetting, setSetting] = useState(false);
+  const [openModalReport, setOpenModalsReport] = useState(false);
+  const [casinoLockModals, setCasinoLockModals] = useState(false);
 
   const nav = useNavigate();
 
@@ -27,7 +33,7 @@ const Dashboard = () => {
 
   // const userType = localStorage.getItem("userType")
   const gridStyle = {
-    width: "23%",
+    width: "22.342%",
     background: "#7d5c0e",
     color: "#fff",
     margin: "10px",
@@ -55,7 +61,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <Card>
+      <Card className="dash_card">
         <Card.Grid hoverable={false} className="" style={gridStyle}>
           <Link to="/client/details-master">
             <div className="main_card_section">
@@ -93,8 +99,12 @@ const Dashboard = () => {
           </Link>
         </Card.Grid>
 
-        <Card.Grid hoverable={false} className="" style={gridStyle}>
-          <Link to="/Events/ladger-details">
+        <Card.Grid
+          hoverable={false}
+          className=""
+          style={gridStyle}
+          onClick={() => setOpenModals(!openModal)}>
+          <Link to="#">
             <div className="main_card_section">
               <div className="icon_card_section">
                 <BiUserCircle />
@@ -106,21 +116,30 @@ const Dashboard = () => {
           </Link>
         </Card.Grid>
 
-        <Card.Grid hoverable={false} className="" style={gridStyle}>
-          <Link to="/client/cash-transanction">
+        <Card.Grid
+          hoverable={false}
+          className=""
+          style={gridStyle}
+          onClick={() => setOpenModalsReport(!openModalReport)}>
+          <Link to="#">
             <div className="main_card_section">
               <div className="icon_card_section">
                 <BiUserCircle />
               </div>
               <div className="tital_card_section">
-                <p style={{ fontSize: "14px" }}>Cash Transaction</p>
+                <p style={{ fontSize: "16px" }}>Reports</p>
+                <p className="gx-mb-0">Cash Transaction</p>
               </div>
             </div>
           </Link>
         </Card.Grid>
 
-        <Card.Grid hoverable={false} className="" style={gridStyle}>
-          <Link to="/markets">
+        <Card.Grid
+          hoverable={false}
+          className=""
+          style={gridStyle}
+          onClick={() => setSetting(!openSetting)}>
+          <Link to="#">
             <div className="main_card_section">
               <div className="icon_card_section">
                 <AiOutlineSetting />
@@ -284,7 +303,6 @@ const Dashboard = () => {
           </h1>
         }
         open={casinoLockModals}
-        // onOk={handleBetLockOk}
         onCancel={() => setCasinoLockModals(false)}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
@@ -293,6 +311,13 @@ const Dashboard = () => {
       </Modal>
 
       <ActiveMatch />
+
+      <LadgerDetails setOpenModals={setOpenModals} openModal={openModal} />
+      <CashTransanction
+        setOpenModals={setCasinoLockModals}
+        openModal={openModalReport}
+      />
+      <SettingModals setOpenModals={setSetting} openModal={openSetting} />
     </>
   );
 };

@@ -4,6 +4,7 @@ import { store } from "./store/store";
 import Main from "./component/common/main/Main";
 import { useEffect } from "react";
 import { notification } from "antd";
+import './assets/gaxon/styles.css'
 
 let apiRef;
 export const openNotification = (mess) => {

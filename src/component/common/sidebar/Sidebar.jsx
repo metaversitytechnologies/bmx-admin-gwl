@@ -7,9 +7,11 @@ import { SlDiamond } from "react-icons/sl";
 import { MdMenu } from "react-icons/md";
 import "./Sidebar.scss";
 import { Button } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+// import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { RiNotificationBadgeFill } from "react-icons/ri";
 import Sider from "antd/es/layout/Sider";
 import { Link, json, useNavigate } from "react-router-dom";
+import { IoMdPricetag } from "react-icons/io";
 
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
 
@@ -40,7 +42,13 @@ const Sidebar = (props) => {
         <Button
           type="text"
           className="clolapsedd"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          icon={
+            collapsed ? (
+              <i className="gx-icon-btn icon icon-menu-fold gx-text-white" />
+            ) : (
+              <i className="gx-icon-btn icon icon-menu-unfold gx-text-white" />
+            )
+          }
           onClick={() => setCollapsed(!collapsed)}
           style={{
             fontSize: "16px",
@@ -63,7 +71,7 @@ const Sidebar = (props) => {
       </div>
       <Sider
         trigger={null}
-        width="275"
+        width="280"
         collapsible
         collapsed={collapsed}
         className={`side_bar coll desk_side`}
@@ -83,7 +91,13 @@ const Sidebar = (props) => {
           items={[
             {
               key: "1",
-              icon: <AiOutlineHome />,
+              icon: (
+                <RiNotificationBadgeFill
+                  style={{
+                    fontSize: "22px",
+                  }}
+                />
+              ),
               label: (
                 <Link to="/dashboard" onClick={() => setOpenKeys([])}>
                   Dashboard
@@ -133,7 +147,13 @@ const Sidebar = (props) => {
             },
             {
               key: "3",
-              icon: <LuBarChart4 />,
+              icon: (
+                <IoMdPricetag
+                  style={{
+                    rotate: "45deg",
+                  }}
+                />
+              ),
               label: "Sports-Betting",
               children: [
                 {

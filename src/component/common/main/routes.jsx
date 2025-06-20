@@ -40,7 +40,7 @@ import EventProfitLoss from "../../pages/sportsdetails/livereport/EventProfitLos
 export const protectedRoutes = [
   { path: "/dashboard", element: <Dashboard /> },
   { path: "/client/details-master", element: <MasterDetails /> },
-  { path: "/Events/ladger-details", element: <LadgerDetails /> },
+  // { path: "/Events/ladger-details", element: <LadgerDetails /> },
   { path: "/Events/sports-details", element: <SportsDetails /> },
   { path: "/livereport", element: <LiveReport /> },
   { path: "/plus-minus-report/:id", element: <PlusMinusReport /> },
