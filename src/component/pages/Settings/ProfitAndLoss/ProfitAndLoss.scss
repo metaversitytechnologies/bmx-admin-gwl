@@ -3,18 +3,18 @@
   align-items: center;
   .profit_date {
     margin: 18px 35px;
-    .ant-picker.ant-picker-range{
+    .ant-picker.ant-picker-range {
       width: 100%;
     }
   }
   .apply_btn {
     color: #fff;
-    background-color: #5d7074;
-    border-color: #5d7074;
+    background-color: #038fde;
+    border-color: #038fde;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
     color: #ffffff !important;
-    background-color: #5d7074 !important;
-    border-color: #5d7074 !important;
+    background-color: #038fde !important;
+    border-color: #038fde !important;
     border-radius: 2px;
     text-align: center;
     font-weight: 600;
@@ -46,16 +46,15 @@
       display: flex;
       justify-content: center;
     }
-    .mb-2{
-        margin-bottom: -6px;
-        margin-top: -20px;
+    .mb-2 {
+      margin-bottom: -6px;
+      margin-top: -20px;
     }
   }
 }
 
-
-.profit_loss{
-  .ant-card-head-title{
+.profit_loss {
+  .ant-card-head-title {
     font-size: 20px !important;
   }
 }

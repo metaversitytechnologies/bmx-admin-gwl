@@ -34,7 +34,7 @@ const ActiveMatch = () => {
         }}
         className="sport_detail active_match_name"
         title="Active Matches">
-        <div className="active_sport_list">
+        {/* <div className="active_sport_list">
           <div className="sub_list_sport_list">
             {activeSportList?.data?.map((item, id) => {
               return (
@@ -49,7 +49,7 @@ const ActiveMatch = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
 
         {isLoading || isFetching ? (
           <Spin className="loading_active" tip="Loading..." size="large">

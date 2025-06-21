@@ -6,9 +6,7 @@
     &::before {
       display: none;
     }
- 
 
-   
     .ant-tabs-nav-list {
       border: 1px solid #d9d9d9;
       border-radius: 5px;
@@ -20,29 +18,29 @@
         padding: 5px 11px;
       }
     }
-    .ant-tabs-tab-active{
+    .ant-tabs-tab-active {
+      color: #fff !important;
+      background: #038fde !important;
+
+      margin: -2px !important;
+      .ant-tabs-tab-btn {
         color: #fff !important;
-        background: #5d7074 !important;
-        
-        margin: -2px !important;
-        .ant-tabs-tab-btn {
-            color: #fff !important;
-        }
+      }
     }
   }
 
-.ant-picker.ant-picker-range{
-  color: #545454;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
-  margin-top: -4px;
-}
-svg {
-  color: #000 !important;
-  display: none;
-}
+  .ant-picker.ant-picker-range {
+    color: #545454;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    margin-top: -4px;
+  }
+  svg {
+    color: #000 !important;
+    display: none;
+  }
 }
 .pagination_cus {
   margin-top: 9px;
@@ -54,5 +52,5 @@ svg {
     position: static !important;
     margin-inline: 4% !important;
     margin-top: 11px !important;
-}
+  }
 }

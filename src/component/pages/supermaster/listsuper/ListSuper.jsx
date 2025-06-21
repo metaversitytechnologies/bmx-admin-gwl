@@ -41,7 +41,7 @@ const ListSuper = ({ userTyep, Listname }) => {
         <div className="_match">
           <div className="sub_live_section live_report">
             <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
+              style={{ padding: "5px 8px", fontSize: "26px" }}
               className="team_name">
               {Listname} Details
             </div>
@@ -63,7 +63,14 @@ const ListSuper = ({ userTyep, Listname }) => {
                   </Link>
                 </p>
               </div>
-              <div></div>
+              <div onClick={handleCreate}>
+                <p>
+                  <Link to="">
+                   
+                    Update Limit
+                  </Link>
+                </p>
+              </div>
             </div>
           )}
           <div className="table_section sport_detail m-0">

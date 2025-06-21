@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { LuBarChart4 } from "react-icons/lu";
 import { AiOutlineSetting } from "react-icons/ai";
@@ -18,10 +18,13 @@ import { useDashboardQuery } from "../../../store/service/userlistService";
 import LadgerDetails from "../ladgerdetail/LadgerDetails";
 import CashTransanction from "../CashTransanction/CashTransanction";
 import SettingModals from "./SettingModals";
+import DashboardModal from "./DashboardModal";
+import MasterDetails from "../masterDetail/MasterDetails";
 
 const Dashboard = () => {
   const [openModal, setOpenModals] = useState(false);
   const [openSetting, setSetting] = useState(false);
+  const [openDashBoard, setOpenDashBoard] = useState();
   const [openModalReport, setOpenModalsReport] = useState(false);
   const [casinoLockModals, setCasinoLockModals] = useState(false);
 
@@ -61,9 +64,9 @@ const Dashboard = () => {
 
   return (
     <>
-      <Card className="dash_card">
+      {/* <Card className="dash_card">
         <Card.Grid hoverable={false} className="" style={gridStyle}>
-          <Link to="/client/details-master">
+          <Link to="#" onClick={() => setOpenDashBoard(!openDashBoard)}>
             <div className="main_card_section">
               <div className="icon_card_section">
                 <BiUserCircle />
@@ -153,7 +156,7 @@ const Dashboard = () => {
 
         <Card.Grid hoverable={false} className="" style={gridStyle}>
           <p
-          // onClick={handleLogout}
+          
           >
             <div className="main_card_section">
               <div className="icon_card_section">
@@ -165,8 +168,8 @@ const Dashboard = () => {
             </div>
           </p>
         </Card.Grid>
-      </Card>
-
+      </Card> */}
+      {/* 
       <Card>
         <Card.Grid hoverable={false} style={gridStyle}>
           <div className="main_card_section">
@@ -292,7 +295,273 @@ const Dashboard = () => {
             </div>
           </div>
         </Card.Grid>
-      </Card>
+      </Card> */}
+
+      <Row justify="center" className="main_dash_class">
+        <Col xs={24} lg={24}>
+          <Row className="gx-pb-10">
+            <Col
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={6}
+              className="colo_name"
+              onClick={() => setOpenDashBoard(!openDashBoard)}>
+              <div>
+                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                  <div className="ant-card-body">
+                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
+                      <div
+                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
+                        style={{ borderRadius: 20 }}>
+                        <div className="gx-mr-1 gx-mr-xl-3">
+                          {/* <i className="icon icon-family gx-fs-2xl" /> */}
+                          <img src="/Images/dash.png" height={33} />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                            {uType == 5
+                              ? "Sub Admin Details"
+                              : uType == 0
+                              ? "Master Detail"
+                              : uType == 1
+                              ? "Super Detail"
+                              : uType == 2
+                              ? "Agent Detail"
+                              : ""}
+                          </h1>
+                          <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
+                          <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
+                          <p className="gx-mb-0">My Team</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col xs={12} sm={12} md={12} lg={12} xl={6} className="colo_name">
+              <div>
+                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                  <div className="ant-card-body">
+                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
+                      <div
+                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
+                        style={{ borderRadius: 20 }}>
+                        <div className="gx-mr-1 gx-mr-xl-3">
+                          <i className="icon icon-family gx-fs-2xl" />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                            Sport's Details
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={6}
+              className="colo_name"
+              onClick={() => setOpenModals(!openModal)}>
+              <div>
+                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                  <div className="ant-card-body">
+                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
+                      <div
+                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
+                        style={{ borderRadius: 20 }}>
+                        <div className="gx-mr-1 gx-mr-xl-3">
+                          <BiUserCircle />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                            Ledger
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={6}
+              className="colo_name"
+              onClick={() => setOpenModalsReport(!openModalReport)}>
+              <div>
+                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                  <div className="ant-card-body">
+                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
+                      <div
+                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
+                        style={{ borderRadius: 20 }}>
+                        <div className="gx-mr-1 gx-mr-xl-3">
+                          <BiUserCircle />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                            Reports
+                          </h1>
+                          <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
+                          <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
+                          <p className="gx-mb-0">Cash Transaction</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={6}
+              className="colo_name"
+              onClick={() => setSetting(!openSetting)}>
+              <div>
+                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                  <div className="ant-card-body">
+                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
+                      <div
+                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
+                        style={{ borderRadius: 20 }}>
+                        <div className="gx-mr-1 gx-mr-xl-3">
+                          <AiOutlineSetting />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                            Setting
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={6}
+              className="colo_name"
+              onClick={() => setSetting(!openSetting)}>
+              <div>
+                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                  <div className="ant-card-body">
+                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
+                      <div
+                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
+                        style={{ borderRadius: 20 }}>
+                        <div className="gx-mr-1 gx-mr-xl-3">
+                          <CiLogin />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                            Logout
+                          </h1>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Row justify="center" className="main_dash_class">
+        <Col xs={24} lg={24}>
+          <Row className="gx-pb-10">
+            {" "}
+            {[
+              {
+                icon: <HiUser />,
+                title: "Demo",
+                desc:
+                  uType == 5
+                    ? "Sub Admin"
+                    : uType == 0
+                    ? "Master"
+                    : uType == 1
+                    ? "Super"
+                    : uType == 2
+                    ? "Agent"
+                    : "Client",
+              },
+              { icon: <SlDiamond />, title: "1000", desc: "Chips" },
+              { icon: <HiUser />, title: "10", desc: "Members" },
+              { icon: <LuBarChart4 />, title: "100", desc: "My Share" },
+              { icon: <LuBarChart4 />, title: "100", desc: "Company Share" },
+              { icon: null, title: "90%", desc: "Match Commission" },
+              { icon: null, title: "90%", desc: "Session Commission" },
+              // { icon: <HiUser />, title: "10", desc: "Client" },
+              {
+                icon: <IoMdInformationCircle />,
+                title: "Rules",
+                onClick: handleRules,
+              },
+              // {
+              //   icon: <FaLock style={{ fontSize: "40px" }} />,
+              //   title: "My Casino Allowed",
+              //   onClick: () => setCasinoLockModals(true),
+              // },
+            ].map((item, index) => (
+              <Col
+                key={index}
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                xl={6}
+                className="colo_name"
+                onClick={item.onClick}>
+                <div>
+                  <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
+                    <div className="ant-card-body">
+                      <div className="gx-fillchart gx-overlay-fillchart gx-bg-transparent">
+                        <div
+                          className="gx-media gx-align-items-center gx-pointer gx-flex-nowrap gx-fillchart-content"
+                          style={{ borderRadius: 20 }}>
+                          <div className="gx-mr-1 gx-mr-xl-3">
+                            {item.icon ? item.icon : <></>}
+                          </div>
+                          <div className="gx-media-body">
+                            <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white">
+                              {item.title}
+                            </h1>
+                            {item.desc && (
+                              <p className="gx-mb-0">{item.desc}</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Col>
+      </Row>
+
+      {/* </div> */}
 
       <Modal
         className="modal_dash"
@@ -314,10 +583,14 @@ const Dashboard = () => {
 
       <LadgerDetails setOpenModals={setOpenModals} openModal={openModal} />
       <CashTransanction
-        setOpenModals={setCasinoLockModals}
+        setOpenModals={setOpenModalsReport}
         openModal={openModalReport}
       />
       <SettingModals setOpenModals={setSetting} openModal={openSetting} />
+      <MasterDetails
+        setOpenModals={setOpenDashBoard}
+        openModal={openDashBoard}
+      />
     </>
   );
 };

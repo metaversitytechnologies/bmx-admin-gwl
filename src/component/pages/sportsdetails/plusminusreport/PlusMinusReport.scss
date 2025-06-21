@@ -6,7 +6,7 @@
     border: unset;
     border-radius: unset;
     outline: unset;
-    background: #5d7074;
+    background: #038fde;
     color: #fff;
     font-weight: bold;
     padding: 10px 12px;
@@ -54,9 +54,7 @@
       }
     }
     .ant-checkbox-inner,
-    .ant-checkbox-checked:not(
-        .ant-checkbox-disabled
-      ) {
+    .ant-checkbox-checked:not(.ant-checkbox-disabled) {
       &:hover {
         .ant-checkbox-inner {
           background-color: #74766f !important;
@@ -117,8 +115,8 @@
       .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled):hover
         .ant-checkbox-checked:not(.ant-checkbox-disabled)
         .ant-checkbox-inner {
-        background-color: #5d7074 !important;
-        border-color: #5d7074;
+        background-color: #038fde !important;
+        border-color: #038fde;
         border-radius: 2px;
       }
     }
@@ -140,7 +138,7 @@
         margin-bottom: 37px;
       }
     }
-    .ant-col.ant-col-12{
+    .ant-col.ant-col-12 {
       width: 100%;
       min-width: 100%;
       max-width: 100%;
@@ -157,26 +155,25 @@
   overflow: hidden;
   // white-space: nowrap;
 }
-.back_show{
-  button{
+.back_show {
+  button {
     margin: 0px 5px;
   }
 }
 
-
-.masterBackgroundColor{
+.masterBackgroundColor {
   background-color: rgb(3, 143, 222);
   color: #fff;
 }
-.agentBackgroundColor{
+.agentBackgroundColor {
   background-color: rgb(153, 151, 146);
   color: #fff;
 }
-.superBackgroundColor{
+.superBackgroundColor {
   background-color: rgb(98, 92, 195);
   color: #fff;
 }
-.subBackgroundColor{
+.subBackgroundColor {
   background-color: green;
   color: #fff;
 }

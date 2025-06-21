@@ -1,10 +1,10 @@
 .main_live_section {
-  margin: 30px 30px;
+  margin: -3px 24px;
   .sub_live_section {
-    padding: 12px 15px;
-    background: rgb(115, 118, 111);
+    padding: 15px 23px;
+    background: #7d5c0e;
     color: rgb(255, 255, 255);
-    font-size: 14px;
+    font-size: 20px;
     color: #fff;
     .fs {
       background: #fafafa;
@@ -198,7 +198,7 @@
   .sportName {
     padding: 0px 8px;
     a {
-      color: #5d7074;
+      color: #038fde;
       .sport_title {
         padding-top: 8px;
       }
@@ -267,7 +267,7 @@
 
 @media screen and (max-width: 800px) {
   .main_live_section {
-    margin: 0px;
+    margin: 20px;
     width: 96%;
     margin-inline: 2%;
     .match_section {
@@ -379,10 +379,9 @@
       max-width: 36%;
     }
   }
-  .yes_no{
-
+  .yes_no {
     height: 100%;
-    .ant-col{
+    .ant-col {
       height: 100%;
     }
   }
@@ -420,7 +419,7 @@
   margin-top: 15%;
 }
 .ant-spin {
-  color: #5d7074 !important;
+  color: #038fde !important;
 }
 .ant-spin-spinning {
   position: static;
@@ -433,7 +432,7 @@
     }
   }
   .ant-spin-dot-item {
-    background-color: #5d7074;
+    background-color: #038fde;
     border-radius: 100%;
     &:first-child {
       top: 0;
@@ -464,8 +463,7 @@
     width: 54%;
     min-width: 50%;
     max-width: 50%;
-}
-  
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -473,7 +471,7 @@
     width: 20% !important;
     min-width: 20% !important;
     max-width: 41% !important;
-      
+
     button {
       margin: 2px;
       padding: 4px 2px;
@@ -504,22 +502,24 @@
   color: #fff !important;
 }
 
-
-.sub_live_section{
+.sub_live_section {
   display: flex;
   justify-content: space-between;
-  .show_btn {button{
-    border: unset;
-    border-radius: unset;
-    outline: unset;
-    background: #5d7074;
-    color: #fff;
-    font-weight: bold;
-    padding: 10px 12px;
-  }}
+  .show_btn {
+    button {
+      border: unset;
+      border-radius: 4px !important;
+      outline: unset;
+      background: #038fde;
+      color: #fff;
+      font-weight: bold;
+      padding: 10.5px 16px;
+      margin-right: 10px;
+    }
+  }
 }
 
-.ht{
+.ht {
   height: 47px;
   @media screen and (max-width: 800px) {
     height: 51px;
@@ -528,14 +528,13 @@
   }
 }
 
-
 @media screen and (max-width: 450px) {
   title {
     font-size: 13px;
-}
+  }
 }
 
-.ball_value{
+.ball_value {
   background-color: #74766f !important;
   font-size: 14px;
   width: 30px;
@@ -547,9 +546,8 @@
   color: white;
   border-radius: 50%;
   margin-right: 5px;
-
 }
-.ball{
+.ball {
   display: flex;
   align-items: center;
 }
@@ -564,16 +562,15 @@
   overflow: hidden;
 }
 
-
-.bets_details{
-  .ant-modal-content{
+.bets_details {
+  .ant-modal-content {
     padding: 0px !important;
     .ant-modal-header {
       padding: 17px;
-  }
+    }
   }
 }
 
-.fancy_bet{
+.fancy_bet {
   right: 55px !important;
 }

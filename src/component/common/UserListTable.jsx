@@ -35,6 +35,7 @@ import {
 import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
 import CasinoLockModals from "./CasinoLockModals";
+import { SlEye } from "react-icons/sl";
 
 const routeFromUSerType = {
   0: "/client/list-agent/",
@@ -138,7 +139,6 @@ const UserListTable = ({
       openNotificationError(error?.data?.message);
     }
   }, [error]);
-
 
   // useEffect(() => {
   //   getData({
@@ -527,7 +527,7 @@ const UserListTable = ({
               // style={{
               //   overflow: `${isLoading || isFetching ? "hidden" : "scroll"}`,
               // }}
-              >
+            >
               {/* {isLoading || isFetching ? (
                 <div className="spin_icon user_spin">
                   <Spin size="large" />
@@ -537,9 +537,9 @@ const UserListTable = ({
               )} */}
               <table className={`live_table ${id && "mt-0"}`}>
                 <tr>
-                  <th rowSpan={2}>#</th>
-                  <th rowSpan={2}></th>
-                  <th rowSpan={2}>
+                  <th>#</th>
+                  <th></th>
+                  <th>
                     <div className="main_search_droup">
                       <p>Code</p>
                       {droupSearch && (
@@ -589,8 +589,8 @@ const UserListTable = ({
                       </p>
                     </div>
                   </th>
-                  <th rowSpan={2}>Name</th>
-                  <th rowSpan={2}>
+                  <th>Name</th>
+                  <th>
                     {uType == 5
                       ? "Sub Admin"
                       : uType == 0
@@ -601,26 +601,22 @@ const UserListTable = ({
                       ? "Agent"
                       : ""}
                   </th>
-                  <th rowSpan={2}>Contact</th>
-                  <th rowSpan={2}>D.O.J </th>
-                  <th rowSpan={2}>Share%</th>
-                  <th rowSpan={2}>PWD</th>
+                  <th>Contact</th>
+                  <th>D.O.J </th>
+                  <th>Share%</th>
+                  <th>PWD</th>
                   <th colSpan={3} className="text-center">
                     {Listname} Comm %
                   </th>
-                  <th rowSpan={2} className="text-right">
-                    C.Chips
-                  </th>
-                  <th rowSpan={2} className="text-right">
-                    Credit Reference
-                  </th>
-                  <th rowSpan={2}>Status</th>
+                  <th className="text-right">C.Chips</th>
+                  <th className="text-right">Credit Reference</th>
+                  <th>Status</th>
                 </tr>
-                <tr>
+                {/* <tr>
                   <th>Type</th>
                   <th>Match</th>
                   <th>SSN</th>
-                </tr>
+                </tr> */}
 
                 {data?.map((res, id) => {
                   return (
@@ -668,7 +664,11 @@ const UserListTable = ({
                         </Dropdown>
                       </td>
                       <td>{res?.userid}</td>
-                      <td>{res?.username}</td>
+                      <td>
+                        <span className="gx-text-blue gx-pointer gx-text-nowrap">
+                         <SlEye /> {res?.username}
+                        </span>
+                      </td>
                       <td>{res?.parent}</td>
                       <td>{res?.mobile}</td>
                       <td>
@@ -706,9 +706,9 @@ const UserListTable = ({
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           ) : (
             <> */}
-              <Divider />
-              <div className="pagination_cus">
-                {/* <Pagination
+          <Divider />
+          <div className="pagination_cus">
+            {/* <Pagination
                   className="pagination_main ledger_pagination"
                   onShowSizeChange={(c, s) => setPaginationTotal(s)}
                   total={
@@ -719,8 +719,8 @@ const UserListTable = ({
                   pageSizeOptions={[50, 100, 150, 200, 250]}
                   onChange={(e) => setIndexData(e - 1)}
                 /> */}
-              </div>
-            {/* </>
+          </div>
+          {/* </>
           )} */}
           <Modal
             className="partnership"

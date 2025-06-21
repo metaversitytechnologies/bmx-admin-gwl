@@ -83,7 +83,7 @@ const LayOut = ({ logo, logoData }) => {
             <MarqueeTag />
           </div>
           <Content
-            style={{ margin: "2px 1px", padding: "21px 19px 0" }}
+            // style={{ margin: "2px 1px", padding: "21px 19px 0" }}
             className="main_section">
             <Outlet />
           </Content>
