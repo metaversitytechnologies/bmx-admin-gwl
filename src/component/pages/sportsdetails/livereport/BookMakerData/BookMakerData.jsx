@@ -87,8 +87,6 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
       }
     : {};
 
-
-
   return (
     <>
       <div className="fancy_section">
@@ -98,26 +96,50 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
               <Row>
                 <Col span={19} className="back-lay-bg">
                   <div className="fancy_data">
-                    <div className="sub_fancy">
+                    {/* <div className="sub_fancy">
                       <p>{keyData}</p>
-                    </div>
+                    </div> */}
                     <Col span={19} className="back-lay-bg bookData">
-                      <button
+                      <div
+                        style={{
+                          display: "flex",
+                        }}>
+                        <div
+                          style={{
+                            padding: "6px 8px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(235, 109, 136)",
+                            color: "white",
+                            fontSize:"16px"
+                          }}
+                          className={activeBook == 2 ? "activeMyBook" : ""}
+                          onClick={(e) => handleTtlBook(e)}>
+                          Ttl Book
+                        </div>
+                        <div
+                          style={{
+                            padding: "6px 8px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(255, 255, 255)",
+                             fontSize:"16px"
+                          }}>
+                          {" "}
+                          My Book
+                        </div>
+                      </div>
+
+                      {/* <button
                         className={activeBook == 1 ? "activeMyBook" : ""}
                         onClick={(e) => handleMyBook(e)}>
                         My Book
-                      </button>
-                      <button
-                        className={activeBook == 2 ? "activeMyBook" : ""}
-                        onClick={(e) => handleTtlBook(e)}>
-                        Ttl Book
-                      </button>
-                      <button
-                      style={{padding:"0px 12px"}}
+                      </button> */}
+
+                      {/* <button
+                        style={{ padding: "0px 12px" }}
                         className={activeBook == 2 ? "activeMyBook" : ""}
                         onClick={() => handleBets(data[0]?.mid)}>
                         Bet
-                      </button>
+                      </button> */}
                     </Col>
                     <div>
                       <span className="fancy_icon">i</span>
@@ -242,8 +264,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
                         <button
                           className={activeBook1 == 2 ? "activeMyBook" : ""}
                           onClick={() => handleBets(data[2]?.mid)}
-                          style={{padding:"0px 12px"}}
-                          >
+                          style={{ padding: "0px 12px" }}>
                           Bet
                         </button>
                       </Col>

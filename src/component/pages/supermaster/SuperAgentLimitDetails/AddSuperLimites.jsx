@@ -1,7 +1,11 @@
-import { Button, Form, Input, Space, Table, notification } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import { Button, Form, Input, notification } from "antd";
+import { useEffect, useState } from "react";
 
-import {useAddLimitMutation, useDepositMutation, useLazyUpDateLimitesQuery } from "../../../../store/service/userlistService";
+import {
+  useAddLimitMutation,
+  useDepositMutation,
+  useLazyUpDateLimitesQuery,
+} from "../../../../store/service/userlistService";
 import { useLocation, useParams } from "react-router-dom";
 
 const AddSuperLimites = () => {
@@ -9,14 +13,16 @@ const AddSuperLimites = () => {
   const [chipsValue, setChipsValue] = useState();
   const [passWord, setPassword] = useState("");
   const [api, contextHolder] = notification.useNotification();
-  const [form]= Form.useForm();
-  const {state} = useLocation();
+  const [form] = Form.useForm();
+  const { state } = useLocation();
 
-  const {id} = useParams()
+  const { id } = useParams();
 
   const handelAddLimit = (e) => {
     setChipsValue(e.target.value);
-    setAddTotal(Number(e.target.value) + Number(updateLimite?.data?.childAmount));
+    setAddTotal(
+      Number(e.target.value) + Number(updateLimite?.data?.childAmount)
+    );
   };
 
   const handelPassword = (e) => {
@@ -40,23 +46,21 @@ const AddSuperLimites = () => {
     });
   };
 
-
   const [trigger, { data: addData, error, isLoading }] = useAddLimitMutation();
-  const [updateLimites, {data: updateLimite}] = useLazyUpDateLimitesQuery()
+  const [updateLimites, { data: updateLimite }] = useLazyUpDateLimitesQuery();
 
-
-  useEffect(()=>{
+  useEffect(() => {
     updateLimites({
-      userId:id
-    })
-  }, [id])
+      userId: id,
+    });
+  }, [id]);
 
   const onFinish = (values) => {
     const addList = {
-        amount:Number(values?.amount),
-        remark:"Updated Limit",
-        lupassword:values?.pass,
-        userId:id
+      amount: Number(values?.amount),
+      remark: "Updated Limit",
+      lupassword: values?.pass,
+      userId: id,
     };
     trigger(addList);
   };
@@ -64,9 +68,9 @@ const AddSuperLimites = () => {
   useEffect(() => {
     if (addData?.status === true) {
       updateLimites({
-        userId:id
-      })
-      setAddTotal(0)
+        userId: id,
+      });
+      setAddTotal(0);
       openNotification(addData?.message);
       form?.resetFields();
     } else if (addData?.status === false || error?.data?.message) {
@@ -77,7 +81,9 @@ const AddSuperLimites = () => {
   return (
     <>
       {contextHolder}
-      <div className="table_section mwt sport_detail" style={{paddingBottom:"12px"}}>
+      <div
+        className="table_section mwt sport_detail"
+        style={{ paddingBottom: "12px" }}>
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
           <Form
             onFinish={onFinish}
@@ -86,19 +92,17 @@ const AddSuperLimites = () => {
             autoComplete="off">
             <table className="live_table  limit_update">
               <tr>
-                <th width="10%">Code</th>
-                <th width="10%">Name</th>
-                <th width="10%">C. Chips</th>
-                <th width="30%">Add limit </th>
-                <th width="5%">Total Limit</th>
-                <th width="30%">Transaction Password</th>
-                <th width="5%">Action</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>C. Chips</th>
+                <th>Add limit </th>
+                <th>Action</th>
               </tr>
 
               <tr>
-                <td>{updateLimite?.data?.childId}</td>
-                <td>{updateLimite?.data?.childName}</td>
-                <td>{updateLimite?.data?.childAmount}</td>
+                <td>A10285</td>
+                <td>agemas</td>
+                <td>0.00</td>
 
                 <td>
                   <div>
@@ -109,35 +113,18 @@ const AddSuperLimites = () => {
                         { required: true, message: "Please Enter Chips!" },
                       ]}>
                       <Input
+                        style={{
+                          width: "110px",
+                          padding: "6px",
+                          background: "#fff",
+                        }}
                         onChange={(e) => handelAddLimit(e)}
                         type="number"
-                        placeholder="Enter Chips"
                       />
                     </Form.Item>
                   </div>
                 </td>
 
-                <td>{addTotal}</td>
-                <td>
-                  <div>
-                    <Form.Item
-                      name="pass"
-                      required
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please Enter Your Password!",
-                        },
-                      ]}>
-                      <Input
-                        onChange={(e) => handelPassword(e)}
-                        type="password"
-                        placeholder="Enter Transaction Password"
-                        autoComplete="off"
-                      />
-                    </Form.Item>
-                  </div>
-                </td>
                 <td>
                   <div className="minus_btn">
                     <Button
@@ -146,6 +133,13 @@ const AddSuperLimites = () => {
                       loading={isLoading}
                       htmlType="submit">
                       Add
+                    </Button>
+                    <Button
+                      style={{ height: "unset" }}
+                      className="minus"
+                      loading={isLoading}
+                      htmlType="submit">
+                      Minus
                     </Button>
                   </div>
                 </td>

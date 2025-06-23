@@ -44,12 +44,8 @@
   // }
   tbody {
     tr {
-      // &:hover{
-      //     background-color: #a8b3b3 !important;
-      // }
       td {
-        // border-right: 1px solid #a9a9a9 !important;
-        // border-bottom: 1px solid #a9a9a9 !important;
+        text-transform: capitalize;
         .minus_btn {
           .add {
             color: #fff;
@@ -115,7 +111,7 @@
     border-color: #038fde;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
     color: #ffffff !important;
-    background-color: #74766f !important;
+    background-color: #7d5c0e !important;
     border-color: #ff4d4f;
     border-radius: 2px;
     outline: unset;
@@ -152,4 +148,18 @@
       width: 125px !important;
     }
   }
+}
+
+.limit_update {
+  tr {
+    th,
+    td {
+      text-transform: capitalize !important;
+    }
+  }
+}
+
+.update_limit {
+  margin: -3px 31px;
+ 
 }

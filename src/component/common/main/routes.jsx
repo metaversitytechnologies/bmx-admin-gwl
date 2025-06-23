@@ -36,13 +36,14 @@ import CommReport from "../../pages/dataReport/commReport/CommReport";
 import SetCommission from "../../pages/setCommission/SetCommission";
 import DeletedLenden from "../../pages/CashTransanction/DeletedLenden/DeletedLenden";
 import EventProfitLoss from "../../pages/sportsdetails/livereport/EventProfitLoss/EventProfitLoss";
+import GameDeatis from "../../pages/GameDeatis/GameDeatis";
 
 export const protectedRoutes = [
   { path: "/dashboard", element: <Dashboard /> },
   { path: "/client/details-master", element: <MasterDetails /> },
   // { path: "/Events/ladger-details", element: <LadgerDetails /> },
   { path: "/Events/sports-details", element: <SportsDetails /> },
-  { path: "/livereport", element: <LiveReport /> },
+  { path: "/livereport/:id/:id1", element: <GameDeatis /> },
   { path: "/plus-minus-report/:id", element: <PlusMinusReport /> },
   { path: "/Events/:id/plus-minus-report", element: <PlusMinusDetails /> },
   {
@@ -89,7 +90,7 @@ export const protectedRoutes = [
   },
   { path: "/client/account-operations/:id", element: <AccountOperations /> },
   { path: "/account-operation", element: <AccountOperations /> },
-  { path: "/client/login-report", element: <LoginReport /> },
+  { path: "/client/login-report/:id?", element: <LoginReport /> },
   {
     path: "/client/create-super",
     element: (

@@ -1,21 +1,20 @@
 .sport_detail {
   background-color: #fff !important;
-  margin: 30px 23px;
+  margin: 30px 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 96%;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  @media (max-width: 800px) {
+    margin: 20px 0px !important;
+  }
   .rejected_row {
     margin: 0px 0px 12px 30px;
     .ant-select-selector {
       width: 100%;
     }
   }
-  //   .ant-select-single {
-  //     font-size: 14px;
-  //     width: 100%;
-  //     margin: 7px 0px;
-  // }
+
   .ant-card-head {
     min-height: 48px;
     margin-bottom: -1px;
@@ -23,22 +22,22 @@
     color: #fff;
 
     border-bottom: 1px solid #e8e8e8;
-    border-radius: 6px 6px 0 0;
+    border-radius: unset;
     background: #7d5c0e !important;
     .ant-card-head-title {
-      padding: 0px 0px;
+      padding: 14px 0px;
       font-weight: 500 !important;
-      font-size: 16px !important;
+      font-size: 20px;
     }
 
     .ant-card-extra button {
       text-decoration: none !important;
       background-image: none;
       box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
-      border-radius: 2px;
+      border-radius: 6px;
       color: #fff;
       background-color: #038fde;
-      padding: 10px;
+      padding: 10px 14px;
       font-weight: 600;
       outline: unset;
       border: unset;
@@ -53,7 +52,7 @@
     // justify-content: center;
     align-items: center;
     .ant-picker {
-      border: 1px solid #00000063 !important;
+      border: 1px solid #ddd !important;
       border-radius: 2px !important;
       height: 40px;
       // padding-left: 51px !important;
@@ -73,6 +72,7 @@
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
+        text-transform: capitalize !important;
       }
       th {
         background-color: #7d5c0e;
@@ -102,10 +102,19 @@
         .ant-space-item {
           background: #038fde;
           color: #fff;
-          padding: 5px;
-          // margin-left: -17px;
+          padding: 0px 3px !important;
+          height: 18px !important;
+          line-height: 18px;
           border-radius: 3px;
+          border-radius: unset;
           // margin-right: 7px;
+          .anticon {
+            font-size: 14px;
+            margin-top: -12px;
+            svg {
+              margin-top: -12px;
+            }
+          }
         }
         .text-right {
           text-align: right;
@@ -136,7 +145,7 @@
   .ant-modal-confirm-btns {
     margin-top: 23px;
     .ant-btn-default {
-      background: #74766f !important;
+      background: #7d5c0e !important;
       color: #fff;
       border-radius: 2px;
       border: unset;
@@ -154,7 +163,8 @@
 }
 
 .title_section {
-  font-weight: 500 !important;
+  font-weight: 600 !important;
+  color: #000 !important;
 }
 
 .pagination_main {
@@ -245,3 +255,13 @@
 //   background: transparent;
 //   z-index: 1;
 // }
+
+.in_play_btn {
+  font-size: 12px;
+  padding: 0px 7px;
+  border-radius: unset;
+  height: 22px;
+  span {
+    padding: 0;
+  }
+}

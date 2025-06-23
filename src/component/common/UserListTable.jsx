@@ -1,21 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Divider,
   Dropdown,
-  Empty,
   Form,
   Input,
   Menu,
   Modal,
-  Pagination,
-  Select,
   Space,
-  Spin,
-  notification,
 } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import ResetPassword from "./ResetPassword";
 
 import {
   SearchOutlined,
@@ -74,6 +69,7 @@ const UserListTable = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownStates, setDropdownStates] = useState([]);
   const [layoutOpen, setLayoutOpen] = useState(false);
+  const [opneResetPass, setOpenResetPass] = useState(false);
 
   const [form] = Form.useForm();
 
@@ -208,15 +204,14 @@ const UserListTable = ({
       label: <div onClick={showWithdrawnModal}>Withdrawn</div>,
       key: "1",
     },
-    // {
-    //   // className: `${parentUserids == userId ? "" : "d_none"}`,
-    //   label: (
-    //     <div onClick={handleActive}>{`${
-    //       activeStatus === true ? "inActive" : "Active"
-    //     }`}</div>
-    //   ),
-    //   key: "2",
-    // },
+    {
+      label: (
+        <div onClick={handleActive}>{`${
+          activeStatus === true ? "inActive" : "Active"
+        }`}</div>
+      ),
+      key: "2",
+    },
     {
       // className: `${parentUserids == userId ? "" : "d_none"}`,
       label: <div onClick={handleBlockBettting}>Block Betting</div>,
@@ -292,6 +287,19 @@ const UserListTable = ({
           className={userType == 3 ? "d_none" : ""}
           to={routeFromUSerType[userType] + parentUserId}>
           Downline
+        </Link>
+      ),
+      key: "10",
+    },
+    {
+      label: (
+        <Link
+          onClick={() => {
+            setOpenResetPass(!opneResetPass);
+            setDropdownStates([]);
+          }}
+          to="#">
+          Reset Password
         </Link>
       ),
       key: "10",
@@ -666,7 +674,7 @@ const UserListTable = ({
                       <td>{res?.userid}</td>
                       <td>
                         <span className="gx-text-blue gx-pointer gx-text-nowrap">
-                         <SlEye /> {res?.username}
+                          <SlEye /> {res?.username}
                         </span>
                       </td>
                       <td>{res?.parent}</td>
@@ -702,10 +710,6 @@ const UserListTable = ({
             </div>
           }
 
-          {/* {results?.data?.users === undefined || isError ? (
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          ) : (
-            <> */}
           <Divider />
           <div className="pagination_cus">
             {/* <Pagination
@@ -720,13 +724,14 @@ const UserListTable = ({
                   onChange={(e) => setIndexData(e - 1)}
                 /> */}
           </div>
-          {/* </>
-          )} */}
+
           <Modal
             className="partnership"
+            width={718}
             title={`Partnership Info - ${userIds}`}
             open={isModalOpen}
             onCancel={handleCancel}
+            footer={false}
             okButtonProps={{ style: { display: "none" } }}>
             <ModalsData
               loading={loading}
@@ -738,7 +743,11 @@ const UserListTable = ({
         <Modal
           className="modal_deposit"
           destroyOnClose
-          title={<h1>Deposit Chips</h1>}
+          title={
+            <h1>
+              <span>Deposit</span>
+            </h1>
+          }
           open={isDepositeModalOpen}
           onOk={handleDepositeOk}
           onCancel={handleDepositeCancel}
@@ -758,7 +767,7 @@ const UserListTable = ({
           destroyOnClose
           title={
             <h1>
-              <span>Withdraw Chips</span>
+              <span>Withdraw </span>
             </h1>
           }
           open={WithdrawnModal}
@@ -823,6 +832,11 @@ const UserListTable = ({
             handleClose={() => setCasinoLockModals(false)}
           />
         </Modal>
+
+        <ResetPassword
+          isDepositeModalOpen={opneResetPass}
+          setOpenResetPass={setOpenResetPass}
+        />
       </div>
     </>
   );

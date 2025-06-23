@@ -1,4 +1,4 @@
-import { Card, DatePicker, Empty, Pagination, Table } from "antd";
+import { Card, Col, DatePicker, Empty, Pagination, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./AccountOperations.scss";
 import moment from "moment";
@@ -78,7 +78,7 @@ const AccountOperations = () => {
 
   return (
     <>
-    {isModalOpen && (
+      {isModalOpen && (
         <div
           onClick={() => setIsModalOpen(false)}
           className="report_overlay"></div>
@@ -93,27 +93,29 @@ const AccountOperations = () => {
             className="sport_detail acc_name"
             title={`List Of All Transactions ( ${data?.data?.data?.length} )`}
             extra={<button onClick={handleBackClick}>Back</button>}>
-            <div className="acc_download">
-              <RangePicker
-                // style={{ margin: "10px 12px" }}
-                className="acc_datepicker"
-                defaultValue={[dayjs(timeBefore), dayjs(time)]}
-                onChange={onChange}
-              />
-              <div style={{ marginTop: "12px" }}>
-              <div style={{width:"200px"}}>
-                <DownloadReport
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                  userId={id}
-                  reportType="ActionLog"
-                  reportName="account-operations"
-                  headerField={headerField}
-                  startDate= {dateData[0]}
-                  endDate= {dateData[1]}
-                />
-              </div>
-              </div>
+            <div className="">
+              <Row>
+                <Col xs={24} md={24} lg={8} xl={8}>
+                  <RangePicker
+                    className="acc_datepicker"
+                    defaultValue={[dayjs(timeBefore), dayjs(time)]}
+                    onChange={onChange}
+                  />
+                </Col>
+                <Col xs={24} md={24} lg={12} xl={12}>
+                  <div style={{ marginTop: "12px" }}>
+                    <div className="gx-bg-flex gx-justify-content-center gx-flex-nowrap gx-px-1 ">
+                      <div className=" gx-px-2 gx-py-2 gx-bg-dark">All</div>
+                      <div className=" gx-px-2 gx-py-2 gx-bg-primary">
+                        P&amp;L
+                      </div>
+                      <div className=" gx-px-2 gx-py-2 gx-bg-primary">
+                        Account
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </div>
 
             <div className="table_section statement_tabs_data">

@@ -23,9 +23,7 @@ const LiveReport = () => {
   const [activeBookData, setActiveBookData] = useState(1);
   const [open, setOpen] = useState(false);
 
-
   const { id, id1 } = useParams();
-
 
   const { data, isLoading } = useEventDetailQuery(id, {
     pollingInterval: 1000,
@@ -42,7 +40,7 @@ const LiveReport = () => {
 
   const [getData, { data: results }] = useLazyTtlBookQuery();
   const [winnerPnl, { data: winnerData }] = useWinnerPnlMutation();
-  const [betDetails, { data: betDetailsData, isError}] =
+  const [betDetails, { data: betDetailsData, isError }] =
     useLazySessionFancyBetDetailQuery();
 
   useEffect(() => {
@@ -133,32 +131,53 @@ const LiveReport = () => {
                       <Row>
                         <Col span={19} className="back-lay-bg">
                           <div className="fancy_data1">
-                            <div className="sub_fancy">
-                              <p>{res?.Name}</p>
-                            </div>
-                            <div>
-                              <button
+                            <div
+                              style={{
+                                display: "flex",
+                              }}>
+                              <div
+                                style={{
+                                  padding: "6px 8px",
+                                  cursor: "pointer",
+                                  backgroundColor: "rgb(235, 109, 136)",
+                                  color: "white",
+                                   fontSize:"16px"
+                                }}
+                                onClick={(e) => handleTtlBook(e)}>
+                                Ttl Book
+                              </div>
+                              <div
+                                style={{
+                                  padding: "6px 8px",
+                                  cursor: "pointer",
+                                  backgroundColor: "rgb(255, 255, 255)",
+                                   fontSize:"16px"
+                                }}>
+                                {" "}
+                                My Book
+                              </div>
+                              {/* <button
                                 className={
                                   activeBookData == 1 ? "activeMyBook" : ""
                                 }
                                 onClick={() => handleMyBook()}>
                                 My Book
-                              </button>
-                              <button
+                              </button> */}
+                              {/* <button
                                 className={
                                   activeBookData == 2 ? "activeMyBook" : ""
                                 }
                                 onClick={() => handleTtlBook(marketId)}>
                                 Ttl Book
-                              </button>
-                              <button
-                              style={{padding:"0px 12px"}}
+                              </button> */}
+                              {/* <button
+                                style={{ padding: "0px 12px" }}
                                 className={
                                   activeBookData == 2 ? "activeMyBook" : ""
                                 }
                                 onClick={() => handleBets(marketId)}>
                                 Bet
-                              </button>
+                              </button> */}
                             </div>
                           </div>
                         </Col>
@@ -284,13 +303,22 @@ const LiveReport = () => {
               );
             })}
           </div>
-          <BookMakerData keyData={"Bookmaker"} handleBets={handleBets} data={data?.Bookmaker} />
+          <BookMakerData
+            keyData={"Bookmaker"}
+            handleBets={handleBets}
+            data={data?.Bookmaker}
+          />
           {data &&
             Object.keys(data).map(
               (key) =>
                 data[key].length !== 0 &&
                 key != "Odds" && (
-                  <FancyData key={key} handleBets={handleBets} data={data[key]} keyData={key} />
+                  <FancyData
+                    key={key}
+                    handleBets={handleBets}
+                    data={data[key]}
+                    keyData={key}
+                  />
                 )
             )}
           <CompeleteFancy />
@@ -305,7 +333,7 @@ const LiveReport = () => {
         onCancel={handleCancel}
         footer={null}
         className="bets_details">
-        <BetModals data={isError ? [] : betDetailsData?.data}/>
+        <BetModals data={isError ? [] : betDetailsData?.data} />
       </Modal>
     </>
   );

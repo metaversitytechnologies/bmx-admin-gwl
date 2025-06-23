@@ -1,5 +1,6 @@
 import "./SportsDetails.scss";
 import {
+  Button,
   Card,
   Col,
   DatePicker,
@@ -7,8 +8,6 @@ import {
   Empty,
   Pagination,
   Row,
-  Select,
-  Spin,
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { CaretDownOutlined } from "@ant-design/icons";
@@ -53,12 +52,15 @@ const SportsDetails = () => {
       label: (
         <Link
           onClick={() => setDropdownStates(false)}
-          to={`/Events/${matchId}/${activeTabData}/live-report`}
+          to={`/livereport/:id/:id1`}
           className="title_section"
           style={{
-            display: `${statusStr === "In Play" || statusStr === "Upcoming" ? "block" : "none"}`,
-          }}
-        >
+            display: `${
+              statusStr === "In Play" || statusStr === "Upcoming"
+                ? "block"
+                : "none"
+            }`,
+          }}>
           Match and Session Position
         </Link>
       ),
@@ -77,8 +79,7 @@ const SportsDetails = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/match-slips/${matchId}`}
-        >
+          to={`/match-slips/${matchId}`}>
           Display Match Bets
         </Link>
       ),
@@ -89,8 +90,7 @@ const SportsDetails = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/fancy-slips/${matchId}`}
-        >
+          to={`/fancy-slips/${matchId}`}>
           Display Session Bets
         </Link>
       ),
@@ -101,8 +101,7 @@ const SportsDetails = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/completed-fancy-slips/${matchId}`}
-        >
+          to={`/completed-fancy-slips/${matchId}`}>
           Completed Fancies
         </Link>
       ),
@@ -113,8 +112,7 @@ const SportsDetails = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/rejectedBetsByEvent/${matchId}`}
-        >
+          to={`/rejectedBetsByEvent/${matchId}`}>
           Rejected Bet
         </Link>
       ),
@@ -169,7 +167,9 @@ const SportsDetails = () => {
   };
 
   useEffect(() => {
-    const initialStates = new Array(sportDetail?.data?.data?.length).fill(false);
+    const initialStates = new Array(sportDetail?.data?.data?.length).fill(
+      false
+    );
     setDropdownStates(initialStates);
   }, [activeTabData]);
 
@@ -211,9 +211,8 @@ const SportsDetails = () => {
       <Card
         className="sport_detail"
         title="Sports Detail"
-        extra={<button onClick={handleBackbtn}>Back</button>}
-      >
-        <Row className="date_picker">
+        extra={<button onClick={handleBackbtn}>Back</button>}>
+        {/* <Row className="date_picker">
           <Col xl={24} lg={24} md={24} xs={24} style={{ padding: "10px 0px" }}>
             <div className="active_sport_list">
               <div className="sub_list_sport_list">
@@ -231,9 +230,15 @@ const SportsDetails = () => {
               </div>
             </div>
           </Col>
-        </Row>
-        <Row className="date_picker">
-          <Col xl={6} lg={6} md={24} xs={24} className="datepicker_sport" style={{ padding: "0px 10px" }}>
+        </Row> */}
+        <Row className="date_picker" justify="center">
+          <Col
+            xl={6}
+            lg={6}
+            md={24}
+            xs={24}
+            className="datepicker_sport"
+            style={{ padding: "6px 10px 0px" }}>
             <RangePicker
               style={{ marginBottom: "10px" }}
               defaultValue={[dayjs(timeBefore), dayjs(time)]}
@@ -252,15 +257,14 @@ const SportsDetails = () => {
                 <th>Setting</th>
                 <th>Time</th>
                 <th>Declare</th>
-                <th>Won by</th>
-                <th className="text-right">Plus Minus</th>
-                <th className="text-right">Upline Amount</th>
+                <th>Status</th>
+                <th>Declare</th>
               </tr>
             </thead>
             <tbody>
               {sportDetail.data.data.map((res, id) => (
                 <tr key={res.key}>
-                  <td style={{ cursor: "pointer" }}>
+                  <td style={{ cursor: "pointer", width: "3%" }}>
                     <Dropdown
                       className="table_dropdown sport_droupdown"
                       open={dropdownStates[id]}
@@ -269,14 +273,17 @@ const SportsDetails = () => {
                         items,
                         className: "sport_list",
                       }}
-                      trigger={["click", "contextMenu"]}
-                    >
+                      trigger={["click", "contextMenu"]}>
                       <p
                         onClick={(e) => {
                           e.preventDefault();
-                          getMatchId(res.eventId, res.inPlay, res.eventName, res.statusStr);
-                        }}
-                      >
+                          getMatchId(
+                            res.eventId,
+                            res.inPlay,
+                            res.eventName,
+                            res.statusStr
+                          );
+                        }}>
                         <Space>
                           <CaretDownOutlined />
                         </Space>
@@ -288,29 +295,11 @@ const SportsDetails = () => {
                   <td>{res.statusStr}</td>
                   <td>{moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}</td>
                   <td>{res.isLedgerCreated ? "YES" : "NO"}</td>
-                  <td>{res.winner ?? ""}</td>
-                  <td
-                    className={`text-right ${
-                      res.plusMinus < 0
-                        ? "text_danger"
-                        : res.plusMinus > 0
-                        ? "text_success"
-                        : ""
-                    }`}
-                  >
-                    {res.plusMinus ?? 0}
+                  <td>
+                    <Button type="primary" className="in_play_btn">Inplay</Button>
                   </td>
-                  <td
-                    className={`text-right ${
-                      res.upLineAmount < 0
-                        ? "text_danger"
-                        : res.upLineAmount > 0
-                        ? "text_success"
-                        : ""
-                    }`}
-                  >
-                    {res.upLineAmount ?? 0}
-                  </td>
+
+                  <td>No</td>
                 </tr>
               ))}
               {sportDetail.data.data.length === 0 && (

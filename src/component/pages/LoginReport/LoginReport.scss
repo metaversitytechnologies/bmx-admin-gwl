@@ -1,14 +1,23 @@
 .login_report {
+  margin: 25px 15px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  @media (max-width: 800px) {
+    margin: 0px;
+  }
   .team_name {
     display: inline-block;
     flex: 1 1;
     overflow: hidden;
+
     // white-space: nowrap;
   }
   .ant-card-head-title {
-    font-size: 20px !important;
+    font-size: 28px !important;
     font-weight: 500 !important;
     padding: 9px 0px !important;
+    @media (max-width: 800px) {
+      font-size: 20px !important;
+    }
   }
   .ant-card {
     border-radius: 3px;
@@ -49,6 +58,14 @@
     width: 27%;
     @media screen and (max-width: 800px) {
       width: 100%;
+    }
+  }
+}
+
+.login_data_table {
+  tr {
+    th {
+      font-size: 14px !important;
     }
   }
 }

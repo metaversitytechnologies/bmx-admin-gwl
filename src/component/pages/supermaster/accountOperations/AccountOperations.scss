@@ -1,29 +1,77 @@
-.acc_datepicker{
-    color: #545454;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    height: 38px;
-    width: 400px;
-    margin: 12px;
-    
+.acc_datepicker {
+  color: #545454;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  height: 38px;
+  width: 300px;
+  margin: 18px 14px 5px;
 }
 
-.acc_name{
-    .ant-card-head-title {
-        font-size: 20px !important;
-    }   
+.acc_name {
+  .ant-card-head-title {
+    font-size: 20px !important;
+  }
 }
 
 span.ant-spin-dot.ant-spin-dot-spin {
-    font-size: 28px !important;
+  font-size: 28px !important;
 }
 
-.acc_download{
-    display: flex;
-    align-items: center;
-    @media screen and (max-width: 800px) {
-        display: block;
+.acc_download {
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 800px) {
+    display: block;
+  }
+}
+.account_match_slip {
+  margin: 30px 68px;
+  @media (max-width: 800px) {
+    margin: 18px 6px;
+  }
+  .ant-card-head {
+    border-radius: unset !important;
+    padding: 15px 24px;
+  }
+  .ant-card-head-title {
+    font-size: 20px !important;
+  }
+}
+
+.gx-bg-flex {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  flex-wrap: nowrap !important;
+  padding-left: 0.25rem;
+  color: #fff;
+  @media (max-width: 800px) {
+    justify-content: flex-start;
+    margin-bottom: 12px;
+  }
+  .gx-bg-dark {
+    background-color: #000;
+    padding: 0.5rem;
+  }
+  .gx-bg-primary,
+  a.gx-bg-primary:focus,
+  a.gx-bg-primary:hover {
+    background-color: #038fde;
+    padding: 0.5rem;
+  }
+  .gx-py-2 {
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 700;
+  }
+}
+
+.statement_tabs_data {
+  .table_section {
+    .ant-table-cell {
+      text-transform: capitalize !important;
     }
+  }
 }

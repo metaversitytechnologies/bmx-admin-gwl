@@ -24,10 +24,11 @@ import moment from "moment";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 import BetlockModal from "./BetlockModal";
-import {  useSuperuserListMutation, useUpDateStatusMutation } from "../../store/service/supermasteAccountStatementServices";
 import {
-  usePartnershipMutation,
-} from "../../store/service/userlistService";
+  useSuperuserListMutation,
+  useUpDateStatusMutation,
+} from "../../store/service/supermasteAccountStatementServices";
+import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification } from "../../App";
 
 const routeFromUSerType = {
@@ -58,7 +59,6 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownStates, setDropdownStates] = useState([]);
 
-  
   const [form] = Form.useForm();
 
   const [partnerShipData, { data: partnerShipDetail, isLoading: loading }] =
@@ -84,15 +84,15 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
-     setDropdownStates([]);
+    setDropdownStates([]);
   };
   const handleDepositeOk = () => {
     SetisDepositeModalOpen(false);
-     setDropdownStates([]);
+    setDropdownStates([]);
   };
   const handleDepositeCancel = () => {
     SetisDepositeModalOpen(false);
-     setDropdownStates([]);
+    setDropdownStates([]);
   };
   const showDepositModal = () => {
     SetisDepositeModalOpen(true);
@@ -108,7 +108,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
       parentUserId: id || null,
       noOfRecords: paginationTotal,
       index: indexData,
-      userId: values?.username
+      userId: values?.username,
     });
     if (results?.status === true) {
       form.resetFields();
@@ -122,7 +122,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
   const [activeData, { data: Activestatus }] = useUpDateStatusMutation();
 
   const handleActive = () => {
-     setDropdownStates([]);
+    setDropdownStates([]);
     activeData({
       userId: dataVal,
     });
@@ -140,16 +140,20 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
 
   const [userIdData, setUserIdData] = useState("");
 
-  const handleParentId = (val, bal, user, parentUserID, betStatus, accStatus) => {
+  const handleParentId = (
+    val,
+    bal,
+    user,
+    parentUserID,
+    betStatus,
+    accStatus
+  ) => {
     setParentUserId(val);
     setBalance(bal);
     setUserIdData(user);
     setParentUserIds(parentUserID);
-    setBetStatus(betStatus),
-    setAccStatus(accStatus)
+    setBetStatus(betStatus), setAccStatus(accStatus);
   };
-
-
 
   const handleEditData = (val, active, userName, balanc) => {
     setDataVal(val);
@@ -161,14 +165,14 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
   const userId = localStorage.getItem("userId");
 
   const handleBlockBettting = () => {
-     setDropdownStates([]);
+    setDropdownStates([]);
     setBetLockModals(true);
   };
 
   const nav = useNavigate();
 
   const handleUpdateLimites = (data) => {
-    setDropdownStates([])
+    setDropdownStates([]);
     const infoData = {
       name: userName,
       uBalance: userBalance,
@@ -205,7 +209,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
       className: `${parentUserids == userId ? "" : "d_none"}`,
       label: (
         <Link
-        onClick={()=> setDropdownStates([])}
+          onClick={() => setDropdownStates([])}
           to={`${
             Listname === "Super Agent"
               ? `/client/update-super/${dataVal}`
@@ -228,19 +232,33 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
       key: "6",
     },
     {
-      label: <Link onClick={()=> setDropdownStates([])} to={`/account-statement/${dataVal}`}>Statement</Link>,
+      label: (
+        <Link
+          onClick={() => setDropdownStates([])}
+          to={`/account-statement/${dataVal}`}>
+          Statement
+        </Link>
+      ),
       key: "7",
     },
     {
       label: (
-        <Link onClick={()=> setDropdownStates([])} to={`/client/account-operations/${dataVal}`}>
+        <Link
+          onClick={() => setDropdownStates([])}
+          to={`/client/account-operations/${dataVal}`}>
           Account Operations
         </Link>
       ),
       key: "8",
     },
     {
-      label: <Link onClick={()=> setDropdownStates([])} to={`/client/login-report/${dataVal}`}>Login Report</Link>,
+      label: (
+        <Link
+          onClick={() => setDropdownStates([])}
+          to={`/client/login-report/${dataVal}`}>
+          Login Report
+        </Link>
+      ),
       key: "9",
     },
     // {
@@ -261,8 +279,6 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
     }
   }, [Activestatus?.status]);
 
-  
-
   const uType = localStorage.getItem("userType");
 
   useEffect(() => {
@@ -272,7 +288,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
 
   const handleScroll = () => {
     const updatedDropdownStates = dropdownStates.map(() => false);
-    setDropdownStates(updatedDropdownStates)
+    setDropdownStates(updatedDropdownStates);
     setIsDropdownOpen(false);
   };
 
@@ -285,38 +301,39 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
 
   useEffect(() => {
     const element = myElementRef.current;
-    if(!isDropdownOpen){
+    if (!isDropdownOpen) {
       window.addEventListener("scroll", handleScroll);
-    element.addEventListener("scroll", handleScroll);
-
+      element.addEventListener("scroll", handleScroll);
     }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       element.removeEventListener("scroll", handleScroll);
-
     };
   }, [isDropdownOpen]);
-
-
 
   return (
     <div>
       {droupSearch && (
         <div className="over_view" onClick={() => setDroupSearch(false)}></div>
       )}
-      <div ref={myElementRef}  className="sport_detail m-0 ant-spin-nested-loading" >
+      <div
+        ref={myElementRef}
+        className="sport_detail m-0 ant-spin-nested-loading">
         {
-          <div className="table_section statement_tabs_data ant-spin-nested-loading" style={{overflow:`${(isLoading || isFetching) ?"hidden":"scroll"}`}}>
-             {isLoading || isFetching ? (
-                <div className="spin_icon user_spin">
-                  <Spin size="large" />
-                </div>
-              ) : (
-                ""
-              )}
-            <table className={`live_table ${id && "mt-0" }`}>
-           
+          <div
+            className="table_section statement_tabs_data ant-spin-nested-loading"
+            style={{
+              overflow: `${isLoading || isFetching ? "hidden" : "scroll"}`,
+            }}>
+            {isLoading || isFetching ? (
+              <div className="spin_icon user_spin">
+                <Spin size="large" />
+              </div>
+            ) : (
+              ""
+            )}
+            <table className={`live_table ${id && "mt-0"}`}>
               <tr>
                 <th rowSpan={2}>#</th>
                 <th rowSpan={2}></th>
@@ -389,8 +406,12 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
                 <th colSpan={3} className="text-center">
                   Super Agent Comm %
                 </th>
-                <th rowSpan={2} className="text-right">C.Chips</th>
-                <th rowSpan={2} className="text-right">Credit Reference</th>
+                <th rowSpan={2} className="text-right">
+                  C.Chips
+                </th>
+                <th rowSpan={2} className="text-right">
+                  Credit Reference
+                </th>
                 <th rowSpan={2}>Status</th>
               </tr>
               <tr>
@@ -398,7 +419,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
                 <th>Match</th>
                 <th>SSN</th>
               </tr>
-         
+
               {!isError &&
                 results?.data?.users?.map((res, id) => {
                   return (
@@ -420,14 +441,13 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
                             res?.betlock,
                             res?.accountlock
                           )
-                        }> 
+                        }>
                         <Dropdown
                           className="droup_menu"
                           open={dropdownStates[id]}
                           onOpenChange={() => toggleDropdown(id)}
                           menu={{ items, className: "menu_data" }}
-                          trigger={["click", "contextMenu"]}
-                          >
+                          trigger={["click", "contextMenu"]}>
                           <div
                             className="droup_link"
                             style={{ cursor: "pointer" }}
@@ -464,8 +484,12 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
                       </td>
                       <td>{Number(res?.matchCommission)?.toFixed(2)}</td>
                       <td>{Number(res?.sessionCommission)?.toFixed(2)}</td>
-                      <td className="text-right">{ Number(res?.balancePlusPnl)?.toFixed(2)}</td>
-                      <td className="text-right">{Number(res?.creditref)?.toFixed(2)}</td>
+                      <td className="text-right">
+                        {Number(res?.balancePlusPnl)?.toFixed(2)}
+                      </td>
+                      <td className="text-right">
+                        {Number(res?.creditref)?.toFixed(2)}
+                      </td>
                       <td>{res?.active === true ? "Active" : "InActive"}</td>
                     </tr>
                   );
@@ -496,6 +520,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
         )}
         <Modal
           className="partnership"
+          width={750}
           title={`Partnership Info - ${userIds}`}
           open={isModalOpen}
           onCancel={handleCancel}
@@ -510,7 +535,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
       <Modal
         className="modal_deposit"
         destroyOnClose
-        title={<h1>Deposit Chips</h1>}
+        title={<h1><span>Deposit</span></h1>}
         open={isDepositeModalOpen}
         onOk={handleDepositeOk}
         onCancel={handleDepositeCancel}
@@ -564,7 +589,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
           setBetStatus={setBetStatus}
           betStatus={betStatus}
           setAccStatus={setAccStatus}
-          accStatus= {accStatus}
+          accStatus={accStatus}
           handleClose={() => setBetLockModals(false)}
         />
       </Modal>

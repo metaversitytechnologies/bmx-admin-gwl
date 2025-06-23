@@ -33,8 +33,6 @@ const ListSuper = ({ userTyep, Listname }) => {
     }
   };
 
-  
-
   return (
     <>
       <div className="main_live_section list_supers">
@@ -65,10 +63,7 @@ const ListSuper = ({ userTyep, Listname }) => {
               </div>
               <div onClick={handleCreate}>
                 <p>
-                  <Link to="">
-                   
-                    Update Limit
-                  </Link>
+                  <Link to="">Update Limit</Link>
                 </p>
               </div>
             </div>
@@ -84,44 +79,6 @@ const ListSuper = ({ userTyep, Listname }) => {
           </div>
         </div>
       </div>
-
-      {/* {id && Listname !== "Client" && (
-        <div className="main_live_section list_supers">
-          <div className="_match">
-            <div className="sub_live_section live_report">
-              <div
-                style={{ padding: "5px 8px", fontSize: "22px" }}
-                className="team_name">
-                Client Details
-              </div>
-            </div>
-          </div>
-          <div>
-            {!id && (
-              <div className="create_btn">
-                <div onClick={handleCreate}>
-                  <p>
-                    <Link to="">
-                      <AiOutlinePlus />
-                      {""}
-                      Create
-                    </Link>
-                  </p>
-                </div>
-                <div></div>
-              </div>
-            )}
-            <div className={"table_section sport_detail m-0"}>
-              <ClientUserListTable
-                Listname={Listname}
-                userType={3}
-                parentUserids={parentUserids}
-                UserId={UserId}
-              />
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };

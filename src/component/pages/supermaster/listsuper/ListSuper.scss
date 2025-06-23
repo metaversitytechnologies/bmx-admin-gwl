@@ -99,7 +99,7 @@
     height: 52px;
     width: 100%;
     position: absolute;
-    background: #74766f;
+    background: #7d5c0e;
     color: #fff;
     top: 0;
     left: 0;
@@ -261,11 +261,13 @@ ul.menu_data {
 
 .partnership {
   .ant-modal-header {
-    margin-top: -14px;
+    // margin-top: -14px;
   }
   .ant-modal-title {
-    font-size: 22px;
     font-weight: 400;
+    font-size: 16px !important;
+    text-transform: uppercase;
+
   }
 }
 

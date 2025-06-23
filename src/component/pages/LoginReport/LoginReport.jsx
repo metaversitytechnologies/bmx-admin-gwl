@@ -1,23 +1,11 @@
-import {
-  Card,
-  Col,
-  Divider,
-  Empty,
-  Form,
-  Pagination,
-  Row,
-  Select,
-  Spin,
-  Tooltip,
-} from "antd";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Card, Divider, Empty, Pagination, Spin, Tooltip } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLazyUserListQuery } from "../../../store/service/supermasteAccountStatementServices";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 import { AiFillEye } from "react-icons/ai";
-import DownloadReport from "../../common/DownloadReport/DownloadReport";
 
 const LoginReport = () => {
   const userId = localStorage.getItem("userId");
@@ -89,63 +77,8 @@ const LoginReport = () => {
           className="sport_detail  team_name"
           title="Login Report"
           extra={<button onClick={handleBackClick}>Back</button>}>
-          {/* <div className="login_report_data"> */}
-          <Row style={{ marginTop: "12px" }}>
-            <Col xl={8} lg={8} md={24} xs={24}>
-              <Form.Item
-                // label="Client"
-                name="client"
-                required
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select Client",
-                  },
-                ]}>
-                <Select
-                  placeholder={id ? id : clientId}
-                  options={
-                    resultData.data?.data.map((i) => ({
-                      label: `${i?.userId}  (${i?.userName})`,
-                      value: i?.userId,
-                    })) || []
-                  }
-                  showSearch
-                  allowClear
-                  // value={clientId}
-                  onSelect={handleSelect}
-                  onSearch={handleChange}></Select>
-              </Form.Item>
-            </Col>
-            <Col xl={3} lg={3} md={24} xs={24}>
-              <div style={{ marginBottom: "12px" }}>
-                <DownloadReport
-                  isModalOpen={isModalOpen}
-                  setIsModalOpen={setIsModalOpen}
-                  parentId={id || clientId}
-                  reportName="LoginReport"
-                  headerField={headerField}
-                  reportType="LoginReport"
-                />
-              </div>
-            </Col>
-          </Row>
-          {/* </div> */}
-
-          {/* <div className="table_section statement_tabs_data">
-              <div className="table_section">
-                <Table
-                  className="live_table agent_master" 
-                  bordered
-                  columns={columns}
-                  dataSource={data?.data || []}
-                  pagination={{defaultPageSize: 50, pageSizeOptions:[50, 100, 150, 200, 250] }}
-                  loading={isLoading||isFetching}></Table>
-              </div>
-          </div> */}
-
           <div className="table_section statement_tabs_data ant-spin-nested-loading">
-            <table className="live_table">
+            <table className="live_table login_data_table">
               <tr>
                 <th>User Name</th>
                 <th>

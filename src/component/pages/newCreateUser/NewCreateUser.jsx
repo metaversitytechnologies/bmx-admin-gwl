@@ -214,7 +214,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
   const userTypeCheck = localStorage.getItem("userType");
 
   return (
-    <>
+    <div className="create_user_section">
       {/* {contextHolder}
       {userTypeCheck != userTyep && ( */}
       <SelectUpline
@@ -233,9 +233,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
               Create {createName}
             </div>
             <div className="show_btn">
-              {userTypeCheck == userTyep && (
-                <button onClick={() => nav(-1)}>Back</button>
-              )}
+              <button onClick={() => nav(-1)}>Back</button>
             </div>
           </div>
         </div>
@@ -248,7 +246,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
             ""
           )}
           <Form
-            className="form_data"
+            className="form_data create_user_form"
             form={form}
             name="basic"
             labelCol={{ span: 8 }}
@@ -296,52 +294,12 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
             ]}>
             <div>
               <Row className="super_agent">
-                <Col xl={12} lg={12} md={24} xs={24}>
+                {/* <Col xl={12} lg={12} md={24} xs={24}>
                   <Form.Item
                     label="User ID"
                     name="code"
                     disabled
-                    // required
-                    // rules={[
-                    //   {
-                    //     required: true,
-                    //     message: "Please Enter UserID",
-                    //   },
-                    //   {
-                    //     validator: async (rules, value) => {
-                    //       try {
-                    //         const results = await axios.post(
-                    //           "user/is-userid-available",
-                    //           {
-                    //             userId: hostname.includes("create-super")
-                    //               ? "S" + value
-                    //               : hostname.includes("create-agent")
-                    //               ? "M" + value
-                    //               : hostname.includes("create-dealer")
-                    //               ? "A" + value
-                    //               : "C" + value,
-                    //           },
-                    //           {
-                    //             headers: {
-                    //               Authorization: `Bearer ${localStorage.getItem(
-                    //                 "token"
-                    //               )}`,
-                    //             },
-                    //             baseURL: import.meta.env.VITE_BASE_URL,
-                    //           }
-                    //         );
-
-                    //         if (results?.data.status === false) {
-                    //           return Promise.reject(
-                    //             new Error(results?.data.message)
-                    //           );
-                    //         }
-                    //       } catch (err) {
-                    //         console.log(err);
-                    //       }
-                    //     },
-                    //   },
-                    // ]}
+                    
                   >
                     <p className="user_id">
                       <Input
@@ -349,16 +307,8 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                         type="text"
                         value={"d0001"}
                         defaultValue={"d001"}
-                        // placeholder="Enter user id"
                         onChange={(e) => handelUseId(e)}
-                        // onKeyDown={(e) => {
-                        //   if (
-                        //     !e.key.match(/^[a-zA-Z0-9]$/) &&
-                        //     e.key.length === 1
-                        //   ) {
-                        //     e.preventDefault();
-                        //   }
-                        // }}
+                        
                       />
                       <BiRefresh
                         onClick={handelReloadUserId}
@@ -368,7 +318,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                       />
                     </p>
                   </Form.Item>
-                </Col>
+                </Col> */}
                 <Col xl={12} lg={12} md={24} xs={24}>
                   <Form.Item
                     label="Name"
@@ -544,7 +494,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
         </div>
       </div>
       {/* )} */}
-    </>
+    </div>
   );
 };
 

@@ -110,11 +110,11 @@ const UpdateSuper = ({ updateName }) => {
   return (
     <>
       {contextHolder}
-      <div className="main_live_section">
+      <div className="main_live_section update_user">
         <div className="_match">
           <div className="sub_live_section live_report">
             <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
+              style={{ padding: "5px 8px", fontSize: "25px" }}
               className="team_name">
               Update {updateName}
             </div>

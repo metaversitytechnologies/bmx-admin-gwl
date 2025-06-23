@@ -1,7 +1,6 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, } from "react-router-dom";
 import "./SuperAgentLimitDetails.scss";
-import React from "react";
-import { Tabs } from "antd";
+
 import AddSuperLimites from "./AddSuperLimites";
 import MinusLimit from "./MinusLimit";
 
@@ -41,13 +40,13 @@ const SuperAgentLimitDetails = () => {
 
   return (
     <>
-      <div className="main_live_section">
+      <div className="main_live_section update_limit">
         <div className="_match">
           <div
             className="sub_live_section live_report"
             style={{ borderRadius: "2px 2px 0 0" }}>
             <div
-              style={{ padding: "9px 8px", fontSize: "22px" }}
+              style={{ padding: "9px 8px", fontSize: "25px" }}
               className="team_name">
               {state == 1 ? "Super Limit Details":state == 2?"Agent Limit Details": state == 3?"Client Limit Details":"Master Limit Details"}
             </div>
@@ -58,13 +57,7 @@ const SuperAgentLimitDetails = () => {
         </div>
 
         <div>
-          <Tabs
-            defaultActiveKey="1"
-            className="add_minus"
-            destroyInactiveTabPane
-            items={items}
-            onChange={onChange}
-          />
+          <AddSuperLimites />
         </div>
       </div>
     </>

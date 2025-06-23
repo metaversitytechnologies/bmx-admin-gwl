@@ -4,9 +4,8 @@
     margin-top: 18px;
   }
   .partnership_name {
-    margin-bottom: -11px;
     p {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 400 !important;
     }
   }
@@ -24,9 +23,11 @@
         padding: 0px 8px;
       }
       th {
-        background: #74766f;
+        background: #7d5c0e;
         color: #fff;
-        padding: 0 3px;
+        padding: 6px;
+        text-transform: capitalize;
+        font-weight: 500;
       }
       tr {
         // &:hover {
@@ -59,8 +60,7 @@
           text-align: left;
         }
         td {
-          font-size: 16px;
-          font-weight: 900;
+          font-size: 14px;
         }
       }
       tr:nth-child(odd) {

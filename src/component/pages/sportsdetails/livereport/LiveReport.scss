@@ -267,8 +267,8 @@
 
 @media screen and (max-width: 800px) {
   .main_live_section {
-    margin: 20px;
-    width: 96%;
+    margin: 20px !important;
+    // width: 96%;
     margin-inline: 2%;
     .match_section {
       button {
@@ -573,4 +573,11 @@
 
 .fancy_bet {
   right: 55px !important;
+}
+
+
+.fancy_data_main{
+    .bookData{
+      padding: 10px 0px;
+    }
 }

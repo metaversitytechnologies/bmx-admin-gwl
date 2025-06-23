@@ -12,15 +12,13 @@ const SelectUpline = ({data, handleChange, handleSelect}) => {
     <>
       <div className="main_live_section">
         <div className="_match">
-          <div className="sub_live_section live_report">
+          <div className="sub_live_section live_report select_upline">
             <div
               style={{ padding: "5px 8px", fontSize: "22px" }}
               className="team_name">
               Select Upline
             </div>
-            <div className="show_btn">
-              <button onClick={() => nav(-1)}>Back</button>
-            </div>
+            
           </div>
         </div>
         <div className="ant-spin-nested-loading">
