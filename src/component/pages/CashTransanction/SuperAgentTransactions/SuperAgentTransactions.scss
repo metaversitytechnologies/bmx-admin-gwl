@@ -1,10 +1,11 @@
 .transations_date {
-  width: 90%;
-  min-width: 90%;
-  max-width: 90%;
+  width: 90% !important;
+  min-width: 90% !important;
+  max-width: 90% !important;
   height: 36px;
   margin-inline: unset !important;
   border-radius: 2px;
+
   input {
     color: #545454;
     background-color: #fff;
@@ -28,10 +29,10 @@
   }
   .cash_data {
     .ant-select {
-        width: 100% !important;
+      width: 100% !important;
     }
-    input{
-        width: 100% !important;
+    input {
+      width: 100% !important;
     }
   }
 }

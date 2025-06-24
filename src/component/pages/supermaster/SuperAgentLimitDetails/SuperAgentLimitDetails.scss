@@ -2,8 +2,8 @@
   .ant-table-thead {
     background-color: #73766f !important;
     th.ant-table-cell {
-      background: #74766f !important;
-      padding: 0 10px 0 2px !important;
+      background: #7d5c0e !important;
+      padding: 5px 10px  !important;
       color: #fff !important;
       &:first-child {
         border-radius: unset !important;
@@ -65,7 +65,7 @@
             border-color: #038fde;
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
             color: #ffffff !important;
-            background-color: #74766f !important;
+            background-color: #7d5c0e !important;
             border-color: #ff4d4f;
             border-radius: 2px;
             outline: unset;
@@ -161,5 +161,4 @@
 
 .update_limit {
   margin: -3px 31px;
- 
 }

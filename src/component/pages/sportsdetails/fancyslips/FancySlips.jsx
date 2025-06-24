@@ -55,7 +55,9 @@ const FancySlips = ({ type, name }) => {
     setIsLoading(true);
     setFormData(values);
     // Filter data based on selected user
-    const filtered = staticResultData.filter((item) => item.userid === values.username);
+    const filtered = staticResultData.filter(
+      (item) => item.userid === values.username
+    );
     setTimeout(() => {
       setFilteredData(filtered);
       setIsLoading(false);
@@ -63,18 +65,24 @@ const FancySlips = ({ type, name }) => {
   };
 
   return (
-    <div className="match_slip">
+    <div className="match_slip match_bets_report">
       <Card
         style={{ margin: "0px", width: "100%" }}
         className="sport_detail session_bet"
         title={name}
         extra={<button onClick={handleBackClick}>Back</button>}>
-        <Form name="basic" onFinish={onFinish} autoComplete="off" className="form_data">
-          <Row className="rejected_row fancy_data_sess mr">
-            <Col xs={24} md={24} lg={6} xl={6}>
+        <Form
+          name="basic"
+          onFinish={onFinish}
+          autoComplete="off"
+          layout="vertical"
+          className="form_data">
+          <Row className=" fancy_data_sess mr">
+            <Col xs={24} md={24} lg={8} xl={8}>
               <Form.Item
                 name="username"
-                required
+                label="Select"
+                required={false}
                 rules={[{ required: true, message: "Please Select User" }]}>
                 <Select
                   placeholder="Select User"
@@ -85,11 +93,19 @@ const FancySlips = ({ type, name }) => {
                 />
               </Form.Item>
             </Col>
-            <Col xs={24} md={24} lg={5} xl={5}>
-              <Form.Item>
-                <Button type="primary" className="fancy_btn" loading={isLoading} htmlType="submit">
-                  Submit
-                </Button>
+            <Col xs={24} md={24} lg={8} xl={8}>
+              <Form.Item
+                name="username"
+                label="Select OddsType"
+                required={false}
+                rules={[{ required: true, message: "Please Select User" }]}>
+                <Select
+                  placeholder="Select User"
+                  options={staticUserOptions}
+                  showSearch
+                  allowClear
+                  onSelect={(value) => setClientId(value)}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -113,13 +129,20 @@ const FancySlips = ({ type, name }) => {
                   <th>Agent</th>
                   <th>Date</th>
                   <th>Profit/Loss</th>
-                  <th style={{ display: `${type === 2 ? "none" : "table-cell"}` }}>Volume</th>
+                  <th
+                    style={{
+                      display: `${type === 2 ? "none" : "table-cell"}`,
+                    }}>
+                    Volume
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {staticResultData.length > 0 ? (
                   staticResultData.map((res, id) => (
-                    <tr key={id} className={res?.isback === false ? "lay" : "back"}>
+                    <tr
+                      key={id}
+                      className={res?.isback === false ? "lay" : "back"}>
                       <td className="text-right">{res?.odds}</td>
                       <td className="text-right">{res?.stake}</td>
                       <td>{res?.marketname}</td>
@@ -136,7 +159,10 @@ const FancySlips = ({ type, name }) => {
                         }>
                         {res?.netpnl}
                       </td>
-                      <td style={{ display: `${type === 2 ? "none" : "table-cell"}` }}>
+                      <td
+                        style={{
+                          display: `${type === 2 ? "none" : "table-cell"}`,
+                        }}>
                         {res?.pricevalue}
                       </td>
                     </tr>

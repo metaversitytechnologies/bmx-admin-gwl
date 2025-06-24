@@ -221,3 +221,181 @@ div#rc-tabs-0-tab-2 {
 .gx-pointer {
   cursor: pointer;
 }
+
+.company_report {
+  margin: 30px;
+  @media (max-width: 800px) {
+    margin: 20px 15px;
+  }
+  .ant-card-head .ant-card-head-title {
+    font-size: 24px !important;
+    font-weight: 600;
+    @media (max-width: 800px) {
+      font-size: 20px !important;
+    }
+  }
+}
+
+.match_bets_session {
+  margin: 30px 40px;
+  @media (max-width: 800px) {
+    margin: 20px 15px;
+  }
+  .ant-card-head .ant-card-head-title {
+    font-size: 20px !important;
+    font-weight: 600;
+    @media (max-width: 800px) {
+      font-size: 18px !important;
+    }
+  }
+  .fancy_data_sess {
+    padding-bottom: 12px;
+    .ant-form-item-control-input {
+      padding: 12px;
+    }
+  }
+  .ant-form-item {
+    margin: 0;
+  }
+}
+
+.fancy_pl {
+  padding: 12px;
+  .ant-select {
+    width: 100% !important;
+  }
+  .total_pl_fancy {
+    font-size: 20px;
+    font-weight: 600;
+    color: #545454;
+    span {
+      color: red;
+    }
+  }
+}
+
+.client_report {
+  margin: 30px;
+  @media (max-width: 800px) {
+    margin: 15px 10px;
+  }
+  h1,
+  p {
+    margin: 0;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 21px;
+  }
+  p {
+    font-size: 16px;
+    font-weight: 500;
+  }
+}
+
+.rehected_bet {
+  margin: 30px 80px !important;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  @media (max-width: 800px) {
+    margin: 15px 10px;
+  }
+  .ant-card-head-title {
+    font-size: 28px !important;
+    @media (max-width: 800) {
+      font-size: 20px !important;
+    }
+  }
+  .fancy_data_sess {
+    padding: 12px 18px;
+  }
+  .ant-select-selector {
+    height: 36px !important;
+    padding: 4px 11px !important;
+  }
+}
+
+.finished_game {
+  .ant-select {
+    width: 100%;
+  }
+  .ant-select-selector {
+    width: 100%;
+    height: 36px !important;
+    padding: 4px 11px !important;
+  }
+}
+
+.profit_loss_table {
+  margin: 30px 70px !important;
+  @media (max-width: 800px) {
+    margin: 15px 10px;
+  }
+  .ant-card-head-title {
+    font-size: 28px !important;
+    @media (max-width: 800px) {
+      font-size: 20px !important;
+    }
+  }
+}
+
+th.ant-table-cell {
+  background: #7d5c0e !important;
+}
+
+.transations_date {
+  width: 90% !important;
+  min-width: 90% !important;
+  max-width: 90% !important;
+  height: 36px;
+  margin-inline: unset !important;
+  border-radius: 2px;
+
+  input {
+    color: #545454;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+  }
+  svg {
+    color: #bfbfbf !important;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .transations_date {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    height: 36px;
+    margin-inline: unset !important;
+    border-radius: 2px;
+  }
+  .cash_data {
+    .ant-select {
+      width: 100% !important;
+    }
+    input {
+      width: 100% !important;
+    }
+  }
+}
+
+.cash_data {
+  .my_ledger {
+    padding: 10px;
+  }
+}
+
+.casino_diamond {
+  margin: 30px 15px;
+}
+
+.ant-menu-title-content {
+   font-weight: 600;
+  // a,
+  // div {
+  //   font-weight: 600;
+  // }
+}

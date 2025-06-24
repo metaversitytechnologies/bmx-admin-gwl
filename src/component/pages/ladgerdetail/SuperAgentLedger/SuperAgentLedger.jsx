@@ -5,6 +5,8 @@ import LedgerPopUp from "../LedgerPopUp";
 import "./SuperAgentLedger.scss";
 import Withdraw from "../../../common/Withdraw";
 import Deposit from "../../../common/Deposit";
+import { Money } from "./moneySvg";
+import { EyeOutlined } from "@ant-design/icons";
 
 const SuperAgentLedger = ({ userTyep, Listname }) => {
   const [lenaBalance, setLenaBalance] = useState(0);
@@ -41,13 +43,13 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
       { userId: "D1", userName: "Charlie", balance: -1000 },
       { userId: "D2", userName: "David", balance: -500 },
     ],
-    clear: [
-      { userId: "C1", userName: "Eve", balance: 0 },
-    ],
+    clear: [{ userId: "C1", userName: "Eve", balance: 0 }],
   };
 
   const processData = (data) =>
-    data?.map((res) => res?.balance).reduce((prev, curr) => Number(prev) + Number(curr), 0);
+    data
+      ?.map((res) => res?.balance)
+      .reduce((prev, curr) => Number(prev) + Number(curr), 0);
 
   useEffect(() => {
     const dataToProcess = staticData;
@@ -58,49 +60,52 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
 
   const renderActionButton = (record, name) => (
     <span>
-      <button onClick={() => handleDenaModals(record, name)} className="dena_button">
+      <button
+        onClick={() => handleDenaModals(record, name)}
+        className="dena_button">
         {name}
       </button>
     </span>
   );
 
-  const generateColumns = (actionName) =>
-    [
-      {
-        title: "User ID",
-        dataIndex: "userId",
-        key: "userId",
-      },
-      {
-        title: "User Name",
-        dataIndex: "userName",
-        key: "userName",
-      },
-      {
-        title: "Balance",
-        dataIndex: "balance",
-        key: "balance",
-        render: (text, record) => <span>{Math.abs(record?.balance)}</span>,
-      },
-      {
-        title: actionName,
-        key: actionName.toLowerCase(),
-        render: (text, record) => renderActionButton(record, actionName),
-        hidden: userTyep === 3 || actionName === "Clear",
-      },
-      {
-        title: "Settlement",
-        key: "settlement",
-        render: (text, record) =>
-          renderActionButton(record, actionName === "Lena" ? "Deposit" : "Withdraw"),
-        hidden: userTyep !== 3 || actionName === "Clear",
-      },
-    ].filter((item) => !item.hidden);
+  const generateColumns = (actionName) => [
+    // {
+    //   title: "User ID",
+    //   dataIndex: "userId",
+    //   key: "userId",
+    // },
+    {
+      title: "User Name",
+      dataIndex: "userName",
+      key: "userName",
+      render: (text, record) => (
+        <span style={{ color: "#038fde" }}>
+          <EyeOutlined /> {text}
+        </span>
+      ),
+    },
+    {
+      title: "Balance",
+      dataIndex: "balance",
+      key: "balance",
+      render: (text, record) => <span>{Math.abs(record?.balance)}</span>,
+    },
+
+    {
+      title: <Money textColor="#FFF" />,
+      key: "settlement",
+      render: () => (
+        <span>
+          <Money textColor="#038fde" />
+        </span>
+      ),
+    },
+  ];
 
   return (
     <>
       <Card
-        className="sport_detail ledger_data"
+        className="sport_detail ledger_data led_super"
         title={`${Listname} Ledger`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <Row className="main_super_super_ledger">
@@ -156,7 +161,11 @@ const SuperAgentLedger = ({ userTyep, Listname }) => {
           />
         )}
         {(modalsName === "Lena" || modalsName === "Dena") && (
-          <LedgerPopUp handleClose={handleClose} userData={userData} modalsName={modalsName} />
+          <LedgerPopUp
+            handleClose={handleClose}
+            userData={userData}
+            modalsName={modalsName}
+          />
         )}
       </Modal>
     </>

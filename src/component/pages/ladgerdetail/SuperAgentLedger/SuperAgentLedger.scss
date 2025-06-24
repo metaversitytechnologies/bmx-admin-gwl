@@ -1,11 +1,24 @@
 .ant-row.main_super_super_ledger {
-  margin: 24px 0;
   .ant-col {
     &:first-child {
-      padding-right: 12px;
+      padding-right: 24px;
+      @media (max-width: 800px) {
+        padding-right: 0px;
+      }
     }
     &:nth-child(2) {
-      padding-right: 12px;
+      padding-right: 10px;
+      padding-left: 3px;
+      @media (max-width: 800px) {
+        padding-right: 0px;
+        padding-left: 0px;
+      }
+    }
+    &:nth-child(3) {
+      padding-left: 18px;
+      @media (max-width: 800px) {
+        padding-left: 0px;
+      }
     }
   }
   .super_ledger {
@@ -14,12 +27,14 @@
     align-items: center;
     padding-inline: 25px;
     margin: 0px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 24px;
     font-family: arial !important;
     color: rgb(255, 255, 255);
-    // margin-bottom: 12px;
     height: 31px;
+    padding: 20px;
+    margin-bottom: 0.5rem !important;
+    margin-top: 0.5rem !important;
   }
   .item1 {
     background-color: rgb(16, 191, 53);
@@ -110,5 +125,12 @@
   .ant-modal-title {
     font-size: 12px;
     padding-top: 11px;
+  }
+}
+
+.led_super {
+  margin: 30px 25px;
+  @media (max-width: 800px) {
+    margin: 30px 10px;
   }
 }

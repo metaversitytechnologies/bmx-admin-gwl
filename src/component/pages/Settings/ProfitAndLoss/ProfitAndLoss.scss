@@ -2,23 +2,12 @@
   //   display: flex;
   align-items: center;
   .profit_date {
-    margin: 18px 35px;
+    margin: 18px 15px;
     .ant-picker.ant-picker-range {
       width: 100%;
     }
   }
-  .apply_btn {
-    color: #fff;
-    background-color: #038fde;
-    border-color: #038fde;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
-    color: #ffffff !important;
-    background-color: #038fde !important;
-    border-color: #038fde !important;
-    border-radius: 2px;
-    text-align: center;
-    font-weight: 600;
-  }
+
   .text-center {
     text-align: center;
   }
@@ -34,6 +23,10 @@
     }
   }
 }
+.btn_apply {
+  display: flex;
+  justify-content: space-around;
+}
 
 @media screen and (max-width: 800px) {
   .profit_apply {
@@ -42,10 +35,6 @@
       margin-top: -2px;
     }
 
-    .btn_apply {
-      display: flex;
-      justify-content: center;
-    }
     .mb-2 {
       margin-bottom: -6px;
       margin-top: -20px;
@@ -57,4 +46,32 @@
   .ant-card-head-title {
     font-size: 20px !important;
   }
+}
+
+.ant-picker {
+  height: 36px;
+}
+
+.ant-btn-danger {
+  color: #fff;
+  border-color: #f5222d;
+  background: #f5222d;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  padding: 9px 12px;
+  border: unset;
+  outline: unset;
+  font-size: 14px;
+}
+
+.apply_btn1 {
+  color: #fff;
+  background-color: #038fde;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  text-align: center;
+  padding: 9px 12px;
+  border: unset;
+  outline: unset;
+  font-size: 14px;
 }

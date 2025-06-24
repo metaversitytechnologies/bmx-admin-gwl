@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, Table } from "antd";
+import React from "react";
+import { Card, Col, Form, Row, Select, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 
 // Mock static data
@@ -12,7 +12,7 @@ const mockData = [
     dealerid: "AgentX",
     date: "2025-06-13 14:30",
     pnl: -50,
-    bet_status: "Deleted"
+    bet_status: "Deleted",
   },
   {
     pricevalue: 1.8,
@@ -22,62 +22,60 @@ const mockData = [
     dealerid: "AgentY",
     date: "2025-06-13 15:00",
     pnl: 75,
-    bet_status: "Deleted"
-  }
+    bet_status: "Deleted",
+  },
 ];
 
 const columns = [
   {
-    title: 'Rate',
-    dataIndex: 'pricevalue',
-    key: 'pricevalue',
+    title: "Rate",
+    dataIndex: "pricevalue",
+    key: "pricevalue",
   },
   {
-    title: 'Amount',
-    dataIndex: 'stake',
-    key: 'stake',
+    title: "Amount",
+    dataIndex: "stake",
+    key: "stake",
   },
   {
-    title: 'Team',
-    dataIndex: 'matchname',
-    key: 'matchname',
+    title: "Team",
+    dataIndex: "matchname",
+    key: "matchname",
   },
   {
-    title: 'Client',
-    dataIndex: 'userid',
-    key: 'userid',
+    title: "Client",
+    dataIndex: "userid",
+    key: "userid",
   },
   {
-    title: 'Agent',
-    dataIndex: 'dealerid',
-    key: 'dealerid',
+    title: "Agent",
+    dataIndex: "dealerid",
+    key: "dealerid",
   },
   {
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date',
+    title: "Date",
+    dataIndex: "date",
+    key: "date",
   },
   {
-    title: 'Loss',
-    dataIndex: 'stake',
-    key: 'loss',
-    render: (text, record) => (
-      record.pnl < 0 ? <span>{record.stake}</span> : <span>0</span>
-    ),
+    title: "Loss",
+    dataIndex: "stake",
+    key: "loss",
+    render: (text, record) =>
+      record.pnl < 0 ? <span>{record.stake}</span> : <span>0</span>,
   },
   {
-    title: 'Profit',
-    dataIndex: 'pnl',
-    key: 'profit',
-    render: (text, record) => (
-      record.pnl > 0 ? <span>{record.pnl}</span> : <span>0</span>
-    ),
+    title: "Profit",
+    dataIndex: "pnl",
+    key: "profit",
+    render: (text, record) =>
+      record.pnl > 0 ? <span>{record.pnl}</span> : <span>0</span>,
   },
   {
-    title: 'Bet Status',
-    dataIndex: 'bet_status',
-    key: 'bet_status',
-  }
+    title: "Bet Status",
+    dataIndex: "bet_status",
+    key: "bet_status",
+  },
 ];
 
 const RejectedBetsByEvent = () => {
@@ -89,13 +87,22 @@ const RejectedBetsByEvent = () => {
   };
 
   return (
-    <div className="match_slip">
+    <div className="match_slip rehected_bet">
       <Card
         style={{ margin: "0px", width: "100%" }}
         className="sport_detail"
         title="REJECTED And CANCELLED Bets"
-        extra={<button onClick={handleBackClick}>Back</button>}
-      >
+        extra={<button onClick={handleBackClick}>Back</button>}>
+        <Row className=" fancy_data_sess mr ">
+          <Col xs={24} md={24} lg={8} xl={8}>
+            <Select
+              placeholder="Select User"
+              options={[]}
+              showSearch
+              allowClear
+            />
+          </Col>
+        </Row>
         <div className="table_section" style={{ marginBottom: "10px" }}>
           <Table
             columns={columns}

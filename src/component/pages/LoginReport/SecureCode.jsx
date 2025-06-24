@@ -1,13 +1,23 @@
-import { Card, Divider, Empty, Pagination, Spin, Tooltip } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Empty,
+  Input,
+  Pagination,
+  Row,
+  Spin,
+  Tooltip,
+} from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
 import { useEffect, useState } from "react";
 import { useLazyUserListQuery } from "../../../store/service/supermasteAccountStatementServices";
-import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 import { AiFillEye } from "react-icons/ai";
 
-const LoginReport = () => {
+const SecureCode = () => {
   const userId = localStorage.getItem("userId");
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,27 +78,40 @@ const LoginReport = () => {
           onClick={() => setIsModalOpen(false)}
           className="report_overlay"></div>
       )}
-      <div className="match_slip login_report">
+      <div
+        className="match_slip"
+        style={{
+          margin: "30px 15px",
+        }}>
         <Card
           style={{
             margin: "0px",
             width: "100%",
           }}
           className="sport_detail  team_name"
-          title="Login Report"
+          title="Secure Code"
           extra={<button onClick={handleBackClick}>Back</button>}>
+          <Row
+            gutter={[16]}
+            style={{
+              padding: "12px 20px",
+            }}>
+            <Col xs={24} md={24} lg={7} xl={7}>
+              <Input
+                style={{ height: "36px", borderRadius: "0px" }}
+                placeholder="Enter"
+              />
+            </Col>
+            <Col xs={24} md={24} lg={7} xl={7}>
+              <Button type="primary" style={{ height: "36px" }}>Show</Button>
+            </Col>
+          </Row>
           <div className="table_section statement_tabs_data ant-spin-nested-loading">
             <table className="live_table login_data_table">
               <tr>
-                <th>COUNTRY</th>
-                <th>REGION</th>
-                <th>ISP</th>
-                <th>
-                  <div className="ip_section">
-                    <p>IP-ADDRESS</p>
-                  </div>
-                </th>
-                <th>LOGIN DATE</th>
+                <th>Code</th>
+                <th>OTP</th>
+                <th>CREATED ON</th>
               </tr>
               {isLoading || isFetching ? (
                 <div className="spin_icon">
@@ -104,13 +127,6 @@ const LoginReport = () => {
                       <td>{res?.userid}</td>
                       <td>{res?.ip}</td>
                       <td>{res?.lastLogin}</td>
-                      <td style={{ cursor: "pointer" }} className="divice-info">
-                        <Tooltip title={res?.deviceInfo}>
-                          <span>
-                            <AiFillEye />
-                          </span>
-                        </Tooltip>
-                      </td>
                     </tr>
                   );
                 })}
@@ -143,4 +159,4 @@ const LoginReport = () => {
   );
 };
 
-export default LoginReport;
+export default SecureCode;

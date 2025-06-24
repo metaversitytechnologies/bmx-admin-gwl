@@ -374,8 +374,8 @@ a.gx-bg-white:hover {
 
 .main_details_page {
   margin: 30px 20px;
-  @media (max-width:800px) {
-      margin: 25px 5px;
+  @media (max-width: 800px) {
+    margin: 25px 5px;
   }
   .ant-btn {
     line-height: 34px;
@@ -412,4 +412,8 @@ a.gx-bg-white:hover {
 .gx-mt-1,
 .gx-my-1 {
   margin-top: 0.25rem !important;
+}
+
+.text-white {
+  color: #545454 !important;
 }

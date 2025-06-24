@@ -16,7 +16,7 @@
       border: 1px solid #e8e8e8;
     }
   }
-  .agent_color{
+  .agent_color {
     text-align: left;
     background-color: rgb(98, 92, 195);
     color: rgb(255, 255, 255);
@@ -26,7 +26,7 @@
       border: 1px solid #e8e8e8;
     }
   }
-  .sub_color{
+  .sub_color {
     text-align: left;
     background-color: green;
     color: rgb(255, 255, 255);
@@ -35,7 +35,6 @@
       padding: 7px;
       border: 1px solid #e8e8e8;
     }
-
   }
   .super_color {
     text-align: left;
@@ -87,25 +86,24 @@ table {
   width: 100%;
   min-width: 100%;
   max-width: 100%;
-  overflow-x:scroll;
+  overflow-x: scroll;
 }
 .match_table {
-  .ant-checkbox-checked{
+  .ant-checkbox-checked {
     .ant-checkbox-inner {
-      background-color: #74766f !important;
-      border-color: #74766f !important;
+      background-color: #7d5c0e !important;
+      border-color: #7d5c0e !important;
     }
   }
-  
- 
 }
 
-.ant-checkbox-inner{&::after{
-  background-color: #74766f !important;
-  
-}}
+.ant-checkbox-inner {
+  &::after {
+    background-color: #7d5c0e !important;
+  }
+}
 
-.d_none{
+.d_none {
   display: none;
 }
 

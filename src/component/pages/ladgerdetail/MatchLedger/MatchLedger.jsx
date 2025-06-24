@@ -6,6 +6,7 @@ import {
   Empty,
   Pagination,
   Row,
+  Select,
   Spin,
 } from "antd";
 import "./MatchLedger.scss";
@@ -79,14 +80,23 @@ const MatchLedger = () => {
       )}
 
       <Card
-        className="sport_detail my_ledger main_match_ledger"
-        title="Profit/Loss"
+        className="sport_detail my_ledger main_match_ledger profit_loss_table"
+        title="Profit Loss"
         extra={<button onClick={() => nav(-1)}>Back</button>}>
-        <Row className="main_super_super_ledger">
-          <Col lg={8} xs={24} className="match_ladger profit_loss_ledger">
+        <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
+          <Col lg={6} xs={24} className="match_ladger profit_loss_ledger">
             <DatePicker.RangePicker
               defaultValue={[dayjs(timeBefore), dayjs(time)]}
               onChange={onChange}
+            />
+          </Col>
+          <Col lg={6} xs={24} className="match_ladger profit_loss_ledger">
+            <Select
+              style={{ width: "100%" }}
+              placeholder="Select Game Type"
+              options={[]}
+              showSearch
+              allowClear
             />
           </Col>
           <Col lg={6} xs={12}>
@@ -102,21 +112,6 @@ const MatchLedger = () => {
               </p>
             </div>
           </Col>
-          <Col lg={3} xs={24}>
-            <div className="matchladger_total rep_download">
-              <DownloadReport
-                lenadenaHeading={lenadenaHeading}
-                balanceData={arrBalance}
-                headerField={headerField}
-                reportType="MyLedgerProfitLoss"
-                reportName="profit/loss"
-                startDate={dateData[0]}
-                endDate={dateData[1]}
-                isModalOpen={isModalOpen}
-                setIsModalOpen={setIsModalOpen}
-              />
-            </div>
-          </Col>
         </Row>
 
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
@@ -127,9 +122,9 @@ const MatchLedger = () => {
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Title</th>
-                  <th>CR</th>
-                  <th>DR</th>
+                  <th>Event Name</th>
+                  <th>Debit</th>
+                  <th>Credit</th>
                 </tr>
               </thead>
               <tbody>
@@ -137,11 +132,11 @@ const MatchLedger = () => {
                   <tr key={id} style={{ cursor: "pointer" }}>
                     <td>{moment(res?.date).format("YYYY-MM-DD")}</td>
                     <td>{res?.matchName}</td>
-                    <td className="text_success">
-                      {res?.netPnl > 0 ? res?.netPnl : 0}
-                    </td>
                     <td className="text_danger">
                       {res?.netPnl < 0 ? res?.netPnl : 0}
+                    </td>
+                    <td className="text_success">
+                      {res?.netPnl > 0 ? res?.netPnl : 0}
                     </td>
                   </tr>
                 ))}

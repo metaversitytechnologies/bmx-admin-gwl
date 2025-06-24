@@ -91,7 +91,10 @@ const nav = useNavigate()
                       message: "Please select date",
                     },
                   ]}>
-                  <DatePicker className="transations_date" defaultValue={dayjs('2015/01/01', dateFormat)} format={dateFormat} />
+                  <DatePicker 
+                  className="transations_date" 
+                  defaultValue={dayjs('2015/01/01', dateFormat)} 
+                  format={dateFormat} />
                 </Form.Item>
               </Col>
               <Col span={8}>

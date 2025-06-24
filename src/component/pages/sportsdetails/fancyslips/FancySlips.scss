@@ -13,10 +13,33 @@
     table {
       tr {
         &:nth-child(even) {
-            
           background-color: unset;
         }
       }
     }
+  }
+}
+
+.match_bets_report {
+  margin: 30px 80px;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  @media (max-width: 800px) {
+    margin: 20px 15px;
+  }
+  .ant-card-head-title {
+    font-size: 24px !important;
+    @media (max-width: 800px) {
+      font-size: 20px !important;
+    }
+  }
+}
+
+.fancy_data_sess {
+  .ant-form-item-label {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+  }
+  .ant-select-in-form-item {
+    margin: 0px !important;
   }
 }

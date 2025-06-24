@@ -37,15 +37,19 @@ import SetCommission from "../../pages/setCommission/SetCommission";
 import DeletedLenden from "../../pages/CashTransanction/DeletedLenden/DeletedLenden";
 import EventProfitLoss from "../../pages/sportsdetails/livereport/EventProfitLoss/EventProfitLoss";
 import GameDeatis from "../../pages/GameDeatis/GameDeatis";
+import CompanyReport from "../../pages/sportsdetails/CompanyReport/CompanyReport";
+import MatchSessionBet from "../../pages/sportsdetails/MatchSessionBet/MatchSessionBet";
+import ClientReport from "../../pages/sportsdetails/ClientReport/ClientReport";
+import FinishedGame from "../../pages/FinishedGame/FinishedGame";
 
 export const protectedRoutes = [
   { path: "/dashboard", element: <Dashboard /> },
   { path: "/client/details-master", element: <MasterDetails /> },
-  // { path: "/Events/ladger-details", element: <LadgerDetails /> },
   { path: "/Events/sports-details", element: <SportsDetails /> },
   { path: "/livereport/:id/:id1", element: <GameDeatis /> },
   { path: "/plus-minus-report/:id", element: <PlusMinusReport /> },
   { path: "/Events/:id/plus-minus-report", element: <PlusMinusDetails /> },
+  { path: "/matchplusminus/:id?", element: <CompanyReport /> },
   {
     path: "/fancy-slips/:id",
     element: <FancySlips type={1} name="Session Bet" />,
@@ -53,6 +57,18 @@ export const protectedRoutes = [
   {
     path: "/match-slips/:id",
     element: <FancySlips type={2} name="Match Bets" />,
+  },
+  {
+    path: "/matchsessionbet/:id",
+    element: <MatchSessionBet />,
+  },
+  {
+    path: "/agent-list/:id",
+    element: <ClientReport />,
+  },
+  {
+    path: "/finish-game",
+    element: <FinishedGame />,
   },
   { path: "/completed-fancy-slips/:id", element: <CompletedFancySlips /> },
   { path: "/rejectedBetsByEvent/:id", element: <RejectedBetsByEvent /> },

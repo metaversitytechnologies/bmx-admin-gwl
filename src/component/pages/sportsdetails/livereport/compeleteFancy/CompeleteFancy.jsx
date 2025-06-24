@@ -1,4 +1,4 @@
-import { Card, Empty, Spin } from "antd";
+import { Card, Col, Empty, Row, Select, Spin } from "antd";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -61,10 +61,10 @@ const CompeleteFancy = () => {
             width: "100%",
           }}
           className="sport_detail completed_fancy"
-          title="Completed fancy"
+          title="Fancy Profit and Loss"
           extra={
             <div>
-              <button onClick={handleRefresh}>Refresh</button>
+              {/* <button onClick={handleRefresh}>Refresh</button> */}
               {pathname?.includes("completed-fancy-slips") && (
                 <button style={{ marginLeft: "10px" }} onClick={() => nav(-1)}>
                   Back
@@ -72,90 +72,55 @@ const CompeleteFancy = () => {
               )}
             </div>
           }>
+          <Row gutter={[16, 16]} justify="center" className="fancy_pl" align="middle">
+            <Col xs={24} md={24} lg={6} xl={6}>
+              <Select
+                placeholder="Select User"
+                options={[]}
+                showSearch
+                allowClear
+                // onSelect={(value) => setClientId(value)}
+              />
+            </Col>
+            <Col xs={24} md={24} lg={6} xl={6}>
+              <Select
+                placeholder="Select User"
+                options={[]}
+                showSearch
+                allowClear
+                // onSelect={(value) => setClientId(value)}
+              />
+            </Col>
+            <Col xs={24} md={24} lg={6} xl={6}>
+              <p className="total_pl_fancy">
+                Total P/L: <span>0.00</span>
+              </p>
+            </Col>
+          </Row>
           <div className="table_section ant-spin-nested-loading">
             <table>
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>P&L</th>
-                  <th>Won By</th>
-                  <th>Net P&L</th>
-                  <th>Action</th>
+                  <th>username</th>
+                  <th>Date&L</th>
+                  <th>F. Name</th>
+                  <th>Rate</th>
+                  <th>Value</th>
+                  <th>Back/Lay</th>
+                  <th>Result</th>
+                  <th>Creator</th>
+                  <th>Stake</th>
+                  <th>pnl</th>
                 </tr>
               </thead>
 
-              {isLoading || isFetching ? (
-                <tbody>
-                  <tr>
-                    <td colSpan={5}>
-                      <div className="spin_icon comp_spin">
-                        <Spin size="large" />
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              ) : (
-                <>
-                  <tbody>
-                    {(completeFancyData?.data?.list?.length ?? 0) >= 0 && (
-                      <tr>
-                        <td>Total</td>
-                        <td
-                          className={
-                            completeFancyData.data.total.pnl < 0
-                              ? "text_danger"
-                              : "text_success"
-                          }>
-                          {completeFancyData.data.total.pnl.toFixed(2)}
-                        </td>
-                        <td></td>
-                        <td
-                          className={
-                            completeFancyData.data.total.netpnl < 0
-                              ? "text_danger"
-                              : "text_success"
-                          }>
-                          {completeFancyData.data.total.netpnl.toFixed(2)}
-                        </td>
-                        <td></td>
-                      </tr>
-                    )}
-
-                    {completeFancyData.data.list.map((res) => (
-                      <tr key={res.key}>
-                        <td>{res.selectionname}</td>
-                        <td
-                          className={
-                            res.pnl < 0 ? "text_danger" : "text_success"
-                          }>
-                          {res.pnl.toFixed(2)}
-                        </td>
-                        <td>{res.result}</td>
-                        <td
-                          className={
-                            res.netpnl < 0 ? "text_danger" : "text_success"
-                          }>
-                          {res.netpnl.toFixed(2)}
-                        </td>
-                        <td>
-                          <button
-                            className="show_bets"
-                            onClick={() => handleShowBets(res._id)}>
-                            Show Bets
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                    {completeFancyData.data.list.length === 0 && (
-                      <tr>
-                        <td colSpan={5}>
-                          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </>
-              )}
+              <tbody>
+                <tr>
+                  <td colSpan={10}>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </Card>

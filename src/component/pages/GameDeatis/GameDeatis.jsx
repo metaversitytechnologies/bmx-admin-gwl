@@ -1,5 +1,6 @@
 import { Col, Row } from "antd";
 import "./Gamedetails.scss";
+import CompeleteFancy from "../sportsdetails/livereport/compeleteFancy/CompeleteFancy";
 
 const GameDeatis = () => {
   return (
@@ -425,13 +426,11 @@ const GameDeatis = () => {
                                   </tr>
                                 </thead>
                                 <tbody className="ant-table-tbody">
-                                  <tr
-                                    data-row-key="71b8ddfb8d9f1a17cee77d1d52b2a0c679cfc7fa"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             60 OVER RUN IND 2
                                           </div>
                                           <button
@@ -473,13 +472,11 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr
-                                    data-row-key="23ecc785ea0a89cb101efed18713f11fecf26751"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             FALL OF 4TH WKT IND 2
                                           </div>
                                           <button
@@ -532,13 +529,11 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr
-                                    data-row-key="ec0a4627a9fa8166b5c79b9214a0a9f359bf36c4"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             KL RAHUL RUN 2
                                           </div>
                                           <button
@@ -580,13 +575,11 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr
-                                    data-row-key="3e11089539913bb03447e3063dd9521f95d0e56b"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             R PANT RUN 2
                                           </div>
                                           <button
@@ -628,13 +621,11 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr
-                                    data-row-key="548b264cb4f5ef23aa71db31bb51d9e8aebfe22d"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             4TH WKT PSHIP BOUNDARIES IND 2
                                           </div>
                                           <button
@@ -670,13 +661,11 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr
-                                    data-row-key="dfb614382b4f004a45976cd0b1d15fca0778a82d"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             KL RAHUL BOUNDARIES 2
                                           </div>
                                           <button
@@ -718,13 +707,11 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr
-                                    data-row-key="a149df2908bb4b48542d02ada78c467790681c67"
-                                    className="ant-table-row ant-table-row-level-0">
+                                  <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
                                         <div className="gx-bg-flex gx-my-0">
-                                          <div className="gx-font-weight-semi-bold">
+                                          <div className="gx-font-weight-semi-bold text-white">
                                             R PANT BOUNDARIES 2
                                           </div>
                                           <button
@@ -770,6 +757,8 @@ const GameDeatis = () => {
                   </div>
                 </Col>
               </Row>
+
+              <CompeleteFancy />
 
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button

@@ -13,15 +13,9 @@ const columns = [
     key: "dateStr",
   },
   {
-    title: "Collection Name",
+    title: "Event Name",
     dataIndex: "collectionName",
     key: "collectionName",
-  },
-  {
-    title: "Debit",
-    dataIndex: "debit",
-    key: "debit",
-    align: "right",
   },
   {
     title: "Credit",
@@ -30,6 +24,13 @@ const columns = [
     align: "right",
   },
   {
+    title: "Debit",
+    dataIndex: "debit",
+    key: "debit",
+    align: "right",
+  },
+
+  {
     title: "Balance",
     dataIndex: "balance",
     key: "balance",
@@ -37,7 +38,7 @@ const columns = [
     render: (text, record) => <span>{Math.abs(record?.balance)}</span>,
   },
   {
-    title: "Payment Type",
+    title: "Type",
     dataIndex: "paymentType",
     key: "paymentType",
     render: (text, record) => (
@@ -53,12 +54,12 @@ const columns = [
     dataIndex: "remarks",
     key: "remarks",
   },
-  {
-    title: "Rollback",
-    dataIndex: "isRollback",
-    key: "isRollback",
-    render: (text, record) => <span>{record?.isRollback ? "Yes" : "No"}</span>,
-  },
+  // {
+  //   title: "Rollback",
+  //   dataIndex: "isRollback",
+  //   key: "isRollback",
+  //   render: (text, record) => <span>{record?.isRollback ? "Yes" : "No"}</span>,
+  // },
 ];
 
 // Mock response data (replace this with whatever format you want to simulate)
@@ -155,44 +156,30 @@ const MyLedger = () => {
         title="My Ledger"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
-          <Col lg={8} xs={24} className="match_ladger">
-            <DatePicker.RangePicker
-              style={{ margin: "10px 0" }}
-              defaultValue={[dayjs(timeBefore), dayjs(time)]}
-              onChange={onChange}
-            />
-          </Col>
           <div>
-            <h3 style={{ padding: "5px", color: "rgb(51, 181, 28)" }}>
+            <h3 style={{ padding: "5px", color: "green", fontSize: "20px" }}>
               Lena : {data?.data?.data?.credit?.toFixed(2)}
             </h3>
           </div>
           <div>
-            <h3 style={{ padding: "5px", color: "rgb(214, 75, 75)" }}>
+            <h3
+              style={{
+                padding: "5px",
+                color: "rgb(214, 75, 75)",
+                fontSize: "20px",
+              }}>
               Dena : {data?.data?.data?.debit?.toFixed(2)}
             </h3>
           </div>
           <div>
             <h3
+              style={{ fontSize: "20px" }}
               className={
                 data?.data?.data?.balance > 0 ? "text_danger" : "text_success"
               }>
               Balance: {Math.abs(data?.data?.data?.balance?.toFixed(2))}{" "}
               {data?.data?.data?.balance > 0 ? "( Dena )" : "( Lena )"}
             </h3>
-          </div>
-          <div>
-            <DownloadReport
-              lenadenaHeading={lenadenaHeading}
-              reportType="MyLedger"
-              reportName="MyLedger"
-              headerField={headerField}
-              startDate={dateData[0]}
-              endDate={dateData[1]}
-              balanceData={arrBalance}
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-            />
           </div>
         </div>
         <div className="table_section">

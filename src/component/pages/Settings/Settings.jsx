@@ -18,26 +18,31 @@ const Settings = () => {
     <Card className="setting_main">
       <div>
         <Row>
+           <Col xs={12} sm={12} md={12} lg={4} xl={4}>
+            <div className="setting_data1">
+              <Link to="/account-statement">Search User</Link>
+            </div>
+          </Col>
           <Col xs={12} sm={12} md={12} lg={4} xl={4}>
             <div className="setting_data1">
               <Link to="/account-statement">Statements</Link>
             </div>
           </Col>
-          {/* <Col xs={12} sm={12} md={12} lg={4} xl={4}>
+          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
             <div className="setting_data mob_setting">
               <Link to="/account-operation">A/c operations</Link>
             </div>
           </Col>
           <Col xs={12} sm={12} md={12} lg={4} xl={4}>
             <div className="setting_data">
-              <Link to="/profitandloss">Profit & Loss</Link>
+              <Link to="/Events/matchledger">Profit & Loss</Link>
             </div>
           </Col>
           <Col xs={12} sm={12} md={12} lg={4} xl={4}>
             <div className="setting_data mob_setting">
               <Link to="/casinoprofitandloss">Casino Profit & Loss</Link>
             </div>
-          </Col> */}
+          </Col>
           <Col xs={12} sm={12} md={12} lg={4} xl={4}>
             <div className="setting_data" onClick={()=>setIsModalOpen(true)}>
               <p >Change Password</p>

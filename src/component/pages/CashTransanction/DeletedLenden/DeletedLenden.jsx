@@ -46,8 +46,8 @@ const DeletedLenden = () => {
   return (
     <>
       <Card
-        className="sport_detail ledger_data"
-        title="Deleted Lenden"
+        className="sport_detail ledger_data rehected_bet"
+        title="Deleted Lena Dena"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="table_section" style={{ paddingBottom: "20px" }}>
           <table className="">

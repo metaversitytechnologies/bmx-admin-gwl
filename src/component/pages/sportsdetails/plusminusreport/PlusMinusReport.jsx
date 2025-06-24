@@ -83,20 +83,29 @@ const PlusMinusReport = () => {
   const staticData = {
     data: {
       markets: [
-        { marketid: "101", selectionname: "Session A", result: "Yes", marketname: "session" },
-        { marketid: "102", selectionname: "Session B", result: "No", marketname: "session" },
-        { marketid: "103", selectionname: "Match Odds", result: "-", marketname: "match odds" },
+        {
+          marketid: "101",
+          selectionname: "Session A",
+          result: "Yes",
+          marketname: "session",
+        },
+        {
+          marketid: "102",
+          selectionname: "Session B",
+          result: "No",
+          marketname: "session",
+        },
+        {
+          marketid: "103",
+          selectionname: "Match Odds",
+          result: "-",
+          marketname: "match odds",
+        },
       ],
       users: {
         parentKey: "super_123",
-        parent: [
-          { userid: "parent1" },
-          { userid: "parent2" },
-        ],
-        client: [
-          { userid: "client1" },
-          { userid: "client2" },
-        ],
+        parent: [{ userid: "parent1" }, { userid: "parent2" }],
+        client: [{ userid: "client1" }, { userid: "client2" }],
       },
     },
   };
@@ -125,10 +134,12 @@ const PlusMinusReport = () => {
   return (
     <>
       {contextHolder}
-      <div className="main_live_section">
+      <div className="main_live_section mr-10">
         <div className="_match">
           <div className="sub_live_section live_report">
-            <div style={{ padding: "5px 8px", fontSize: "22px" }} className="team_name">
+            <div
+              style={{ padding: "5px 8px", fontSize: "22px" }}
+              className="team_name">
               {state?.dataNameee || "Match Name"}
             </div>
             <div className="show_btn back_show">
@@ -137,8 +148,8 @@ const PlusMinusReport = () => {
             </div>
           </div>
 
-          <div className="table_section">
-            <table className="match_table">
+          <div className="table_section plus_minus_page">
+            <table className="match_table ">
               <thead>
                 <tr>
                   <th></th>
@@ -179,7 +190,7 @@ const PlusMinusReport = () => {
                 />
               </Col>
 
-              <Col lg={12} xs={24}>
+              {/* <Col lg={12} xs={24}>
                 <Table
                   className="session_table table2"
                   rowSelection={{
@@ -195,7 +206,7 @@ const PlusMinusReport = () => {
                   pagination={false}
                   dataSource={staticData.data.users.parent}
                 />
-              </Col>
+              </Col> */}
 
               <Col lg={12} xs={24}>
                 <Table

@@ -1,7 +1,10 @@
 .ledger_data {
   .ant-card-head-title {
-    font-size: 20px !important;
+    font-size: 28px !important;
     font-weight: 400 !important;
+    @media (max-width: 800px) {
+      font-size: 20px;
+    }
   }
   .my_ledger {
     display: flex;
@@ -25,7 +28,7 @@
     border-radius: 3px;
     a {
       padding: 0px !important;
-      color: #74766f !important;
+      color: #7d5c0e !important;
     }
   }
   li.ant-pagination-item {
@@ -40,13 +43,13 @@
   margin-right: 11px;
   span.anticon.anticon-left {
     svg {
-      color: #74766fad !important;
+      color: #7d5c0ead !important;
       font-size: 12px !important;
     }
   }
   span.anticon.anticon-right {
     svg {
-      color: #74766fad !important;
+      color: #7d5c0ead !important;
       font-size: 12px !important;
     }
   }
@@ -55,11 +58,11 @@
 .ant-pagination-item-active {
   font-weight: 500;
   background-color: #ffffff !important;
-  border-color: #74766f !important;
+  border-color: #7d5c0e !important;
 }
 .ant-pagination-item-active {
   a {
-    color: #74766f !important;
+    color: #7d5c0e !important;
   }
 }
 
@@ -71,11 +74,10 @@ li.ant-pagination-item {
   border-radius: 2px !important;
 }
 
-
 @media screen and (min-width: 350px) and (max-width: 520px) {
-    .deleted_sec {
-        display: block;
-        width: 100%;
-        margin-left: 2%;
-      }
+  .deleted_sec {
+    display: block;
+    width: 100%;
+    margin-left: 2%;
+  }
 }

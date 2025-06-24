@@ -1,6 +1,6 @@
 import { Card, Col, DatePicker, Divider, Empty, Pagination, Row } from "antd";
 import { useNavigate } from "react-router-dom";
-import {AiOutlineSearch} from "react-icons/ai"
+import { AiOutlineSearch } from "react-icons/ai";
 
 // const handleChange = (value) => {
 //   console.log(`selected ${value}`);
@@ -8,9 +8,7 @@ import {AiOutlineSearch} from "react-icons/ai"
 
 const { RangePicker } = DatePicker;
 
-const data = [
-  
-];
+const data = [];
 
 console.log(data?.length);
 
@@ -23,13 +21,13 @@ const CasinoProfitAndLoss = () => {
   //     console.log(key);
   //   };
 
-  const handleTodayProfit = ()=>{
-    nav("/Casino/today-pandl")
-  }
+  const handleTodayProfit = () => {
+    nav("/Casino/today-pandl");
+  };
 
   return (
     <>
-      <div className="match_slip">
+      <div className="match_slip casino_diamond">
         <div>
           <Card
             style={{
@@ -37,33 +35,34 @@ const CasinoProfitAndLoss = () => {
               width: "100%",
             }}
             className="sport_detail "
-            title="Total Profit and Loss"
+            title="Diamond Casino Details"
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div>
               <Row className="profit_apply">
-                <Col xs={24} xl={8} lg={8} md={24}>
+                <Col xs={24} xl={6} lg={6} md={24}>
                   <div className="profit_date">
                     <RangePicker />
                   </div>
                 </Col>
-                <Col xs={24} xl={4} lg={4} md={24} className="text-center mb-2 btn_apply">
-                  <button className="apply_btn">
-                    <div className="search_icon"><AiOutlineSearch/></div>
-                   <div>Apply</div></button>
-                </Col>
-                <Col xs={24} xl={3} lg={3} md={24} onClick={handleTodayProfit} className="text-center btn_apply">
-                  <button className="apply_btn">Today P/L</button>
+                <Col
+                  xs={4}
+                  xl={4}
+                  lg={4}
+                  md={4}
+                  className=" mb-2 btn_apply">
+                  <button className="ant-btn-danger ">Apply</button>
+                  <button className="apply_btn1">Today P/L</button>
                 </Col>
               </Row>
             </div>
             <div className="table_section statement_tabs_data">
               <table className="">
                 <tr>
-                  <th>Title</th>
-                  <th>P&L</th>
-                  <th>Comm+</th>
-                  <th>Comm-</th>
-                  <th>Net P&L</th>
+                  <th>Game Id</th>
+                  <th>Type</th>
+                  <th>Exposer</th>
+                  <th>P/L</th>
+                  <th>Client P/L</th>
                   <th>Action</th>
                 </tr>
                 {data?.map((res) => {
@@ -82,7 +81,11 @@ const CasinoProfitAndLoss = () => {
                 <>
                   <Divider />
                   <div className="pagination_cus">
-                    <Pagination  className="pagination_main ledger_pagination" defaultCurrent={1} total={5} />
+                    <Pagination
+                      className="pagination_main ledger_pagination"
+                      defaultCurrent={1}
+                      total={5}
+                    />
                   </div>
                 </>
               )}

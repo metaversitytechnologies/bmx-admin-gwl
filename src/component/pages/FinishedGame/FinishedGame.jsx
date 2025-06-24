@@ -1,4 +1,3 @@
-import "./SportsDetails.scss";
 import {
   Button,
   Card,
@@ -8,6 +7,7 @@ import {
   Empty,
   Pagination,
   Row,
+  Select,
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { CaretDownOutlined } from "@ant-design/icons";
@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 
 const { RangePicker } = DatePicker;
 
-const SportsDetails = () => {
+const FinishedGame = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
@@ -50,24 +50,6 @@ const SportsDetails = () => {
   const items = [
     {
       label: (
-        <Link
-          onClick={() => setDropdownStates(false)}
-          to={`/livereport/:id/:id1`}
-          className="title_section"
-          style={{
-            display: `${
-              statusStr === "In Play" || statusStr === "Upcoming"
-                ? "block"
-                : "none"
-            }`,
-          }}>
-          Match and Session Position
-        </Link>
-      ),
-      key: "0",
-    },
-    {
-      label: (
         <p className="title_section" onClick={() => handlePlusMinus(matchId)}>
           Match and Session Plus Minus
         </p>
@@ -76,7 +58,9 @@ const SportsDetails = () => {
     },
     {
       label: (
-        <p className="title_section" onClick={() => nav("/matchplusminus/1212")}>
+        <p
+          className="title_section"
+          onClick={() => nav("/matchplusminus/1212")}>
           Match and Session Plus Minus 2
         </p>
       ),
@@ -239,29 +223,10 @@ const SportsDetails = () => {
   return (
     <>
       <Card
-        className="sport_detail"
-        title="Sports Detail"
+        className="sport_detail finished_game"
+        title="Completed Games Detail"
         extra={<button onClick={handleBackbtn}>Back</button>}>
-        {/* <Row className="date_picker">
-          <Col xl={24} lg={24} md={24} xs={24} style={{ padding: "10px 0px" }}>
-            <div className="active_sport_list">
-              <div className="sub_list_sport_list">
-                {sportData.map((item, id) => (
-                  <div
-                    key={id}
-                    onClick={() => handleSportId(item.sportId)}
-                    className={`tab_section_active_sport ${
-                      activeTabData === item.sportId ? "activeList" : ""
-                    }`}
-                  >
-                    <p>{item.sportName}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Col>
-        </Row> */}
-        <Row className="date_picker" justify="center">
+        <Row className="date_picker" justify="start">
           <Col
             xl={6}
             lg={6}
@@ -276,19 +241,26 @@ const SportsDetails = () => {
               bordered={false}
             />
           </Col>
+          <Col xl={6} lg={6} md={24} xs={24}>
+            <Select
+              placeholder="Select Game Type"
+              options={[]}
+              showSearch
+              allowClear
+            />
+          </Col>
         </Row>
         <div ref={myElementRef} className="table_section">
           <table className="ant-spin-nested-loading">
             <thead>
               <tr>
                 <th></th>
-                <th>Code</th>
                 <th>Name</th>
-                <th>Setting</th>
                 <th>Time</th>
-                <th>Declare</th>
-                <th>Status</th>
-                <th>Declare</th>
+                <th>Declared Date</th>
+                <th>Competition</th>
+                <th>Won By</th>
+                <th>P/L</th>
               </tr>
             </thead>
             <tbody>
@@ -320,16 +292,15 @@ const SportsDetails = () => {
                       </p>
                     </Dropdown>
                   </td>
-                  <td>{res.eventId}</td>
                   <td>{res.eventName}</td>
-                  <td>{res.statusStr}</td>
                   <td>{moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}</td>
-                  <td>{res.isLedgerCreated ? "YES" : "NO"}</td>
-                  <td>
-                    <Button type="primary" className="in_play_btn">Inplay</Button>
-                  </td>
+                  <td>{moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}</td>
+                  <td>T20</td>
 
-                  <td>No</td>
+                  <td>{res?.winner}</td>
+                  <td style={{ color: res?.plusMinus > 0 ? "green" : "red" }}>
+                    {res?.plusMinus}
+                  </td>
                 </tr>
               ))}
               {sportDetail.data.data.length === 0 && (
@@ -357,4 +328,4 @@ const SportsDetails = () => {
   );
 };
 
-export default SportsDetails;
+export default FinishedGame;

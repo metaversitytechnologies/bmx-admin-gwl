@@ -14,6 +14,7 @@
 }
 ._match {
   background: #fff;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
 
   .table_section {
     margin: 23px;
@@ -30,34 +31,34 @@
     margin-right: 15px;
     .ant-checkbox-input {
       &::after {
-        border: 2px solid #74766f;
+        border: 2px solid #7d5c0e;
       }
     }
     .ant-checkbox-checked {
       .ant-checkbox-inner {
-        background-color: #74766f;
-        border-color: #74766f;
+        background-color: #7d5c0e;
+        border-color: #7d5c0e;
         &:hover {
-          background-color: #74766f !important;
+          background-color: #7d5c0e !important;
         }
       }
     }
     .ant-checkbox-wrapper {
       &:hover {
-        border-color: #74766f !important;
+        border-color: #7d5c0e !important;
       }
     }
 
     .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled) {
       &:hover {
-        border-color: #74766f;
+        border-color: #7d5c0e;
       }
     }
     .ant-checkbox-inner,
     .ant-checkbox-checked:not(.ant-checkbox-disabled) {
       &:hover {
         .ant-checkbox-inner {
-          background-color: #74766f !important;
+          background-color: #7d5c0e !important;
         }
       }
     }
@@ -65,9 +66,9 @@
       &:hover {
         .ant-checkbox-checked:not(.ant-checkbox-disabled) {
           &::after {
-            border-color: #74766f;
+            border-color: #7d5c0e;
           }
-          border-color: #74766f;
+          border-color: #7d5c0e;
         }
       }
     }
@@ -176,4 +177,37 @@
 .subBackgroundColor {
   background-color: green;
   color: #fff;
+}
+
+.plus_minus_page {
+  margin: 23px 0px !important;
+  table {
+    thead {
+      tr {
+        background-color: #7d5c0e;
+        color: #fff;
+        min-height: 53px;
+      }
+    }
+    th.ant-table-cell {
+      background-color: #7d5c0e;
+      color: #fff;
+      min-height: 53px;
+    }
+    tbody {
+      tr {
+        background: #e6faff;
+        border-color: rgba(0, 0, 0, 0.03);
+      }
+    }
+  }
+}
+
+.mr-10 {
+  margin-right: 32px;
+  margin-left: 32px;
+  @media (max-width: 800px) {
+    margin-right: 15px !important;
+    margin-left: 15px !important;
+  }
 }

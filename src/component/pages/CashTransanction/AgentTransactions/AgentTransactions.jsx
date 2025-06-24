@@ -1,9 +1,23 @@
-import { Button, Card, Col, DatePicker, Form, Input, Row, Select, notification } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Row,
+  Select,
+  notification,
+} from "antd";
 import dayjs from "dayjs";
 import { useLocation, useNavigate } from "react-router-dom";
 import TransactionTable from "../TransactionTable";
 import { useEffect, useState } from "react";
-import { useCreateTransactionMutation, useLazyFilterbyClientQuery, useLazyUserListQuery } from "../../../../store/service/supermasteAccountStatementServices";
+import {
+  useCreateTransactionMutation,
+  useLazyFilterbyClientQuery,
+  useLazyUserListQuery,
+} from "../../../../store/service/supermasteAccountStatementServices";
 import moment from "moment";
 
 const dateFormat = "YYYY/MM/DD";
@@ -17,9 +31,8 @@ const AgentTransactions = ({ userType, Listname }) => {
   const [clientId, setClientId] = useState("");
 
   const [startDate, setStartDate] = useState(time);
-  const [form]= Form.useForm();
-  const {pathname} = useLocation();
-
+  const [form] = Form.useForm();
+  const { pathname } = useLocation();
 
   const nav = useNavigate();
 
@@ -27,29 +40,28 @@ const AgentTransactions = ({ userType, Listname }) => {
     nav(-1);
   };
 
-
   const { Option } = Select;
 
   const [getClient, result] = useLazyFilterbyClientQuery();
 
+  const [createTran, { data: createTranstions, error, isLoading }] =
+    useCreateTransactionMutation();
+  const openNotification = (mess) => {
+    api.success({
+      message: mess,
+      description: "Success",
+      closeIcon: false,
+      placement: "top",
+    });
+  };
 
-  const [createTran, { data: createTranstions, error, isLoading }] = useCreateTransactionMutation();
-    const openNotification = (mess) => {
-      api.success({
-        message: mess,
-        description: "Success",
-        closeIcon: false,
-        placement: "top",
-      });
-    };
-  
-    const openNotificationError = (mess) => {
-      api.error({
-        message: mess,
-        closeIcon: false,
-        placement: "top",
-      });
-    };
+  const openNotificationError = (mess) => {
+    api.error({
+      message: mess,
+      closeIcon: false,
+      placement: "top",
+    });
+  };
 
   const onFinish = (values) => {
     const createTranstions = {
@@ -62,7 +74,6 @@ const AgentTransactions = ({ userType, Listname }) => {
     createTran(createTranstions);
     form?.resetFields();
   };
-  
 
   const [userList, resultData] = useLazyUserListQuery();
 
@@ -77,7 +88,7 @@ const AgentTransactions = ({ userType, Listname }) => {
     });
     getClient({
       userId: value,
-      userType: userType
+      userType: userType,
     });
   };
   const handleSelect = (value) => {
@@ -87,50 +98,44 @@ const AgentTransactions = ({ userType, Listname }) => {
   useEffect(() => {
     getClient({
       userId: clientId,
-      userType:userType,
+      userType: userType,
     });
-  }, [clientId, result?.data,]);
+  }, [clientId, result?.data]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     if (createTranstions?.status === true) {
       getClient({
         userId: clientId,
-        userType: userType
+        userType: userType,
       });
       openNotification(createTranstions?.message);
       form?.resetFields();
     } else if (createTranstions?.status === false || error?.data?.message) {
       openNotificationError(createTranstions?.message || error?.data?.message);
     }
+  }, [createTranstions, error]);
 
-  }, [createTranstions, error])
+  useEffect(() => {
+    if (result?.data?.data !== undefined) {
+      const useData = JSON.parse(result?.data?.data?.cashtransection);
+      setUserTranstionData(useData?.results);
+    }
+  }, [result?.data]);
 
-
-  useEffect(()=>{
-    if(result?.data?.data !== undefined){
-    const useData = JSON.parse(result?.data?.data?.cashtransection);
-    setUserTranstionData(useData?.results)
-  }
-  }, [result?.data])
-
-  
-  
-  useEffect(()=>{
+  useEffect(() => {
     form?.resetFields();
     setClientId("");
     userList({
       userType: userType,
       userName: "",
     });
-  }, [pathname])
-  
+  }, [pathname]);
 
   return (
     <>
-    {contextHolder}
+      {contextHolder}
       <Card
-        className="sport_detail ledger_data"
+        className="sport_detail ledger_data cash_data"
         title={`${Listname} Transactions`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
@@ -144,9 +149,9 @@ const AgentTransactions = ({ userType, Listname }) => {
             onFinish={onFinish}
             autoComplete="off">
             <Row>
-              <Col xl={8} lg={8} md={24} xs={24} >
+              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
-                  label="Client"
+                  label="client"
                   name="client"
                   required
                   rules={[
@@ -171,7 +176,7 @@ const AgentTransactions = ({ userType, Listname }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col xl={8} lg={8} md={24} xs={24} >
+              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Collection"
                   name="collection"
@@ -187,7 +192,7 @@ const AgentTransactions = ({ userType, Listname }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col xl={8} lg={8} md={24} xs={24} >
+              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Date"
                   name="Date"
@@ -198,10 +203,10 @@ const AgentTransactions = ({ userType, Listname }) => {
                   //     message: "Please select date",
                   //   },
                   // ]}
-                  >
+                >
                   <DatePicker
-                  required
-                  onChange = {onSelectDate}
+                    required
+                    onChange={onSelectDate}
                     className="transations_date"
                     // defaultValue={moment()}
                     format={dateFormat}
@@ -209,7 +214,7 @@ const AgentTransactions = ({ userType, Listname }) => {
                   />
                 </Form.Item>
               </Col>
-              <Col xl={8} lg={8} md={24} xs={24} >
+              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Amount"
                   name="amount"
@@ -223,7 +228,7 @@ const AgentTransactions = ({ userType, Listname }) => {
                   <Input type="number" placeholder="Enter Amount" />
                 </Form.Item>
               </Col>
-              <Col xl={8} lg={8} md={24} xs={24} >
+              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Payment Type"
                   name="payment_type"
@@ -240,7 +245,7 @@ const AgentTransactions = ({ userType, Listname }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col xl={8} lg={8} md={24} xs={24} >
+              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Remark"
                   name="remark"
@@ -252,6 +257,26 @@ const AgentTransactions = ({ userType, Listname }) => {
                     },
                   ]}>
                   <Input type="text" placeholder="Remarks" />
+                </Form.Item>
+              </Col>
+              <Col xl={8} lg={8} md={24} xs={24}>
+                <Form.Item
+                  label="Ledger Type"
+                  name="ledger_type"
+                  required={false}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please Select One",
+                    },
+                  ]}>
+                  <Select placeholder="All" allowClear>
+                    <Option value="All">All</Option>
+                    <Option value="Diamond">Diamond Casino</Option>
+                    <Option value="International">International Casino</Option>
+                    <Option value="Settle">Settle</Option>
+                    <Option value="Cricket">Cricket</Option>
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
@@ -266,7 +291,11 @@ const AgentTransactions = ({ userType, Listname }) => {
 
       <Card className="sport_detail ledger_data">
         {/* {userTranstionData?.length != 0  && ( */}
-          <TransactionTable clientId={clientId} balanceData = {result?.data?.data?.lenadenabalance}  data={userTranstionData} />
+        <TransactionTable
+          clientId={clientId}
+          balanceData={result?.data?.data?.lenadenabalance}
+          data={userTranstionData}
+        />
         {/* )} */}
       </Card>
     </>

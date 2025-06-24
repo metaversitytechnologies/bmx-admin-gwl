@@ -157,17 +157,20 @@ const Sidebar = (props) => {
               label: "Sports-Betting",
               children: [
                 {
-                  label: <Link to="/Events/sports-details">Sports Detail</Link>,
+                  label: <Link to="/Events/sports-details">Active Games</Link>,
                 },
                 {
-                  label: <Link to="/casino/aura-details">Aura Detail</Link>,
+                  label: <Link to="/finish-game">Finished Games</Link>,
                 },
-                {
-                  label: <Link to="/casino/supernowa">Super Nowa Detail</Link>,
-                },
-                {
-                  label: <Link to="/casino/qtech">QTech Detail</Link>,
-                },
+                // {
+                //   label: <Link to="/casino/aura-details">Aura Detail</Link>,
+                // },
+                // {
+                //   label: <Link to="/casino/supernowa">Super Nowa Detail</Link>,
+                // },
+                // {
+                //   label: <Link to="/casino/qtech">QTech Detail</Link>,
+                // },
                 // {
                 //   label: (
                 //     <Link to="/Casino/andar-bahar-details">
@@ -256,74 +259,82 @@ const Sidebar = (props) => {
               icon: <BiUserCircle />,
               label: "Reports",
               children: [
-                {
-                  key: "11",
-                  label: "Data Report",
-                  children: [
-                    {
-                      className: `${userType != "5" ? "d-none" : ""}`,
-                      label: <Link to="/report/super">Master </Link>,
-                    },
-                    {
-                      className: `${
-                        userType === "0" || userType == "5" ? "" : "d-none"
-                      }`,
-                      label: <Link to="/report/master">Super</Link>,
-                    },
+                // {
+                //   key: "11",
+                //   label: "Data Report",
+                //   children: [
+                //     {
+                //       className: `${userType != "5" ? "d-none" : ""}`,
+                //       label: <Link to="/report/super">Master </Link>,
+                //     },
+                //     {
+                //       className: `${
+                //         userType === "0" || userType == "5" ? "" : "d-none"
+                //       }`,
+                //       label: <Link to="/report/master">Super</Link>,
+                //     },
 
-                    {
-                      className: `${
-                        userType === "1" || userType == "5" || userType === "0"
-                          ? ""
-                          : "d-none"
-                      }`,
-                      label: <Link to="/report/agent">Agent </Link>,
-                    },
-                    {
-                      label: <Link to="/report/client">Client </Link>,
-                    },
-                  ],
+                //     {
+                //       className: `${
+                //         userType === "1" || userType == "5" || userType === "0"
+                //           ? ""
+                //           : "d-none"
+                //       }`,
+                //       label: <Link to="/report/agent">Agent </Link>,
+                //     },
+                //     {
+                //       label: <Link to="/report/client">Client </Link>,
+                //     },
+                //   ],
+                // },
+                // {
+                //   key: "12",
+                //   label: "Commission Report",
+                //   children: [
+                //     {
+                //       className: `${userType != "5" ? "d-none" : ""}`,
+                //       label: <Link to="/client/comm-report-super">Master</Link>,
+                //     },
+                //     {
+                //       className: `${
+                //         userType === "0" || userType == "5" ? "" : "d-none"
+                //       }`,
+                //       label: <Link to="/client/comm-report-master">Super</Link>,
+                //     },
+                //     {
+                //       className: `${
+                //         userType === "1" || userType == "5" || userType === "0"
+                //           ? ""
+                //           : "d-none"
+                //       }`,
+                //       label: <Link to="/client/comm-report-agent">Agent</Link>,
+                //     },
+                //     {
+                //       label: (
+                //         <Link to="/client/comm-report-client">Client</Link>
+                //       ),
+                //     },
+                //   ],
+                // },
+
+                {
+                  label: <Link to="/client/login-report">Login Report</Link>,
                 },
                 {
-                  key: "12",
-                  label: "Commission Report",
-                  children: [
-                    {
-                      className: `${userType != "5" ? "d-none" : ""}`,
-                      label: <Link to="/client/comm-report-super">Master</Link>,
-                    },
-                    {
-                      className: `${
-                        userType === "0" || userType == "5" ? "" : "d-none"
-                      }`,
-                      label: <Link to="/client/comm-report-master">Super</Link>,
-                    },
-                    {
-                      className: `${
-                        userType === "1" || userType == "5" || userType === "0"
-                          ? ""
-                          : "d-none"
-                      }`,
-                      label: <Link to="/client/comm-report-agent">Agent</Link>,
-                    },
-                    {
-                      label: (
-                        <Link to="/client/comm-report-client">Client</Link>
-                      ),
-                    },
-                  ],
+                  label: <Link to="/client/secure-code">Secure Code Report</Link>,
                 },
-                {
-                  key: "13",
-                  label: "Login Reports",
-                  children: [
-                    {
-                      label: (
-                        <Link to="/client/login-report">Login Report</Link>
-                      ),
-                    },
-                  ],
-                },
+
+                // {
+                //   key: "13",
+                //   label: "Login Reports",
+                //   children: [
+                //     {
+                //       label: (
+                //         <Link to="/client/login-report">Login Report</Link>
+                //       ),
+                //     },
+                //   ],
+                // },
               ],
             },
             // {
@@ -348,18 +359,18 @@ const Sidebar = (props) => {
             {
               key: "8",
               icon: <SlDiamond />,
-              label: "Setting",
-              children: [
-                {
-                  className: `${
-                    props?.logoData?.data?.selfAllowed ? "" : "d-none"
-                  }`,
-                  label: <Link to="/set-commission">Set Commission</Link>,
-                },
-                {
-                  label: <Link to="/markets">Setting</Link>,
-                },
-              ],
+              label:  <Link to="/markets">Setting</Link>,
+              // children: [
+              //   {
+              //     className: `${
+              //       props?.logoData?.data?.selfAllowed ? "" : "d-none"
+              //     }`,
+              //     label: <Link to="/set-commission">Set Commission</Link>,
+              //   },
+              //   {
+              //     label: <Link to="/markets">Setting</Link>,
+              //   },
+              // ],
             },
           ]}
         />
@@ -471,7 +482,7 @@ const Sidebar = (props) => {
                       <Link
                         to="/Events/sports-details"
                         onClick={() => props?.action()}>
-                        Sports Detail
+                        Active Games
                       </Link>
                     ),
                   },
@@ -480,26 +491,35 @@ const Sidebar = (props) => {
                       <Link
                         to="/casino/aura-details"
                         onClick={() => props?.action()}>
-                        Aura Detail
+                        Finished Detail
                       </Link>
                     ),
                   },
-                  {
-                    label: (
-                      <Link
-                        to="/casino/supernowa"
-                        onClick={() => props?.action()}>
-                        Super Nowa Detail
-                      </Link>
-                    ),
-                  },
-                  {
-                    label: (
-                      <Link to="/casino/qtech" onClick={() => props?.action()}>
-                        QTech Detail
-                      </Link>
-                    ),
-                  },
+                  // {
+                  //   label: (
+                  //     <Link
+                  //       to="/casino/aura-details"
+                  //       onClick={() => props?.action()}>
+                  //       Aura Detail
+                  //     </Link>
+                  //   ),
+                  // },
+                  // {
+                  //   label: (
+                  //     <Link
+                  //       to="/casino/supernowa"
+                  //       onClick={() => props?.action()}>
+                  //       Super Nowa Detail
+                  //     </Link>
+                  //   ),
+                  // },
+                  // {
+                  //   label: (
+                  //     <Link to="/casino/qtech" onClick={() => props?.action()}>
+                  //       QTech Detail
+                  //     </Link>
+                  //   ),
+                  // },
                 ],
               },
               {
