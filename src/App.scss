@@ -393,9 +393,111 @@ th.ant-table-cell {
 }
 
 .ant-menu-title-content {
-   font-weight: 600;
+  font-weight: 600;
+  margin-left: 18px !important;
   // a,
   // div {
   //   font-weight: 600;
   // }
+}
+
+.ant-input {
+  height: 38px;
+  border-radius: unset;
+}
+
+.ant-picker-footer-extra .ant-tag-blue {
+  color: #038fde !important;
+  background: #e6faff !important;
+  border-color: #7ddcff !important;
+  cursor: pointer !important;
+}
+
+.match_ledger {
+  margin: 30px 60px;
+  @media (max-width: 800px) {
+    margin: 0px;
+  }
+  .ant-card-head-title {
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    @media (max-width: 800px) {
+      font-size: 20px !important;
+    }
+  }
+}
+.gx-justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.gx-text-blue {
+  color: #1890ff !important;
+}
+
+.gx-mt-3,
+.gx-my-3 {
+  margin-top: 1rem !important;
+}
+
+.gx-pl-5,
+.gx-px-5 {
+  padding-left: 2rem !important;
+}
+.gx-border-redius0 {
+  border-radius: 0;
+}
+
+.all_casino_games {
+  margin: 30px 80px !important;
+  @media (max-width: 800px) {
+    margin: 20px 10px !important;
+  }
+  .ant-card-head-title {
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    @media (max-width: 800px) {
+      font-size: 20px !important;
+    }
+  }
+}
+
+.All_bets {
+  margin: 30px 60px !important;
+  @media (max-width: 800px) {
+    margin: 20px 10px !important;
+  }
+  .ant-card-head-title {
+    font-size: 20px !important;
+    font-weight: 400 !important;
+  }
+}
+
+.match_casino_ledger {
+  .action_btn {
+    background: #038fde;
+    border: 1px solid #038fde;
+    border-radius: unset;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+}
+
+.company_resport_casi {
+  margin: 15px 65px !important;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  @media (max-width: 800px) {
+    margin: 15px 10px;
+  }
+  th.ant-table-cell {
+    padding: 5px !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+  }
+
+  td.ant-table-cell {
+    padding: 5px !important;
+    font-weight: 600 !important;
+    color: #545454 !important;
+  }
 }

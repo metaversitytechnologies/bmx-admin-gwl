@@ -10,7 +10,7 @@ const { RangePicker } = DatePicker;
 
 const data = [];
 
-console.log(data?.length);
+
 
 const CasinoProfitAndLoss = () => {
   const nav = useNavigate();

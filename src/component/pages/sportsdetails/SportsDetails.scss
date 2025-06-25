@@ -6,7 +6,7 @@
   justify-content: center;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
   @media (max-width: 800px) {
-    margin: 20px 0px !important;
+    margin: 20px 0px ;
   }
   .rejected_row {
     margin: 0px 0px 12px 30px;
@@ -50,11 +50,11 @@
   .date_picker {
     display: flex;
     // justify-content: center;
-    align-items: center;
+    // align-items: center;
     .ant-picker {
       border: 1px solid #ddd !important;
       border-radius: 2px !important;
-      height: 40px;
+      height: 36px;
       // padding-left: 51px !important;
     }
   }
@@ -194,10 +194,10 @@
         margin: 7px 2% !important;
       }
     }
-    .ant-picker {
-      width: 96% !important;
-      margin-inline: 2%;
-    }
+    // .ant-picker {
+    //   width: 96% !important;
+    //   margin-inline: 2%;
+    // }
     .ant-space-item {
       margin-left: 0px !important;
     }

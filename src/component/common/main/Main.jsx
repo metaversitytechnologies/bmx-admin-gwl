@@ -46,6 +46,14 @@ import ClientReport from "../../pages/sportsdetails/ClientReport/ClientReport";
 import FinishedGame from "../../pages/FinishedGame/FinishedGame";
 import CompanyReport from "../../pages/sportsdetails/CompanyReport/CompanyReport";
 import SecureCode from "../../pages/LoginReport/SecureCode";
+import UserSearch from "../../pages/Settings/UserSearch/UserSearch";
+import CommissionLenDen from "../../pages/CommissionLenDen/CommissionLenDen";
+import MatchLedgerCasino from "../../pages/MatchLedgerCasino/MatchLedgerCasino";
+import CasinoPandLDetail from "../../pages/CasinoPandLDetail/CasinoPandLDetail";
+import AnderBaharShowBets from '../../pages/AndarBaharDetail/AnderBaharShowBets/AnderBaharShowBets'
+import AnderBaharAllGame from "../../pages/AndarBaharDetail/AnderBaharAllGame/AnderBaharAllGame";
+import AndarBaharPlusMinus from "../../pages/AndarBaharDetail/AndarBaharPlusMinus/AndarBaharPlusMinus";
+import RoulettePlusMinus from "../../pages/RouletteDetail/RoulettePlusMinus/RoulettePlusMinus";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -157,6 +165,10 @@ const Main = () => {
         <Route path="/account-operation" element={<AccountOperations />} />
         <Route path="/client/login-report" element={<LoginReport />} />
         <Route path="/client/secure-code" element={<SecureCode />} />
+        <Route path="/searchUser" element={<UserSearch />} />
+        <Route path="/commissionLenden" element={<CommissionLenDen />} />
+        <Route path="/inplay-casino" element={<MatchLedgerCasino />} />
+        <Route path="/completed-casino" element={<CasinoPandLDetail />} />
         <Route path="/client/login-report/:id" element={<LoginReport />} />
         <Route
           path="/client/create-super"
@@ -284,12 +296,12 @@ const Main = () => {
         <Route
           path="/casino/qtech"
           element={<RouletteDetail isAura={"QTech"} Id={323337} />}
-        />
+        /> */}
 
         <Route
           path="/casino/:id/plus-minus-type"
           element={<RoulettePlusMinus />}
-        /> */}
+        />
         {/* <Route path="/casino/:id/all-games" element={<RouletteAllGame />} />
         <Route path="/casino/show-bets/:id" element={<ShowBets />} />
         <Route path="/Casino/dus-ka-dum-details" element={<DusKaDumDetail />} /> */}
@@ -297,18 +309,18 @@ const Main = () => {
           path="/Casino/andar-bahar-details"
           element={<AndarBaharDetail />}
         /> */}
-        {/* <Route
+        <Route
           path="/Casino/AndarBahar/plus-minus-type"
           element={<AndarBaharPlusMinus />}
-        /> */}
-        {/* <Route
+        />
+        <Route
           path="Casino/AndarBahar/all-games"
           element={<AnderBaharAllGame />}
         />
         <Route path="/Casino/show-bet/:id" element={<AnderBaharShowBets />} />
-        <Route path="/Casino/casino-details" element={<CasinoDetail />} />
-        <Route path="/Casino/roulette-book" element={<RouletteBook />} /> */}
-        <Route path="/Events/:id/:id1/live-report" element={<LiveReport />} />
+        {/* <Route path="/Casino/casino-details" element={<CasinoDetail />} />
+        <Route path="/Casino/roulette-book" element={<RouletteBook />} />
+        <Route path="/Events/:id/:id1/live-report" element={<LiveReport />} /> */}
         <Route
           path="/Events/:id/pl/live-report"
           element={<EventProfitLoss />}
