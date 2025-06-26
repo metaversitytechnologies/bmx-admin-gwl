@@ -70,7 +70,7 @@ const ActiveMatch = () => {
                 return (
                   <tr
                     key={id}
-                    onClick={() => handleDetails(res?.matchId)}
+                    
                     style={{ cursor: "pointer" }}>
                     <td>{id + 1}</td>
                     <td>{res?.matchName}</td>
@@ -89,7 +89,7 @@ const ActiveMatch = () => {
                           cursor: "pointer",
                           color: "#038fde",
                           fontWeight: 600,
-                        }}>
+                        }} onClick={() => handleDetails(res?.matchId)}> 
                         Details
                       </p>
                     </td>

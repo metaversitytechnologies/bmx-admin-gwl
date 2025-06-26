@@ -1,0 +1,47 @@
+.gx-bg-grey {
+  background-color: #7d5c0e;
+}
+
+.gx-bg-flex {
+  display: flex;
+  justify-content: space-between !important;
+  justify-items: center;
+  align-items: center;
+}
+
+.gx-text-white {
+  color: #ffffff;
+}
+
+.gx-w-100 {
+  width: 100%;
+}
+
+.gx-pt-2,
+.gx-py-2 {
+  padding-top: 0.5rem !important;
+}
+.gx-pr-2,
+.gx-px-2 {
+  padding-right: 0.5rem !important;
+}
+.gx-pb-2,
+.gx-py-2 {
+  padding-bottom: 0.5rem !important;
+}
+.gx-pl-2,
+.gx-px-2 {
+  padding-left: 0.5rem !important;
+}
+
+.gx-font-weight-semi-bold {
+  font-weight: 600;
+}
+
+.gx-text-uppercase {
+  text-transform: uppercase;
+}
+
+.OddsType {
+  font-size: 14px;
+}

@@ -54,6 +54,8 @@ import AnderBaharShowBets from '../../pages/AndarBaharDetail/AnderBaharShowBets/
 import AnderBaharAllGame from "../../pages/AndarBaharDetail/AnderBaharAllGame/AnderBaharAllGame";
 import AndarBaharPlusMinus from "../../pages/AndarBaharDetail/AndarBaharPlusMinus/AndarBaharPlusMinus";
 import RoulettePlusMinus from "../../pages/RouletteDetail/RoulettePlusMinus/RoulettePlusMinus";
+import GameDeatis from "../../pages/GameDeatis/GameDeatis";
+import CasinoMainPage from "../../pages/Casino/CasinoMainPage";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -270,8 +272,7 @@ const Main = () => {
         />
         {/* <Route path="/client/txn-client" element={<ClientTransactions/>}/> */}
         <Route path="/markets" element={<Settings />} />
-        <Route path="/account-statement" element={<AccountStatement />} />
-        <Route path="/account-statement/:id" element={<AccountStatement />} />
+        <Route path="/account-statement/:id?" element={<AccountStatement />} />
         <Route path="/profitandloss" element={<ProfitAndLoss />} />
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
         <Route path="/Casino/today-pandl" element={<TodayProfitLoss />} />
@@ -280,6 +281,7 @@ const Main = () => {
         <Route path="/agent-list/:id" element={<ClientReport />} />
         <Route path="/finish-game" element={<FinishedGame />} />
         <Route path="/matchplusminus/:id?" element={<CompanyReport />} />
+        <Route path="/casino/:id?" element={<CasinoMainPage />} />
         <Route
           path="/client/secure-code-report"
           element={<SecureCodeReport />}
@@ -319,8 +321,8 @@ const Main = () => {
         />
         <Route path="/Casino/show-bet/:id" element={<AnderBaharShowBets />} />
         {/* <Route path="/Casino/casino-details" element={<CasinoDetail />} />
-        <Route path="/Casino/roulette-book" element={<RouletteBook />} />
-        <Route path="/Events/:id/:id1/live-report" element={<LiveReport />} /> */}
+        <Route path="/Casino/roulette-book" element={<RouletteBook />} /> */}
+        <Route path="/Events/:id/:id1/live-report" element={<GameDeatis/>} />
         <Route
           path="/Events/:id/pl/live-report"
           element={<EventProfitLoss />}

@@ -7,16 +7,17 @@ import AccountModals from "../AccountModals";
 import { useParams } from "react-router-dom";
 import DownloadReport from "../../../../common/DownloadReport/DownloadReport";
 
-const AllStatement = ({clientId, dateData, gameType }) => {
-  const [trigger, {data, isFetching, isLoading}] = useLazyAccountstatementQuery();
+const AllStatement = ({ clientId, dateData, gameType }) => {
+  const [trigger, { data, isFetching, isLoading }] =
+    useLazyAccountstatementQuery();
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [marketId, setMarketId] = useState("");
   const [remark, setRemark] = useState("");
 
-  const {id} = useParams()
+  const { id } = useParams();
 
-  useEffect(()=>{
+  useEffect(() => {
     const AccData = {
       index: 0,
       noOfRecords: "200",
@@ -24,9 +25,9 @@ const AllStatement = ({clientId, dateData, gameType }) => {
       toDate: dateData[1],
       userid: clientId || id || "",
       type: gameType,
-    }
-    trigger(AccData)
-  }, [data, gameType,clientId, dateData])
+    };
+    trigger(AccData);
+  }, [data, gameType, clientId, dateData]);
 
   const dispatch = useDispatch();
 
@@ -45,11 +46,7 @@ const AllStatement = ({clientId, dateData, gameType }) => {
       dataIndex: "fromto",
       key: "fromto",
     },
-    {
-      title: "Prev. Bal",
-      dataIndex: "prevBal",
-      key: "Prev. Bal",
-    },
+
     {
       title: "CR",
       dataIndex: "credit",
@@ -71,35 +68,11 @@ const AllStatement = ({clientId, dateData, gameType }) => {
         };
       },
     },
-    {
-      title: "Comm+",
-      dataIndex: "commPlus",
-      key: "commPlus",
-      render: (text) => {
-        return {
-          children: <p className="text_success">{text}</p>,
-        };
-      },
-    },
-    {
-      title: "Comm-",
-      dataIndex: "commMinus",
-      key: "commMinus",
-      render: (text) => {
-        return {
-          children: <p className="text_danger">{text}</p>,
-        };
-      },
-    },
+
     {
       title: "Balance",
       dataIndex: "pts",
       key: "pts",
-    },
-    {
-      title: "Remark",
-      dataIndex: "remark",
-      key: "remark",
     },
   ];
 
@@ -107,58 +80,21 @@ const AllStatement = ({clientId, dateData, gameType }) => {
     setIsModalOpen1(false);
   };
 
-  const handelAccountModals = (e, id, rem) =>{
+  const handelAccountModals = (e, id, rem) => {
     e.preventDefault();
     setIsModalOpen1(true);
-    setMarketId(id)
-    setRemark(rem)
-  } 
-  // console.log(marketId, "Sdfsdafsdf")
-
-  const dataSource = data?.data?.dataList?.map((curElm) => {
-    return {
-      date: curElm?.date,
-      fromto: curElm?.fromto,
-      prevBal:0,
-      credit: curElm?.credit,
-      debit: curElm?.debit,
-      commPlus: 0,
-      commMinus: 0,
-      pts: curElm?.pts,
-      remark: curElm?.remark,
-    };
-  });
-
-  const headerField = [
-    "Date",
-    "Description",
-    "Prev. Bal",
-    "CR",
-    "DR",
-    "Comm+",
-    "Comm-",
-    "Balance",
-    "Remark"
-  ];
+    setMarketId(id);
+    setRemark(rem);
+  };
 
   return (
     <>
-    {isModalOpen && (
+      {isModalOpen && (
         <div
           onClick={() => setIsModalOpen(false)}
           className="report_overlay"></div>
       )}
-    <div className=" account_download">
-    <DownloadReport startDate={dateData[0]}
-      endDate= {dateData[1]} 
-      userId= {clientId || id}
-      type={gameType} reportType="AccountStatementReport" reportName="account-statement" 
-      headerField={headerField}
-      isModalOpen={isModalOpen}
-      setIsModalOpen={setIsModalOpen}
-      />
-    </div>
-   
+
       <div className="table_section statement_tabs_data">
         <div className="table_section">
           <Table
@@ -167,14 +103,17 @@ const AllStatement = ({clientId, dateData, gameType }) => {
             rowClassName="c_pointer"
             onRow={(record, rowIndex) => {
               return {
-                onClick: event => { 
-                   handelAccountModals(event,record?.marketid, record?.remark)
-                }, 
-              };  
+                onClick: (event) => {
+                  handelAccountModals(event, record?.marketid, record?.remark);
+                },
+              };
             }}
             loading={isFetching || isLoading}
             columns={columns}
-            pagination={{defaultPageSize:50, pageSizeOptions:[50, 100, 150, 200, 250]}}
+            pagination={{
+              defaultPageSize: 50,
+              pageSizeOptions: [50, 100, 150, 200, 250],
+            }}
             dataSource={
               data?.data?.dataList?.map((res) => ({
                 ...res,
@@ -185,17 +124,16 @@ const AllStatement = ({clientId, dateData, gameType }) => {
             }></Table>
         </div>
       </div>
-      {
-        marketId != "" && <Modal title="Bet List" 
-        className="bet_list"
-        open={isModalOpen1} 
-        onCancel={handleCancel}
-        footer={null}
-        >
-         <AccountModals marketId={marketId} remark={remark} id={id}/>
+      {marketId != "" && (
+        <Modal
+          title="Bet List"
+          className="bet_list"
+          open={isModalOpen1}
+          onCancel={handleCancel}
+          footer={null}>
+          <AccountModals marketId={marketId} remark={remark} id={id} />
         </Modal>
-      }
-      
+      )}
     </>
   );
 };

@@ -166,7 +166,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
 
   const handleBlockBettting = () => {
     setDropdownStates([]);
-    setBetLockModals(true);
+    // setBetLockModals(true);
   };
 
   const nav = useNavigate();
@@ -521,7 +521,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
         <Modal
           className="partnership"
           width={750}
-          title={`Partnership Info - ${userIds}`}
+          title={`PARTNERSHIP DETAILS - ${userIds}`}
           open={isModalOpen}
           onCancel={handleCancel}
           okButtonProps={{ style: { display: "none" } }}>

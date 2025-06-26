@@ -48,7 +48,8 @@ const SuperAgentLimitDetails = () => {
             <div
               style={{ padding: "9px 8px", fontSize: "25px" }}
               className="team_name">
-              {state == 1 ? "Super Limit Details":state == 2?"Agent Limit Details": state == 3?"Client Limit Details":"Master Limit Details"}
+              {/* {state == 1 ? "Super Limit Details":state == 2?"Agent Limit Details": state == 3?"Client Limit Details":"Master Limit Details"} */}
+              Update Limit
             </div>
             <div className="show_btn">
               <button onClick={handleBackClick}>Back</button>

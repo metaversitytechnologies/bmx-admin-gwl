@@ -102,6 +102,9 @@
     outline: unset;
     box-shadow: unset;
   }
+  @media (max-width: 800px) {
+    width: 100%;
+  }
 }
 .add_minus {
   .ant-tabs-tab-btn {
@@ -120,10 +123,37 @@
   margin-left: 33px;
   margin-right: 125px;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-  @media (max-width:800px) {
+  @media (max-width: 800px) {
     margin: 18px 15px !important;
   }
   .ant-spin-nested-loading {
     padding: 18px 4px 13px;
+  }
+  .ant-switch {
+    height: 28px;
+    line-height: 28px;
+    background: red !important;
+    width: 74px;
+    margin: 10px 0px;
+  }
+  .ant-switch-handle {
+    height: 23px;
+    width: 23px;
+    &::before {
+      border-radius: 12px;
+    }
+  }
+  .ant-switch-inner-unchecked {
+    margin-top: -28px;
+  }
+  .ant-switch-checked {
+    background: green !important;
+  }
+
+  .ant-switch-checked .ant-switch-handle {
+    left: calc(100% - 26px) !important  ;
+  }
+  .ant-switch-inner span {
+    font-size: 16px !important;
   }
 }

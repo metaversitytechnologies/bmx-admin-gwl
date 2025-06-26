@@ -16,13 +16,7 @@ const column = [
   },
 ];
 
-const columns = [
-  {
-    title: "Parent",
-    dataIndex: "userid",
-    key: 1,
-  },
-];
+
 
 const clintColumns = [
   {

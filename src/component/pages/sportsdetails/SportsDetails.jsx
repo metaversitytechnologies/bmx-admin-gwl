@@ -52,7 +52,7 @@ const SportsDetails = () => {
       label: (
         <Link
           onClick={() => setDropdownStates(false)}
-          to={`/livereport/:id/:id1`}
+          to={`/Events/1234/2345/live-report`}
           className="title_section"
           style={{
             display: `${

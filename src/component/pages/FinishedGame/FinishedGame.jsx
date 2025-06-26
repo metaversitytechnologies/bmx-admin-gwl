@@ -226,14 +226,14 @@ const FinishedGame = () => {
         className="sport_detail finished_game"
         title="Completed Games Detail"
         extra={<button onClick={handleBackbtn}>Back</button>}>
-        <Row className="date_picker" justify="start">
+        <Row className="date_picker" align="middle" justify="start" style={{ padding: "6px 10px 0px" }}>
           <Col
             xl={6}
             lg={6}
-            md={24}
-            xs={24}
+            md={12}
+            xs={12}
             className="datepicker_sport"
-            style={{ padding: "6px 10px 0px" }}>
+            >
             <RangePicker
               style={{ marginBottom: "10px" }}
               defaultValue={[dayjs(timeBefore), dayjs(time)]}
@@ -241,7 +241,7 @@ const FinishedGame = () => {
               bordered={false}
             />
           </Col>
-          <Col xl={6} lg={6} md={24} xs={24}>
+          <Col xl={6} lg={6} md={12} xs={12} >
             <Select
               placeholder="Select Game Type"
               options={[]}

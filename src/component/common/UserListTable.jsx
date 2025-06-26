@@ -178,11 +178,11 @@ const UserListTable = ({
 
   const handleBlockBettting = () => {
     setDropdownStates([]);
-    setBetLockModals(true);
+    // setBetLockModals(true);
   };
   const handleBlockCasino = () => {
     setDropdownStates([]);
-    setCasinoLockModals(true);
+    // setCasinoLockModals(true);
   };
 
   const nav = useNavigate();
@@ -225,7 +225,7 @@ const UserListTable = ({
     {
       // className: `${parentUserids == userId ? "" : "d_none"}`,
       label: (
-        <Link
+        <Link style={{fontWeight:700}}
           onClick={() => {
             setDropdownStates([]);
           }}
@@ -243,16 +243,16 @@ const UserListTable = ({
       ),
       key: "5",
     },
+    // {
+    //   // className: `${parentUserids == userId ? "" : "d_none"}`,
+    //   label: (
+    //     <div onClick={() => handleUpdateLimites(dataVal)}>Update Limit</div>
+    //   ),
+    //   key: "6",
+    // },
     {
-      // className: `${parentUserids == userId ? "" : "d_none"}`,
       label: (
-        <div onClick={() => handleUpdateLimites(dataVal)}>Update Limit</div>
-      ),
-      key: "6",
-    },
-    {
-      label: (
-        <Link
+        <Link style={{fontWeight:700}}
           onClick={() => setDropdownStates([])}
           to={`/account-statement/${dataVal}`}>
           Statement
@@ -262,7 +262,7 @@ const UserListTable = ({
     },
     {
       label: (
-        <Link
+        <Link style={{fontWeight:700}}
           onClick={() => setDropdownStates([])}
           to={`/client/account-operations/${dataVal}`}>
           Account Operations
@@ -272,7 +272,7 @@ const UserListTable = ({
     },
     {
       label: (
-        <Link
+        <Link style={{fontWeight:700}}
           onClick={() => setDropdownStates([])}
           to={`/client/login-report/${dataVal}`}>
           Login Report
@@ -728,7 +728,7 @@ const UserListTable = ({
           <Modal
             className="partnership"
             width={718}
-            title={`Partnership Info - ${userIds}`}
+            title={`PARTNERSHIP DETAILS - ${userIds}`}
             open={isModalOpen}
             onCancel={handleCancel}
             footer={false}

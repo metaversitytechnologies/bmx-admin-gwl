@@ -26,10 +26,10 @@ a:hover {
   background: #f9c9d4;
 }
 .back {
-  background: #63b7f7 !important;
+  background: #a7d8fd !important;
 }
 .lay {
-  background: #ef839b !important;
+  background: #f9c9d4 !important;
 }
 .text_success {
   color: green;
@@ -77,11 +77,6 @@ a:hover {
 // svg {
 //   color: #fff;
 // }
-
-td,
-th {
-  white-space: nowrap;
-}
 
 .ant-card {
   border-radius: 2px;
@@ -339,9 +334,9 @@ div#rc-tabs-0-tab-2 {
   }
 }
 
-th.ant-table-cell {
-  background: #7d5c0e !important;
-}
+// th.ant-table-cell {
+//   background: #7d5c0e !important;
+// }
 
 .transations_date {
   width: 90% !important;
@@ -499,5 +494,52 @@ th.ant-table-cell {
     padding: 5px !important;
     font-weight: 600 !important;
     color: #545454 !important;
+  }
+}
+
+.matchdtailsNoBack {
+  background-color: #f9c9d4 !important;
+}
+
+.matchdtailsYesBackground {
+  background-color: #a7d8fd;
+}
+
+.matched_bets {
+  .ant-card-head-title {
+    font-size: 14px !important;
+  }
+}
+
+.gx-bg-green-0 {
+  background-color: green !important;
+  color: #fff;
+}
+.gx-bg-red {
+  background-color: #f5222d;
+  color: #fff;
+}
+
+.Display_Games {
+  height: 36px;
+  padding: 0px 15px;
+  border-radius: 5px;
+  border: 1px solid #d9d9d9;
+  background: #fff;
+  color: #545454;
+  &:hover {
+    background: #fff;
+    color: #545454 !important;
+  }
+}
+
+
+.NonDeclare{
+  .ant-card-head-title{
+    padding: 0px !important;
+  }
+  .ant-table-thead th{
+    font-size: 14px !important;
+    text-transform: capitalize !important;
   }
 }

@@ -27,8 +27,7 @@ const SettingModals = ({ setOpenModals, openModal }) => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                          <HiUser />
+                          <img src="/Images/user.png" height={33} />
                         </div>
                         <div className="gx-media-body">
                           <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">

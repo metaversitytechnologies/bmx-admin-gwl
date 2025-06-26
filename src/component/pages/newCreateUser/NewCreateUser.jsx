@@ -217,11 +217,11 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
     <div className="create_user_section">
       {/* {contextHolder}
       {userTypeCheck != userTyep && ( */}
-      <SelectUpline
+      {/* <SelectUpline
         data={resultData?.data}
         handleChange={handleChange}
         handleSelect={handleSelect}
-      />
+      /> */}
       {/* )} */}
       {/* {(parentId?.length > 0 || userTypeCheck == userTyep) && ( */}
       <div className="main_live_section">
@@ -273,23 +273,19 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
               },
               {
                 name: "MyCommtype",
-                value:
-                  data?.data?.mySessionCommission === 0 &&
-                  data?.data?.myMatchCommission
-                    ? "No Comm"
-                    : "Bet by Bet",
+                value: "BetByBet",
               },
               {
                 name: "cassinoComm",
-                value: data?.data?.myCasinoCommission,
+                value: 2,
               },
               {
                 name: "My_Match_comm",
-                value: data?.data?.myMatchCommission,
+                value: 1,
               },
               {
                 name: "My_sess_comm",
-                value: data?.data?.mySessionCommission,
+                value: 1,
               },
             ]}>
             <div>
@@ -327,7 +323,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please enter name",
+                        message: "Please input your name!",
                       },
                     ]}>
                     <Input
@@ -341,11 +337,81 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                     />
                   </Form.Item>
                 </Col>
+                <Col xl={12} lg={12} md={24} xs={24}>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your reference!",
+                      },
+                    ]}
+                    label="Reference"
+                    name="reference">
+                    <Input type="text" placeholder="Enter Reference" />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your reference!",
+                      },
+                    ]}
+                    label="My Coins"
+                    name="My Coins">
+                    <Input type="number" disabled />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Coins"
+                    name="Coins"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message:
+                          "Coins must have at most one digit after the decimal point Please input your coins!",
+                      },
+                      {
+                        validator: async (_, values) => {
+                          if (
+                            data?.data?.myBalance < values &&
+                            values != "" &&
+                            values != null
+                          ) {
+                            return Promise.reject(
+                              new Error(
+                                "Coins must have at most one digit after the decimal point "
+                              )
+                            );
+                          }
+                        },
+                      },
+                    ]}>
+                    <InputNumber
+                      className="number_field"
+                      min={0}
+                      type="number"
+                      placeholder="Enter Coins"
+                      onKeyDown={(e) => {
+                        if (e.key == ".") {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
                 <Col lg={12} xs={24}>
                   <Form.Item
                     label="Contact No."
                     name="mobile"
                     rules={[
+                      {
+                        required: true,
+                        message: "Please input your Contact Number",
+                      },
                       {
                         validator: async (_, names) => {
                           if (
@@ -372,53 +438,6 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                     />
                   </Form.Item>
                 </Col>
-                <Col xl={12} lg={12} md={24} xs={24}>
-                  <Form.Item label="Reference" name="reference">
-                    <Input type="text" placeholder="Enter Reference" />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item label="My Coins" name="My Coins" required={false}>
-                    <Input type="number" disabled />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Coins"
-                    name="Coins"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter valid Coins",
-                      },
-                      {
-                        validator: async (_, values) => {
-                          if (
-                            data?.data?.myBalance < values &&
-                            values != "" &&
-                            values != null
-                          ) {
-                            return Promise.reject(
-                              new Error("Please enter valid Coins")
-                            );
-                          }
-                        },
-                      },
-                    ]}>
-                    <InputNumber
-                      className="number_field"
-                      min={0}
-                      type="number"
-                      placeholder="Enter Coins"
-                      onKeyDown={(e) => {
-                        if (e.key == ".") {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
 
                 <Col lg={12} xs={24}>
                   <Form.Item
@@ -427,7 +446,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please Enter Password",
+                        message: "Please input your Password",
                       },
                       // {
                       //   validator: async (_, names) => {
@@ -448,6 +467,31 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                     <Input type="password" placeholder="Password" />
                   </Form.Item>
                 </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Share Type"
+                    name="shareType"
+                    placeholder="Select share type"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select your share type!",
+                      },
+                    ]}>
+                    <Select
+                      options={[
+                        {
+                          value: "Fixed",
+                          label: "Fixed",
+                        },
+                        {
+                          value: "Change",
+                          label: "Change",
+                        },
+                      ]}
+                    />
+                  </Form.Item>
+                </Col>
               </Row>
               <MatchCommission
                 createName={createName}
@@ -456,15 +500,12 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                 data={data}
                 userData={userData}
               />
-              {/* <CasinoCommission
-                  createName={createName}
-                  commiType={commiType}
-                /> */}
-              <CasinoDetailsAllow casinoDetalisData={casinoDetalisData} />
+              <CasinoCommission createName={createName} commiType={commiType} />
+              {/* <CasinoDetailsAllow casinoDetalisData={casinoDetalisData} /> */}
 
               <Row className="super_agent sub_super">
                 <Col lg={12} xs={24}>
-                  <Form.Item
+                  {/* <Form.Item
                     label="Transaction Password"
                     name="lupassword"
                     rules={[
@@ -479,7 +520,7 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
                       onChange={(e) => handleLupassword(e)}
                       placeholder="Transaction Password"
                     />
-                  </Form.Item>
+                  </Form.Item> */}
                 </Col>
                 <Col lg={12} xs={24}>
                   <Form.Item wrapperCol={{ offset: 19, span: 24 }}>

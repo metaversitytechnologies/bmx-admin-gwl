@@ -8,8 +8,7 @@ const MatchCommission = ({
   data,
   createName,
 }) => {
-
-  console.log(userData, "userData")
+  console.log(userData, "userData");
 
   return (
     <>
@@ -23,7 +22,7 @@ const MatchCommission = ({
           <>
             <Col lg={12} xs={24}>
               <Form.Item
-                label="My Match Share(%)"
+                label="My Match Share"
                 name="MyMatchShare"
                 required={false}>
                 <InputNumber
@@ -124,66 +123,10 @@ const MatchCommission = ({
                 rules={[
                   {
                     required: true,
-                    message: "Please select odds commission",
+                    message: "Please input your match Commission!",
                   },
                 ]}>
-                <Select
-                  defaultValue="Select Match comm(%)"
-                  options={[
-                    {
-                      value: "0.00",
-                      label: "0.00",
-                    },
-                    {
-                      value: "0.25",
-                      label: "0.25",
-                    },
-                    {
-                      value: "0.50",
-                      label: "0.50",
-                    },
-                    {
-                      value: "0.75",
-                      label: "0.75",
-                    },
-                    {
-                      value: "1.00",
-                      label: "1.00",
-                    },
-                    {
-                      value: "1.25",
-                      label: "1.25",
-                    },
-                    {
-                      value: "1.50",
-                      label: "1.50",
-                    },
-                    {
-                      value: "1.75",
-                      label: "1.75",
-                    },
-                    {
-                      value: "2.00",
-                      label: "2.00",
-                    },
-                    {
-                      value: '2.25',
-                      label: '2.25',
-                    },
-                    {
-                      value: '2.50',
-                      label: '2.50',
-                    },
-                    {
-                      value: '2.75',
-                      label: '2.75',
-                    },
-                    {
-                      value: '3.00',
-                      label: '3.00',
-                    },
-                  ]}
-                />
+                <Input placeholder="master Match Commission" />
               </Form.Item>
             </Col>
 
@@ -205,82 +148,10 @@ const MatchCommission = ({
                 rules={[
                   {
                     required: true,
-                    message: "Please select session commission",
+                    message: "Please input your Sess Commission!",
                   },
                 ]}>
-                <Select
-                  defaultValue="Select Sess Comm(%)"
-                  options={[
-                    {
-                      value: "0.00",
-                      label: "0.00",
-                    },
-                    {
-                      value: "0.25",
-                      label: "0.25",
-                    },
-                    {
-                      value: "0.50",
-                      label: "0.50",
-                    },
-                    {
-                      value: "0.75",
-                      label: "0.75",
-                    },
-                    {
-                      value: "1.00",
-                      label: "1.00",
-                    },
-                    {
-                      value: "1.25",
-                      label: "1.25",
-                    },
-                    {
-                      value: "1.50",
-                      label: "1.50",
-                    },
-                    {
-                      value: "1.75",
-                      label: "1.75",
-                    },
-                    {
-                      value: "2.00",
-                      label: "2.00",
-                    },
-                    {
-                      value: "2.25",
-                      label: "2.25",
-                    },
-                    {
-                      value: "2.50",
-                      label: "2.50",
-                    },
-                    {
-                      value: "2.75",
-                      label: "2.75",
-                    },
-                    {
-                      value: "3.00",
-                      label: "3.00",
-                    },
-                    {
-                      value: "3.25",
-                      label: "3.25",
-                    },
-                    {
-                      value: "3.50",
-                      label: "3.50",
-                    },
-                    {
-                      value: "3.75",
-                      label: "3.75",
-                    },
-                    {
-                      value: "4.00",
-                      label: "4.00",
-                    },
-                  ]}
-                />
+                <Input placeholder="master Session Commission" />
               </Form.Item>
             </Col>
           </>

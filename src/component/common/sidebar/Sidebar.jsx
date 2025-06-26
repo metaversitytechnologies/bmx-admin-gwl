@@ -560,9 +560,9 @@ const Sidebar = (props) => {
                   {
                     label: (
                       <Link
-                        to="/casino/aura-details"
+                        to="/finish-game"
                         onClick={() => props?.action()}>
-                        Finished Detail
+                        Finished Games
                       </Link>
                     ),
                   },

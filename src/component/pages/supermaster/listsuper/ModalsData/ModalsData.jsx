@@ -44,17 +44,17 @@ const ModalsData = ({ partnershipDetails, loading }) => {
             <div className="partnership_data">
               <table>
                 <tr>
-                  <th>Up Line</th>
-                  <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ? "" : "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>Super</th>
+                  {/* <th>Up Line</th> */}
+                  <th >Sub Admin</th>
+                  <th>Master</th>
+                  <th >Super</th>
                   <th>Agent</th>
                 </tr>
                 <tr>
-                  <td>{details.uplinepartership}</td>
-                  <td className={uType != 5 && "d_none"}>{details.subadminpartnership}</td>
-                  <td className={(uType == 0 || uType == 5) ? "" : "d_none"}>{details.supermastepartnership}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>{details.masterpartership}</td>
+                  {/* <td>{details.uplinepartership}</td> */}
+                  <td >{details.subadminpartnership}</td>
+                  <td >{details.supermastepartnership}</td>
+                  <td>{details.masterpartership}</td>
                   <td>{details.delearpartership}</td>
                 </tr>
               </table>
@@ -68,16 +68,16 @@ const ModalsData = ({ partnershipDetails, loading }) => {
             <div className="partnership_data">
               <table>
                 <tr>
-                  <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ? "" : "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>Super</th>
+                  <th >Sub Admin</th>
+                  <th >Master</th>
+                  <th >Super</th>
                   <th>Agent</th>
                   <th>Client</th>
                 </tr>
                 <tr>
-                  <td className={uType != 5 && "d_none"}>{details.subadminoddsloss}</td>
-                  <td className={(uType == 0 || uType == 5) ? "" : "d_none"}>{details.supermasteroddsloss}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>{details.masteroddsloss}</td>
+                  <td >{details.subadminoddsloss}</td>
+                  <td >{details.supermasteroddsloss}</td>
+                  <td >{details.masteroddsloss}</td>
                   <td>{details.agentoddsloss}</td>
                   <td>{details.oddsloss}</td>
                 </tr>
@@ -92,16 +92,16 @@ const ModalsData = ({ partnershipDetails, loading }) => {
             <div className="partnership_data">
               <table>
                 <tr>
-                  <th className={uType != 5 && "d_none"}>Sub Admin</th>
-                  <th className={(uType == 0 || uType == 5) ? "" : "d_none"}>Master</th>
-                  <th className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>Super</th>
+                  <th >Sub Admin</th>
+                  <th >Master</th>
+                  <th >Super</th>
                   <th>Agent</th>
                   <th>Client</th>
                 </tr>
                 <tr>
-                  <td className={uType != 5 && "d_none"}>{details.subadminfancyloss}</td>
-                  <td className={(uType == 0 || uType == 5) ? "" : "d_none"}>{details.supermasterfancyloss}</td>
-                  <td className={(uType == 0 || uType == 5 || uType == 1) ? "" : "d_none"}>{details.masterfancyloss}</td>
+                  <td >{details.subadminfancyloss}</td>
+                  <td >{details.supermasterfancyloss}</td>
+                  <td >{details.masterfancyloss}</td>
                   <td>{details.agentfancyloss}</td>
                   <td>{details.fancyloss}</td>
                 </tr>

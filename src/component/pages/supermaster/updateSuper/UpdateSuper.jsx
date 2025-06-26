@@ -8,6 +8,7 @@ import {
   Row,
   Select,
   Spin,
+  Switch,
   notification,
 } from "antd";
 import "./UpdateSuper.scss";
@@ -64,7 +65,7 @@ const UpdateSuper = ({ updateName }) => {
       sessionComm: values?.sess_comm || 0,
       casinoComm: values?.Supercasinocomm || 0,
       reference: values?.reference,
-      matchShare: Number(values?.match_share) || null
+      matchShare: Number(values?.match_share) || null,
     };
 
     trigger(userData);
@@ -86,7 +87,6 @@ const UpdateSuper = ({ updateName }) => {
     console.log("Failed:", errorInfo);
   };
   const { Option } = Select;
-
 
   useEffect(() => {
     getData({
@@ -160,39 +160,39 @@ const UpdateSuper = ({ updateName }) => {
               },
               {
                 name: "sess_comm",
-                value: (resuilt?.data?.data.sessionComm)?.toFixed(2),
+                value: 1,
               },
               {
                 name: "matchcomm",
-                value: resuilt?.data?.data.parentMatchComm,
+                value: 1,
               },
               {
                 name: "sesscomm",
-                value: resuilt?.data?.data.parentSessionComm,
+                value: 1,
               },
               {
                 name: "casinoshare",
-                value: resuilt?.data?.data.parentCasinoShare,
+                value: 1,
               },
               {
                 name: "casinoComm",
-                value: resuilt?.data?.data.parentCasinoComm,
+                value: 1,
               },
               {
                 name: "reference",
-                value: resuilt?.data?.data.reference,
+                value: 1
               },
               {
                 name: "Supermatchcomm",
-                value: (resuilt?.data?.data.matchComm)?.toFixed(2),
+                value:1
               },
               {
                 name: "supercasinoShare",
-                value: resuilt?.data?.data.casinoShare,
+                value: 1
               },
               {
                 name: "Supercasinocomm",
-                value: resuilt?.data?.data.casinoComm,
+                value:1
               },
               {
                 name: "commType",
@@ -200,7 +200,7 @@ const UpdateSuper = ({ updateName }) => {
                   data?.data?.parentMatchComm == 0 ||
                   data?.data?.parentSessionComm == 0
                     ? "no-comm"
-                    : "bbb",
+                    : "BetByBet",
               },
               {
                 name: "comm_type",
@@ -223,6 +223,24 @@ const UpdateSuper = ({ updateName }) => {
               <Row className="super_agent  update_agent">
                 <Col lg={12} xs={24}>
                   <Form.Item
+                    label="User Name"
+                    name="name"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter your username!",
+                      },
+                    ]}>
+                    <Input
+                      onKeyDown={(e) => {
+                        if (!e.key.match(/^[a-zA-Z ]$/) && e.key.length === 1) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </Form.Item>
+                  <Form.Item
                     label="Name"
                     name="name"
                     required
@@ -232,22 +250,33 @@ const UpdateSuper = ({ updateName }) => {
                         message: "Please enter your username!",
                       },
                     ]}>
-                    <Input onKeyDown={(e) => {
-                        if (
-                          !e.key.match(/^[a-zA-Z ]$/) &&
-                          e.key.length === 1
-                        ) {
+                    <Input
+                      onKeyDown={(e) => {
+                        if (!e.key.match(/^[a-zA-Z ]$/) && e.key.length === 1) {
                           e.preventDefault();
                         }
-                      }}/>
+                      }}
+                    />
                   </Form.Item>
-                  <Form.Item label="Reference" name="reference">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input your reference!",
+                      },
+                    ]}
+                    label="Reference"
+                    name="reference">
                     <Input placeholder="Enter Reference" />
                   </Form.Item>
                   <Form.Item
                     label="Contact No."
                     name="number"
                     rules={[
+                      {
+                        required: true,
+                        message: "Please enter your username!",
+                      },
                       { pattern: mobileNum, message: "Invalid Contact NO!" },
                     ]}>
                     <InputNumber
@@ -281,11 +310,26 @@ const UpdateSuper = ({ updateName }) => {
                       },
                     ]}>
                     <Select
-                    
                       value={data?.data?.status ? "active" : "inActive"}
                       allowClear>
                       <Option value={"active"}>Active</Option>
                       <Option value={"inActive"}>InActive</Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="Share Change Type"
+                    label="Status"
+                    rules={[
+                      {
+                        required: true,
+                        message: "",
+                      },
+                    ]}>
+                    <Select
+                      value={data?.data?.status ? "active" : "inActive"}
+                      allowClear>
+                      <Option value={"Fixed"}>Fixed</Option>
+                      <Option value={"Chnage"}>Chnage</Option>
                     </Select>
                   </Form.Item>
                 </Col>
@@ -297,53 +341,11 @@ const UpdateSuper = ({ updateName }) => {
                 </h2>
               </div>
               <Row className="super_agent  update_agent">
-                {
-                  updateName !== "Client" && <> <Col lg={12} xs={24}>
-                  <Form.Item
-                    label={`${updateName} Match Share`}
-                    name="match_share_p"
-                    required={false}>
-                    <Input type="number" disabled />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    name="match_share"
-                    label="Match Share"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                      {
-                        validator: async (_, values) => {
-                          if (
-                            resuilt?.data?.data?.parentMatchShare < values &&
-                            values != "" &&
-                            values != null
-                          ) {
-                            return Promise.reject(
-                              new Error(
-                                "Match share can not be more than" +
-                                  " " +
-                                  `${resuilt?.data?.data?.parentMatchShare}`
-                              )
-                            );
-                          }
-                        },
-                      },
-                    ]}>
-                   <Input type="number"/>
-                  </Form.Item>
-                </Col>
-                  </>
-                }
-          
                 <Col lg={12} xs={24}>
                   <Form.Item
                     label={`${updateName} Comm type`}
                     name="commType"
-                    required={false}>
+                    required={true}>
                     <Input disabled />
                   </Form.Item>
                 </Col>
@@ -370,9 +372,9 @@ const UpdateSuper = ({ updateName }) => {
                   <>
                     <Col lg={12} xs={24}>
                       <Form.Item
-                        label= {`${updateName} match comm(%)`}
+                        label={`${updateName} match comm(%)`}
                         name="matchcomm"
-                        required={false}>
+                        required={true}>
                         <Input type="number" disabled />
                       </Form.Item>
                     </Col>
@@ -385,72 +387,16 @@ const UpdateSuper = ({ updateName }) => {
                           {
                             required: true,
                             message: "Please enter odds commission",
-                          }
+                          },
                         ]}>
-                       <Select
-                          defaultValue="Select Match comm(%)"
-                          options={[
-                            {
-                              value: "0.00",
-                              label: "0.00",
-                            },
-                            {
-                              value: "0.25",
-                              label: "0.25",
-                            },
-                            {
-                              value: "0.50",
-                              label: "0.50",
-                            },
-                            {
-                              value: "0.75",
-                              label: "0.75",
-                            },
-                            {
-                              value: "1.00",
-                              label: "1.00",
-                            },
-                            {
-                              value: "1.25",
-                              label: "1.25",
-                            },
-                            {
-                              value: "1.50",
-                              label: "1.50",
-                            },
-                            {
-                              value: "1.75",
-                              label: "1.75",
-                            },
-                            {
-                              value: "2.00",
-                              label: "2.00",
-                            },
-                            {
-                              value: '2.25',
-                              label: '2.25',
-                            },
-                            {
-                              value: '2.50',
-                              label: '2.50',
-                            },
-                            {
-                              value: '2.75',
-                              label: '2.75',
-                            },
-                            {
-                              value: '3.00',
-                              label: '3.00',
-                            },
-                          ]}
-                        />
+                        <Input />
                       </Form.Item>
                     </Col>
                     <Col lg={12} xs={24}>
                       <Form.Item
                         label={`${updateName} sess comm(%)`}
                         name="sesscomm"
-                        required={false}>
+                        required={true}>
                         <Input type="number" disabled />
                       </Form.Item>
                     </Col>
@@ -463,81 +409,9 @@ const UpdateSuper = ({ updateName }) => {
                           {
                             required: true,
                             message: "Please enter session commission",
-                          }
+                          },
                         ]}>
-                          <Select
-                          defaultValue="Select Sess Comm(%)"
-                          options={[
-                            {
-                              value: "0.00",
-                              label: "0.00",
-                            },
-                            {
-                              value: "0.25",
-                              label: "0.25",
-                            },
-                            {
-                              value: "0.50",
-                              label: "0.50",
-                            },
-                            {
-                              value: "0.75",
-                              label: "0.75",
-                            },
-                            {
-                              value: "1.00",
-                              label: "1.00",
-                            },
-                            {
-                              value: "1.25",
-                              label: "1.25",
-                            },
-                            {
-                              value: "1.50",
-                              label: "1.50",
-                            },
-                            {
-                              value: "1.75",
-                              label: "1.75",
-                            },
-                            {
-                              value: "2.00",
-                              label: "2.00",
-                            },
-                            {
-                              value: "2.25",
-                              label: "2.25",
-                            },
-                            {
-                              value: "2.50",
-                              label: "2.50",
-                            },
-                            {
-                              value: "2.75",
-                              label: "2.75",
-                            },
-                            {
-                              value: "3.00",
-                              label: "3.00",
-                            },
-                            {
-                              value: "3.25",
-                              label: "3.25",
-                            },
-                            {
-                              value: "3.50",
-                              label: "3.50",
-                            },
-                            {
-                              value: "3.75",
-                              label: "3.75",
-                            },
-                            {
-                              value: "4.00",
-                              label: "4.00",
-                            },
-                          ]}
-                        />
+                        <Input />
                       </Form.Item>
                     </Col>
                   </>
@@ -545,25 +419,60 @@ const UpdateSuper = ({ updateName }) => {
                   ""
                 )}
               </Row>
-              <Row className="super_agent  update_agent">        
+              <div>
+                <h2 style={{ marginLeft: "0px" }} className="update_agent_text">
+                  Casino Share and Commission
+                </h2>
+                 <Switch checkedChildren="ON" unCheckedChildren="OFF" defaultChecked />
+              </div>
+              <Row className="super_agent  update_agent">
                 <Col lg={12} xs={24}>
                   <Form.Item
-                    label="Transaction Password"
-                    name="lupassword"
+                    label={`${updateName} Casino Share(%)`}
+                    name="matchcomm"
+                    required={true}>
+                    <Input type="number" disabled />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Casino Share(%)"
+                    name="Supermatchcomm"
                     required
                     rules={[
                       {
                         required: true,
-                        message: "Please Enter Transaction Password!",
+                        message: "Please enter Casino Share",
                       },
                     ]}>
-                    <Input
-                      type="password"
-                      autoComplete="off"
-                      placeholder="Transaction Password"
-                    />
+                    <Input />
                   </Form.Item>
                 </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label={`${updateName} Casino comm(%)`}
+                    name="sesscomm"
+                    required={true}>
+                    <Input type="number" disabled />
+                  </Form.Item>
+                </Col>
+                <Col lg={12} xs={24}>
+                  <Form.Item
+                    label="Casino comm(%)"
+                    name="sess_comm"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter Casino commission",
+                      },
+                    ]}>
+                    <Input />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row className="super_agent  update_agent">
+                <Col lg={12} xs={24}></Col>
                 <Col lg={12} xs={24}>
                   <Form.Item
                     wrapperCol={{

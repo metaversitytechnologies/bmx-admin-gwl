@@ -54,16 +54,16 @@ const ListSuper = ({ userTyep, Listname }) => {
             <div className="create_btn">
               <div onClick={handleCreate}>
                 <p>
-                  <Link to="">
+                  <Link to="#">
                     <AiOutlinePlus />
                     {""}
                     Create
                   </Link>
                 </p>
               </div>
-              <div onClick={handleCreate}>
+              <div >
                 <p>
-                  <Link to="">Update Limit</Link>
+                  <Link to="/client/limitplusminus-super/demo01">Update Limit</Link>
                 </p>
               </div>
             </div>

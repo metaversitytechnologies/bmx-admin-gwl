@@ -1,16 +1,17 @@
 import { Col, Form, Input, Row, Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import './SelectUpline.scss'
+import "./SelectUpline.scss";
 
-const SelectUpline = ({data, handleChange, handleSelect}) => {
+const SelectUpline = ({ data, handleChange, handleSelect }) => {
   const nav = useNavigate();
-
-
- 
 
   return (
     <>
-      <div className="main_live_section">
+      <div
+        className="main_live_section"
+        style={{
+          boxShadow: "0 0 5px 5px rgba(0, 0, 0, .03)",
+        }}>
         <div className="_match">
           <div className="sub_live_section live_report select_upline">
             <div
@@ -18,7 +19,6 @@ const SelectUpline = ({data, handleChange, handleSelect}) => {
               className="team_name">
               Select Upline
             </div>
-            
           </div>
         </div>
         <div className="ant-spin-nested-loading">
@@ -28,23 +28,22 @@ const SelectUpline = ({data, handleChange, handleSelect}) => {
             // onFinish={onFinish}
             autoComplete="off">
             <div>
-                  <Form.Item name="selectuser" required>
-                    <Select
-                      placeholder="Select Parent"
-                      options={
-                        data?.map((i) => ({
-                          label: `${i?.userId} (${i?.userName})`,
-                          value: i?.userId,
-                        })) || []
-                      }
-                      showSearch
-                      allowClear
-                      onSelect={handleSelect}
-                      onSearch={handleChange}
-                    >
-                      {/* <Option value="sumana6748">sumana6748</Option> */}
-                    </Select>
-                  </Form.Item>
+              <Form.Item name="selectuser" required>
+                <Select
+                  placeholder="Select Parent"
+                  options={
+                    data?.map((i) => ({
+                      label: `${i?.userId} (${i?.userName})`,
+                      value: i?.userId,
+                    })) || []
+                  }
+                  showSearch
+                  allowClear
+                  onSelect={handleSelect}
+                  onSearch={handleChange}>
+                  {/* <Option value="sumana6748">sumana6748</Option> */}
+                </Select>
+              </Form.Item>
             </div>
           </Form>
         </div>

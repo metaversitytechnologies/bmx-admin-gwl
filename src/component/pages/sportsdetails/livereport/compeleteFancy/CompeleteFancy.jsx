@@ -39,19 +39,6 @@ const CompeleteFancy = () => {
     },
   };
 
-  const isLoading = false;
-  const isFetching = false;
-
-  const handleShowBets = (val) => {
-    setMarketId(val);
-    dispatch(setData(val));
-    nav(`/Events/${id}/pl/live-report`, { state: { id: val } });
-  };
-
-  const handleRefresh = () => {
-    // With static data, refresh does nothing
-  };
-
   return (
     <>
       <div>
@@ -72,7 +59,11 @@ const CompeleteFancy = () => {
               )}
             </div>
           }>
-          <Row gutter={[16, 16]} justify="center" className="fancy_pl" align="middle">
+          <Row
+            gutter={[16, 16]}
+            justify="center"
+            className="fancy_pl"
+            align="middle">
             <Col xs={24} md={24} lg={6} xl={6}>
               <Select
                 placeholder="Select User"
@@ -102,7 +93,7 @@ const CompeleteFancy = () => {
               <thead>
                 <tr>
                   <th>username</th>
-                  <th>Date&L</th>
+                  <th>Date</th>
                   <th>F. Name</th>
                   <th>Rate</th>
                   <th>Value</th>
@@ -113,11 +104,37 @@ const CompeleteFancy = () => {
                   <th>pnl</th>
                 </tr>
               </thead>
+              <tbody>
+                <tr className="gx-bg-red">
+                  <td>clientdemo (C67329)</td>
+                  <td>26 Jun 11:31:42 AM</td>
+                  <td>15 OVER RUN SL</td>
+                  <td>100.00</td>
+                  <td>71</td>
+                  <td>Yes</td>
+                  <td>65</td>
+                  <td> agemas (A10285)</td>
+                  <td>100</td>
+                  <td>100.00</td>
+                </tr>
+                <tr className="gx-bg-green-0">
+                  <td>clientdemo (C67329)</td>
+                  <td>26 Jun 11:18:18 AM</td>
+                  <td>10 OVER RUNS SL(SL VS BAN)ADV</td>
+                  <td>100.00</td>
+                  <td>55</td>
+                  <td>Yes</td>
+                  <td>55</td>
+                  <td> agemas (A10285)</td>
+                  <td>100</td>
+                  <td>100.00</td>
+                </tr>
+              </tbody>
 
               <tbody>
                 <tr>
                   <td colSpan={10}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                   </td>
                 </tr>
               </tbody>

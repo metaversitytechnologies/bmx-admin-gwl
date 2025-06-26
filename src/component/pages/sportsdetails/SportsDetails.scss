@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+  // box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
   @media (max-width: 800px) {
     margin: 20px 0px ;
   }
@@ -78,7 +78,7 @@
         background-color: #7d5c0e;
         color: #ffffff;
         border-radius: 0 !important;
-        padding: 5px;
+        padding: 10px 5px;
         text-transform: uppercase;
         font-weight: 500;
       }

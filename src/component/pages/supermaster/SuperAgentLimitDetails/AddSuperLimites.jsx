@@ -95,7 +95,7 @@ const AddSuperLimites = () => {
                 <th>Code</th>
                 <th>Name</th>
                 <th>C. Chips</th>
-                <th>Add limit </th>
+                <th>Add / Minus Limit </th>
                 <th>Action</th>
               </tr>
 

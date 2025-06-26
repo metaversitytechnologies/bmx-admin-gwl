@@ -91,7 +91,7 @@ const AccountOperations = () => {
               width: "100%",
             }}
             className="sport_detail acc_name"
-            title={`List Of All Transactions ( ${data?.data?.data?.length} )`}
+            title={`List Of All Transactions (0)`}
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div className="">
               <Row>
@@ -104,7 +104,7 @@ const AccountOperations = () => {
                 </Col>
                 <Col xs={24} md={24} lg={12} xl={12}>
                   <div style={{ marginTop: "12px" }}>
-                    <div className="gx-bg-flex gx-justify-content-center gx-flex-nowrap gx-px-1 ">
+                    <div className="gx-bg-flex1 gx-justify-content-center gx-flex-nowrap gx-px-1 ">
                       <div className=" gx-px-2 gx-py-2 gx-bg-dark">All</div>
                       <div className=" gx-px-2 gx-py-2 gx-bg-primary">
                         P&amp;L

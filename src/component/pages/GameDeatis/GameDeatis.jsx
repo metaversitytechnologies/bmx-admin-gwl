@@ -1,8 +1,11 @@
 import { Col, Row } from "antd";
 import "./Gamedetails.scss";
-import CompeleteFancy from "../sportsdetails/livereport/compeleteFancy/CompeleteFancy";
+import FancyBets from "../sportsdetails/livereport/fancyBets/FancyBets";
+import CompletedFancy from "./CompletedFancy";
+import { useState } from "react";
 
 const GameDeatis = () => {
+  const [showFullScore, setShowFullScore] = useState()
   return (
     <Row justify="center" className="main_details_page">
       <Col xs={24} lg={24}>
@@ -14,7 +17,11 @@ const GameDeatis = () => {
                 align="middle"
                 className="gx-px-2 gx-py-1"
                 style={{ backgroundColor: "rgb(115, 118, 111)" }}>
-                <span className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2">FS</span>
+                <span
+                  className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2"
+                  onClick={() => setShowFullScore(!showFullScore)}>
+                  FS
+                </span>
                 <img
                   src="/Images/tv_icon.png"
                   alt="tv.png"
@@ -24,7 +31,9 @@ const GameDeatis = () => {
               </Row>
 
               <div className="ant-row" />
-              <div className="ant-row" style={{ height: 110 }}>
+              <div
+                className="ant-row"
+                style={{ height: !showFullScore ? 110 : 220 }}>
                 <iframe
                   src="https://score.trovetown.co/socket-iframe-1/crickexpo/34417715"
                   title="Score-I-frame"
@@ -518,7 +527,7 @@ const GameDeatis = () => {
                                       </div>
                                     </td>
                                   </tr>
-                                  <tr className="ant-table-expanded-row ant-table-expanded-row-level-1">
+                                  {/* <tr className="ant-table-expanded-row ant-table-expanded-row-level-1">
                                     <td colSpan={4} className="ant-table-cell">
                                       <div className="gx-font-weight-semi-bold gx-text-red">
                                         <span>
@@ -528,7 +537,7 @@ const GameDeatis = () => {
                                         </span>
                                       </div>
                                     </td>
-                                  </tr>
+                                  </tr> */}
                                   <tr className="ant-table-row ant-table-row-level-0">
                                     <td className="ant-table-cell">
                                       <div className="gx-bg-flex gx-flex-column">
@@ -757,9 +766,8 @@ const GameDeatis = () => {
                   </div>
                 </Col>
               </Row>
-
-              <CompeleteFancy />
-
+              <FancyBets />
+              <CompletedFancy />
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button
                   type="button"
