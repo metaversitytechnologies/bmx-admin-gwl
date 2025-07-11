@@ -10,7 +10,7 @@ export const supermasteAccountStatementApi = createApi({
       return headers;
     },
   }),
-  tagTypes:["deleteByUser", 'superUserList', "casinoList", "dashboard"],
+  tagTypes: ["deleteByUser", "superUserList", "casinoList", "dashboard"],
   endpoints: (build) => ({
     accountstatement: build.query({
       query: (body) => ({
@@ -47,7 +47,7 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
-   
+
     completeFancy: build.query({
       query: (body) => ({
         url: "/bmx/completed-fancy",
@@ -103,23 +103,22 @@ export const supermasteAccountStatementApi = createApi({
       query: (body) => ({
         url: `/bmx/ttl-book`,
         method: "POST",
-        body
+        body,
       }),
     }),
     superuserList: build.mutation({
       query: (body) => ({
-        url: "/bmx/user/get-user-list-v2",
+        url: "/user/list-user-v2",
         method: "POST",
-        body
+        body,
       }),
-      providesTags: ['superUserList']
-
+      providesTags: ["superUserList"],
     }),
     profitLoss: build.query({
       query: (body) => ({
         url: `/bmx/profit-loss`,
         method: "POST",
-        body
+        body,
       }),
     }),
     blockBetting: build.mutation({
@@ -128,8 +127,7 @@ export const supermasteAccountStatementApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: ['superUserList']
-
+      invalidatesTags: ["superUserList"],
     }),
     sportListbyID: build.query({
       query: (body) => ({
@@ -137,7 +135,6 @@ export const supermasteAccountStatementApi = createApi({
         method: "POST",
         body,
       }),
-
     }),
     userMessage: build.query({
       query: (body) => ({
@@ -145,60 +142,59 @@ export const supermasteAccountStatementApi = createApi({
         method: "POST",
         body,
       }),
-
     }),
     upDateStatus: build.mutation({
       query: (body) => ({
-        url: "/bmx/user/update-status-v2",
+        url: "/ant-pro/bet-lock",
         method: "POST",
         body,
       }),
-      invalidatesTags: ['superUserList']
+      invalidatesTags: ["superUserList"],
     }),
 
     casinoList: build.query({
       query: (body) => ({
         url: `/user/get-casino-bet-lock`,
         method: "POST",
-        body
+        body,
       }),
-      providesTags: ['casinoList']
+      providesTags: ["casinoList"],
     }),
     updateCasinoLock: build.mutation({
       query: (body) => ({
         url: `/user/update-casino-lock`,
         method: "POST",
-        body
+        body,
       }),
-      invalidatesTags: ['casinoList']
+      invalidatesTags: ["casinoList"],
     }),
 
     createCasinoList: build.query({
       query: (body) => ({
         url: `/user/alloted-casino-list`,
         method: "POST",
-        body
+        body,
       }),
     }),
     dataReport: build.mutation({
       query: (body) => ({
         url: `/bmx/report/bmx-data-reports-v2`,
         method: "POST",
-        body
+        body,
       }),
     }),
     commReport: build.mutation({
       query: (body) => ({
         url: `/bmx/report/bmx-casino-reports-v2`,
         method: "POST",
-        body
+        body,
       }),
     }),
     It_Self_By_APP_URL: build.query({
       query: (body) => ({
         url: `/login/is-self-by-app-url`,
         method: "POST",
-        body
+        body,
       }),
     }),
     createParentList: build.query({
@@ -208,7 +204,6 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
-
   }),
 });
 
@@ -230,7 +225,7 @@ export const {
   useProfitLossQuery,
   useBlockBettingMutation,
   useSportListbyIDQuery,
-  useChangePasswordSelfMutation, 
+  useChangePasswordSelfMutation,
   useUserMessageQuery,
   useUpDateStatusMutation,
   useCasinoListQuery,
@@ -238,6 +233,6 @@ export const {
   useCreateCasinoListQuery,
   useDataReportMutation,
   useCommReportMutation,
-  useIt_Self_By_APP_URLQuery, 
-  useLazyCreateParentListQuery
+  useIt_Self_By_APP_URLQuery,
+  useLazyCreateParentListQuery,
 } = supermasteAccountStatementApi;

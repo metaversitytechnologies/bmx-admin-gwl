@@ -10,6 +10,8 @@ import { useForm } from "antd/es/form/Form";
 import { MdMenu } from "react-icons/md";
 
 const Navbar = ({ action, logo }) => {
+  const userData = localStorage.getItem("username");
+
   const [trigger, { error, isLoading, isError }] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState();
@@ -98,7 +100,7 @@ const Navbar = ({ action, logo }) => {
                 style={{ cursor: "pointer", marginRight: "42px" }}
                 onClick={(e) => e.preventDefault()}>
                 <p style={{ fontWeight: 500, fontSize: "20px" }}>
-                  King{" "}
+                  {userData}{" "}
                   <CaretDownOutlined
                     style={{ fontSize: "20px", marginLeft: "-3px" }}
                   />

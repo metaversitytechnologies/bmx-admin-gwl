@@ -1,36 +1,47 @@
 import "./Signin.scss";
 import { Button, Form, Input, message } from "antd";
 import { useLoginMutation } from "../../../store/service/authService";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useIt_Self_By_APP_URLQuery } from "../../../store/service/supermasteAccountStatementServices";
 
 const Signin = ({ logo }) => {
   const [trigger, { data: authData, error, isLoading }] = useLoginMutation();
   const nav = useNavigate();
 
-  // useEffect(() => {
-  //   if (authData?.status === false || error?.data?.message) {
-  //     message.error(authData?.message || error.data?.message);
-  //   } else if (authData?.token !== null && authData?.token !== undefined) {
-  //     localStorage.setItem("token", authData?.token);
-  //     localStorage.setItem("rulesStatus", true)
-  //     localStorage.setItem("userId", authData?.userId);
-  //     localStorage.setItem("userType", authData?.userType);
-  //     localStorage.setItem("passType", authData?.passwordtype);
-  //     nav("/dashboard");
-  //   }
-  // }, [authData, error]);
+  const [showOtp, setShowOtp] = useState(false);
+  const [otpValue, setOtpValue] = useState("");
+
+  console.log(authData?.token, "authDataauthData");
+
+  useEffect(() => {
+    if (authData?.status === false || error?.data?.message) {
+      message.error(authData?.message || error.data?.message);
+    } else if (authData?.token) {
+      setShowOtp(true);
+      localStorage.setItem("token", authData?.token);
+      localStorage.setItem("rulesStatus", true);
+      localStorage.setItem("userId", authData?.userId);
+      localStorage.setItem("userType", authData?.userTypeInfo);
+      localStorage.setItem("username", authData?.username);
+     
+    }
+  }, [authData, error, otpValue]);
 
   const onFinish = (values) => {
-    // const authData = {
-    //   userId: (values?.username?.trim()),
-    //   password: (values?.password?.trim()),
-    //   appUrl: window.location.hostname,
-    //   // appUrl: "madmin.wbt99.co",
-    // };
-    // trigger(authData);
-    nav("/dashboard");
+    if (!showOtp) {
+      const authPayload = {
+        userId: values?.username?.trim(),
+        password: values?.password?.trim(),
+        url: "superadmin.fastbet365.in",
+      };
+      trigger(authPayload);
+    } else {
+      if (!values?.OTP || values.OTP.toString().length < 4) {
+        nav("/dashboard");
+        return;
+      }
+      setOtpValue(values.OTP);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -55,9 +66,7 @@ const Signin = ({ logo }) => {
                   <img src="/Images/loaderfast.svg" alt="helllo" />
                 </div>
               </>
-            ) : (
-              ""
-            )}
+            ) : null}
 
             <div className="gx-app-logo-content">
               <div className="gx-app-logo-content-bg" />
@@ -74,26 +83,18 @@ const Signin = ({ logo }) => {
               <div className="gx-app-logo">
                 <img
                   alt="example"
-                  // src={logo}
                   src={"https://master.antpro99.pro/assets/images/antpro.png"}
                 />
               </div>
             </div>
+
             <div className="gx-app-login-content">
               <Form
                 name="basic"
-                labelCol={{
-                  span: 8,
-                }}
-                wrapperCol={{
-                  span: 16,
-                }}
-                style={{
-                  maxWidth: 600,
-                }}
-                initialValues={{
-                  remember: true,
-                }}
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                style={{ maxWidth: 600 }}
+                initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}>
                 <Form.Item
@@ -106,8 +107,8 @@ const Signin = ({ logo }) => {
                   ]}>
                   <Input
                     onChange={onFinishFailed}
-                    // onFocus={onFinishFailed}
-                    // onMouseEnter={onFinishFailed}
+                    onFocus={onFinishFailed}
+                    onMouseEnter={onFinishFailed}
                     placeholder="User ID"
                   />
                 </Form.Item>
@@ -122,34 +123,50 @@ const Signin = ({ logo }) => {
                   ]}>
                   <Input
                     type="password"
-                    // onMouseLeave={onFinishFailed}
-                    // onFocus={onFinishFailed}
+                    onMouseLeave={onFinishFailed}
+                    onFocus={onFinishFailed}
                     onChange={onFinishFailed}
                     placeholder="Password"
                   />
                 </Form.Item>
-                <Form.Item  className="sign_btn">
+
+                {showOtp && (
+                  <Form.Item
+                    name="OTP"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input Otp!",
+                      },
+                    ]}>
+                    <Input
+                      type="number"
+                      placeholder="OTP"
+                      onChange={onFinishFailed}
+                      onFocus={onFinishFailed}
+                      onMouseLeave={onFinishFailed}
+                    />
+                  </Form.Item>
+                )}
+
+                <Form.Item className="sign_btn">
                   <Button
                     type="primary"
                     htmlType="submit"
-                   
-                    style={{
-                      marginBottom: "0px",
-                    }}>
+                    style={{ marginBottom: "0px" }}>
                     Sign in
                   </Button>
                 </Form.Item>
               </Form>
             </div>
           </div>
+
           <div className="gx-text-center gx-py-2 gx-font-weight-bold gx-fs-lg gx-text-white">
             Note- This Website Is Not For Indian Territory
           </div>
           <div
             className="gx-text-red gx-text-center gx-fs-xl gx-font-weight-bold"
-            style={{
-              marginTop: "12px",
-            }}>
+            style={{ marginTop: "12px" }}>
             18+ Only
           </div>
         </div>

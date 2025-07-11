@@ -144,13 +144,13 @@ const Sidebar = (props) => {
               children: [
                 {
                   className: `${userType != "5" ? "d-none" : ""}`,
-                  label: <Link to="/client/list-super">Master</Link>,
+                  label: <Link to="/user-list/Master/4">Master</Link>,
                 },
                 {
                   className: `${
                     userType === "0" || userType == "5" ? "" : "d-none"
                   }`,
-                  label: <Link to="/client/list-agent">Super</Link>,
+                  label: <Link to="/user-list/Super/3">Super</Link>,
                 },
                 {
                   className: `${
@@ -158,10 +158,10 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/client/list-dealer">Agent</Link>,
+                  label: <Link to="/user-list/Agent/2">Agent</Link>,
                 },
                 {
-                  label: <Link to="client/list-client">Client</Link>,
+                  label: <Link to="/user-list/Client/1">Client</Link>,
                 },
               ],
             },
@@ -484,7 +484,7 @@ const Sidebar = (props) => {
                     className: `${userType != "5" ? "d-none" : ""}`,
                     label: (
                       <Link
-                        to="/client/list-super"
+                        to="/user-list/Master/4"
                         onClick={() => props?.action()}>
                         Master
                       </Link>
@@ -496,7 +496,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/list-agent"
+                        to="/user-list/Super/3"
                         onClick={() => props?.action()}>
                         Super
                       </Link>
@@ -510,7 +510,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/list-dealer"
+                        to="/user-list/Agent/2"
                         onClick={() => props?.action()}>
                         Agent
                       </Link>
@@ -519,7 +519,7 @@ const Sidebar = (props) => {
                   {
                     label: (
                       <Link
-                        to="client/list-client"
+                        to="/user-list/Client/1"
                         onClick={() => props?.action()}>
                         Client
                       </Link>
@@ -559,9 +559,7 @@ const Sidebar = (props) => {
                   },
                   {
                     label: (
-                      <Link
-                        to="/finish-game"
-                        onClick={() => props?.action()}>
+                      <Link to="/finish-game" onClick={() => props?.action()}>
                         Finished Games
                       </Link>
                     ),

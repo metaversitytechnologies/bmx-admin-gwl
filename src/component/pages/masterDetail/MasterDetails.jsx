@@ -8,7 +8,7 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
     {
       image: <BiUserCircle />,
       name: "Master",
-      path: "/client/list-super",
+      path: "/user-list/Master/4",
       size: "20",
       id: 0,
       userType: 0,
@@ -16,21 +16,21 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
     {
       image: <BiUserCircle />,
       name: "Super",
-      path: `/client/list-agent`,
+      path: `/user-list/Super/3`,
       size: "20",
       userType: 1,
     },
     {
       image: <BiUserCircle />,
       name: "Agent",
-      path: `/client/list-dealer`,
+      path: `/user-list/Agent/2`,
       size: "20",
       userType: 2,
     },
     {
       image: <BiUserCircle />,
       name: "Client",
-      path: "/client/list-client",
+      path: "/user-list/Client/1",
       size: "20",
       userType: 3,
     },

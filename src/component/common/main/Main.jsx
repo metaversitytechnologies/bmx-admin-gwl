@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useIt_Self_By_APP_URLQuery } from "../../../store/service/supermasteAccountStatementServices";
 import Signin from "../signin/Signin";
 import LayOut from "../../layout/LayOut";
-import { protectedRoutes } from "./routes";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import MasterDetails from "../../pages/masterDetail/MasterDetails";
 import LadgerDetails from "../../pages/ladgerdetail/LadgerDetails";
@@ -50,7 +49,7 @@ import UserSearch from "../../pages/Settings/UserSearch/UserSearch";
 import CommissionLenDen from "../../pages/CommissionLenDen/CommissionLenDen";
 import MatchLedgerCasino from "../../pages/MatchLedgerCasino/MatchLedgerCasino";
 import CasinoPandLDetail from "../../pages/CasinoPandLDetail/CasinoPandLDetail";
-import AnderBaharShowBets from '../../pages/AndarBaharDetail/AnderBaharShowBets/AnderBaharShowBets'
+import AnderBaharShowBets from "../../pages/AndarBaharDetail/AnderBaharShowBets/AnderBaharShowBets";
 import AnderBaharAllGame from "../../pages/AndarBaharDetail/AnderBaharAllGame/AnderBaharAllGame";
 import AndarBaharPlusMinus from "../../pages/AndarBaharDetail/AndarBaharPlusMinus/AndarBaharPlusMinus";
 import RoulettePlusMinus from "../../pages/RouletteDetail/RoulettePlusMinus/RoulettePlusMinus";
@@ -113,31 +112,31 @@ const Main = () => {
           element={<RejectedBetsByEvent />}
         />
         <Route
-          path="/client/list-super"
-          element={<ListSuper userTyep={0} Listname={"Master"} />}
+          path="/user-list/:Listname/:userTyep/:parentId?"
+          element={<ListSuper />}
+        />
+        {/* <Route
+          path="/user-list/Super/3"
+          element={<ListSuper userTyep={3} Listname={"Super"} />}
         />
         <Route
-          path="/client/list-agent"
-          element={<ListSuper userTyep={1} Listname={"Super"} />}
-        />
-        <Route
-          path="/client/list-dealer"
+          path="/user-list/Agent/2"
           element={<ListSuper userTyep={2} Listname={"Agent"} />}
         />
         <Route
-          path="/client/list-client"
-          element={<ListSuper userTyep={3} Listname={"Client"} />}
+          path="/user-list/Client/1"
+          element={<ListSuper userTyep={1} Listname={"Client"} />}
         />
         <Route
-          path="/client/list-super/:id"
+          path="/user-list/Master/4/:id"
           element={<ListSuper userTyep={0} Listname={"Master"} />}
         />
         <Route
-          path="/client/list-agent/:id"
+          path="/user-list/Super/3/:id"
           element={<ListSuper userTyep={1} Listname={"Super"} />}
         />
         <Route
-          path="/client/list-dealer/:id"
+          path="/user-list/Agent/2/:id"
           element={<ListSuper userTyep={2} Listname={"Agent"} />}
         />
         <Route
@@ -155,7 +154,7 @@ const Main = () => {
         <Route
           path="/client/update-client/:id"
           element={<UpdateSuper updateName={"Client"} />}
-        />
+        /> */}
         <Route
           path="/client/update-dealer/:id"
           element={<UpdateSuper updateName={"Agent"} />}
@@ -322,7 +321,7 @@ const Main = () => {
         <Route path="/Casino/show-bet/:id" element={<AnderBaharShowBets />} />
         {/* <Route path="/Casino/casino-details" element={<CasinoDetail />} />
         <Route path="/Casino/roulette-book" element={<RouletteBook />} /> */}
-        <Route path="/Events/:id/:id1/live-report" element={<GameDeatis/>} />
+        <Route path="/Events/:id/:id1/live-report" element={<GameDeatis />} />
         <Route
           path="/Events/:id/pl/live-report"
           element={<EventProfitLoss />}

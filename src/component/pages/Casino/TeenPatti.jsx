@@ -1,6 +1,6 @@
 import { Table } from "antd";
 
-const TeenPatti = ({ odds }) => {
+const TeenPatti = ({ odds, id }) => {
   const filteredOdds = (odds || []).filter(
     (item) => item.sid === "1" || item.sid === "3"
   );
@@ -14,14 +14,14 @@ const TeenPatti = ({ odds }) => {
         return (
           <div>
             <p>{record?.nation}</p>
-            <p style={{ fontWeight: 700 }}>{record?.pnl}</p>
+            <p style={{ fontWeight: 700 }}>{id === "57" ? 0 : record?.pnl}</p>
           </div>
         );
       },
     },
     {
       title: "Rate",
-      dataIndex: "rate",
+      dataIndex: id === "57" ? "b1" : "rate",
       key: "rate",
     },
   ];
@@ -30,7 +30,7 @@ const TeenPatti = ({ odds }) => {
       pagination={false}
       bordered
       columns={columns}
-      dataSource={filteredOdds || []}
+      dataSource={id === "57" ? odds : filteredOdds || []}
     />
   );
 };

@@ -31,11 +31,11 @@ import {
 import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification } from "../../App";
 
-const routeFromUSerType = {
-  0: "/client/list-agent/",
-  1: "/client/list-dealer/",
-  2: "/client/list-clent/",
-};
+// const routeFromUSerType = {
+//   0: "/user-list/Super/3/",
+//   1: "/user-list/Agent/2/",
+//   2: "/client/list-clent/",
+// };
 
 const ClientUserListTable = ({ userType, Listname, UserId }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -125,6 +125,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
     setDropdownStates([]);
     activeData({
       userId: dataVal,
+      isLock:
     });
   };
 
@@ -136,7 +137,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
       index: indexData,
       userId: "",
     });
-  }, [id, userType, paginationTotal, indexData, Activestatus?.status]);
+  }, [id, userType, paginationTotal, indexData,]);
 
   const [userIdData, setUserIdData] = useState("");
 
@@ -535,7 +536,11 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
       <Modal
         className="modal_deposit"
         destroyOnClose
-        title={<h1><span>Deposit</span></h1>}
+        title={
+          <h1>
+            <span>Deposit</span>
+          </h1>
+        }
         open={isDepositeModalOpen}
         onOk={handleDepositeOk}
         onCancel={handleDepositeCancel}

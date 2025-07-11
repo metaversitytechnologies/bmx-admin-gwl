@@ -7,7 +7,7 @@ export const authApi = createApi({
   endpoints: (build) => ({
     login: build.mutation({
       query: (body) => ({
-        url: "/bmx/login/auth-app-url-wise-v2",
+        url: "/login/cleint-login",
         method: "POST",
         body,
       }),

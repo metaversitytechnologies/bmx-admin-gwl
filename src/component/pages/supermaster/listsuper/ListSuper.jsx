@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
 import "./ListSuper.scss";
 import UserListTable from "../../../common/UserListTable";
-import ClientUserListTable from "../../../common/ClientUserListTable";
-// import { useSuperuserListQuery } from "../../../../store/service/supermasteAccountStatementServices";
 
-const ListSuper = ({ userTyep, Listname }) => {
+const ListSuper = () => {
+  const { userTyep, Listname } = useParams();
   const UserId = localStorage.getItem("userId");
   const [parentUserids, setParentUserIds] = useState(UserId);
 
@@ -61,9 +60,11 @@ const ListSuper = ({ userTyep, Listname }) => {
                   </Link>
                 </p>
               </div>
-              <div >
+              <div>
                 <p>
-                  <Link to="/client/limitplusminus-super/demo01">Update Limit</Link>
+                  <Link to="/client/limitplusminus-super/demo01">
+                    Update Limit
+                  </Link>
                 </p>
               </div>
             </div>

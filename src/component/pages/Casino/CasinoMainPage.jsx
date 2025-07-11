@@ -11,10 +11,10 @@ import DT20 from "./DT20";
 import Lucky7B from "./Lucky7B";
 import NonDeclare from "./NonDeclare";
 import Result from "./Result";
+import { useState } from "react";
 
 const CasinoMainPage = () => {
   const { id } = useParams();
-
   const { odds } = useOdds(tableIdtoUrl[id]);
 
   return (
@@ -31,9 +31,9 @@ const CasinoMainPage = () => {
                 <div className="gx-news-contenttt">
                   <div className="gx-bg-flex gx-justify-content-between gx-bg-grey gx-px-2 gx-py-2">
                     <span className="gx-text-white">
-                      Match ID: {odds?.t1?.mid}
+                      Match ID: {odds?.t1?.[0]?.mid}
                     </span>
-                    <span className="gx-text-white">0</span>
+                    <span className="gx-text-white">{odds?.t1?.[0]?.autotime}</span>
                   </div>
                   <VideoSection />
                   <LastResult />
@@ -42,7 +42,8 @@ const CasinoMainPage = () => {
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={10}>
               <div className="gx-table-responsive">
-                {id === "51" && <TeenPatti odds={odds?.t2} />}
+                {id === "51" && <TeenPatti odds={odds?.t2} id="51" />}
+                {id === "57" && <TeenPatti odds={odds?.t1} id="57" />}
                 {id === "56" && <AAA odds={odds?.t2} />}
                 {id === "52" && <DT20 odds={odds?.t2} />}
                 {id === "53" && <Lucky7B odds={odds?.t2} />}
@@ -462,8 +463,8 @@ const CasinoMainPage = () => {
             </Col>
           </Row>
         </Card>
-          <NonDeclare />
-          <Result name={titleById[id]}/>
+        <NonDeclare />
+        <Result name={titleById[id]} />
       </Card>
     </div>
   );

@@ -6,7 +6,7 @@ const { RangePicker } = DatePicker;
 const MatchLedgerCasino = () => {
   const tableData = [
     { name: "AmarAkbarAnthony", path: "/casino/56" },
-    { name: "Live Teen Patti One Day", path: "#" },
+    { name: "Live Teen Patti One Day", path: "/casino/57" },
     { name: "DragonTiger", path: "/casino/52" },
     { name: "DragonTiger T20", path: "/casino/52" },
     { name: "luck7b", path: "/casino/53" },
