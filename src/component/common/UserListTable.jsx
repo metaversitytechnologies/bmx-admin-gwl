@@ -1,34 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Divider,
-  Dropdown,
-  Form,
-  Input,
-  Menu,
-  Pagination,
-  Space,
-  Spin,
-} from "antd";
+import { Button, Divider, Dropdown, Form, Input, Menu, Pagination, Space, Spin } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
-
-import {
-  SearchOutlined,
-  CaretDownOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined, CaretDownOutlined, PlusOutlined } from "@ant-design/icons";
 import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
 import moment from "moment";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
-import BetlockModal from "./BetlockModal"; // This was imported but not used in the original code, keeping it for completeness if intended for future use.
-import CasinoLockModals from "./CasinoLockModals"; // Similar to BetlockModal
-import {
-  useSuperuserListMutation,
-  useUpDateStatusMutation,
-} from "../../store/service/supermasteAccountStatementServices";
+import { useSuperuserListMutation, useUpDateStatusMutation } from "../../store/service/supermasteAccountStatementServices";
 import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
@@ -39,13 +19,7 @@ const routeFromUSerType = {
   2: "/user-list/Client/1",
 };
 
-const UserListTable = ({
-  userType,
-  Listname,
-  parentUserids,
-  setParentUserIds,
-  UserId, // This prop seems unused, keeping it for completeness.
-}) => {
+const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeStatus, setActiveStatus] = useState(null);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
@@ -76,16 +50,9 @@ const UserListTable = ({
   const localUserType = localStorage.getItem("userType");
 
   // API Hooks
-  const [
-    getSuperuserList,
-    { data: superuserListData, isLoading, isFetching, isError },
-  ] = useSuperuserListMutation();
-  const [updateStatus, { data: updateStatusResult, error: updateStatusError }] =
-    useUpDateStatusMutation();
-  const [
-    getPartnershipData,
-    { data: partnershipDetail, isLoading: loadingPartnership },
-  ] = usePartnershipMutation();
+  const [ getSuperuserList, { data: superuserListData, isLoading, isFetching }] = useSuperuserListMutation();
+  const [updateStatus, { data: updateStatusResult, error: updateStatusError }] = useUpDateStatusMutation();
+  const [ getPartnershipData, { data: partnershipDetail, isLoading: loadingPartnership }] = usePartnershipMutation();
 
   // --- Handlers for Modals and Dropdowns ---
 
@@ -179,7 +146,7 @@ const UserListTable = ({
     const updatedDropdownStates = [...dropdownOpenStates];
     updatedDropdownStates[index] = !updatedDropdownStates[index];
     setDropdownOpenStates(updatedDropdownStates);
-    setIsOverlayOpen(updatedDropdownStates[index]); // Open overlay if any dropdown is open
+    setIsOverlayOpen(updatedDropdownStates[index]); 
   };
 
   const handleScroll = () => {
@@ -263,10 +230,7 @@ const UserListTable = ({
       index: indexData,
       userId: values?.username,
     });
-    // The original code had a commented-out section to reset fields if results?.status was true.
-    // This implies `results` might be `superuserListData` here.
-    // If you need to reset the form and close the search dropdown on successful search,
-    // you'd add: `if (superuserListData?.status === true) { form.resetFields(); setShowSearchDropdown(false); }`
+    
   };
 
   // --- Dropdown Menu Items ---
@@ -300,15 +264,14 @@ const UserListTable = ({
         <Link
           style={{ fontWeight: 700 }}
           onClick={resetDropdownStates}
-          to={`${
-            Listname === "Master"
+          to={`${Listname === "Master"
               ? `/client/update-super/${res?.userId}`
               : Listname === "Super"
-              ? `/client/update-agent/${res?.userId}`
-              : Listname === "Agent"
-              ? `/client/update-dealer/${res?.userId}`
-              : `/client/update-client/${res?.userId}`
-          }`}>
+                ? `/client/update-agent/${res?.userId}`
+                : Listname === "Agent"
+                  ? `/client/update-dealer/${res?.userId}`
+                  : `/client/update-client/${res?.userId}`
+            }`}>
           Edit
         </Link>
       ),
@@ -316,10 +279,7 @@ const UserListTable = ({
     },
     {
       label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`/account-statement/${res?.userId}`}>
+        <Link style={{ fontWeight: 700 }} onClick={resetDropdownStates} to={`/account-statement/${res?.userId}`}>
           Statement
         </Link>
       ),
@@ -327,10 +287,7 @@ const UserListTable = ({
     },
     {
       label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`/client/account-operations/${res?.userId}`}>
+        <Link style={{ fontWeight: 700 }} onClick={resetDropdownStates} to={`/client/account-operations/${res?.userId}`}>
           Account Operations
         </Link>
       ),
@@ -338,10 +295,7 @@ const UserListTable = ({
     },
     {
       label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`/client/login-report/${res?.userId}`}>
+        <Link style={{ fontWeight: 700 }} onClick={resetDropdownStates} to={`/client/login-report/${res?.userId}`}>
           Login Report
         </Link>
       ),
@@ -349,10 +303,7 @@ const UserListTable = ({
     },
     {
       label: (
-        <Link
-          onClick={resetDropdownStates}
-          className={userType === "1" ? "d_none" : ""}
-          to={`${routeFromUSerType[userType]}/${res?.userId}`}>
+        <Link onClick={resetDropdownStates} className={userType === "1" ? "d_none" : ""} to={`${routeFromUSerType[userType]}/${res?.userId}`}>
           Downline
         </Link>
       ),
@@ -377,11 +328,7 @@ const UserListTable = ({
     <>
       {isOverlayOpen && <div className="overlay_layout"></div>}
       <div>
-        {showSearchDropdown && (
-          <div
-            className="over_view"
-            onClick={() => setShowSearchDropdown(false)}></div>
-        )}
+        {showSearchDropdown && (<div className="over_view" onClick={() => setShowSearchDropdown(false)}></div>)}
         <div className="sport_detail m-0 ant-spin-nested-loading">
           <div
             ref={myElementRef}
@@ -400,7 +347,7 @@ const UserListTable = ({
                   <th>#</th>
                   <th></th>
                   <th>
-                    <div className="main_search_droup">
+                    <div className="main_search_droup" style={{position:"relative"}}>
                       <p>Code</p>
                       {showSearchDropdown && (
                         <Menu className="menu_item">
@@ -412,9 +359,7 @@ const UserListTable = ({
                             }}
                             onFinish={onSearchFinish}
                             autoComplete="off">
-                            <Form.Item name="username">
-                              <Input />
-                            </Form.Item>
+                            <Form.Item name="username"><Input /></Form.Item>
                             <div className="agent_search_deatil">
                               <Form.Item>
                                 <Button
@@ -455,12 +400,12 @@ const UserListTable = ({
                     {localUserType == 5
                       ? "Sub Admin"
                       : localUserType == 0
-                      ? "Master"
-                      : localUserType == 1
-                      ? "Super"
-                      : localUserType == 2
-                      ? "Agent"
-                      : ""}
+                        ? "Master"
+                        : localUserType == 1
+                          ? "Super"
+                          : localUserType == 2
+                            ? "Agent"
+                            : ""}
                   </th>
                   <th>Contact</th>
                   <th>D.O.J </th>
@@ -534,7 +479,7 @@ const UserListTable = ({
                     <td>*******</td>
                     <td>
                       {res?.matchCommission === 0 &&
-                      res?.sessionCommission === 0
+                        res?.sessionCommission === 0
                         ? "NOC"
                         : "bbb"}
                     </td>
