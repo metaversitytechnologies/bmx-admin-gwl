@@ -106,14 +106,7 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
-    superuserList: build.mutation({
-      query: (body) => ({
-        url: "/user/list-user-v2",
-        method: "POST",
-        body,
-      }),
-      providesTags: ["superUserList"],
-    }),
+
     profitLoss: build.query({
       query: (body) => ({
         url: `/bmx/profit-loss`,
@@ -204,6 +197,30 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
+
+    superuserList: build.mutation({
+      query: (body) => ({
+        url: "/user/list-user-v2",
+        method: "POST",
+        body,
+      }),
+      providesTags: ["superUserList"],
+    }),
+    depositAndWithdraw: build.query({
+      query: (body) => ({
+        url: "/user/update-limit",
+        method: "POST",
+        body,
+      }),
+      providesTags: ["superUserList"],
+    }),
+    childListDetails: build.query({
+      query: (body) => ({
+        url: "/user/child-list-for-limit",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -221,7 +238,7 @@ export const {
   useDeleteByUserIDMutation,
   useFetchDeleteTransectionQuery,
   useLazyTtlBookQuery,
-  useSuperuserListMutation,
+
   useProfitLossQuery,
   useBlockBettingMutation,
   useSportListbyIDQuery,
@@ -235,4 +252,7 @@ export const {
   useCommReportMutation,
   useIt_Self_By_APP_URLQuery,
   useLazyCreateParentListQuery,
+  useLazyDepositAndWithdrawQuery,
+  useSuperuserListMutation,
+  useChildListDetailsQuery
 } = supermasteAccountStatementApi;

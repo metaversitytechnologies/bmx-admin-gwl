@@ -3,7 +3,7 @@
     background-color: #73766f !important;
     th.ant-table-cell {
       background: #7d5c0e !important;
-      padding: 5px 10px  !important;
+      padding: 5px 10px !important;
       color: #fff !important;
       &:first-child {
         border-radius: unset !important;
@@ -58,6 +58,9 @@
             border-radius: 2px;
             margin-right: 15px;
             outline: unset;
+            line-height: 2px;
+            padding: 18px 14px;
+            font-weight: 400;
           }
           .minus {
             color: #fff;
@@ -66,9 +69,12 @@
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
             color: #ffffff !important;
             background-color: #7d5c0e !important;
-            border-color: #ff4d4f;
+            border: 1px solid #ff4d4f;
             border-radius: 2px;
             outline: unset;
+            line-height: 2px;
+            padding: 18px 12px;
+            font-weight: 400;
           }
         }
       }

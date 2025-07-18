@@ -1,33 +1,42 @@
-import { Button, Form, Input, notification } from "antd";
+import { Button, Form, Input, notification, Pagination } from "antd";
 import { useEffect, useState } from "react";
 
-import {
-  useAddLimitMutation,
-  useDepositMutation,
-  useLazyUpDateLimitesQuery,
-} from "../../../../store/service/userlistService";
 import { useLocation, useParams } from "react-router-dom";
+import {
+  useLazyDepositAndWithdrawQuery,
+  useSuperuserListMutation,
+} from "../../../../store/service/supermasteAccountStatementServices";
 
 const AddSuperLimites = () => {
-  const [addTotal, setAddTotal] = useState(0);
-  const [chipsValue, setChipsValue] = useState();
-  const [passWord, setPassword] = useState("");
-  const [api, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
-  const { state } = useLocation();
-
   const { id } = useParams();
+  const [api, contextHolder] = notification.useNotification();
 
-  const handelAddLimit = (e) => {
-    setChipsValue(e.target.value);
-    setAddTotal(
-      Number(e.target.value) + Number(updateLimite?.data?.childAmount)
-    );
+  const [inputValues, setInputValues] = useState({});
+  const [paginationTotal, setPaginationTotal] = useState(50);
+  const [indexData, setIndexData] = useState(0);
+
+  const [getSuperuserList, { data: superuserListData, isLoading }] =
+    useSuperuserListMutation();
+
+  const [triggerDeposit] = useLazyDepositAndWithdrawQuery();
+
+  const totalPages = superuserListData?.data?.totalPages || 1;
+  const currentPage = superuserListData?.data?.currentPage || 0;
+
+  const fetchData = () => {
+    getSuperuserList({
+      userType: id,
+      parentId: "",
+      noOfRecords: paginationTotal,
+      index: indexData,
+      userToSearch: "",
+    });
   };
 
-  const handelPassword = (e) => {
-    setPassword(e.target.value);
-  };
+  useEffect(() => {
+    fetchData();
+  }, [id, indexData, paginationTotal]);
 
   const openNotification = (mess) => {
     api.success({
@@ -46,37 +55,40 @@ const AddSuperLimites = () => {
     });
   };
 
-  const [trigger, { data: addData, error, isLoading }] = useAddLimitMutation();
-  const [updateLimites, { data: updateLimite }] = useLazyUpDateLimitesQuery();
-
-  useEffect(() => {
-    updateLimites({
-      userId: id,
-    });
-  }, [id]);
-
-  const onFinish = (values) => {
-    const addList = {
-      amount: Number(values?.amount),
-      remark: "Updated Limit",
-      lupassword: values?.pass,
-      userId: id,
-    };
-    trigger(addList);
+  const handleInputChange = (userId, value) => {
+    setInputValues((prev) => ({
+      ...prev,
+      [userId]: value,
+    }));
   };
 
-  useEffect(() => {
-    if (addData?.status === true) {
-      updateLimites({
-        userId: id,
-      });
-      setAddTotal(0);
-      openNotification(addData?.message);
-      form?.resetFields();
-    } else if (addData?.status === false || error?.data?.message) {
-      openNotificationError(addData?.message || error?.data?.message);
+  const handleLimitAction = (user, isAdd) => {
+    const amount = Number(inputValues[user.userId]);
+    if (!amount || amount <= 0) {
+      openNotificationError("Enter valid amount");
+      return;
     }
-  }, [addData?.data, error]);
+
+    const payload = {
+      userId: user.userId,
+      limit: amount,
+      limitPlus: isAdd,
+      limitInCash: false,
+    };
+
+    triggerDeposit(payload)
+      .unwrap()
+      .then((res) => {
+        openNotification(
+          `${isAdd ? "Added" : "Deducted"} ${amount} to ${user.userName}`
+        );
+        fetchData(); // Refresh after action
+        setInputValues((prev) => ({ ...prev, [user.userId]: "" }));
+      })
+      .catch((err) => {
+        openNotificationError("Transaction failed");
+      });
+  };
 
   return (
     <>
@@ -85,67 +97,75 @@ const AddSuperLimites = () => {
         className="table_section mwt sport_detail"
         style={{ paddingBottom: "12px" }}>
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Form
-            onFinish={onFinish}
-            form={form}
-            // onFinishFailed={onFinishFailed}
-            autoComplete="off">
-            <table className="live_table  limit_update">
-              <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>C. Chips</th>
-                <th>Add / Minus Limit </th>
-                <th>Action</th>
-              </tr>
-
-              <tr>
-                <td>A10285</td>
-                <td>agemas</td>
-                <td>0.00</td>
-
-                <td>
-                  <div>
-                    <Form.Item
-                      name="amount"
-                      required
-                      rules={[
-                        { required: true, message: "Please Enter Chips!" },
-                      ]}>
-                      <Input
-                        style={{
-                          width: "110px",
-                          padding: "6px",
-                          background: "#fff",
-                        }}
-                        onChange={(e) => handelAddLimit(e)}
-                        type="number"
-                      />
-                    </Form.Item>
-                  </div>
-                </td>
-
-                <td>
-                  <div className="minus_btn">
-                    <Button
-                      style={{ height: "unset" }}
-                      className="add"
-                      loading={isLoading}
-                      htmlType="submit">
-                      Add
-                    </Button>
-                    <Button
-                      style={{ height: "unset" }}
-                      className="minus"
-                      loading={isLoading}
-                      htmlType="submit">
-                      Minus
-                    </Button>
-                  </div>
-                </td>
-              </tr>
+          <Form form={form} autoComplete="off">
+            <table className="live_table limit_update">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Name</th>
+                  <th>C. Chips</th>
+                  <th>Add / Minus Limit</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {superuserListData?.data?.userListV2?.map((user, key) => (
+                  <tr key={key}>
+                    <td>{user?.userId}</td>
+                    <td>{user?.userName}</td>
+                    <td>{user?.balance}</td>
+                    <td>
+                      <Form.Item>
+                        <Input
+                          type="number"
+                          value={inputValues[user.userId] || ""}
+                          onChange={(e) =>
+                            handleInputChange(user.userId, e.target.value)
+                          }
+                          style={{
+                            width: "110px",
+                            padding: "6px",
+                            background: "#fff",
+                          }}
+                        />
+                      </Form.Item>
+                    </td>
+                    <td>
+                      <div className="minus_btn">
+                        <Button
+                          className="add"
+                          loading={isLoading}
+                          onClick={() => handleLimitAction(user, true)}>
+                          Add
+                        </Button>
+                        <Button
+                          className="minus"
+                          loading={isLoading}
+                          onClick={() => handleLimitAction(user, false)}>
+                          Minus
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </Form>
+
+          <div style={{ marginTop: 20, textAlign: "right" }}>
+            <Pagination
+              current={currentPage + 1}
+              total={totalPages * paginationTotal}
+              pageSize={paginationTotal}
+              showSizeChanger
+              pageSizeOptions={["25", "50", "100", "200", "300", "500"]}
+              onChange={(page) => setIndexData(page - 1)}
+              onShowSizeChange={(current, size) => {
+                setPaginationTotal(size);
+                setIndexData(0);
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

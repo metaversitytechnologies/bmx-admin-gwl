@@ -46,7 +46,7 @@ const Dashboard = () => {
     borderRadius: "20px",
   };
 
-  // const { data: dataDes } = useDashboardQuery();
+  const { data: dataDes } = useDashboardQuery();
 
   // const [logOut, { data: logOutData }] = useLogoutMutation();
 

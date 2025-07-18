@@ -1,37 +1,28 @@
-import React, { useEffect } from "react";
-import { Button, Form, Input, InputNumber, Modal, Spin, notification } from "antd";
+import { useEffect } from "react";
+import { Button, Form, InputNumber, Modal, Spin } from "antd";
 import "./Deposit.scss";
-import {
-  useDepositAndWithdrawQuery,
-  useDepositMutation,
-} from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
+import { useLazyDepositAndWithdrawQuery } from "../../store/service/supermasteAccountStatementServices";
 
 const Deposit = ({
   data: datadeposit,
-  userIdData,
   handleClose,
-  setClientDataState,
   isDepositeModalOpen,
   handleDepositeOk,
   handleDepositeCancel,
+  fetchData,
 }) => {
   const [form] = Form.useForm();
 
-  const [trigger, { data, error, isLoading }] = useDepositMutation();
-  const { data: depositeWithdraw } = useDepositAndWithdrawQuery(
-    {
-      userId: datadeposit,
-    },
-    { refetchOnMountOrArgChange: true }
-  );
+  const [trigger, { data, isLoading, error }] =
+    useLazyDepositAndWithdrawQuery();
 
   const onFinish = (values) => {
     const depositData = {
-      amount: Number(values?.number),
-      remark: "credit deposit",
-      lupassword: values?.password,
-      userId: userIdData,
+      userId: datadeposit?.userId,
+      limit: Number(values?.number),
+      limitPlus: datadeposit.isDeposit ? true : false,
+      limitInCash: false,
     };
     trigger(depositData);
     form?.resetFields();
@@ -41,7 +32,7 @@ const Deposit = ({
     if (data?.status === true) {
       openNotification(data?.message);
       form?.resetFields();
-      setClientDataState(true);
+      fetchData();
       handleClose();
     } else if (data?.status === false || error?.data?.message) {
       openNotificationError(data?.message || error?.data?.message);
@@ -56,7 +47,7 @@ const Deposit = ({
         destroyOnClose
         title={
           <h1>
-            <span>Deposit</span>
+            <span>{datadeposit?.isDeposit ? "Deposit" : "Withdraw"}</span>
           </h1>
         }
         open={isDepositeModalOpen}
@@ -77,11 +68,9 @@ const Deposit = ({
               Curr Coins :{" "}
               <span
                 className={
-                  depositeWithdraw?.data?.childUplineAmount < 0
-                    ? "text_danger"
-                    : "text_success"
+                  datadeposit?.balance < 0 ? "text_danger" : "text_success"
                 }>
-                {depositeWithdraw?.data?.childUplineAmount}
+                {datadeposit?.balance}
               </span>{" "}
             </p>
           </div>

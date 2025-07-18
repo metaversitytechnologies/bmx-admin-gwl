@@ -13,6 +13,8 @@ const ListSuper = () => {
     setParentUserIds(UserId);
   }, [UserId]);
 
+
+
   const { id } = useParams();
 
   const nav = useNavigate();
@@ -62,7 +64,7 @@ const ListSuper = () => {
               </div>
               <div>
                 <p>
-                  <Link to="/client/limitplusminus-super/demo01">
+                  <Link to={`/client/limitplusminus-super/${userTyep}`}>
                     Update Limit
                   </Link>
                 </p>

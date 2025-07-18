@@ -1,14 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Divider, Dropdown, Form, Input, Menu, Pagination, Space, Spin } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Button,
+  Divider,
+  Dropdown,
+  Form,
+  Input,
+  Menu,
+  Pagination,
+  Space,
+  Spin,
+} from "antd";
+import { Link, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
-import { SearchOutlined, CaretDownOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  CaretDownOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
 import moment from "moment";
 import Deposit from "./Deposit";
-import Withdraw from "./Withdraw";
-import { useSuperuserListMutation, useUpDateStatusMutation } from "../../store/service/supermasteAccountStatementServices";
+import {
+  useSuperuserListMutation,
+  useUpDateStatusMutation,
+} from "../../store/service/supermasteAccountStatementServices";
 import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
@@ -21,38 +37,34 @@ const routeFromUSerType = {
 
 const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeStatus, setActiveStatus] = useState(null);
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
-  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
-  const [currentUserBalance, setCurrentUserBalance] = useState(0);
-  const [currentParentUserId, setCurrentParentUserId] = useState(null);
   const [selectedUserIdForActions, setSelectedUserIdForActions] =
     useState(null);
-  const [paginationTotal, setPaginationTotal] = useState(10);
+  const [paginationTotal, setPaginationTotal] = useState(50);
   const [indexData, setIndexData] = useState(0);
   const [partnershipDetails, setPartnershipDetails] = useState({});
   const [userIdForPartnership, setUserIdForPartnership] = useState("");
+  const [depositData, setDepositData] = useState({});
 
-  const [isBetLocked, setIsBetLocked] = useState(false);
-  const [isAccountLocked, setIsAccountLocked] = useState(false);
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
-  const [currentUserName, setCurrentUserName] = useState("");
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [openResetPassModal, setOpenResetPassModal] = useState(false);
-  const [clientUserType, setClientUserType] = useState(""); // Renamed for clarity
 
   const [form] = Form.useForm();
-  const navigate = useNavigate();
   const { parentId: parentIdFromParams } = useParams();
   const myElementRef = useRef(null);
 
-  const localUserId = localStorage.getItem("userId");
   const localUserType = localStorage.getItem("userType");
 
   // API Hooks
-  const [ getSuperuserList, { data: superuserListData, isLoading, isFetching }] = useSuperuserListMutation();
-  const [updateStatus, { data: updateStatusResult, error: updateStatusError }] = useUpDateStatusMutation();
-  const [ getPartnershipData, { data: partnershipDetail, isLoading: loadingPartnership }] = usePartnershipMutation();
+  const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
+    useSuperuserListMutation();
+  const [updateStatus, { data: updateStatusResult, error: updateStatusError }] =
+    useUpDateStatusMutation();
+  const [
+    getPartnershipData,
+    { data: partnershipDetail, isLoading: loadingPartnership },
+  ] = usePartnershipMutation();
 
   // --- Handlers for Modals and Dropdowns ---
 
@@ -67,19 +79,10 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     resetDropdownStates();
   };
 
-  const handleShowWithdrawModal = () => {
-    setIsWithdrawModalOpen(true);
-    resetDropdownStates();
-  };
-
-  const handleCloseWithdrawModal = () => {
-    setIsWithdrawModalOpen(false);
-    resetDropdownStates();
-  };
-
-  const handleShowDepositModal = () => {
+  const handleShowDepositModal = (data, isDeposit) => {
     setIsDepositModalOpen(true);
     resetDropdownStates();
+    setDepositData({ ...data, isDeposit });
   };
 
   const handleCloseDepositModal = () => {
@@ -101,36 +104,13 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     // setCasinoLockModals(true);
   };
 
-  const handleUpdateLimits = () => {
-    resetDropdownStates();
-    navigate(`/client/limitplusminus-super/${selectedUserIdForActions}`, {
-      state: clientUserType,
-    });
-  };
-
-  const handleEditUserData = (userId, active, userName, balance) => {
+  const handleEditUserData = (userId) => {
     setSelectedUserIdForActions(userId);
-    setActiveStatus(active);
-    setCurrentUserBalance(balance);
-    setCurrentUserName(userName);
   };
 
-  const handleParentIdChange = (
-    id,
-    balance,
-    userId,
-    parentUserID,
-    betStatus,
-    accountStatus,
-    userType
-  ) => {
-    setCurrentParentUserId(id);
-    setCurrentUserBalance(balance);
+  const handleParentIdChange = (userId, parentUserID) => {
     setSelectedUserIdForActions(userId);
     setParentUserIds(parentUserID);
-    setIsBetLocked(betStatus);
-    setIsAccountLocked(accountStatus);
-    setClientUserType(userType);
   };
 
   // State for managing individual dropdown visibility
@@ -146,7 +126,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     const updatedDropdownStates = [...dropdownOpenStates];
     updatedDropdownStates[index] = !updatedDropdownStates[index];
     setDropdownOpenStates(updatedDropdownStates);
-    setIsOverlayOpen(updatedDropdownStates[index]); 
+    setIsOverlayOpen(updatedDropdownStates[index]);
   };
 
   const handleScroll = () => {
@@ -167,7 +147,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     }
   }, [updateStatusError]);
 
-  useEffect(() => {
+  const fetchData = () => {
     getSuperuserList({
       userType: userType,
       parentId: parentIdFromParams || "",
@@ -175,13 +155,12 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       index: indexData,
       userToSearch: "",
     });
-  }, [
-    parentIdFromParams,
-    userType,
-    paginationTotal,
-    indexData,
-    getSuperuserList,
-  ]);
+  };
+
+  // Initial fetch on mount or dependencies change
+  useEffect(() => {
+    fetchData();
+  }, [parentIdFromParams, userType, paginationTotal, indexData]);
 
   useEffect(() => {
     if (updateStatusResult?.status) {
@@ -220,7 +199,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     };
   }, []);
 
-  // --- Form Submission ---
+  const totalPages = superuserListData?.data?.totalPages || 1;
+  const currentPage = superuserListData?.data?.currentPage || 0;
 
   const onSearchFinish = (values) => {
     getSuperuserList({
@@ -230,17 +210,20 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       index: indexData,
       userId: values?.username,
     });
-    
   };
 
   // --- Dropdown Menu Items ---
   const getActionMenuItems = (res) => [
     {
-      label: <div onClick={handleShowDepositModal}>Deposit</div>,
+      label: (
+        <div onClick={() => handleShowDepositModal(res, true)}>Deposit</div>
+      ),
       key: "0",
     },
     {
-      label: <div onClick={handleShowWithdrawModal}>Withdraw</div>,
+      label: (
+        <div onClick={() => handleShowDepositModal(res, false)}>Withdraw</div>
+      ),
       key: "1",
     },
     {
@@ -264,14 +247,15 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
         <Link
           style={{ fontWeight: 700 }}
           onClick={resetDropdownStates}
-          to={`${Listname === "Master"
+          to={`${
+            Listname === "Master"
               ? `/client/update-super/${res?.userId}`
               : Listname === "Super"
-                ? `/client/update-agent/${res?.userId}`
-                : Listname === "Agent"
-                  ? `/client/update-dealer/${res?.userId}`
-                  : `/client/update-client/${res?.userId}`
-            }`}>
+              ? `/client/update-agent/${res?.userId}`
+              : Listname === "Agent"
+              ? `/client/update-dealer/${res?.userId}`
+              : `/client/update-client/${res?.userId}`
+          }`}>
           Edit
         </Link>
       ),
@@ -279,7 +263,10 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     },
     {
       label: (
-        <Link style={{ fontWeight: 700 }} onClick={resetDropdownStates} to={`/account-statement/${res?.userId}`}>
+        <Link
+          style={{ fontWeight: 700 }}
+          onClick={resetDropdownStates}
+          to={`/account-statement/${res?.userId}`}>
           Statement
         </Link>
       ),
@@ -287,7 +274,10 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     },
     {
       label: (
-        <Link style={{ fontWeight: 700 }} onClick={resetDropdownStates} to={`/client/account-operations/${res?.userId}`}>
+        <Link
+          style={{ fontWeight: 700 }}
+          onClick={resetDropdownStates}
+          to={`/client/account-operations/${res?.userId}`}>
           Account Operations
         </Link>
       ),
@@ -295,7 +285,10 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     },
     {
       label: (
-        <Link style={{ fontWeight: 700 }} onClick={resetDropdownStates} to={`/client/login-report/${res?.userId}`}>
+        <Link
+          style={{ fontWeight: 700 }}
+          onClick={resetDropdownStates}
+          to={`/client/login-report/${res?.userId}`}>
           Login Report
         </Link>
       ),
@@ -303,7 +296,10 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     },
     {
       label: (
-        <Link onClick={resetDropdownStates} className={userType === "1" ? "d_none" : ""} to={`${routeFromUSerType[userType]}/${res?.userId}`}>
+        <Link
+          onClick={resetDropdownStates}
+          className={userType === "1" ? "d_none" : ""}
+          to={`${routeFromUSerType[userType]}/${res?.userId}`}>
           Downline
         </Link>
       ),
@@ -328,7 +324,11 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     <>
       {isOverlayOpen && <div className="overlay_layout"></div>}
       <div>
-        {showSearchDropdown && (<div className="over_view" onClick={() => setShowSearchDropdown(false)}></div>)}
+        {showSearchDropdown && (
+          <div
+            className="over_view"
+            onClick={() => setShowSearchDropdown(false)}></div>
+        )}
         <div className="sport_detail m-0 ant-spin-nested-loading">
           <div
             ref={myElementRef}
@@ -347,7 +347,9 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                   <th>#</th>
                   <th></th>
                   <th>
-                    <div className="main_search_droup" style={{position:"relative"}}>
+                    <div
+                      className="main_search_droup"
+                      style={{ position: "relative" }}>
                       <p>Code</p>
                       {showSearchDropdown && (
                         <Menu className="menu_item">
@@ -359,7 +361,9 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                             }}
                             onFinish={onSearchFinish}
                             autoComplete="off">
-                            <Form.Item name="username"><Input /></Form.Item>
+                            <Form.Item name="username">
+                              <Input />
+                            </Form.Item>
                             <div className="agent_search_deatil">
                               <Form.Item>
                                 <Button
@@ -400,12 +404,12 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     {localUserType == 5
                       ? "Sub Admin"
                       : localUserType == 0
-                        ? "Master"
-                        : localUserType == 1
-                          ? "Super"
-                          : localUserType == 2
-                            ? "Agent"
-                            : ""}
+                      ? "Master"
+                      : localUserType == 1
+                      ? "Super"
+                      : localUserType == 2
+                      ? "Agent"
+                      : ""}
                   </th>
                   <th>Contact</th>
                   <th>D.O.J </th>
@@ -430,15 +434,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     </td>
                     <td
                       onClick={() =>
-                        handleParentIdChange(
-                          res?.id,
-                          res?.availablebalance,
-                          res?.userid,
-                          res?.parent,
-                          res?.betlock,
-                          res?.accountlock,
-                          res?.usertype
-                        )
+                        handleParentIdChange(res?.userid, res?.parent)
                       }>
                       <Dropdown
                         className="droup_menu"
@@ -452,14 +448,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                         <div
                           className="droup_link"
                           style={{ cursor: "pointer" }}
-                          onClick={() =>
-                            handleEditUserData(
-                              res?.userid,
-                              res?.active,
-                              res?.username,
-                              res?.availablebalance
-                            )
-                          }>
+                          onClick={() => handleEditUserData(res?.userid)}>
                           <Space>
                             <CaretDownOutlined />
                           </Space>
@@ -479,7 +468,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     <td>*******</td>
                     <td>
                       {res?.matchCommission === 0 &&
-                        res?.sessionCommission === 0
+                      res?.sessionCommission === 0
                         ? "NOC"
                         : "bbb"}
                     </td>
@@ -494,17 +483,18 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
           </div>
 
           <Divider />
-          <div className="pagination_cus">
+          <div className="pagination_cus" style={{ textAlign: "right" }}>
             <Pagination
-              className="pagination_main ledger_pagination"
-              onShowSizeChange={(c, s) => setPaginationTotal(s)}
-              total={
-                superuserListData?.data?.totalPages &&
-                superuserListData.data.totalPages * paginationTotal
-              }
-              defaultPageSize={10}
-              pageSizeOptions={[10, 50, 100, 150, 200, 250]}
-              onChange={(e) => setIndexData(e - 1)}
+              current={currentPage + 1}
+              total={totalPages * paginationTotal}
+              pageSize={paginationTotal}
+              onChange={(page) => setIndexData(page - 1)}
+              showSizeChanger
+              pageSizeOptions={["50", "100", "150", "200", "250"]}
+              onShowSizeChange={(current, size) => {
+                setPaginationTotal(size);
+                setIndexData(0); 
+              }}
             />
           </div>
 
@@ -519,29 +509,18 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
 
         <Deposit
           handleClose={handleCloseDepositModal}
-          data={selectedUserIdForActions}
+          data={depositData}
           userIdData={selectedUserIdForActions}
           isDepositeModalOpen={isDepositModalOpen}
           handleDepositeOk={handleCloseDepositModal}
           handleDepositeCancel={handleCloseDepositModal}
-        />
-
-        <Withdraw
-          userIdData={selectedUserIdForActions}
-          handleClose={handleCloseWithdrawModal}
-          data={selectedUserIdForActions}
-          WithdrawnModal={isWithdrawModalOpen}
-          handleDepositeOk={handleCloseWithdrawModal}
-          handleDepositeCancel={handleCloseWithdrawModal}
+          fetchData={fetchData}
         />
 
         <ResetPassword
           isDepositeModalOpen={openResetPassModal} // This prop name seems mismatched (Deposit vs. ResetPassword)
           setOpenResetPass={setOpenResetPassModal}
         />
-        {/* BetlockModal and CasinoLockModals would be rendered here if needed */}
-        {/* <BetlockModal /> */}
-        {/* <CasinoLockModals /> */}
       </div>
     </>
   );
