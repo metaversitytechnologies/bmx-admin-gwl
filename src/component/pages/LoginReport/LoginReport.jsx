@@ -3,63 +3,28 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
 import { useEffect, useState } from "react";
-import { useLazyUserListQuery } from "../../../store/service/supermasteAccountStatementServices";
-import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 import { AiFillEye } from "react-icons/ai";
 
 const LoginReport = () => {
-  const userId = localStorage.getItem("userId");
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clientId, setClientId] = useState(userId);
   const [paginationTotal, setPaginationTotal] = useState(50);
   const [indexData, setIndexData] = useState(0);
-  const [ipOrder, setipOrder] = useState(false);
 
   const nav = useNavigate();
   const handleBackClick = () => {
     nav(-1);
   };
 
-  const [userList, resultData] = useLazyUserListQuery();
-
   const [loginReport, { data, isLoading, isFetching, isError }] =
     useLazyLoginReportQuery();
 
-  const handleChange = (value) => {
-    userList({
-      userType: null,
-      userName: value,
-    });
-    loginReport({
-      index: indexData,
-      noOfRecords: paginationTotal,
-      parentId: id || value || clientId,
-      orderByIp: ipOrder,
-    });
-  };
-
-  const handleSelect = (value) => {
-    setClientId(value);
-  };
-
-  useEffect(() => {
-    userList({
-      userType: null,
-      userName: "",
-    });
-  }, []);
-
   useEffect(() => {
     loginReport({
-      index: indexData,
-      noOfRecords: paginationTotal,
-      parentId: id ? id : clientId,
-      orderByIp: ipOrder,
+      userId: id,
     });
-  }, [clientId, paginationTotal, indexData, ipOrder, id]);
+  }, [id]);
 
-  const headerField = ["User Name", "IP-Address", "Login Date", "Detail"];
 
   return (
     <>
@@ -98,19 +63,14 @@ const LoginReport = () => {
                 ""
               )}
               {!isError &&
-                data?.data?.list?.map((res, id) => {
+                data?.data?.map((res, id) => {
                   return (
                     <tr key={id}>
-                      <td>{res?.userid}</td>
-                      <td>{res?.ip}</td>
-                      <td>{res?.lastLogin}</td>
-                      <td style={{ cursor: "pointer" }} className="divice-info">
-                        <Tooltip title={res?.deviceInfo}>
-                          <span>
-                            <AiFillEye />
-                          </span>
-                        </Tooltip>
-                      </td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td>{res?.ipAddress}</td>
+                      <td >{res?.loginDate} </td>
                     </tr>
                   );
                 })}

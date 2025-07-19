@@ -1,15 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Divider,
-  Dropdown,
-  Form,
-  Input,
-  Menu,
-  Pagination,
-  Space,
-  Spin,
-} from "antd";
+import { Button, Divider, Dropdown, Form, Input, Menu, Pagination, Space, Spin } from "antd";
 import { Link, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
 import {
@@ -21,10 +11,7 @@ import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
 import moment from "moment";
 import Deposit from "./Deposit";
-import {
-  useSuperuserListMutation,
-  useUpDateStatusMutation,
-} from "../../store/service/supermasteAccountStatementServices";
+import { useSuperuserListMutation, useUserBetLockMutation, useUserCasinoLockMutation, } from "../../store/service/supermasteAccountStatementServices";
 import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
@@ -59,12 +46,23 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   // API Hooks
   const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
     useSuperuserListMutation();
-  const [updateStatus, { data: updateStatusResult, error: updateStatusError }] =
-    useUpDateStatusMutation();
+  const [getBetLock] = useUserBetLockMutation();
+  const [getCasinoLock] = useUserCasinoLockMutation();
   const [
     getPartnershipData,
     { data: partnershipDetail, isLoading: loadingPartnership },
   ] = usePartnershipMutation();
+
+
+  const fetchData = () => {
+    getSuperuserList({
+      userType: userType,
+      parentId: parentIdFromParams || "",
+      noOfRecords: paginationTotal,
+      index: indexData,
+      userToSearch: "",
+    });
+  };
 
   // --- Handlers for Modals and Dropdowns ---
 
@@ -94,14 +92,28 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     // updateStatus({ userId: res?.userId, isLock: res?.isActive });
   };
 
-  const handleBlockBetting = (res) => {
-    // updateStatus({ userId: res?.userId, isLock: res?.isActive });
+  const handleBlockBetting = async (res) => {
+    const result = await getBetLock({ userId: res?.userId, isLock: true }).unwrap();
+    if (result?.status) {
+      openNotification(result?.message);
+      fetchData();
+      resetDropdownStates();
+    } else {
+      openNotificationError(result?.message);
+    }
+
   };
 
-  const handleBlockCasino = () => {
-    resetDropdownStates();
-    // Logic for blocking casino, potentially open a CasinoLockModals
-    // setCasinoLockModals(true);
+  const handleBlockCasino = async (res) => {
+    const result = await getCasinoLock({ userId: res?.userId, isLock: true }).unwrap();
+    if (result?.status) {
+      openNotification(result?.message);
+      fetchData();
+      resetDropdownStates();
+    } else {
+      openNotificationError(result?.message);
+    }
+
   };
 
   const handleEditUserData = (userId) => {
@@ -113,7 +125,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     setParentUserIds(parentUserID);
   };
 
-  // State for managing individual dropdown visibility
+
   const [dropdownOpenStates, setDropdownOpenStates] = useState([]);
 
   const resetDropdownStates = () => {
@@ -133,7 +145,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     resetDropdownStates();
   };
 
-  // --- Effects ---
+
 
   useEffect(() => {
     if (partnershipDetail?.data) {
@@ -141,42 +153,19 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     }
   }, [partnershipDetail?.data]);
 
-  useEffect(() => {
-    if (updateStatusError?.status === 400) {
-      openNotificationError(updateStatusError?.data?.message);
-    }
-  }, [updateStatusError]);
 
-  const fetchData = () => {
-    getSuperuserList({
-      userType: userType,
-      parentId: parentIdFromParams || "",
-      noOfRecords: paginationTotal,
-      index: indexData,
-      userToSearch: "",
-    });
-  };
 
-  // Initial fetch on mount or dependencies change
+
+
+
   useEffect(() => {
     fetchData();
   }, [parentIdFromParams, userType, paginationTotal, indexData]);
 
-  useEffect(() => {
-    if (updateStatusResult?.status) {
-      openNotification(updateStatusResult?.message);
-      getSuperuserList({
-        userType: userType,
-        parentId: parentIdFromParams || "",
-        noOfRecords: paginationTotal,
-        index: indexData,
-        userToSearch: "",
-      });
-    }
-  }, [updateStatusResult?.status, updateStatusResult?.message]);
+
 
   useEffect(() => {
-    // Initialize dropdown states based on the number of users
+
     if (superuserListData?.data?.userListV2) {
       setDropdownOpenStates(
         new Array(superuserListData.data.userListV2.length).fill(false)
@@ -212,7 +201,6 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     });
   };
 
-  // --- Dropdown Menu Items ---
   const getActionMenuItems = (res) => [
     {
       label: (
@@ -235,11 +223,11 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       key: "2",
     },
     {
-      label: <div onClick={handleBlockBetting(res)}>Block Betting</div>,
+      label: <div onClick={() => handleBlockBetting(res)}>Block Betting</div>,
       key: "3",
     },
     {
-      label: <div onClick={handleBlockCasino}>Block Casino</div>,
+      label: <div onClick={() => handleBlockCasino(res)}>Block Casino</div>,
       key: "4",
     },
     {
@@ -247,15 +235,14 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
         <Link
           style={{ fontWeight: 700 }}
           onClick={resetDropdownStates}
-          to={`${
-            Listname === "Master"
-              ? `/client/update-super/${res?.userId}`
-              : Listname === "Super"
+          to={`${Listname === "Master"
+            ? `/client/update-super/${res?.userId}`
+            : Listname === "Super"
               ? `/client/update-agent/${res?.userId}`
               : Listname === "Agent"
-              ? `/client/update-dealer/${res?.userId}`
-              : `/client/update-client/${res?.userId}`
-          }`}>
+                ? `/client/update-dealer/${res?.userId}`
+                : `/client/update-client/${res?.userId}`
+            }`}>
           Edit
         </Link>
       ),
@@ -404,12 +391,12 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     {localUserType == 5
                       ? "Sub Admin"
                       : localUserType == 0
-                      ? "Master"
-                      : localUserType == 1
-                      ? "Super"
-                      : localUserType == 2
-                      ? "Agent"
-                      : ""}
+                        ? "Master"
+                        : localUserType == 1
+                          ? "Super"
+                          : localUserType == 2
+                            ? "Agent"
+                            : ""}
                   </th>
                   <th>Contact</th>
                   <th>D.O.J </th>
@@ -468,7 +455,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     <td>*******</td>
                     <td>
                       {res?.matchCommission === 0 &&
-                      res?.sessionCommission === 0
+                        res?.sessionCommission === 0
                         ? "NOC"
                         : "bbb"}
                     </td>
@@ -493,7 +480,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
               pageSizeOptions={["50", "100", "150", "200", "250"]}
               onShowSizeChange={(current, size) => {
                 setPaginationTotal(size);
-                setIndexData(0); 
+                setIndexData(0);
               }}
             />
           </div>

@@ -129,14 +129,8 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
-    userMessage: build.query({
-      query: (body) => ({
-        url: "/enduser/get-user-message",
-        method: "POST",
-        body,
-      }),
-    }),
-    upDateStatus: build.mutation({
+
+    userBetLock: build.mutation({
       query: (body) => ({
         url: "/ant-pro/bet-lock",
         method: "POST",
@@ -144,6 +138,16 @@ export const supermasteAccountStatementApi = createApi({
       }),
       invalidatesTags: ["superUserList"],
     }),
+
+    userCasinoLock: build.mutation({
+      query: (body) => ({
+        url: "/ant-pro/casino-bet-lock",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["superUserList"],
+    }),
+  
 
     casinoList: build.query({
       query: (body) => ({
@@ -243,8 +247,7 @@ export const {
   useBlockBettingMutation,
   useSportListbyIDQuery,
   useChangePasswordSelfMutation,
-  useUserMessageQuery,
-  useUpDateStatusMutation,
+  useUserBetLockMutation,
   useCasinoListQuery,
   useUpdateCasinoLockMutation,
   useCreateCasinoListQuery,
@@ -254,5 +257,6 @@ export const {
   useLazyCreateParentListQuery,
   useLazyDepositAndWithdrawQuery,
   useSuperuserListMutation,
-  useChildListDetailsQuery
+  useChildListDetailsQuery,
+  useUserCasinoLockMutation
 } = supermasteAccountStatementApi;

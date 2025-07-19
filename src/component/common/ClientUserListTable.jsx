@@ -26,7 +26,7 @@ import Withdraw from "./Withdraw";
 import BetlockModal from "./BetlockModal";
 import {
   useSuperuserListMutation,
-  useUpDateStatusMutation,
+  useUserBetLockMutation,
 } from "../../store/service/supermasteAccountStatementServices";
 import { usePartnershipMutation } from "../../store/service/userlistService";
 import { openNotification } from "../../App";
@@ -119,7 +119,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
   const [getData, { data: results, isLoading, isFetching, isError }] =
     useSuperuserListMutation();
 
-  const [activeData, { data: Activestatus }] = useUpDateStatusMutation();
+  const [activeData, { data: Activestatus }] = useUserBetLockMutation();
 
   const handleActive = () => {
     setDropdownStates([]);

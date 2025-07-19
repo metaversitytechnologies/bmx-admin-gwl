@@ -14,7 +14,7 @@ export const loginReportApi = createApi({
     loginReport: build.query({
       keepUnusedDataFor: 0,
       query: (body) => ({
-        url: "/bmx/report/bmx-login-report",
+        url: "/ant-pro/ant-pro-login-report",
         method: "POST",
         body,
       }),

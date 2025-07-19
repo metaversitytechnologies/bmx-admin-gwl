@@ -1,24 +1,16 @@
 import { useState } from "react";
-import { BiUserCircle } from "react-icons/bi";
-import { LuBarChart4 } from "react-icons/lu";
-import { AiOutlineSetting } from "react-icons/ai";
 import { CiLogin } from "react-icons/ci";
-import { HiUser } from "react-icons/hi";
-import { SlDiamond } from "react-icons/sl";
 import { IoMdInformationCircle } from "react-icons/io";
-import { FaLock } from "react-icons/fa";
-import { Card, Col, Modal, Row } from "antd";
+import { Col, Modal, Row } from "antd";
 import "./Dashboard.scss";
 import ActiveMatch from "../../common/ActiveMatch/ActiveMatch";
-import { Link, useNavigate } from "react-router-dom";
-import { useLogoutMutation } from "../../../store/service/authService";
+import { useNavigate } from "react-router-dom";
 import { useCreateCasinoListQuery } from "../../../store/service/supermasteAccountStatementServices";
 import CasinoModalsDash from "./CasinoModalsDash";
 import { useDashboardQuery } from "../../../store/service/userlistService";
 import LadgerDetails from "../ladgerdetail/LadgerDetails";
 import CashTransanction from "../CashTransanction/CashTransanction";
 import SettingModals from "./SettingModals";
-import DashboardModal from "./DashboardModal";
 import MasterDetails from "../masterDetail/MasterDetails";
 import SportModal from "./SportModal";
 
@@ -36,27 +28,10 @@ const Dashboard = () => {
     nav("/rules");
   };
 
-  // const userType = localStorage.getItem("userType")
-  const gridStyle = {
-    width: "22.342%",
-    background: "#7d5c0e",
-    color: "#fff",
-    margin: "10px",
-    cursor: "pointer",
-    borderRadius: "20px",
-  };
+  const { data: dataDes } = useDashboardQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
-  const { data: dataDes } = useDashboardQuery();
-
-  // const [logOut, { data: logOutData }] = useLogoutMutation();
-
-  // const handleLogout = () => {
-  //   localStorage.clear();
-  //   nav("/");
-  //   logOut();
-  // };
-
-  // const uType = localStorage.getItem("userType");
   const uType = 5;
 
   const { data: casinoDetails } = useCreateCasinoListQuery(
@@ -125,7 +100,7 @@ const Dashboard = () => {
                         </div>
                         <div className="gx-media-body">
                           <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Sport's Details
+                            {`Sport's Details`}
                           </h1>
                         </div>
                       </div>
@@ -287,27 +262,34 @@ const Dashboard = () => {
               },
               {
                 icon: <img src="/Images/chips.png" width={30} />,
-                title: "1000",
+                title: `${dataDes?.data?.balance?.toFixed(2)}`,
                 desc: "Chips",
               },
               {
                 icon: <img src="/Images/member.png" width={30} />,
-                title: "10",
+                title: `${dataDes?.data?.members}`,
                 desc: "Members",
               },
               {
                 icon: <img src="/Images/sheare.png" width={30} />,
-                title: "100",
+                title: `${dataDes?.data?.myShare}`,
                 desc: "My Share",
               },
               {
                 icon: <img src="/Images/com_s.png" width={30} />,
-                title: "100",
+                title: `${dataDes?.data?.companyShare}`,
                 desc: "Company Share",
               },
-              { icon: null, title: "90%", desc: "Match Commission" },
-              { icon: null, title: "90%", desc: "Session Commission" },
-              // { icon: <HiUser />, title: "10", desc: "Client" },
+              {
+                icon: null,
+                title: `${dataDes?.data?.matchCommission}`,
+                desc: "Match Commission",
+              },
+              {
+                icon: null,
+                title: `${dataDes?.data?.sessionCommission}`,
+                desc: "Session Commission",
+              },
               {
                 icon: <IoMdInformationCircle />,
                 title: "Rules",
