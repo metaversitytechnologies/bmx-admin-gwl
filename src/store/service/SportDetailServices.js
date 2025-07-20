@@ -45,7 +45,25 @@ export const sportDetailsApi = createApi({
         return {
           url: `/user/search-user-downline?term=${term}&_type=${term}&q=${term}`,
           method: "POST",
-        }
+        };
+      },
+    }),
+    getMatchBets: build.mutation({
+      query: (body) => {
+        return {
+          url: `/report/get-match-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getUserSeacrh: build.mutation({
+      query: (body) => {
+        return {
+          url: `/user/user-search`,
+          method: "POST",
+          body,
+        };
       },
     }),
   }),
@@ -56,5 +74,7 @@ export const {
   useRejectedBetDetailQuery,
   useLazySessionFancyBetDetailQuery,
   useSportPlusMinusQuery,
-  useLazySearchUserDownlineQuery
+  useLazySearchUserDownlineQuery,
+  useGetMatchBetsMutation,
+  useGetUserSeacrhMutation
 } = sportDetailsApi;

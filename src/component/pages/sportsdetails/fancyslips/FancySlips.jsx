@@ -1,51 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Select, Row, Col, Table, Form, Button, Spin, Empty } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./FancySlips.scss";
+import { useGetMatchBetsMutation, useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 
 const FancySlips = ({ type, name }) => {
   const [clientId, setClientId] = useState("");
+  const [oddsType, setOddsType] = useState("");
   const [formData, setFormData] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [summaryData, setSummaryData] = useState([]);
 
   const nav = useNavigate();
   const { id } = useParams();
 
-  const staticUserOptions = [
-    { label: "User One (user1)", value: "user1" },
-    { label: "User Two (user2)", value: "user2" },
-    { label: "User Three (user3)", value: "user3" },
-  ];
+  const [trigger, { data: matchBets }] = useGetMatchBetsMutation()
+  const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
 
-  const staticResultData = [
-    {
-      odds: 1.5,
-      stake: 100,
-      marketname: "Over/Under",
-      matchname: "Team A vs Team B",
-      selectionname: "Over 2.5",
-      userid: "user1",
-      dealerid: "agent1",
-      date: "2025-06-13 14:00",
-      netpnl: 50,
-      pricevalue: 1200,
-      isback: true,
-    },
-    {
-      odds: 2.1,
-      stake: 200,
-      marketname: "Match Odds",
-      matchname: "Team A vs Team B",
-      selectionname: "Team A",
-      userid: "user2",
-      dealerid: "agent2",
-      date: "2025-06-13 14:05",
-      netpnl: -100,
-      pricevalue: 500,
-      isback: false,
-    },
-  ];
+  useEffect(() => {
+    trigger({
+      matchId: id,
+      userId: clientId,
+      matchCompleted: true,
+      marketType: oddsType
+    })
+  }, [oddsType, clientId]);
+
+
+
 
   const handleBackClick = () => {
     nav(-1);
@@ -54,132 +37,212 @@ const FancySlips = ({ type, name }) => {
   const onFinish = (values) => {
     setIsLoading(true);
     setFormData(values);
-    // Filter data based on selected user
-    const filtered = staticResultData.filter(
-      (item) => item.userid === values.username
-    );
+
     setTimeout(() => {
-      setFilteredData(filtered);
       setIsLoading(false);
     }, 500); // simulate loading
   };
 
-  return (
-    <div className="match_slip match_bets_report">
-      <Card
-        style={{ margin: "0px", width: "100%" }}
-        className="sport_detail session_bet"
-        title={name}
-        extra={<button onClick={handleBackClick}>Back</button>}>
-        <Form
-          name="basic"
-          onFinish={onFinish}
-          autoComplete="off"
-          layout="vertical"
-          className="form_data">
-          <Row className=" fancy_data_sess mr">
-            <Col xs={24} md={24} lg={8} xl={8}>
-              <Form.Item
-                name="username"
-                label="Select"
-                required={false}
-                rules={[{ required: true, message: "Please Select User" }]}>
-                <Select
-                  placeholder="Select User"
-                  options={staticUserOptions}
-                  showSearch
-                  allowClear
-                  onSelect={(value) => setClientId(value)}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8} xl={8}>
-              <Form.Item
-                name="username"
-                label="Select OddsType"
-                required={false}
-                rules={[{ required: true, message: "Please Select User" }]}>
-                <Select
-                  placeholder="Select User"
-                  options={staticUserOptions}
-                  showSearch
-                  allowClear
-                  onSelect={(value) => setClientId(value)}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
 
-        {isLoading ? (
-          <Spin className="loading_active" tip="Loading..." size="large">
-            <div className="content" />
-          </Spin>
-        ) : (
-          <div className="table_section statement_tabs_data active_match_table">
-            <table className="">
-              <thead>
-                <tr>
-                  <th>Rate</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Team</th>
-                  <th>Selection Name</th>
-                  <th>Client</th>
-                  <th>Agent</th>
-                  <th>Date</th>
-                  <th>Profit/Loss</th>
-                  <th
-                    style={{
-                      display: `${type === 2 ? "none" : "table-cell"}`,
-                    }}>
-                    Volume
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {staticResultData.length > 0 ? (
-                  staticResultData.map((res, id) => (
-                    <tr
-                      key={id}
-                      className={res?.isback === false ? "lay" : "back"}>
-                      <td className="text-right">{res?.odds}</td>
-                      <td className="text-right">{res?.stake}</td>
-                      <td>{res?.marketname}</td>
-                      <td>{res?.matchname}</td>
-                      <td>{res?.selectionname}</td>
-                      <td>{res?.userid}</td>
-                      <td>{res?.dealerid}</td>
-                      <td>{res?.date}</td>
-                      <td
-                        className={
-                          res?.netpnl < 0
-                            ? "text-right text_danger"
-                            : "text-right text_success"
-                        }>
-                        {res?.netpnl}
-                      </td>
-                      <td
-                        style={{
-                          display: `${type === 2 ? "none" : "table-cell"}`,
-                        }}>
-                        {res?.pricevalue}
+  useEffect(() => {
+    if (matchBets?.data?.betList) {
+      const { pnl1 = 0, pnl2 = 0, pnl3 = 0 } = matchBets.data.betList.reduce(
+        (acc, bet) => {
+          acc.pnl1 += Number(bet.pnl1) || 0;
+          acc.pnl2 += Number(bet.pnl2) || 0;
+          acc.pnl3 += Number(bet.pnl3) || 0;
+          return acc;
+        },
+        { pnl1: 0, pnl2: 0, pnl3: 0 }
+      );
+
+      const newSummary = [
+        {
+          team: matchBets.data.team1,
+          selectionId: matchBets.data.selectionId1,
+          pnl: pnl1
+        },
+        {
+          team: matchBets.data.team2,
+          selectionId: matchBets.data.selectionId2,
+          pnl: pnl2
+        }
+      ];
+
+      if (matchBets.data.team3) {
+        newSummary.push({
+          team: matchBets.data.team3,
+          selectionId: matchBets.data.selectionId3,
+          pnl: pnl3
+        });
+      }
+
+      setSummaryData(newSummary);
+    }
+  }, [matchBets]);
+
+
+
+  return (
+    <>
+
+
+      <div className="match_slip match_bets_report">
+        {
+          matchBets?.data?.betList.length > 0 &&
+
+          <div className="ant-row">
+            <div className="gx-bg-flex gx-justify-content-center gx-align-items-center gx-mx-2 gx-bg-grey gx-py-2  gx-w-100">
+              <h2 className="gx-text-uppercase gx-text-white gx-mt-1 gx-fs-lg gx-font-weight-bold ">
+                bookmaker
+              </h2>
+            </div>
+            <div className="gx-flex gx-overflow-auto">
+
+              {
+                summaryData?.map((item, index) => {
+                  return (
+                    <div key={index} className="ant-col gx-my-3 gx-mx-1 gx-px-1 ">
+                      <div className={`gx-fillchart ${item?.pnl > 0 ? "gx-bg-green-0" : "gx-bg-red"}  gx-overlay-fillchart`}>
+                        <div className="gx-media gx-align-items-center gx-my-3 gx-px-3 gx-fs-xl">
+                          <div className="gx-mr-xl-3 gx-d-none gx-d-md-block">
+                            <img src="/Images/bar.png" height={44} className="icon icon-chart gx-fs-icon-lg" />
+                          </div>
+                          <div className="gx-media-body">
+                            <h1 className="gx-fs-xl gx-font-weight-bold gx-text-white mb-5">{item?.pnl?.toFixed(2)}</h1>
+                            (0)
+                            <br />
+                            <h3 />
+                            <p className="gx-mb-0 gx-text-nowrap gx-fs-xl mp-5">{item?.team}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>}
+        <Card
+          style={{ margin: "0px", width: "100%" }}
+          className="sport_detail session_bet"
+          title={name}
+          extra={<button onClick={handleBackClick}>Back</button>}>
+          <Form
+            name="basic"
+            onFinish={onFinish}
+            autoComplete="off"
+            layout="vertical"
+            className="form_data">
+            <Row className=" fancy_data_sess mr">
+              <Col xs={24} md={24} lg={8} xl={8}>
+                <Form.Item
+                  name="username"
+                  label="Select"
+                  required={false}
+                  rules={[{ required: true, message: "Please Select User" }]}>
+                  <Select
+                    placeholder="Select User"
+                    showSearch
+                    onSearch={(value) => {
+                      if (value) userTrigger({ userId: value });
+                    }}
+                    value={clientId}
+                    allowClear
+                    onSelect={(value) => setClientId(value)}
+                    options={
+                      userData?.data?.map((user) => ({
+                        label: `${user.userName} (${user.userId})`,
+                        value: user.userId,
+                      })) || []
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} md={24} lg={8} xl={8}>
+                <Form.Item
+                  name="oddType"
+                  label="Select OddsType"
+                  required={false}
+                  rules={[{ required: true, message: "Please Odd Type User" }]}>
+                  <Select
+                    placeholder="Select User"
+                    value={oddsType}
+                    options={[{
+                      value: "All",
+                      label: "All Odds Type",
+                    }, {
+                      value: "Bookmaker",
+                      label: "bookmaker",
+                    }
+                    ]}
+                    showSearch
+                    allowClear
+                    onSelect={(value) => setOddsType(value)}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+
+          {isLoading ? (
+            <Spin className="loading_active" tip="Loading..." size="large">
+              <div className="content" />
+            </Spin>
+          ) : (
+            <div className="table_section statement_tabs_data active_match_table">
+              <table className="">
+                <thead>
+                  <tr>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Team</th>
+                    <th>Client</th>
+                    <th>OddsType</th>
+                    <th>Agent</th>
+                    <th>Date</th>
+                    <th>Loss</th>
+                    <th>Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matchBets?.data?.betList.length > 0 ? (
+                    matchBets?.data?.betList.map((res, id) => (
+                      <tr
+                        key={id}
+                        className={res?.mode !== "L" ? "lay" : "back"}>
+                        <td >{res?.odds}</td>
+                        <td >{res?.stake}</td>
+                        <td>{res?.mode === "L" ? "Lagai" : "Khai"}</td>
+                        <td>{res?.team}</td>
+                        <td>{res?.username} ({res?.userId})</td>
+                        <td>{res?.marketType}</td>
+                        <td>{res?.parentName} ({res?.parentId})</td>
+                        <td>{res?.date}</td>
+                        <td>
+                          {res?.liability}
+                        </td>
+                        <td>
+                          {res?.pnl}
+                        </td>
+
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={10}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={10}>
-                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </Card>
-    </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Card>
+      </div>
+    </>
   );
 };
 

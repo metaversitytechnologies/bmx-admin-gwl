@@ -20,7 +20,7 @@ export const oddsPnlApi = createApi({
     // }),
     oddsQuPnl: build.query({
       query: (body) => ({
-        url: "/bets/odds-pnl",
+        url: "/report/odds-pnl-full",
         method: "POST",
         body
       }),
