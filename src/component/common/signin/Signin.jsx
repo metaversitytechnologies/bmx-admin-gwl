@@ -37,8 +37,7 @@ const Signin = ({ logo }) => {
       trigger(authPayload);
 
     } else {
-      if (!values?.OTP || values.OTP.toString().length < 4) {
-        console.log(values, "valuesvalues")
+      if (values?.OTP) {
         nav("/dashboard");
         return;
       }
