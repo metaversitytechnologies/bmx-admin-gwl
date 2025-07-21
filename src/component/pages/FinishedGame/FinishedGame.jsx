@@ -15,6 +15,7 @@ import { Dropdown, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
+import { useGetCompletedSportQuery } from "../../../store/service/SportDetailServices";
 
 const { RangePicker } = DatePicker;
 
@@ -34,6 +35,13 @@ const FinishedGame = () => {
   const [activeTabData, setActtiveTabData] = useState(4);
 
   const nav = useNavigate();
+
+  const { data } = useGetCompletedSportQuery({
+    index: indexData,
+    noOfRecords: 100,
+  })
+
+
 
   const getMatchId = (matchId, inPlay, sportName, statusStraVal) => {
     setMatchId(matchId);
@@ -233,7 +241,7 @@ const FinishedGame = () => {
             md={12}
             xs={12}
             className="datepicker_sport"
-            >
+          >
             <RangePicker
               style={{ marginBottom: "10px" }}
               defaultValue={[dayjs(timeBefore), dayjs(time)]}
@@ -264,7 +272,7 @@ const FinishedGame = () => {
               </tr>
             </thead>
             <tbody>
-              {sportDetail.data.data.map((res, id) => (
+              {data?.data?.completedMatchList.map((res, id) => (
                 <tr key={res.key}>
                   <td style={{ cursor: "pointer", width: "3%" }}>
                     <Dropdown
@@ -293,13 +301,13 @@ const FinishedGame = () => {
                     </Dropdown>
                   </td>
                   <td>{res.eventName}</td>
-                  <td>{moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}</td>
-                  <td>{moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}</td>
+                  <td>{moment(res.createdOn).format("YYYY-MM-DD, h:mm A")}</td>
+                  <td>{moment(res.createdOn).format("YYYY-MM-DD, h:mm A")}</td>
                   <td>T20</td>
 
                   <td>{res?.winner}</td>
-                  <td style={{ color: res?.plusMinus > 0 ? "green" : "red" }}>
-                    {res?.plusMinus}
+                  <td style={{ color: res?.pnl > 0 ? "green" : "red" }}>
+                    {res?.pnl}
                   </td>
                 </tr>
               ))}
@@ -318,7 +326,7 @@ const FinishedGame = () => {
           style={{ marginBottom: "12px" }}
           className="pagination_main ledger_pagination pagination_main"
           onShowSizeChange={(c, s) => setPaginationTotal(s)}
-          total={sportDetail.data.totalPages * paginationTotal}
+          total={data?.data.totalPages * paginationTotal}
           defaultPageSize={50}
           pageSizeOptions={[50, 100, 150, 200, 250]}
           onChange={(e) => setIndexData(e - 1)}

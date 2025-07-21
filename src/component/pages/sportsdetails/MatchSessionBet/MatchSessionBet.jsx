@@ -1,12 +1,31 @@
-import { Card, Select, Row, Col, Table, Form, Button, Spin, Empty } from "antd";
+import { Card, Select, Row, Col, Form, Empty } from "antd";
+import { useGetMatchAndSessionBetMutation, useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const MatchSessionBet = () => {
+  const [clientId, setClientId] = useState("");
+  const { id } = useParams();
+  const [trigger, { data: matchBets }] = useGetMatchAndSessionBetMutation();
+  const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
+
+
+  useEffect(() => {
+    trigger({
+      matchId: id ?? "",
+      userId: clientId,
+      matchCompleted: true
+    });
+  }, [clientId, id])
+
+  console.log("matchBets", matchBets?.data);
+
   return (
     <div className="match_slip match_bets_session">
       <Card
         style={{ margin: "0px", width: "100%" }}
         className="sport_detail session_bet"
-        title={"Match & Session Bet Details MatchCode : 1.245015151"}
+        title={`Match & Session Bet Details MatchCode : ${id}`}
         extra={<button>Back</button>}>
         <Form
           name="basic"
@@ -22,10 +41,19 @@ const MatchSessionBet = () => {
                 rules={[{ required: true, message: "Please Select User" }]}>
                 <Select
                   placeholder="Select User"
-                  options={[]}
                   showSearch
+                  onSearch={(value) => {
+                    if (value) userTrigger({ userId: value });
+                  }}
+                  value={clientId}
                   allowClear
-                  // onSelect={(value) => setClientId(value)}
+                  onSelect={(value) => setClientId(value)}
+                  options={
+                    userData?.data?.map((user) => ({
+                      label: `${user.userName} (${user.userId})`,
+                      value: user.userId,
+                    })) || []
+                  }
                 />
               </Form.Item>
             </Col>
@@ -49,11 +77,27 @@ const MatchSessionBet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td colSpan={8}>
-                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    </td>
-                  </tr>
+                  {
+                    matchBets?.data?.matchBets?.betList > 0 ? matchBets?.data.matchBets?.betList?.map((bet, index) => {
+                      return (
+                        <tr key={index} className={bet?.mode === "L" ? "matchdtailsYesBackground" : "matchdtailsNoBack"}>
+                          <td>{index + 1}</td>
+                          <td>{bet?.odds}</td>
+                          <td>{bet?.mode === "L" ? "Lagai" : "Khai"}</td>
+                          <td>{bet?.team}</td>
+                          <td>{bet.marketType}</td>
+                          <td>{bet?.stake}</td>
+                          <td>{bet?.pnl}</td>
+                          <td>{bet?.pnl}</td>
+                        </tr>
+                      )
+                    }) : <tr>
+                      <td colSpan={8}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </td>
+                    </tr>
+                  }
+
                 </tbody>
               </table>
             </div>
@@ -75,11 +119,28 @@ const MatchSessionBet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td colSpan={10}>
-                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    </td>
-                  </tr>
+                  {
+                    matchBets?.data?.sessionBets?.length > 0 ? matchBets?.data?.sessionBets?.map((item, index) => {
+                      return (
+                        <tr key={index} className={item?.mode === "YES" ? "matchdtailsYesBackground" : "matchdtailsNoBack"}>
+                          <td>{index + 1}</td>
+                          <td>{item?.selectionName}</td>
+                          <td>{item?.rate}</td>
+                          <td>{item?.run}</td>
+                          <td>{item?.declared}</td>
+                          <td>{item?.mode}</td>
+                          <td>{item?.amount}</td>
+                          <td>{item?.netPnl}</td>
+                          <td>{item?.time}</td>
+                        </tr>
+                      )
+                    }) : <tr>
+                      <td colSpan={10}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </td>
+                    </tr>
+                  }
+
                 </tbody>
               </table>
             </div>

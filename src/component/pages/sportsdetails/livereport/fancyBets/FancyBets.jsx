@@ -1,7 +1,25 @@
-import { Card, Select } from "antd";
+import { Card, Empty, Select } from "antd";
 import "./style.scss";
+import { useGetMatchBetsMutation } from "../../../../../store/service/SportDetailServices";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const FancyBets = () => {
+  const [oddsType, setOddsType] = useState("All");
+  const { id } = useParams();
+
+  const [trigger, { data: matchBets }] = useGetMatchBetsMutation()
+
+  useEffect(() => {
+    trigger({
+      matchId: id,
+      userId: "",
+      matchCompleted: false,
+      marketType: oddsType
+    })
+  }, [oddsType]);
+
+
   return (
     <>
       <Card
@@ -18,9 +36,11 @@ const FancyBets = () => {
             <Select
               style={{ width: 150 }}
               defaultValue="All OddsType"
+              value={oddsType}
+              onChange={(value) => setOddsType(value)}
               options={[
                 {
-                  value: "All OddsType",
+                  value: "All",
                   label: "All OddsType",
                 },
                 {
@@ -39,43 +59,44 @@ const FancyBets = () => {
 
         <div className="table_section">
           <table className="">
-            <tr>
-              <th>Rate</th>
-              <th>Amount</th>
-              <th>Type</th>
-              <th>Odds Type</th>
-              <th>Team</th>
-              <th>Client</th>
-              <th>Agent</th>
-              <th>Date</th>
-              <th>Loss</th>
-              <th>Profit</th>
-            </tr>
-
-            <tr className="matchdtailsNoBack">
-              <td>48</td>
-              <td>100</td>
-              <td>Khaai</td>
-              <td>bookmaker</td>
-              <td>SRI LANKA</td>
-              <td>C154403 client2</td>
-              <td>agemas (A10285)</td>
-              <td>25 Jul 12:45:22 PM</td>
-              <td> 57.00</td>
-              <td>100.00</td>
-            </tr>
-            <tr className="matchdtailsYesBackground">
-              <td>48</td>
-              <td>100</td>
-              <td>Khaai</td>
-              <td>bookmaker</td>
-              <td>SRI LANKA</td>
-              <td>C154403 client2</td>
-              <td>agemas (A10285)</td>
-              <td>25 Jul 12:45:22 PM</td>
-              <td> 57.00</td>
-              <td>100.00</td>
-            </tr>
+            <thead>
+              <tr>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Odds Type</th>
+                <th>Team</th>
+                <th>Client</th>
+                <th>Agent</th>
+                <th>Date</th>
+                <th>Loss</th>
+                <th>Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matchBets?.data?.betList?.length > 0 ? (
+                matchBets.data.betList.map((item, index) => (
+                  <tr key={index} className={item?.mode === "L" ? "matchdtailsYesBackground" : "matchdtailsNoBack"}>
+                    <td>{item?.odds}</td>
+                    <td>{item?.stake}</td>
+                    <td>{item?.mode === "L" ? "Lagia" : "Khai"}</td>
+                    <td>{item?.marketType}</td>
+                    <td>{item?.team}</td>
+                    <td>{item?.username} ({item?.userId})</td>
+                    <td>{item?.parentName} ({item?.parentId})</td>
+                    <td>{new Date(item?.date).toLocaleString()}</td>
+                    <td>{item?.netPnl < 0 ? item?.netPnl : 0}</td>
+                    <td>{item?.netPnl > 0 ? item?.netPnl : 0}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="10" style={{ textAlign: "center", padding: "2rem" }}>
+                    <Empty description="No Data Available" />
+                  </td>
+                </tr>
+              )}
+            </tbody>
           </table>
         </div>
       </Card>

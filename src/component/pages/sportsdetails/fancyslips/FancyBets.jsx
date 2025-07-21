@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./FancySlips.scss";
 import { useGetMatchBetsMutation, useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 
-const FancySlips = ({ type, name }) => {
+const FancyBets = () => {
   const [clientId, setClientId] = useState("");
   const [oddsType, setOddsType] = useState("");
   const [formData, setFormData] = useState(null);
@@ -82,46 +82,12 @@ const FancySlips = ({ type, name }) => {
 
   return (
     <>
-      <div className="match_slip match_bets_report">
-        {
-          matchBets?.data?.betList.length > 0 &&
+      <div className="match_slip ledger_data led_super">
 
-          <div className="ant-row">
-            <div className="gx-bg-flex gx-justify-content-center gx-align-items-center gx-mx-2 gx-bg-grey gx-py-2  gx-w-100">
-              <h2 className="gx-text-uppercase gx-text-white gx-mt-1 gx-fs-lg gx-font-weight-bold ">
-                bookmaker
-              </h2>
-            </div>
-            <div className="gx-flex gx-overflow-auto">
-
-              {
-                summaryData?.map((item, index) => {
-                  return (
-                    <div key={index} className="ant-col gx-my-3 gx-mx-1 gx-px-1 ">
-                      <div className={`gx-fillchart ${item?.pnl > 0 ? "gx-bg-green-0" : "gx-bg-red"}  gx-overlay-fillchart`}>
-                        <div className="gx-media gx-align-items-center gx-my-3 gx-px-3 gx-fs-xl">
-                          <div className="gx-mr-xl-3 gx-d-none gx-d-md-block">
-                            <img src="/Images/bar.png" height={44} className="icon icon-chart gx-fs-icon-lg" />
-                          </div>
-                          <div className="gx-media-body">
-                            <h1 className="gx-fs-xl gx-font-weight-bold gx-text-white mb-5">{item?.pnl?.toFixed(2)}</h1>
-                            (0)
-                            <br />
-                            <h3 />
-                            <p className="gx-mb-0 gx-text-nowrap gx-fs-xl mp-5">{item?.team}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })
-              }
-            </div>
-          </div>}
         <Card
           style={{ margin: "0px", width: "100%" }}
           className="sport_detail session_bet"
-          title={name}
+          title="Fancy Bets"
           extra={<button onClick={handleBackClick}>Back</button>}>
           <Form
             name="basic"
@@ -133,7 +99,7 @@ const FancySlips = ({ type, name }) => {
               <Col xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
                   name="username"
-                  label="Select"
+                  label=""
                   required={false}
                   rules={[{ required: true, message: "Please Select User" }]}>
                   <Select
@@ -156,7 +122,7 @@ const FancySlips = ({ type, name }) => {
               </Col>
               <Col xs={24} md={24} lg={8} xl={8}>
                 <Form.Item
-                  name="oddType"
+                  name=""
                   label="Select OddsType"
                   required={false}
                   rules={[{ required: true, message: "Please Odd Type User" }]}>
@@ -164,8 +130,8 @@ const FancySlips = ({ type, name }) => {
                     placeholder="Select User"
                     value={oddsType}
                     options={[{
-                      value: "All",
-                      label: "All Odds Type",
+                      value: "All Fancies",
+                      label: "All Fancies",
                     }, {
                       value: "Bookmaker",
                       label: "bookmaker",
@@ -241,4 +207,4 @@ const FancySlips = ({ type, name }) => {
   );
 };
 
-export default FancySlips;
+export default FancyBets;

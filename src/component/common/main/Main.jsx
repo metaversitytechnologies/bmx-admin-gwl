@@ -55,6 +55,7 @@ import AndarBaharPlusMinus from "../../pages/AndarBaharDetail/AndarBaharPlusMinu
 import RoulettePlusMinus from "../../pages/RouletteDetail/RoulettePlusMinus/RoulettePlusMinus";
 import GameDeatis from "../../pages/GameDeatis/GameDeatis";
 import CasinoMainPage from "../../pages/Casino/CasinoMainPage";
+import FancyBets from "../../pages/sportsdetails/fancyslips/FancyBets";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -101,7 +102,7 @@ const Main = () => {
         />
         <Route
           path="/fancy-slips/:id"
-          element={<FancySlips type={1} name={"Session Bet"} />}
+          element={<FancyBets />}
         />
         <Route
           path="/completed-fancy-slips/:id"
