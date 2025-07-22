@@ -6,25 +6,31 @@ import { useEffect, useState } from "react";
 import { useEventDetailQuery } from "../../../store/service/eventDetailServices";
 import FancyData from "./FancyData";
 import MatchOdds from "./MatchOdds";
-import { useLazyOddsQuPnlQuery } from "../../../store/service/OddsPnlServices";
+import { useLazyOddsQuPnlMyQuery, useLazyOddsQuPnlQuery } from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
 import { use } from "react";
 import { useParams } from "react-router-dom";
 
 const GameDeatis = () => {
-  const [showFullScore, setShowFullScore] = useState()
+  const [showFullScore, setShowFullScore] = useState();
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "");
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
-
+  const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
+  const [fancyId, setFancyId] = useState("");
 
   useEffect(() => {
     trigger({
-      matchId: "34440606",
+      matchId: id ?? "",
       matchCompleted: true,
-      userId: ""
-    })
-  }, [])
+      userId: "",
+    });
+    triggerMy({
+      matchId: id ?? "",
+      matchCompleted: true,
+      userId: "",
+    });
+  }, [id]);
 
   return (
     <Row justify="center" className="main_details_page">
@@ -63,12 +69,12 @@ const GameDeatis = () => {
               </div>
               <Row className="gx-px-0 gx-py-0 main_game_details">
                 <Col md={18} xs={24}>
-                  <MatchOdds data={data} pnl={oddsPnl?.data} />
-                  <Bookmaker data={data} pnl={oddsPnl?.data} />
-                  <FancyData data={data} />
+                  {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}
+                  <Bookmaker data={data} pnl={oddsPnl?.data} oddsPnlMy={oddsPnlMy?.data}/>
+                  <FancyData data={data} setFancyId={setFancyId} fancyId={fancyId}/>
                 </Col>
               </Row>
-              <FancyBets />
+              <FancyBets setFancyId={setFancyId} fancyId={fancyId}/>
               <CompletedFancy />
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button

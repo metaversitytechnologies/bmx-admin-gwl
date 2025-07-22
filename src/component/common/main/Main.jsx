@@ -92,16 +92,13 @@ const Main = () => {
         <Route path="/Events/sports-details" element={<SportsDetails />} />
         <Route path="/livereport" element={<LiveReport />} />
         <Route path="/plus-minus-report/:id" element={<PlusMinusReport />} />
+        <Route path="/Events/:id/plus-minus-report" element={<PlusMinusDetails />} />
         <Route
-          path="/Events/:id/plus-minus-report"
-          element={<PlusMinusDetails />}
-        />
-        <Route
-          path="/match-slips/:id"
+          path="/match-slips/:id/:inplay?"
           element={<FancySlips type={2} name={"Match Bets"} />}
         />
         <Route
-          path="/fancy-slips/:id"
+          path="/fancy-slips/:id/:inplay?"
           element={<FancyBets />}
         />
         <Route
@@ -277,7 +274,7 @@ const Main = () => {
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
         <Route path="/Casino/today-pandl" element={<TodayProfitLoss />} />
         <Route path="/client/mobile-app-report" element={<SelectClient />} />
-        <Route path="/matchsessionbet/:id" element={<MatchSessionBet />} />
+        <Route path="/matchsessionbet/:id/:inplay?" element={<MatchSessionBet />} />
         <Route path="/agent-list/:id" element={<ClientReport />} />
         <Route path="/finish-game" element={<FinishedGame />} />
         <Route path="/matchplusminus/:id?" element={<CompanyReport />} />

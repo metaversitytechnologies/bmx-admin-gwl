@@ -1,8 +1,9 @@
 import { Card, Col, Empty, Row, Select, Spin } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { setData } from "../../../../../store/global/slice";
+import { useGetCompletedFancyMutation } from "../../../../../store/service/SportDetailServices";
 
 const CompeleteFancy = () => {
   const [marketId, setMarketId] = useState("");
@@ -10,6 +11,8 @@ const CompeleteFancy = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const { id } = useParams();
+
+  const [trigger, { data: fancyData }] = useGetCompletedFancyMutation();
 
   // Static data to replace API call
   const completeFancyData = {
@@ -38,6 +41,14 @@ const CompeleteFancy = () => {
       },
     },
   };
+
+  useEffect(() => {
+    trigger({
+      matchId: "34440606",
+    });
+  }, []);
+
+  console.log(fancyData?.data, "fancyData");
 
   return (
     <>
@@ -105,18 +116,23 @@ const CompeleteFancy = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr className="gx-bg-red">
-                  <td>clientdemo (C67329)</td>
-                  <td>26 Jun 11:31:42 AM</td>
-                  <td>15 OVER RUN SL</td>
-                  <td>100.00</td>
-                  <td>71</td>
-                  <td>Yes</td>
-                  <td>65</td>
-                  <td> agemas (A10285)</td>
-                  <td>100</td>
-                  <td>100.00</td>
-                </tr>
+                {/* {fancyData?.data?.map((items) => {
+                  return (
+                    <tr className="gx-bg-red">
+                      <td>clientdemo (C67329)</td>
+                      <td>26 Jun 11:31:42 AM</td>
+                      <td>{items?.fancyName}</td>
+                      <td>100.00</td>
+                      <td>71</td>
+                      <td>Yes</td>
+                      <td>65</td>
+                      <td> agemas (A10285)</td>
+                      <td>100</td>
+                      <td>{items?.pnl}</td>
+                    </tr>
+                  );
+                })} */}
+
                 <tr className="gx-bg-green-0">
                   <td>clientdemo (C67329)</td>
                   <td>26 Jun 11:18:18 AM</td>

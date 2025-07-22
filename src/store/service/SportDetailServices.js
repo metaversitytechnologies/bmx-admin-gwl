@@ -84,6 +84,42 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getSessionHavingBet: build.query({
+      query: (body) => {
+        return {
+          url: `/report/session-having-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getSessionBet: build.mutation({
+      query: (body) => {
+        return {
+          url: `/report/get-session-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getFancyBook: build.mutation({
+      query: (body) => {
+        return {
+          url: `/enduser/fancy-book`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getCompletedFancy: build.mutation({
+      query: (body) => {
+        return {
+          url: `/report/get-completed-session`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -96,5 +132,9 @@ export const {
   useGetMatchBetsMutation,
   useGetUserSeacrhMutation,
   useGetMatchAndSessionBetMutation,
-  useGetCompletedSportQuery
+  useGetCompletedSportQuery,
+  useGetSessionHavingBetQuery,
+  useGetSessionBetMutation,
+  useGetFancyBookMutation,
+  useGetCompletedFancyMutation,
 } = sportDetailsApi;

@@ -44,6 +44,7 @@ const FinishedGame = () => {
 
 
   const getMatchId = (matchId, inPlay, sportName, statusStraVal) => {
+    console.log(matchId, "matchIdmatchIdmatchId")
     setMatchId(matchId);
     setDataNameee(sportName);
     setInPlay(inPlay);
@@ -79,7 +80,7 @@ const FinishedGame = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/match-slips/${matchId}`}>
+          to={`/match-slips/${matchId}/0`}>
           Display Match Bets
         </Link>
       ),
@@ -90,7 +91,7 @@ const FinishedGame = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/fancy-slips/${matchId}`}>
+          to={`/fancy-slips/${matchId}/0`}>
           Display Session Bets
         </Link>
       ),
@@ -101,7 +102,7 @@ const FinishedGame = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/matchsessionbet/${matchId}`}>
+          to={`/matchsessionbet/${matchId}/0`}>
           Match And Session Bet
         </Link>
       ),
@@ -288,8 +289,8 @@ const FinishedGame = () => {
                         onClick={(e) => {
                           e.preventDefault();
                           getMatchId(
-                            res.eventId,
-                            res.inPlay,
+                            res.matchId,
+                            false,
                             res.eventName,
                             res.statusStr
                           );

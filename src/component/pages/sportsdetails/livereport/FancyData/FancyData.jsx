@@ -1,6 +1,5 @@
-import { Button, Col, Modal, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import FancyBets from "../fancyBets/FancyBets";
+import { Col, Modal, Row } from "antd";
+import { useEffect, useState } from "react";
 import FancyBookModals from "../FancyBookModals/FancyBookModals";
 import { useParams } from "react-router-dom";
 import {
@@ -63,7 +62,6 @@ const FancyData = ({ data, keyData, handleBets }) => {
     trigger(oddsPnl);
   }, [matchid]);
 
-  
   const ttl = results?.data?.[0]
     ? {
         [results?.data?.[0].selection1]: results?.data?.[0].pnl1,
@@ -109,25 +107,24 @@ const FancyData = ({ data, keyData, handleBets }) => {
                   <Row key={index} className="scor fancy_all_data">
                     <Col span={19} className="match_title">
                       <div className="title ball">
-                        {
-                          keyData == "BallByBall" && <p className="ball_value">{res?.ball}</p> 
-                        }
-                        
+                        {keyData == "BallByBall" && (
+                          <p className="ball_value">{res?.ball}</p>
+                        )}
+
                         <p>{res?.nation}</p>
-                        </div>
-                        <span
-                          className="fancy_book_data fancy_bet"
-                          onClick={() => handleBets(res?.sid)}>
-                          Bet
-                        </span>
+                      </div>
+                      <span
+                        className="fancy_book_data fancy_bet"
+                        onClick={() => handleBets(res?.sid)}>
+                        Bet
+                      </span>
                       {keyData !== "Bookmaker" && (
                         <>
-                       
-                        <span
-                          className="fancy_book_data"
-                          onClick={() => handleBets(res?.sid)}>
-                          Book
-                        </span>
+                          <span
+                            className="fancy_book_data"
+                            onClick={() => handleBets(res?.sid)}>
+                            Book
+                          </span>
                         </>
                       )}
                       {keyData === "Bookmaker" && (

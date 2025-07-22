@@ -22,24 +22,33 @@ export const oddsPnlApi = createApi({
       query: (body) => ({
         url: "/report/odds-pnl-full",
         method: "POST",
-        body
+        body,
       }),
     }),
+    oddsQuPnlMy: build.query({
+      query: (body) => ({
+        url: "/report/odds-pnl",
+        method: "POST",
+        body,
+      }),
+    }),
+
     fancyPnl: build.query({
       query: (body) => ({
         url: "/bets/fancy-pnl",
         method: "POST",
-        body
+        body,
       }),
     }),
     WinnerPnl: build.mutation({
       query: (body) => ({
         url: `/bets/winner-pnl`,
         method: "POST",
-        body
+        body,
       }),
     }),
   }),
 });
 
-export const {useLazyOddsQuPnlQuery, useFancyPnlQuery, useWinnerPnlMutation} = oddsPnlApi;
+export const { useLazyOddsQuPnlQuery, useFancyPnlQuery, useWinnerPnlMutation, useLazyOddsQuPnlMyQuery } =
+  oddsPnlApi;

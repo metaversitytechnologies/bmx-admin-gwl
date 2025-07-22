@@ -12,7 +12,7 @@ const FancySlips = ({ type, name }) => {
   const [summaryData, setSummaryData] = useState([]);
 
   const nav = useNavigate();
-  const { id } = useParams();
+  const { id, inplay } = useParams();
 
   const [trigger, { data: matchBets }] = useGetMatchBetsMutation()
   const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
@@ -21,7 +21,7 @@ const FancySlips = ({ type, name }) => {
     trigger({
       matchId: id,
       userId: clientId,
-      matchCompleted: true,
+      matchCompleted: inplay !== "1" ? true : false,
       marketType: oddsType
     })
   }, [oddsType, clientId]);

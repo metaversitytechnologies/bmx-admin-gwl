@@ -1,24 +1,26 @@
 import { Card, Select, Row, Col, Form, Empty } from "antd";
-import { useGetMatchAndSessionBetMutation, useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
-import { useParams } from "react-router-dom";
+import {
+  useGetMatchAndSessionBetMutation,
+  useGetUserSeacrhMutation,
+} from "../../../../store/service/SportDetailServices";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const MatchSessionBet = () => {
   const [clientId, setClientId] = useState("");
-  const { id } = useParams();
+  const { id, inplay } = useParams();
+  const nav = useNavigate();
   const [trigger, { data: matchBets }] = useGetMatchAndSessionBetMutation();
   const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
-
 
   useEffect(() => {
     trigger({
       matchId: id ?? "",
       userId: clientId,
-      matchCompleted: true
+      matchCompleted: inplay === "0" ? true : false,
     });
-  }, [clientId, id])
+  }, [clientId, id, inplay]);
 
-  console.log("matchBets", matchBets?.data);
 
   return (
     <div className="match_slip match_bets_session">
@@ -26,7 +28,7 @@ const MatchSessionBet = () => {
         style={{ margin: "0px", width: "100%" }}
         className="sport_detail session_bet"
         title={`Match & Session Bet Details MatchCode : ${id}`}
-        extra={<button>Back</button>}>
+        extra={<button onClick={()=>nav(-1)}>Back</button>}>
         <Form
           name="basic"
           autoComplete="off"
@@ -77,10 +79,16 @@ const MatchSessionBet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {
-                    matchBets?.data?.matchBets?.betList > 0 ? matchBets?.data.matchBets?.betList?.map((bet, index) => {
+                  {matchBets?.data?.matchBets?.betList > 0 ? (
+                    matchBets?.data.matchBets?.betList?.map((bet, index) => {
                       return (
-                        <tr key={index} className={bet?.mode === "L" ? "matchdtailsYesBackground" : "matchdtailsNoBack"}>
+                        <tr
+                          key={index}
+                          className={
+                            bet?.mode === "L"
+                              ? "matchdtailsYesBackground"
+                              : "matchdtailsNoBack"
+                          }>
                           <td>{index + 1}</td>
                           <td>{bet?.odds}</td>
                           <td>{bet?.mode === "L" ? "Lagai" : "Khai"}</td>
@@ -90,14 +98,15 @@ const MatchSessionBet = () => {
                           <td>{bet?.pnl}</td>
                           <td>{bet?.pnl}</td>
                         </tr>
-                      )
-                    }) : <tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
                       <td colSpan={8}>
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                       </td>
                     </tr>
-                  }
-
+                  )}
                 </tbody>
               </table>
             </div>
@@ -119,10 +128,16 @@ const MatchSessionBet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {
-                    matchBets?.data?.sessionBets?.length > 0 ? matchBets?.data?.sessionBets?.map((item, index) => {
+                  {matchBets?.data?.sessionBets?.length > 0 ? (
+                    matchBets?.data?.sessionBets?.map((item, index) => {
                       return (
-                        <tr key={index} className={item?.mode === "YES" ? "matchdtailsYesBackground" : "matchdtailsNoBack"}>
+                        <tr
+                          key={index}
+                          className={
+                            item?.mode === "YES"
+                              ? "matchdtailsYesBackground"
+                              : "matchdtailsNoBack"
+                          }>
                           <td>{index + 1}</td>
                           <td>{item?.selectionName}</td>
                           <td>{item?.rate}</td>
@@ -133,14 +148,15 @@ const MatchSessionBet = () => {
                           <td>{item?.netPnl}</td>
                           <td>{item?.time}</td>
                         </tr>
-                      )
-                    }) : <tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
                       <td colSpan={10}>
                         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                       </td>
                     </tr>
-                  }
-
+                  )}
                 </tbody>
               </table>
             </div>

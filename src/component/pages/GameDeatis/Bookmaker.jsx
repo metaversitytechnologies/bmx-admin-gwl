@@ -1,6 +1,8 @@
-import React from 'react'
+import React from "react";
 
-const Bookmaker = ({ data, pnl }) => {
+const Bookmaker = ({ data, pnl, oddsPnlMy }) => {
+  const [showTtlBook, setShowTtlBook] = React.useState(true);
+
   return (
     <>
       <div
@@ -31,22 +33,26 @@ const Bookmaker = ({ data, pnl }) => {
                                 style={{
                                   padding: "6px 8px",
                                   cursor: "pointer",
-                                  backgroundColor:
-                                    "rgb(235, 109, 136)",
-                                  color: "white",
+                                  backgroundColor: !showTtlBook
+                                    ? "rgb(235, 109, 136)"
+                                    : "white",
+                                  color: !showTtlBook ? "white" : "black",
                                   fontWeight: 500,
-                                }}>
+                                }}
+                                onClick={() => setShowTtlBook(true)}>
                                 Ttl Book
                               </div>
                               <div
                                 style={{
                                   padding: "6px 8px",
                                   cursor: "pointer",
-                                  backgroundColor:
-                                    "rgb(255, 255, 255)",
-                                  color: "black",
+                                  backgroundColor: showTtlBook
+                                    ? "rgb(235, 109, 136)"
+                                    : "white",
+                                  color: showTtlBook ? "white" : "black",
                                   fontWeight: 500,
-                                }}>
+                                }}
+                                onClick={() => setShowTtlBook(false)}>
                                 My Book
                               </div>
                             </div>
@@ -73,52 +79,95 @@ const Bookmaker = ({ data, pnl }) => {
                       </tr>
                     </thead>
                     <tbody className="ant-table-tbody">
-                      {
-                        data?.Bookmaker?.map((runner, index) => {
-                          const pnlsOdds = pnl?.find(
-                            (element) => element?.marketId == runner?.mid
-                          );
-                          const plnOddsArray = pnlsOdds
-                            ? [
-                              { pnl: pnlsOdds.pnl1, selectionId: pnlsOdds.selection1 },
-                              { pnl: pnlsOdds.pnl2, selectionId: pnlsOdds.selection2 },
-                              { pnl: pnlsOdds.pnl3, selectionId: pnlsOdds.selection3 },
+                      {data?.Bookmaker?.map((runner, index) => {
+                        const pnlsOdds = pnl?.find(
+                          (element) => element?.marketId == runner?.mid
+                        );
+                        const plnOddsArray = pnlsOdds
+                          ? [
+                              {
+                                pnl: pnlsOdds.pnl1,
+                                selectionId: pnlsOdds.selection1,
+                              },
+                              {
+                                pnl: pnlsOdds.pnl2,
+                                selectionId: pnlsOdds.selection2,
+                              },
+                              {
+                                pnl: pnlsOdds.pnl3,
+                                selectionId: pnlsOdds.selection3,
+                              },
                             ]
-                            : [];
+                          : [];
+                        const pnlsOddsMy = oddsPnlMy?.find(
+                          (element) => element?.marketId == runner?.mid
+                        );
+                        const plnOddsArrayMy = pnlsOddsMy
+                          ? [
+                              {
+                                pnl: pnlsOddsMy.pnl1,
+                                selectionId: pnlsOddsMy.selection1,
+                              },
+                              {
+                                pnl: pnlsOddsMy.pnl2,
+                                selectionId: pnlsOddsMy.selection2,
+                              },
+                              {
+                                pnl: pnlsOddsMy.pnl3,
+                                selectionId: pnlsOddsMy.selection3,
+                              },
+                            ]
+                          : [];
 
-                          return (
-                            <tr
-                              key={runner?.selectionId}
-                              data-row-key={0}
-                              className="ant-table-row ant-table-row-level-0">
-                              <td className="ant-table-cell matchdtailsBlackBackground">
-                                <div className="">
-                                  <div className=" gx-font-weight-semi-bold gx-text-uppercase">
-                                    {runner?.nation}
-                                  </div>
-                                  <div className={(plnOddsArray?.find((element) => element?.selectionId == runner?.selectionId) ? "gx-text-success" : "gx-text-danger")}>
-                                    {plnOddsArray?.find((element) => element?.selectionId == runner?.sid)?.pnl || 0}
-                                  </div>
+                        return (
+                          <tr
+                            key={runner?.selectionId}
+                            data-row-key={0}
+                            className="ant-table-row ant-table-row-level-0">
+                            <td className="ant-table-cell matchdtailsBlackBackground">
+                              <div className="">
+                                <div className=" gx-font-weight-semi-bold gx-text-uppercase">
+                                  {runner?.nation}
                                 </div>
-                              </td>
-                              <td
-                                className="ant-table-cell matchdtailsYesBackground"
-                                style={{ textAlign: "center" }}>
-                                <div className="gx-font-weight-semi-bold">
-                                  {runner?.b1}
+                                <div
+                                  className={
+                                    plnOddsArray?.find(
+                                      (element) =>
+                                        element?.selectionId ==
+                                        runner?.selectionId
+                                    )
+                                      ? "gx-text-success"
+                                      : "gx-text-danger"
+                                  }>
+                                  {showTtlBook
+                                    ? plnOddsArray?.find(
+                                        (element) =>
+                                          element?.selectionId == runner?.sid
+                                      )?.pnl || 0
+                                    : plnOddsArrayMy?.find(
+                                        (element) =>
+                                          element?.selectionId == runner?.sid
+                                      )?.pnl || 0}
                                 </div>
-                              </td>
-                              <td
-                                className="ant-table-cell matchdtailsNoBackground"
-                                style={{ textAlign: "center" }}>
-                                <div className="gx-font-weight-semi-bold">
-                                  {runner?.l1}
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })
-                      }
+                              </div>
+                            </td>
+                            <td
+                              className="ant-table-cell matchdtailsYesBackground"
+                              style={{ textAlign: "center" }}>
+                              <div className="gx-font-weight-semi-bold">
+                                {runner?.b1}
+                              </div>
+                            </td>
+                            <td
+                              className="ant-table-cell matchdtailsNoBackground"
+                              style={{ textAlign: "center" }}>
+                              <div className="gx-font-weight-semi-bold">
+                                {runner?.l1}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -128,7 +177,7 @@ const Bookmaker = ({ data, pnl }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Bookmaker
+export default Bookmaker;

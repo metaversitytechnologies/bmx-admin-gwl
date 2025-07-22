@@ -1,7 +1,5 @@
-import { Button, Col, Modal, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import FancyBets from "../fancyBets/FancyBets";
-import FancyBookModals from "../FancyBookModals/FancyBookModals";
+import { Col, Row } from "antd";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   useFancyPnlQuery,
@@ -110,7 +108,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
                             cursor: "pointer",
                             backgroundColor: "rgb(235, 109, 136)",
                             color: "white",
-                            fontSize:"16px"
+                            fontSize: "16px",
                           }}
                           className={activeBook == 2 ? "activeMyBook" : ""}
                           onClick={(e) => handleTtlBook(e)}>
@@ -121,7 +119,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
                             padding: "6px 8px",
                             cursor: "pointer",
                             backgroundColor: "rgb(255, 255, 255)",
-                             fontSize:"16px"
+                            fontSize: "16px",
                           }}>
                           {" "}
                           My Book
