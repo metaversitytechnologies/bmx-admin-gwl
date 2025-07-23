@@ -1,6 +1,21 @@
-import { Card, Col, Empty, Row, Select, Spin } from "antd";
+import { Card, Col, Empty, Row } from "antd";
+import { useGetCompletedFancyMutation } from "../../../store/service/SportDetailServices";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CompletedFancy = () => {
+  const { id } = useParams();
+  const nav = useNavigate();
+  const [trigger, { data: fancyData }] = useGetCompletedFancyMutation();
+  useEffect(() => {
+    trigger({
+      matchId: id,
+    });
+  }, [id]);
+
+  const totalNetPnl =
+    fancyData?.data?.reduce((acc, item) => acc + item.netPnl, 0) || 0;
+
   return (
     <>
       <div>
@@ -10,7 +25,7 @@ const CompletedFancy = () => {
             width: "100%",
           }}
           className="sport_detail completed_fancy"
-          title="Completed Fancy [0]"
+          title={`Completed Fancy [${fancyData?.data?.length || 0}]`}
           extra={
             <div>
               <button
@@ -29,8 +44,12 @@ const CompletedFancy = () => {
             className="fancy_pl"
             align="middle">
             <Col xs={24} md={24} lg={6} xl={6}>
-              <p style={{ fontSize: "16px", fontWeight: 60 }}>
-                Total P/L: <span>0.00</span>
+              <p
+                style={{ fontSize: "16px", fontWeight: 600, color: "#545454" }}>
+                Total P/L:{" "}
+                <span style={{ color: totalNetPnl > 0 ? "green" : "red" }}>
+                  {totalNetPnl?.toFixed(2)}
+                </span>
               </p>
             </Col>
           </Row>
@@ -45,6 +64,37 @@ const CompletedFancy = () => {
                   <th>Action</th>
                 </tr>
               </thead>
+              <tbody>
+                {fancyData?.data?.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{item?.fancyName}</td>
+                      <td>{item?.pnl?.toFixed(2)}</td>
+                      <td>{item?.result}</td>
+                      <td>{item?.netPnl?.toFixed(2)}</td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            nav(`/event-profit-loss/${id}/${item?.fancyId}`)
+                          }
+                          type="button"
+                          className="ant-btn  ant-btn-sm gx-text-white gx-border-redius0"
+                          style={{
+                            backgroundColor: "rgb(255, 85, 0)",
+                            padding: "0px 8px",
+                            height: "24px",
+                            lineHeight: "23px",
+                            border: "unset",
+                            outline: "unset",
+                            fontWeight: 400,
+                          }}>
+                          <span>Show Bets</span>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
 
               <tbody>
                 <tr>

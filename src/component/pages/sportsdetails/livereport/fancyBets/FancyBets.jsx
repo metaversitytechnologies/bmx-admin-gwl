@@ -32,6 +32,7 @@ const FancyBets = ({ setFancyId, fancyId }) => {
     });
   }, [oddsType]);
 
+
   useEffect(() => {
     if (fancyId) {
       triggerSessionBets({
@@ -44,7 +45,6 @@ const FancyBets = ({ setFancyId, fancyId }) => {
     }
   }, [fancyId, id]);
 
-  console.log(sessionData?.data, fancyBookData?.data, "sessionData");
 
   return (
     <>

@@ -12,7 +12,6 @@ const CompeleteFancy = () => {
   const nav = useNavigate();
   const { id } = useParams();
 
-  const [trigger, { data: fancyData }] = useGetCompletedFancyMutation();
 
   // Static data to replace API call
   const completeFancyData = {
@@ -42,13 +41,7 @@ const CompeleteFancy = () => {
     },
   };
 
-  useEffect(() => {
-    trigger({
-      matchId: "34440606",
-    });
-  }, []);
 
-  console.log(fancyData?.data, "fancyData");
 
   return (
     <>

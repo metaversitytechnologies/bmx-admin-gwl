@@ -33,9 +33,14 @@ const CasinoMainPage = () => {
                     <span className="gx-text-white">
                       Match ID: {odds?.t1?.[0]?.mid}
                     </span>
-                    <span className="gx-text-white">{odds?.t1?.[0]?.autotime}</span>
+                    <span className="gx-text-white">
+                      {odds?.t1?.[0]?.autotime}
+                    </span>
                   </div>
-                  <VideoSection />
+                  <VideoSection
+                    t3={odds && odds?.length !== 0 && odds.t3}
+                    t1={odds && odds?.length !== 0 && odds?.t1?.[0]}
+                  />
                   <LastResult />
                 </div>
               </div>

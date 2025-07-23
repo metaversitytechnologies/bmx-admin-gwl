@@ -533,13 +533,30 @@ div#rc-tabs-0-tab-2 {
   }
 }
 
-
-.NonDeclare{
-  .ant-card-head-title{
+.NonDeclare {
+  .ant-card-head-title {
     padding: 0px !important;
   }
-  .ant-table-thead th{
+  .ant-table-thead th {
     font-size: 14px !important;
     text-transform: capitalize !important;
   }
+}
+
+.cards_container {
+  display: flex;
+  gap: 5px;
+  margin-top: 12px;
+}
+.card_shown_on_top_andar_bahar {
+  width: 170px;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0 10px;
+  color: white;
+}
+.player_name {
+  margin: 0px 0px;
+  font-weight: 600;
+  color: #fff;
+  font-size: 15px;
 }

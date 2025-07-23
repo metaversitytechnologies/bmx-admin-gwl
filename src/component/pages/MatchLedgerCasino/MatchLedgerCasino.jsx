@@ -1,9 +1,14 @@
 import { Button, Card, Col, DatePicker, Row, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
+import { useGetLiveCasinoListQuery } from "../../../store/service/CasinoServices";
+import moment from "moment";
 
 const { RangePicker } = DatePicker;
 
 const MatchLedgerCasino = () => {
+  const { data } = useGetLiveCasinoListQuery();
+
+  console.log(data, "data");
   const tableData = [
     { name: "AmarAkbarAnthony", path: "/casino/56" },
     { name: "Live Teen Patti One Day", path: "/casino/57" },
@@ -15,13 +20,19 @@ const MatchLedgerCasino = () => {
   ];
 
   const renderTableRows = () =>
-    tableData.map((items, index) => (
+    data?.data?.map((items, index) => (
       <tr key={index}>
         <td>{index + 1}</td>
         <td>
-          <Link className="gx-text-blue">{items?.name}</Link>
+          <Link className="gx-text-blue" style={{ fontWeight: 400 }}>
+            {items?.name}
+          </Link>
         </td>
-        <td>25-06-2025 02:36:56 PM</td>
+        <td>
+          <sapn style={{ fontWeight: 400 }}>
+            {moment().format("YYYY-MM-DD HH:mm:ss A")}
+          </sapn>
+        </td>
         <td>
           <div
             className="gx-justify-content-end"
@@ -34,7 +45,7 @@ const MatchLedgerCasino = () => {
                 borderRadius: "5px",
                 marginRight: "15px",
               }}>
-              <Link to={items?.path}>View</Link>
+              <Link to={`/casino/${items?.tableId}`}>View</Link>
             </Button>
             <Button type="link" className="Display_Games">
               <Link

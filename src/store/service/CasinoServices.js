@@ -15,53 +15,77 @@ export const casinoDetailsApi = createApi({
       query: (body) => ({
         url: `/bmx/report/casino-plus-minus`,
         method: "POST",
-        body
+        body,
       }),
     }),
     roulettePlusMinus: build.query({
       query: (body) => ({
         url: `/bmx/report/casino-plus-minus-real`,
         method: "POST",
-        body
+        body,
       }),
     }),
     allGame: build.query({
       query: (body) => ({
         url: `/bmx/report/casino-round-wise-pnl`,
         method: "POST",
-        body
+        body,
       }),
     }),
-    casinoBetList: build.query({
-      query: (body) => ({
-        url: `/bmx/report/casino-round-wise-bet-list`,
-        method: "POST",
-        body
-      }),
-    }),
-    casinoBetListNew: build.query({
-      query: (body) => ({
-        url: `/bmx/report/casino-plus-minus-real-new`,
-        method: "POST",
-        body
-      }),
-    }),
+    // casinoBetList: build.query({
+    //   query: (body) => ({
+    //     url: `/bmx/report/casino-round-wise-bet-list`,
+    //     method: "POST",
+    //     body,
+    //   }),
+    // }),
+    // casinoBetListNew: build.query({
+    //   query: (body) => ({
+    //     url: `/bmx/report/casino-plus-minus-real-new`,
+    //     method: "POST",
+    //     body,
+    //   }),
+    // }),
     setCommission: build.mutation({
       query: (body) => ({
         url: `/commission-set-subadmin/set-commission`,
         method: "POST",
-        body
+        body,
       }),
     }),
     getCommission: build.mutation({
       query: (body) => ({
         url: `/commission-set-subadmin/get-commission`,
         method: "POST",
-        body
+        body,
       }),
     }),
-    
+
+    getLiveCasinoList: build.query({
+      query: (body) => ({
+        url: `/casino/casino-list`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getCasinoBetList: build.query({
+      query: (body) => ({
+        url: `/casino/casino-bet-list-admin`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const {useRouletteDetailsQuery, useRoulettePlusMinusQuery, useAllGameQuery, useCasinoBetListQuery, useCasinoBetListNewQuery, useSetCommissionMutation, useGetCommissionMutation } = casinoDetailsApi;
+export const {
+  useRouletteDetailsQuery,
+  useRoulettePlusMinusQuery,
+  useAllGameQuery,
+  // useCasinoBetListQuery,
+  // useCasinoBetListNewQuery,
+  useSetCommissionMutation,
+  useGetCommissionMutation,
+  useGetLiveCasinoListQuery,
+  useGetCasinoBetListQuery
+} = casinoDetailsApi;

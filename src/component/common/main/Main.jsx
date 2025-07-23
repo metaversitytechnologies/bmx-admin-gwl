@@ -56,6 +56,7 @@ import RoulettePlusMinus from "../../pages/RouletteDetail/RoulettePlusMinus/Roul
 import GameDeatis from "../../pages/GameDeatis/GameDeatis";
 import CasinoMainPage from "../../pages/Casino/CasinoMainPage";
 import FancyBets from "../../pages/sportsdetails/fancyslips/FancyBets";
+import EventProfitLossList from "../../pages/GameDeatis/EventProfitLoss";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -90,17 +91,21 @@ const Main = () => {
         <Route path="/client/details-master" element={<MasterDetails />} />
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
-        <Route path="/livereport" element={<LiveReport />} />
+        {/* <Route path="/livereport" element={<LiveReport />} /> */}
         <Route path="/plus-minus-report/:id" element={<PlusMinusReport />} />
-        <Route path="/Events/:id/plus-minus-report" element={<PlusMinusDetails />} />
+        <Route
+          path="/event-profit-loss/:id/:fancyId"
+          element={<EventProfitLossList />}
+        />
+        <Route
+          path="/Events/:id/plus-minus-report"
+          element={<PlusMinusDetails />}
+        />
         <Route
           path="/match-slips/:id/:inplay?"
           element={<FancySlips type={2} name={"Match Bets"} />}
         />
-        <Route
-          path="/fancy-slips/:id/:inplay?"
-          element={<FancyBets />}
-        />
+        <Route path="/fancy-slips/:id/:inplay?" element={<FancyBets />} />
         <Route
           path="/completed-fancy-slips/:id"
           element={<CompletedFancySlips />}
@@ -113,46 +118,6 @@ const Main = () => {
           path="/user-list/:Listname/:userTyep/:parentId?"
           element={<ListSuper />}
         />
-        {/* <Route
-          path="/user-list/Super/3"
-          element={<ListSuper userTyep={3} Listname={"Super"} />}
-        />
-        <Route
-          path="/user-list/Agent/2"
-          element={<ListSuper userTyep={2} Listname={"Agent"} />}
-        />
-        <Route
-          path="/user-list/Client/1"
-          element={<ListSuper userTyep={1} Listname={"Client"} />}
-        />
-        <Route
-          path="/user-list/Master/4/:id"
-          element={<ListSuper userTyep={0} Listname={"Master"} />}
-        />
-        <Route
-          path="/user-list/Super/3/:id"
-          element={<ListSuper userTyep={1} Listname={"Super"} />}
-        />
-        <Route
-          path="/user-list/Agent/2/:id"
-          element={<ListSuper userTyep={2} Listname={"Agent"} />}
-        />
-        <Route
-          path="/client/list-clent/:id"
-          element={<ListSuper userTyep={3} Listname={"Client"} />}
-        />
-        <Route
-          path="/client/update-super/:id"
-          element={<UpdateSuper updateName={"Master"} />}
-        />
-        <Route
-          path="/client/update-agent/:id"
-          element={<UpdateSuper updateName={"Super"} />}
-        />
-        <Route
-          path="/client/update-client/:id"
-          element={<UpdateSuper updateName={"Client"} />}
-        /> */}
         <Route
           path="/client/update-dealer/:id"
           element={<UpdateSuper updateName={"Agent"} />}
@@ -250,7 +215,6 @@ const Main = () => {
           path="/client/cash-transanction"
           element={<CashTransanction />}
         />
-        {/* <Route path="/client/txn-super" element={<SuperAgentTransactions/>}/> */}
         <Route
           path="/client/txn-super"
           element={<AgentTransactions userType={0} Listname={"Master"} />}
@@ -274,7 +238,10 @@ const Main = () => {
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
         <Route path="/Casino/today-pandl" element={<TodayProfitLoss />} />
         <Route path="/client/mobile-app-report" element={<SelectClient />} />
-        <Route path="/matchsessionbet/:id/:inplay?" element={<MatchSessionBet />} />
+        <Route
+          path="/matchsessionbet/:id/:inplay?"
+          element={<MatchSessionBet />}
+        />
         <Route path="/agent-list/:id" element={<ClientReport />} />
         <Route path="/finish-game" element={<FinishedGame />} />
         <Route path="/matchplusminus/:id?" element={<CompanyReport />} />

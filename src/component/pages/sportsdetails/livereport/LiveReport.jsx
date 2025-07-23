@@ -1,11 +1,11 @@
 import "./LiveReport.scss";
 import { Col, Modal, Row, Spin } from "antd";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MoreEvent from "./MoreEvent/MoreEvent";
 import CompeleteFancy from "./compeleteFancy/CompeleteFancy";
 import { useEventDetailQuery } from "../../../../store/service/eventDetailServices";
 import ScoreCard from "./ScoreCard/ScoreCard";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FancyData from "./FancyData/FancyData";
 import {
   useLazyOddsQuPnlQuery,
@@ -111,7 +111,6 @@ const LiveReport = () => {
       }
     : {};
 
-  console.log(betDetailsData, "betDetailsDatabetDetailsData");
 
   return (
     <>
