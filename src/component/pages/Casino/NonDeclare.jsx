@@ -20,7 +20,6 @@ const NonDeclare = () => {
     sportId: 5015,
   });
 
-  console.log(data, "datadatadatadatadata");
 
   const columns = [
     {

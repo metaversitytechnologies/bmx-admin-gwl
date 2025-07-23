@@ -75,6 +75,13 @@ export const casinoDetailsApi = createApi({
         body,
       }),
     }),
+    getCasinoBetListByTable: build.query({
+      query: (body) => ({
+        url: `/ant-pro/get-casino-bets-by-tableid`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -87,5 +94,6 @@ export const {
   useSetCommissionMutation,
   useGetCommissionMutation,
   useGetLiveCasinoListQuery,
-  useGetCasinoBetListQuery
+  useGetCasinoBetListQuery,
+  useGetCasinoBetListByTableQuery
 } = casinoDetailsApi;
