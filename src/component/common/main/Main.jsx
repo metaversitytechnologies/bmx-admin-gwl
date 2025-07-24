@@ -57,6 +57,8 @@ import GameDeatis from "../../pages/GameDeatis/GameDeatis";
 import CasinoMainPage from "../../pages/Casino/CasinoMainPage";
 import FancyBets from "../../pages/sportsdetails/fancyslips/FancyBets";
 import EventProfitLossList from "../../pages/GameDeatis/EventProfitLoss";
+import DisplayGames from "../../pages/MatchLedgerCasino/DisplayGames";
+import AllBets from "../../pages/MatchLedgerCasino/AllBets";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -91,6 +93,8 @@ const Main = () => {
         <Route path="/client/details-master" element={<MasterDetails />} />
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
+        <Route path="/display-games/:id/:name/:date?" element={<DisplayGames />} />
+        <Route path="/all-bets/:id" element={<AllBets />} />
         {/* <Route path="/livereport" element={<LiveReport />} /> */}
         <Route path="/plus-minus-report/:id" element={<PlusMinusReport />} />
         <Route
@@ -216,21 +220,21 @@ const Main = () => {
           element={<CashTransanction />}
         />
         <Route
-          path="/client/txn-super"
-          element={<AgentTransactions userType={0} Listname={"Master"} />}
+          path="/client/txn-super/:name/:id"
+          element={<AgentTransactions />}
         />
-        <Route
+        {/* <Route
           path="/client/txn-agent"
           element={<AgentTransactions userType={2} Listname={"Agent"} />}
         />
         <Route
           path="/client/txn-client"
           element={<AgentTransactions userType={3} Listname={"Client"} />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="/client/txn-master"
           element={<AgentTransactions userType={1} Listname={"Super"} />}
-        />
+        /> */}
         {/* <Route path="/client/txn-client" element={<ClientTransactions/>}/> */}
         <Route path="/markets" element={<Settings />} />
         <Route path="/account-statement/:id?" element={<AccountStatement />} />

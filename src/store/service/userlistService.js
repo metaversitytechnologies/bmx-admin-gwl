@@ -109,7 +109,7 @@ export const userlistApi = createApi({
     }),
     accountOpration: build.query({
       query: (body) => ({
-        url: "/bmx/report/action-logs",
+        url: "/ant-pro/get-accstt-chpdtl",
         method: "POST",
         body,
       }),

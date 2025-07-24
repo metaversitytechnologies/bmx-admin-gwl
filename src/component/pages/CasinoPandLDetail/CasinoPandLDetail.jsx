@@ -84,9 +84,7 @@ const CasinoPandLDetail = () => {
                         marginRight: "15px",
                       }}
                       type="primary">
-                      <Link to="/casino/110/plus-minus-type">
-                        plusminus2
-                      </Link>
+                      <Link to="/casino/110/plus-minus-type">plusminus2</Link>
                     </Button>
                     <Button
                       style={{
@@ -110,7 +108,7 @@ const CasinoPandLDetail = () => {
                         background: "#fff",
                         color: "#545454",
                       }}>
-                      <Link to="/Casino/AndarBahar/all-games">
+                      <Link to={`/display-games/51/TeenPatti/23-07-2025`}>
                         Display Games
                       </Link>
                     </Button>

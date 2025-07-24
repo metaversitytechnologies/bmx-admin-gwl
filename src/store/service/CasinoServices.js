@@ -82,6 +82,20 @@ export const casinoDetailsApi = createApi({
         body,
       }),
     }),
+    getCasinoBetByMarket: build.query({
+      query: (body) => ({
+        url: `/ant-pro/casino-bets-by-marketid`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getCasinoPnlByDate: build.query({
+      query: (body) => ({
+        url: `ant-pro/get-casino-pnl-by-date`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -95,5 +109,7 @@ export const {
   useGetCommissionMutation,
   useGetLiveCasinoListQuery,
   useGetCasinoBetListQuery,
-  useGetCasinoBetListByTableQuery
+  useGetCasinoBetListByTableQuery,
+  useGetCasinoBetByMarketQuery,
+  useGetCasinoPnlByDateQuery
 } = casinoDetailsApi;

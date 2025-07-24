@@ -14,7 +14,14 @@ const TeenPatti = ({ odds, id }) => {
         return (
           <div>
             <p>{record?.nation}</p>
-            <p style={{ fontWeight: 700 }}>{id === "57" ? 0 : record?.pnl}</p>
+            <p
+              style={{
+                fontWeight: 700,
+                color:
+                  record?.pnl > 0 ? "green" : record?.pnl < 0 ? "red" : "black",
+              }}>
+              {id === "57" ? 0 : record?.pnl}
+            </p>
           </div>
         );
       },

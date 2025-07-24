@@ -1,17 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { Drawer, Menu } from "antd";
-import { AiOutlineHome } from "react-icons/ai";
-import { BiUserCircle } from "react-icons/bi";
-import { LuBarChart4 } from "react-icons/lu";
-import { SlDiamond } from "react-icons/sl";
 import "./Sidebar.scss";
 import { Button } from "antd";
-// import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { RiNotificationBadgeFill } from "react-icons/ri";
 import Sider from "antd/es/layout/Sider";
 import { Link, useNavigate } from "react-router-dom";
-import { IoMdPricetag } from "react-icons/io";
 import { HoverIcon } from "./HeroIcon";
 
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
@@ -298,35 +291,42 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
-                  className: `${userType == "5" ? "" : "d-none"}`,
                   label: (
-                    <Link to="/client/txn-super">Debit/Credit Entry(M)</Link>
-                  ),
-                },
-                {
-                  className: `${
-                    userType === "0" || userType == "5" ? "" : "d-none"
-                  }`,
-                  label: (
-                    <Link to="/client/txn-master">Debit/Credit Entry(S)</Link>
-                  ),
-                },
-
-                {
-                  className: `${
-                    userType === "1" || userType == "5" || userType === "0"
-                      ? ""
-                      : "d-none"
-                  }`,
-                  label: (
-                    <Link to="/client/txn-agent">Debit/Credit Entry(A)</Link>
+                    <Link to="/client/txn-super/Client/1">
+                      (C) Debit/Credit Entry
+                    </Link>
                   ),
                 },
                 // {
+                //   // className: `${userType == "5" ? "" : "d-none"}`,
                 //   label: (
-                //     <Link to="/client/txn-client">Debit/Credit Entry(C)</Link>
+                //     <Link to="/client/txn-super/Master/4">
+                //       (M) Debit/Credit Entry
+                //     </Link>
                 //   ),
                 // },
+                {
+                  // className: `${
+                  //   userType === "1" || userType == "5" || userType === "0"
+                  //     ? ""
+                  //     : "d-none"
+                  // }`,
+                  label: (
+                    <Link to="/client/txn-super/Agent/2">
+                      (A) Debit/Credit Entry
+                    </Link>
+                  ),
+                },
+                {
+                  // className: `${
+                  //   userType === "0" || userType == "5" ? "" : "d-none"
+                  // }`,
+                  label: (
+                    <Link to="/client/txn-super/Super/3">
+                      (SA) Debit/Credit Entry
+                    </Link>
+                  ),
+                },
               ],
             },
             {
@@ -725,9 +725,9 @@ const Sidebar = (props) => {
                     className: `${userType == "5" ? "" : "d-none"}`,
                     label: (
                       <Link
-                        to="/client/txn-super"
+                        to="/client/txn-super/Client/1"
                         onClick={() => props?.action()}>
-                        Debit/Credit Entry(M)
+                        (C) Debit/Credit Entry
                       </Link>
                     ),
                   },
@@ -737,9 +737,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/txn-master"
+                        to="/client/txn-super/Agent/2"
                         onClick={() => props?.action()}>
-                        Debit/Credit Entry(S)
+                        (A) Debit/Credit Entry
                       </Link>
                     ),
                   },
@@ -752,9 +752,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/txn-agent"
+                       to="/client/txn-super/Super/3"
                         onClick={() => props?.action()}>
-                        Debit/Credit Entry(A)
+                       (SA) Debit/Credit Entry
                       </Link>
                     ),
                   },

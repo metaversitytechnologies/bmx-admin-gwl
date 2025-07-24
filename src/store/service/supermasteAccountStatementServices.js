@@ -64,7 +64,7 @@ export const supermasteAccountStatementApi = createApi({
     }),
     filterbyClient: build.query({
       query: (body) => ({
-        url: `/bmx/filter-by-client-cash-transection`,
+        url: `/user/username-id-search`,
         method: "POST",
         body,
       }),
@@ -147,7 +147,6 @@ export const supermasteAccountStatementApi = createApi({
       }),
       invalidatesTags: ["superUserList"],
     }),
-  
 
     casinoList: build.query({
       query: (body) => ({
@@ -258,5 +257,5 @@ export const {
   useLazyDepositAndWithdrawQuery,
   useSuperuserListMutation,
   useChildListDetailsQuery,
-  useUserCasinoLockMutation
+  useUserCasinoLockMutation,
 } = supermasteAccountStatementApi;

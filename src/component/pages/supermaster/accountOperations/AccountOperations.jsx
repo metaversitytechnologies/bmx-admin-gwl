@@ -18,6 +18,7 @@ const AccountOperations = () => {
   const time = moment().format("YYYY-MM-DD");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dateData, setDateData] = useState([timeBefore, time]);
+  const [detailType, setDetailsType] = useState("ALL");
   const onChange = (date, dateString) => {
     setDateData(dateString);
   };
@@ -31,11 +32,9 @@ const AccountOperations = () => {
 
   const { data, isFetching, isLoading } = useAccountOprationQuery(
     {
-      index: 0,
-      noOfRecords: 500,
-      userId: id || "anku121",
-      startDate: dateData[0],
-      endDate: dateData[1],
+      detailType: detailType,
+      fromDate: dateData[0],
+      toDate: dateData[1],
     },
     { refetchOnMountOrArgChange: true }
   );
@@ -63,18 +62,6 @@ const AccountOperations = () => {
       width: "5%",
     },
   ];
-
-  const dataSource = data?.data?.data?.map((curElm) => {
-    console.log(curElm, "DSfsfsd");
-    return {
-      createdon: curElm?.createdon,
-      action: curElm?.action,
-      actionby: curElm?.actionby,
-      description: curElm?.description,
-    };
-  });
-
-  const headerField = ["Date", "Operation", "Done By", "Description"];
 
   return (
     <>
@@ -105,11 +92,27 @@ const AccountOperations = () => {
                 <Col xs={24} md={24} lg={12} xl={12}>
                   <div style={{ marginTop: "12px" }}>
                     <div className="gx-bg-flex1 gx-justify-content-center gx-flex-nowrap gx-px-1 ">
-                      <div className=" gx-px-2 gx-py-2 gx-bg-dark">All</div>
-                      <div className=" gx-px-2 gx-py-2 gx-bg-primary">
-                        P&amp;L
+                      <div
+                        className={`gx-px-2 gx-py-2 ${
+                          detailType === "ALL" ? "gx-bg-dark" : "gx-bg-primary"
+                        } `}
+                        onClick={() => setDetailsType("ALL")}>
+                        All
                       </div>
-                      <div className=" gx-px-2 gx-py-2 gx-bg-primary">
+                      <div
+                        className={`gx-px-2 gx-py-2 ${
+                          detailType === "PNL" ? "gx-bg-dark" : "gx-bg-primary"
+                        } `}
+                        onClick={() => setDetailsType("PNL")}>
+                        P&L
+                      </div>
+                      <div
+                        className={`gx-px-2 gx-py-2 ${
+                          detailType === "ACCOUNT"
+                            ? "gx-bg-dark"
+                            : "gx-bg-primary"
+                        } `}
+                        onClick={() => setDetailsType("ACCOUNT")}>
                         Account
                       </div>
                     </div>
@@ -124,7 +127,7 @@ const AccountOperations = () => {
                   className="live_table agent_master"
                   bordered
                   columns={columns}
-                  dataSource={data?.data?.data || []}
+                  dataSource={data?.data || []}
                   loading={isLoading || isFetching}></Table>
               </div>
             </div>

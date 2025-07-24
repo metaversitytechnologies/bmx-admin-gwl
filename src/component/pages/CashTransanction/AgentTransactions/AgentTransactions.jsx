@@ -10,7 +10,7 @@ import {
   notification,
 } from "antd";
 import dayjs from "dayjs";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TransactionTable from "../TransactionTable";
 import { useEffect, useState } from "react";
 import {
@@ -19,10 +19,12 @@ import {
   useLazyUserListQuery,
 } from "../../../../store/service/supermasteAccountStatementServices";
 import moment from "moment";
+import { useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 
 const dateFormat = "YYYY/MM/DD";
 
-const AgentTransactions = ({ userType, Listname }) => {
+const AgentTransactions = () => {
+  const { name, id } = useParams();
   const [api, contextHolder] = notification.useNotification();
   const [userTranstionData, setUserTranstionData] = useState([]);
   var curr = new Date();
@@ -42,6 +44,7 @@ const AgentTransactions = ({ userType, Listname }) => {
 
   const { Option } = Select;
 
+  // const [getClient, { data: result }] = useGetUserSeacrhMutation();
   const [getClient, result] = useLazyFilterbyClientQuery();
 
   const [createTran, { data: createTranstions, error, isLoading }] =
@@ -81,33 +84,14 @@ const AgentTransactions = ({ userType, Listname }) => {
     setStartDate(dateString);
   };
 
-  const handleChange = (value) => {
-    userList({
-      userType: userType,
-      userName: value,
-    });
-    getClient({
-      userId: value,
-      userType: userType,
-    });
-  };
-  const handleSelect = (value) => {
-    setClientId(value);
-  };
-
   useEffect(() => {
     getClient({
-      userId: clientId,
-      userType: userType,
+      userType: id,
     });
-  }, [clientId, result?.data]);
+  }, [id]);
 
   useEffect(() => {
     if (createTranstions?.status === true) {
-      getClient({
-        userId: clientId,
-        userType: userType,
-      });
       openNotification(createTranstions?.message);
       form?.resetFields();
     } else if (createTranstions?.status === false || error?.data?.message) {
@@ -115,28 +99,30 @@ const AgentTransactions = ({ userType, Listname }) => {
     }
   }, [createTranstions, error]);
 
-  useEffect(() => {
-    if (result?.data?.data !== undefined) {
-      const useData = JSON.parse(result?.data?.data?.cashtransection);
-      setUserTranstionData(useData?.results);
-    }
-  }, [result?.data]);
+  // useEffect(() => {
+  //   if (result?.data?.data !== undefined) {
+  //     const useData = JSON.parse(result?.data?.data?.cashtransection);
+  //     setUserTranstionData(useData?.results);
+  //   }
+  // }, [result?.data]);
 
   useEffect(() => {
     form?.resetFields();
     setClientId("");
-    userList({
-      userType: userType,
-      userName: "",
-    });
+    // userList({
+    //   userType: userType,
+    //   userName: "",
+    // });
   }, [pathname]);
+
+  console.log("result?.data?.data", result?.data?.data);
 
   return (
     <>
       {contextHolder}
       <Card
         className="sport_detail ledger_data cash_data"
-        title={`${Listname} Transactions`}
+        title={`${name} Transactions`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
           <Form
@@ -162,18 +148,19 @@ const AgentTransactions = ({ userType, Listname }) => {
                   ]}>
                   <Select
                     placeholder="Select Client"
+                    onSearch={(value) => {
+                      if (value) getClient({ userType: id });
+                    }}
+                    value={clientId}
+                    allowClear
+                    onSelect={(value) => setClientId(value)}
                     options={
-                      resultData.data?.data.map((i) => ({
-                        label: `${i?.userId} (${i?.userName})`,
-                        value: i?.userId,
+                      result?.data?.data?.map((user) => ({
+                        label: `${user.userName} (${user.userId})`,
+                        value: user.userId,
                       })) || []
                     }
-                    showSearch
-                    allowClear
-                    onSelect={handleSelect}
-                    onSearch={handleChange}>
-                    {/* <Option value="sumana6748">sumana6748</Option> */}
-                  </Select>
+                    showSearch></Select>
                 </Form.Item>
               </Col>
               <Col xl={8} lg={8} md={24} xs={24}>

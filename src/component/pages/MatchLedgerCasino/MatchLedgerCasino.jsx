@@ -8,17 +8,6 @@ const { RangePicker } = DatePicker;
 const MatchLedgerCasino = () => {
   const { data } = useGetLiveCasinoListQuery();
 
-  console.log(data, "data");
-  const tableData = [
-    { name: "AmarAkbarAnthony", path: "/casino/56" },
-    { name: "Live Teen Patti One Day", path: "/casino/57" },
-    { name: "DragonTiger", path: "/casino/52" },
-    { name: "DragonTiger T20", path: "/casino/52" },
-    { name: "luck7b", path: "/casino/53" },
-    { name: "TeenpattiT20", path: "/casino/51" },
-    { name: "Warli Matka", path: "#" },
-  ];
-
   const renderTableRows = () =>
     data?.data?.map((items, index) => (
       <tr key={index}>
@@ -48,8 +37,7 @@ const MatchLedgerCasino = () => {
               <Link to={`/casino/${items?.tableId}`}>View</Link>
             </Button>
             <Button type="link" className="Display_Games">
-              <Link
-                to={`/components/casino/inplaycasinodetails/AmarAkbarAnthony/3056/`}>
+              <Link to={`/display-games/${items?.tableId}/${items?.name}`}>
                 Display Games
               </Link>
             </Button>

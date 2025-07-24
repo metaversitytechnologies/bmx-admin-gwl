@@ -1,5 +1,6 @@
 import { Card, Col, Modal, Row } from "antd";
 import { HiUser } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const SettingModals = ({ setOpenModals, openModal }) => {
   return (
@@ -19,7 +20,7 @@ const SettingModals = ({ setOpenModals, openModal }) => {
         <Row className="modal_opne_dash">
           <Col md={12} xs={24}>
             <Card bordered={false}>
-              <a href="/components/general/button-superagent/3">
+              <Link to="/account-operation">
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">
                     <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -41,7 +42,7 @@ const SettingModals = ({ setOpenModals, openModal }) => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </Card>
           </Col>
           <Col md={12} xs={24}>

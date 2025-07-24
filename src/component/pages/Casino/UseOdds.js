@@ -4,7 +4,7 @@ export const useOdds = (value) => {
   const [odds, setOdds] = useState(null);
   const [pnl, setPnl] = useState({});
   const [betPlace, setBetPlace] = useState(false);
-  const token = localStorage.getItem("client-token");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -55,7 +55,7 @@ export const useOdds = (value) => {
     const timer = setInterval(() => {
       const mid = odds?.t1?.[0]?.mid;
       if (Number(mid)) {
-        fetch(`${import.meta.env.VITE_API_BASE_URL}/casino/liability`, {
+        fetch(`${import.meta.env.VITE_BASE_URL}/casino/liability`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
