@@ -120,6 +120,33 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getCompletLedger: build.query({
+      query: (body) => {
+        return {
+          url: `/report/get-complete-ledger-v2`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getSessionPlusMinus: build.query({
+      query: (body) => {
+        return {
+          url: `/report/get-session-plus-minus`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getCompleteLedger: build.query({
+      query: (body) => {
+        return {
+          url: `/report/get-complete-ledger`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -137,4 +164,7 @@ export const {
   useGetSessionBetMutation,
   useGetFancyBookMutation,
   useGetCompletedFancyMutation,
+  useGetCompletLedgerQuery,
+  useGetSessionPlusMinusQuery,
+  useGetCompleteLedgerQuery
 } = sportDetailsApi;

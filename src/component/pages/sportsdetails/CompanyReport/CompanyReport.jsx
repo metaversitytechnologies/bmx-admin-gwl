@@ -1,54 +1,57 @@
-import { Card, Table } from "antd";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Card, Empty } from "antd";
+
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetCompletLedgerQuery } from "../../../../store/service/SportDetailServices";
 
 const CompanyReport = () => {
   const nav = useNavigate();
-  const columns = [
-    { title: "Code", dataIndex: "code", key: "code" },
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Match Amt", dataIndex: "matchAmt", key: "matchAmt" },
-    { title: "Session Amt", dataIndex: "sessionAmt", key: "sessionAmt" },
-    { title: "Total", dataIndex: "total", key: "total" },
-    { title: "Match Comm+", dataIndex: "matchComm", key: "matchComm" },
-    { title: "Session Comm+", dataIndex: "sessionComm", key: "sessionComm" },
-    { title: "Total Comm", dataIndex: "totalComm", key: "totalComm" },
-    { title: "Total Amount", dataIndex: "totalAmount", key: "totalAmount" },
-    { title: "My Share", dataIndex: "myShare", key: "myShare" },
-    { title: "M.App", dataIndex: "mApp", key: "mApp" },
-    { title: "Net Amount", dataIndex: "netAmount", key: "netAmount" },
-  ];
+  const { id, name } = useParams();
 
-  const data = [
-    {
-      key: "1",
-      code: "MA5873",
-      name: "King",
-      matchAmt: 100.0,
-      sessionAmt: 0.0,
-      total: 100.0,
-      matchComm: 2.0,
-      sessionComm: 0.0,
-      totalComm: 2.0,
-      totalAmount: 98.0,
-      myShare: -4.0,
-      mApp: 0.0,
-      netAmount: 102.0,
+  const { data } = useGetCompletLedgerQuery({
+    matchId: id,
+  });
+
+  const totalValues = data?.data?.reduce(
+    (acc, curr) => {
+      acc.matchAmount += curr?.matchAmount || 0;
+      acc.sessionAmount += curr?.sessionAmount || 0;
+      acc.total += curr?.total || 0;
+      acc.matchComm += curr?.matchComm || 0;
+      acc.sessionComm += curr?.sessionComm || 0;
+      acc.totalComm += curr?.totalComm || 0;
+      acc.myShare += curr?.myShare || 0;
+      acc.mapp += curr?.mapp || 0;
+      acc.netAmount += curr?.netAmount || 0;
+      return acc;
     },
-  ];
+    {
+      matchAmount: 0,
+      sessionAmount: 0,
+      total: 0,
+      matchComm: 0,
+      sessionComm: 0,
+      totalComm: 0,
+      myShare: 0,
+      mapp: 0,
+      netAmount: 0,
+    }
+  );
+
+  const getColor = (value) =>
+    value > 0 ? "green" : value < 0 ? "red" : "black";
+
   return (
     <div className="match_slip company_report">
       <Card
         style={{ margin: "0px", width: "100%" }}
         className="sport_detail session_bet"
-        title={"Company Repoprt"}
-        // extra={<button onClick={handleBackClick}>Back</button>}
-      >
-        {/* {isLoading ? (
-          <Spin className="loading_active" tip="Loading..." size="large">
-            <div className="content" />
-          </Spin>
-        ) : ( */}
+        title={
+          <div>
+            Company Report
+            <p style={{ fontSize: "16px", marginTop: "-7px" }}>{name}</p>
+          </div>
+        }
+        extra={<button onClick={() => nav(-1)}>Back</button>}>
         <div className="table_section statement_tabs_data active_match_table">
           <table className="">
             <thead>
@@ -67,37 +70,73 @@ const CompanyReport = () => {
               </tr>
             </thead>
             <tbody>
-              {data.length > 0 ? (
-                data.map((res, id) => (
+              {data?.data.length > 0 ? (
+                data?.data.map((res, id) => (
                   <tr key={id}>
-                    <td style={{ fontWeight: 600 }}>{res?.code}</td>
-                    <td style={{ fontWeight: 600 }}>{res?.name}</td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.matchAmt}
+                    <td style={{ fontWeight: 600 }}>{res?.userId}</td>
+                    <td style={{ fontWeight: 600 }}>{res?.userName}</td>
+                    <td
+                      style={{
+                        color: res?.matchAmount > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.matchAmount?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.sessionAmt}
+                    <td
+                      style={{
+                        color: res?.sessionAmount > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.sessionAmount?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.total}
+                    <td
+                      style={{
+                        color: res?.total > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.total?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.matchComm}
+                    <td
+                      style={{
+                        color: res?.matchComm > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.matchComm?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.sessionComm}
+                    <td
+                      style={{
+                        color: res?.sessionComm > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.sessionComm.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.totalComm}
+                    <td
+                      style={{
+                        color: res?.totalComm > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.totalComm.toFixed(2)}
                     </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
-                      {res?.myShare}
+                    <td
+                      style={{
+                        color: res?.myShare > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.myShare?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.mApp}
+                    <td
+                      style={{
+                        color: res?.mapp > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.mapp?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {res?.netAmount}
+                    <td
+                      style={{
+                        color: res?.netAmount > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.netAmount?.toFixed(2)}
                     </td>
                   </tr>
                 ))
@@ -110,19 +149,75 @@ const CompanyReport = () => {
               )}
             </tbody>
             <tfoot>
-              <tr style={{ background: "rgb(213, 220, 102)" }}>
-                <td style={{ fontWeight: 600 }}>Total</td>
-                <td style={{ fontWeight: 600 }}></td>
-                <td style={{ color: "green", fontWeight: 600 }}>100.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>0.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>100.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>2.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>0.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>2.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>-4.00</td>
-                <td style={{ color: "red", fontWeight: 600 }}>0.00</td>
-                <td style={{ color: "green", fontWeight: 600 }}>102.00</td>
-              </tr>
+              {data?.data?.length > 0 && (
+                <tr style={{ background: "rgb(213, 220, 102)" }}>
+                  <td style={{ fontWeight: 600 }}>Total</td>
+                  <td></td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.matchAmount),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.matchAmount.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.sessionAmount),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.sessionAmount.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.total),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.total.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.matchComm),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.matchComm.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.sessionComm),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.sessionComm.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.totalComm),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.totalComm.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.myShare),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.myShare.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.mapp),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.mapp.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues.netAmount),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues.netAmount.toFixed(2)}
+                  </td>
+                </tr>
+              )}
             </tfoot>
           </table>
         </div>

@@ -2,32 +2,31 @@ import React, { useEffect, useState } from "react";
 import { Checkbox, Col, notification, Row, Table } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./PlusMinusReport.scss";
+import { useGetSessionPlusMinusQuery } from "../../../../store/service/SportDetailServices";
 
 const column = [
   {
     title: "Session",
-    dataIndex: "selectionname",
+    dataIndex: "sessionName",
     key: 1,
   },
   {
     title: "Declare",
-    dataIndex: "result",
+    dataIndex: "declare",
     key: 2,
   },
 ];
 
-
-
 const clintColumns = [
   {
     title: "Child",
-    dataIndex: "userid",
+    dataIndex: "userId",
     key: 1,
   },
 ];
 
 const PlusMinusReport = () => {
-  const { id } = useParams();
+  const { id, inplay } = useParams();
   const [first, setFirst] = useState([]);
   const [secondUserid, setSecondUserid] = useState([]);
   const [thirdUserid, setThirdUserid] = useState([]);
@@ -35,8 +34,13 @@ const PlusMinusReport = () => {
   const [api, contextHolder] = notification.useNotification();
   const { state } = useLocation();
   const [parentKey, setParentKey] = useState("");
-
   const nav = useNavigate();
+
+  const { data } = useGetSessionPlusMinusQuery({
+    matchId: "34516084",
+    matchCompleted: inplay === 1 ? false : true,
+    oddsAndSessionBoth: true,
+  });
 
   const handleBackClick = () => {
     nav(-1);
@@ -59,11 +63,9 @@ const PlusMinusReport = () => {
       nav(`/Events/${id}/plus-minus-report`, {
         state: {
           first,
-          secondUserid,
           state,
           thirdUserid,
-          parentKey,
-          showOdds,
+          matchCompleted: inplay === 1 ? false : true,
         },
       });
     }
@@ -73,56 +75,21 @@ const PlusMinusReport = () => {
     setShowOdds(e.target.checked);
   };
 
-  // ✅ Static mock data
-  const staticData = {
-    data: {
-      markets: [
-        {
-          marketid: "101",
-          selectionname: "Session A",
-          result: "Yes",
-          marketname: "session",
-        },
-        {
-          marketid: "102",
-          selectionname: "Session B",
-          result: "No",
-          marketname: "session",
-        },
-        {
-          marketid: "103",
-          selectionname: "Match Odds",
-          result: "-",
-          marketname: "match odds",
-        },
-      ],
-      users: {
-        parentKey: "super_123",
-        parent: [{ userid: "parent1" }, { userid: "parent2" }],
-        client: [{ userid: "client1" }, { userid: "client2" }],
-      },
-    },
-  };
-
   useEffect(() => {
-    const data = staticData;
-    setParentKey(data?.data?.users?.parentKey);
+    const allData = data;
+    setParentKey(allData?.data?.userDetail);
 
-    if (data?.data?.markets?.length) {
-      setFirst(data.data.markets.map((i) => i.marketid));
+    if (allData?.data?.sessionDetail?.length) {
+      setFirst(allData.data.sessionDetail.map((i) => i.sessionId));
     }
 
-    if (data?.data?.users?.parent?.length) {
-      setSecondUserid(data.data.users.parent.map((i) => i.userid));
+    if (allData?.data?.userDetail?.length) {
+      setThirdUserid(allData.data.userDetail.map((i) => i.userId));
     }
+  }, [data]);
 
-    if (data?.data?.users?.client?.length) {
-      setThirdUserid(data.data.users.client.map((i) => i.userid));
-    }
-  }, []);
-
-  const filteredMarkets = staticData.data.markets.filter(
-    (i) => !["match odds", "bookmaker"].includes(i.marketname?.toLowerCase())
+  const filteredMarkets = data?.data?.sessionDetail.filter(
+    (i) => !["match odds", "bookmaker"].includes(i.sessionName?.toLowerCase())
   );
 
   return (
@@ -172,11 +139,11 @@ const PlusMinusReport = () => {
                   rowSelection={{
                     type: "checkbox",
                     onChange: (selectedRowKeys, selectedRows) => {
-                      setFirst(selectedRows.map((i) => i.marketid));
+                      setFirst(selectedRows.map((i) => i.sessionId));
                     },
                     selectedRowKeys: first,
                   }}
-                  rowKey="marketid"
+                  rowKey="sessionId"
                   bordered
                   columns={column}
                   pagination={false}
@@ -208,15 +175,15 @@ const PlusMinusReport = () => {
                   rowSelection={{
                     type: "checkbox",
                     onChange: (selectedRowKeys, selectedRows) => {
-                      setThirdUserid(selectedRows.map((i) => i.userid));
+                      setThirdUserid(selectedRows.map((i) => i.userId));
                     },
                     selectedRowKeys: thirdUserid,
                   }}
-                  rowKey="userid"
+                  rowKey="userId"
                   bordered
                   columns={clintColumns}
                   pagination={false}
-                  dataSource={staticData.data.users.client}
+                  dataSource={data?.data.userDetail}
                 />
               </Col>
             </Row>

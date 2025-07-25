@@ -93,10 +93,13 @@ const Main = () => {
         <Route path="/client/details-master" element={<MasterDetails />} />
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
-        <Route path="/display-games/:id/:name/:date?" element={<DisplayGames />} />
+        <Route
+          path="/display-games/:id/:name/:date?"
+          element={<DisplayGames />}
+        />
         <Route path="/all-bets/:id" element={<AllBets />} />
         {/* <Route path="/livereport" element={<LiveReport />} /> */}
-        <Route path="/plus-minus-report/:id" element={<PlusMinusReport />} />
+        <Route path="/plus-minus-report/:id/:inplay?" element={<PlusMinusReport />} />
         <Route
           path="/event-profit-loss/:id/:fancyId"
           element={<EventProfitLossList />}
@@ -248,7 +251,7 @@ const Main = () => {
         />
         <Route path="/agent-list/:id" element={<ClientReport />} />
         <Route path="/finish-game" element={<FinishedGame />} />
-        <Route path="/matchplusminus/:id?" element={<CompanyReport />} />
+        <Route path="/matchplusminus/:id?/:name?" element={<CompanyReport />} />
         <Route path="/casino/:id?" element={<CasinoMainPage />} />
         <Route
           path="/client/secure-code-report"

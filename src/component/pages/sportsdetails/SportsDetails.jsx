@@ -31,7 +31,7 @@ const SportsDetails = () => {
 
   const handlePlusMinus = (matchId) => {
     setDropdownStates(false);
-    nav(`/plus-minus-report/${matchId}`, { state: { dataNameee } });
+    nav(`/plus-minus-report/${matchId}/1`, { state: { dataNameee } });
   };
 
   const handleBackbtn = () => {
@@ -129,7 +129,7 @@ const SportsDetails = () => {
                               label: (
                                 <p
                                   className="title_section"
-                                  onClick={() => nav(`/matchplusminus/${res?.matchId}`)}
+                                  onClick={() => nav(`/matchplusminus/${res?.matchId}/${res?.matchName}`)}
                                 >
                                   Match and Session Plus Minus 2
                                 </p>

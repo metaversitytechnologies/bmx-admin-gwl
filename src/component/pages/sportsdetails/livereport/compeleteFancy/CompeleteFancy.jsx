@@ -1,47 +1,83 @@
-import { Card, Col, Empty, Row, Select, Spin } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Card, Col, Row, Select, Table } from "antd";
+import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { setData } from "../../../../../store/global/slice";
 import { useGetCompletedFancyMutation } from "../../../../../store/service/SportDetailServices";
 
 const CompeleteFancy = () => {
-  const [marketId, setMarketId] = useState("");
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
+
   const nav = useNavigate();
   const { id } = useParams();
 
-
-  // Static data to replace API call
-  const completeFancyData = {
-    data: {
-      list: [
-        {
-          key: "1",
-          selectionname: "Fancy 1",
-          pnl: 120.5,
-          result: "Team A",
-          netpnl: 100.0,
-          _id: "market_1",
-        },
-        {
-          key: "2",
-          selectionname: "Fancy 2",
-          pnl: -75.3,
-          result: "Team B",
-          netpnl: -80.0,
-          _id: "market_2",
-        },
-      ],
-      total: {
-        pnl: 45.2,
-        netpnl: 20.0,
-      },
+  const columns = [
+    {
+      title: "username",
+      dataIndex: "username",
+      key: "username",
+      render: () => <span>Not Provide</span>,
     },
-  };
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: () => <span>Not Provide</span>,
+    },
+    {
+      title: "F. Name",
+      dataIndex: "fancyName",
+      key: "fancyName",
+    },
+    {
+      title: "Rate",
+      dataIndex: "rate",
+      key: "rate",
+      render: () => <span>Not Provide</span>,
+    },
+    {
+      title: "Value",
+      dataIndex: "Value",
+      key: "Value",
+      render: () => <span>Not Provide</span>,
+    },
+    {
+      title: "Back/Lay",
+      dataIndex: "isBack",
+      key: "isBack",
+      // render: (text) => <span>{text ? "Yes" : "No"}</span>,
+      render: () => <span>Not Provide</span>,
+    },
+    {
+      title: "Result",
+      dataIndex: "result",
+      key: "result",
+    },
+    {
+      title: "Creator",
+      dataIndex: "Creator",
+      key: "Creator",
+      render: () => <span>Not Provide</span>,
+    },
+    {
+      title: "Stake",
+      dataIndex: "Stake",
+      key: "Stake",
+      render: () => <span>Not Provide</span>,
+    },
+    {
+      title: "PNL",
+      dataIndex: "pnl",
+      key: "pnl",
+    },
+  ];
 
+  const [trigger, { data, isLoading, isFetching }] =
+    useGetCompletedFancyMutation();
 
+  useEffect(() => {
+    trigger({ matchId: id });
+  }, [id]);
+
+  const totalPnl = data?.data?.reduce((acc, item) => acc + item.pnl, 0) || 0;
 
   return (
     <>
@@ -88,66 +124,29 @@ const CompeleteFancy = () => {
             </Col>
             <Col xs={24} md={24} lg={6} xl={6}>
               <p className="total_pl_fancy">
-                Total P/L: <span>0.00</span>
+                Total P/L:{" "}
+                <span style={{ color: totalPnl > 0 ? "green" : "red" }}>
+                  {totalPnl?.toFixed(2)}
+                </span>
               </p>
             </Col>
           </Row>
-          <div className="table_section ant-spin-nested-loading">
-            <table>
-              <thead>
-                <tr>
-                  <th>username</th>
-                  <th>Date</th>
-                  <th>F. Name</th>
-                  <th>Rate</th>
-                  <th>Value</th>
-                  <th>Back/Lay</th>
-                  <th>Result</th>
-                  <th>Creator</th>
-                  <th>Stake</th>
-                  <th>pnl</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* {fancyData?.data?.map((items) => {
-                  return (
-                    <tr className="gx-bg-red">
-                      <td>clientdemo (C67329)</td>
-                      <td>26 Jun 11:31:42 AM</td>
-                      <td>{items?.fancyName}</td>
-                      <td>100.00</td>
-                      <td>71</td>
-                      <td>Yes</td>
-                      <td>65</td>
-                      <td> agemas (A10285)</td>
-                      <td>100</td>
-                      <td>{items?.pnl}</td>
-                    </tr>
-                  );
-                })} */}
 
-                <tr className="gx-bg-green-0">
-                  <td>clientdemo (C67329)</td>
-                  <td>26 Jun 11:18:18 AM</td>
-                  <td>10 OVER RUNS SL(SL VS BAN)ADV</td>
-                  <td>100.00</td>
-                  <td>55</td>
-                  <td>Yes</td>
-                  <td>55</td>
-                  <td> agemas (A10285)</td>
-                  <td>100</td>
-                  <td>100.00</td>
-                </tr>
-              </tbody>
-
-              <tbody>
-                <tr>
-                  <td colSpan={10}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="table_section statement_tabs_data">
+            <div className="table_section">
+              <Table
+                className="live_table agent_master"
+                bordered
+                columns={columns}
+                dataSource={data?.data || []}
+                loading={isLoading || isFetching}
+                rowClassName={(record) => {
+                  if (record.pnl > 0) return "gx-bg-green-0";
+                  if (record.pnl < 0) return "gx-bg-red ";
+                  return "";
+                }}
+              />
+            </div>
           </div>
         </Card>
       </div>
