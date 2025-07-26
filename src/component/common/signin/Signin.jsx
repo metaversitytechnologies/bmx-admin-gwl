@@ -23,7 +23,6 @@ const Signin = ({ logo }) => {
       localStorage.setItem("userId", authData?.userId);
       localStorage.setItem("userType", authData?.userTypeInfo);
       localStorage.setItem("username", authData?.username);
-
     }
   }, [authData, error, otpValue]);
 
@@ -32,10 +31,10 @@ const Signin = ({ logo }) => {
       const authPayload = {
         userId: values?.username?.trim(),
         password: values?.password?.trim(),
-        url: "superadmin.fastbet365.in",
+        // url: "superadmin.fastbet365.in",
+        url: window.location.hostname,
       };
       trigger(authPayload);
-
     } else {
       if (values?.OTP) {
         nav("/dashboard");

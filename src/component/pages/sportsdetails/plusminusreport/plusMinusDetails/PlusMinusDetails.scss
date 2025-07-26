@@ -61,12 +61,14 @@
     border-right-color: rgb(174, 174, 174);
   }
   th {
-    border: 1px solid #e8e8e8;
+    border: 1px solid grey;
     padding: 7px !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
   }
   td {
     white-space: wrap;
+    border: 1px solid grey;
+    padding: 12px;
   }
   .border_tr {
     text-align: right;

@@ -209,6 +209,28 @@ export const supermasteAccountStatementApi = createApi({
       }),
       providesTags: ["superUserList"],
     }),
+
+    getCreateUser: build.mutation({
+      query: (body) => ({
+        url: "/user/create",
+        method: "POST",
+        body,
+      }),
+    }),
+    getUserDetails: build.query({
+      query: (body) => ({
+        url: "/user/get-detail-for-user-creation",
+        method: "POST",
+        body,
+      }),
+    }),
+    userIdForSearch: build.query({
+      query: (body) => ({
+        url: "/user/username-id-search",
+        method: "POST",
+        body,
+      }),
+    }),
     depositAndWithdraw: build.query({
       query: (body) => ({
         url: "/user/update-limit",
@@ -241,7 +263,6 @@ export const {
   useDeleteByUserIDMutation,
   useFetchDeleteTransectionQuery,
   useLazyTtlBookQuery,
-
   useProfitLossQuery,
   useBlockBettingMutation,
   useSportListbyIDQuery,
@@ -258,4 +279,7 @@ export const {
   useSuperuserListMutation,
   useChildListDetailsQuery,
   useUserCasinoLockMutation,
+  useGetCreateUserMutation,
+  useGetUserDetailsQuery,
+  useUserIdForSearchQuery
 } = supermasteAccountStatementApi;

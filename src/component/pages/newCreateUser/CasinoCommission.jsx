@@ -14,7 +14,7 @@ const CasinoCommission = ({ createName, commiType }) => {
         <Col span={12}>
           <Form.Item
             label="My Casino Share (%)"
-            name="cassinoComm"
+            name="cassinoShare"
             required={false}>
             <Input type="number" value={2} disabled />
           </Form.Item>
@@ -22,7 +22,7 @@ const CasinoCommission = ({ createName, commiType }) => {
         <Col span={12}>
           <Form.Item
             label="Casino Share (%)"
-            name="cassino_Comm"
+            name="cassino_Share"
             required
             rules={[
               {

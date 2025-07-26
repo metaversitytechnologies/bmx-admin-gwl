@@ -4,11 +4,9 @@ import React from "react";
 const MatchCommission = ({
   commissionType,
   commiType,
-  userData,
   data,
   createName,
 }) => {
-  console.log(userData, "userData");
 
   return (
     <>
@@ -28,7 +26,8 @@ const MatchCommission = ({
                 <InputNumber
                   className="number_field"
                   min={0}
-                  defaultChecked={userData && userData?.myMatchCommission}
+                  value={data?.myPartnership}
+                  // defaultChecked={userData && userData?.myMatchCommission}
                   disabled
                 />
               </Form.Item>

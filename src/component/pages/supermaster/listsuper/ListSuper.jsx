@@ -13,8 +13,6 @@ const ListSuper = () => {
     setParentUserIds(UserId);
   }, [UserId]);
 
-
-
   const { id } = useParams();
 
   const nav = useNavigate();
@@ -23,15 +21,7 @@ const ListSuper = () => {
   };
 
   const handleCreate = () => {
-    if (Listname === "Master") {
-      nav("/client/create-super");
-    } else if (Listname === "Super") {
-      nav("/client/create-agent");
-    } else if (Listname === "Agent") {
-      nav("/client/create-dealer");
-    } else {
-      nav("/client/create-client");
-    }
+    nav(`/client/create-super/${Number(userTyep) + 1}`);
   };
 
   return (

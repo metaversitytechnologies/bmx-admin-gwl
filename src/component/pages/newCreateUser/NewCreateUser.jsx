@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   Col,
@@ -11,36 +11,35 @@ import {
   notification,
 } from "antd";
 import { useEffect, useState } from "react";
+
 import {
-  useCreateUserMutation,
-  useLazyCreateUserDataQuery,
-  useGetUserIdMutation,
-} from "../../../store/service/userlistService";
-import {
-  useCreateCasinoListQuery,
-  useLazyCreateParentListQuery,
+  useGetCreateUserMutation,
+  useGetUserDetailsQuery,
+  useUserIdForSearchQuery,
 } from "../../../store/service/supermasteAccountStatementServices";
 import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
-import CasinoDetailsAllow from "./CasinoDetailsAllow";
 import SelectUpline from "./SelectUpline";
-import { BiRefresh } from "react-icons/bi";
+import { use } from "react";
 
-const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
+const createName = {
+  7: "Admin",
+  6: "Sub Admin",
+  5: "Master",
+  4: "Super",
+  3: "Agent",
+  2: "Client",
+};
+
+const NewCreateUser = () => {
   const [userData, setUserData] = useState({});
   const [commiType, setCommiType] = useState("nocomm");
-  const [LuPassword, setLuPassword] = useState("");
-  const [createUserId, setCreateUserID] = useState();
   const [api, contextHolder] = notification.useNotification();
-  const [parentId, setParentId] = useState("");
-  const [loadingSpin, setLoadingSpin] = useState(false);
+  const [parentId, setParentId] = useState(null);
   const [form] = Form.useForm();
 
   const commissionType = (value) => {
     setCommiType(value);
-  };
-  const handleLupassword = (e) => {
-    setLuPassword(e.target.value);
   };
 
   const openNotification = (mess) => {
@@ -60,481 +59,345 @@ const NewCreateUser = ({ createName, userTyep, userTypeOrder }) => {
     });
   };
 
-  const [state, setState] = useState({
-    isAuraAllowed: "",
-    isSuperNovaAllowed: "",
-    isQTechAllowed: "",
-    isVirtualAllowed: "",
-    isSportBookAllowed: "",
-  });
-  const { data: casinoDetalisData } = useCreateCasinoListQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
-
-  useEffect(() => {
-    casinoDetalisData?.data?.map((key) => {
-      setState((prev) => {
-        return {
-          ...prev,
-          [`is${key.name.replace(" ", "")}Allowed`]: !key.active,
-        };
-      });
-    });
-  }, [casinoDetalisData?.data]);
-
-  const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
-  var mobileNum = /^[6-9][0-9]{9}$/;
-
-  // const [getData, { data: results }] = useLazyIsUserIdQuery();
-
-  // const [getUserId, { data: userOrderedId }] = useGetUserIdMutation();
-
-  const handelUseId = (e) => {
-    setCreateUserID(e.target.value);
-  };
-
-  const [createUser, { data: UserList, error, isLoading }] =
-    useCreateUserMutation();
-  const [trigger, { data }] = useLazyCreateUserDataQuery();
-
-  // useEffect(() => {
-  //   getUserId({
-  //     userType: userTypeOrder,
-  //   });
-  // }, [userTypeOrder, error]);
-
-  // useEffect(() => {
-  //   getData({
-  //     userId: hostname.includes("create-super")
-  //       ? "M" + createUserId
-  //       : hostname.includes("create-agent")
-  //       ? "S" + createUserId
-  //       : hostname.includes("create-dealer")
-  //       ? "A" + createUserId
-  //       : "C" + createUserId,
-  //   });
-  // }, [createUserId]);
-
-  const hostname = window.location.pathname;
-
-  const handleChange = (value) => {
-    searchUserList({
-      userType: userTyep,
-      userName: value,
-    });
-  };
-
+  const { id } = useParams();
+  const handleChange = (value) => {};
   const handleSelect = (value) => {
     setParentId(value);
   };
 
-  useEffect(() => {
-    trigger({
-      parentId: "" || parentId,
-    });
-  }, [data?.data, parentId]);
+  const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
+  var mobileNum = /^[6-9][0-9]{9}$/;
 
-  const handelReloadUserId = () => {
-    // setLoadingSpin(true);
-    // getUserId({
-    //   userType: userTypeOrder,
-    // });
-  };
+  const userId = localStorage.getItem("userId");
+  const userType = localStorage.getItem("userType");
+  const { data: userDetails } = useGetUserDetailsQuery({ userId: userId });
+  const { data: downlineData } = useUserIdForSearchQuery({ userType: id });
 
-  // useEffect(() => {
-  //   if (userOrderedId?.status == true) {
-  //     setLoadingSpin(false);
-  //   }
-  // }, [userOrderedId?.status]);
+  const [createUser, { data: UserList, error, isLoading }] =
+    useGetCreateUserMutation();
+
+  console.log("downlineDatadownlineData", downlineData?.data);
 
   const onFinish = (values) => {
-    setLuPassword("");
+    console.log("Success:", values);
+    const {
+      Name,
+      reference,
+      password,
+      mobile,
+      matchShare,
+      cassino_Share,
+      Commtype,
+      sess_comm,
+      Match_comm,
+      Coins,
+    } = values;
     const userData = {
-      userId: "demo",
-      username: values?.Name,
-      mobile: values?.mobile,
-      city: "",
-      userRole: window.location.pathname.includes("create-client") ? 2 : 1,
-      password: values?.password,
-      sportPartnership: values?.MyMatchShare - values?.matchShare || 0,
-      oddLossCommission: commiType === "nocomm" ? "0" : values?.Match_comm,
-      lupassword: values?.lupassword,
-      liveCasinoLock: false,
-      // casinoPartnership:values?.MyCasinoShare - values?.casinoShare || 0,
-      casinoPartnership: values?.casinoShare || 0,
-      fancyLossCommission: commiType === "nocomm" ? "0" : values?.sess_comm,
-      casinoCommission: values?.cassino_Comm || 0,
-      commType: values?.Commtype,
-      appId: 1,
-      amount: values?.Coins,
-      reference: values?.reference,
-      isAuraAllowed: state?.isAuraAllowed,
-      isSuperNovaAllowed: state?.isSuperNovaAllowed,
-      isQTechAllowed: state?.isQTechAllowed,
-      isVirtualAllowed: state?.isVirtualAllowed,
-      isSportBookAllowed: state?.isSportBookAllowed,
-      parentId: parentId,
+      username: Name,
+      reference: reference,
+      password: password,
+      contact: mobile,
+      mobileAppCharge: "0",
+      partnership: matchShare,
+      casinoPartnership: cassino_Share,
+      internationalCasinoPartnership: 0,
+      commissionType: Commtype === "bbb" ? "2" : "1",
+      matchCommission: "2",
+      sessionCommission: sess_comm,
+      casinoCommission: Match_comm,
+      limit: Coins,
+      parentIdForUserCreation: parentId,
+      appId: "16",
     };
     createUser(userData);
   };
 
   useEffect(() => {
-    if (UserList?.status === true) {
+    if (UserList?.status) {
       openNotification(UserList?.message);
       form?.resetFields();
-      trigger({
-        parentId: "" || parentId,
-      });
-      // getUserId({
-      //   userType: userTypeOrder,
-      // });
+      nav(-1);
     } else if (UserList?.status === false || error?.data?.message) {
       openNotificationError(UserList?.message || error?.data?.message);
     }
   }, [UserList, error]);
 
-  const { Option } = Select;
-
   const nav = useNavigate();
-
-  useEffect(() => {
-    setUserData(data?.data);
-  }, [data?.data, UserList?.status]);
-
-  const [searchUserList, { data: resultData }] = useLazyCreateParentListQuery();
-
-  useEffect(() => {
-    searchUserList({
-      userType: userTyep,
-      userName: "",
-    });
-  }, [userTyep]);
-
-  const userTypeCheck = localStorage.getItem("userType");
 
   return (
     <div className="create_user_section">
-      {/* {contextHolder}
-      {userTypeCheck != userTyep && ( */}
-      {/* <SelectUpline
-        data={resultData?.data}
-        handleChange={handleChange}
-        handleSelect={handleSelect}
-      /> */}
-      {/* )} */}
-      {/* {(parentId?.length > 0 || userTypeCheck == userTyep) && ( */}
-      <div className="main_live_section">
-        <div className="_match">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
-              className="team_name">
-              Create {createName}
-            </div>
-            <div className="show_btn">
-              <button onClick={() => nav(-1)}>Back</button>
+      {contextHolder}
+      {Number(userType) != Number(id) && (
+        <SelectUpline
+          data={downlineData?.data}
+          handleChange={handleChange}
+          handleSelect={handleSelect}
+        />
+      )}
+      {(parentId?.length > 0 || Number(userType) == Number(id)) && (
+        <div className="main_live_section">
+          <div className="_match">
+            <div className="sub_live_section live_report">
+              <div
+                style={{ padding: "5px 8px", fontSize: "22px" }}
+                className="team_name">
+                Create {createName?.[id] ?? "User"}
+              </div>
+              <div className="show_btn">
+                <button onClick={() => nav(-1)}>Back</button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="ant-spin-nested-loading">
-          {isLoading ? (
-            <div className="spin_icon">
-              <Spin size="large" />
-            </div>
-          ) : (
-            ""
-          )}
-          <Form
-            className="form_data create_user_form"
-            form={form}
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            // initialValues={{ remember: true }}
-            onFinish={onFinish}
-            autoComplete="off"
-            fields={[
-              {
-                name: "My Coins",
-                value: data?.data?.myBalance,
-              },
-              {
-                name: "code",
-                value: "d0001",
-              },
-              {
-                name: "MyMatchShare",
-                value: data?.data?.myShare,
-              },
-              {
-                name: "MyCasinoShare",
-                value: data?.data?.myCasinoShare,
-              },
-              {
-                name: "MyCommtype",
-                value: "BetByBet",
-              },
-              {
-                name: "cassinoComm",
-                value: 2,
-              },
-              {
-                name: "My_Match_comm",
-                value: 1,
-              },
-              {
-                name: "My_sess_comm",
-                value: 1,
-              },
-            ]}>
-            <div>
-              <Row className="super_agent">
-                {/* <Col xl={12} lg={12} md={24} xs={24}>
-                  <Form.Item
-                    label="User ID"
-                    name="code"
-                    disabled
-                    
-                  >
-                    <p className="user_id">
+          <div className="ant-spin-nested-loading">
+            {isLoading ? (
+              <div className="spin_icon">
+                <Spin size="large" />
+              </div>
+            ) : (
+              ""
+            )}
+            <Form
+              className="form_data create_user_form"
+              form={form}
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              // initialValues={{ remember: true }}
+              onFinish={onFinish}
+              autoComplete="off"
+              fields={[
+                {
+                  name: "My Coins",
+                  value: "0",
+                },
+                {
+                  name: "code",
+                  value: "d0001",
+                },
+                {
+                  name: "MyMatchShare",
+                  value: userDetails?.data?.myPartnership,
+                },
+                {
+                  name: "cassinoShare",
+                  value: userDetails?.data?.myCasinoPartnership,
+                },
+                {
+                  name: "MyCommtype",
+                  value:
+                    userDetails?.data?.myPartnership > 0 ||
+                    userDetails?.data?.myCasinoPartnership > 0
+                      ? "BetByBet"
+                      : "NoComm",
+                },
+                {
+                  name: "cassinoComm",
+                  value: userDetails?.data?.myCasinoCommission,
+                },
+                {
+                  name: "My_Match_comm",
+                  value: userDetails?.data?.myMatchCommission,
+                },
+                {
+                  name: "My_sess_comm",
+                  value: userDetails?.data?.mySessionCommision,
+                },
+              ]}>
+              <div>
+                <Row className="super_agent">
+                  <Col xl={12} lg={12} md={24} xs={24}>
+                    <Form.Item
+                      label="Name"
+                      name="Name"
+                      required
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your name!",
+                        },
+                      ]}>
                       <Input
-                        disabled
                         type="text"
-                        value={"d0001"}
-                        defaultValue={"d001"}
-                        onChange={(e) => handelUseId(e)}
-                        
-                      />
-                      <BiRefresh
-                        onClick={handelReloadUserId}
-                        className={`loading-icon ${
-                          loadingSpin ? "loading-icon-animation" : ""
-                        }`}
-                      />
-                    </p>
-                  </Form.Item>
-                </Col> */}
-                <Col xl={12} lg={12} md={24} xs={24}>
-                  <Form.Item
-                    label="Name"
-                    name="Name"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your name!",
-                      },
-                    ]}>
-                    <Input
-                      type="text"
-                      placeholder="Enter full name"
-                      onKeyDown={(e) => {
-                        if (!e.key.match(/^[a-zA-Z ]$/) && e.key.length === 1) {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xl={12} lg={12} md={24} xs={24}>
-                  <Form.Item
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your reference!",
-                      },
-                    ]}
-                    label="Reference"
-                    name="reference">
-                    <Input type="text" placeholder="Enter Reference" />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your reference!",
-                      },
-                    ]}
-                    label="My Coins"
-                    name="My Coins">
-                    <Input type="number" disabled />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Coins"
-                    name="Coins"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message:
-                          "Coins must have at most one digit after the decimal point Please input your coins!",
-                      },
-                      {
-                        validator: async (_, values) => {
+                        placeholder="Enter full name"
+                        onKeyDown={(e) => {
                           if (
-                            data?.data?.myBalance < values &&
-                            values != "" &&
-                            values != null
+                            !e.key.match(/^[a-zA-Z ]$/) &&
+                            e.key.length === 1
                           ) {
-                            return Promise.reject(
-                              new Error(
-                                "Coins must have at most one digit after the decimal point "
-                              )
-                            );
+                            e.preventDefault();
                           }
-                        },
-                      },
-                    ]}>
-                    <InputNumber
-                      className="number_field"
-                      min={0}
-                      type="number"
-                      placeholder="Enter Coins"
-                      onKeyDown={(e) => {
-                        if (e.key == ".") {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Contact No."
-                    name="mobile"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Contact Number",
-                      },
-                      {
-                        validator: async (_, names) => {
-                          if (
-                            !mobileNum.test(names) &&
-                            names != "" &&
-                            names != null
-                          ) {
-                            return Promise.reject(
-                              new Error("Please Enter Valid Mobile Number")
-                            );
-                          }
-                        },
-                      },
-                    ]}>
-                    <InputNumber
-                      className="number_field"
-                      min={0}
-                      type="number"
-                      onKeyDown={(e) => {
-                        if (!e.key.match(/^[0-9]$/) && e.key.length === 1) {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your Password",
-                      },
-                      // {
-                      //   validator: async (_, names) => {
-                      //     if (
-                      //       !passw.test(names) &&
-                      //       names != "" &&
-                      //       names != null
-                      //     ) {
-                      //       return Promise.reject(
-                      //         new Error(
-                      //           "Minimun 6 character, must contain letters and numbers"
-                      //         )
-                      //       );
-                      //     }
-                      //   },
-                      // },
-                    ]}>
-                    <Input type="password" placeholder="Password" />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Share Type"
-                    name="shareType"
-                    placeholder="Select share type"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select your share type!",
-                      },
-                    ]}>
-                    <Select
-                      options={[
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xl={12} lg={12} md={24} xs={24}>
+                    <Form.Item
+                      rules={[
                         {
-                          value: "Fixed",
-                          label: "Fixed",
-                        },
-                        {
-                          value: "Change",
-                          label: "Change",
+                          required: true,
+                          message: "Please input your reference!",
                         },
                       ]}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <MatchCommission
-                createName={createName}
-                commissionType={commissionType}
-                commiType={commiType}
-                data={data}
-                userData={userData}
-              />
-              <CasinoCommission createName={createName} commiType={commiType} />
-              {/* <CasinoDetailsAllow casinoDetalisData={casinoDetalisData} /> */}
+                      label="Reference"
+                      name="reference">
+                      <Input type="text" placeholder="Enter Reference" />
+                    </Form.Item>
+                  </Col>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your reference!",
+                        },
+                      ]}
+                      label="My Coins"
+                      name="My Coins">
+                      <Input type="number" disabled />
+                    </Form.Item>
+                  </Col>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Coins"
+                      name="Coins"
+                      required
+                      rules={[
+                        {
+                          required: true,
+                          message:
+                            "Coins must have at most one digit after the decimal point Please input your coins!",
+                        },
+                        // {
+                        //   validator: async (_, values) => {
+                        //     if (
+                        //       data?.data?.myBalance < values &&
+                        //       values != "" &&
+                        //       values != null
+                        //     ) {
+                        //       return Promise.reject(
+                        //         new Error(
+                        //           "Coins must have at most one digit after the decimal point "
+                        //         )
+                        //       );
+                        //     }
+                        //   },
+                        // },
+                      ]}>
+                      <InputNumber
+                        className="number_field"
+                        min={0}
+                        type="number"
+                        placeholder="Enter Coins"
+                        onKeyDown={(e) => {
+                          if (e.key == ".") {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Contact No."
+                      name="mobile"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your Contact Number",
+                        },
+                        {
+                          validator: async (_, names) => {
+                            if (
+                              !mobileNum.test(names) &&
+                              names != "" &&
+                              names != null
+                            ) {
+                              return Promise.reject(
+                                new Error("Please Enter Valid Mobile Number")
+                              );
+                            }
+                          },
+                        },
+                      ]}>
+                      <InputNumber
+                        className="number_field"
+                        min={0}
+                        type="number"
+                        onKeyDown={(e) => {
+                          if (!e.key.match(/^[0-9]$/) && e.key.length === 1) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </Form.Item>
+                  </Col>
 
-              <Row className="super_agent sub_super">
-                <Col lg={12} xs={24}>
-                  {/* <Form.Item
-                    label="Transaction Password"
-                    name="lupassword"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Enter Transaction Password",
-                      },
-                    ]}>
-                    <Input
-                      value={LuPassword}
-                      type="password"
-                      onChange={(e) => handleLupassword(e)}
-                      placeholder="Transaction Password"
-                    />
-                  </Form.Item> */}
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item wrapperCol={{ offset: 19, span: 24 }}>
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
-          </Form>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Password"
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input your Password",
+                        },
+                      ]}>
+                      <Input type="password" placeholder="Password" />
+                    </Form.Item>
+                  </Col>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Share Type"
+                      name="shareType"
+                      placeholder="Select share type"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please select your share type!",
+                        },
+                      ]}>
+                      <Select
+                        options={[
+                          {
+                            value: "Fixed",
+                            label: "Fixed",
+                          },
+                          {
+                            value: "Change",
+                            label: "Change",
+                          },
+                        ]}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <MatchCommission
+                  createName={createName[id]}
+                  commissionType={commissionType}
+                  commiType={commiType}
+                  data={userDetails?.data}
+                  userData={userData}
+                />
+                <CasinoCommission
+                  createName={createName[id]}
+                  commiType={commiType}
+                />
+
+                <Row className="super_agent sub_super">
+                  <Col lg={12} xs={24}></Col>
+                  <Col lg={12} xs={24}>
+                    <Form.Item wrapperCol={{ offset: 19, span: 24 }}>
+                      <Button type="primary" htmlType="submit">
+                        Submit
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </div>
+            </Form>
+          </div>
         </div>
-      </div>
-      {/* )} */}
+      )}
     </div>
   );
 };

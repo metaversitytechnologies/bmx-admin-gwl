@@ -99,7 +99,10 @@ const Main = () => {
         />
         <Route path="/all-bets/:id" element={<AllBets />} />
         {/* <Route path="/livereport" element={<LiveReport />} /> */}
-        <Route path="/plus-minus-report/:id/:inplay?" element={<PlusMinusReport />} />
+        <Route
+          path="/plus-minus-report/:id/:inplay?"
+          element={<PlusMinusReport />}
+        />
         <Route
           path="/event-profit-loss/:id/:fancyId"
           element={<EventProfitLossList />}
@@ -141,17 +144,8 @@ const Main = () => {
         <Route path="/inplay-casino" element={<MatchLedgerCasino />} />
         <Route path="/completed-casino" element={<CasinoPandLDetail />} />
         <Route path="/client/login-report/:id" element={<LoginReport />} />
-        <Route
-          path="/client/create-super"
-          element={
-            <NewCreateUser
-              userTypeOrder={0}
-              createName={"Master"}
-              userTyep={5}
-            />
-          }
-        />
-        <Route
+        <Route path="/client/create-super/:id?" element={<NewCreateUser />} />
+        {/* <Route
           path="/client/create-agent"
           element={
             <NewCreateUser
@@ -180,7 +174,7 @@ const Main = () => {
               userTyep={2}
             />
           }
-        />
+        /> */}
 
         {/* <Route path="/client/create-super" element={<CreateSuperAgent createName={"Master"}/>}/>
             <Route path="/client/create-agent" element={<CreateSuperAgent createName={"Super"}/>}/>

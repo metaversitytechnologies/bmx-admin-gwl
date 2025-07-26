@@ -18,7 +18,7 @@ const Sidebar = (props) => {
 
   const nav = useNavigate();
 
-  const userType = 5;
+  const userType = localStorage.getItem("userType");
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -136,18 +136,41 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
-                  className: `${userType != "5" ? "d-none" : ""}`,
+                  className: `${userType != "7" ? "d-none" : ""}`,
+                  label: <Link to="/user-list/Admin/6">Admin</Link>,
+                },
+                {
+                  className: `${
+                    userType === "7" || userType === "6" ? "" : "d-none"
+                  }`,
+                  label: <Link to="/user-list/SubAdmin/5">Sub Admin</Link>,
+                },
+                {
+                  className: `${
+                    userType == "5" || userType === "7" || userType === "6"
+                      ? ""
+                      : "d-none"
+                  }`,
                   label: <Link to="/user-list/Master/4">Master</Link>,
                 },
                 {
                   className: `${
-                    userType === "0" || userType == "5" ? "" : "d-none"
+                    userType === "7" ||
+                    userType === "6" ||
+                    userType === "0" ||
+                    userType == "5"
+                      ? ""
+                      : "d-none"
                   }`,
                   label: <Link to="/user-list/Super/3">Super</Link>,
                 },
                 {
                   className: `${
-                    userType === "1" || userType == "5" || userType === "0"
+                    userType === "7" ||
+                    userType === "6" ||
+                    userType === "1" ||
+                    userType == "5" ||
+                    userType === "0"
                       ? ""
                       : "d-none"
                   }`,
@@ -481,7 +504,33 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
-                    className: `${userType != "5" ? "d-none" : ""}`,
+                    className: `${userType != "7" ? "d-none" : ""}`,
+                    label: (
+                      <Link
+                        to="/user-list/Admin/6"
+                        onClick={() => props?.action()}>
+                        Admin
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${
+                      userType === "6" || userType === "7" ? "" : "d-none"
+                    }`,
+                    label: (
+                      <Link
+                        to="/user-list/SubAdmin/5"
+                        onClick={() => props?.action()}>
+                        Sub Admin
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${
+                      userType == "5" || userType === "6" || userType === "7"
+                        ? ""
+                        : "d-none"
+                    }`,
                     label: (
                       <Link
                         to="/user-list/Master/4"
@@ -492,7 +541,12 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${
-                      userType === "0" || userType == "5" ? "" : "d-none"
+                      userType === "6" ||
+                      userType === "7" ||
+                      userType === "0" ||
+                      userType == "5"
+                        ? ""
+                        : "d-none"
                     }`,
                     label: (
                       <Link
@@ -504,7 +558,10 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${
-                      userType === "1" || userType == "5" || userType === "0"
+                      userType === "6" ||
+                      userType === "7" ||
+                      userType === "1" ||
+                      userType == "5"
                         ? ""
                         : "d-none"
                     }`,
@@ -752,9 +809,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                       to="/client/txn-super/Super/3"
+                        to="/client/txn-super/Super/3"
                         onClick={() => props?.action()}>
-                       (SA) Debit/Credit Entry
+                        (SA) Debit/Credit Entry
                       </Link>
                     ),
                   },

@@ -33,7 +33,6 @@ const RecursiveCard = ({ data, depth }) => {
                         <th colSpan={7}>Master Agent PlusMinus </th>
                         <th colSpan={7}>Sub Admin PlusMinus</th>
                         <th colSpan={7}>Admin PlusMinus</th>
-                        <th colSpan={7}>Super Admin PlusMinus</th>
                       </tr>
                     </thead>
                     <thead>
@@ -42,12 +41,6 @@ const RecursiveCard = ({ data, depth }) => {
                         <th>M Amt</th>
                         <th>S Amt</th>
                         <th>TOT Amt</th>
-                        <th>M Com</th>
-                        <th>S Com</th>
-                        <th>T Com</th>
-                        <th>Net Amt</th>
-                        <th>SHR</th>
-                        <th>Final</th>
                         <th>M Com</th>
                         <th>S Com</th>
                         <th>T Com</th>
@@ -127,18 +120,6 @@ const RecursiveCard = ({ data, depth }) => {
                           <td>{agent?.netAmountAdmin?.toFixed(2)}</td>
                           <td>{agent?.shareAmountAdmin?.toFixed(2)}</td>
                           <td>{agent?.finalAmountAdmin?.toFixed(2)}</td>
-                          <td>
-                            {agent?.matchCommissionSuperAdmin?.toFixed(2)}
-                          </td>
-                          <td>
-                            {agent?.sessionCommissionSuperAdmin?.toFixed(2)}
-                          </td>
-                          <td>
-                            {agent?.totalCommissionSuperAdmin?.toFixed(2)}
-                          </td>
-                          <td>{agent?.netAmountSuperAdmin?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountSuperAdmin?.toFixed(2)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -180,12 +161,6 @@ const RecursiveCard = ({ data, depth }) => {
                         <td>{item?.netAmountAdmin?.toFixed(2)}</td>
                         <td>{item?.shareAmountAdmin?.toFixed(2)}</td>
                         <td>{item?.finalAmountAdmin?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.netAmountSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.finalAmountSuperAdmin?.toFixed(2)}</td>
                       </tr>
                     </tfoot>
                   </table>
@@ -239,12 +214,6 @@ const RecursiveCard = ({ data, depth }) => {
                     <td>{item?.netAmountAdmin?.toFixed(2)}</td>
                     <td>{item?.shareAmountAdmin?.toFixed(2)}</td>
                     <td>{item?.finalAmountAdmin?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.netAmountSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.finalAmountSuperAdmin?.toFixed(2)}</td>
                   </tr>
                 </thead>
               </table>
@@ -256,18 +225,18 @@ const RecursiveCard = ({ data, depth }) => {
   );
 };
 
-const depthLabels = ["Admin", "Subadmin", "MasterAgent", "SuperAgent", "Agent"];
-const depthColors = ["purple", "primary", "success", "purple", "primary"];
+const depthLabels = ["Subadmin", "MasterAgent", "SuperAgent", "Agent"];
+const depthColors = ["purple", "primary", "success", "purple"];
 const depthKeys = [
-  "adminName",
   "subAdminName",
   "superMasterName",
   "masterName",
   "dealerName",
 ];
-const depthKeysF = ["Ad.", "SUB", "MA", "SA", "A"];
+const depthKeysF = ["SUB", "MA", "SA", "A"];
 
-const LedgerDataComponentSuper = ({ ledgerData }) => {
+const LedgerDataAdmin = ({ ledgerData }) => {
+  console.log("LedgerDataAdmin", ledgerData);
   return (
     <>
       <div className={`card card-dark`}>
@@ -283,7 +252,7 @@ const LedgerDataComponentSuper = ({ ledgerData }) => {
                     style={{
                       whiteSpace: "nowrap",
                     }}>
-                    AA TOTAL
+                     Ad TOTAL
                   </th>
                   <td>{ledgerData?.data?.matchAmount?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.sessionAmount?.toFixed(2)}</td>
@@ -340,18 +309,6 @@ const LedgerDataComponentSuper = ({ ledgerData }) => {
                   <td>{ledgerData?.data?.netAmountAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountAdmin?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.matchCommissionSuperAdmin?.toFixed(2)}
-                  </td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionSuperAdmin?.toFixed(2)}
-                  </td>
-                  <td>
-                    {ledgerData?.data?.totalCommissionSuperAdmin?.toFixed(2)}
-                  </td>
-                  <td>{ledgerData?.data?.netAmountSuperAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountSuperAdmin?.toFixed(2)}</td>
                 </tr>
               </thead>
             </table>
@@ -362,4 +319,4 @@ const LedgerDataComponentSuper = ({ ledgerData }) => {
   );
 };
 
-export default LedgerDataComponentSuper;
+export default LedgerDataAdmin;
