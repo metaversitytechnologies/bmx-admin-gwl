@@ -32,7 +32,7 @@ const Dashboard = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  const uType = 5;
+  const uType = localStorage.getItem("userType");
 
   const { data: casinoDetails } = useCreateCasinoListQuery(
     {},
@@ -65,14 +65,18 @@ const Dashboard = () => {
                         </div>
                         <div className="gx-media-body">
                           <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            {uType == 5
-                              ? "Sub Admin Details"
-                              : uType == 0
+                            {uType == 7
+                              ? "SuperAdmin Details"
+                              : uType == 6
+                              ? "Admin Detail"
+                              : uType == 5
+                              ? "madmin Detail"
+                              : uType == 4
                               ? "Master Detail"
-                              : uType == 1
-                              ? "Super Detail"
+                              : uType == 3
+                              ? "Super Details"
                               : uType == 2
-                              ? "Agent Detail"
+                              ? "Agent Details"
                               : ""}
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
@@ -248,11 +252,11 @@ const Dashboard = () => {
             {[
               {
                 icon: <img src="/Images/user.png" width={30} />,
-                title: "Demo",
+                title: `${localStorage.getItem("userId")}`,
                 desc:
-                  uType == 5
-                    ? "Sub Admin"
-                    : uType == 0
+                  uType == 7
+                    ? "Super Admin"
+                    : uType == 6
                     ? "Master"
                     : uType == 1
                     ? "Super"

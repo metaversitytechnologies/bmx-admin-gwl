@@ -72,7 +72,7 @@ export const supermasteAccountStatementApi = createApi({
     }),
     createTransaction: build.mutation({
       query: (body) => ({
-        url: `/bmx/create-cash-transection-v2`,
+        url: `/ledger/get-ledger-cash-trans-userid`,
         method: "POST",
         body,
       }),
@@ -246,6 +246,27 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
+    getLedgerDetails: build.mutation({
+      query: (body) => ({
+        url: "ledger/get-ledger-cash-trans-userid",
+        method: "POST",
+        body,
+      }),
+    }),
+    createLedger: build.mutation({
+      query: (body) => ({
+        url: "/ledger/ledger-dep-wid",
+        method: "POST",
+        body,
+      }),
+    }),
+    getUserActiveDeactive: build.mutation({
+      query: (body) => ({
+        url: "/user/activate-deactivate-user",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -281,5 +302,8 @@ export const {
   useUserCasinoLockMutation,
   useGetCreateUserMutation,
   useGetUserDetailsQuery,
-  useUserIdForSearchQuery
+  useUserIdForSearchQuery,
+  useGetLedgerDetailsMutation,
+  useCreateLedgerMutation,
+  useGetUserActiveDeactiveMutation
 } = supermasteAccountStatementApi;

@@ -225,7 +225,7 @@ const RecursiveCard = ({ data, depth }) => {
   );
 };
 
-const depthLabels = ["Subadmin", "MasterAgent", "SuperAgent", "Agent"];
+const depthLabels = ["madmin", "MasterAgent", "SuperAgent", "Agent"];
 const depthColors = ["purple", "primary", "success", "purple"];
 const depthKeys = [
   "subAdminName",

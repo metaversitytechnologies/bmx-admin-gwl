@@ -1,15 +1,10 @@
-import { Card, Col, DatePicker, Empty, Pagination, Row, Table } from "antd";
+import { Card, Col, DatePicker, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./AccountOperations.scss";
 import moment from "moment";
-import React, { useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
 import { useAccountOprationQuery } from "../../../../store/service/userlistService";
-import DownloadReport from "../../../common/DownloadReport/DownloadReport";
-
-// const handleChange = (value) => {
-//   console.log(`selected ${value}`);
-// };
 
 const { RangePicker } = DatePicker;
 
@@ -35,6 +30,7 @@ const AccountOperations = () => {
       detailType: detailType,
       fromDate: dateData[0],
       toDate: dateData[1],
+      ...(id && { userId: id }),
     },
     { refetchOnMountOrArgChange: true }
   );
@@ -42,8 +38,8 @@ const AccountOperations = () => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdon",
-      key: "createdon",
+      dataIndex: "date",
+      key: "date",
     },
     {
       title: "Operation",

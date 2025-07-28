@@ -2,60 +2,11 @@ import { Button, Dropdown, Popconfirm, Space, notification } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import moment from "moment";
 
-// Static mock transaction data
-const defaultData = [
-  {
-    _id: "1",
-    date: "2025/06/14",
-    collectionName: "Invoice #1001",
-    debit: 0,
-    credit: 5000,
-    balance: 5000,
-    paymentType: "Cash",
-    remarks: "Initial deposit",
-    doneBy: "Admin",
-    isRollback: false,
-  },
-  {
-    _id: "2",
-    date: "2025/06/15",
-    collectionName: "Invoice #1002",
-    debit: 2000,
-    credit: 0,
-    balance: 3000,
-    paymentType: "Bank Transfer",
-    remarks: "Payment received",
-    doneBy: "Manager",
-    isRollback: false,
-  },
-  {
-    _id: "3",
-    date: "2025/06/16",
-    collectionName: "Refund",
-    debit: 0,
-    credit: 1000,
-    balance: 4000,
-    paymentType: "UPI",
-    remarks: "Refund processed",
-    doneBy: "Admin",
-    isRollback: true, // rollback = can't delete
-  },
-];
-
-const defaultBalance = {
-  credit: 6000,
-  debit: 2000,
-  balance: 4000,
-};
-
-const TransactionTable = ({
-  clientId = "123",
-  balanceData = defaultBalance,
-}) => {
+const TransactionTable = ({ data }) => {
   const [api, contextHolder] = notification.useNotification();
   const nav = useNavigate();
- 
 
   const fetchDeletedTran = () => {
     nav(`/client/deletedlenden/1001`);
@@ -84,6 +35,11 @@ const TransactionTable = ({
     openNotification("Transaction deleted successfully");
   };
 
+  const totalCreadit = data?.reduce((acc, item) => acc + item.credit, 0) || 0;
+  const totalDebit = data?.reduce((acc, item) => acc + item.debit, 0) || 0;
+  const totalBalance =
+    data?.reduce((acc, item) => acc + Number(item.balance || 0), 0) || 0;
+
   const items = (id) => [
     {
       label: (
@@ -105,22 +61,20 @@ const TransactionTable = ({
       <div className="my_ledger" style={{ padding: "12px 0px" }}>
         <div>
           <h3 style={{ padding: "5px", color: "rgb(214, 75, 75)" }}>
-            Dena : {balanceData?.credit?.toFixed(2)}
+            Dena : {totalCreadit?.toFixed(2)}
           </h3>
         </div>
         <div>
           <h3 style={{ padding: "5px", color: "rgb(51, 181, 28)" }}>
-            Lena : {balanceData?.debit?.toFixed(2)}
+            Lena : {totalDebit?.toFixed(2)}
           </h3>
         </div>
         <div>
           <h3
             style={{ padding: "5px" }}
-            className={
-              balanceData?.balance < 0 ? "text_danger" : "text_success"
-            }>
-            Balance: {Math.abs(balanceData?.balance)}{" "}
-            {balanceData?.balance > 0 ? "(Lena)" : "(Dena)"}
+            className={totalBalance < 0 ? "text_danger" : "text_success"}>
+            Balance: {totalBalance?.toFixed(2)}{" "}
+            {totalBalance > 0 ? "(Lena)" : "(Dena)"}
           </h3>
         </div>
         <div className="deleted_sec">
@@ -131,21 +85,39 @@ const TransactionTable = ({
         <table className="">
           <thead>
             <tr>
-              <th className="text-right">#</th>
-              <th>Date</th>
-              <th>Post Date</th>
-              <th>Collection Name </th>
-              <th className="text-right">Debit</th>
-              <th className="text-right">Credit</th>
-              <th className="text-right">Balance</th>
-              <th>Payment Type</th>
-              <th>Remark</th>
-              <th>Done By</th>
+              <th
+                style={{ whiteSpace: "nowrap", padding: "5px" }}
+                className="text-right">
+                #
+              </th>
+              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Date</th>
+              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
+                Collection Name{" "}
+              </th>
+              <th
+                style={{ whiteSpace: "nowrap", padding: "5px" }}
+                className="text-right">
+                Debit
+              </th>
+              <th
+                style={{ whiteSpace: "nowrap", padding: "5px" }}
+                className="text-right">
+                Credit
+              </th>
+              <th
+                style={{ whiteSpace: "nowrap", padding: "5px" }}
+                className="text-right">
+                Balance
+              </th>
+              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
+                Payment Type
+              </th>
+              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Done By</th>
             </tr>
           </thead>
           <tbody>
-            {defaultData.length > 0 ? (
-              defaultData.map((res, idx) => (
+            {data?.length > 0 ? (
+              data?.map((res, idx) => (
                 <tr key={res._id || idx}>
                   <td>
                     {res?.doneBy && !res?.isRollback && (
@@ -161,18 +133,24 @@ const TransactionTable = ({
                       </Dropdown>
                     )}
                   </td>
-                  <td>{res?.date}</td>
-                  <td>{res?.date}</td>
-                  <td>{res?.collectionName}</td>
-                  <td className="text-right">{res?.debit}</td>
-                  <td className="text-right">{res?.credit}</td>
-                  <td className="text-right">
-                    {Math.abs(res?.balance)} -{" "}
-                    {res?.balance > 0 ? "Lena" : "Dena"}
+                  <td style={{ whiteSpace: "nowrap" }}>
+                    {moment(res?.date).format("MMM  YYYY HH:mm:ss A ")}
                   </td>
-                  <td>{res?.paymentType}</td>
-                  <td>{res?.remarks}</td>
-                  <td>{res?.doneBy}</td>
+                  <td style={{ whiteSpace: "nowrap" }}>
+                    {res?.collectionName}
+                  </td>
+                  <td style={{ whiteSpace: "nowrap" }} className="text-right">
+                    {res?.debit}
+                  </td>
+                  <td style={{ whiteSpace: "nowrap" }} className="text-right">
+                    {res?.credit}
+                  </td>
+                  <td style={{ whiteSpace: "nowrap" }} className="text-right">
+                    {res?.balance?.toFixed(2)} (
+                    {res?.balance > 0 ? "Lena" : "Dena"})
+                  </td>
+                  <td style={{ whiteSpace: "nowrap" }}>{res?.paymentType}</td>
+                  <td style={{ whiteSpace: "nowrap" }}>{res?.remark}</td>
                 </tr>
               ))
             ) : (

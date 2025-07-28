@@ -26,13 +26,18 @@ const Signin = ({ logo }) => {
     }
   }, [authData, error, otpValue]);
 
+  const hostname = window.location.hostname;
+
+  const url = hostname.includes("madmin")
+    ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
+    : hostname;
+
   const onFinish = (values) => {
     if (!showOtp) {
       const authPayload = {
         userId: values?.username?.trim(),
         password: values?.password?.trim(),
-        // url: "superadmin.fastbet365.in",
-        url: window.location.hostname,
+        url: url,
       };
       trigger(authPayload);
     } else {

@@ -136,6 +136,8 @@ const Main = () => {
           path="/client/account-operations/:id"
           element={<AccountOperations />}
         />
+        <Route path="/account-statement/:id?" element={<AccountStatement />} />
+
         <Route path="/account-operation" element={<AccountOperations />} />
         <Route path="/client/login-report" element={<LoginReport />} />
         <Route path="/client/secure-code" element={<SecureCode />} />
@@ -234,7 +236,6 @@ const Main = () => {
         /> */}
         {/* <Route path="/client/txn-client" element={<ClientTransactions/>}/> */}
         <Route path="/markets" element={<Settings />} />
-        <Route path="/account-statement/:id?" element={<AccountStatement />} />
         <Route path="/profitandloss" element={<ProfitAndLoss />} />
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
         <Route path="/Casino/today-pandl" element={<TodayProfitLoss />} />

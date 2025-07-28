@@ -17,7 +17,7 @@ const RoulettePlusMinus = () => {
   const plusMinusNew = {
     data: {
       subadmin1: {
-        groupName: "subadmin",
+        groupName: "madmin",
         supermaster2: {
           groupName: "supermaster",
           master3: {
@@ -146,7 +146,7 @@ const RoulettePlusMinus = () => {
   };
   const isLoading = false; // Set isLoading to false as we are using dummy data
 
-  console.log(plusMinusNew?.data, "plusMinusNew");
+ 
 
   const uType = 5; // You might want to get this from localStorage or a global state in a real application
 

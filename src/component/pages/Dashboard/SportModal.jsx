@@ -2,6 +2,7 @@ import React from "react";
 import CardItem from "../../common/carditem/CardItem";
 import { BiUserCircle } from "react-icons/bi";
 import { Card, Col, Modal, Row } from "antd";
+import { Link } from "react-router-dom";
 
 const SportModal = ({ setOpenModals, openModal }) => {
   const data = [
@@ -30,7 +31,6 @@ const SportModal = ({ setOpenModals, openModal }) => {
   };
   return (
     <>
-     
       <Modal
         onCancel={() => setOpenModals(!openModal)}
         footer={
@@ -48,7 +48,7 @@ const SportModal = ({ setOpenModals, openModal }) => {
             return (
               <Col md={12} xs={24} key={items?.id}>
                 <Card bordered={false}>
-                  <a href="/components/general/button-superagent/3">
+                  <Link to={items?.path}>
                     <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                       <div className="ant-card-body">
                         <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -65,13 +65,12 @@ const SportModal = ({ setOpenModals, openModal }) => {
                               </h1>
                               <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                               <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                              <p className="gx-mb-0">Master</p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </Card>
               </Col>
             );

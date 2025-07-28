@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { globalSelector } from "../../../../store/global/slice";
 import dayjs from "dayjs";
 import { useLazySearchUserDownlineQuery } from "../../../../store/service/SportDetailServices";
+import { useAccountOprationQuery } from "../../../../store/service/userlistService";
 
 const { RangePicker } = DatePicker;
 
@@ -16,6 +17,7 @@ const AccountStatement = () => {
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
   const [clientId, setClientId] = useState("");
+  const [detailType, setDetailsType] = useState("ALL");
 
   const { id } = useParams();
 
@@ -23,6 +25,21 @@ const AccountStatement = () => {
   const handleBackClick = () => {
     nav(-1);
   };
+
+  const {
+    data,
+    isFetching,
+    isLoading,
+  } = useAccountOprationQuery(
+    {
+      detailType: detailType,
+      fromDate: dateData[0],
+      toDate: dateData[1],
+      ...(id && { userId: id }),
+    },
+    { refetchOnMountOrArgChange: true }
+  );
+
   const onChange = (date, dateString) => {
     setDateData(dateString);
   };
@@ -31,34 +48,6 @@ const AccountStatement = () => {
     setClientId(value);
   };
 
-  const [userList, resultData] = useLazySearchUserDownlineQuery();
-
-  const handleChange = (value) => {
-    userList({
-      term: value,
-      _type: value,
-      q: value,
-    });
-  };
-
-  // const items = [
-  //   {
-  //     key: "13",
-  //     label: `All`,
-  //     children: (
-  //       <AllStatement gameType={1} clientId={clientId} dateData={dateData} />
-  //     ),
-  //   },
-  //   {
-  //     key: "14",
-  //     label: `P&L`,
-  //     children: (
-  //       <AllStatement gameType={2} clientId={clientId} dateData={dateData} />
-  //     ),
-  //   },
-  // ];
-
-  const data = useSelector(globalSelector);
 
   const pName = window.location.pathname;
 
@@ -94,11 +83,31 @@ const AccountStatement = () => {
                     <Col xs={24} md={24} lg={12} xl={12}>
                       <div style={{ marginTop: "12px" }}>
                         <div className="gx-bg-flex1 gx-justify-content-center gx-flex-nowrap gx-px-1 ">
-                          <div className=" gx-px-2 gx-py-2 gx-bg-dark">All</div>
-                          <div className=" gx-px-2 gx-py-2 gx-bg-primary">
+                          <div
+                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
+                              detailType === "ALL"
+                                ? "gx-bg-dark"
+                                : "gx-bg-primary"
+                            }`}
+                            onClick={() => setDetailsType("ALL")}>
+                            All
+                          </div>
+                          <div
+                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
+                              detailType === "PNL"
+                                ? "gx-bg-dark"
+                                : "gx-bg-primary"
+                            }`}
+                            onClick={() => setDetailsType("PNL")}>
                             P&amp;L
                           </div>
-                          <div className=" gx-px-2 gx-py-2 gx-bg-primary">
+                          <div
+                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
+                              detailType === "ACCOUNT"
+                                ? "gx-bg-dark"
+                                : "gx-bg-primary"
+                            }`}
+                            onClick={() => setDetailsType("ACCOUNT")}>
                             Account
                           </div>
                         </div>
@@ -111,7 +120,8 @@ const AccountStatement = () => {
                 <AllStatement
                   gameType={1}
                   clientId={clientId}
-                  dateData={dateData}
+                  isLoading={isLoading || isFetching}
+                  dateData={data?.data}
                 />
               </div>
             </div>

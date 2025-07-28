@@ -5,17 +5,20 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import DownloadReport from "../../../common/DownloadReport/DownloadReport";
+import { useGetMyLedgerQuery } from "../../../../store/service/userlistService";
 
 const columns = [
   {
     title: "Date",
-    dataIndex: "dateStr",
-    key: "dateStr",
+    dataIndex: "date",
+    key: "date",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
     title: "Event Name",
     dataIndex: "collectionName",
     key: "collectionName",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
     title: "Credit",
@@ -35,34 +38,20 @@ const columns = [
     dataIndex: "balance",
     key: "balance",
     align: "right",
-    render: (text, record) => <span>{Math.abs(record?.balance)}</span>,
+    render: (text, record) => <span>{record?.balance?.toFixed(2)}</span>,
   },
   {
     title: "Type",
-    dataIndex: "paymentType",
-    key: "paymentType",
-    render: (text, record) => (
-      <span>
-        {`${record?.paymentType} ${
-          record?.showDate ? `- ${record?.dateOnlyStr}` : ""
-        } ${record?.isRollBack ? "- RollBack" : ""}`}
-      </span>
-    ),
+    dataIndex: "type",
+    key: "type",
   },
   {
     title: "Remark",
-    dataIndex: "remarks",
-    key: "remarks",
+    dataIndex: "description",
+    key: "description",
   },
-  // {
-  //   title: "Rollback",
-  //   dataIndex: "isRollback",
-  //   key: "isRollback",
-  //   render: (text, record) => <span>{record?.isRollback ? "Yes" : "No"}</span>,
-  // },
 ];
 
-// Mock response data (replace this with whatever format you want to simulate)
 const mockLedgerData = {
   list: [
     {
@@ -108,43 +97,21 @@ const MyLedger = () => {
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
-  const onChange = (date, dateString) => {
-    setDateData(dateString);
-  };
+  const { data: ledgerData, isLoading } = useGetMyLedgerQuery({
+    ledgerType: "ALL",
+    fromDate: timeBefore,
+    toDate: time,
+  });
 
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate fetching data
-    setIsLoading(true);
-    const timeout = setTimeout(() => {
-      setData({ data: { data: mockLedgerData, list: mockLedgerData.list } });
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [dateData]);
-
-  const headerField = [
-    "Date",
-    "Collection Name",
-    "Debit",
-    "Credit",
-    "Balance",
-    "Payment Type",
-    "Remark",
-    "Rollback",
-  ];
-
-  const lenadenaHeading = ["Lena", "Dena", "Balance"];
-
-  const arrBalance = [
-    {
-      lena: data?.data?.data?.credit?.toFixed(2),
-      dena: data?.data?.data?.debit?.toFixed(2),
-      balance: data?.data?.data?.balance?.toFixed(2),
-    },
-  ];
+  const totalCreadit =
+    ledgerData?.data?.reduce((acc, item) => acc + item.credit, 0) || 0;
+  const totalDebit =
+    ledgerData?.data?.reduce((acc, item) => acc + item.debit, 0) || 0;
+  const totalBalance =
+    ledgerData?.data?.reduce(
+      (acc, item) => acc + Number(item.balance || 0),
+      0
+    ) || 0;
 
   return (
     <>
@@ -158,7 +125,7 @@ const MyLedger = () => {
         <div className="my_ledger">
           <div>
             <h3 style={{ padding: "5px", color: "green", fontSize: "20px" }}>
-              Lena : {data?.data?.data?.credit?.toFixed(2)}
+              Lena : {totalCreadit?.toFixed(2)}
             </h3>
           </div>
           <div>
@@ -168,17 +135,15 @@ const MyLedger = () => {
                 color: "rgb(214, 75, 75)",
                 fontSize: "20px",
               }}>
-              Dena : {data?.data?.data?.debit?.toFixed(2)}
+              Dena : {totalDebit?.toFixed(2)}
             </h3>
           </div>
           <div>
             <h3
               style={{ fontSize: "20px" }}
-              className={
-                data?.data?.data?.balance > 0 ? "text_danger" : "text_success"
-              }>
-              Balance: {Math.abs(data?.data?.data?.balance?.toFixed(2))}{" "}
-              {data?.data?.data?.balance > 0 ? "( Dena )" : "( Lena )"}
+              className={totalBalance > 0 ? "text_danger" : "text_success"}>
+              Balance: {Math.abs(totalBalance?.toFixed(2))}{" "}
+              {totalBalance > 0 ? "( Dena )" : "( Lena )"}
             </h3>
           </div>
         </div>
@@ -192,7 +157,7 @@ const MyLedger = () => {
               defaultPageSize: 50,
               pageSizeOptions: [50, 100, 150, 200, 250],
             }}
-            dataSource={data?.data?.list}
+            dataSource={ledgerData?.data}
           />
         </div>
       </Card>

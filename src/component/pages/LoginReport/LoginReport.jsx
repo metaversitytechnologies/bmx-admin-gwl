@@ -10,6 +10,7 @@ const LoginReport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [paginationTotal, setPaginationTotal] = useState(50);
   const [indexData, setIndexData] = useState(0);
+  const userId = localStorage.getItem("userId");
 
   const nav = useNavigate();
   const handleBackClick = () => {
@@ -21,10 +22,9 @@ const LoginReport = () => {
 
   useEffect(() => {
     loginReport({
-      userId: id,
+      userId: id ?? userId,
     });
-  }, [id]);
-
+  }, [id, userId]);
 
   return (
     <>
@@ -70,7 +70,7 @@ const LoginReport = () => {
                       <td></td>
                       <td></td>
                       <td>{res?.ipAddress}</td>
-                      <td >{res?.loginDate} </td>
+                      <td>{res?.loginDate} </td>
                     </tr>
                   );
                 })}

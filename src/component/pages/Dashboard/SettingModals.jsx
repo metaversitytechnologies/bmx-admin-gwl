@@ -3,6 +3,7 @@ import { HiUser } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 const SettingModals = ({ setOpenModals, openModal }) => {
+  const userId = localStorage.getItem("userId");
   return (
     <>
       <Modal
@@ -20,7 +21,7 @@ const SettingModals = ({ setOpenModals, openModal }) => {
         <Row className="modal_opne_dash">
           <Col md={12} xs={24}>
             <Card bordered={false}>
-              <Link to="/account-operation">
+              <Link to="/account-statement">
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">
                     <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -47,7 +48,7 @@ const SettingModals = ({ setOpenModals, openModal }) => {
           </Col>
           <Col md={12} xs={24}>
             <Card bordered={false}>
-              <a href="/components/general/button-superagent/3">
+              <Link to={`client/account-operations/${userId}`}>
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">
                     <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -70,12 +71,12 @@ const SettingModals = ({ setOpenModals, openModal }) => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </Card>
           </Col>
           <Col md={12} xs={24}>
             <Card bordered={false}>
-              <a href="/components/general/button-superagent/3">
+              <Link to="/Events/matchledger">
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">
                     <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -98,12 +99,12 @@ const SettingModals = ({ setOpenModals, openModal }) => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </Card>
           </Col>
           <Col md={12} xs={24}>
             <Card bordered={false}>
-              <a href="/components/general/button-superagent/3">
+              <Link to="/casinoprofitandloss">
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">
                     <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -126,7 +127,7 @@ const SettingModals = ({ setOpenModals, openModal }) => {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </Card>
           </Col>
         </Row>

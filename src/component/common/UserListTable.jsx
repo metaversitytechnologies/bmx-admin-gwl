@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Divider, Dropdown, Form, Input, Menu, Pagination, Space, Spin } from "antd";
+import {
+  Button,
+  Divider,
+  Dropdown,
+  Form,
+  Input,
+  Menu,
+  Pagination,
+  Space,
+  Spin,
+} from "antd";
 import { Link, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
 import {
@@ -11,12 +21,22 @@ import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
 import moment from "moment";
 import Deposit from "./Deposit";
-import { useSuperuserListMutation, useUserBetLockMutation, useUserCasinoLockMutation, } from "../../store/service/supermasteAccountStatementServices";
-import { usePartnershipMutation } from "../../store/service/userlistService";
+import {
+  useGetUserActiveDeactiveMutation,
+  useSuperuserListMutation,
+  useUserBetLockMutation,
+  useUserCasinoLockMutation,
+} from "../../store/service/supermasteAccountStatementServices";
+import {
+  useGetGenerateMutation,
+  usePartnershipMutation,
+} from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
 
 const routeFromUSerType = {
+  6: "/user-list/mamin/5",
+  5: "/user-list/Master/4",
   4: "/user-list/Super/3",
   3: "/user-list/Agent/2",
   2: "/user-list/Client/1",
@@ -24,6 +44,7 @@ const routeFromUSerType = {
 
 const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userId, setUserId] = useState("");
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [selectedUserIdForActions, setSelectedUserIdForActions] =
     useState(null);
@@ -41,18 +62,16 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const { parentId: parentIdFromParams } = useParams();
   const myElementRef = useRef(null);
 
-  const localUserType = localStorage.getItem("userType");
-
   // API Hooks
   const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
     useSuperuserListMutation();
   const [getBetLock] = useUserBetLockMutation();
+  const [getUserActiveDeactive] = useGetUserActiveDeactiveMutation();
   const [getCasinoLock] = useUserCasinoLockMutation();
   const [
     getPartnershipData,
     { data: partnershipDetail, isLoading: loadingPartnership },
   ] = usePartnershipMutation();
-
 
   const fetchData = () => {
     getSuperuserList({
@@ -88,12 +107,25 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     resetDropdownStates();
   };
 
-  const handleToggleAccountStatus = (res) => {
-    // updateStatus({ userId: res?.userId, isLock: res?.isActive });
+  const handleToggleAccountStatus = async (res) => {
+    const result = await getUserActiveDeactive({
+      activate: !res?.isActive,
+      userIdList: [res?.userId],
+    }).unwrap();
+    if (result?.status) {
+      openNotification(result?.message);
+      fetchData();
+      resetDropdownStates();
+    } else {
+      openNotificationError(result?.message);
+    }
   };
 
   const handleBlockBetting = async (res) => {
-    const result = await getBetLock({ userId: res?.userId, isLock: true }).unwrap();
+    const result = await getBetLock({
+      userId: res?.userId,
+      isLock: !res?.betLock,
+    }).unwrap();
     if (result?.status) {
       openNotification(result?.message);
       fetchData();
@@ -101,11 +133,13 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     } else {
       openNotificationError(result?.message);
     }
-
   };
 
   const handleBlockCasino = async (res) => {
-    const result = await getCasinoLock({ userId: res?.userId, isLock: true }).unwrap();
+    const result = await getCasinoLock({
+      userId: res?.userId,
+      isLock: !res?.casinoLock,
+    }).unwrap();
     if (result?.status) {
       openNotification(result?.message);
       fetchData();
@@ -113,7 +147,6 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     } else {
       openNotificationError(result?.message);
     }
-
   };
 
   const handleEditUserData = (userId) => {
@@ -124,7 +157,6 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     setSelectedUserIdForActions(userId);
     setParentUserIds(parentUserID);
   };
-
 
   const [dropdownOpenStates, setDropdownOpenStates] = useState([]);
 
@@ -145,27 +177,17 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     resetDropdownStates();
   };
 
-
-
   useEffect(() => {
     if (partnershipDetail?.data) {
       setPartnershipDetails(partnershipDetail.data);
     }
   }, [partnershipDetail?.data]);
 
-
-
-
-
-
   useEffect(() => {
     fetchData();
   }, [parentIdFromParams, userType, paginationTotal, indexData]);
 
-
-
   useEffect(() => {
-
     if (superuserListData?.data?.userListV2) {
       setDropdownOpenStates(
         new Array(superuserListData.data.userListV2.length).fill(false)
@@ -201,6 +223,13 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     });
   };
 
+  const [resetPassword, { data: resetPassData }] = useGetGenerateMutation();
+
+  const handleResetPass = (res) => {
+    resetPassword();
+    setUserId(res?.userId);
+  };
+
   const getActionMenuItems = (res) => [
     {
       label: (
@@ -223,11 +252,19 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       key: "2",
     },
     {
-      label: <div onClick={() => handleBlockBetting(res)}>Block Betting</div>,
+      label: (
+        <div onClick={() => handleBlockBetting(res)}>
+          {res?.betLock ? "UnBlock Betting" : "Block Betting"}
+        </div>
+      ),
       key: "3",
     },
     {
-      label: <div onClick={() => handleBlockCasino(res)}>Block Casino</div>,
+      label: (
+        <div onClick={() => handleBlockCasino(res)}>
+          {res?.casinoLock ? "UnBlock Casino" : "Block Casino"}
+        </div>
+      ),
       key: "4",
     },
     {
@@ -235,14 +272,15 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
         <Link
           style={{ fontWeight: 700 }}
           onClick={resetDropdownStates}
-          to={`${Listname === "Master"
-            ? `/client/update-super/${res?.userId}`
-            : Listname === "Super"
+          to={`${
+            Listname === "Master"
+              ? `/client/update-super/${res?.userId}`
+              : Listname === "Super"
               ? `/client/update-agent/${res?.userId}`
               : Listname === "Agent"
-                ? `/client/update-dealer/${res?.userId}`
-                : `/client/update-client/${res?.userId}`
-            }`}>
+              ? `/client/update-dealer/${res?.userId}`
+              : `/client/update-client/${res?.userId}`
+          }`}>
           Edit
         </Link>
       ),
@@ -264,7 +302,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
         <Link
           style={{ fontWeight: 700 }}
           onClick={resetDropdownStates}
-          to={`/client/account-operations/${res?.userId}`}>
+          to={`/account-operation/${res?.userId}`}>
           Account Operations
         </Link>
       ),
@@ -298,6 +336,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
           onClick={() => {
             setOpenResetPassModal(!openResetPassModal);
             resetDropdownStates();
+            handleResetPass(res);
           }}
           to="#">
           Reset Password
@@ -388,15 +427,19 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                   </th>
                   <th>Name</th>
                   <th>
-                    {localUserType == 5
-                      ? "Sub Admin"
-                      : localUserType == 0
-                        ? "Master"
-                        : localUserType == 1
-                          ? "Super"
-                          : localUserType == 2
-                            ? "Agent"
-                            : ""}
+                    {userType == 7
+                      ? "SuperAdmin"
+                      : userType == 6
+                      ? "SuperAdmin"
+                      : userType == 5
+                      ? "Admin"
+                      : userType == 4
+                      ? "madmin"
+                      : userType == 3
+                      ? "Master"
+                      : userType == 2
+                      ? "Super"
+                      : "Agent"}
                   </th>
                   <th>Contact</th>
                   <th>D.O.J </th>
@@ -455,7 +498,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     <td>*******</td>
                     <td>
                       {res?.matchCommission === 0 &&
-                        res?.sessionCommission === 0
+                      res?.sessionCommission === 0
                         ? "NOC"
                         : "bbb"}
                     </td>
@@ -505,8 +548,11 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
         />
 
         <ResetPassword
-          isDepositeModalOpen={openResetPassModal} // This prop name seems mismatched (Deposit vs. ResetPassword)
+          isDepositeModalOpen={openResetPassModal}
           setOpenResetPass={setOpenResetPassModal}
+          data={resetPassData?.data}
+          userId={userId}
+    
         />
       </div>
     </>

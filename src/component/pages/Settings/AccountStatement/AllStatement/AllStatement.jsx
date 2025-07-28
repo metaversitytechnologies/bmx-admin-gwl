@@ -1,39 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal, Table } from "antd";
-import { useLazyAccountstatementQuery } from "../../../../../store/service/supermasteAccountStatementServices";
-import { useDispatch } from "react-redux";
-import { setData } from "../../../../../store/global/slice";
 import AccountModals from "../AccountModals";
-import { useParams } from "react-router-dom";
-import DownloadReport from "../../../../common/DownloadReport/DownloadReport";
 
-const AllStatement = ({ clientId, dateData, gameType }) => {
-  const [trigger, { data, isFetching, isLoading }] =
-    useLazyAccountstatementQuery();
-  const [isModalOpen1, setIsModalOpen1] = useState(false);
+const AllStatement = ({ dateData, isLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [marketId, setMarketId] = useState("");
-  const [remark, setRemark] = useState("");
-
-  const { id } = useParams();
-
-  useEffect(() => {
-    const AccData = {
-      index: 0,
-      noOfRecords: "200",
-      fromDate: dateData[0],
-      toDate: dateData[1],
-      userid: clientId || id || "",
-      type: gameType,
-    };
-    trigger(AccData);
-  }, [data, gameType, clientId, dateData]);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setData(data?.data?.dataList?.length));
-  }, [data?.data]);
 
   const columns = [
     {
@@ -43,8 +13,8 @@ const AllStatement = ({ clientId, dateData, gameType }) => {
     },
     {
       title: "Description",
-      dataIndex: "fromto",
-      key: "fromto",
+      dataIndex: "description",
+      key: "description",
     },
 
     {
@@ -71,21 +41,15 @@ const AllStatement = ({ clientId, dateData, gameType }) => {
 
     {
       title: "Balance",
-      dataIndex: "pts",
-      key: "pts",
+      dataIndex: "closing",
+      key: "closing",
+      render: (text) => {
+        return {
+          children: <p className="text_danger">{text}</p>,
+        };
+      },
     },
   ];
-
-  const handleCancel = () => {
-    setIsModalOpen1(false);
-  };
-
-  const handelAccountModals = (e, id, rem) => {
-    e.preventDefault();
-    setIsModalOpen1(true);
-    setMarketId(id);
-    setRemark(rem);
-  };
 
   return (
     <>
@@ -101,30 +65,23 @@ const AllStatement = ({ clientId, dateData, gameType }) => {
             className="live_table statemt_account agent_master"
             bordered
             rowClassName="c_pointer"
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: (event) => {
-                  handelAccountModals(event, record?.marketid, record?.remark);
-                },
-              };
-            }}
-            loading={isFetching || isLoading}
+            // onRow={(record, rowIndex) => {
+            //   return {
+            //     onClick: (event) => {
+            //       handelAccountModals(event, record?.marketid, record?.remark);
+            //     },
+            //   };
+            // }}
+            loading={isLoading}
             columns={columns}
             pagination={{
               defaultPageSize: 50,
               pageSizeOptions: [50, 100, 150, 200, 250],
             }}
-            dataSource={
-              data?.data?.dataList?.map((res) => ({
-                ...res,
-                commPlus: 0,
-                commMinus: 0,
-                prevBal: 0,
-              })) || []
-            }></Table>
+            dataSource={dateData || []}></Table>
         </div>
       </div>
-      {marketId != "" && (
+      {/* {marketId != "" && (
         <Modal
           title="Bet List"
           className="bet_list"
@@ -133,7 +90,7 @@ const AllStatement = ({ clientId, dateData, gameType }) => {
           footer={null}>
           <AccountModals marketId={marketId} remark={remark} id={id} />
         </Modal>
-      )}
+      )} */}
     </>
   );
 };

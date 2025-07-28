@@ -29,7 +29,7 @@ const Sidebar = (props) => {
     }
   };
 
-  const uType = 5;
+  const uType = localStorage.getItem("userType");
 
   return (
     <>
@@ -123,14 +123,18 @@ const Sidebar = (props) => {
                 <div
                   onMouseEnter={() => setHoveredItem("2")}
                   onMouseLeave={() => setHoveredItem(null)}>
-                  {uType == 5
-                    ? "Sub Admin Details"
-                    : uType == 0
+                  {uType == 6
+                    ? "Admin Details"
+                    : uType == 5
+                    ? "madmin Detail"
+                    : uType == 4
                     ? "Master Detail"
-                    : uType == 1
+                    : uType == 3
                     ? "Super Detail"
-                    : uType == 2
-                    ? "Agent Detail"
+                    : userType == 7
+                    ? "SuperAdmin"
+                    : userType == 2
+                    ? "Agent"
                     : ""}
                 </div>
               ),
@@ -270,18 +274,43 @@ const Sidebar = (props) => {
                   label: <Link to="/client/my-ledger">My Ledger</Link>,
                 },
                 {
-                  className: `${userType != "5" ? "d-none" : ""}`,
+                  className: `${userType != "7" ? "d-none" : ""}`,
+                  label: <Link to="/client/ledger-super">Admin</Link>,
+                },
+                {
+                  className: `${
+                    userType === "7" || userType == "6" ? "" : "d-none"
+                  }`,
+                  label: (
+                    <Link to="/client/ledger-super">Sub Admin Ledger</Link>
+                  ),
+                },
+                {
+                  className: `${
+                    userType === "7" || userType == "6" || userType == "5"
+                      ? ""
+                      : "d-none"
+                  }`,
                   label: <Link to="/client/ledger-super">Master Ledger</Link>,
                 },
                 {
                   className: `${
-                    userType === "0" || userType == "5" ? "" : "d-none"
+                    userType === "7" ||
+                    userType == "6" ||
+                    userType == "5" ||
+                    userType == "4"
+                      ? ""
+                      : "d-none"
                   }`,
                   label: <Link to="/client/ledger-master">Super Ledger</Link>,
                 },
                 {
                   className: `${
-                    userType === "1" || userType == "5" || userType === "0"
+                    userType === "7" ||
+                    userType == "6" ||
+                    userType == "5" ||
+                    userType == "4" ||
+                    userType == "3"
                       ? ""
                       : "d-none"
                   }`,
@@ -329,11 +358,15 @@ const Sidebar = (props) => {
                 //   ),
                 // },
                 {
-                  // className: `${
-                  //   userType === "1" || userType == "5" || userType === "0"
-                  //     ? ""
-                  //     : "d-none"
-                  // }`,
+                  className: `${
+                    userType === "7" ||
+                    userType == "6" ||
+                    userType === "5" ||
+                    userType == "4" ||
+                    userType == "3"
+                      ? ""
+                      : "d-none"
+                  }`,
                   label: (
                     <Link to="/client/txn-super/Agent/2">
                       (A) Debit/Credit Entry
@@ -341,12 +374,47 @@ const Sidebar = (props) => {
                   ),
                 },
                 {
-                  // className: `${
-                  //   userType === "0" || userType == "5" ? "" : "d-none"
-                  // }`,
+                  className: `${
+                    userType === "7" ||
+                    userType == "6" ||
+                    userType === "5" ||
+                    userType == "4"
+                      ? ""
+                      : "d-none"
+                  }`,
                   label: (
                     <Link to="/client/txn-super/Super/3">
                       (SA) Debit/Credit Entry
+                    </Link>
+                  ),
+                },
+                {
+                  className: `${
+                    userType === "7" || userType === "6" || userType == "5"
+                      ? ""
+                      : "d-none"
+                  }`,
+                  label: (
+                    <Link to="/client/txn-super/Master/4">
+                      (MA) Debit/Credit Entry
+                    </Link>
+                  ),
+                },
+                {
+                  className: `${
+                    userType === "7" || userType == "6" ? "" : "d-none"
+                  }`,
+                  label: (
+                    <Link to="/client/txn-super/madmin/5">
+                      (SUB) Debit/Credit Entry
+                    </Link>
+                  ),
+                },
+                {
+                  className: `${userType === "7" ? "" : "d-none"}`,
+                  label: (
+                    <Link to="/client/txn-super/Admin/6">
+                      (A) Debit/Credit Entry
                     </Link>
                   ),
                 },
@@ -491,15 +559,17 @@ const Sidebar = (props) => {
                   <div
                     onMouseEnter={() => setHoveredItem("2")}
                     onMouseLeave={() => setHoveredItem(null)}>
-                    {uType == 5
-                      ? "Sub Admin Details"
-                      : uType == 0
+                    {uType == 6
+                      ? " Admin Details"
+                      : uType == 5
+                      ? "Sub Detail"
+                      : uType == 4
                       ? "Master Detail"
-                      : uType == 1
+                      : uType == 3
                       ? "Super Detail"
-                      : uType == 2
-                      ? "Agent Detail"
-                      : ""}
+                      : userType == 7
+                      ? "Super Admin"
+                      : "Agent Detail"}
                   </div>
                 ),
                 children: [
@@ -519,7 +589,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/user-list/SubAdmin/5"
+                        to="/user-list/madmin/5"
                         onClick={() => props?.action()}>
                         Sub Admin
                       </Link>
@@ -711,7 +781,33 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
-                    className: `${userType != "5" ? "d-none" : ""}`,
+                    className: `${userType != "7" ? "d-none" : ""}`,
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/client/ledger-super">
+                        Admin Ledger
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${
+                      userType === "7" || userType == "6" ? "" : "d-none"
+                    }`,
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/client/ledger-super">
+                        Sub Admin Ledger
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${
+                      userType === "7" || userType === "6" || userType == "5"
+                        ? ""
+                        : "d-none"
+                    }`,
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -722,7 +818,12 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${
-                      userType === "0" || userType == "5" ? "" : "d-none"
+                      userType === "7" ||
+                      userType == "6" ||
+                      userType === "5" ||
+                      userType == "4"
+                        ? ""
+                        : "d-none"
                     }`,
                     label: (
                       <Link
@@ -734,7 +835,11 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${
-                      userType === "1" || userType == "5" || userType === "0"
+                      userType === "7" ||
+                      userType == "6" ||
+                      userType === "5" ||
+                      userType == "4" ||
+                      userType == "3"
                         ? ""
                         : "d-none"
                     }`,
@@ -779,7 +884,6 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
-                    className: `${userType == "5" ? "" : "d-none"}`,
                     label: (
                       <Link
                         to="/client/txn-super/Client/1"
@@ -788,9 +892,23 @@ const Sidebar = (props) => {
                       </Link>
                     ),
                   },
+                  // {
+                  //   // className: `${userType == "5" ? "" : "d-none"}`,
+                  //   label: (
+                  //     <Link to="/client/txn-super/Master/4">
+                  //       (M) Debit/Credit Entry
+                  //     </Link>
+                  //   ),
+                  // },
                   {
                     className: `${
-                      userType === "0" || userType == "5" ? "" : "d-none"
+                      userType === "7" ||
+                      userType == "6" ||
+                      userType === "5" ||
+                      userType == "4" ||
+                      userType == "3"
+                        ? ""
+                        : "d-none"
                     }`,
                     label: (
                       <Link
@@ -800,10 +918,12 @@ const Sidebar = (props) => {
                       </Link>
                     ),
                   },
-
                   {
                     className: `${
-                      userType === "1" || userType == "5" || userType === "0"
+                      userType === "7" ||
+                      userType == "6" ||
+                      userType === "5" ||
+                      userType == "4"
                         ? ""
                         : "d-none"
                     }`,
@@ -815,15 +935,43 @@ const Sidebar = (props) => {
                       </Link>
                     ),
                   },
-                  // {
-                  //   label: (
-                  //     <Link
-                  //       to="/client/txn-client"
-                  //       onClick={() => props?.action()}>
-                  //       Debit/Credit Entry(C)
-                  //     </Link>
-                  //   ),
-                  // },
+                  {
+                    className: `${
+                      userType === "7" || userType === "6" || userType == "5"
+                        ? ""
+                        : "d-none"
+                    }`,
+                    label: (
+                      <Link
+                        to="/client/txn-super/Master/4"
+                        onClick={() => props?.action()}>
+                        (MA) Debit/Credit Entry
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${
+                      userType === "7" || userType == "6" ? "" : "d-none"
+                    }`,
+                    label: (
+                      <Link
+                        to="/client/txn-super/madmin/5"
+                        onClick={() => props?.action()}>
+                        (SUB) Debit/Credit Entry
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${userType === "7" ? "" : "d-none"}`,
+
+                    label: (
+                      <Link
+                        to="/client/txn-super/Admin/6"
+                        onClick={() => props?.action()}>
+                        (A) Debit/Credit Entry
+                      </Link>
+                    ),
+                  },
                 ],
               },
               {

@@ -1,6 +1,7 @@
 import { BsFiles } from "react-icons/bs";
 import CardItem from "../../common/carditem/CardItem";
 import { Card, Col, Modal, Row } from "antd";
+import { Link } from "react-router-dom";
 
 const LadgerDetails = ({ setOpenModals, openModal }) => {
   const data = [
@@ -9,28 +10,42 @@ const LadgerDetails = ({ setOpenModals, openModal }) => {
       name: "P/L",
       path: "/Events/matchledger",
       size: "20",
-      userType: 6,
+      userType: 10,
     },
     {
       image: <BsFiles />,
       name: "My Ledger",
       path: "/client/my-ledger",
       size: "20",
-      userType: 7,
+      userType: 10,
+    },
+    {
+      image: <BsFiles />,
+      name: "Admin",
+      path: "/client/ledger-super",
+      size: "20",
+      userType: 6,
+    },
+    {
+      image: <BsFiles />,
+      name: "madmin",
+      path: "/client/ledger-super",
+      size: "20",
+      userType: 5,
     },
     {
       image: <BsFiles />,
       name: "Master",
       path: "/client/ledger-super",
       size: "20",
-      userType: 0,
+      userType: 4,
     },
     {
       image: <BsFiles />,
       name: "Super",
       path: "/client/ledger-master",
       size: "20",
-      userType: 1,
+      userType: 3,
     },
     {
       image: <BsFiles />,
@@ -44,16 +59,18 @@ const LadgerDetails = ({ setOpenModals, openModal }) => {
       name: "Client",
       path: "/client/ledger-client",
       size: "20",
-      userType: 3,
+      userType: 1,
     },
   ];
 
-  const uType = 5;
+  const uType = localStorage.getItem("userType");
   const userTypeMatch = {
-    0: [1, 2, 3, 6, 7],
-    1: [2, 3, 6, 7],
-    2: [3, 6, 7],
-    5: [0, 1, 2, 3, 6, 7],
+    2: [1, 10],
+    3: [1, 2, 10],
+    4: [1, 2, 3, 10],
+    5: [1, 2, 3, 4, 10],
+    6: [1, 2, 3, 4, 5, 10],
+    7: [1, 2, 3, 4, 5, 6, 10],
   };
 
   return (
@@ -77,7 +94,7 @@ const LadgerDetails = ({ setOpenModals, openModal }) => {
               return (
                 <Col md={12} xs={24} key={id}>
                   <Card bordered={false}>
-                    <a href="/components/general/button-superagent/3">
+                    <Link to={items?.path}>
                       <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                         <div className="ant-card-body">
                           <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
@@ -99,7 +116,7 @@ const LadgerDetails = ({ setOpenModals, openModal }) => {
                           </div>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   </Card>
                 </Col>
               );

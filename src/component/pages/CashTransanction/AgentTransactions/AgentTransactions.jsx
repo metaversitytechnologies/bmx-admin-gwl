@@ -14,19 +14,17 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TransactionTable from "../TransactionTable";
 import { useEffect, useState } from "react";
 import {
-  useCreateTransactionMutation,
+  useCreateLedgerMutation,
+  useGetLedgerDetailsMutation,
   useLazyFilterbyClientQuery,
-  useLazyUserListQuery,
 } from "../../../../store/service/supermasteAccountStatementServices";
 import moment from "moment";
-import { useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 
 const dateFormat = "YYYY/MM/DD";
 
 const AgentTransactions = () => {
   const { name, id } = useParams();
   const [api, contextHolder] = notification.useNotification();
-  const [userTranstionData, setUserTranstionData] = useState([]);
   var curr = new Date();
   const time = moment(curr).format("YYYY-MM-DD");
 
@@ -44,11 +42,11 @@ const AgentTransactions = () => {
 
   const { Option } = Select;
 
-  // const [getClient, { data: result }] = useGetUserSeacrhMutation();
   const [getClient, result] = useLazyFilterbyClientQuery();
-
+  const [trigger, { data: ledgerDetails }] = useGetLedgerDetailsMutation();
   const [createTran, { data: createTranstions, error, isLoading }] =
-    useCreateTransactionMutation();
+    useCreateLedgerMutation();
+
   const openNotification = (mess) => {
     api.success({
       message: mess,
@@ -71,14 +69,12 @@ const AgentTransactions = () => {
       userId: values?.client,
       collection: values?.collection,
       amount: Number(values?.amount),
-      paymenttype: values?.payment_type,
-      remarks: values?.remark,
+      paymentType: values?.payment_type,
+      remark: values?.remark,
     };
     createTran(createTranstions);
     form?.resetFields();
   };
-
-  const [userList, resultData] = useLazyUserListQuery();
 
   const onSelectDate = (date, dateString) => {
     setStartDate(dateString);
@@ -91,31 +87,19 @@ const AgentTransactions = () => {
   }, [id]);
 
   useEffect(() => {
-    if (createTranstions?.status === true) {
+    if (createTranstions?.status) {
       openNotification(createTranstions?.message);
+      trigger({ userId: clientId });
       form?.resetFields();
     } else if (createTranstions?.status === false || error?.data?.message) {
       openNotificationError(createTranstions?.message || error?.data?.message);
     }
   }, [createTranstions, error]);
 
-  // useEffect(() => {
-  //   if (result?.data?.data !== undefined) {
-  //     const useData = JSON.parse(result?.data?.data?.cashtransection);
-  //     setUserTranstionData(useData?.results);
-  //   }
-  // }, [result?.data]);
-
   useEffect(() => {
     form?.resetFields();
     setClientId("");
-    // userList({
-    //   userType: userType,
-    //   userName: "",
-    // });
   }, [pathname]);
-
-  console.log("result?.data?.data", result?.data?.data);
 
   return (
     <>
@@ -151,9 +135,15 @@ const AgentTransactions = () => {
                     onSearch={(value) => {
                       if (value) getClient({ userType: id });
                     }}
+                    showSearch
                     value={clientId}
                     allowClear
-                    onSelect={(value) => setClientId(value)}
+                    onSelect={(value) => {
+                      setClientId(value);
+                      trigger({
+                        userId: value,
+                      });
+                    }}
                     options={
                       result?.data?.data?.map((user) => ({
                         label: `${user.userName} (${user.userId})`,
@@ -175,22 +165,12 @@ const AgentTransactions = () => {
                     },
                   ]}>
                   <Select defaultValue="Select Cash A/C" allowClear>
-                    <Option value="CASH">Cash A/C</Option>
+                    <Option value="CA1 CASH">Cash A/C</Option>
                   </Select>
                 </Form.Item>
               </Col>
               <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="Date"
-                  name="Date"
-                  // required
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please select date",
-                  //   },
-                  // ]}
-                >
+                <Form.Item label="Date" name="Date">
                   <DatePicker
                     required
                     onChange={onSelectDate}
@@ -227,8 +207,8 @@ const AgentTransactions = () => {
                     },
                   ]}>
                   <Select placeholder="Payment Type" allowClear>
-                    <Option value="Diya">PAYMENT - DIYA</Option>
-                    <Option value="Liya">PAYMENT - LIYA</Option>
+                    <Option value="payment - dena">PAYMENT - DIYA</Option>
+                    <Option value="payment - lena">PAYMENT - LIYA</Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -277,13 +257,7 @@ const AgentTransactions = () => {
       </Card>
 
       <Card className="sport_detail ledger_data">
-        {/* {userTranstionData?.length != 0  && ( */}
-        <TransactionTable
-          clientId={clientId}
-          balanceData={result?.data?.data?.lenadenabalance}
-          data={userTranstionData}
-        />
-        {/* )} */}
+        {ledgerDetails && <TransactionTable data={ledgerDetails?.data} />}
       </Card>
     </>
   );

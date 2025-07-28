@@ -143,6 +143,27 @@ export const userlistApi = createApi({
       }),
       providesTags: ["dashboard"],
     }),
+    getMyLedger: build.query({
+      query: (body) => ({
+        url: "/ledger/my-ledger",
+        method: "POST",
+        body,
+      }),
+    }),
+    getGenerate: build.mutation({
+      query: (body) => ({
+        url: "/ant-pro/generate-password-ant-pro",
+        method: "POST",
+        body,
+      }),
+    }),
+    getUpdatePassword: build.mutation({
+      query: (body) => ({
+        url: "/ant-pro/update-password",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -164,4 +185,7 @@ export const {
   useLazyIsUserIdQuery,
   useLazyUpDateLimitesQuery,
   useGetUserIdMutation,
+  useGetMyLedgerQuery,
+  useGetGenerateMutation,
+  useGetUpdatePasswordMutation
 } = userlistApi;

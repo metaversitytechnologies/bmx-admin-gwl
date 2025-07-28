@@ -1,12 +1,5 @@
 import "./SportsDetails.scss";
-import {
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Empty,
-  Row,
-} from "antd";
+import { Button, Card, Col, DatePicker, Empty, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
@@ -48,7 +41,9 @@ const SportsDetails = () => {
   }, [sportDetail]);
 
   const toggleDropdown = (index) => {
-    const updatedDropdownStates = [...dropdownStates].map((_, i) => i === index ? !dropdownStates[i] : false);
+    const updatedDropdownStates = [...dropdownStates].map((_, i) =>
+      i === index ? !dropdownStates[i] : false
+    );
     setDropdownStates(updatedDropdownStates);
   };
 
@@ -56,8 +51,7 @@ const SportsDetails = () => {
     <Card
       className="sport_detail"
       title="Sports Detail"
-      extra={<button onClick={handleBackbtn}>Back</button>}
-    >
+      extra={<button onClick={handleBackbtn}>Back</button>}>
       <Row className="date_picker" justify="center">
         <Col
           xl={6}
@@ -65,8 +59,7 @@ const SportsDetails = () => {
           md={24}
           xs={24}
           className="datepicker_sport"
-          style={{ padding: "6px 10px 0px" }}
-        >
+          style={{ padding: "6px 10px 0px" }}>
           <RangePicker
             style={{ marginBottom: "10px" }}
             defaultValue={[dayjs(timeBefore), dayjs(time)]}
@@ -92,7 +85,6 @@ const SportsDetails = () => {
           <tbody>
             {sportDetail?.data?.length > 0 ? (
               sportDetail.data.map((res, id) => {
-                if(!res?.inPlay) return null; // Skip if not in play
                 return (
                   <tr key={res.key || id}>
                     <td style={{ cursor: "pointer", width: "3%" }}>
@@ -107,8 +99,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   to={`/Events/${res.matchId}/4/live-report`}
-                                  className="title_section"
-                                >
+                                  className="title_section">
                                   Match and Session Position
                                 </Link>
                               ),
@@ -118,8 +109,7 @@ const SportsDetails = () => {
                               label: (
                                 <p
                                   className="title_section"
-                                  onClick={() => handlePlusMinus(res.matchId)}
-                                >
+                                  onClick={() => handlePlusMinus(res.matchId)}>
                                   Match and Session Plus Minus
                                 </p>
                               ),
@@ -129,8 +119,11 @@ const SportsDetails = () => {
                               label: (
                                 <p
                                   className="title_section"
-                                  onClick={() => nav(`/matchplusminus/${res?.matchId}/${res?.matchName}`)}
-                                >
+                                  onClick={() =>
+                                    nav(
+                                      `/matchplusminus/${res?.matchId}/${res?.matchName}`
+                                    )
+                                  }>
                                   Match and Session Plus Minus 2
                                 </p>
                               ),
@@ -141,8 +134,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/match-slips/${res.matchId}/1`}
-                                >
+                                  to={`/match-slips/${res.matchId}/1`}>
                                   Display Match Bets
                                 </Link>
                               ),
@@ -153,8 +145,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/fancy-slips/${res.matchId}/1`}
-                                >
+                                  to={`/fancy-slips/${res.matchId}/1`}>
                                   Display Session Bets
                                 </Link>
                               ),
@@ -165,8 +156,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/matchsessionbet/${res.matchId}/1`}
-                                >
+                                  to={`/matchsessionbet/${res.matchId}/1`}>
                                   Match And Session Bet
                                 </Link>
                               ),
@@ -177,8 +167,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/completed-fancy-slips/${res.matchId}`}
-                                >
+                                  to={`/completed-fancy-slips/${res.matchId}`}>
                                   Completed Fancies
                                 </Link>
                               ),
@@ -189,8 +178,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/agent-list/${res.matchId}`}
-                                >
+                                  to={`/agent-list/${res.matchId}`}>
                                   Agent Plus Minus
                                 </Link>
                               ),
@@ -201,8 +189,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/rejectedBetsByEvent/${res.matchId}`}
-                                >
+                                  to={`/rejectedBetsByEvent/${res.matchId}`}>
                                   Rejected Bet
                                 </Link>
                               ),
@@ -211,14 +198,12 @@ const SportsDetails = () => {
                           ],
                           className: "sport_list",
                         }}
-                        trigger={["click", "contextMenu"]}
-                      >
+                        trigger={["click", "contextMenu"]}>
                         <p
                           onClick={(e) => {
                             e.preventDefault();
                             setDataNameee(res.matchName);
-                          }}
-                        >
+                          }}>
                           <Space>
                             <CaretDownOutlined />
                           </Space>
@@ -228,7 +213,9 @@ const SportsDetails = () => {
                     <td>{id + 1}</td>
                     <td>{res.matchName}</td>
                     <td>No Change</td>
-                    <td>{moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}</td>
+                    <td>
+                      {moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}
+                    </td>
                     <td>
                       <Button type="primary" className="in_play_btn">
                         Inplay
@@ -236,7 +223,7 @@ const SportsDetails = () => {
                     </td>
                     <td>No</td>
                   </tr>
-                )
+                );
               })
             ) : (
               <tr>
