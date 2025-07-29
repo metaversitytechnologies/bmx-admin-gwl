@@ -35,7 +35,7 @@ export const supermasteAccountStatementApi = createApi({
     }),
     changePassword: build.mutation({
       query: (body) => ({
-        url: "/bmx/user/change-password-self",
+        url: "/user/changepassword-self",
         method: "POST",
         body,
       }),
@@ -186,13 +186,7 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
-    It_Self_By_APP_URL: build.query({
-      query: (body) => ({
-        url: `/login/is-self-by-app-url`,
-        method: "POST",
-        body,
-      }),
-    }),
+    
     createParentList: build.query({
       query: (body) => ({
         url: `/bmx/bmx-user-details-v2`,
@@ -294,7 +288,6 @@ export const {
   useCreateCasinoListQuery,
   useDataReportMutation,
   useCommReportMutation,
-  useIt_Self_By_APP_URLQuery,
   useLazyCreateParentListQuery,
   useLazyDepositAndWithdrawQuery,
   useSuperuserListMutation,

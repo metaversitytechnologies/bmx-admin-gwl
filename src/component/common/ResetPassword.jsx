@@ -11,12 +11,12 @@ const ResetPassword = ({
   const subdomain = window.location.hostname.split(".")[1];
   const sub = window.location.hostname.split(".")[2];
   const domainLink = {
-    1: `https://${subdomain}.${sub}`,
-    2: `https://agent.${subdomain}.${sub}`,
-    3: `https://super.${subdomain}.${sub}`,
-    4: `https://master.${subdomain}.${sub}`,
-    5: `https://madmin.${subdomain}.${sub}`,
-    6: `https://admin.${subdomain}.${sub}`,
+    1: `${subdomain}.${sub}`,
+    2: `agent.${subdomain}.${sub}`,
+    3: `super.${subdomain}.${sub}`,
+    4: `master.${subdomain}.${sub}`,
+    5: `madmin.${subdomain}.${sub}`,
+    6: `admin.${subdomain}.${sub}`,
   };
   const [trigger, { isLoading }] = useGetUpdatePasswordMutation();
 
@@ -82,12 +82,12 @@ OTP  : ${data?.otp}`;
         </Button>,
       ]}>
       <textarea
-        style={{ width: "100%" }}
+        style={{ width: "100%", fontSize: "14px" }}
         rows={7}
         readOnly
         className="ant-input"
         value={`New Password
-LINK : super.antpro99.pro
+LINK : ${domainLink[Number(userTyep)]}
 ID   : ${userId}
 PW   : ${data?.password}
 OTP  : ${data?.otp}`}

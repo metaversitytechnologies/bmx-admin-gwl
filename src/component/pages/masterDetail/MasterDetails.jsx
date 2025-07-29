@@ -24,7 +24,7 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
     },
     {
       image: <BiUserCircle />,
-      name: "Sub Admin",
+      name: "madmin",
       path: "/user-list/madmin/5",
       size: "20",
       id: 0,

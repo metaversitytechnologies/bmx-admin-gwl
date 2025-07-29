@@ -4,14 +4,12 @@ import { useLoginMutation } from "../../../store/service/authService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Signin = ({ logo }) => {
+const Signin = () => {
   const [trigger, { data: authData, error, isLoading }] = useLoginMutation();
   const nav = useNavigate();
 
   const [showOtp, setShowOtp] = useState(false);
   const [otpValue, setOtpValue] = useState("");
-
-  console.log(authData?.token, "authDataauthData");
 
   useEffect(() => {
     if (authData?.status === false || error?.data?.message) {
@@ -37,7 +35,8 @@ const Signin = ({ logo }) => {
       const authPayload = {
         userId: values?.username?.trim(),
         password: values?.password?.trim(),
-        url: url,
+        url: url ,
+        // url: "superadmin.fastbet365.in" ,
       };
       trigger(authPayload);
     } else {

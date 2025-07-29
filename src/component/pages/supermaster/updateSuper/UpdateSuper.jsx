@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -14,99 +14,138 @@ import {
 import "./UpdateSuper.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  useLazyGetUserQuery,
+  useGetUserQuery,
   useUpdateUserMutation,
 } from "../../../../store/service/userlistService";
 
-const UpdateSuper = ({ updateName }) => {
-  // console.log(updateName, "dasdasd")
+const updateNameDetails = {
+  6: "Super Admin",
+  5: "Admin",
+  4: "Mini Admin",
+  3: "Master",
+  2: "Super",
+  1: "Agent",
+};
+const updateName = {
+  6: "Admin",
+  5: "Mini Admin",
+  4: "Master",
+  3: "Super",
+  2: "Agent",
+  1: "Client",
+};
+
+const Responsedata = {
+  1: "",
+  2: "dealer",
+  3: "master",
+  4: "superMaster",
+  5: "subAdmin",
+  6: "admin",
+};
+
+const UpdateSuper = () => {
+  const getUserField = (fieldSuffix) =>
+    resuilt?.data?.[Responsedata?.[id] + fieldSuffix] || 0;
   const [api, contextHolder] = notification.useNotification();
   const [commType, setCommType] = useState("");
-  const nav = useNavigate();
-
   const [form] = Form.useForm();
+  const nav = useNavigate();
   const [data, setData] = useState();
 
-  const { id } = useParams();
-  const [trigger, { data: updateData, isLoading, error }] =
-    useUpdateUserMutation();
+  const { id, userId } = useParams();
+  const [trigger, { data: updateData, isLoading }] = useUpdateUserMutation();
+  const { data: resuilt } = useGetUserQuery(
+    { userId },
+    { refetchOnMountOrArgChange: true }
+  );
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  useEffect(() => {
+    if (resuilt?.status) {
+      setData(resuilt?.data);
+      setCommType(
+        resuilt?.data?.myCasinoPartnership > 0 ||
+          resuilt?.data?.myMatchCommission > 0
+          ? "bbb"
+          : "no-comm"
+      );
+    }
+  }, [resuilt?.data]);
 
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  console.log(commType, "commTypecommTypecommType");
 
-  const mobileNum = /^[6-9][0-9]{9}$/;
-  const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,}$/;
-  const [getData, resuilt] = useLazyGetUserQuery();
+  // useEffect(() => {
+  //   if (updateData?.status) {
+  //     api.success({
+  //       message: updateData?.message,
+  //       description: "Success",
+  //       placement: "top",
+  //       closeIcon: false,
+  //     });
+  //     form.resetFields();
+  //   } else if (!updateData?.status || error?.data?.message) {
+  //     api.error({
+  //       message: updateData?.message || error?.data?.message,
+  //       placement: "top",
+  //       closeIcon: false,
+  //     });
+  //   }
+  // }, [updateData, error]);
 
   const onFinish = (values) => {
+    const isNoComm = values?.comm_type === "no-comm";
+
     const userData = {
-      userId: id,
+      userId: values?.userId,
       userName: values?.name,
-      phoneNumber: values?.number,
-      password: values?.password,
-      luPassword: values?.lupassword,
-      status: values?.status == "inActive" ? false : true,
-      commType: values?.comm_type == "bbb" ? "bbb" : "no-comm",
-      matchComm: values?.Supermatchcomm || 0,
-      sessionComm: values?.sess_comm || 0,
-      casinoComm: values?.Supercasinocomm || 0,
       reference: values?.reference,
-      matchShare: Number(values?.match_share) || null,
+      password: resuilt?.data?.password,
+      contact: values.number,
+      flatShare: false,
+      casinoPlay: true,
+      mobileAppCharge: 0,
+      commissionType: isNoComm ? 1 : 2,
+      partnership: values?.share,
+      casinoPartnership: values?.supercasinocomm,
+      internationalCasinoPartnership: 100,
+      matchCommission: isNoComm ? 0 : values?.super_match_comm,
+      sessionCommission: isNoComm ? 0 : values?.super_sess_comm,
+      casinoCommission: isNoComm ? 0 : values?.sess_comm,
     };
 
     trigger(userData);
-    form?.resetFields();
+    form.resetFields();
   };
-  useEffect(() => {
-    if (updateData?.status === true) {
-      getData({
-        userId: id,
-      });
-      openNotification(updateData?.message);
-      form?.resetFields();
-    } else if (updateData?.status === false || error?.data?.message) {
-      openNotificationError(updateData?.message || error?.data?.message);
-    }
-  }, [updateData, error]);
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  useEffect(() => {
+    if (!updateData) return;
+
+    if (updateData?.status) {
+      api.success({
+        message: updateData?.message || "User updated successfully",
+        placement: "top",
+        closeIcon: false,
+      });
+      form.resetFields();
+
+      setTimeout(() => {
+        nav(-1);
+      }, 1500);
+    } else if (updateData?.message) {
+      api.error({
+        message: updateData?.message,
+        placement: "top",
+        closeIcon: false,
+      });
+    }
+  }, [updateData]);
+
+  const onCommissionType = (value) => {
+    setCommType(value);
   };
+
   const { Option } = Select;
 
-  useEffect(() => {
-    getData({
-      userId: id,
-    });
-  }, [resuilt?.data, id]);
-
-  useEffect(() => {
-    if (resuilt?.data?.status === true) setData(resuilt?.data?.data);
-    setCommType(
-      Number(resuilt?.data?.data?.matchComm) == 0 ||
-        Number(resuilt?.data?.data?.sessionComm) == 0
-        ? "no-comm"
-        : "bbb"
-    );
-  }, [resuilt?.data?.data]);
-
-  const onCommissionType = (e) => {
-    setCommType(e);
-  };
   return (
     <>
       {contextHolder}
@@ -116,376 +155,288 @@ const UpdateSuper = ({ updateName }) => {
             <div
               style={{ padding: "5px 8px", fontSize: "25px" }}
               className="team_name">
-              Update {updateName}
+              Update {updateName?.[id]}
             </div>
             <div className="show_btn">
               <button onClick={() => nav(-1)}>Back</button>
             </div>
           </div>
         </div>
+
         <div className="ant-spin-nested-loading">
-          {isLoading ? (
+          {isLoading && (
             <div className="spin_icon">
               <Spin size="large" />
             </div>
-          ) : (
-            ""
           )}
+
           <Form
             form={form}
             className="form_data"
-            name="basic"
+            name="update_super_form"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            // initialValues={{ remember: true }}
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            onFocus={onFinishFailed}
             fields={[
+              { name: "userId", value: resuilt?.data?.userId },
+              { name: "name", value: resuilt?.data?.userName },
+              { name: "reference", value: resuilt?.data?.reference },
+              { name: "number", value: resuilt?.data?.contact },
+
+              { name: "password", value: "******" },
               {
-                name: "name",
-                value: resuilt?.data?.data.userName,
-              },
-              {
-                name: "number",
-                value: resuilt?.data?.data.mobileNumber,
-              },
-              {
-                name: "password",
-                value: resuilt?.data?.data.password,
-              },
-              {
-                name: "status",
-                value: resuilt?.data?.data.status ? "active" : "inActive",
-              },
-              {
-                name: "sess_comm",
-                value: 1,
-              },
-              {
-                name: "matchcomm",
-                value: 1,
-              },
-              {
-                name: "sesscomm",
-                value: 1,
-              },
-              {
-                name: "casinoshare",
-                value: 1,
-              },
-              {
-                name: "casinoComm",
-                value: 1,
-              },
-              {
-                name: "reference",
-                value: 1
-              },
-              {
-                name: "Supermatchcomm",
-                value:1
-              },
-              {
-                name: "supercasinoShare",
-                value: 1
-              },
-              {
-                name: "Supercasinocomm",
-                value:1
+                name: "comm_type",
+                value:
+                  resuilt?.data?.myCasinoPartnership > 0 ||
+                  resuilt?.data?.myMatchCommission > 0
+                    ? "bbb"
+                    : "no-comm",
               },
               {
                 name: "commType",
                 value:
-                  data?.data?.parentMatchComm == 0 ||
-                  data?.data?.parentSessionComm == 0
-                    ? "no-comm"
-                    : "BetByBet",
+                  resuilt?.data?.myCasinoPartnership > 0 ||
+                  resuilt?.data?.myMatchCommission > 0
+                    ? "Bet by Bet"
+                    : "No Comm",
+              },
+              { name: "matchcomm", value: resuilt?.data?.myMatchCommission },
+              {
+                name: "super_match_comm",
+                value: getUserField("MatchCommission"),
+              },
+              { name: "sesscomm", value: resuilt?.data?.mySessionCommision },
+              {
+                name: "super_sess_comm",
+                value: getUserField("SessionCommision"),
               },
               {
-                name: "comm_type",
-                value: commType,
+                name: "sess_comm",
+                value: getUserField("CasinoCommission"),
               },
               {
-                name: "status",
-                value: resuilt?.data?.data.status ? "active" : "inActive",
+                name: "super_casino_share",
+                value: resuilt?.data?.myCasinoPartnership,
               },
               {
-                name: "match_share_p",
-                value: resuilt?.data?.data.parentMatchShare,
+                name: "matchShare",
+                value: resuilt?.data?.myPartnership,
               },
               {
-                name: "match_share",
-                value: resuilt?.data?.data.matchShare,
+                name: "super_casino_comm",
+                value: resuilt?.data?.adminCasinoCommission,
               },
+              {
+                name: "supercasinocomm",
+                value: getUserField("CasinoPartnership"),
+              },
+              {
+                name: "share",
+                value: getUserField("Partnership"),
+              },
+              { name: "match_share", value: resuilt?.data?.matchShare },
             ]}>
-            <div>
-              <Row className="super_agent  update_agent">
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="User Name"
-                    name="name"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your username!",
-                      },
-                    ]}>
-                    <Input
-                      onKeyDown={(e) => {
-                        if (!e.key.match(/^[a-zA-Z ]$/) && e.key.length === 1) {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Name"
-                    name="name"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your username!",
-                      },
-                    ]}>
-                    <Input
-                      onKeyDown={(e) => {
-                        if (!e.key.match(/^[a-zA-Z ]$/) && e.key.length === 1) {
-                          e.preventDefault();
-                        }
-                      }}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your reference!",
-                      },
-                    ]}
-                    label="Reference"
-                    name="reference">
-                    <Input placeholder="Enter Reference" />
-                  </Form.Item>
-                  <Form.Item
-                    label="Contact No."
-                    name="number"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your username!",
-                      },
-                      { pattern: mobileNum, message: "Invalid Contact NO!" },
-                    ]}>
-                    <InputNumber
-                      className="number_field"
-                      min={0}
-                      width={"100%"}
-                      type="number"
-                      placeholder="Enter Contact No."
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Enter Password!",
-                      },
-                    ]}>
-                    <Input type="password" placeholder="Password" />
-                  </Form.Item>
+            <Row className="super_agent update_agent">
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label="User ID"
+                  name="userId"
+                  rules={[{ required: true }]}>
+                  <Input disabled />
+                </Form.Item>
 
-                  <Form.Item
-                    name="status"
-                    label="Status"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                    ]}>
-                    <Select
-                      value={data?.data?.status ? "active" : "inActive"}
-                      allowClear>
-                      <Option value={"active"}>Active</Option>
-                      <Option value={"inActive"}>InActive</Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    name="Share Change Type"
-                    label="Status"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                    ]}>
-                    <Select
-                      value={data?.data?.status ? "active" : "inActive"}
-                      allowClear>
-                      <Option value={"Fixed"}>Fixed</Option>
-                      <Option value={"Chnage"}>Chnage</Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}></Col>
-              </Row>
-              <div>
-                <h2 style={{ marginLeft: "0px" }} className="update_agent_text">
-                  Match Share and Comm
-                </h2>
-              </div>
-              <Row className="super_agent  update_agent">
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label={`${updateName} Comm type`}
-                    name="commType"
-                    required={true}>
-                    <Input disabled />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    name="comm_type"
-                    label="Comm type"
-                    rules={[
-                      {
-                        required: true,
-                        message: "",
-                      },
-                    ]}>
-                    <Select
-                      onChange={(e) => onCommissionType(e)}
-                      value={commType}>
-                      <Option value="no-comm">No Comm</Option>
-                      <Option value="bbb">Bet by bet</Option>
-                    </Select>
-                  </Form.Item>
-                </Col>
+                <Form.Item
+                  label="Name"
+                  name="name"
+                  rules={[{ required: true }]}>
+                  <Input disabled />
+                </Form.Item>
 
-                {commType == "bbb" ? (
-                  <>
-                    <Col lg={12} xs={24}>
-                      <Form.Item
-                        label={`${updateName} match comm(%)`}
-                        name="matchcomm"
-                        required={true}>
-                        <Input type="number" disabled />
-                      </Form.Item>
-                    </Col>
-                    <Col lg={12} xs={24}>
-                      <Form.Item
-                        label="Match comm(%)"
-                        name="Supermatchcomm"
-                        required
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter odds commission",
-                          },
-                        ]}>
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col lg={12} xs={24}>
-                      <Form.Item
-                        label={`${updateName} sess comm(%)`}
-                        name="sesscomm"
-                        required={true}>
-                        <Input type="number" disabled />
-                      </Form.Item>
-                    </Col>
-                    <Col lg={12} xs={24}>
-                      <Form.Item
-                        label="Sess comm(%)"
-                        name="sess_comm"
-                        required
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter session commission",
-                          },
-                        ]}>
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                  </>
-                ) : (
-                  ""
-                )}
-              </Row>
-              <div>
-                <h2 style={{ marginLeft: "0px" }} className="update_agent_text">
-                  Casino Share and Commission
-                </h2>
-                 <Switch checkedChildren="ON" unCheckedChildren="OFF" defaultChecked />
-              </div>
-              <Row className="super_agent  update_agent">
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label={`${updateName} Casino Share(%)`}
-                    name="matchcomm"
-                    required={true}>
-                    <Input type="number" disabled />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Casino Share(%)"
-                    name="Supermatchcomm"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter Casino Share",
-                      },
-                    ]}>
-                    <Input />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label={`${updateName} Casino comm(%)`}
-                    name="sesscomm"
-                    required={true}>
-                    <Input type="number" disabled />
-                  </Form.Item>
-                </Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    label="Casino comm(%)"
-                    name="sess_comm"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter Casino commission",
-                      },
-                    ]}>
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Row className="super_agent  update_agent">
-                <Col lg={12} xs={24}></Col>
-                <Col lg={12} xs={24}>
-                  <Form.Item
-                    wrapperCol={{
-                      offset: 19,
-                      span: 24,
-                    }}>
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
+                <Form.Item
+                  label="Reference"
+                  name="reference"
+                  rules={[{ required: true }]}>
+                  <Input placeholder="Enter Reference" />
+                </Form.Item>
+
+                <Form.Item label="Contact No." name="number">
+                  <InputNumber
+                    className="number_field"
+                    placeholder="Enter Contact No."
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  rules={[{ required: true }]}>
+                  <Input disabled type="text" placeholder="Password" />
+                </Form.Item>
+
+                <Form.Item name="status" label="Status">
+                  <Select value={"active"}>
+                    <Option value="active">Active</Option>
+                    <Option value="inActive">InActive</Option>
+                  </Select>
+                </Form.Item>
+
+                <Form.Item name="share_change_type" label="Share Change Type">
+                  <Select defaultValue="Fixed">
+                    <Option value="Fixed">Fixed</Option>
+                    <Option value="Change">Change</Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {/* Match Share & Commission Section */}
+            <h2 className="update_agent_text">Match Share and Comm</h2>
+
+            <Row className="super_agent update_agent">
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label={`${updateNameDetails?.[id]} Match Share (%)`}
+                  name="matchShare">
+                  <Input type="number" disabled />
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label="Match Share (%)"
+                  name="share"
+                  rules={[
+                    { required: true, message: "Please enter match comm" },
+                  ]}>
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label={`${updateNameDetails?.[id]} Comm Type`}
+                  name="commType"
+                  rules={[{ required: true }]}>
+                  <Input disabled />
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label="Comm Type"
+                  name="comm_type"
+                  rules={[{ required: true }]}>
+                  <Select onChange={onCommissionType} value={commType}>
+                    <Option value="no-comm">No Comm</Option>
+                    <Option value="bbb">Bet by Bet</Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              {commType === "bbb" && (
+                <>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label={`${updateNameDetails?.[id]} Match Comm (%)`}
+                      name="matchcomm">
+                      <Input type="number" disabled />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Match Comm (%)"
+                      name="super_match_comm"
+                      rules={[
+                        { required: true, message: "Please enter match comm" },
+                      ]}>
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label={`${updateNameDetails?.[id]} Sess Comm (%)`}
+                      name="sesscomm">
+                      <Input type="number" disabled />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Sess Comm (%)"
+                      name="super_sess_comm"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter session comm",
+                        },
+                      ]}>
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </>
+              )}
+            </Row>
+
+            {/* Casino Section */}
+            <h2 className="update_agent_text">Casino Share and Commission</h2>
+            <Switch
+              checkedChildren="ON"
+              unCheckedChildren="OFF"
+              defaultChecked
+            />
+
+            <Row className="super_agent update_agent">
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label={`${updateNameDetails?.[id]} Casino Share (%)`}
+                  name="super_casino_share">
+                  <Input type="number" disabled />
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label="Casino Share (%)"
+                  name="supercasinocomm"
+                  rules={[
+                    { required: true, message: "Please enter casino share" },
+                  ]}>
+                  <Input />
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label={`${updateNameDetails?.[id]} Casino Comm (%)`}
+                  name="super_casino_comm">
+                  <Input type="number" disabled />
+                </Form.Item>
+              </Col>
+
+              <Col lg={12} xs={24}>
+                <Form.Item
+                  label="Casino Comm (%)"
+                  name="sess_comm"
+                  rules={[
+                    { required: true, message: "Please enter casino comm" },
+                  ]}>
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {/* Submit */}
+            <Row className="super_agent update_agent">
+              <Col lg={12} xs={24}></Col>
+              <Col lg={12} xs={24}>
+                <Form.Item wrapperCol={{ offset: 19 }}>
+                  <Button type="primary" htmlType="submit">
+                    Submit
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
           </Form>
         </div>
       </div>

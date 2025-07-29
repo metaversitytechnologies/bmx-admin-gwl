@@ -24,6 +24,7 @@ const ListSuper = () => {
     nav(`/client/create-super/${Number(userTyep) + 1}`);
   };
 
+
   return (
     <>
       <div className="main_live_section list_supers">
@@ -32,7 +33,7 @@ const ListSuper = () => {
             <div
               style={{ padding: "5px 8px", fontSize: "26px" }}
               className="team_name">
-              {Listname} Details
+              {Listname?.replace("-", " ")} Details
             </div>
             <div className="show_btn">
               <button onClick={handleBackClick}>Back</button>

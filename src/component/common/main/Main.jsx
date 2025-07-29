@@ -1,7 +1,6 @@
 // src/components/Main/Main.jsx
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { useIt_Self_By_APP_URLQuery } from "../../../store/service/supermasteAccountStatementServices";
 import Signin from "../signin/Signin";
 import LayOut from "../../layout/LayOut";
 import Dashboard from "../../pages/Dashboard/Dashboard";
@@ -65,30 +64,11 @@ const Main = () => {
   appUrl.shift();
   appUrl = appUrl.join(".");
 
-  const { data: logoData } = useIt_Self_By_APP_URLQuery(
-    { appUrl },
-    { refetchOnMountOrArgChange: true }
-  );
-
-  useEffect(() => {
-    const hostnamePart = window.location.hostname.split(".")[1];
-    document.title = hostnamePart;
-
-    if (logoData?.data?.favicon) {
-      const favicon = document.createElement("link");
-      favicon.rel = "icon";
-      favicon.href = logoData.data.favicon;
-      document.head.appendChild(favicon);
-    }
-  }, [logoData?.data]);
-
   return (
     <Routes>
-      <Route path="/" element={<Signin logo={logoData?.data?.logo} />} />
-      <Route path="/signin" element={<Signin logo={logoData?.data?.logo} />} />
-      <Route
-        path=""
-        element={<LayOut logoData={logoData} logo={logoData?.data?.logo} />}>
+      <Route path="/" element={<Signin />} />
+      <Route path="/signin" element={<Signin />} />
+      <Route path="" element={<LayOut />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/client/details-master" element={<MasterDetails />} />
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
@@ -102,6 +82,10 @@ const Main = () => {
         <Route
           path="/plus-minus-report/:id/:inplay?"
           element={<PlusMinusReport />}
+        />
+        <Route
+          path="/client/update-client/:id/:userId?"
+          element={<UpdateSuper />}
         />
         <Route
           path="/event-profit-loss/:id/:fancyId"

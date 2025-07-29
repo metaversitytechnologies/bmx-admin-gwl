@@ -2,16 +2,17 @@ import { Modal, Spin } from "antd";
 import "./ModalsData.scss";
 
 const getColumnClass = (role, uType) => {
-  // switch (role) {
-  //   case "Sub Admin":
-  //     return uType != 5 ? "d_none" : "";
-  //   case "Master":
-  //     return uType == 0 || uType == 5 ? "" : "d_none";
-  //   case "SuperAgent":
-  //     return uType == 0 || uType == 5 || uType == 1 ? "" : "d_none";
-  //   default:
-  //     return "";
-  // }
+  const hiddenRolesByType = {
+    7: [], // show all
+    6: ["SuperAdmin"],
+    5: ["SuperAdmin", "Admin"],
+    4: ["SuperAdmin", "Admin", "madmin"],
+    3: ["SuperAdmin", "Admin", "madmin", "Master"],
+    2: ["SuperAdmin", "Admin", "madmin", "Master", "SuperAgent"],
+  };
+
+  const hiddenRoles = hiddenRolesByType[uType] || [];
+  return hiddenRoles.includes(role) ? "d_none" : "";
 };
 
 const PartnershipTable = ({ title, dataKeys = [], details, uType }) => (
@@ -51,46 +52,17 @@ const ModalsData = ({
   handleCancel,
   userIds,
 }) => {
-  const uType = parseInt(localStorage.getItem("userType") || "5", 10);
+  const uType = parseInt(localStorage.getItem("userType"));
 
-  const defaultPartnershipDetails = {
-    uplinepartership: 10,
-    subadminpartnership: 20,
-    supermasterpartnership: 25,
-    masterpartnership: 30,
-    dealerpartnership: 15,
-
-    subadminoddsloss: 2,
-    supermasteroddsloss: 1.5,
-    masteroddsloss: 1.2,
-    dealeroddsloss: 1,
-    oddsloss: 0.8,
-
-    subadminfancyloss: 1.8,
-    supermasterfancyloss: 1.4,
-    masterfancyloss: 1.1,
-    dealerfancyloss: 0.9,
-    fancyloss: 0.7,
-
-    subadmincasinopartnership: 18,
-    supermastercasinopartnership: 14,
-    mastercasinopartnership: 11,
-    dealercasinopartnership: 9,
-
-    subadmincasinocommssion: 2.1,
-    supermastercasinocommssion: 1.8,
-    mastercasinocommssion: 1.5,
-    dealercasinocommssion: 1.2,
-    casinocommssion: 1,
-  };
-
-  const details = partnershipDetails || defaultPartnershipDetails;
+  const details = partnershipDetails;
 
   const tableConfigs = [
     {
       title: "Match Share",
       dataKeys: [
-        { label: "Sub Admin", key: "subadminpartnership" },
+        { label: "SuperAdmin", key: "uplinepartnership" },
+        { label: "Admin", key: "adminpartnership" },
+        { label: "madmin", key: "subadminpartnership" },
         { label: "Master", key: "supermasterpartnership" },
         { label: "SuperAgent", key: "masterpartnership" },
         { label: "Agent", key: "dealerpartnership" },
@@ -100,7 +72,8 @@ const ModalsData = ({
     {
       title: "Match Commission",
       dataKeys: [
-        { label: "Sub Admin", key: "subadminoddsloss" },
+        { label: "Admin", key: "adminoddsloss" },
+        { label: "madmin", key: "subadminoddsloss" },
         { label: "Master", key: "supermasteroddsloss" },
         { label: "SuperAgent", key: "masteroddsloss" },
         { label: "Agent", key: "dealeroddsloss" },
@@ -110,7 +83,8 @@ const ModalsData = ({
     {
       title: "Session Commission",
       dataKeys: [
-        { label: "Sub Admin", key: "subadminfancyloss" },
+        { label: "Admin", key: "adminfancyloss" },
+        { label: "madmin", key: "subadminfancyloss" },
         { label: "Master", key: "supermasterfancyloss" },
         { label: "SuperAgent", key: "masterfancyloss" },
         { label: "Agent", key: "dealerfancyloss" },
@@ -120,7 +94,9 @@ const ModalsData = ({
     {
       title: "Casino Share",
       dataKeys: [
-        { label: "Sub Admin", key: "subadmincasinopartnership" },
+        { label: "SuperAdmin", key: "uplinecasinopartnership" },
+        { label: "Admin", key: "admincasinopartnership" },
+        { label: "madmin", key: "subadmincasinopartnership" },
         { label: "Master", key: "supermastercasinopartnership" },
         { label: "SuperAgent", key: "mastercasinopartnership" },
         { label: "Agent", key: "dealercasinopartnership" },
@@ -130,7 +106,8 @@ const ModalsData = ({
     {
       title: "Casino Commission",
       dataKeys: [
-        { label: "Sub Admin", key: "subadmincasinocommssion" },
+        { label: "Admin", key: "admincasinocommssion" },
+        { label: "madmin", key: "subadmincasinocommssion" },
         { label: "Master", key: "supermastercasinocommssion" },
         { label: "SuperAgent", key: "mastercasinocommssion" },
         { label: "Agent", key: "dealercasinocommssion" },
@@ -147,8 +124,7 @@ const ModalsData = ({
       open={isModalOpen}
       onCancel={handleCancel}
       footer={false}
-      okButtonProps={{ style: { display: "none" } }}
-    >
+      okButtonProps={{ style: { display: "none" } }}>
       <div className="ant-spin-nested-loading">
         {loading && (
           <div className="spin_icon">

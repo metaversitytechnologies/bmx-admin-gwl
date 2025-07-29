@@ -391,7 +391,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
                 <th rowSpan={2}>Name</th>
                 <th rowSpan={2}>
                   {uType == 5
-                    ? "Sub Admin"
+                    ? "Mini Admin"
                     : uType == 0
                     ? "Master"
                     : uType == 1

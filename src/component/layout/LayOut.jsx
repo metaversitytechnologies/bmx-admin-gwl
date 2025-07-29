@@ -10,7 +10,7 @@ import { useJwtTokenQuery } from "../../store/service/jwtTokenServices";
 import HomeRules from "../pages/HomeRules";
 import JwtToken from "./JwtToken";
 
-const LayOut = ({ logo, logoData }) => {
+const LayOut = () => {
   const [collapsed, setCollapsed] = useState();
   const [openRules, setOpenRules] = useState(false);
   const [open, setOpen] = useState(false);
@@ -61,15 +61,12 @@ const LayOut = ({ logo, logoData }) => {
 
       <Layout className="main_layout">
         <Sidebar
-          logoData={logoData}
           collll={collll}
           open={open}
-          logo={logo}
           action={toggleDarawer}
         />
         <Layout>
           <Header
-            logo={logo}
             className="header_com"
             style={{
               padding: 0,

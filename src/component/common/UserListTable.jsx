@@ -272,15 +272,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
         <Link
           style={{ fontWeight: 700 }}
           onClick={resetDropdownStates}
-          to={`${
-            Listname === "Master"
-              ? `/client/update-super/${res?.userId}`
-              : Listname === "Super"
-              ? `/client/update-agent/${res?.userId}`
-              : Listname === "Agent"
-              ? `/client/update-dealer/${res?.userId}`
-              : `/client/update-client/${res?.userId}`
-          }`}>
+          to={`${`/client/update-client/${userType}/${res?.userId}`}`}>
           Edit
         </Link>
       ),
@@ -552,7 +544,6 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
           setOpenResetPass={setOpenResetPassModal}
           data={resetPassData?.data}
           userId={userId}
-    
         />
       </div>
     </>

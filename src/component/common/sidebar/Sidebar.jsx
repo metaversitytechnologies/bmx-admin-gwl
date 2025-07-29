@@ -126,15 +126,15 @@ const Sidebar = (props) => {
                   {uType == 6
                     ? "Admin Details"
                     : uType == 5
-                    ? "madmin Detail"
+                    ? "Mini Admin Master"
                     : uType == 4
-                    ? "Master Detail"
+                    ? "Master Master"
                     : uType == 3
-                    ? "Super Detail"
+                    ? "Super Agent Master"
                     : userType == 7
                     ? "SuperAdmin"
                     : userType == 2
-                    ? "Agent"
+                    ? "Agent Master"
                     : ""}
                 </div>
               ),
@@ -147,7 +147,9 @@ const Sidebar = (props) => {
                   className: `${
                     userType === "7" || userType === "6" ? "" : "d-none"
                   }`,
-                  label: <Link to="/user-list/SubAdmin/5">Sub Admin</Link>,
+                  label: (
+                    <Link to="/user-list/Mini-Admin/5">Mini Admin Master</Link>
+                  ),
                 },
                 {
                   className: `${
@@ -155,7 +157,9 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/user-list/Master/4">Master</Link>,
+                  label: (
+                    <Link to="/user-list/Master-Master/4">Master Master</Link>
+                  ),
                 },
                 {
                   className: `${
@@ -166,7 +170,9 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/user-list/Super/3">Super</Link>,
+                  label: (
+                    <Link to="/user-list/Super-Master/3">Super Master</Link>
+                  ),
                 },
                 {
                   className: `${
@@ -178,10 +184,14 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/user-list/Agent/2">Agent</Link>,
+                  label: (
+                    <Link to="/user-list/Agent-Master/2">Agent Master</Link>
+                  ),
                 },
                 {
-                  label: <Link to="/user-list/Client/1">Client</Link>,
+                  label: (
+                    <Link to="/user-list/Client-Master/1">Client Master</Link>
+                  ),
                 },
               ],
             },
@@ -282,7 +292,9 @@ const Sidebar = (props) => {
                     userType === "7" || userType == "6" ? "" : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/ledger-super">Sub Admin Ledger</Link>
+                    <Link to="/client/ledger-super">
+                      Mini Admin Master Ledger
+                    </Link>
                   ),
                 },
                 {
@@ -344,7 +356,7 @@ const Sidebar = (props) => {
               children: [
                 {
                   label: (
-                    <Link to="/client/txn-super/Client/1">
+                    <Link to="/client/txn-super/Client-Master/1">
                       (C) Debit/Credit Entry
                     </Link>
                   ),
@@ -368,7 +380,7 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/txn-super/Agent/2">
+                    <Link to="/client/txn-super/Agent-Master/2">
                       (A) Debit/Credit Entry
                     </Link>
                   ),
@@ -383,7 +395,7 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/txn-super/Super/3">
+                    <Link to="/client/txn-super/Super-Master/3">
                       (SA) Debit/Credit Entry
                     </Link>
                   ),
@@ -395,7 +407,7 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/txn-super/Master/4">
+                    <Link to="/client/txn-super/Master-Master/4">
                       (MA) Debit/Credit Entry
                     </Link>
                   ),
@@ -405,7 +417,7 @@ const Sidebar = (props) => {
                     userType === "7" || userType == "6" ? "" : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/txn-super/madmin/5">
+                    <Link to="/client/txn-super/Mini-Admin/5">
                       (SUB) Debit/Credit Entry
                     </Link>
                   ),
@@ -589,9 +601,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/user-list/madmin/5"
+                        to="/user-list/Mini-Admin/5"
                         onClick={() => props?.action()}>
-                        Sub Admin
+                        Mini Admin
                       </Link>
                     ),
                   },
@@ -603,9 +615,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/user-list/Master/4"
+                        to="/user-list/Master-Master/4"
                         onClick={() => props?.action()}>
-                        Master
+                        Master Master
                       </Link>
                     ),
                   },
@@ -620,9 +632,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/user-list/Super/3"
+                        to="/user-list/Super-Master/3"
                         onClick={() => props?.action()}>
-                        Super
+                        Super Master
                       </Link>
                     ),
                   },
@@ -637,9 +649,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/user-list/Agent/2"
+                        to="/user-list/Agent-Master/2"
                         onClick={() => props?.action()}>
-                        Agent
+                        Agent Master
                       </Link>
                     ),
                   },
@@ -648,7 +660,7 @@ const Sidebar = (props) => {
                       <Link
                         to="/user-list/Client/1"
                         onClick={() => props?.action()}>
-                        Client
+                        Client Master
                       </Link>
                     ),
                   },
@@ -798,7 +810,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super">
-                        Sub Admin Ledger
+                        Mini Admin Ledger
                       </Link>
                     ),
                   },
@@ -829,7 +841,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-master">
-                        Super Ledger
+                        Super Master Ledger
                       </Link>
                     ),
                   },
@@ -847,7 +859,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-agent">
-                        Agent Ledger
+                        Agent Master Ledger
                       </Link>
                     ),
                   },
@@ -856,7 +868,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-client">
-                        Client Ledger
+                        Client Master Ledger
                       </Link>
                     ),
                   },
@@ -886,7 +898,7 @@ const Sidebar = (props) => {
                   {
                     label: (
                       <Link
-                        to="/client/txn-super/Client/1"
+                        to="/client/txn-super/Client-Master/1"
                         onClick={() => props?.action()}>
                         (C) Debit/Credit Entry
                       </Link>
@@ -912,7 +924,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/txn-super/Agent/2"
+                        to="/client/txn-super/Agent-Master/2"
                         onClick={() => props?.action()}>
                         (A) Debit/Credit Entry
                       </Link>
@@ -929,7 +941,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/txn-super/Super/3"
+                        to="/client/txn-super/Super-Master/3"
                         onClick={() => props?.action()}>
                         (SA) Debit/Credit Entry
                       </Link>
@@ -943,7 +955,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/txn-super/Master/4"
+                        to="/client/txn-super/Master-Master/4"
                         onClick={() => props?.action()}>
                         (MA) Debit/Credit Entry
                       </Link>
@@ -955,9 +967,9 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link
-                        to="/client/txn-super/madmin/5"
+                        to="/client/txn-super/Mini-Admin/5"
                         onClick={() => props?.action()}>
-                        (SUB) Debit/Credit Entry
+                        (MIA) Debit/Credit Entry
                       </Link>
                     ),
                   },

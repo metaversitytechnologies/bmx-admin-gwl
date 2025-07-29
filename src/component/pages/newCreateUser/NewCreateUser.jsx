@@ -24,7 +24,7 @@ import { use } from "react";
 
 const createName = {
   7: "Admin",
-  6: "Sub Admin",
+  6: "madmin",
   5: "Master",
   4: "Super",
   3: "Agent",

@@ -70,13 +70,13 @@ const Dashboard = () => {
                               : uType == 6
                               ? "Admin Detail"
                               : uType == 5
-                              ? "madmin Detail"
+                              ? "Mini Admin"
                               : uType == 4
-                              ? "Master Detail"
+                              ? "Master"
                               : uType == 3
-                              ? "Super Details"
+                              ? "SuperAgent"
                               : uType == 2
-                              ? "Agent Details"
+                              ? "Agent"
                               : ""}
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
@@ -253,7 +253,7 @@ const Dashboard = () => {
               {
                 icon: <img src="/Images/user.png" width={30} />,
                 title: `${localStorage.getItem("userId")}`,
-                desc:
+                desc: `You are ${
                   uType == 7
                     ? "Super Admin"
                     : uType == 6
@@ -262,7 +262,8 @@ const Dashboard = () => {
                     ? "Super"
                     : uType == 2
                     ? "Agent"
-                    : "Client",
+                    : "Client"
+                }`,
               },
               {
                 icon: <img src="/Images/chips.png" width={30} />,
@@ -281,17 +282,17 @@ const Dashboard = () => {
               },
               {
                 icon: <img src="/Images/com_s.png" width={30} />,
-                title: `${dataDes?.data?.companyShare}`,
+                title: `${dataDes?.data?.companyShare}%`,
                 desc: "Company Share",
               },
               {
                 icon: null,
-                title: `${dataDes?.data?.matchCommission}`,
+                title: `${dataDes?.data?.matchCommission}%`,
                 desc: "Match Commission",
               },
               {
                 icon: null,
-                title: `${dataDes?.data?.sessionCommission}`,
+                title: `${dataDes?.data?.sessionCommission}%`,
                 desc: "Session Commission",
               },
               {

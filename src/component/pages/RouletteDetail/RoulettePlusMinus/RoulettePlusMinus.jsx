@@ -161,7 +161,7 @@ const RoulettePlusMinus = () => {
             >
               <p>
                 {uType == 5
-                  ? "Sub Admin "
+                  ? "madmin"
                   : uType == 0
                   ? "Super Master "
                   : uType == 1
@@ -224,7 +224,7 @@ const RecursiveTable = ({ data, title }) => {
       returnArr.push(
         <tr className="sub_color">
           <td>&nbsp;</td>
-          <td style={{ whiteSpace: "nowrap" }}>Sub Admin </td>
+          <td style={{ whiteSpace: "nowrap" }}>madmin</td>
           <td colSpan={34}>
             <strong>{title}</strong>
           </td>

@@ -93,7 +93,7 @@ export const userlistApi = createApi({
     }),
     updateUser: build.mutation({
       query: (body) => ({
-        url: "/bmx/user/update-v2",
+        url: "/user/update-detail",
         method: "POST",
         body,
       }),
@@ -101,7 +101,7 @@ export const userlistApi = createApi({
     }),
     getUser: build.query({
       query: (body) => ({
-        url: "/bmx/user/get-user-for-update",
+        url: "/user/user-detail-for-edit",
         method: "POST",
         body,
       }),
@@ -179,7 +179,7 @@ export const {
   useLazyCreateUserDataQuery,
   useCreateUserMutation,
   useUpdateUserMutation,
-  useLazyGetUserQuery,
+  useGetUserQuery,
   useAccountOprationQuery,
   useDashboardQuery,
   useLazyIsUserIdQuery,
@@ -187,5 +187,5 @@ export const {
   useGetUserIdMutation,
   useGetMyLedgerQuery,
   useGetGenerateMutation,
-  useGetUpdatePasswordMutation
+  useGetUpdatePasswordMutation,
 } = userlistApi;
