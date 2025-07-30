@@ -235,7 +235,7 @@ const depthKeys = [
 ];
 const depthKeysF = ["SUB", "MA", "SA", "A"];
 
-const LedgerDataAdmin = ({ ledgerData }) => {
+const LedgerDataAdminCasino = ({ ledgerData }) => {
   return (
     <>
       <div className={`card card-dark`}>
@@ -318,4 +318,4 @@ const LedgerDataAdmin = ({ ledgerData }) => {
   );
 };
 
-export default LedgerDataAdmin;
+export default LedgerDataAdminCasino;

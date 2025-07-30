@@ -504,7 +504,7 @@ const Sidebar = (props) => {
                   onMouseEnter={() => setHoveredItem("9")}
                   onMouseLeave={() => setHoveredItem(null)}
                   to="/markets">
-                  Setting
+                  WBT Setting
                 </Link>
               ),
             },
@@ -634,7 +634,7 @@ const Sidebar = (props) => {
                       <Link
                         to="/user-list/Super-Master/3"
                         onClick={() => props?.action()}>
-                        Super Master
+                        Super Agent Master
                       </Link>
                     ),
                   },
@@ -841,7 +841,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-master">
-                        Super Master Ledger
+                        Super Agent Master Ledger
                       </Link>
                     ),
                   },
@@ -1075,7 +1075,7 @@ const Sidebar = (props) => {
                       props?.action();
                       setOpenKeys([]);
                     }}>
-                    Setting
+                    {window?.location.hostname?.split(".")[1]} Setting
                   </Link>
                 ),
               },

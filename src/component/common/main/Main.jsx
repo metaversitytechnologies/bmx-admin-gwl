@@ -58,6 +58,7 @@ import FancyBets from "../../pages/sportsdetails/fancyslips/FancyBets";
 import EventProfitLossList from "../../pages/GameDeatis/EventProfitLoss";
 import DisplayGames from "../../pages/MatchLedgerCasino/DisplayGames";
 import AllBets from "../../pages/MatchLedgerCasino/AllBets";
+import CasinoPLMinus from "../../pages/RouletteDetail/RoulettePlusMinus/CasinoPLMinus";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -82,6 +83,10 @@ const Main = () => {
         <Route
           path="/plus-minus-report/:id/:inplay?"
           element={<PlusMinusReport />}
+        />
+        <Route
+          path="/plusminuscasinodeatils/:date"
+          element={<CasinoPLMinus />}
         />
         <Route
           path="/client/update-client/:id/:userId?"

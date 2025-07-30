@@ -96,6 +96,13 @@ export const casinoDetailsApi = createApi({
         body,
       }),
     }),
+    casinoDayWisePl: build.query({
+      query: (body) => ({
+        url: `casino/get-casino-detail-daywise-plusminus`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -111,5 +118,6 @@ export const {
   useGetCasinoBetListQuery,
   useGetCasinoBetListByTableQuery,
   useGetCasinoBetByMarketQuery,
-  useGetCasinoPnlByDateQuery
+  useGetCasinoPnlByDateQuery,
+  useCasinoDayWisePlQuery
 } = casinoDetailsApi;

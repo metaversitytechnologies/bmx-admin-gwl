@@ -147,6 +147,24 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    casiniPlayerList: build.query({
+      query: (body) => {
+        return {
+          url: `casino/get-casino-player-table-list`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getCasinoLedger: build.query({
+      query: (body) => {
+        return {
+          url: `casino/get-casino-ledger`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -166,5 +184,7 @@ export const {
   useGetCompletedFancyMutation,
   useGetCompletLedgerQuery,
   useGetSessionPlusMinusQuery,
-  useGetCompleteLedgerQuery
+  useGetCompleteLedgerQuery,
+  useCasiniPlayerListQuery,
+  useGetCasinoLedgerQuery
 } = sportDetailsApi;

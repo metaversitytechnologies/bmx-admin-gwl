@@ -1,9 +1,18 @@
 import { Button, Card, Col, DatePicker, Row, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
+import { useCasinoDayWisePlQuery } from "../../../store/service/CasinoServices";
 
 const { RangePicker } = DatePicker;
 
 const CasinoPandLDetail = () => {
+  const { data } = useCasinoDayWisePlQuery({
+    index: 0,
+    noOfRecords: 50,
+    fromDate: "2025-06-30",
+    toDate: "2025-07-30",
+  });
+
+  console.log(data, "datadatadatadatadata");
   return (
     <>
       <div className="match_slip match_ledger">
@@ -84,7 +93,9 @@ const CasinoPandLDetail = () => {
                         marginRight: "15px",
                       }}
                       type="primary">
-                      <Link to="/casino/110/plus-minus-type">plusminus2</Link>
+                      <Link to="/plusminuscasinodeatils/2025-07-29">
+                        plusminus2
+                      </Link>
                     </Button>
                     <Button
                       style={{
