@@ -59,6 +59,7 @@ import EventProfitLossList from "../../pages/GameDeatis/EventProfitLoss";
 import DisplayGames from "../../pages/MatchLedgerCasino/DisplayGames";
 import AllBets from "../../pages/MatchLedgerCasino/AllBets";
 import CasinoPLMinus from "../../pages/RouletteDetail/RoulettePlusMinus/CasinoPLMinus";
+import DeleteBet from "../../pages/DeleteBet/DeleteBet";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -74,6 +75,7 @@ const Main = () => {
         <Route path="/client/details-master" element={<MasterDetails />} />
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
+        <Route path="/delete-bet" element={<DeleteBet />} />
         <Route
           path="/display-games/:id/:name/:date?"
           element={<DisplayGames />}

@@ -165,6 +165,23 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    matchListActiveBets: build.query({
+      query: () => {
+        return {
+          url: `ant-pro/get-matchlist-having-active-bets`,
+          method: "POST",
+        };
+      },
+    }),
+    marketHavingBet: build.mutation({
+      query: (body) => {
+        return {
+          url: `ant-pro/get-market-having-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -186,5 +203,7 @@ export const {
   useGetSessionPlusMinusQuery,
   useGetCompleteLedgerQuery,
   useCasiniPlayerListQuery,
-  useGetCasinoLedgerQuery
+  useGetCasinoLedgerQuery,
+  useMatchListActiveBetsQuery,
+  useMarketHavingBetMutation,
 } = sportDetailsApi;

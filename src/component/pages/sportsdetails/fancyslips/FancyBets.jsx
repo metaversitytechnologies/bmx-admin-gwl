@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Card, Select, Row, Col, Table, Form, Button, Spin, Empty } from "antd";
+import { useEffect, useState } from "react";
+import { Card, Select, Row, Col, Form, Spin, Empty } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./FancySlips.scss";
 import {
   useGetSessionBetMutation,
   useGetSessionHavingBetQuery,
-  useGetUserSeacrhMutation,
 } from "../../../../store/service/SportDetailServices";
+import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
 
 const FancyBets = () => {
   const [clientId, setClientId] = useState("");
   const [oddsType, setOddsType] = useState("");
-  const [formData, setFormData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const nav = useNavigate();
@@ -22,7 +21,7 @@ const FancyBets = () => {
     matchId: id ?? "",
   });
   const [trigger, { data: sessionData }] = useGetSessionBetMutation();
-  const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
+  const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
 
   useEffect(() => {
     trigger({
@@ -37,16 +36,14 @@ const FancyBets = () => {
     nav(-1);
   };
 
-  const onFinish = (values) => {
+  const onFinish = () => {
     setIsLoading(true);
-    setFormData(values);
 
     setTimeout(() => {
       setIsLoading(false);
     }, 500);
   };
 
-  
   return (
     <>
       <div className="match_slip ledger_data led_super">
@@ -72,7 +69,7 @@ const FancyBets = () => {
                     placeholder="Select User"
                     showSearch
                     onSearch={(value) => {
-                      if (value) userTrigger({ userId: value });
+                      if (value) userTrigger({ userId: value, userType: 1 });
                     }}
                     value={clientId}
                     allowClear

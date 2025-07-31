@@ -35,8 +35,8 @@ const Signin = () => {
       const authPayload = {
         userId: values?.username?.trim(),
         password: values?.password?.trim(),
-        url: url ,
-        // url: "superadmin.fastbet365.in" ,
+        // url: url ,
+        url: "superadmin.fastbet365.in" ,
       };
       trigger(authPayload);
     } else {

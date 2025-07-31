@@ -1,51 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { Card, Select, Row, Col, Table, Form, Button, Spin, Empty } from "antd";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import { Card, Select, Row, Col, Form, Spin, Empty } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./FancySlips.scss";
-import { useGetMatchBetsMutation, useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
+import { useGetMatchBetsMutation } from "../../../../store/service/SportDetailServices";
+import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
 
-const FancySlips = ({ type, name }) => {
+const FancySlips = ({ name }) => {
   const [clientId, setClientId] = useState("");
   const [oddsType, setOddsType] = useState("");
-  const [formData, setFormData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [summaryData, setSummaryData] = useState([]);
 
   const nav = useNavigate();
   const { id, inplay } = useParams();
 
-  const [trigger, { data: matchBets }] = useGetMatchBetsMutation()
-  const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
+  const [trigger, { data: matchBets }] = useGetMatchBetsMutation();
+  const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
 
   useEffect(() => {
     trigger({
       matchId: id,
       userId: clientId,
       matchCompleted: inplay !== "1" ? true : false,
-      marketType: oddsType
-    })
+      marketType: oddsType,
+    });
   }, [oddsType, clientId]);
-
-
-
 
   const handleBackClick = () => {
     nav(-1);
   };
 
-  const onFinish = (values) => {
+  const onFinish = () => {
     setIsLoading(true);
-    setFormData(values);
 
     setTimeout(() => {
       setIsLoading(false);
     }, 500); // simulate loading
   };
 
-
   useEffect(() => {
     if (matchBets?.data?.betList) {
-      const { pnl1 = 0, pnl2 = 0, pnl3 = 0 } = matchBets.data.betList.reduce(
+      const {
+        pnl1 = 0,
+        pnl2 = 0,
+        pnl3 = 0,
+      } = matchBets.data.betList.reduce(
         (acc, bet) => {
           acc.pnl1 += Number(bet.pnl1) || 0;
           acc.pnl2 += Number(bet.pnl2) || 0;
@@ -59,20 +59,20 @@ const FancySlips = ({ type, name }) => {
         {
           team: matchBets.data.team1,
           selectionId: matchBets.data.selectionId1,
-          pnl: pnl1
+          pnl: pnl1,
         },
         {
           team: matchBets.data.team2,
           selectionId: matchBets.data.selectionId2,
-          pnl: pnl2
-        }
+          pnl: pnl2,
+        },
       ];
 
       if (matchBets.data.team3) {
         newSummary.push({
           team: matchBets.data.team3,
           selectionId: matchBets.data.selectionId3,
-          pnl: pnl3
+          pnl: pnl3,
         });
       }
 
@@ -83,9 +83,7 @@ const FancySlips = ({ type, name }) => {
   return (
     <>
       <div className="match_slip match_bets_report">
-        {
-          matchBets?.data?.betList.length > 0 &&
-
+        {matchBets?.data?.betList.length > 0 && (
           <div className="ant-row">
             <div className="gx-bg-flex gx-justify-content-center gx-align-items-center gx-mx-2 gx-bg-grey gx-py-2  gx-w-100">
               <h2 className="gx-text-uppercase gx-text-white gx-mt-1 gx-fs-lg gx-font-weight-bold ">
@@ -93,31 +91,40 @@ const FancySlips = ({ type, name }) => {
               </h2>
             </div>
             <div className="gx-flex gx-overflow-auto">
-
-              {
-                summaryData?.map((item, index) => {
-                  return (
-                    <div key={index} className="ant-col gx-my-3 gx-mx-1 gx-px-1 ">
-                      <div className={`gx-fillchart ${item?.pnl > 0 ? "gx-bg-green-0" : "gx-bg-red"}  gx-overlay-fillchart`}>
-                        <div className="gx-media gx-align-items-center gx-my-3 gx-px-3 gx-fs-xl">
-                          <div className="gx-mr-xl-3 gx-d-none gx-d-md-block">
-                            <img src="/Images/bar.png" height={44} className="icon icon-chart gx-fs-icon-lg" />
-                          </div>
-                          <div className="gx-media-body">
-                            <h1 className="gx-fs-xl gx-font-weight-bold gx-text-white mb-5">{item?.pnl?.toFixed(2)}</h1>
-                            (0)
-                            <br />
-                            <h3 />
-                            <p className="gx-mb-0 gx-text-nowrap gx-fs-xl mp-5">{item?.team}</p>
-                          </div>
+              {summaryData?.map((item, index) => {
+                return (
+                  <div key={index} className="ant-col gx-my-3 gx-mx-1 gx-px-1 ">
+                    <div
+                      className={`gx-fillchart ${
+                        item?.pnl > 0 ? "gx-bg-green-0" : "gx-bg-red"
+                      }  gx-overlay-fillchart`}>
+                      <div className="gx-media gx-align-items-center gx-my-3 gx-px-3 gx-fs-xl">
+                        <div className="gx-mr-xl-3 gx-d-none gx-d-md-block">
+                          <img
+                            src="/Images/bar.png"
+                            height={44}
+                            className="icon icon-chart gx-fs-icon-lg"
+                          />
+                        </div>
+                        <div className="gx-media-body">
+                          <h1 className="gx-fs-xl gx-font-weight-bold gx-text-white mb-5">
+                            {item?.pnl?.toFixed(2)}
+                          </h1>
+                          (0)
+                          <br />
+                          <h3 />
+                          <p className="gx-mb-0 gx-text-nowrap gx-fs-xl mp-5">
+                            {item?.team}
+                          </p>
                         </div>
                       </div>
                     </div>
-                  )
-                })
-              }
+                  </div>
+                );
+              })}
             </div>
-          </div>}
+          </div>
+        )}
         <Card
           style={{ margin: "0px", width: "100%" }}
           className="sport_detail session_bet"
@@ -140,7 +147,7 @@ const FancySlips = ({ type, name }) => {
                     placeholder="Select User"
                     showSearch
                     onSearch={(value) => {
-                      if (value) userTrigger({ userId: value });
+                      if (value) userTrigger({ userId: value, userType: 1 });
                     }}
                     value={clientId}
                     allowClear
@@ -163,13 +170,15 @@ const FancySlips = ({ type, name }) => {
                   <Select
                     placeholder="Select User"
                     value={oddsType}
-                    options={[{
-                      value: "All",
-                      label: "All Odds Type",
-                    }, {
-                      value: "Bookmaker",
-                      label: "bookmaker",
-                    }
+                    options={[
+                      {
+                        value: "All",
+                        label: "All Odds Type",
+                      },
+                      {
+                        value: "Bookmaker",
+                        label: "bookmaker",
+                      },
                     ]}
                     showSearch
                     allowClear
@@ -207,21 +216,20 @@ const FancySlips = ({ type, name }) => {
                       <tr
                         key={id}
                         className={res?.mode !== "L" ? "lay" : "back"}>
-                        <td >{res?.odds}</td>
-                        <td >{res?.stake}</td>
+                        <td>{res?.odds}</td>
+                        <td>{res?.stake}</td>
                         <td>{res?.mode === "L" ? "Lagai" : "Khai"}</td>
                         <td>{res?.team}</td>
-                        <td>{res?.username} ({res?.userId})</td>
+                        <td>
+                          {res?.username} ({res?.userId})
+                        </td>
                         <td>{res?.marketType}</td>
-                        <td>{res?.parentName} ({res?.parentId})</td>
+                        <td>
+                          {res?.parentName} ({res?.parentId})
+                        </td>
                         <td>{res?.date}</td>
-                        <td>
-                          {res?.liability}
-                        </td>
-                        <td>
-                          {res?.pnl}
-                        </td>
-
+                        <td>{res?.liability}</td>
+                        <td>{res?.pnl}</td>
                       </tr>
                     ))
                   ) : (

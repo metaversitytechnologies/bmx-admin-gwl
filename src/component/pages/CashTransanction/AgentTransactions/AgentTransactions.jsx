@@ -106,7 +106,7 @@ const AgentTransactions = () => {
       {contextHolder}
       <Card
         className="sport_detail ledger_data cash_data"
-        title={`${name} Transactions`}
+        title={`${name?.replace("-", " ")} Transactions`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
           <Form

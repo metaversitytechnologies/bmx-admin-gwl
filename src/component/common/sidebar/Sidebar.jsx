@@ -222,6 +222,9 @@ const Sidebar = (props) => {
                 {
                   label: <Link to="/finish-game">Finished Games</Link>,
                 },
+                {
+                  label: <Link to="/delete-bet">Delete Bets</Link>,
+                },
               ],
             },
             {
@@ -700,6 +703,13 @@ const Sidebar = (props) => {
                     label: (
                       <Link to="/finish-game" onClick={() => props?.action()}>
                         Finished Games
+                      </Link>
+                    ),
+                  },
+                  {
+                    label: (
+                      <Link to="/delete-bet" onClick={() => props?.action()}>
+                        Delete Bets
                       </Link>
                     ),
                   },

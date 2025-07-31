@@ -1,17 +1,15 @@
 import { Card, Select, Row, Col, Form, Empty } from "antd";
-import {
-  useGetMatchAndSessionBetMutation,
-  useGetUserSeacrhMutation,
-} from "../../../../store/service/SportDetailServices";
+import { useGetMatchAndSessionBetMutation } from "../../../../store/service/SportDetailServices";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
 
 const MatchSessionBet = () => {
   const [clientId, setClientId] = useState("");
   const { id, inplay } = useParams();
   const nav = useNavigate();
   const [trigger, { data: matchBets }] = useGetMatchAndSessionBetMutation();
-  const [userTrigger, { data: userData }] = useGetUserSeacrhMutation();
+  const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
 
   useEffect(() => {
     trigger({
@@ -21,14 +19,13 @@ const MatchSessionBet = () => {
     });
   }, [clientId, id, inplay]);
 
-
   return (
     <div className="match_slip match_bets_session">
       <Card
         style={{ margin: "0px", width: "100%" }}
         className="sport_detail session_bet"
         title={`Match & Session Bet Details MatchCode : ${id}`}
-        extra={<button onClick={()=>nav(-1)}>Back</button>}>
+        extra={<button onClick={() => nav(-1)}>Back</button>}>
         <Form
           name="basic"
           autoComplete="off"
@@ -45,7 +42,7 @@ const MatchSessionBet = () => {
                   placeholder="Select User"
                   showSearch
                   onSearch={(value) => {
-                    if (value) userTrigger({ userId: value });
+                    if (value) userTrigger({ userId: value, userType: 1 });
                   }}
                   value={clientId}
                   allowClear
