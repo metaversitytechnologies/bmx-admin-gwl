@@ -25,9 +25,8 @@ const RoulettePlusMinus = () => {
     userIdList: state?.thirdUserid,
   });
 
-  // Set isLoading to false as we are using dummy data
 
-  const userType = localStorage.getItem("userType"); // You might want to get this from localStorage or a global state in a real application
+  const userType = localStorage.getItem("userType"); 
 
   return (
     <>

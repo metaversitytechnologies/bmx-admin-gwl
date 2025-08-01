@@ -23,7 +23,7 @@ import moment from "moment";
 const dateFormat = "YYYY/MM/DD";
 
 const AgentTransactions = () => {
-  const { name, id } = useParams();
+  const { name, id, userId } = useParams();
   const [api, contextHolder] = notification.useNotification();
   var curr = new Date();
   const time = moment(curr).format("YYYY-MM-DD");
@@ -89,7 +89,7 @@ const AgentTransactions = () => {
   useEffect(() => {
     if (createTranstions?.status) {
       openNotification(createTranstions?.message);
-      trigger({ userId: clientId });
+      trigger({ userId: userId ? userId : clientId });
       form?.resetFields();
     } else if (createTranstions?.status === false || error?.data?.message) {
       openNotificationError(createTranstions?.message || error?.data?.message);
@@ -97,9 +97,27 @@ const AgentTransactions = () => {
   }, [createTranstions, error]);
 
   useEffect(() => {
+    trigger({ userId: userId });
+  }, [userId]);
+
+  useEffect(() => {
     form?.resetFields();
     setClientId("");
   }, [pathname]);
+
+  useEffect(() => {
+    if (result?.data?.data?.length && userId) {
+      const matchedClient = result.data.data.find(
+        (user) => String(user.userId) === String(userId)
+      );
+
+      if (matchedClient) {
+        form.setFieldsValue({ client: matchedClient.userId });
+        setClientId(matchedClient.userId);
+        trigger({ userId: matchedClient.userId });
+      }
+    }
+  }, [result, userId]);
 
   return (
     <>

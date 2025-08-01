@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useChangePasswordMutation } from "../../../store/service/supermasteAccountStatementServices";
 
 const ChangePassword = ({ setIsModalOpen }) => {
-  const [errorMsg, setErrorMsg] = useState("");
   const [trigger, { data: chnagePassdata, error, isLoading }] =
     useChangePasswordMutation();
 

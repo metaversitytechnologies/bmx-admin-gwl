@@ -42,8 +42,8 @@ const columns = [
   },
   {
     title: "Type",
-    dataIndex: "type",
-    key: "type",
+    dataIndex: "ledgerType",
+    key: "ledgerType",
   },
   {
     title: "Remark",
@@ -51,40 +51,6 @@ const columns = [
     key: "description",
   },
 ];
-
-const mockLedgerData = {
-  list: [
-    {
-      dateStr: "2025-06-13",
-      collectionName: "Account Adjustment",
-      debit: 0,
-      credit: 500,
-      balance: 500,
-      paymentType: "Online",
-      dateOnlyStr: "13-06-2025",
-      showDate: true,
-      isRollBack: false,
-      remarks: "Credit adjustment",
-      isRollback: false,
-    },
-    {
-      dateStr: "2025-06-14",
-      collectionName: "Manual Entry",
-      debit: 200,
-      credit: 0,
-      balance: 300,
-      paymentType: "Cash",
-      dateOnlyStr: "14-06-2025",
-      showDate: true,
-      isRollBack: true,
-      remarks: "Correction",
-      isRollback: true,
-    },
-  ],
-  credit: 500,
-  debit: 200,
-  balance: 300,
-};
 
 const MyLedger = () => {
   const nav = useNavigate();

@@ -182,6 +182,33 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getLedgerAll: build.query({
+      query: (body) => {
+        return {
+          url: `ledger/get-ledger-all-parent`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getBetlistAll: build.mutation({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-bet-list-by-marketid`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getDeletedBet: build.mutation({
+      query: (body) => {
+        return {
+          url: `/superadmin/delete-bet-byid`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -206,4 +233,7 @@ export const {
   useGetCasinoLedgerQuery,
   useMatchListActiveBetsQuery,
   useMarketHavingBetMutation,
+  useGetLedgerAllQuery,
+  useGetBetlistAllMutation,
+  useGetDeletedBetMutation,
 } = sportDetailsApi;

@@ -1,6 +1,5 @@
 // src/components/Main/Main.jsx
 import { Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
 import Signin from "../signin/Signin";
 import LayOut from "../../layout/LayOut";
 import Dashboard from "../../pages/Dashboard/Dashboard";
@@ -81,7 +80,6 @@ const Main = () => {
           element={<DisplayGames />}
         />
         <Route path="/all-bets/:id" element={<AllBets />} />
-        {/* <Route path="/livereport" element={<LiveReport />} /> */}
         <Route
           path="/plus-minus-report/:id/:inplay?"
           element={<PlusMinusReport />}
@@ -138,41 +136,6 @@ const Main = () => {
         <Route path="/completed-casino" element={<CasinoPandLDetail />} />
         <Route path="/client/login-report/:id" element={<LoginReport />} />
         <Route path="/client/create-super/:id?" element={<NewCreateUser />} />
-        {/* <Route
-          path="/client/create-agent"
-          element={
-            <NewCreateUser
-              userTypeOrder={1}
-              createName={"Super"}
-              userTyep={0}
-            />
-          }
-        />
-        <Route
-          path="/client/create-dealer"
-          element={
-            <NewCreateUser
-              userTypeOrder={2}
-              createName={"Agent"}
-              userTyep={1}
-            />
-          }
-        />
-        <Route
-          path="/client/create-client"
-          element={
-            <NewCreateUser
-              userTypeOrder={3}
-              createName={"Client"}
-              userTyep={2}
-            />
-          }
-        /> */}
-
-        {/* <Route path="/client/create-super" element={<CreateSuperAgent createName={"Master"}/>}/>
-            <Route path="/client/create-agent" element={<CreateSuperAgent createName={"Super"}/>}/>
-            <Route path="/client/create-dealer" element={<CreateSuperAgent createName={"Agent"}/>} />
-            <Route path="/client/create-client" element={<CreateSuperAgent createName={"Client"}/>} /> */}
 
         <Route
           path="/client/limitplusminus-super/:id"
@@ -189,43 +152,20 @@ const Main = () => {
         />
         <Route path="/client/my-ledger" element={<MyLedger />} />
         <Route
-          path="/client/ledger-super"
-          element={<SuperAgentLedger userTyep={0} Listname={"Master"} />}
+          path="/client/ledger-super/:id?/:name?/:userId?"
+          element={<SuperAgentLedger/>}
         />
-        <Route
-          path="/client/ledger-master"
-          element={<SuperAgentLedger userTyep={1} Listname={"Super"} />}
-        />
-        <Route
-          path="/client/ledger-agent"
-          element={<SuperAgentLedger userTyep={2} Listname={"Agent"} />}
-        />
-        <Route
-          path="/client/ledger-client"
-          element={<SuperAgentLedger userTyep={3} Listname={"Client"} />}
-        />
+
         <Route path="/Events/matchledger" element={<MatchLedger />} />
         <Route
           path="/client/cash-transanction"
           element={<CashTransanction />}
         />
         <Route
-          path="/client/txn-super/:name/:id"
+          path="/client/txn-super/:name/:id/:userId?"
           element={<AgentTransactions />}
         />
-        {/* <Route
-          path="/client/txn-agent"
-          element={<AgentTransactions userType={2} Listname={"Agent"} />}
-        />
-        <Route
-          path="/client/txn-client"
-          element={<AgentTransactions userType={3} Listname={"Client"} />}
-        /> */}
-        {/* <Route
-          path="/client/txn-master"
-          element={<AgentTransactions userType={1} Listname={"Super"} />}
-        /> */}
-        {/* <Route path="/client/txn-client" element={<ClientTransactions/>}/> */}
+
         <Route path="/markets" element={<Settings />} />
         <Route path="/profitandloss" element={<ProfitAndLoss />} />
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
@@ -244,30 +184,11 @@ const Main = () => {
           element={<SecureCodeReport />}
         />
 
-        {/* <Route
-          path="/casino/aura-details"
-          element={<RouletteDetail isAura={"Aura"} Id={323334} />}
-        />
-        <Route
-          path="/casino/supernowa"
-          element={<RouletteDetail isAura={"Super Nowa"} Id={323338} />}
-        />
-        <Route
-          path="/casino/qtech"
-          element={<RouletteDetail isAura={"QTech"} Id={323337} />}
-        /> */}
-
         <Route
           path="/casino/:id/plus-minus-type"
           element={<RoulettePlusMinus />}
         />
-        {/* <Route path="/casino/:id/all-games" element={<RouletteAllGame />} />
-        <Route path="/casino/show-bets/:id" element={<ShowBets />} />
-        <Route path="/Casino/dus-ka-dum-details" element={<DusKaDumDetail />} /> */}
-        {/* <Route
-          path="/Casino/andar-bahar-details"
-          element={<AndarBaharDetail />}
-        /> */}
+
         <Route
           path="/Casino/AndarBahar/plus-minus-type"
           element={<AndarBaharPlusMinus />}
@@ -277,8 +198,7 @@ const Main = () => {
           element={<AnderBaharAllGame />}
         />
         <Route path="/Casino/show-bet/:id" element={<AnderBaharShowBets />} />
-        {/* <Route path="/Casino/casino-details" element={<CasinoDetail />} />
-        <Route path="/Casino/roulette-book" element={<RouletteBook />} /> */}
+
         <Route path="/Events/:id/:id1/live-report" element={<GameDeatis />} />
         <Route
           path="/Events/:id/pl/live-report"

@@ -65,11 +65,6 @@ const CashTransanction = ({ setOpenModals, openModal }) => {
   const uType = localStorage.getItem("userType");
   return (
     <>
-      {/* <CardItem
-        data={data.filter((res) =>
-          userTypeMatch[uType]?.includes(res?.userType)
-        )}
-      /> */}
       <Modal
         onCancel={() => setOpenModals(!openModal)}
         footer={

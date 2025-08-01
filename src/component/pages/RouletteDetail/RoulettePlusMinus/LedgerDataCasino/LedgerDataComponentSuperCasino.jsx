@@ -109,33 +109,30 @@ const RecursiveCard = ({ data, depth }) => {
                           </td>
                           <td>0.00</td>
 
-                          <td>{agent?.totalCommissionSuperMaster?.toFixed(2)}</td>
+                          <td>
+                            {agent?.totalCommissionSuperMaster?.toFixed(2)}
+                          </td>
                           <td>{agent?.netAmountSuperMaster?.toFixed(2)}</td>
                           <td>{agent?.shareAmountSuperMaster?.toFixed(2)}</td>
                           <td>{agent?.finalAmountSuperMaster?.toFixed(2)}</td>
 
-                          
-                          <td>
-                            {agent?.totalCommissionSubAdmin?.toFixed(2)}
-                          </td>
+                          <td>{agent?.totalCommissionSubAdmin?.toFixed(2)}</td>
                           <td>0.00</td>
                           <td>{agent?.totalCommissionSubAdmin?.toFixed(2)}</td>
                           <td>{agent?.netAmountSubAdmin?.toFixed(2)}</td>
                           <td>{agent?.shareAmountSubAdmin?.toFixed(2)}</td>
                           <td>{agent?.finalAmountSubAdmin?.toFixed(2)}</td>
 
-
-                          <td>{agent?.sessionCommissionAdmin?.toFixed(2)}</td>
+                          <td>{agent?.totalCommissionAdmin?.toFixed(2)}</td>
+                          <td>0.00</td>
                           <td>{agent?.totalCommissionAdmin?.toFixed(2)}</td>
                           <td>{agent?.netAmountAdmin?.toFixed(2)}</td>
                           <td>{agent?.shareAmountAdmin?.toFixed(2)}</td>
                           <td>{agent?.finalAmountAdmin?.toFixed(2)}</td>
                           <td>
-                            {agent?.matchCommissionSuperAdmin?.toFixed(2)}
+                            {agent?.totalCommissionSuperAdmin?.toFixed(2)}
                           </td>
-                          <td>
-                            {agent?.sessionCommissionSuperAdmin?.toFixed(2)}
-                          </td>
+                          <td>0.00</td>
                           <td>
                             {agent?.totalCommissionSuperAdmin?.toFixed(2)}
                           </td>
@@ -172,7 +169,6 @@ const RecursiveCard = ({ data, depth }) => {
                         <td>{item?.shareAmountSuperMaster?.toFixed(2)}</td>
                         <td>{item?.finalAmountSuperMaster?.toFixed(2)}</td>
 
-
                         <td>{item?.totalCommissionSubAdmin?.toFixed(2)}</td>
                         <td>0.00</td>
                         <td>{item?.totalCommissionSubAdmin?.toFixed(2)}</td>
@@ -180,14 +176,14 @@ const RecursiveCard = ({ data, depth }) => {
                         <td>{item?.shareAmountSubAdmin?.toFixed(2)}</td>
                         <td>{item?.finalAmountSubAdmin?.toFixed(2)}</td>
 
-
-                        <td>{item?.sessionCommissionAdmin?.toFixed(2)}</td>
+                        <td>{item?.totalCommissionAdmin?.toFixed(2)}</td>
+                        <td>0.00</td>
                         <td>{item?.totalCommissionAdmin?.toFixed(2)}</td>
                         <td>{item?.netAmountAdmin?.toFixed(2)}</td>
                         <td>{item?.shareAmountAdmin?.toFixed(2)}</td>
                         <td>{item?.finalAmountAdmin?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionSuperAdmin?.toFixed(2)}</td>
+                        <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
+                        <td>0.00</td>
                         <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
                         <td>{item?.netAmountSuperAdmin?.toFixed(2)}</td>
                         <td>{item?.shareAmountSuperAdmin?.toFixed(2)}</td>
@@ -212,12 +208,12 @@ const RecursiveCard = ({ data, depth }) => {
                       }}>
                       {depthKeysF[depth]} TOTAL
                     </th>
-                    <td>{item?.matchAmount?.toFixed(2)}</td>
-                    <td>{item?.sessionAmount?.toFixed(2)}</td>
                     <td>{item?.totalAmoount?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionDealer?.toFixed(2)}</td>
                     <td>0.00</td>
+                    <td>{item?.totalAmoount?.toFixed(2)}</td>
+                    <td>{item?.totalAmoount?.toFixed(2)}</td>
                     <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
+                    <td>0.00</td>
                     <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
                     <td>{item?.netAmountDealer?.toFixed(2)}</td>
                     <td>{item?.shareAmountDealer?.toFixed(2)}</td>
@@ -243,14 +239,14 @@ const RecursiveCard = ({ data, depth }) => {
                     <td>{item?.shareAmountSubAdmin?.toFixed(2)}</td>
                     <td>{item?.finalAmountSubAdmin?.toFixed(2)}</td>
 
-                    
-                    <td>{item?.sessionCommissionAdmin?.toFixed(2)}</td>
+                    <td>{item?.totalCommissionAdmin?.toFixed(2)}</td>
+                    <td>0.00</td>
                     <td>{item?.totalCommissionAdmin?.toFixed(2)}</td>
                     <td>{item?.netAmountAdmin?.toFixed(2)}</td>
                     <td>{item?.shareAmountAdmin?.toFixed(2)}</td>
                     <td>{item?.finalAmountAdmin?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionSuperAdmin?.toFixed(2)}</td>
+                    <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
+                    <td>0.00</td>
                     <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
                     <td>{item?.netAmountSuperAdmin?.toFixed(2)}</td>
                     <td>{item?.shareAmountSuperAdmin?.toFixed(2)}</td>
@@ -296,28 +292,26 @@ const LedgerDataComponentSuperCasino = ({ ledgerData }) => {
                     AA TOTAL
                   </th>
                   <td>{ledgerData?.data?.totalAmoount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.sessionAmount?.toFixed(2)}</td>
+                  <td>0.00</td>
                   <td>{ledgerData?.data?.totalAmoount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionDealer?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionDealer?.toFixed(2)}
-                  </td>
+                  <td>{ledgerData?.data?.netAmountDealer?.toFixed(2)}</td>
+                  <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
+                  <td>0.0</td>
                   <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.netAmountDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountDealer?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.totalCommissionMaster?.toFixed(2)}</td>
                   <td>0.00</td>
+                  <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.netAmountMaster?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountMaster?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountMaster?.toFixed(2)}</td>
+
                   <td>
-                    {ledgerData?.data?.matchCommissionSuperMaster?.toFixed(2)}
+                    {ledgerData?.data?.totalCommissionSuperMaster?.toFixed(2)}
                   </td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionSuperMaster?.toFixed(2)}
-                  </td>
+                  <td>0.00</td>
                   <td>
                     {ledgerData?.data?.totalCommissionSuperMaster?.toFixed(2)}
                   </td>
@@ -329,31 +323,25 @@ const LedgerDataComponentSuperCasino = ({ ledgerData }) => {
                     {ledgerData?.data?.finalAmountSuperMaster?.toFixed(2)}
                   </td>
                   <td>
-                    {ledgerData?.data?.matchCommissionSubAdmin?.toFixed(2)}
+                    {ledgerData?.data?.totalCommissionSubAdmin?.toFixed(2)}
                   </td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionSubAdmin?.toFixed(2)}
-                  </td>
+                  <td>0.00</td>
                   <td>
                     {ledgerData?.data?.totalCommissionSubAdmin?.toFixed(2)}
                   </td>
                   <td>{ledgerData?.data?.netAmountSubAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountSubAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountSubAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionAdmin?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionAdmin?.toFixed(2)}
-                  </td>
+                  <td>{ledgerData?.data?.totalCommissionAdmin?.toFixed(2)}</td>
+                  <td>0.00</td>
                   <td>{ledgerData?.data?.totalCommissionAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.netAmountAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountAdmin?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountAdmin?.toFixed(2)}</td>
                   <td>
-                    {ledgerData?.data?.matchCommissionSuperAdmin?.toFixed(2)}
+                    {ledgerData?.data?.totalCommissionSuperAdmin?.toFixed(2)}
                   </td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionSuperAdmin?.toFixed(2)}
-                  </td>
+                  <td>0.00</td>
                   <td>
                     {ledgerData?.data?.totalCommissionSuperAdmin?.toFixed(2)}
                   </td>

@@ -223,6 +223,9 @@ const Sidebar = (props) => {
                   label: <Link to="/finish-game">Finished Games</Link>,
                 },
                 {
+                  className: `${
+                    userType === "6" || userType === "7" ? "" : "d-none"
+                  }`,
                   label: <Link to="/delete-bet">Delete Bets</Link>,
                 },
               ],
@@ -288,15 +291,15 @@ const Sidebar = (props) => {
                 },
                 {
                   className: `${userType != "7" ? "d-none" : ""}`,
-                  label: <Link to="/client/ledger-super">Admin</Link>,
+                  label: <Link to="/client/ledger-super/6/Admin">Admin</Link>,
                 },
                 {
                   className: `${
                     userType === "7" || userType == "6" ? "" : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/ledger-super">
-                      Mini Admin Master Ledger
+                    <Link to="/client/ledger-super/5/Mini-Admin">
+                      Mini Admin Ledger
                     </Link>
                   ),
                 },
@@ -306,7 +309,11 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/client/ledger-super">Master Ledger</Link>,
+                  label: (
+                    <Link to="/client/ledger-super/4/Master">
+                      Master Ledger
+                    </Link>
+                  ),
                 },
                 {
                   className: `${
@@ -317,7 +324,9 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/client/ledger-master">Super Ledger</Link>,
+                  label: (
+                    <Link to="/client/ledger-super/3/Super">Super Ledger</Link>
+                  ),
                 },
                 {
                   className: `${
@@ -329,10 +338,16 @@ const Sidebar = (props) => {
                       ? ""
                       : "d-none"
                   }`,
-                  label: <Link to="/client/ledger-agent">Agent Ledger</Link>,
+                  label: (
+                    <Link to="/client/ledger-super/2/Agent">Agent Ledger</Link>
+                  ),
                 },
                 {
-                  label: <Link to="/client/ledger-client">Client Ledger</Link>,
+                  label: (
+                    <Link to="/client/ledger-super/1/Client">
+                      Client Ledger
+                    </Link>
+                  ),
                 },
               ],
             },
@@ -507,7 +522,8 @@ const Sidebar = (props) => {
                   onMouseEnter={() => setHoveredItem("9")}
                   onMouseLeave={() => setHoveredItem(null)}
                   to="/markets">
-                  WBT Setting
+                  {window?.location.hostname?.split(".")?.[1]?.toUpperCase()}{" "}
+                  Setting
                 </Link>
               ),
             },
@@ -707,6 +723,9 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    className: `${
+                      userType === "6" || userType === "7" ? "" : "d-none"
+                    }`,
                     label: (
                       <Link to="/delete-bet" onClick={() => props?.action()}>
                         Delete Bets
@@ -807,7 +826,7 @@ const Sidebar = (props) => {
                     label: (
                       <Link
                         onClick={() => props?.action()}
-                        to="/client/ledger-super">
+                        to="/client/ledger-super/6/Admin">
                         Admin Ledger
                       </Link>
                     ),
@@ -819,7 +838,7 @@ const Sidebar = (props) => {
                     label: (
                       <Link
                         onClick={() => props?.action()}
-                        to="/client/ledger-super">
+                        to="/client/ledger-super/5/Mini-Admin">
                         Mini Admin Ledger
                       </Link>
                     ),
@@ -833,7 +852,7 @@ const Sidebar = (props) => {
                     label: (
                       <Link
                         onClick={() => props?.action()}
-                        to="/client/ledger-super">
+                        to="/client/ledger-super/4/Master">
                         Master Ledger
                       </Link>
                     ),
@@ -850,7 +869,7 @@ const Sidebar = (props) => {
                     label: (
                       <Link
                         onClick={() => props?.action()}
-                        to="/client/ledger-master">
+                        to="/client/ledger-super/3/Super-Agent">
                         Super Agent Master Ledger
                       </Link>
                     ),
@@ -868,7 +887,7 @@ const Sidebar = (props) => {
                     label: (
                       <Link
                         onClick={() => props?.action()}
-                        to="/client/ledger-agent">
+                        to="/client/ledger-super/2/Agent">
                         Agent Master Ledger
                       </Link>
                     ),
@@ -877,7 +896,7 @@ const Sidebar = (props) => {
                     label: (
                       <Link
                         onClick={() => props?.action()}
-                        to="/client/ledger-client">
+                        to="/client/ledger-super/1/Client">
                         Client Master Ledger
                       </Link>
                     ),
@@ -1085,7 +1104,8 @@ const Sidebar = (props) => {
                       props?.action();
                       setOpenKeys([]);
                     }}>
-                    {window?.location.hostname?.split(".")[1]} Setting
+                    {window?.location.hostname?.split(".")[1]?.toUpperCase()}{" "}
+                    Setting
                   </Link>
                 ),
               },

@@ -8,7 +8,7 @@ const RecursiveCard = ({ data, depth }) => {
       {data.map((item, index) => (
         <div
           key={index}
-          className={`card card-${depthColors[depth]}  card-purple`}>
+          className={`card card-${depthColors[depth]} card-purple`}>
           <div className={` card-header ${`color_${depth}`} `}>
             <h2 className="card-title text-bold">
               <span className={`card_${depth}`}></span>
@@ -25,20 +25,20 @@ const RecursiveCard = ({ data, depth }) => {
                   <table id="data" className="plus-table plus_minus_sec">
                     <thead>
                       <tr>
-                        <th colSpan={4} />
-                        <th colSpan={7}>Agent PlusMinus </th>
-                        <th colSpan={7}>Super Agent PlusMinus </th>
+                        <th colSpan={11}>Agent PlusMinus </th>
+                        <th colSpan={6}>Super Agent PlusMinus </th>
                       </tr>
                     </thead>
                     <thead>
                       <tr>
                         <th>Client</th>
                         <th>M Amt</th>
-                        <th>S Amt</th>
+                        <th>Sess.</th>
                         <th>TOT Amt</th>
-                        <th>M Com</th>
-                        <th>S Com</th>
-                        <th>T Com</th>
+                        <th>Net Amt</th>
+                        <th>M Comm</th>
+                        <th>S Comm</th>
+                        <th>T Comm</th>
                         <th>Net Amt</th>
                         <th>SHR</th>
                         <th>Final</th>
@@ -51,49 +51,47 @@ const RecursiveCard = ({ data, depth }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {item.ledgetList.map((agent) => {
-                        return (
-                          <tr key={agent.userId}>
-                            <td>
-                              {agent.userId} {agent.username}
-                            </td>
-                            <td>{agent?.matchAmount?.toFixed(2)}</td>
-                            <td>{agent?.sessionAmount?.toFixed(2)}</td>
-                            <td>{agent?.totalAmoount?.toFixed(2)}</td>
-                            <td>{agent?.matchCommissionDealer?.toFixed(2)}</td>
-                            <td>
-                              {agent?.sessionCommissionDealer?.toFixed(2)}
-                            </td>
-                            <td>{agent?.totalCommissionDealer?.toFixed(2)}</td>
-                            <td>{agent?.netAmountDealer?.toFixed(2)}</td>
-                            <td>{agent?.shareAmountDealer?.toFixed(2)}</td>
-                            <td>{agent?.finalAmountDealer?.toFixed(2)}</td>
-                            <td>{agent?.matchCommissionMaster?.toFixed(2)}</td>
-                            <td>
-                              {agent?.sessionCommissionMaster?.toFixed(2)}
-                            </td>
-                            <td>{agent?.totalCommissionMaster?.toFixed(2)}</td>
-                            <td>{agent?.netAmountMaster?.toFixed(2)}</td>
-                            <td>{agent?.shareAmountMaster?.toFixed(2)}</td>
-                            <td>{agent?.finalAmountMaster?.toFixed(2)}</td>
-                          </tr>
-                        );
-                      })}
+                      {item.ledgetList.map((agent) => (
+                        <tr key={agent.userId}>
+                          <td>
+                            {agent.userId} {agent.username}
+                          </td>
+                          <td>{agent?.clientFinal?.toFixed(2)}</td>
+                          <td>0.00</td>
+                          <td>{agent?.totalAmoount?.toFixed(2)}</td>
+                          <td>{agent?.totalAmoount?.toFixed(2)}</td>
+                          <td>{agent?.totalCommissionDealer?.toFixed(2)}</td>
+                          <td>0.00</td>
+                          <td>{agent?.totalCommissionDealer?.toFixed(2)}</td>
+                          <td>{agent?.netAmountDealer?.toFixed(2)}</td>
+                          <td>{agent?.shareAmountDealer?.toFixed(2)}</td>
+                          <td>{agent?.finalAmountDealer?.toFixed(2)}</td>
+                          <td>{agent?.totalCommissionMaster?.toFixed(2)}</td>
+                          <td>0.00</td>
+                          <td>
+                            {agent?.totalCommissionSuperMaster?.toFixed(2)}
+                          </td>
+                          <td>{agent?.netAmountSuperMaster?.toFixed(2)}</td>
+                          <td>{agent?.shareAmountMaster?.toFixed(2)}</td>
+                          <td>{agent?.finalAmountMaster?.toFixed(2)}</td>
+                        </tr>
+                      ))}
                     </tbody>
                     <tfoot>
                       <tr>
                         <th>TOTAL</th>
-                        <td>{item?.matchAmount?.toFixed(2)}</td>
-                        <td>{item?.sessionAmount?.toFixed(2)}</td>
+                        <td>{item?.clientFinal?.toFixed(2)}</td>
+                        <td>0.00</td>
                         <td>{item?.totalAmoount?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionDealer?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionDealer?.toFixed(2)}</td>
+                        <td>{item?.totalAmoount?.toFixed(2)}</td>
+                        <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
+                        <td>0.00</td>
                         <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
                         <td>{item?.netAmountDealer?.toFixed(2)}</td>
                         <td>{item?.shareAmountDealer?.toFixed(2)}</td>
                         <td>{item?.finalAmountDealer?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionMaster?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionMaster?.toFixed(2)}</td>
+                        <td>{item?.totalCommissionMaster?.toFixed(2)}</td>
+                        <td>0.00</td>
                         <td>{item?.totalCommissionMaster?.toFixed(2)}</td>
                         <td>{item?.netAmountMaster?.toFixed(2)}</td>
                         <td>{item?.shareAmountMaster?.toFixed(2)}</td>
@@ -118,17 +116,18 @@ const RecursiveCard = ({ data, depth }) => {
                       }}>
                       {depthKeysF[depth]} TOTAL
                     </th>
-                    <td>{item?.matchAmount?.toFixed(2)}</td>
-                    <td>{item?.sessionAmount?.toFixed(2)}</td>
                     <td>{item?.totalAmoount?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionDealer?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionDealer?.toFixed(2)}</td>
+                    <td>0.00</td>
+                    <td>{item?.totalAmoount?.toFixed(2)}</td>
+                    <td>{item?.totalAmoount?.toFixed(2)}</td>
+                    <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
+                    <td>0.00</td>
                     <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
                     <td>{item?.netAmountDealer?.toFixed(2)}</td>
                     <td>{item?.shareAmountDealer?.toFixed(2)}</td>
                     <td>{item?.finalAmountDealer?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionMaster?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionMaster?.toFixed(2)}</td>
+                    <td>{item?.totalCommissionMaster?.toFixed(2)}</td>
+                    <td>0.00</td>
                     <td>{item?.totalCommissionMaster?.toFixed(2)}</td>
                     <td>{item?.netAmountMaster?.toFixed(2)}</td>
                     <td>{item?.shareAmountMaster?.toFixed(2)}</td>
@@ -144,10 +143,10 @@ const RecursiveCard = ({ data, depth }) => {
   );
 };
 
+const depthLabels = ["Agent"];
+const depthColors = ["purple", "primary"];
 const depthKeys = ["dealerName"];
 const depthKeysF = ["A"];
-const depthColors = ["purple"];
-const depthLabels = ["Agent"];
 
 const LedgerdataMasterCasino = ({ ledgerData }) => {
   return (
@@ -165,24 +164,21 @@ const LedgerdataMasterCasino = ({ ledgerData }) => {
                     style={{
                       whiteSpace: "nowrap",
                     }}>
-                    SM TOTAL
+                    Super TOTAL
                   </th>
-                  <td>{ledgerData?.data?.matchAmount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.sessionAmount?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.totalAmoount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionDealer?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionDealer?.toFixed(2)}
-                  </td>
+                  <td>0.00</td>
+                  <td>{ledgerData?.data?.totalAmoount?.toFixed(2)}</td>
+                  <td>{ledgerData?.data?.netAmountDealer?.toFixed(2)}</td>
+                  <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
+                  <td>0.0</td>
                   <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.netAmountDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountDealer?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionMaster?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionMaster?.toFixed(2)}
-                  </td>
                   <td>{ledgerData?.data?.totalCommissionMaster?.toFixed(2)}</td>
+                  <td>0.00</td>
+                  <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.netAmountMaster?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.shareAmountMaster?.toFixed(2)}</td>
                   <td>{ledgerData?.data?.finalAmountMaster?.toFixed(2)}</td>
