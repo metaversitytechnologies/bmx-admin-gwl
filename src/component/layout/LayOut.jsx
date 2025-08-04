@@ -15,7 +15,6 @@ const LayOut = () => {
   const [openRules, setOpenRules] = useState(false);
   const [open, setOpen] = useState(false);
 
-
   const collll = (val) => {
     setCollapsed(val);
   };
@@ -60,11 +59,7 @@ const LayOut = () => {
       {(pType == "New" || pType == "new") && <JwtToken />}
 
       <Layout className="main_layout">
-        <Sidebar
-          collll={collll}
-          open={open}
-          action={toggleDarawer}
-        />
+        <Sidebar collll={collll} open={open} action={toggleDarawer} />
         <Layout>
           <Header
             className="header_com"
@@ -90,7 +85,9 @@ const LayOut = () => {
       <Modal
         open={openRules}
         className="modals_rule"
-        title="Rules"
+        title={`${window.location.hostname.split(".")?.[1]}.${
+          window.location.hostname.split(".")?.[2]
+        } Rule`}
         onOk={handleOk}
         onCancel={handleCloseBtn}
         footer={[

@@ -1,10 +1,7 @@
-import React from "react";
 import "./HomeRules.scss";
 
 const HomeRules = () => {
   const host = window.location.hostname;
-
-  const nameHost = "ram.shyam.com";
 
   return (
     <>
@@ -18,9 +15,7 @@ const HomeRules = () => {
               textTransform: "uppercase",
               padding: "0px 2px",
               margin: "0px 2px",
-            }}>{`${window.location.hostname.split(".")[1]}.${
-            window.location.hostname.split(".")[2]
-          }`}</span>
+            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
           से लॉगिन करें। लॉगइन करने से पहले साइट का नाम जरूर देख लें। आपके
           समर्थन के लिए धन्यवाद। टीम {" '"}
           <span
@@ -28,9 +23,7 @@ const HomeRules = () => {
               textTransform: "uppercase",
               padding: "0px 2px",
               margin: "0px 2px",
-            }}>{`${window.location.hostname.split(".")[1]}.${
-            window.location.hostname.split(".")[2]
-          }`}</span>
+            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
           {"' "}
         </p>
         <h2>Dear Client,</h2>
@@ -43,9 +36,7 @@ const HomeRules = () => {
               textTransform: "uppercase",
               padding: "0px 2px",
               margin: "0px 2px",
-            }}>{`${window.location.hostname.split(".")[1]}.${
-            window.location.hostname.split(".")[2]
-          }`}</span>
+            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
           {"' "}.I only. Please check the site name before you login. Thanks for
           your support. Team {" '"}
           <span
@@ -53,9 +44,7 @@ const HomeRules = () => {
               textTransform: "uppercase",
               padding: "0px 2px",
               margin: "0px 2px",
-            }}>{`${window.location.hostname.split(".")[1]}.${
-            window.location.hostname.split(".")[2]
-          }`}</span>
+            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
           {"' "}
         </p>
       </div>
