@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { IoMdInformationCircle } from "react-icons/io";
-import { Col, Modal, Row } from "antd";
+import { Col, Row } from "antd";
 import "./Dashboard.scss";
 import ActiveMatch from "../../common/ActiveMatch/ActiveMatch";
 import { useNavigate } from "react-router-dom";
-import { useCreateCasinoListQuery } from "../../../store/service/supermasteAccountStatementServices";
-import CasinoModalsDash from "./CasinoModalsDash";
 import { useDashboardQuery } from "../../../store/service/userlistService";
 import LadgerDetails from "../ladgerdetail/LadgerDetails";
 import CashTransanction from "../CashTransanction/CashTransanction";
@@ -19,7 +17,6 @@ const Dashboard = () => {
   const [openSetting, setSetting] = useState(false);
   const [openDashBoard, setOpenDashBoard] = useState();
   const [openModalReport, setOpenModalsReport] = useState(false);
-  const [casinoLockModals, setCasinoLockModals] = useState(false);
   const [openSportModals, setSportModals] = useState(false);
 
   const nav = useNavigate();
@@ -33,11 +30,6 @@ const Dashboard = () => {
   });
 
   const uType = localStorage.getItem("userType");
-
-  const { data: casinoDetails } = useCreateCasinoListQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
 
   return (
     <>
@@ -345,22 +337,6 @@ const Dashboard = () => {
       </Row>
 
       {/* </div> */}
-
-      <Modal
-        className="modal_dash"
-        destroyOnClose
-        title={
-          <h1>
-            <span>My Casino Allowed</span>
-          </h1>
-        }
-        open={casinoLockModals}
-        onCancel={() => setCasinoLockModals(false)}
-        okButtonProps={{ style: { display: "none" } }}
-        cancelButtonProps={{ style: { display: "none" } }}
-        footer={null}>
-        <CasinoModalsDash data={casinoDetails?.data} />
-      </Modal>
 
       <ActiveMatch />
 

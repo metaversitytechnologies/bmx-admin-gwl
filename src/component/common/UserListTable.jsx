@@ -10,7 +10,7 @@ import {
   Space,
   Spin,
 } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
 import {
   SearchOutlined,
@@ -59,7 +59,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [openResetPassModal, setOpenResetPassModal] = useState(false);
 
   const [form] = Form.useForm();
-  const { parentId: parentIdFromParams } = useParams();
+  const { parentId: parentIdFromParams, userTyep } = useParams();
   const myElementRef = useRef(null);
 
   // API Hooks
@@ -338,6 +338,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     },
   ];
 
+  const nav = useNavigate();
+
   return (
     <>
       {isOverlayOpen && <div className="overlay_layout"></div>}
@@ -479,7 +481,15 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     </td>
                     <td>{res?.userId}</td>
                     <td>
-                      <span className="gx-text-blue gx-pointer gx-text-nowrap">
+                      <span
+                        onClick={() => {
+                          if (userTyep != 1) {
+                            nav(
+                              `${routeFromUSerType[userType]}/${res?.userId}`
+                            );
+                          }
+                        }}
+                        className="gx-text-blue gx-pointer gx-text-nowrap">
                         <SlEye /> {res?.userName}
                       </span>
                     </td>

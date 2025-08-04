@@ -189,7 +189,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/rejectedBetsByEvent/${res.matchId}`}>
+                                  to={`/rejectedBetsByEvent/${res.matchId}/${res?.matchName}`}>
                                   Rejected Bet
                                 </Link>
                               ),

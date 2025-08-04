@@ -209,6 +209,24 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getRejectedBet: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-deleted-bet-list`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getSecureCode: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-secure-code-report`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -236,4 +254,6 @@ export const {
   useGetLedgerAllQuery,
   useGetBetlistAllMutation,
   useGetDeletedBetMutation,
+  useGetRejectedBetQuery,
+  useLazyGetSecureCodeQuery
 } = sportDetailsApi;

@@ -122,13 +122,7 @@ export const supermasteAccountStatementApi = createApi({
       }),
       invalidatesTags: ["superUserList"],
     }),
-    sportListbyID: build.query({
-      query: (body) => ({
-        url: "/sport/active-sport-list",
-        method: "POST",
-        body,
-      }),
-    }),
+  
 
     userBetLock: build.mutation({
       query: (body) => ({
@@ -165,13 +159,6 @@ export const supermasteAccountStatementApi = createApi({
       invalidatesTags: ["casinoList"],
     }),
 
-    createCasinoList: build.query({
-      query: (body) => ({
-        url: `/user/alloted-casino-list`,
-        method: "POST",
-        body,
-      }),
-    }),
     dataReport: build.mutation({
       query: (body) => ({
         url: `/bmx/report/bmx-data-reports-v2`,
@@ -186,7 +173,7 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
-    
+
     createParentList: build.query({
       query: (body) => ({
         url: `/bmx/bmx-user-details-v2`,
@@ -280,12 +267,10 @@ export const {
   useLazyTtlBookQuery,
   useProfitLossQuery,
   useBlockBettingMutation,
-  useSportListbyIDQuery,
   useChangePasswordSelfMutation,
   useUserBetLockMutation,
   useCasinoListQuery,
   useUpdateCasinoLockMutation,
-  useCreateCasinoListQuery,
   useDataReportMutation,
   useCommReportMutation,
   useLazyCreateParentListQuery,
@@ -298,5 +283,5 @@ export const {
   useUserIdForSearchQuery,
   useGetLedgerDetailsMutation,
   useCreateLedgerMutation,
-  useGetUserActiveDeactiveMutation
+  useGetUserActiveDeactiveMutation,
 } = supermasteAccountStatementApi;

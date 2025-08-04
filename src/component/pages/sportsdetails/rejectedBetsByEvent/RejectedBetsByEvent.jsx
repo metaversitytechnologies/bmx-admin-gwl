@@ -1,86 +1,71 @@
-import React from "react";
-import { Card, Col, Form, Row, Select, Table } from "antd";
+import { Card, Col, Row, Select, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-
-// Mock static data
-const mockData = [
-  {
-    pricevalue: 2.5,
-    stake: 100,
-    matchname: "Team A vs Team B",
-    userid: "Client123",
-    dealerid: "AgentX",
-    date: "2025-06-13 14:30",
-    pnl: -50,
-    bet_status: "Deleted",
-  },
-  {
-    pricevalue: 1.8,
-    stake: 200,
-    matchname: "Team C vs Team D",
-    userid: "Client456",
-    dealerid: "AgentY",
-    date: "2025-06-13 15:00",
-    pnl: 75,
-    bet_status: "Deleted",
-  },
-];
-
-const columns = [
-  {
-    title: "Rate",
-    dataIndex: "pricevalue",
-    key: "pricevalue",
-  },
-  {
-    title: "Amount",
-    dataIndex: "stake",
-    key: "stake",
-  },
-  {
-    title: "Team",
-    dataIndex: "matchname",
-    key: "matchname",
-  },
-  {
-    title: "Client",
-    dataIndex: "userid",
-    key: "userid",
-  },
-  {
-    title: "Agent",
-    dataIndex: "dealerid",
-    key: "dealerid",
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Loss",
-    dataIndex: "stake",
-    key: "loss",
-    render: (text, record) =>
-      record.pnl < 0 ? <span>{record.stake}</span> : <span>0</span>,
-  },
-  {
-    title: "Profit",
-    dataIndex: "pnl",
-    key: "profit",
-    render: (text, record) =>
-      record.pnl > 0 ? <span>{record.pnl}</span> : <span>0</span>,
-  },
-  {
-    title: "Bet Status",
-    dataIndex: "bet_status",
-    key: "bet_status",
-  },
-];
+import { useGetRejectedBetQuery } from "../../../../store/service/SportDetailServices";
+import { render } from "react-dom";
 
 const RejectedBetsByEvent = () => {
   const nav = useNavigate();
-  const { id } = useParams();
+  const { id, name } = useParams();
+
+  const columns = [
+    {
+      title: "Rate",
+      dataIndex: "rate",
+      key: "rate",
+    },
+    {
+      title: "Amount",
+      dataIndex: "amount",
+      key: "amount",
+    },
+    {
+      title: "Type",
+      dataIndex: "mode",
+      key: "mode",
+    },
+    {
+      title: "Run",
+      dataIndex: "run",
+      key: "run",
+    },
+    {
+      title: "Team",
+      dataIndex: "run",
+      key: "run",
+      render: () => <span>{name}</span>,
+    },
+    {
+      title: "Client",
+      dataIndex: "userId",
+      key: "userId",
+    },
+    {
+      title: "Agent",
+      dataIndex: "parentId",
+      key: "parentId",
+    },
+    {
+      title: "Date",
+      dataIndex: "time",
+      key: "time",
+    },
+
+    {
+      title: "Bet Status",
+      dataIndex: "bet_status",
+      key: "bet_status",
+      render: () => <span>Deleted</span>,
+    },
+    {
+      title: "Remark",
+      dataIndex: "selectionName",
+      key: "selectionName",
+    },
+  ];
+
+  const { data } = useGetRejectedBetQuery({
+    matchId: id,
+  });
 
   const handleBackClick = () => {
     nav(-1);
@@ -106,7 +91,7 @@ const RejectedBetsByEvent = () => {
         <div className="table_section" style={{ marginBottom: "10px" }}>
           <Table
             columns={columns}
-            dataSource={mockData}
+            dataSource={data?.data || []}
             rowKey={(record, index) => index}
           />
         </div>

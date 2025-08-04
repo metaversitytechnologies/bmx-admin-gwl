@@ -8,14 +8,11 @@ import {
   Pagination,
   Row,
   Spin,
-  Tooltip,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
-import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
-import { useEffect, useState } from "react";
-import { useLazyUserListQuery } from "../../../store/service/supermasteAccountStatementServices";
-import { AiFillEye } from "react-icons/ai";
+import { useState } from "react";
+import { useLazyGetSecureCodeQuery } from "../../../store/service/SportDetailServices";
 
 const SecureCode = () => {
   const userId = localStorage.getItem("userId");
@@ -24,52 +21,22 @@ const SecureCode = () => {
   const [clientId, setClientId] = useState(userId);
   const [paginationTotal, setPaginationTotal] = useState(50);
   const [indexData, setIndexData] = useState(0);
-  const [ipOrder, setipOrder] = useState(false);
 
   const nav = useNavigate();
   const handleBackClick = () => {
     nav(-1);
   };
 
-  const [userList, resultData] = useLazyUserListQuery();
+  const [trigger, { data: secureData, isLoading, isFetching, isError }] =
+    useLazyGetSecureCodeQuery();
 
-  const [loginReport, { data, isLoading, isFetching, isError }] =
-    useLazyLoginReportQuery();
-
-  const handleChange = (value) => {
-    userList({
-      userType: null,
-      userName: value,
-    });
-    loginReport({
-      index: indexData,
-      noOfRecords: paginationTotal,
-      parentId: id || value || clientId,
-      orderByIp: ipOrder,
+  const handleShow = () => {
+    trigger({
+      userId: clientId,
     });
   };
 
-  const handleSelect = (value) => {
-    setClientId(value);
-  };
-
-  useEffect(() => {
-    userList({
-      userType: null,
-      userName: "",
-    });
-  }, []);
-
-  useEffect(() => {
-    loginReport({
-      index: indexData,
-      noOfRecords: paginationTotal,
-      parentId: id ? id : clientId,
-      orderByIp: ipOrder,
-    });
-  }, [clientId, paginationTotal, indexData, ipOrder, id]);
-
-  const headerField = ["User Name", "IP-Address", "Login Date", "Detail"];
+  console.log(secureData, "secureDatasecureDatasecureData");
 
   return (
     <>
@@ -100,10 +67,16 @@ const SecureCode = () => {
               <Input
                 style={{ height: "36px", borderRadius: "0px" }}
                 placeholder="Enter"
+                onChange={(e) => setClientId(e.target.value)}
               />
             </Col>
             <Col xs={24} md={24} lg={7} xl={7}>
-              <Button type="primary" style={{ height: "36px" }}>Show</Button>
+              <Button
+                type="primary"
+                style={{ height: "36px" }}
+                onClick={handleShow}>
+                Show
+              </Button>
             </Col>
           </Row>
           <div className="table_section statement_tabs_data ant-spin-nested-loading">
@@ -121,37 +94,19 @@ const SecureCode = () => {
                 ""
               )}
               {!isError &&
-                data?.data?.list?.map((res, id) => {
+                secureData?.data?.map((res, id) => {
                   return (
                     <tr key={id}>
-                      <td>{res?.userid}</td>
-                      <td>{res?.ip}</td>
-                      <td>{res?.lastLogin}</td>
+                      <td>{res?.userId}</td>
+                      <td>{res?.secureCode}</td>
+                      <td>{res?.createdOn}</td>
                     </tr>
                   );
                 })}
             </table>
 
-            {data?.data?.list === undefined || isError ? (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            ) : (
-              <>
-                <Divider />
-                <div className="pagination_cus">
-                  <Pagination
-                    className="pagination_main ledger_pagination"
-                    onShowSizeChange={(c, s) => setPaginationTotal(s)}
-                    total={
-                      data?.data?.totalPages &&
-                      data?.data?.totalPages * paginationTotal
-                    }
-                    defaultPageSize={50}
-                    pageSizeOptions={[50, 100, 150, 200, 250]}
-                    onChange={(e) => setIndexData(e - 1)}
-                  />
-                </div>
-              </>
-            )}
+            {secureData?.data === undefined ||
+              (isError && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)}
           </div>
         </Card>
       </div>

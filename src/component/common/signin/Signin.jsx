@@ -21,6 +21,7 @@ const Signin = () => {
       localStorage.setItem("userId", authData?.userId);
       localStorage.setItem("userType", authData?.userTypeInfo);
       localStorage.setItem("username", authData?.username);
+      localStorage.setItem("ps", authData?.ps);
     }
   }, [authData, error, otpValue]);
 
@@ -35,8 +36,8 @@ const Signin = () => {
       const authPayload = {
         userId: values?.username?.trim(),
         password: values?.password?.trim(),
-        // url: url ,
-        url: "superadmin.fastbet365.in" ,
+        url: url ,
+        // url: "superadmin.fastbet365.in" ,
       };
       trigger(authPayload);
     } else {

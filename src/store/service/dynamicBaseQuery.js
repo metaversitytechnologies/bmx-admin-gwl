@@ -8,12 +8,12 @@ export const dynamicBaseQuery = async (args, WebApi, extraOptions) => {
       },
     })
     const result = await rawBaseQuery(args, WebApi, {})
-    // if (result?.error) {
-    //   const status  = result?.error?.status
-    //     if (status === 401) {
-    //       localStorage.clear()
-    //       window.location.replace("/")
-    //     }
-    // }
+    if (result?.error) {
+      const status  = result?.error?.status
+        if (status === 401) {
+          localStorage.clear()
+          window.location.replace("/")
+        }
+    }
     return result
   }

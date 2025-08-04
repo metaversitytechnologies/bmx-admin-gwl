@@ -19,7 +19,6 @@ import {
   useLazyCreateUserDataQuery,
   useLazyIsUserIdQuery,
 } from "../../../store/service/userlistService";
-import { useCreateCasinoListQuery } from "../../../store/service/supermasteAccountStatementServices";
 
 const CreateSuperAgent = ({ createName }) => {
   const [userData, setUserData] = useState({});
@@ -62,21 +61,8 @@ const CreateSuperAgent = ({ createName }) => {
     isVirtualAllowed: "",
     isSportBookAllowed: "",
   });
-  const { data: casinoDetalisData } = useCreateCasinoListQuery(
-    {},
-    { refetchOnMountOrArgChange: true }
-  );
+ 
 
-  useEffect(() => {
-    casinoDetalisData?.data?.map((key) => {
-      setState((prev) => {
-        return {
-          ...prev,
-          [`is${key.name.replace(" ", "")}Allowed`]: !key.active,
-        };
-      });
-    });
-  }, [casinoDetalisData?.data]);
 
   const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
   var mobileNum = /^[6-9][0-9]{9}$/;
@@ -759,14 +745,14 @@ const CreateSuperAgent = ({ createName }) => {
                 )}
               </Row> */}
 
-              {casinoDetalisData?.data?.length != 0 && (
+              {/* {casinoDetalisData?.data?.length != 0 && (
                 <div>
                   <h2 className="match_share">Casino Details</h2>
                 </div>
-              )}
+              )} */}
 
               <div className="casino_details">
-                {casinoDetalisData?.data?.map((item, id) => {
+                {/* {casinoDetalisData?.data?.map((item, id) => {
                   return (
                     <div key={id}>
                       <div className="casino_name">{item?.name}</div>
@@ -779,7 +765,7 @@ const CreateSuperAgent = ({ createName }) => {
                       </div>
                     </div>
                   );
-                })}
+                })} */}
               </div>
 
               <Row className="super_agent sub_super">

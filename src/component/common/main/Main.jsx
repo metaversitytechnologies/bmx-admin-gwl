@@ -110,7 +110,7 @@ const Main = () => {
           element={<CompletedFancySlips />}
         />
         <Route
-          path="/rejectedBetsByEvent/:id"
+          path="/rejectedBetsByEvent/:id/:name?"
           element={<RejectedBetsByEvent />}
         />
         <Route
@@ -153,7 +153,7 @@ const Main = () => {
         <Route path="/client/my-ledger" element={<MyLedger />} />
         <Route
           path="/client/ledger-super/:id?/:name?/:userId?"
-          element={<SuperAgentLedger/>}
+          element={<SuperAgentLedger />}
         />
 
         <Route path="/Events/matchledger" element={<MatchLedger />} />

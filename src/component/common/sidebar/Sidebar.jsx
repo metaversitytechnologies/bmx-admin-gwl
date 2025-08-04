@@ -19,6 +19,7 @@ const Sidebar = (props) => {
   const nav = useNavigate();
 
   const userType = localStorage.getItem("userType");
+  const ps = localStorage.getItem("ps");
 
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
@@ -224,7 +225,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: `${
-                    userType === "6" || userType === "7" ? "" : "d-none"
+                    userType === "7" || ps == "dtl" ? "" : "d-none"
                   }`,
                   label: <Link to="/delete-bet">Delete Bets</Link>,
                 },
@@ -724,7 +725,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${
-                      userType === "6" || userType === "7" ? "" : "d-none"
+                      userType === "7" || ps == "dtl" ? "" : "d-none"
                     }`,
                     label: (
                       <Link to="/delete-bet" onClick={() => props?.action()}>
