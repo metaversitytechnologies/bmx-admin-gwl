@@ -227,7 +227,7 @@ const Sidebar = (props) => {
                   className: `${
                     userType === "7" || ps == "dtl" ? "" : "d-none"
                   }`,
-                  label: <Link to="/delete-bet">Delete Bets</Link>,
+                  label: <Link to="/delete-bet">Reject Bets</Link>,
                 },
               ],
             },
@@ -288,11 +288,11 @@ const Sidebar = (props) => {
                   label: <Link to="/Events/matchledger">Profit/Loss</Link>,
                 },
                 {
-                  label: <Link to="/client/my-ledger">My Ledger</Link>,
+                  label: <Link to="/client/my-ledger">My Leger</Link>,
                 },
                 {
                   className: `${userType != "7" ? "d-none" : ""}`,
-                  label: <Link to="/client/ledger-super/6/Admin">Admin</Link>,
+                  label: <Link to="/client/ledger-super/6/Admin">Admin Leger</Link>,
                 },
                 {
                   className: `${
@@ -300,7 +300,7 @@ const Sidebar = (props) => {
                   }`,
                   label: (
                     <Link to="/client/ledger-super/5/Mini-Admin">
-                      Mini Admin Ledger
+                     Mini Admin Leger
                     </Link>
                   ),
                 },
@@ -312,7 +312,7 @@ const Sidebar = (props) => {
                   }`,
                   label: (
                     <Link to="/client/ledger-super/4/Master">
-                      Master Ledger
+                     Master Leger
                     </Link>
                   ),
                 },
@@ -326,7 +326,7 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/ledger-super/3/Super">Super Ledger</Link>
+                    <Link to="/client/ledger-super/3/Super">Super agent Leger</Link>
                   ),
                 },
                 {
@@ -340,13 +340,13 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/ledger-super/2/Agent">Agent Ledger</Link>
+                    <Link to="/client/ledger-super/2/Agent">Agent Leger</Link>
                   ),
                 },
                 {
                   label: (
                     <Link to="/client/ledger-super/1/Client">
-                      Client Ledger
+                     Client Leger
                     </Link>
                   ),
                 },
@@ -729,7 +729,7 @@ const Sidebar = (props) => {
                     }`,
                     label: (
                       <Link to="/delete-bet" onClick={() => props?.action()}>
-                        Delete Bets
+                        Reject Bets
                       </Link>
                     ),
                   },
@@ -828,7 +828,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/6/Admin">
-                        Admin Ledger
+                        Admin Leger
                       </Link>
                     ),
                   },
@@ -840,7 +840,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/5/Mini-Admin">
-                        Mini Admin Ledger
+                        Mini Admin Leger 
                       </Link>
                     ),
                   },
@@ -854,7 +854,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/4/Master">
-                        Master Ledger
+                        Master Leger
                       </Link>
                     ),
                   },
@@ -871,7 +871,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/3/Super-Agent">
-                        Super Agent Master Ledger
+                        Super agent Leger 
                       </Link>
                     ),
                   },
@@ -889,7 +889,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/2/Agent">
-                        Agent Master Ledger
+                        Agent Leger
                       </Link>
                     ),
                   },
@@ -898,7 +898,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/1/Client">
-                        Client Master Ledger
+                        Client Leger
                       </Link>
                     ),
                   },

@@ -15,8 +15,6 @@ const AllBets = () => {
     nav(-1);
   };
 
-  console.log("data", data?.data);
-
   const columns = [
     {
       title: "Date",

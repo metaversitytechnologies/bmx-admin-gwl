@@ -1,13 +1,10 @@
 import "./AccountStatement.scss";
-import { Card, Tabs, DatePicker, Form, Select, Row, Col } from "antd";
+import { Card, DatePicker, Form, Row, Col } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import AllStatement from "./AllStatement/AllStatement";
 import moment from "moment";
-import React, { useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { globalSelector } from "../../../../store/global/slice";
+import { useState } from "react";
 import dayjs from "dayjs";
-import { useLazySearchUserDownlineQuery } from "../../../../store/service/SportDetailServices";
 import { useAccountOprationQuery } from "../../../../store/service/userlistService";
 
 const { RangePicker } = DatePicker;
@@ -26,11 +23,7 @@ const AccountStatement = () => {
     nav(-1);
   };
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-  } = useAccountOprationQuery(
+  const { data, isFetching, isLoading } = useAccountOprationQuery(
     {
       detailType: detailType,
       fromDate: dateData[0],
@@ -44,14 +37,7 @@ const AccountStatement = () => {
     setDateData(dateString);
   };
 
-  const handleSelect = (value) => {
-    setClientId(value);
-  };
-
-
   const pName = window.location.pathname;
-
-  console.log(clientId, "clientId");
 
   return (
     <>
@@ -63,7 +49,7 @@ const AccountStatement = () => {
               width: "100%",
             }}
             className="sport_detail "
-            title={`List Of All Transactions (0)`}
+            title={`List Of All Transactions (${data?.data?.length})`}
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div className="main_acc_section">
               <div className="datepicker">

@@ -227,6 +227,24 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getLedgerProfitLoss: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/ledger-profit-loss`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getAccOpration: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-account-operations`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -255,5 +273,7 @@ export const {
   useGetBetlistAllMutation,
   useGetDeletedBetMutation,
   useGetRejectedBetQuery,
-  useLazyGetSecureCodeQuery
+  useLazyGetSecureCodeQuery,
+  useGetLedgerProfitLossQuery,
+  useGetAccOprationQuery,
 } = sportDetailsApi;

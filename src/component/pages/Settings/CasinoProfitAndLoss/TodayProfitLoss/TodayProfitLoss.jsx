@@ -1,28 +1,15 @@
-import { Card, Col, DatePicker, Divider, Empty, Pagination, Row } from "antd";
+import { Card, Divider, Empty, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
-import {AiOutlineSearch} from "react-icons/ai"
 
-// const handleChange = (value) => {
-//   console.log(`selected ${value}`);
-// };
 
-const { RangePicker } = DatePicker;
 
-const data = [
-  
-];
-
-console.log(data?.length);
+const data = [];
 
 const TodayProfitLoss = () => {
   const nav = useNavigate();
   const handleBackClick = () => {
     nav(-1);
   };
-  //   const onChange = (key) => {
-  //     console.log(key);
-  //   };
-
   return (
     <>
       <div className="match_slip">

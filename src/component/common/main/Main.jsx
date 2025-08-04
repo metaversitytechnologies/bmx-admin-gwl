@@ -59,6 +59,7 @@ import DisplayGames from "../../pages/MatchLedgerCasino/DisplayGames";
 import AllBets from "../../pages/MatchLedgerCasino/AllBets";
 import CasinoPLMinus from "../../pages/RouletteDetail/RoulettePlusMinus/CasinoPLMinus";
 import DeleteBet from "../../pages/DeleteBet/DeleteBet";
+import CasinoProfitAndLossDetails from "../../pages/Settings/CasinoProfitAndLoss/CasinoProfitAndLossDetails";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -122,7 +123,7 @@ const Main = () => {
           element={<UpdateSuper updateName={"Agent"} />}
         />
         <Route
-          path="/client/account-operations/:id"
+          path="/account-operation/:id"
           element={<AccountOperations />}
         />
         <Route path="/account-statement/:id?" element={<AccountStatement />} />
@@ -169,6 +170,7 @@ const Main = () => {
         <Route path="/markets" element={<Settings />} />
         <Route path="/profitandloss" element={<ProfitAndLoss />} />
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
+        <Route path="/casinoprofitandloss/:id" element={<CasinoProfitAndLossDetails />} />
         <Route path="/Casino/today-pandl" element={<TodayProfitLoss />} />
         <Route path="/client/mobile-app-report" element={<SelectClient />} />
         <Route

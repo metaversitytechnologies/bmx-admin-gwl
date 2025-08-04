@@ -164,6 +164,13 @@ export const userlistApi = createApi({
         body,
       }),
     }),
+    accOpration: build.query({
+      query: (body) => ({
+        url: "/ant-pro/get-account-operations",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -188,4 +195,5 @@ export const {
   useGetMyLedgerQuery,
   useGetGenerateMutation,
   useGetUpdatePasswordMutation,
+  useAccOprationQuery
 } = userlistApi;

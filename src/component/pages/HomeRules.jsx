@@ -1,14 +1,10 @@
 import React from "react";
-import './HomeRules.scss'
+import "./HomeRules.scss";
 
 const HomeRules = () => {
+  const host = window.location.hostname;
 
-
-  const host = window.location.hostname
-
-
-  const nameHost = "ram.shyam.com"
-
+  const nameHost = "ram.shyam.com";
 
   return (
     <>
@@ -17,15 +13,50 @@ const HomeRules = () => {
         <p>
           {" "}
           आपसे अनुरोध है हमारी कोई डुप्लीकेट साइट नही है हमारी आधिकारिक साइट
-          {" '"}{(window.location.hostname).split(".")[1]}{"' "} से लॉगिन करें। लॉगइन करने से पहले
-          साइट का नाम जरूर देख लें। आपके समर्थन के लिए धन्यवाद। टीम {" '"}{(window.location.hostname).split(".")[1]}{"' "}
+          <span
+            style={{
+              textTransform: "uppercase",
+              padding: "0px 2px",
+              margin: "0px 2px",
+            }}>{`${window.location.hostname.split(".")[1]}.${
+            window.location.hostname.split(".")[2]
+          }`}</span>
+          से लॉगिन करें। लॉगइन करने से पहले साइट का नाम जरूर देख लें। आपके
+          समर्थन के लिए धन्यवाद। टीम {" '"}
+          <span
+            style={{
+              textTransform: "uppercase",
+              padding: "0px 2px",
+              margin: "0px 2px",
+            }}>{`${window.location.hostname.split(".")[1]}.${
+            window.location.hostname.split(".")[2]
+          }`}</span>
+          {"' "}
         </p>
         <h2>Dear Client,</h2>
         <p>
           {" "}
           We don't have any duplicate site , You are requested to login with our
-          official site {" '"}{(window.location.hostname).split(".")[1]}{"' "}.I only. Please check the
-          site name before you login. Thanks for your support. Team {" '"}{(window.location.hostname).split(".")[1]}{"' "}
+          official site {" '"}
+          <span
+            style={{
+              textTransform: "uppercase",
+              padding: "0px 2px",
+              margin: "0px 2px",
+            }}>{`${window.location.hostname.split(".")[1]}.${
+            window.location.hostname.split(".")[2]
+          }`}</span>
+          {"' "}.I only. Please check the site name before you login. Thanks for
+          your support. Team {" '"}
+          <span
+            style={{
+              textTransform: "uppercase",
+              padding: "0px 2px",
+              margin: "0px 2px",
+            }}>{`${window.location.hostname.split(".")[1]}.${
+            window.location.hostname.split(".")[2]
+          }`}</span>
+          {"' "}
         </p>
       </div>
     </>

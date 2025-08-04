@@ -176,7 +176,7 @@ const DeleteBet = () => {
       {contextHolder}
       <Card
         className="sport_detail ledger_data cash_data"
-        title="Delete Bets"
+        title="Reject Bets"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div style={{ padding: "10px 0px" }}>
           <Form

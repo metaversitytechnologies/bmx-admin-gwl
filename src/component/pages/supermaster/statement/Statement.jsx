@@ -2,12 +2,8 @@ import "./Statement.scss";
 import { Card, Tabs, DatePicker} from "antd";
 import { useNavigate } from "react-router-dom";
 import AllData from "./All/AllData";
-import ProfitLoss from "./P&L/ProfitLoss";
-import PDC from "./pdc/PDC";
-import Comm from "./Comm/Comm";
-import Account from "./Account/Account";
-import React, { useMemo, useState } from "react";
 import moment from "moment";
+import { useMemo, useState } from "react";
 
 // const handleChange = (value) => {
 //   console.log(`selected ${value}`);

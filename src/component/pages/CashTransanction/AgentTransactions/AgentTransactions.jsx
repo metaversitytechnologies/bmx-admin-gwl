@@ -168,7 +168,7 @@ const AgentTransactions = () => {
                         value: user.userId,
                       })) || []
                     }
-                    showSearch></Select>
+                    />
                 </Form.Item>
               </Col>
               <Col xl={8} lg={8} md={24} xs={24}>

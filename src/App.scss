@@ -669,3 +669,26 @@ div#rc-tabs-0-tab-2 {
 th.ant-table-cell {
   background: #7d5c0e !important;
 }
+
+.casino_diamond_details {
+  padding: 32px 90px;
+  flex: 1 1;
+  @media (max-width: 800px) {
+    padding: 20px 30px;
+  }
+  .ant-card-head-title {
+    font-size: 20px !important;
+  }
+}
+
+.red_back {
+  background-color: red;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.green_back {
+  background-color: green;
+  color: #fff;
+  white-space: nowrap;
+}

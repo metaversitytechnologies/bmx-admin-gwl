@@ -15,7 +15,7 @@ const CasinoProfitAndLoss = () => {
     toDate: today,
   });
 
-  const { data } = useGetCasinoPnlByDateQuery(dates);
+  const { data, refetch } = useGetCasinoPnlByDateQuery(dates);
 
   const handleBackClick = () => {
     nav(-1);
@@ -35,6 +35,7 @@ const CasinoProfitAndLoss = () => {
       fromDate: today,
       toDate: today,
     });
+    refetch();
   };
 
   return (
@@ -43,8 +44,7 @@ const CasinoProfitAndLoss = () => {
         style={{ margin: 0, width: "100%" }}
         className="sport_detail"
         title="Diamond Casino Details"
-        extra={<button onClick={handleBackClick}>Back</button>}
-      >
+        extra={<button onClick={handleBackClick}>Back</button>}>
         <Row className="profit_apply">
           <Col xs={24} xl={6} lg={6} md={24}>
             <div className="profit_date">
@@ -52,7 +52,7 @@ const CasinoProfitAndLoss = () => {
             </div>
           </Col>
           <Col xs={4} xl={4} lg={4} md={4} className="mb-2 btn_apply">
-            <button className="ant-btn-danger" onClick={() => null}>
+            <button className="ant-btn-danger" onClick={() => refetch()}>
               Apply
             </button>
             <button className="apply_btn1" onClick={handleTodayClick}>
@@ -81,7 +81,21 @@ const CasinoProfitAndLoss = () => {
                   <td>{res?.description}</td>
                   <td>{res?.pnl?.toFixed(2)}</td>
                   <td>{res?.clientPl}</td>
-                  <td>View</td>
+                  <td>
+                    <span onClick={()=>nav(`/casinoprofitandloss/102250804013403`)}
+                      style={{
+                        backgroundColor: "rgb(16, 142, 233)",
+                        borderRadius: "0px",
+                        marginBottom: "8px",
+                        color: "#fff",
+                        margin: "0 8px 0 0",
+                        padding: "4px 7px",
+                        fontSize: "12px",
+                        cursor:"pointer"
+                      }}>
+                      Show View
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
