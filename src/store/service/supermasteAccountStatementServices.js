@@ -248,6 +248,13 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
+    getChildListLimit: build.mutation({
+      query: (body) => ({
+        url: "user/child-list-for-limit",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -284,4 +291,5 @@ export const {
   useGetLedgerDetailsMutation,
   useCreateLedgerMutation,
   useGetUserActiveDeactiveMutation,
+  useGetChildListLimitMutation
 } = supermasteAccountStatementApi;

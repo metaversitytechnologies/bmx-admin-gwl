@@ -437,7 +437,7 @@ const Sidebar = (props) => {
                   }`,
                   label: (
                     <Link to="/client/txn-super/Mini-Admin/5">
-                      (SUB) Debit/Credit Entry
+                      (AD) Debit/Credit Entry
                     </Link>
                   ),
                 },
@@ -445,7 +445,7 @@ const Sidebar = (props) => {
                   className: `${userType === "7" ? "" : "d-none"}`,
                   label: (
                     <Link to="/client/txn-super/Admin/6">
-                      (A) Debit/Credit Entry
+                      (ADM) Debit/Credit Entry
                     </Link>
                   ),
                 },
@@ -999,7 +999,7 @@ const Sidebar = (props) => {
                       <Link
                         to="/client/txn-super/Mini-Admin/5"
                         onClick={() => props?.action()}>
-                        (MIA) Debit/Credit Entry
+                        (AD) Debit/Credit Entry
                       </Link>
                     ),
                   },
@@ -1010,7 +1010,7 @@ const Sidebar = (props) => {
                       <Link
                         to="/client/txn-super/Admin/6"
                         onClick={() => props?.action()}>
-                        (A) Debit/Credit Entry
+                        (ADM) Debit/Credit Entry
                       </Link>
                     ),
                   },

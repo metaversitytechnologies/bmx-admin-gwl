@@ -6,7 +6,7 @@
   justify-content: center;
   // box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
   @media (max-width: 800px) {
-    margin: 20px 0px ;
+    margin: 20px 0px;
   }
   .rejected_row {
     margin: 0px 0px 12px 30px;
@@ -263,5 +263,19 @@
   height: 22px;
   span {
     padding: 0;
+  }
+}
+
+.gx-bg-orange {
+  background-color: #fa8c16 !important;
+}
+
+.gx-text-white {
+  color: #fff !important;
+}
+
+.ant-table-thead {
+  td {
+    background-color: #7d5c0e !important;
   }
 }

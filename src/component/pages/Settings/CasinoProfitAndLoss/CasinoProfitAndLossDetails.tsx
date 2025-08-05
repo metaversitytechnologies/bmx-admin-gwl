@@ -13,7 +13,6 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetCasinoBetByMarketQuery,
-  useGetCasinoPnlByDateQuery,
 } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";

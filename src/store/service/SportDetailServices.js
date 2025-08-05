@@ -263,6 +263,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getAgentPlusMinus: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-agent-plus-minus`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -295,5 +304,6 @@ export const {
   useGetLedgerProfitLossQuery,
   useGetAccOprationQuery,
   useGetCompletdCasinoQuery,
-  useGetCasinoDetailsDemoQuery
+  useGetCasinoDetailsDemoQuery,
+  useGetAgentPlusMinusQuery
 } = sportDetailsApi;

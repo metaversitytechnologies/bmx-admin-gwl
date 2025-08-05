@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Card, Col, DatePicker, Row, Space, Table, Tag } from "antd";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -54,47 +54,60 @@ const CasinoPandLDetail = () => {
     {
       title: "Action",
       key: "action",
-      render: (_, record) => (
-        <div className="gx-bg-flex gx-justify-content-end">
-          <Button
-            style={{
-              height: "36px",
-              padding: "0px 15px",
-              borderRadius: "5px",
-              marginRight: "15px",
-            }}
-            type="primary">
-            <Link to={`/plusminuscasinodeatils/${record.date}`}>
-              plusminus2
-            </Link>
-          </Button>
-          <Button
-            style={{
-              height: "36px",
-              padding: "0px 15px",
-              borderRadius: "5px",
-              marginRight: "15px",
-            }}
-            type="primary">
-            <Link to="/Casino/AndarBahar/plus-minus-type">plusminus</Link>
-          </Button>
-          <Button
-            type="link"
-            style={{
-              height: "36px",
-              padding: "0px 15px",
-              borderRadius: "5px",
-              border: "1px solid #d9d9d9",
-              background: "#fff",
-              color: "#545454",
-            }}>
-            <Link
-              to={`/display-games/${record.casinoId}/${record.eventName}/${record.date}`}>
-              Display Games
-            </Link>
-          </Button>
-        </div>
-      ),
+      render: (_, record) => {
+        return (
+          <div className="gx-bg-flex gx-justify-content-end">
+            {!record?.isTotal ? (
+              record.casinoId ? (
+                <>
+                  <Button
+                    style={{
+                      height: "36px",
+                      padding: "0px 15px",
+                      borderRadius: "5px",
+                      marginRight: "15px",
+                    }}
+                    type="primary">
+                    <Link to="/Casino/AndarBahar/plus-minus-type">
+                      plusminus
+                    </Link>
+                  </Button>
+                  <Button
+                    type="link"
+                    style={{
+                      height: "36px",
+                      padding: "0px 15px",
+                      borderRadius: "5px",
+                      border: "1px solid #d9d9d9",
+                      background: "#fff",
+                      color: "#545454",
+                    }}>
+                    <Link
+                      to={`/display-games/${record.casinoId}/${record.eventName}/${record.date}`}>
+                      Display Games
+                    </Link>
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  style={{
+                    height: "36px",
+                    padding: "0px 15px",
+                    borderRadius: "5px",
+                    marginRight: "15px",
+                  }}
+                  type="primary">
+                  <Link to={`/plusminuscasinodeatils/${record.date}`}>
+                    plusminus2
+                  </Link>
+                </Button>
+              )
+            ) : (
+              ""
+            )}
+          </div>
+        );
+      },
     },
   ];
 

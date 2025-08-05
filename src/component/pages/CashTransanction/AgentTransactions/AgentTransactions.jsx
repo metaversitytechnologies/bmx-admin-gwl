@@ -89,7 +89,7 @@ const AgentTransactions = () => {
   useEffect(() => {
     if (createTranstions?.status) {
       openNotification(createTranstions?.message);
-      trigger({ userId: userId ? userId : clientId });
+      trigger({ userId: userId ? userId : clientId, transactiontype: "All" });
       form?.resetFields();
     } else if (createTranstions?.status === false || error?.data?.message) {
       openNotificationError(createTranstions?.message || error?.data?.message);
@@ -97,7 +97,7 @@ const AgentTransactions = () => {
   }, [createTranstions, error]);
 
   useEffect(() => {
-    trigger({ userId: userId });
+    trigger({ userId: userId, transactiontype: "All" });
   }, [userId]);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ const AgentTransactions = () => {
       if (matchedClient) {
         form.setFieldsValue({ client: matchedClient.userId });
         setClientId(matchedClient.userId);
-        trigger({ userId: matchedClient.userId });
+        trigger({ userId: matchedClient.userId, transactiontype: "All" });
       }
     }
   }, [result, userId]);
@@ -160,6 +160,7 @@ const AgentTransactions = () => {
                       setClientId(value);
                       trigger({
                         userId: value,
+                        transactiontype: "All",
                       });
                     }}
                     options={
@@ -168,7 +169,7 @@ const AgentTransactions = () => {
                         value: user.userId,
                       })) || []
                     }
-                    />
+                  />
                 </Form.Item>
               </Col>
               <Col xl={8} lg={8} md={24} xs={24}>

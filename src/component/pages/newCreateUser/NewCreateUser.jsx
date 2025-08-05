@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 
 import {
+  useGetChildListLimitMutation,
   useGetCreateUserMutation,
   useGetUserDetailsQuery,
   useUserIdForSearchQuery,
@@ -20,7 +21,6 @@ import {
 import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
 import SelectUpline from "./SelectUpline";
-import { use } from "react";
 
 const createName = {
   7: "Admin",
@@ -75,11 +75,15 @@ const NewCreateUser = () => {
 
   const [createUser, { data: UserList, error, isLoading }] =
     useGetCreateUserMutation();
+  const [getPalance, { data: parentBalance }] = useGetChildListLimitMutation();
 
-  console.log("downlineDatadownlineData", downlineData?.data);
+  useEffect(() => {
+    getPalance({
+      userId: parentId ? parentId : localStorage.getItem("userId"),
+    });
+  }, [parentId]);
 
   const onFinish = (values) => {
-    console.log("Success:", values);
     const {
       Name,
       reference,
@@ -87,7 +91,7 @@ const NewCreateUser = () => {
       mobile,
       matchShare,
       cassino_Share,
-      Commtype,
+      cassino_Comm,
       sess_comm,
       Match_comm,
       Coins,
@@ -101,10 +105,10 @@ const NewCreateUser = () => {
       partnership: matchShare,
       casinoPartnership: cassino_Share,
       internationalCasinoPartnership: 0,
-      commissionType: Commtype === "bbb" ? "2" : "1",
-      matchCommission: "2",
-      sessionCommission: sess_comm,
-      casinoCommission: Match_comm,
+      commissionType: commiType === "bbb" ? "2" : "1",
+      matchCommission: commiType === "bbb" ? Match_comm : 0,
+      sessionCommission: commiType === "bbb" ? sess_comm : 0,
+      casinoCommission: commiType === "bbb" ? cassino_Comm : 0,
       limit: Coins,
       parentIdForUserCreation: parentId,
       appId: "16",
@@ -123,6 +127,8 @@ const NewCreateUser = () => {
   }, [UserList, error]);
 
   const nav = useNavigate();
+
+  console.log(commiType, "commiType");
 
   return (
     <div className="create_user_section">
@@ -168,7 +174,7 @@ const NewCreateUser = () => {
               fields={[
                 {
                   name: "My Coins",
-                  value: "0",
+                  value: parentBalance?.data?.parentLimit,
                 },
                 {
                   name: "code",
@@ -201,6 +207,14 @@ const NewCreateUser = () => {
                 {
                   name: "My_sess_comm",
                   value: userDetails?.data?.mySessionCommision,
+                },
+                {
+                  name: "cassino_Comm",
+                  value: commiType !== "bbb" ? 0 : "",
+                },
+                {
+                  name: "shareType",
+                  value: "Fixed",
                 },
               ]}>
               <div>
@@ -264,24 +278,23 @@ const NewCreateUser = () => {
                       rules={[
                         {
                           required: true,
-                          message:
-                            "Coins must have at most one digit after the decimal point Please input your coins!",
+                          message: "Please input your coins!",
                         },
-                        // {
-                        //   validator: async (_, values) => {
-                        //     if (
-                        //       data?.data?.myBalance < values &&
-                        //       values != "" &&
-                        //       values != null
-                        //     ) {
-                        //       return Promise.reject(
-                        //         new Error(
-                        //           "Coins must have at most one digit after the decimal point "
-                        //         )
-                        //       );
-                        //     }
-                        //   },
-                        // },
+                        {
+                          validator: async (_, values) => {
+                            if (
+                              parentBalance?.data?.parentLimit < values &&
+                              values != "" &&
+                              values != null
+                            ) {
+                              return Promise.reject(
+                                new Error(
+                                  `Coins must be less than ${parentBalance?.data?.parentLimit}`
+                                )
+                              );
+                            }
+                          },
+                        },
                       ]}>
                       <InputNumber
                         className="number_field"
@@ -357,6 +370,7 @@ const NewCreateUser = () => {
                         },
                       ]}>
                       <Select
+                        defaultValue={"Fixed"}
                         options={[
                           {
                             value: "Fixed",

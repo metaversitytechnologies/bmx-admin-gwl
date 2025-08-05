@@ -14,13 +14,11 @@ const CompeleteFancy = () => {
       title: "username",
       dataIndex: "username",
       key: "username",
-      render: () => <span>Not Provide</span>,
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      render: () => <span>Not Provide</span>,
     },
     {
       title: "F. Name",
@@ -29,22 +27,19 @@ const CompeleteFancy = () => {
     },
     {
       title: "Rate",
-      dataIndex: "rate",
-      key: "rate",
-      render: () => <span>Not Provide</span>,
+      dataIndex: "odds",
+      key: "odds",
     },
     {
       title: "Value",
-      dataIndex: "Value",
-      key: "Value",
-      render: () => <span>Not Provide</span>,
+      dataIndex: "priceValue",
+      key: "priceValue",
     },
     {
       title: "Back/Lay",
       dataIndex: "isBack",
       key: "isBack",
-      // render: (text) => <span>{text ? "Yes" : "No"}</span>,
-      render: () => <span>Not Provide</span>,
+      render: (text) => <span>{text ? "Yes" : "No"}</span>,
     },
     {
       title: "Result",
@@ -53,15 +48,13 @@ const CompeleteFancy = () => {
     },
     {
       title: "Creator",
-      dataIndex: "Creator",
-      key: "Creator",
-      render: () => <span>Not Provide</span>,
+      dataIndex: "creator",
+      key: "creator",
     },
     {
       title: "Stake",
-      dataIndex: "Stake",
-      key: "Stake",
-      render: () => <span>Not Provide</span>,
+      dataIndex: "stake",
+      key: "stake",
     },
     {
       title: "PNL",

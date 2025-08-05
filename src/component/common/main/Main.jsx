@@ -177,7 +177,7 @@ const Main = () => {
           path="/matchsessionbet/:id/:inplay?"
           element={<MatchSessionBet />}
         />
-        <Route path="/agent-list/:id" element={<ClientReport />} />
+        <Route path="/agent-list/:id/:name?" element={<ClientReport />} />
         <Route path="/finish-game" element={<FinishedGame />} />
         <Route path="/matchplusminus/:id?/:name?" element={<CompanyReport />} />
         <Route path="/casino/:id?" element={<CasinoMainPage />} />

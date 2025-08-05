@@ -82,7 +82,10 @@ const CasinoProfitAndLoss = () => {
                   <td>{res?.pnl?.toFixed(2)}</td>
                   <td>{res?.clientPl}</td>
                   <td>
-                    <span onClick={()=>nav(`/casinoprofitandloss/102250804013403`)}
+                    <span
+                      onClick={() =>
+                        nav(`/casinoprofitandloss/${res?.marketId}`)
+                      }
                       style={{
                         backgroundColor: "rgb(16, 142, 233)",
                         borderRadius: "0px",
@@ -91,7 +94,8 @@ const CasinoProfitAndLoss = () => {
                         margin: "0 8px 0 0",
                         padding: "4px 7px",
                         fontSize: "12px",
-                        cursor:"pointer"
+                        cursor: "pointer",
+                        whiteSpace: "nowrap",
                       }}>
                       Show View
                     </span>

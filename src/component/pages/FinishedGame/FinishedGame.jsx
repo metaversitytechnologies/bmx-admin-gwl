@@ -122,7 +122,7 @@ const FinishedGame = () => {
         <Link
           onClick={() => setDropdownStates(false)}
           className="title_section"
-          to={`/agent-list/${matchId}`}>
+          to={`/agent-list/${matchId}/${dataNameee}`}>
           Agent Plus Minus
         </Link>
       ),

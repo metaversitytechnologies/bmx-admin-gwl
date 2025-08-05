@@ -178,7 +178,7 @@ const SportsDetails = () => {
                                 <Link
                                   onClick={() => setDropdownStates(false)}
                                   className="title_section"
-                                  to={`/agent-list/${res.matchId}`}>
+                                  to={`/agent-list/${res.matchId}/${res.matchName}`}>
                                   Agent Plus Minus
                                 </Link>
                               ),

@@ -52,7 +52,10 @@ const CasinoCommission = ({ createName, commiType }) => {
                 message: "Please enter valid Casino commission",
               },
             ]}>
-            <Input placeholder="casino commition" />
+            <Input
+              placeholder="casino commition"
+              disabled={commiType !== "bbb"}
+            />
           </Form.Item>
         </Col>
       </Row>
