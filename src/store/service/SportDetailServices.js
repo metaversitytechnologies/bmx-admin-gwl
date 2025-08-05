@@ -245,6 +245,24 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getCompletdCasino: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-completed-casino-detail`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getCasinoDetailsDemo: build.query({
+      query: (body) => {
+        return {
+          url: `/casino/get-casino-detail-date-casinoid`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -276,4 +294,6 @@ export const {
   useLazyGetSecureCodeQuery,
   useGetLedgerProfitLossQuery,
   useGetAccOprationQuery,
+  useGetCompletdCasinoQuery,
+  useGetCasinoDetailsDemoQuery
 } = sportDetailsApi;
