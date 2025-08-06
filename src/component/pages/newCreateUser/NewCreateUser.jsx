@@ -70,7 +70,9 @@ const NewCreateUser = () => {
 
   const userId = localStorage.getItem("userId");
   const userType = localStorage.getItem("userType");
-  const { data: userDetails } = useGetUserDetailsQuery({ userId: userId });
+  const { data: userDetails } = useGetUserDetailsQuery({
+    userId: parentId ? parentId : userId,
+  });
   const { data: downlineData } = useUserIdForSearchQuery({ userType: id });
 
   const [createUser, { data: UserList, error, isLoading }] =
@@ -102,8 +104,9 @@ const NewCreateUser = () => {
       password: password,
       contact: mobile,
       mobileAppCharge: "0",
-      partnership: matchShare,
-      casinoPartnership: cassino_Share,
+      partnership: id === "2" ? userDetails?.data?.myPartnership : matchShare,
+      casinoPartnership:
+        id === "2" ? userDetails?.data?.myCasinoPartnership : cassino_Share,
       internationalCasinoPartnership: 0,
       commissionType: commiType === "bbb" ? "2" : "1",
       matchCommission: commiType === "bbb" ? Match_comm : 0,
@@ -174,7 +177,7 @@ const NewCreateUser = () => {
               fields={[
                 {
                   name: "My Coins",
-                  value: parentBalance?.data?.parentLimit,
+                  value: userDetails?.data?.balance,
                 },
                 {
                   name: "code",
@@ -283,13 +286,13 @@ const NewCreateUser = () => {
                         {
                           validator: async (_, values) => {
                             if (
-                              parentBalance?.data?.parentLimit < values &&
+                              userDetails?.data?.balance < values &&
                               values != "" &&
                               values != null
                             ) {
                               return Promise.reject(
                                 new Error(
-                                  `Coins must be less than ${parentBalance?.data?.parentLimit}`
+                                  `Coins must be less than ${userDetails?.data?.balance}`
                                 )
                               );
                             }
@@ -358,32 +361,34 @@ const NewCreateUser = () => {
                       <Input type="password" placeholder="Password" />
                     </Form.Item>
                   </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Share Type"
-                      name="shareType"
-                      placeholder="Select share type"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please select your share type!",
-                        },
-                      ]}>
-                      <Select
-                        defaultValue={"Fixed"}
-                        options={[
+                  {id !== "2" && (
+                    <Col lg={12} xs={24}>
+                      <Form.Item
+                        label="Share Type"
+                        name="shareType"
+                        placeholder="Select share type"
+                        rules={[
                           {
-                            value: "Fixed",
-                            label: "Fixed",
+                            required: true,
+                            message: "Please select your share type!",
                           },
-                          {
-                            value: "Change",
-                            label: "Change",
-                          },
-                        ]}
-                      />
-                    </Form.Item>
-                  </Col>
+                        ]}>
+                        <Select
+                          defaultValue={"Fixed"}
+                          options={[
+                            {
+                              value: "Fixed",
+                              label: "Fixed",
+                            },
+                            {
+                              value: "Change",
+                              label: "Change",
+                            },
+                          ]}
+                        />
+                      </Form.Item>
+                    </Col>
+                  )}
                 </Row>
                 <MatchCommission
                   createName={createName[id]}

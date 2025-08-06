@@ -272,6 +272,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getUserLabilaty: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-user-bet-liability`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -305,5 +314,6 @@ export const {
   useGetAccOprationQuery,
   useGetCompletdCasinoQuery,
   useGetCasinoDetailsDemoQuery,
-  useGetAgentPlusMinusQuery
+  useGetAgentPlusMinusQuery,
+  useLazyGetUserLabilatyQuery,
 } = sportDetailsApi;

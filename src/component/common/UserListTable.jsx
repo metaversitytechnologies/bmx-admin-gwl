@@ -33,6 +33,7 @@ import {
 } from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
+import Exposure from "./Exposure";
 
 const routeFromUSerType = {
   6: "/user-list/mamin/5",
@@ -57,6 +58,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [openResetPassModal, setOpenResetPassModal] = useState(false);
+  const [openExp, setOpenExp] = useState(false);
 
   const [form] = Form.useForm();
   const { parentId: parentIdFromParams, userTyep } = useParams();
@@ -219,7 +221,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       parentId: parentIdFromParams || null,
       noOfRecords: paginationTotal,
       index: indexData,
-      userId: values?.username,
+      // userId: values?.username,
+      userToSearch: values?.username,
     });
   };
 
@@ -340,6 +343,11 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
 
   const nav = useNavigate();
 
+  const handleExposure = (useId) => {
+    setOpenExp(true);
+    setUserId(useId);
+  };
+
   return (
     <>
       {isOverlayOpen && <div className="overlay_layout"></div>}
@@ -439,6 +447,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                   <th>D.O.J </th>
                   <th>Share%</th>
                   <th>PWD</th>
+                  {userType == 1 && <th>Exposure</th>}
                   <th colSpan={3} className="text-center">
                     {Listname} Comm %
                   </th>
@@ -487,6 +496,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                             nav(
                               `${routeFromUSerType[userType]}/${res?.userId}`
                             );
+                          } else if (res?.liability !== 0) {
+                            handleExposure(res?.userId);
                           }
                         }}
                         className="gx-text-blue gx-pointer gx-text-nowrap">
@@ -498,6 +509,25 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     <td>{moment(res?.createdOn).format("YYYY-MM-DD")}</td>
                     <td>{res?.partnerShip}</td>
                     <td>*******</td>
+                    {userType == 1 && (
+                      <td>
+                        <span
+                          onClick={() => {
+                            res?.liability !== 0 && handleExposure(res?.userId);
+                          }}
+                          style={{
+                            fontWeight: 600,
+                            color:
+                              res?.liability > 0
+                                ? "green"
+                                : res?.liability == 0
+                                ? "#595959"
+                                : "red",
+                          }}>
+                          {res?.liability?.toFixed(2) || 0}
+                        </span>
+                      </td>
+                    )}
                     <td>
                       {res?.matchCommission === 0 &&
                       res?.sessionCommission === 0
@@ -506,7 +536,17 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     </td>
                     <td>{Number(res?.matchCommission)?.toFixed(2)}</td>
                     <td>{Number(res?.sessionCommission)?.toFixed(2)}</td>
-                    <td className="text-right">{res?.balance?.toFixed()}</td>
+                    <td className="text-right">
+                      {userType == 1
+                        ? (
+                            Number(res?.balance) +
+                            Number(res?.balanceWithPnl) -
+                            Number(res?.liability?.toFixed(2) || 0)
+                          )?.toFixed()
+                        : (
+                            Number(res?.balance) + Number(res?.balanceWithPnl)
+                          )?.toFixed()}
+                    </td>
                     <td>{res?.isActive ? "Active" : "InActive"}</td>
                   </tr>
                 ))}
@@ -548,6 +588,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
           handleDepositeCancel={handleCloseDepositModal}
           fetchData={fetchData}
         />
+        <Exposure openExp={openExp} setOpenExp={setOpenExp} userId={userId} />
 
         <ResetPassword
           isDepositeModalOpen={openResetPassModal}

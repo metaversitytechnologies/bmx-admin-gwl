@@ -1,12 +1,9 @@
 import { Col, Form, Input, InputNumber, Row, Select } from "antd";
 import React from "react";
+import { useParams } from "react-router-dom";
 
-const MatchCommission = ({
-  commissionType,
-  commiType,
-  data,
-  createName,
-}) => {
+const MatchCommission = ({ commissionType, commiType, data, createName }) => {
+  const { id } = useParams();
 
   return (
     <>
@@ -14,7 +11,7 @@ const MatchCommission = ({
         <h2 className="match_share">{createName} Match Share and Commission</h2>
       </div>
       <Row className="super_agent sub_super">
-        {window.location.pathname.includes("create-client") ? (
+        {id === "2" ? (
           <></>
         ) : (
           <>

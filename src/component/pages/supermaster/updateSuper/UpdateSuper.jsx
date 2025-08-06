@@ -36,8 +36,8 @@ const updateName = {
 };
 
 const Responsedata = {
-  1: "",
-  2: "dealer",
+  1: "dealer",
+  2: "super",
   3: "master",
   4: "superMaster",
   5: "subAdmin",
@@ -146,6 +146,8 @@ const UpdateSuper = () => {
 
   const { Option } = Select;
 
+  console.log(getUserField("MatchCommission"), "getUserField");
+
   return (
     <>
       {contextHolder}
@@ -200,23 +202,23 @@ const UpdateSuper = () => {
                     ? "Bet by Bet"
                     : "No Comm",
               },
-              { name: "matchcomm", value: resuilt?.data?.myMatchCommission },
+              { name: "matchcomm", value: getUserField("MatchCommission") },
               {
                 name: "super_match_comm",
-                value: getUserField("MatchCommission"),
+                value: resuilt?.data?.myMatchCommission,
               },
-              { name: "sesscomm", value: resuilt?.data?.mySessionCommision },
+              { name: "sesscomm", value: getUserField("SessionCommision") },
               {
                 name: "super_sess_comm",
-                value: getUserField("SessionCommision"),
+                value: resuilt?.data?.mySessionCommision,
               },
               {
                 name: "sess_comm",
-                value: getUserField("CasinoCommission"),
+                value: resuilt?.data?.myCasinoCommission,
               },
               {
                 name: "super_casino_share",
-                value: resuilt?.data?.myCasinoPartnership,
+                value: getUserField("CasinoPartnership"),
               },
               {
                 name: "matchShare",
@@ -224,11 +226,11 @@ const UpdateSuper = () => {
               },
               {
                 name: "super_casino_comm",
-                value: resuilt?.data?.adminCasinoCommission,
+                value: getUserField("CasinoCommission"),
               },
               {
                 name: "supercasinocomm",
-                value: getUserField("CasinoPartnership"),
+                value: resuilt?.data?.myCasinoPartnership,
               },
               {
                 name: "share",
@@ -293,24 +295,28 @@ const UpdateSuper = () => {
             <h2 className="update_agent_text">Match Share and Comm</h2>
 
             <Row className="super_agent update_agent">
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label={`${updateNameDetails?.[id]} Match Share (%)`}
-                  name="matchShare">
-                  <Input type="number" disabled />
-                </Form.Item>
-              </Col>
+              {id !== "1" && (
+                <>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label={`${updateNameDetails?.[id]} Match Share (%)`}
+                      name="matchShare">
+                      <Input type="number" disabled />
+                    </Form.Item>
+                  </Col>{" "}
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Match Share (%)"
+                      name="share"
+                      rules={[
+                        { required: true, message: "Please enter match comm" },
+                      ]}>
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </>
+              )}
 
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label="Match Share (%)"
-                  name="share"
-                  rules={[
-                    { required: true, message: "Please enter match comm" },
-                  ]}>
-                  <Input />
-                </Form.Item>
-              </Col>
               <Col lg={12} xs={24}>
                 <Form.Item
                   label={`${updateNameDetails?.[id]} Comm Type`}
@@ -319,7 +325,6 @@ const UpdateSuper = () => {
                   <Input disabled />
                 </Form.Item>
               </Col>
-
               <Col lg={12} xs={24}>
                 <Form.Item
                   label="Comm Type"
@@ -402,7 +407,7 @@ const UpdateSuper = () => {
                   rules={[
                     { required: true, message: "Please enter casino share" },
                   ]}>
-                  <Input />
+                  <Input disabled={id === "1"} />
                 </Form.Item>
               </Col>
 

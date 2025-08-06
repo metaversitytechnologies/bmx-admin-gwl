@@ -166,7 +166,7 @@ const Sidebar = (props) => {
                   className: `${
                     userType === "7" ||
                     userType === "6" ||
-                    userType === "0" ||
+                    userType === "4" ||
                     userType == "5"
                       ? ""
                       : "d-none"
@@ -179,9 +179,9 @@ const Sidebar = (props) => {
                   className: `${
                     userType === "7" ||
                     userType === "6" ||
-                    userType === "1" ||
+                    userType === "4" ||
                     userType == "5" ||
-                    userType === "0"
+                    userType === "3"
                       ? ""
                       : "d-none"
                   }`,
@@ -292,7 +292,9 @@ const Sidebar = (props) => {
                 },
                 {
                   className: `${userType != "7" ? "d-none" : ""}`,
-                  label: <Link to="/client/ledger-super/6/Admin">Admin Leger</Link>,
+                  label: (
+                    <Link to="/client/ledger-super/6/Admin">Admin Leger</Link>
+                  ),
                 },
                 {
                   className: `${
@@ -300,7 +302,7 @@ const Sidebar = (props) => {
                   }`,
                   label: (
                     <Link to="/client/ledger-super/5/Mini-Admin">
-                     Mini Admin Leger
+                      Mini Admin Leger
                     </Link>
                   ),
                 },
@@ -311,9 +313,7 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/ledger-super/4/Master">
-                     Master Leger
-                    </Link>
+                    <Link to="/client/ledger-super/4/Master">Master Leger</Link>
                   ),
                 },
                 {
@@ -326,7 +326,9 @@ const Sidebar = (props) => {
                       : "d-none"
                   }`,
                   label: (
-                    <Link to="/client/ledger-super/3/Super">Super agent Leger</Link>
+                    <Link to="/client/ledger-super/3/Super">
+                      Super agent Leger
+                    </Link>
                   ),
                 },
                 {
@@ -345,9 +347,7 @@ const Sidebar = (props) => {
                 },
                 {
                   label: (
-                    <Link to="/client/ledger-super/1/Client">
-                     Client Leger
-                    </Link>
+                    <Link to="/client/ledger-super/1/Client">Client Leger</Link>
                   ),
                 },
               ],
@@ -645,8 +645,8 @@ const Sidebar = (props) => {
                     className: `${
                       userType === "6" ||
                       userType === "7" ||
-                      userType === "0" ||
-                      userType == "5"
+                      userType === "5" ||
+                      userType == "4"
                         ? ""
                         : "d-none"
                     }`,
@@ -662,8 +662,9 @@ const Sidebar = (props) => {
                     className: `${
                       userType === "6" ||
                       userType === "7" ||
-                      userType === "1" ||
-                      userType == "5"
+                      userType === "4" ||
+                      userType == "5" ||
+                      userType == "3"
                         ? ""
                         : "d-none"
                     }`,
@@ -840,7 +841,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/5/Mini-Admin">
-                        Mini Admin Leger 
+                        Mini Admin Leger
                       </Link>
                     ),
                   },
@@ -871,7 +872,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/3/Super-Agent">
-                        Super agent Leger 
+                        Super agent Leger
                       </Link>
                     ),
                   },
