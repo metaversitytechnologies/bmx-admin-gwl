@@ -6,11 +6,11 @@ import { loginReportApi } from "./service/loginReportServices";
 import { activeMatchesApi } from "./service/ActiveMatcheService";
 import { eventDerailApi } from "./service/eventDetailServices";
 import { fancyBookApi } from "./service/FancyBookServices";
-import global  from "./global/slice";
-import useref from './global/elementSlice'
+import global from "./global/slice";
+import useref from "./global/elementSlice";
 import { sportDetailsApi } from "./service/SportDetailServices";
 import { oddsPnlApi } from "./service/OddsPnlServices";
-import { ledgerApi } from "./service/ledgerServices";
+
 import { jwtApi } from "./service/jwtTokenServices";
 import { casinoDetailsApi } from "./service/CasinoServices";
 import { casinoData } from "./service/casinoService";
@@ -26,13 +26,12 @@ export const store = configureStore({
     [loginReportApi.reducerPath]: loginReportApi.reducer,
     [activeMatchesApi.reducerPath]: activeMatchesApi.reducer,
     [eventDerailApi.reducerPath]: eventDerailApi.reducer,
-    [fancyBookApi.reducerPath]:fancyBookApi.reducer,
-    [sportDetailsApi.reducerPath]:sportDetailsApi.reducer,
-    [oddsPnlApi.reducerPath]:oddsPnlApi.reducer,
-    [ledgerApi.reducerPath]:ledgerApi.reducer,
-    [jwtApi.reducerPath]:jwtApi.reducer,
-    [casinoDetailsApi.reducerPath]:casinoDetailsApi.reducer,
-    [casinoData.reducerPath]:casinoData.reducer,
+    [fancyBookApi.reducerPath]: fancyBookApi.reducer,
+    [sportDetailsApi.reducerPath]: sportDetailsApi.reducer,
+    [oddsPnlApi.reducerPath]: oddsPnlApi.reducer,
+    [jwtApi.reducerPath]: jwtApi.reducer,
+    [casinoDetailsApi.reducerPath]: casinoDetailsApi.reducer,
+    [casinoData.reducerPath]: casinoData.reducer,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware()
@@ -45,8 +44,7 @@ export const store = configureStore({
       .concat(fancyBookApi.middleware)
       .concat(sportDetailsApi.middleware)
       .concat(oddsPnlApi.middleware)
-      .concat(ledgerApi.middleware)
       .concat(jwtApi.middleware)
       .concat(casinoDetailsApi.middleware)
-      .concat(casinoData.middleware)
+      .concat(casinoData.middleware),
 });

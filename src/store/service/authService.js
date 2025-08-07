@@ -12,6 +12,20 @@ export const authApi = createApi({
         body,
       }),
     }),
+    // login: build.mutation({
+    //   query: (body) => ({
+    //     url: "/login/client-login-fotp",
+    //     method: "POST",
+    //     body,
+    //   }),
+    // }),
+    // loginWithOtp: build.mutation({
+    //   query: (body) => ({
+    //     url: "/login/client-login-wotp",
+    //     method: "POST",
+    //     body,
+    //   }),
+    // }),
     logout: build.mutation({
       query: () => ({
         url: "/login/logout",
@@ -21,4 +35,5 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = authApi;
+export const { useLoginMutation, useLogoutMutation, useLoginWithOtpMutation } =
+  authApi;

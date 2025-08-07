@@ -57,6 +57,17 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
       dataIndex: "marketType",
       key: "marketType",
     },
+    {
+      title: "Loss",
+      dataIndex: "loss",
+      render: (text) => <span>{text?.toFixed(2)}</span>,
+    },
+    {
+      title: "Profit",
+      dataIndex: "profit",
+      key: "profit",
+      render: (text) => <span>{text?.toFixed(2)}</span>,
+    },
   ];
 
   return (
@@ -72,16 +83,47 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
         onCancel={() => setOpenExp(false)}
         okButtonProps={{ style: { display: "none" } }}
         cancelButtonProps={{ style: { display: "none" } }}
-        footer={null}>
+        footer={null}
+        style={{ marginBottom: "40px" }}>
         <div
           className="table_section exposure"
-          style={{ marginBottom: "100px" }}>
+          style={{
+            marginBottom: "100px",
+            height: "70vh",
+            overflow: "scroll",
+            paddingBottom: "10px",
+          }}>
           <Table
             columns={column}
             dataSource={exposureData?.data || []}
             pagination={false}
             loading={isLoading}
+            summary={(pageData) => {
+              let totalProfit = 0;
+              let totalLoss = 0;
+
+              pageData.forEach(({ profit, loss }) => {
+                totalProfit += profit || 0;
+                totalLoss += loss || 0;
+              });
+
+              return (
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} colSpan={6}>
+                    <strong>Total</strong>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={6}>
+                    <strong>{totalLoss.toFixed(2)}</strong>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={7}>
+                    <strong>{totalProfit.toFixed(2)}</strong>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              );
+            }}
           />
+          <br />
+          <br />
         </div>
       </Modal>
     </>

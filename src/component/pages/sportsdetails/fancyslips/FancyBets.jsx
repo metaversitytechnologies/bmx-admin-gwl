@@ -84,11 +84,7 @@ const FancyBets = () => {
                 </Form.Item>
               </Col>
               <Col xs={24} md={24} lg={8} xl={8}>
-                <Form.Item
-                  name=""
-                  label=""
-                  required={false}
-                  rules={[{ required: true, message: "Please Odd Type User" }]}>
+                <Form.Item name="" label="" required={false}>
                   <Select
                     placeholder="Select User"
                     value={oddsType}
@@ -117,6 +113,7 @@ const FancyBets = () => {
               <table className="">
                 <thead>
                   <tr>
+                    <th>Run</th>
                     <th>Rate</th>
                     <th>Amount</th>
                     <th>Type</th>
@@ -134,6 +131,7 @@ const FancyBets = () => {
                       <tr
                         key={id}
                         className={res?.mode !== "YES" ? "lay" : "back"}>
+                        <td>{res?.run}</td>
                         <td>{res?.rate}</td>
                         <td>{res?.amount}</td>
                         <td>{res?.mode}</td>

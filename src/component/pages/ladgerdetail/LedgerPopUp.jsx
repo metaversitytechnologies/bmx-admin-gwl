@@ -6,44 +6,21 @@ import {
     Row, 
   } from "antd";
   
-  import { useCashTransactionPopupMutation } from "../../../store/service/ledgerServices";
   import { useEffect } from "react";
   import { openNotification, openNotificationError } from "../../../App";
   
   const LedgerPopUp = ({ userData, modalsName, handleClose }) => {
-    const [trigger, { data, error, isLoading }] = useCashTransactionPopupMutation();
+   
   
     const [form] = Form.useForm();
   
   
-      useEffect(()=>{
-        if(data?.status === true){
-            openNotification(data?.message);
-            form?.resetFields();
-            handleClose()
-        }else if(data?.status === false || error?.data?.message){
-            openNotificationError(data?.message || error?.data?.message);
-            handleClose()
-        }
-    }, [data?.data, error])
-    
-  
-    const onFinish = (values) => {
-      const payloadData = {
-        userId: userData?.userId,
-        collection: "CASH",
-        amount: values?.amount,
-        paymenttype: modalsName == "Lena" ?"Liya":"Diya",
-        remarks: values?.remark,
-        // transactionPassword: values?.password,
-      };
-      trigger(payloadData)
-      form?.resetFields();
-    };
+      
+
     return (
       <>
         <div className="my_ledger" style={{paddingBottom: "3px"}}>
-          <Form
+          {/* <Form
             className="form_data mt-16 cash_data"
             name="basic"
             form={form}
@@ -161,7 +138,7 @@ import {
                 Submit
               </Button>
             </Form.Item>
-          </Form>
+          </Form> */}
         </div>
       </>
     );

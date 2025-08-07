@@ -80,11 +80,11 @@ const PlusMinusReport = () => {
     setParentKey(allData?.data?.userDetail);
 
     if (allData?.data?.sessionDetail?.length) {
-      setFirst(allData.data.sessionDetail.map((i) => i.sessionId));
+      setFirst(allData?.data?.sessionDetail.map((i) => i.sessionId));
     }
 
     if (allData?.data?.userDetail?.length) {
-      setThirdUserid(allData.data.userDetail.map((i) => i.userId));
+      setThirdUserid(allData?.data?.userDetail.map((i) => i.userId));
     }
   }, [data]);
 
@@ -139,7 +139,7 @@ const PlusMinusReport = () => {
                   rowSelection={{
                     type: "checkbox",
                     onChange: (selectedRowKeys, selectedRows) => {
-                      setFirst(selectedRows.map((i) => i.sessionId));
+                      setFirst(selectedRows.map((i) => i?.sessionId));
                     },
                     selectedRowKeys: first,
                   }}
@@ -175,7 +175,7 @@ const PlusMinusReport = () => {
                   rowSelection={{
                     type: "checkbox",
                     onChange: (selectedRowKeys, selectedRows) => {
-                      setThirdUserid(selectedRows.map((i) => i.userId));
+                      setThirdUserid(selectedRows?.map((i) => i.userId));
                     },
                     selectedRowKeys: thirdUserid,
                   }}
@@ -183,7 +183,7 @@ const PlusMinusReport = () => {
                   bordered
                   columns={clintColumns}
                   pagination={false}
-                  dataSource={data?.data.userDetail}
+                  dataSource={data?.data?.userDetail}
                 />
               </Col>
             </Row>

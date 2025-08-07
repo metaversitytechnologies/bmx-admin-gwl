@@ -8,7 +8,7 @@ import { useLazyFilterbyClientQuery } from "../../../../store/service/supermaste
 
 const FancySlips = ({ name }) => {
   const [clientId, setClientId] = useState("");
-  const [oddsType, setOddsType] = useState("");
+  const [oddsType, setOddsType] = useState("Bookmaker");
   const [isLoading, setIsLoading] = useState(false);
   const [summaryData, setSummaryData] = useState([]);
 
@@ -166,15 +166,16 @@ const FancySlips = ({ name }) => {
                   name="oddType"
                   label="Select OddsType"
                   required={false}
-                  rules={[{ required: true, message: "Please Odd Type User" }]}>
+                  // rules={[{ required: true, message: "Please Odd Type User" }]}
+                  >
                   <Select
                     placeholder="Select User"
                     value={oddsType}
                     options={[
-                      {
-                        value: "All",
-                        label: "All Odds Type",
-                      },
+                      // {
+                      //   value: "All",
+                      //   label: "All Odds Type",
+                      // },
                       {
                         value: "Bookmaker",
                         label: "bookmaker",

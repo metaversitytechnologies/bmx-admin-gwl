@@ -1,15 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { dynamicBaseQuery } from "./dynamicBaseQuery";
 
 export const sportDetailsApi = createApi({
   reducerPath: "sportDetailsApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      headers.set("Authorization", `Bearer ${token}`);
-      return headers;
-    },
-  }),
+  baseQuery: dynamicBaseQuery,
   endpoints: (build) => ({
     sportDetail: build.query({
       query: (body) => ({
@@ -281,6 +275,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getFancyBetV: build.mutation({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-fancybet-v-style`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -316,4 +319,5 @@ export const {
   useGetCasinoDetailsDemoQuery,
   useGetAgentPlusMinusQuery,
   useLazyGetUserLabilatyQuery,
+  useGetFancyBetVMutation
 } = sportDetailsApi;

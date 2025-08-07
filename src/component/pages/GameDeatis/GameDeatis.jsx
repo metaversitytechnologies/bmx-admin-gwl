@@ -6,7 +6,10 @@ import { useEffect, useState } from "react";
 import { useEventDetailQuery } from "../../../store/service/eventDetailServices";
 import FancyData from "./FancyData";
 import MatchOdds from "./MatchOdds";
-import { useLazyOddsQuPnlMyQuery, useLazyOddsQuPnlQuery } from "../../../store/service/OddsPnlServices";
+import {
+  useLazyOddsQuPnlMyQuery,
+  useLazyOddsQuPnlQuery,
+} from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
 import { use } from "react";
 import { useParams } from "react-router-dom";
@@ -14,7 +17,7 @@ import { useParams } from "react-router-dom";
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
   const { id } = useParams();
-  const { data } = useEventDetailQuery(id ?? "");
+  const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
@@ -61,7 +64,7 @@ const GameDeatis = () => {
                 className="ant-row"
                 style={{ height: !showFullScore ? 110 : 220 }}>
                 <iframe
-                  src="https://score.trovetown.co/socket-iframe-1/crickexpo/34530941"
+                  src={`https://score.trovetown.co/socket-iframe-1/crickexpo/${id}`}
                   title="Score-I-frame"
                   className=""
                   style={{ width: "100%", height: "100%", border: "none" }}
@@ -70,11 +73,19 @@ const GameDeatis = () => {
               <Row className="gx-px-0 gx-py-0 main_game_details">
                 <Col md={18} xs={24}>
                   {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}
-                  <Bookmaker data={data} pnl={oddsPnl?.data} oddsPnlMy={oddsPnlMy?.data}/>
-                  <FancyData data={data} setFancyId={setFancyId} fancyId={fancyId}/>
+                  <Bookmaker
+                    data={data}
+                    pnl={oddsPnl?.data}
+                    oddsPnlMy={oddsPnlMy?.data}
+                  />
+                  <FancyData
+                    data={data}
+                    setFancyId={setFancyId}
+                    fancyId={fancyId}
+                  />
                 </Col>
               </Row>
-              <FancyBets setFancyId={setFancyId} fancyId={fancyId}/>
+              <FancyBets setFancyId={setFancyId} fancyId={fancyId} />
               <CompletedFancy />
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button

@@ -12,8 +12,8 @@ const CompeleteFancy = () => {
   const columns = [
     {
       title: "username",
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "userId",
+      key: "userId",
     },
     {
       title: "Date",
@@ -60,6 +60,9 @@ const CompeleteFancy = () => {
       title: "PNL",
       dataIndex: "pnl",
       key: "pnl",
+      render:(text)=>(
+        <span>{text?.toFixed(2)}</span>
+      )
     },
   ];
 

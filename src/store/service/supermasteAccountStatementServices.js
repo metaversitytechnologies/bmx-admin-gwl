@@ -1,15 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { dynamicBaseQuery } from "./dynamicBaseQuery";
 
 export const supermasteAccountStatementApi = createApi({
   reducerPath: "supermasteAccountStatementApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      headers.set("Authorization", `Bearer ${token}`);
-      return headers;
-    },
-  }),
+  baseQuery: dynamicBaseQuery,
   tagTypes: ["deleteByUser", "superUserList", "casinoList", "dashboard"],
   endpoints: (build) => ({
     accountstatement: build.query({
@@ -122,7 +116,6 @@ export const supermasteAccountStatementApi = createApi({
       }),
       invalidatesTags: ["superUserList"],
     }),
-  
 
     userBetLock: build.mutation({
       query: (body) => ({
@@ -291,5 +284,5 @@ export const {
   useGetLedgerDetailsMutation,
   useCreateLedgerMutation,
   useGetUserActiveDeactiveMutation,
-  useGetChildListLimitMutation
+  useGetChildListLimitMutation,
 } = supermasteAccountStatementApi;

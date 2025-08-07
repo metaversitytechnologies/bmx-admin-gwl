@@ -79,11 +79,15 @@ const AddSuperLimites = () => {
     triggerDeposit(payload)
       .unwrap()
       .then((res) => {
-        openNotification(
-          `${isAdd ? "Added" : "Deducted"} ${amount} to ${user.userName}`
-        );
-        fetchData(); // Refresh after action
-        setInputValues((prev) => ({ ...prev, [user.userId]: "" }));
+        if (res?.status) {
+          openNotification(
+            `${isAdd ? "Added" : "Deducted"} ${amount} to ${user.userName}`
+          );
+          fetchData(); // Refresh after action
+          setInputValues((prev) => ({ ...prev, [user.userId]: "" }));
+        } else {
+          openNotificationError(res?.message);
+        }
       })
       .catch((err) => {
         openNotificationError("Transaction failed");

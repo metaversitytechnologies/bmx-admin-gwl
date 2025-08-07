@@ -8,10 +8,13 @@ import {
 } from "../../../../../store/service/SportDetailServices";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddDetails from "../../../GameDeatis/AddDetails";
 
 const FancyBets = ({ setFancyId, fancyId }) => {
-  const [oddsType, setOddsType] = useState("All");
-  const [sessionType, setSessionType] = useState("");
+  const [oddsType, setOddsType] = useState("Bookmaker");
+  const [openResponsive, setOpenResponsive] = useState(false);
+  const [sessionType, setSessionType] = useState(false);
+  const [clientId, setClientId] = useState("");
   const { id } = useParams();
 
   const [trigger, { data: matchBets }] = useGetMatchBetsMutation();
@@ -32,7 +35,6 @@ const FancyBets = ({ setFancyId, fancyId }) => {
     });
   }, [oddsType]);
 
-
   useEffect(() => {
     if (fancyId) {
       triggerSessionBets({
@@ -44,7 +46,6 @@ const FancyBets = ({ setFancyId, fancyId }) => {
       getFancyBook({ fancyId: fancyId, matchId: id });
     }
   }, [fancyId, id]);
-
 
   return (
     <>
@@ -60,7 +61,8 @@ const FancyBets = ({ setFancyId, fancyId }) => {
             <button
               type="button"
               className="ant-btn ant-btn-default gx-my-0  gx-bg-primary gx-text-white"
-              style={{ fontWeight: 400 }} onClick={() => setFancyId("")}>
+              style={{ fontWeight: 400 }}
+              onClick={() => setFancyId("")}>
               <span>Match Bets</span>
             </button>
             <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
@@ -118,7 +120,12 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                         <td>{item?.amount}</td>
                         <td>{item?.mode}</td>
                         <td>{item?.selectionName}</td>
-                        <td>
+                        <td
+                          onClick={() => {
+                            setOpenResponsive(true);
+                            setSessionType(true);
+                            setClientId(item.userId);
+                          }}>
                           {item?.username} ({item?.userId})
                         </td>
                         <td>
@@ -193,10 +200,10 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                 value={oddsType}
                 onChange={(value) => setOddsType(value)}
                 options={[
-                  {
-                    value: "All",
-                    label: "All OddsType",
-                  },
+                  // {
+                  //   value: "All",
+                  //   label: "All OddsType",
+                  // },
                   {
                     value: "Bookmaker",
                     label: "Bookmaker",
@@ -243,15 +250,20 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                         <td>{item?.mode === "L" ? "Lagia" : "Khai"}</td>
                         <td>{item?.marketType}</td>
                         <td>{item?.team}</td>
-                        <td>
+                        <td
+                          onClick={() => {
+                            setOpenResponsive(true);
+                            setSessionType(false);
+                            setClientId(item.userId);
+                          }}>
                           {item?.username} ({item?.userId})
                         </td>
                         <td>
                           {item?.parentName} ({item?.parentId})
                         </td>
                         <td>{new Date(item?.date).toLocaleString()}</td>
-                        <td>{item?.netPnl < 0 ? item?.netPnl : 0}</td>
-                        <td>{item?.netPnl > 0 ? item?.netPnl : 0}</td>
+                        <td>{item?.liability}</td>
+                        <td>{item?.pnl}</td>
                       </tr>
                     ))
                   ) : (
@@ -263,6 +275,23 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                       </td>
                     </tr>
                   )}
+                  {matchBets?.data?.betList?.length > 0 && (
+                    <tr>
+                      <td colSpan={8}>Total</td>
+                      <td>
+                        {matchBets?.data?.betList?.reduce(
+                          (acc, item) => acc + item.liability,
+                          0
+                        ) || 0}
+                      </td>
+                      <td>
+                        {matchBets?.data?.betList?.reduce(
+                          (acc, item) => acc + item.pnl,
+                          0
+                        ) || 0}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -271,6 +300,13 @@ const FancyBets = ({ setFancyId, fancyId }) => {
       )}
       <br />
       <br />
+      <AddDetails
+        clientId={clientId}
+        sessionType={sessionType}
+        open={openResponsive}
+        setSessionType={setSessionType}
+        setOpenResponsive={setOpenResponsive}
+      />
     </>
   );
 };

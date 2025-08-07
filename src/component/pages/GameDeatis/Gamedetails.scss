@@ -422,6 +422,36 @@ a.gx-bg-white:hover {
   color: green;
 }
 
-.gx-text-danger{
-  color: red  ;
+.gx-text-danger {
+  color: red;
+}
+
+.new_match_session {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .match_session_sec {
+    text-align: center;
+    width: 50%;
+    background: #ddd;
+    padding: 12px;
+  }
+  .active{
+    background-color: #545454;
+    color: #fff;
+  }
+}
+
+.main_modal_div {
+  .ant-modal-content {
+    padding: 0px !important;
+    .ant-modal-header {
+      padding: 17px !important;
+    }
+    .ant-modal-body {
+      padding: 0px;
+      margin-top: -14px !important;
+    }
+  }
 }

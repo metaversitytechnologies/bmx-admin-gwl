@@ -19,6 +19,13 @@ const MatchSessionBet = () => {
     });
   }, [clientId, id, inplay]);
 
+  const totalPnl = matchBets?.data?.sessionBets?.reduce((acc, item) => {
+    return acc + (item.netPnl || 0);
+  }, 0);
+  const totalPnlM = matchBets?.data?.matchBets?.betList?.reduce((acc, item) => {
+    return acc + (item.pnl || 0);
+  }, 0);
+
   return (
     <div className="match_slip match_bets_session">
       <Card
@@ -76,24 +83,19 @@ const MatchSessionBet = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {matchBets?.data?.matchBets?.betList > 0 ? (
+                  {matchBets?.data?.matchBets?.betList?.length > 0 ? (
                     matchBets?.data.matchBets?.betList?.map((bet, index) => {
+                      console.log(bet, "betbetbetbet");
                       return (
-                        <tr
-                          key={index}
-                          className={
-                            bet?.mode === "L"
-                              ? "matchdtailsYesBackground"
-                              : "matchdtailsNoBack"
-                          }>
+                        <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{bet?.odds}</td>
-                          <td>{bet?.mode === "L" ? "Lagai" : "Khai"}</td>
+                          <td>{bet?.mode}</td>
                           <td>{bet?.team}</td>
                           <td>{bet.marketType}</td>
                           <td>{bet?.stake}</td>
                           <td>{bet?.pnl}</td>
-                          <td>{bet?.pnl}</td>
+                          <td>{bet?.date}</td>
                         </tr>
                       );
                     })
@@ -104,6 +106,24 @@ const MatchSessionBet = () => {
                       </td>
                     </tr>
                   )}
+                  <tr>
+                    <td style={{ fontWeight: 700 }}>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <span
+                        style={{
+                          color: totalPnl > 0 ? "green" : "red",
+                          fontWeight: 700,
+                        }}>
+                        {totalPnlM}
+                      </span>
+                    </td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -128,13 +148,7 @@ const MatchSessionBet = () => {
                   {matchBets?.data?.sessionBets?.length > 0 ? (
                     matchBets?.data?.sessionBets?.map((item, index) => {
                       return (
-                        <tr
-                          key={index}
-                          className={
-                            item?.mode === "YES"
-                              ? "matchdtailsYesBackground"
-                              : "matchdtailsNoBack"
-                          }>
+                        <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{item?.selectionName}</td>
                           <td>{item?.rate}</td>
@@ -142,7 +156,12 @@ const MatchSessionBet = () => {
                           <td>{item?.declared}</td>
                           <td>{item?.mode}</td>
                           <td>{item?.amount}</td>
-                          <td>{item?.netPnl}</td>
+                          <td
+                            style={{
+                              color: item?.netPnl > 0 ? "green" : "red",
+                            }}>
+                            {item?.netPnl}
+                          </td>
                           <td>{item?.time}</td>
                         </tr>
                       );
@@ -154,6 +173,25 @@ const MatchSessionBet = () => {
                       </td>
                     </tr>
                   )}
+                  <tr>
+                    <td style={{ fontWeight: 700 }}>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <span
+                        style={{
+                          color: totalPnl > 0 ? "green" : "red",
+                          fontWeight: 700,
+                        }}>
+                        {totalPnl}
+                      </span>
+                    </td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

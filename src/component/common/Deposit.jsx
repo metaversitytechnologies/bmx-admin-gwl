@@ -17,28 +17,30 @@ const Deposit = ({
   const [trigger, { data, isLoading, error }] =
     useLazyDepositAndWithdrawQuery();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const depositData = {
       userId: datadeposit?.userId,
       limit: Number(values?.number),
       limitPlus: datadeposit.isDeposit ? true : false,
       limitInCash: false,
     };
-    trigger(depositData);
-    form?.resetFields();
-  };
 
-  useEffect(() => {
-    if (data?.status === true) {
-      openNotification(data?.message);
-      form?.resetFields();
-      fetchData();
-      handleClose();
-    } else if (data?.status === false || error?.data?.message) {
-      openNotificationError(data?.message || error?.data?.message);
+    try {
+      const response = await trigger(depositData).unwrap();
+      if (response.status) {
+        openNotification(response.message);
+        form.resetFields();
+        handleClose();
+        fetchData();
+      } else {
+        openNotificationError(response.message || "Unexpected Error");
+        handleClose();
+      }
+    } catch (err) {
+      openNotificationError(err?.data?.message || "Request failed");
       handleClose();
     }
-  }, [data?.data, error]);
+  };
 
   return (
     <>
