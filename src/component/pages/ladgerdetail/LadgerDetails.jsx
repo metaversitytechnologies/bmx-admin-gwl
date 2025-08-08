@@ -1,7 +1,7 @@
 import { BsFiles } from "react-icons/bs";
-import CardItem from "../../common/carditem/CardItem";
 import { Card, Col, Modal, Row } from "antd";
 import { Link } from "react-router-dom";
+
 
 const LadgerDetails = ({ setOpenModals, openModal }) => {
   const data = [
@@ -22,42 +22,42 @@ const LadgerDetails = ({ setOpenModals, openModal }) => {
     {
       image: <BsFiles />,
       name: "Admin",
-      path: "/client/ledger-super",
+      path: "/client/ledger-super/6/Admin",
       size: "20",
       userType: 6,
     },
     {
       image: <BsFiles />,
-      name: "madmin",
-      path: "/client/ledger-super",
+      name: "Mini Admin",
+      path: "/client/ledger-super/5/Mini-Admin",
       size: "20",
       userType: 5,
     },
     {
       image: <BsFiles />,
       name: "Master",
-      path: "/client/ledger-super",
+      path: "/client/ledger-super/4/Master",
       size: "20",
       userType: 4,
     },
     {
       image: <BsFiles />,
       name: "Super",
-      path: "/client/ledger-master",
+      path: "/client/ledger-super/3/Super",
       size: "20",
       userType: 3,
     },
     {
       image: <BsFiles />,
       name: "Agent",
-      path: `/client/ledger-agent`,
+      path: `/client/ledger-super/2/Agent`,
       size: "20",
       userType: 2,
     },
     {
       image: <BsFiles />,
       name: "Client",
-      path: "/client/ledger-client",
+      path: "/client/ledger-super/1/Client",
       size: "20",
       userType: 1,
     },

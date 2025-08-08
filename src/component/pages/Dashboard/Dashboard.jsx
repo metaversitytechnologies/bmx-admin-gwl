@@ -249,9 +249,13 @@ const Dashboard = () => {
                   uType == 7
                     ? "Super Admin"
                     : uType == 6
-                    ? "Master"
-                    : uType == 1
-                    ? "Super"
+                    ? "Admin"
+                    : uType == 5
+                    ? "Mini Admin"
+                    : uType == 4
+                    ? "Masetr"
+                    : uType == 3
+                    ? "Super Master"
                     : uType == 2
                     ? "Agent"
                     : "Client"

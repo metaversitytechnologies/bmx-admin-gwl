@@ -27,14 +27,22 @@ const CasinoPandLDetail = () => {
     }
   };
 
-  const totalPnl = data?.data?.reduce((acc, item) => acc + item.pnl, 0) || 0;
+  const totalPnl =
+    data?.data?.reduce(
+      (acc, item) => (item?.casinoId === null ? acc + item.pnl : acc),
+      0
+    ) || 0;
 
   const columns = [
     {
       title: "Event Name",
       dataIndex: "eventName",
       key: "eventName",
-      render: (text) => <Link className="gx-text-blue">{text}</Link>,
+      render: (text, record) => (
+        <Link className="gx-text-blue">
+          {text} {record?.casinoId && `(${record?.date})`}
+        </Link>
+      ),
     },
     {
       title: "Date & Time",
@@ -165,7 +173,7 @@ const CasinoPandLDetail = () => {
                 eventName: "Total",
                 date: "",
                 pnl: totalPnl,
-                isTotal: true, // flag to identify the total row
+                isTotal: true, 
               },
               ...(data?.data || []),
             ]}

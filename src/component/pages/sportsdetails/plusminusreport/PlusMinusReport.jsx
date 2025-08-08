@@ -37,7 +37,7 @@ const PlusMinusReport = () => {
   const nav = useNavigate();
 
   const { data } = useGetSessionPlusMinusQuery({
-    matchId: "34516084",
+    matchId: id,
     matchCompleted: inplay === 1 ? false : true,
     oddsAndSessionBoth: true,
   });

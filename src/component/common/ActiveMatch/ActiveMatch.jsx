@@ -45,7 +45,7 @@ const ActiveMatch = () => {
                     <td>{id + 1}</td>
                     <td>{res?.matchName}</td>
                     <td>
-                      {moment(res?.openDate).format("YYYY-MM-DD, h:mm A")}
+                      {moment(res?.openDate).format("DD-MM-YYYY  HH:mm:ss")}
                     </td>
                     {/* <td>??</td> */}
                     <td>

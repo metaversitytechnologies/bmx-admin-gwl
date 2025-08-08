@@ -134,7 +134,7 @@ const TransactionTable = ({ data }) => {
                     )}
                   </td>
                   <td style={{ whiteSpace: "nowrap" }}>
-                    {moment(res?.date).format("MMM  YYYY HH:mm:ss A ")}
+                    {moment(res?.date).format("DD MMM HH:mm:ss A ")}
                   </td>
                   <td style={{ whiteSpace: "nowrap" }}>
                     {res?.collectionName}

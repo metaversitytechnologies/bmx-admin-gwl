@@ -1,6 +1,6 @@
 import { Button, Modal, Row, Table } from "antd";
 import { useGetFancyBetVMutation } from "../../../store/service/SportDetailServices";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const AddDetails = ({
@@ -12,6 +12,7 @@ const AddDetails = ({
 }) => {
   const { id } = useParams();
   const [trigger, { data }] = useGetFancyBetVMutation();
+  const [teamTableData, setTeamTableData] = useState([]);
   const userType = parseInt(localStorage.getItem("userType")); // Ensure it's a number
 
   const getColumnsByUserType = (userType, sessionType) => {
@@ -69,12 +70,12 @@ const AddDetails = ({
       },
       {
         title: "Super Master",
-        dataIndex: "Action",
+        dataIndex: "masterUserId",
         key: "Action",
       },
       {
         title: "Master",
-        dataIndex: "masterUserId",
+        dataIndex: "superAdminUserId",
         key: "masterUserId",
       },
       {
@@ -206,12 +207,12 @@ const AddDetails = ({
       },
       {
         title: "Super Master",
-        dataIndex: "Action",
-        key: "Action",
+        dataIndex: "masterUserId",
+        key: "masterUserId",
       },
       {
         title: "Master",
-        dataIndex: "masterUserId",
+        dataIndex: "superAdminUserId",
         key: "masterUserId",
       },
       {
@@ -248,6 +249,40 @@ const AddDetails = ({
         title: "AD%",
         dataIndex: "adminP",
         key: "adminP",
+      },
+      {
+        title: "AD%",
+        dataIndex: "adminP",
+        key: "adminP",
+      },
+      {
+        title: "AD%",
+        dataIndex: "adminP",
+        key: "adminP",
+      },
+      {
+        title: `${data?.data?.[0]?.team1}`,
+        dataIndex: "team1Pnl",
+        key: "team1Pnl",
+        render: (value) => (
+          <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
+        ),
+      },
+      {
+        title: `${data?.data?.[0]?.team2}`,
+        dataIndex: "team2Pnl",
+        key: "team2Pnl",
+        render: (value) => (
+          <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
+        ),
+      },
+      {
+        title: `${data?.data?.[0]?.team3}`,
+        dataIndex: "team3Pnl",
+        key: "team3Pnl",
+        render: (value) => (
+          <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
+        ),
       },
     ];
 
@@ -289,7 +324,12 @@ const AddDetails = ({
 
     const hiddenFields = hiddenFieldsByUserType[userType] || [];
 
-    return allColumns.filter((col) => !hiddenFields.includes(col.dataIndex));
+    return allColumns.filter(
+      (col) =>
+        !hiddenFields.includes(col.dataIndex) &&
+        col.title &&
+        String(col.title).trim() !== "null"
+    );
   };
 
   const teamColumns = [
@@ -304,12 +344,36 @@ const AddDetails = ({
       dataIndex: "name",
       key: "name",
       align: "center",
+      render: (value) => (
+        <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
+      ),
     },
   ];
 
   useEffect(() => {
     trigger({ userId: clientId, matchId: id, forFancy: sessionType });
   }, [clientId, id, sessionType, trigger]);
+
+  useEffect(() => {
+    if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
+      const totals = data.data.reduce((acc, item) => {
+        acc[item.team1] = (acc[item.team1] || 0) + (item.team1Pnl || 0);
+        acc[item.team2] = (acc[item.team2] || 0) + (item.team2Pnl || 0);
+        if (item.team3) {
+          acc[item.team3] = (acc[item.team3] || 0) + (item.team3Pnl || 0);
+        }
+        return acc;
+      }, {});
+
+      const formatted = Object.entries(totals).map(([team, pnl], index) => ({
+        key: index,
+        team,
+        name: pnl,
+      }));
+
+      setTeamTableData(formatted);
+    }
+  }, [data]);
 
   return (
     <Modal
@@ -338,13 +402,14 @@ const AddDetails = ({
           className="live_table limit_update"
           bordered
           columns={teamColumns}
-          dataSource={[]} 
+          dataSource={teamTableData || []}
+          pagination={false}
         />
       )}
 
       <div className="table_section">
         <Table
-          className="live_table limit_update"
+          className="live_table limit_update table_v"
           bordered
           columns={
             sessionType

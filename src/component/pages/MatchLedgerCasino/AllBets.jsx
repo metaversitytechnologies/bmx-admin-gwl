@@ -59,8 +59,8 @@ const AllBets = () => {
     },
     {
       title: "PNL",
-      dataIndex: "stake",
-      key: "stake",
+      dataIndex: "pnl",
+      key: "pnl",
     },
   ];
 

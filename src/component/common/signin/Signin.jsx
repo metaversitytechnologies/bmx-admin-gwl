@@ -1,29 +1,18 @@
 import "./Signin.scss";
 import { Button, Form, Input, message } from "antd";
-import { useLoginMutation } from "../../../store/service/authService";
+import {
+  useLoginMutation,
+  useLoginWithOtpMutation,
+} from "../../../store/service/authService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
-  const [trigger, { data: authData, error, isLoading }] = useLoginMutation();
+  const [trigger] = useLoginMutation();
+  const [triggerWotp, { isLoading }] = useLoginWithOtpMutation();
   const nav = useNavigate();
 
   const [showOtp, setShowOtp] = useState(false);
-  const [otpValue, setOtpValue] = useState("");
-
-  useEffect(() => {
-    if (authData?.status === false || error?.data?.message) {
-      message.error(authData?.message || error.data?.message);
-    } else if (authData?.token) {
-      setShowOtp(true);
-      localStorage.setItem("token", authData?.token);
-      localStorage.setItem("rulesStatus", true);
-      localStorage.setItem("userId", authData?.userId);
-      localStorage.setItem("userType", authData?.userTypeInfo);
-      localStorage.setItem("username", authData?.username);
-      localStorage.setItem("ps", authData?.ps);
-    }
-  }, [authData, error, otpValue]);
 
   const hostname = window.location.hostname;
 
@@ -31,21 +20,38 @@ const Signin = () => {
     ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
     : hostname;
 
-  const onFinish = (values) => {
-    if (!showOtp) {
-      const authPayload = {
-        userId: values?.username?.trim(),
-        password: values?.password?.trim(),
-        url: url,
-        // url: "superadmin.fastbet365.in" ,
-      };
-      trigger(authPayload);
-    } else {
-      if (values?.OTP) {
+  const onFinish = async (values) => {
+    const authPayload = {
+      userId: values?.username?.trim(),
+      password: values?.password?.trim(),
+      // url: "superadmin.fastbet365.in",
+      url,
+    };
+
+    if (values?.OTP) {
+      const res = await triggerWotp({
+        ...authPayload,
+        otp: values?.OTP,
+      });
+
+      if (res?.data?.token) {
         nav("/dashboard");
-        return;
+        localStorage.setItem("token", res?.data?.token);
+        localStorage.setItem("rulesStatus", true);
+        localStorage.setItem("userId", res?.data?.userId);
+        localStorage.setItem("userType", res?.data?.userTypeInfo);
+        localStorage.setItem("username", res?.data?.username);
+        localStorage.setItem("ps", res?.data?.ps);
+      } else {
+        message.error(res?.error?.data?.message);
       }
-      setOtpValue(values.OTP);
+    } else {
+      const res = await trigger(authPayload).unwrap();
+      if (res.status) {
+        setShowOtp(true);
+      } else {
+        message.error(res?.message);
+      }
     }
   };
 
@@ -159,7 +165,7 @@ const Signin = () => {
                     type="primary"
                     htmlType="submit"
                     style={{ marginBottom: "0px" }}>
-                    Sign in
+                   {showOtp?"Verify OTP":"Sign in"}
                   </Button>
                 </Form.Item>
               </Form>

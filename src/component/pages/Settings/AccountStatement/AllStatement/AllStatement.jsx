@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Modal, Table } from "antd";
 import AccountModals from "../AccountModals";
+import moment from "moment";
 
 const AllStatement = ({ dateData, isLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const columns = [
     {
-      title: "Date",
+      title: "Date ",
       dataIndex: "date",
       key: "date",
+      render: (value) => moment(value).format("DD MMM hh:mm:ss A"),
     },
     {
       title: "Description",
@@ -45,7 +47,7 @@ const AllStatement = ({ dateData, isLoading }) => {
       key: "closing",
       render: (text) => {
         return {
-          children: <p className="text_danger">{text}</p>,
+          children: <p>{text}</p>,
         };
       },
     },

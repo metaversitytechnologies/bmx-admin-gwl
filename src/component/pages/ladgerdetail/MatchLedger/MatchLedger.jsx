@@ -18,11 +18,16 @@ const MatchLedger = () => {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      render:(text)=>(
+        <span>{moment(text).format("DD-MM-YYYY")}</span>
+      ),
+       width:"20%"
     },
     {
       title: "Event Name",
       dataIndex: "eventName",
       key: "eventName",
+      width:"60%"
     },
 
     {

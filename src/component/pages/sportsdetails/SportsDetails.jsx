@@ -211,10 +211,16 @@ const SportsDetails = () => {
                       </Dropdown>
                     </td>
                     <td>{id + 1}</td>
-                    <td>{res.matchName}</td>
+                    <td>
+                      <Link
+                        to={`/Events/${res.matchId}/4/live-report`}
+                        style={{ color: "#038fde", cursor: "pointer" }}>
+                        {res.matchName}
+                      </Link>
+                    </td>
                     <td>No Change</td>
                     <td>
-                      {moment(res.eventDate).format("YYYY-MM-DD, h:mm A")}
+                      {moment(res.openDate).format("DD-MM-YYYY HH:mm:ss")}
                     </td>
                     <td>
                       <Button type="primary" className="in_play_btn">

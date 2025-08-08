@@ -76,7 +76,7 @@ const CasinoProfitAndLoss = () => {
             <tbody>
               {data?.data?.[0]?.dataList?.map((res) => (
                 <tr key={res?.key}>
-                  <td>{res?.date}</td>
+                  <td>{res?.tableId}</td>
                   <td>{res?.eventName}</td>
                   <td>{res?.description}</td>
                   <td>{res?.pnl?.toFixed(2)}</td>

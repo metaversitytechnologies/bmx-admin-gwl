@@ -506,7 +506,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     </td>
                     <td>{res?.parentId}</td>
                     <td>{res?.contact}</td>
-                    <td>{moment(res?.createdOn).format("YYYY-MM-DD")}</td>
+                    <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
                     <td>{res?.partnerShip}</td>
                     <td>*******</td>
                     {userType == 1 && (
@@ -595,6 +595,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
           setOpenResetPass={setOpenResetPassModal}
           data={resetPassData?.data}
           userId={userId}
+          userType={userType}
         />
       </div>
     </>

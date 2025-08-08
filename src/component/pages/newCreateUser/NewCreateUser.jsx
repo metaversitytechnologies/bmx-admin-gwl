@@ -77,13 +77,8 @@ const NewCreateUser = () => {
 
   const [createUser, { data: UserList, error, isLoading }] =
     useGetCreateUserMutation();
-  const [getPalance, { data: parentBalance }] = useGetChildListLimitMutation();
 
-  useEffect(() => {
-    getPalance({
-      userId: parentId ? parentId : localStorage.getItem("userId"),
-    });
-  }, [parentId]);
+
 
   const onFinish = (values) => {
     const {

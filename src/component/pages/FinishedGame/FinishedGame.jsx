@@ -298,8 +298,8 @@ const FinishedGame = () => {
                     </Dropdown>
                   </td>
                   <td>{res.eventName}</td>
-                  <td>{moment(res.createdOn).format("YYYY-MM-DD, h:mm A")}</td>
-                  <td>{moment(res.createdOn).format("YYYY-MM-DD, h:mm A")}</td>
+                  <td>{moment(res.createdOn).format("DD-MM-YYYY, HH:mm:ss")}</td>
+                  <td>{moment(res.createdOn).format("DD-MM-YYYY, h:mm A")}</td>
                   <td>T20</td>
 
                   <td>{res?.winner}</td>

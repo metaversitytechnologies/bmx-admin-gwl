@@ -7,6 +7,7 @@ const ResetPassword = ({
   setOpenResetPass,
   data,
   userId,
+  userType,
 }) => {
   const subdomain = window.location.hostname.split(".")[1];
   const sub = window.location.hostname.split(".")[2];
@@ -18,9 +19,9 @@ const ResetPassword = ({
     5: `madmin.${subdomain}.${sub}`,
     6: `admin.${subdomain}.${sub}`,
   };
-  const [trigger, { isLoading }] = useGetUpdatePasswordMutation();
 
-  const { userTyep } = useParams();
+  const [trigger, { isLoading }] = useGetUpdatePasswordMutation();
+  const { userTyep } = useParams(); // Not sure if you still need this
 
   const handleDepositeCancel = () => {
     setOpenResetPass(false);
@@ -36,11 +37,15 @@ const ResetPassword = ({
     try {
       await trigger(payload).unwrap();
 
-      const passwordText = `New Password
-LINK : ${domainLink[Number(userTyep)]}
+      let passwordText = `New Password
+LINK : ${domainLink[Number(userType)]}
 ID   : ${userId}
-PW   : ${data?.password}
-OTP  : ${data?.otp}`;
+PW   : ${data?.password}`;
+
+      // Only add OTP if userType is NOT 1
+      if (Number(userType) != 1) {
+        passwordText += `\nOTP  : ${data?.otp}`;
+      }
 
       await navigator.clipboard.writeText(passwordText);
 
@@ -83,14 +88,15 @@ OTP  : ${data?.otp}`;
       ]}>
       <textarea
         style={{ width: "100%", fontSize: "14px" }}
-        rows={7}
+        rows={Number(userType) !== 1 ? 7 : 5}
         readOnly
         className="ant-input"
         value={`New Password
-LINK : ${domainLink[Number(userTyep)]}
+LINK : ${domainLink[Number(userType)]}
 ID   : ${userId}
-PW   : ${data?.password}
-OTP  : ${data?.otp}`}
+PW   : ${data?.password}${
+          Number(userType) != 1 ? `\nOTP  : ${data?.otp}` : ""
+        }`}
       />
     </Modal>
   );

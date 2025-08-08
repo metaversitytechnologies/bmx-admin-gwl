@@ -691,4 +691,7 @@ th.ant-table-cell {
   background-color: green;
   color: #fff;
   white-space: nowrap;
+  &:hover {
+    color: #000;
+  }
 }

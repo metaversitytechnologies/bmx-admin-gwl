@@ -2,14 +2,20 @@ import { Card, Empty } from "antd";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCompletLedgerQuery } from "../../../../store/service/SportDetailServices";
+import { useState } from "react";
 
 const CompanyReport = () => {
   const nav = useNavigate();
   const { id, name } = useParams();
+  const [userId, setUserId] = useState("");
 
-  const { data } = useGetCompletLedgerQuery({
-    matchId: id,
-  });
+  const { data } = useGetCompletLedgerQuery(
+    {
+      matchId: id,
+      userId: userId,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const totalValues = data?.data?.reduce(
     (acc, curr) => {
@@ -73,7 +79,11 @@ const CompanyReport = () => {
               {data?.data.length > 0 ? (
                 data?.data.map((res, id) => (
                   <tr key={id}>
-                    <td style={{ fontWeight: 600 }}>{res?.userId}</td>
+                    <td
+                      onClick={() => setUserId(res?.userId)}
+                      style={{ fontWeight: 600 }}>
+                      {res?.userId}
+                    </td>
                     <td style={{ fontWeight: 600 }}>{res?.userName}</td>
                     <td
                       style={{

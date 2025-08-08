@@ -19,7 +19,7 @@ const MatchLedgerCasino = () => {
         </td>
         <td>
           <sapn style={{ fontWeight: 400 }}>
-            {moment().format("YYYY-MM-DD HH:mm:ss A")}
+            {moment().format("YYYY-MM-DD hh:mm:ss A")}
           </sapn>
         </td>
         <td>

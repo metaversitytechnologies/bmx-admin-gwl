@@ -117,7 +117,7 @@ const AddSuperLimites = () => {
                   <tr key={key}>
                     <td>{user?.userId}</td>
                     <td>{user?.userName}</td>
-                    <td>{user?.balance}</td>
+                    <td>{user?.balance + user?.balanceWithPnl}</td>
                     <td>
                       <Form.Item>
                         <Input

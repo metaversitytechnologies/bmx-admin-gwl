@@ -284,6 +284,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getAllSessionBet: build.query({
+      query: (body) => {
+        return {
+          url: `/report/all-session-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -319,5 +328,6 @@ export const {
   useGetCasinoDetailsDemoQuery,
   useGetAgentPlusMinusQuery,
   useLazyGetUserLabilatyQuery,
-  useGetFancyBetVMutation
+  useGetFancyBetVMutation,
+  useGetAllSessionBetQuery
 } = sportDetailsApi;

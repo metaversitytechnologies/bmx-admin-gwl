@@ -437,7 +437,7 @@ a.gx-bg-white:hover {
     background: #ddd;
     padding: 12px;
   }
-  .active{
+  .active {
     background-color: #545454;
     color: #fff;
   }
@@ -452,6 +452,9 @@ a.gx-bg-white:hover {
     .ant-modal-body {
       padding: 0px;
       margin-top: -14px !important;
+      th {
+        white-space: nowrap !important;
+      }
     }
   }
 }

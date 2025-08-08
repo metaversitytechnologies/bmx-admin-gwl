@@ -1,10 +1,8 @@
-import { Card, Col, DatePicker, Table } from "antd";
+import { Card, Table } from "antd";
 import "./MyLedger.scss";
 import moment from "moment";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
-import DownloadReport from "../../../common/DownloadReport/DownloadReport";
 import { useGetMyLedgerQuery } from "../../../../store/service/userlistService";
 
 const columns = [
@@ -12,6 +10,9 @@ const columns = [
     title: "Date",
     dataIndex: "date",
     key: "date",
+    render:(text)=>(
+      <span>{(moment(text).format("DD-MM-YYYY"))}</span>
+    ),
     onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
@@ -107,9 +108,9 @@ const MyLedger = () => {
           <div>
             <h3
               style={{ fontSize: "20px" }}
-              className={totalBalance > 0 ? "text_danger" : "text_success"}>
+              className={totalBalance < 0 ? "text_danger" : "text_success"}>
               Balance: {Math.abs(totalBalance?.toFixed(2))}{" "}
-              {totalBalance > 0 ? "( Dena )" : "( Lena )"}
+              {totalBalance > 0 ? "( Lena )" : "( Dena )"}
             </h3>
           </div>
         </div>

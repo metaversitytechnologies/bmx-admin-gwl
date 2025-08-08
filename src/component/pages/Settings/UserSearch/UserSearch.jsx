@@ -2,6 +2,7 @@ import { Button, Card, Col, Input, Row } from "antd";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const userType = {
   6: "Admin",
@@ -28,6 +29,8 @@ const UserSearch = () => {
     });
   };
 
+  const nav = useNavigate();
+
   return (
     <>
       <div className="match_slip user_search">
@@ -39,7 +42,7 @@ const UserSearch = () => {
             }}
             className="sport_detail acc_name"
             title={`User Search`}
-            extra={<button>Back</button>}>
+            extra={<button onClick={() => nav(-1)}>Back</button>}>
             <div className="user_section">
               <Row>
                 <Col xs={24} md={24} lg={1} xl={1}></Col>
