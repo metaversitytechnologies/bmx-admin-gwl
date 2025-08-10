@@ -1,3 +1,4 @@
+import { convertCode } from "../../../../../../store/constant";
 import "./style.scss";
 
 const RecursiveCard = ({ data, depth }) => {
@@ -15,7 +16,7 @@ const RecursiveCard = ({ data, depth }) => {
             <h2 className="card-title text-bold">
               <span className={`card_${depth}`}></span>
               <span className="border-title">{depthLabels[depth]}</span>
-              <span className="border-userid">{item[depthKeys[depth]]}</span>
+              <span className="border-userid">{convertCode(item[depthKeys[depth]])}</span>
             </h2>
           </div>
           <div className="card-body">
@@ -84,7 +85,7 @@ const RecursiveCard = ({ data, depth }) => {
                       {item.ledgetList.map((agent) => (
                         <tr key={agent.userId}>
                           <td>
-                            {agent.userId} {agent.username}
+                            {convertCode(agent.userId)} {agent.username}
                           </td>
                           <td>{agent?.matchAmount?.toFixed(2)}</td>
                           <td>{agent?.sessionAmount?.toFixed(2)}</td>

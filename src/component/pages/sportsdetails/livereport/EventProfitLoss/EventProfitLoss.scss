@@ -1,14 +1,13 @@
 .main_pl {
   .table_section {
+    position: relative;
     table {
       .bg_green:nth-child(even) {
-        background-color:green !important;
+        background-color: green !important;
       }
     }
   }
 }
-
-
 
 span.user_id {
   background: rgb(255, 85, 0);

@@ -11,11 +11,10 @@ import {
   Table,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  useGetCasinoBetByMarketQuery,
-} from "../../../../store/service/CasinoServices";
+import { useGetCasinoBetByMarketQuery } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -160,9 +159,14 @@ const CasinoProfitAndLossDetails = () => {
           <Table
             className="live_table acc_tabel limit_update"
             bordered
-            rowClassName={(record) => (record?.pnl < 0 ? "red_back" : "green_back")}
+            rowClassName={(record) =>
+              record?.pnl < 0 ? "red_back" : "green_back"
+            }
             columns={columns}
-            loading={isLoading || isFetching}
+            loading={{
+              spinning: isLoading || isFetching,
+              indicator: <CustomLoading />,
+            }}
             dataSource={casinoData?.data || []}
             pagination={false}
           />

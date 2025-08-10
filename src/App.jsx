@@ -2,7 +2,6 @@ import "./App.scss";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Main from "./component/common/main/Main";
-import { useEffect } from "react";
 import { notification } from "antd";
 import './assets/gaxon/styles.css'
 

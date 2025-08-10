@@ -19,6 +19,7 @@ import {
   useLazyFilterbyClientQuery,
 } from "../../../../store/service/supermasteAccountStatementServices";
 import moment from "moment";
+import { convertCode, convertCodeReverse } from "../../../../store/constant";
 
 const dateFormat = "YYYY/MM/DD";
 
@@ -66,7 +67,7 @@ const AgentTransactions = () => {
 
   const onFinish = (values) => {
     const createTranstions = {
-      userId: values?.client,
+      userId: convertCodeReverse(values?.client),
       collection: values?.collection,
       amount: Number(values?.amount),
       paymentType: values?.payment_type,
@@ -89,7 +90,12 @@ const AgentTransactions = () => {
   useEffect(() => {
     if (createTranstions?.status) {
       openNotification(createTranstions?.message);
-      trigger({ userId: userId ? userId : clientId, transactiontype: "All" });
+      trigger({
+        userId: userId
+          ? convertCodeReverse(userId)
+          : convertCodeReverse(clientId),
+        transactiontype: "All",
+      });
       form?.resetFields();
     } else if (createTranstions?.status === false || error?.data?.message) {
       openNotificationError(createTranstions?.message || error?.data?.message);
@@ -97,7 +103,7 @@ const AgentTransactions = () => {
   }, [createTranstions, error]);
 
   useEffect(() => {
-    trigger({ userId: userId, transactiontype: "All" });
+    trigger({ userId: convertCodeReverse(userId), transactiontype: "All" });
   }, [userId]);
 
   useEffect(() => {
@@ -114,7 +120,10 @@ const AgentTransactions = () => {
       if (matchedClient) {
         form.setFieldsValue({ client: matchedClient.userId });
         setClientId(matchedClient.userId);
-        trigger({ userId: matchedClient.userId, transactiontype: "All" });
+        trigger({
+          userId: convertCodeReverse(matchedClient.userId),
+          transactiontype: "All",
+        });
       }
     }
   }, [result, userId]);
@@ -159,14 +168,14 @@ const AgentTransactions = () => {
                     onSelect={(value) => {
                       setClientId(value);
                       trigger({
-                        userId: value,
+                        userId: convertCodeReverse(value),
                         transactiontype: "All",
                       });
                     }}
                     options={
                       result?.data?.data?.map((user) => ({
-                        label: `${user.userName} (${user.userId})`,
-                        value: user.userId,
+                        label: `${user.userName} (${convertCode(user.userId)})`,
+                        value: convertCode(user.userId),
                       })) || []
                     }
                   />

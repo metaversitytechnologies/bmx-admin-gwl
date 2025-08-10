@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Col, notification, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCasiniPlayerListQuery } from "../../../../store/service/SportDetailServices";
+import { convertCode } from "../../../../store/constant";
 
 const column = [
   {
@@ -16,6 +17,9 @@ const clintColumns = [
     title: "User",
     dataIndex: "userId",
     key: 1,
+    render:(text)=>(
+      <span>{convertCode(text)}</span>
+    )
   },
 ];
 

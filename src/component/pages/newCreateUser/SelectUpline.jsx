@@ -1,6 +1,7 @@
 import { Col, Form, Input, Row, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./SelectUpline.scss";
+import { convertCode } from "../../../store/constant";
 
 const SelectUpline = ({ data, handleChange, handleSelect }) => {
   const nav = useNavigate();
@@ -33,8 +34,8 @@ const SelectUpline = ({ data, handleChange, handleSelect }) => {
                   placeholder="Select Parent"
                   options={
                     data?.map((i) => ({
-                      label: `${i?.userId} (${i?.userName})`,
-                      value: i?.userId,
+                      label: `${convertCode(i?.userId)} (${i?.userName})`,
+                      value: convertCode(i?.userId),
                     })) || []
                   }
                   showSearch

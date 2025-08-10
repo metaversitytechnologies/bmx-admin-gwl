@@ -5,6 +5,7 @@ import moment from "moment";
 import dayjs from "dayjs";
 import { useGetLedgerProfitLossQuery } from "../../../../store/service/SportDetailServices";
 import { useNavigate } from "react-router-dom";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const MatchLedger = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
@@ -18,16 +19,14 @@ const MatchLedger = () => {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      render:(text)=>(
-        <span>{moment(text).format("DD-MM-YYYY")}</span>
-      ),
-       width:"20%"
+      render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
+      width: "20%",
     },
     {
       title: "Event Name",
       dataIndex: "eventName",
       key: "eventName",
-      width:"60%"
+      width: "60%",
     },
 
     {
@@ -119,58 +118,16 @@ const MatchLedger = () => {
         </Row>
 
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          {/* {isLoading ? (
-            <Spin className="spin_icon" size="large" />
-          ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Event Name</th>
-                  <th>Debit</th>
-                  <th>Credit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.data?.list?.map((res, id) => (
-                  <tr key={id} style={{ cursor: "pointer" }}>
-                    <td>{moment(res?.date).format("YYYY-MM-DD")}</td>
-                    <td>{res?.matchName}</td>
-                    <td className="text_danger">
-                      {res?.netPnl < 0 ? res?.netPnl : 0}
-                    </td>
-                    <td className="text_success">
-                      {res?.netPnl > 0 ? res?.netPnl : 0}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-
-          {data?.data?.list?.length === 0 ? (
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          ) : (
-            <>
-              <Divider />
-              <Pagination
-                className="pagination_main ledger_pagination"
-                onShowSizeChange={(c, s) => setPaginationTotal(s)}
-                total={totalPage * paginationTotal}
-                defaultPageSize={50}
-                pageSizeOptions={[50, 100, 150, 200, 250]}
-                onChange={(e) => setIndexData(e - 1)}
-              />
-            </>
-          )} */}
-
           <div className="table_section">
             <Table
               className="live_table acc_tabel limit_update"
               bordered
               columns={columns}
               rowClassName={() => "no-wrap"}
-              loading={isLoading || isFetching}
+              loading={{
+                spinning: isLoading || isFetching,
+                indicator: <CustomLoading />,
+              }}
               dataSource={ledgerData?.data}
               pagination={false}
             />

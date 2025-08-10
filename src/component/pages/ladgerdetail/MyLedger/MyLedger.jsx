@@ -4,15 +4,14 @@ import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetMyLedgerQuery } from "../../../../store/service/userlistService";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const columns = [
   {
     title: "Date",
     dataIndex: "date",
     key: "date",
-    render:(text)=>(
-      <span>{(moment(text).format("DD-MM-YYYY"))}</span>
-    ),
+    render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
     onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
@@ -64,7 +63,7 @@ const MyLedger = () => {
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
-  const { data: ledgerData, isLoading } = useGetMyLedgerQuery({
+  const { data: ledgerData, isLoading, isFetching } = useGetMyLedgerQuery({
     ledgerType: "ALL",
     fromDate: timeBefore,
     toDate: time,
@@ -119,7 +118,10 @@ const MyLedger = () => {
             className="live_table limit_update"
             bordered
             columns={columns}
-            loading={isLoading}
+            loading={{
+              spinning: isLoading || isFetching,
+              indicator: <CustomLoading />,
+            }}
             pagination={{
               defaultPageSize: 50,
               pageSizeOptions: [50, 100, 150, 200, 250],

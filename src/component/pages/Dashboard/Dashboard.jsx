@@ -11,6 +11,7 @@ import CashTransanction from "../CashTransanction/CashTransanction";
 import SettingModals from "./SettingModals";
 import MasterDetails from "../masterDetail/MasterDetails";
 import SportModal from "./SportModal";
+import { convertCode } from "../../../store/constant";
 
 const Dashboard = () => {
   const [openModal, setOpenModals] = useState(false);
@@ -244,7 +245,7 @@ const Dashboard = () => {
             {[
               {
                 icon: <img src="/Images/user.png" width={30} />,
-                title: `${localStorage.getItem("userId")}`,
+                title: `${convertCode(localStorage.getItem("userId"))}`,
                 desc: `You are ${
                   uType == 7
                     ? "Super Admin"

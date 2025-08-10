@@ -5,6 +5,7 @@ import moment from "moment";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useAccOprationQuery } from "../../../../store/service/userlistService";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -93,7 +94,11 @@ const AccountOperations = () => {
                   bordered
                   columns={columns}
                   dataSource={data?.data || []}
-                  loading={isLoading || isFetching}></Table>
+                  loading={{
+                    spinning: isLoading || isFetching,
+                    indicator: <CustomLoading />,
+                  }}
+                />
               </div>
             </div>
           </Card>

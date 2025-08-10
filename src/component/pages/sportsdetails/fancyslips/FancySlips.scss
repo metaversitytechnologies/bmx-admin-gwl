@@ -10,6 +10,7 @@
 
 .session_bet {
   .table_section {
+    position: relative;
     table {
       tr {
         &:nth-child(even) {
@@ -46,8 +47,8 @@
 
 .statement_tabs_data {
   td {
-    color: #595959 ;
-    font-weight: 500 ;
+    color: #595959;
+    font-weight: 500;
   }
 }
 

@@ -3,14 +3,15 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { convertCode } from "../../../../store/constant";
 
 const userType = {
   6: "Admin",
   5: "Mini Admin",
-  4: "Master",
-  3: "Super",
-  2: "Agent",
-  1: "Client",
+  4: "Master Agent",
+  3: "Super Master",
+  2: "Agent Master",
+  1: "Client Master",
 };
 
 const UserSearch = () => {
@@ -83,7 +84,7 @@ const UserSearch = () => {
                         />
                       </div>
                       <div className="gx-px-2 gx-fs-xl gx-font-weight-heavy">
-                        {item?.userName} ({item?.userId})
+                        {item?.userName} ({convertCode(item?.userId)})
                         <br />
                         <div className="gx-fs-lg gx-font-weight-normal gx-mt-2">
                           {userType?.[item?.userType]}

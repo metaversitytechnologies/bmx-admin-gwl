@@ -6,6 +6,7 @@ import {
   useLazyDepositAndWithdrawQuery,
   useSuperuserListMutation,
 } from "../../../../store/service/supermasteAccountStatementServices";
+import { convertCode } from "../../../../store/constant";
 
 const AddSuperLimites = () => {
   const [form] = Form.useForm();
@@ -115,7 +116,7 @@ const AddSuperLimites = () => {
               <tbody>
                 {superuserListData?.data?.userListV2?.map((user, key) => (
                   <tr key={key}>
-                    <td>{user?.userId}</td>
+                    <td>{convertCode(user?.userId)}</td>
                     <td>{user?.userName}</td>
                     <td>{user?.balance + user?.balanceWithPnl}</td>
                     <td>

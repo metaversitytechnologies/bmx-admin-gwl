@@ -5,6 +5,8 @@ import "./SuperAgentLedger.scss";
 import { Money } from "./moneySvg";
 import { EyeOutlined } from "@ant-design/icons";
 import { useGetLedgerAllQuery } from "../../../../store/service/SportDetailServices";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import { convertCode } from "../../../../store/constant";
 
 const nameData = {
   6: "Mini-Admin",
@@ -18,7 +20,7 @@ const SuperAgentLedger = () => {
   const { id: userTyep, name: Listname, userId } = useParams();
   const [clearData, setClearData] = useState(0);
 
-  const { data } = useGetLedgerAllQuery({
+  const { data, isLoading, isFetching } = useGetLedgerAllQuery({
     requestTypeUser: Number(userTyep),
     ...(userId && { userId }),
   });
@@ -52,7 +54,7 @@ const SuperAgentLedger = () => {
         <span
           style={{ color: "#038fde" }}
           onClick={() => handleDownline(record?.userId)}>
-          <EyeOutlined /> {record?.username} ({record?.userId})
+          <EyeOutlined /> {record?.username} ({convertCode(record?.userId)})
         </span>
       ),
     },
@@ -103,6 +105,10 @@ const SuperAgentLedger = () => {
                   bordered
                   pagination={false}
                   columns={generateColumns(itemName)}
+                  loading={{
+                    spinning: isLoading || isFetching,
+                    indicator: <CustomLoading />,
+                  }}
                   dataSource={data?.data?.[itemName.toLowerCase()]}
                 />
               </div>

@@ -3,6 +3,7 @@ import { Card, Col, DatePicker, Divider, Empty, Pagination, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useGetCasinoPnlByDateQuery } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -15,7 +16,8 @@ const CasinoProfitAndLoss = () => {
     toDate: today,
   });
 
-  const { data, refetch } = useGetCasinoPnlByDateQuery(dates);
+  const { data, refetch, isLoading, isFetching } =
+    useGetCasinoPnlByDateQuery(dates);
 
   const handleBackClick = () => {
     nav(-1);
@@ -62,6 +64,7 @@ const CasinoProfitAndLoss = () => {
         </Row>
 
         <div className="table_section statement_tabs_data">
+          {(isLoading || isFetching) && <CustomLoading />}
           <table>
             <thead>
               <tr>
@@ -78,9 +81,9 @@ const CasinoProfitAndLoss = () => {
                 <tr key={res?.key}>
                   <td>{res?.tableId}</td>
                   <td>{res?.eventName}</td>
-                  <td>{res?.description}</td>
-                  <td>{res?.pnl?.toFixed(2)}</td>
-                  <td>{res?.clientPl}</td>
+                  <td>{res?.exposure?.toFixed(2)}</td>
+                  <td>{res?.clientpnl?.toFixed(2)}</td>
+                  <td>{res?.pnl.toFixed(2)}</td>
                   <td>
                     <span
                       onClick={() =>

@@ -1,6 +1,7 @@
 import { Button, Modal, message } from "antd";
 import { useGetUpdatePasswordMutation } from "../../store/service/userlistService";
 import { useParams } from "react-router-dom";
+import { convertCode } from "../../store/constant";
 
 const ResetPassword = ({
   isDepositeModalOpen,
@@ -39,7 +40,7 @@ const ResetPassword = ({
 
       let passwordText = `New Password
 LINK : ${domainLink[Number(userType)]}
-ID   : ${userId}
+ID   : ${convertCode(userId)}
 PW   : ${data?.password}`;
 
       // Only add OTP if userType is NOT 1
@@ -93,7 +94,7 @@ PW   : ${data?.password}`;
         className="ant-input"
         value={`New Password
 LINK : ${domainLink[Number(userType)]}
-ID   : ${userId}
+ID   : ${convertCode(userId)}
 PW   : ${data?.password}${
           Number(userType) != 1 ? `\nOTP  : ${data?.otp}` : ""
         }`}

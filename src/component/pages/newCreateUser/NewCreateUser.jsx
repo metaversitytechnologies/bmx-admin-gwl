@@ -13,7 +13,6 @@ import {
 import { useEffect, useState } from "react";
 
 import {
-  useGetChildListLimitMutation,
   useGetCreateUserMutation,
   useGetUserDetailsQuery,
   useUserIdForSearchQuery,
@@ -21,6 +20,7 @@ import {
 import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
 import SelectUpline from "./SelectUpline";
+import { convertCodeReverse } from "../../../store/constant";
 
 const createName = {
   7: "Admin",
@@ -71,14 +71,12 @@ const NewCreateUser = () => {
   const userId = localStorage.getItem("userId");
   const userType = localStorage.getItem("userType");
   const { data: userDetails } = useGetUserDetailsQuery({
-    userId: parentId ? parentId : userId,
+    userId: parentId ? convertCodeReverse(parentId) : userId,
   });
   const { data: downlineData } = useUserIdForSearchQuery({ userType: id });
 
   const [createUser, { data: UserList, error, isLoading }] =
     useGetCreateUserMutation();
-
-
 
   const onFinish = (values) => {
     const {
@@ -108,7 +106,7 @@ const NewCreateUser = () => {
       sessionCommission: commiType === "bbb" ? sess_comm : 0,
       casinoCommission: commiType === "bbb" ? cassino_Comm : 0,
       limit: Coins,
-      parentIdForUserCreation: parentId,
+      parentIdForUserCreation: convertCodeReverse(parentId),
       appId: "16",
     };
     createUser(userData);
@@ -125,8 +123,6 @@ const NewCreateUser = () => {
   }, [UserList, error]);
 
   const nav = useNavigate();
-
-  console.log(commiType, "commiType");
 
   return (
     <div className="create_user_section">

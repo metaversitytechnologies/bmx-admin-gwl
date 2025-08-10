@@ -3,6 +3,8 @@ import { Checkbox, Col, notification, Row, Table } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "./PlusMinusReport.scss";
 import { useGetSessionPlusMinusQuery } from "../../../../store/service/SportDetailServices";
+import { render } from "react-dom";
+import { convertCode } from "../../../../store/constant";
 
 const column = [
   {
@@ -22,6 +24,9 @@ const clintColumns = [
     title: "Child",
     dataIndex: "userId",
     key: 1,
+    render:(text)=>(
+      <span>{convertCode(text)}</span>
+    )
   },
 ];
 
@@ -150,24 +155,6 @@ const PlusMinusReport = () => {
                   dataSource={filteredMarkets}
                 />
               </Col>
-
-              {/* <Col lg={12} xs={24}>
-                <Table
-                  className="session_table table2"
-                  rowSelection={{
-                    type: "checkbox",
-                    onChange: (selectedRowKeys, selectedRows) => {
-                      setSecondUserid(selectedRows.map((i) => i.userid));
-                    },
-                    selectedRowKeys: secondUserid,
-                  }}
-                  rowKey="userid"
-                  bordered
-                  columns={columns}
-                  pagination={false}
-                  dataSource={staticData.data.users.parent}
-                />
-              </Col> */}
 
               <Col lg={12} xs={24}>
                 <Table

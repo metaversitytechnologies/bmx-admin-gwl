@@ -4,6 +4,7 @@ import "./LoginReport.scss";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const LoginReport = () => {
   const { id } = useParams();
@@ -55,13 +56,7 @@ const LoginReport = () => {
                 </th>
                 <th>LOGIN DATE</th>
               </tr>
-              {isLoading || isFetching ? (
-                <div className="spin_icon">
-                  <Spin size="large" />
-                </div>
-              ) : (
-                ""
-              )}
+              {isLoading || isFetching ? <CustomLoading /> : ""}
               {!isError &&
                 data?.data?.map((res, id) => {
                   return (

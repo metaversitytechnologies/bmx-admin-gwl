@@ -6,6 +6,7 @@ import moment from "moment";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useAccountOprationQuery } from "../../../../store/service/userlistService";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -106,7 +107,10 @@ const AccountStatement = () => {
                 <AllStatement
                   gameType={1}
                   clientId={clientId}
-                  isLoading={isLoading || isFetching}
+                  loading={{
+                    spinning: isLoading || isFetching,
+                    indicator: <CustomLoading />,
+                  }}
                   dateData={data?.data}
                 />
               </div>

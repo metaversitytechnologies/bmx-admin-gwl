@@ -4,6 +4,7 @@ import "./Deposit.scss";
 
 import { useLazyGetUserLabilatyQuery } from "../../store/service/SportDetailServices";
 import { render } from "react-dom";
+import CustomLoading from "./CustomLoading/CustomLoading";
 
 const Exposure = ({ openExp, setOpenExp, userId }) => {
   const [trigger, { data: exposureData, isLoading }] =
@@ -70,6 +71,8 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
     },
   ];
 
+  
+
   return (
     <>
       <Modal
@@ -97,7 +100,10 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
             columns={column}
             dataSource={exposureData?.data || []}
             pagination={false}
-            loading={isLoading}
+            loading={{
+              spinning: isLoading,
+              indicator: <CustomLoading />,
+            }}
             summary={(pageData) => {
               let totalProfit = 0;
               let totalLoss = 0;

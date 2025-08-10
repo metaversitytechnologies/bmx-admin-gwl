@@ -2,6 +2,7 @@ import { Card, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCasinoBetByMarketQuery } from "../../../store/service/CasinoServices";
 import { render } from "react-dom";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const AllBets = () => {
   const { id } = useParams();
@@ -74,7 +75,7 @@ const AllBets = () => {
               width: "100%",
             }}
             className="sport_detail acc_name"
-            title={`All Bets: 102250723225217`}
+            title={`All Bets: ${id}`}
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div className="table_section statement_tabs_data">
               <div className="table_section">
@@ -83,7 +84,10 @@ const AllBets = () => {
                   bordered
                   columns={columns}
                   dataSource={data?.data || []}
-                  loading={isLoading || isFetching}
+                  loading={{
+                    spinning: isLoading || isFetching,
+                    indicator: <CustomLoading />,
+                  }}
                 />
               </div>
             </div>

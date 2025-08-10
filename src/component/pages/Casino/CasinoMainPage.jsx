@@ -1,19 +1,19 @@
-import { Card, Col, Row, Table } from "antd";
+import { Card, Col, Row } from "antd";
 import VideoSection from "./VideoSection";
 import LastResult from "./LastResult";
 import "./style.scss";
 import { useOdds } from "./UseOdds";
 import { tableIdtoUrl, titleById } from "./Constant";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TeenPatti from "./TeenPatti";
 import AAA from "./AAA";
 import DT20 from "./DT20";
 import Lucky7B from "./Lucky7B";
 import NonDeclare from "./NonDeclare";
 import Result from "./Result";
-import { useState } from "react";
 
 const CasinoMainPage = () => {
+  const nav = useNavigate();
   const { id } = useParams();
   const { odds } = useOdds(tableIdtoUrl[id]);
 
@@ -22,7 +22,7 @@ const CasinoMainPage = () => {
       <Card
         className="sport_detail team_name"
         title={titleById[id]}
-        extra={<button>Back</button>}
+        extra={<button onClick={() => nav(-1)}>Back</button>}
         style={{ margin: 0, width: "100%" }}>
         <Card bordered className="gx-card-widget">
           <Row className="gx-px-4" gutter={[32, 32]}>

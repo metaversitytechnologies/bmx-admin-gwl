@@ -34,6 +34,8 @@ import {
 import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
 import Exposure from "./Exposure";
+import CustomLoading from "./CustomLoading/CustomLoading";
+import { convertCode } from "../../store/constant";
 
 const routeFromUSerType = {
   6: "/user-list/mamin/5",
@@ -357,18 +359,16 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
             className="over_view"
             onClick={() => setShowSearchDropdown(false)}></div>
         )}
-        <div className="sport_detail m-0 ant-spin-nested-loading">
+        <div
+          className="sport_detail m-0 ant-spin-nested-loading"
+          style={{ position: "relative" }}>
           <div
             ref={myElementRef}
             className="table_section statement_tabs_data ant-spin-nested-loading"
             style={{
               overflow: `${isLoading || isFetching ? "hidden" : "scroll"}`,
             }}>
-            {(isLoading || isFetching) && (
-              <div className="spin_icon user_spin">
-                <Spin size="large" />
-              </div>
-            )}
+            {(isLoading || isFetching) && <CustomLoading />}
             <table className={`live_table ${parentIdFromParams && "mt-0"}`}>
               <thead>
                 <tr>
@@ -488,7 +488,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                         </div>
                       </Dropdown>
                     </td>
-                    <td>{res?.userId}</td>
+                    <td>{convertCode(res?.userId)}</td>
                     <td>
                       <span
                         onClick={() => {
@@ -504,7 +504,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                         <SlEye /> {res?.userName}
                       </span>
                     </td>
-                    <td>{res?.parentId}</td>
+                    <td>{convertCode(res?.parentId)}</td>
                     <td>{res?.contact}</td>
                     <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
                     <td>{res?.partnerShip}</td>
@@ -532,7 +532,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                       {res?.matchCommission === 0 &&
                       res?.sessionCommission === 0
                         ? "NOC"
-                        : "bbb"}
+                        : "BBB"}
                     </td>
                     <td>{Number(res?.matchCommission)?.toFixed(2)}</td>
                     <td>{Number(res?.sessionCommission)?.toFixed(2)}</td>

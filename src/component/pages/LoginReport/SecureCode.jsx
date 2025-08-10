@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
 import { useState } from "react";
 import { useLazyGetSecureCodeQuery } from "../../../store/service/SportDetailServices";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import { convertCode, convertCodeReverse } from "../../../store/constant";
 
 const SecureCode = () => {
   const userId = localStorage.getItem("userId");
@@ -67,7 +69,7 @@ const SecureCode = () => {
               <Input
                 style={{ height: "36px", borderRadius: "0px" }}
                 placeholder="Enter"
-                onChange={(e) => setClientId(e.target.value)}
+                onChange={(e) => setClientId(convertCodeReverse(e.target.value))}
               />
             </Col>
             <Col xs={24} md={24} lg={7} xl={7}>
@@ -86,18 +88,12 @@ const SecureCode = () => {
                 <th>OTP</th>
                 <th>CREATED ON</th>
               </tr>
-              {isLoading || isFetching ? (
-                <div className="spin_icon">
-                  <Spin size="large" />
-                </div>
-              ) : (
-                ""
-              )}
+              {isLoading || isFetching ? <CustomLoading /> : ""}
               {!isError &&
                 secureData?.data?.map((res, id) => {
                   return (
                     <tr key={id}>
-                      <td>{res?.userId}</td>
+                      <td>{convertCode(res?.userId)}</td>
                       <td>{res?.secureCode}</td>
                       <td>{res?.createdOn}</td>
                     </tr>

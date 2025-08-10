@@ -303,7 +303,7 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                         {item?.username} ({item?.userId})
                       </td>
                       <td>
-                        {item?.parentName} ({item?.parentId})
+                        {item?.parentName} (convertCode({item?.parentId}))
                       </td>
                       <td>{new Date(item?.date).toLocaleString()}</td>
                       <td>{item?.liability}</td>

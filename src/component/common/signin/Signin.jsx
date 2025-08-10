@@ -6,10 +6,12 @@ import {
 } from "../../../store/service/authService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { convertCodeReverse } from "../../../store/constant";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
-  const [triggerWotp, { isLoading }] = useLoginWithOtpMutation();
+  const [triggerWotp, { isLoading, data: logindata, error }] =
+    useLoginWithOtpMutation();
   const nav = useNavigate();
 
   const [showOtp, setShowOtp] = useState(false);
@@ -22,7 +24,7 @@ const Signin = () => {
 
   const onFinish = async (values) => {
     const authPayload = {
-      userId: values?.username?.trim(),
+      userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
       // url: "superadmin.fastbet365.in",
       url,
@@ -42,8 +44,6 @@ const Signin = () => {
         localStorage.setItem("userType", res?.data?.userTypeInfo);
         localStorage.setItem("username", res?.data?.username);
         localStorage.setItem("ps", res?.data?.ps);
-      } else {
-        message.error(res?.error?.data?.message);
       }
     } else {
       const res = await trigger(authPayload).unwrap();
@@ -64,6 +64,15 @@ const Signin = () => {
       nav("/dashboard");
     }
   }, []);
+
+  useEffect(() => {
+    if (error && !error?.data?.status) {
+      message.error(error?.data?.message);
+    }
+    if (!logindata?.status && logindata?.message) {
+      message.error(logindata?.message);
+    }
+  }, [error, logindata]);
 
   return (
     <>
@@ -165,7 +174,7 @@ const Signin = () => {
                     type="primary"
                     htmlType="submit"
                     style={{ marginBottom: "0px" }}>
-                   {showOtp?"Verify OTP":"Sign in"}
+                    {showOtp ? "Verify OTP" : "Sign in"}
                   </Button>
                 </Form.Item>
               </Form>

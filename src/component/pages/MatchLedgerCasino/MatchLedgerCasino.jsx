@@ -2,11 +2,12 @@ import { Button, Card, Col, DatePicker, Row, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
 import { useGetLiveCasinoListQuery } from "../../../store/service/CasinoServices";
 import moment from "moment";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
 const MatchLedgerCasino = () => {
-  const { data } = useGetLiveCasinoListQuery();
+  const { data, isFetching, isLoading } = useGetLiveCasinoListQuery();
 
   const renderTableRows = () =>
     data?.data?.map((items, index) => (
@@ -84,6 +85,7 @@ const MatchLedgerCasino = () => {
         </div>
 
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
+          {(isFetching || isLoading) && <CustomLoading />}
           <table className="live_table login_data_table">
             <thead>
               <tr>

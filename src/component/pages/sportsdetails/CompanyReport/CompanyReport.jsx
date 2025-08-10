@@ -3,6 +3,7 @@ import { Card, Empty } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCompletLedgerQuery } from "../../../../store/service/SportDetailServices";
 import { useState } from "react";
+import { convertCode } from "../../../../store/constant";
 
 const CompanyReport = () => {
   const nav = useNavigate();
@@ -76,13 +77,13 @@ const CompanyReport = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.data.length > 0 ? (
-                data?.data.map((res, id) => (
+              {data?.data?.length > 0 ? (
+                data?.data?.map((res, id) => (
                   <tr key={id}>
                     <td
                       onClick={() => setUserId(res?.userId)}
                       style={{ fontWeight: 600 }}>
-                      {res?.userId}
+                      {convertCode(res?.userId)}
                     </td>
                     <td style={{ fontWeight: 600 }}>{res?.userName}</td>
                     <td
@@ -165,66 +166,66 @@ const CompanyReport = () => {
                   <td></td>
                   <td
                     style={{
-                      color: getColor(totalValues.matchAmount),
+                      color: getColor(totalValues?.matchAmount),
                       fontWeight: 600,
                     }}>
-                    {totalValues.matchAmount.toFixed(2)}
+                    {totalValues?.matchAmount?.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.sessionAmount),
+                      color: getColor(totalValues?.sessionAmount),
                       fontWeight: 600,
                     }}>
-                    {totalValues.sessionAmount.toFixed(2)}
+                    {totalValues?.sessionAmount?.toFixed(2)}
                   </td>
                   <td
                     style={{
                       color: getColor(totalValues.total),
                       fontWeight: 600,
                     }}>
-                    {totalValues.total.toFixed(2)}
+                    {totalValues?.total?.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.matchComm),
+                      color: getColor(totalValues?.matchComm),
                       fontWeight: 600,
                     }}>
-                    {totalValues.matchComm.toFixed(2)}
+                    {totalValues?.matchComm?.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.sessionComm),
+                      color: getColor(totalValues?.sessionComm),
                       fontWeight: 600,
                     }}>
-                    {totalValues.sessionComm.toFixed(2)}
+                    {totalValues?.sessionComm?.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.totalComm),
+                      color: getColor(totalValues?.totalComm),
                       fontWeight: 600,
                     }}>
                     {totalValues.totalComm.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.myShare),
+                      color: getColor(totalValues?.myShare),
                       fontWeight: 600,
                     }}>
-                    {totalValues.myShare.toFixed(2)}
+                    {totalValues?.myShare?.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.mapp),
+                      color: getColor(totalValues?.mapp),
                       fontWeight: 600,
                     }}>
-                    {totalValues.mapp.toFixed(2)}
+                    {totalValues?.mapp?.toFixed(2)}
                   </td>
                   <td
                     style={{
-                      color: getColor(totalValues.netAmount),
+                      color: getColor(totalValues?.netAmount),
                       fontWeight: 600,
                     }}>
-                    {totalValues.netAmount.toFixed(2)}
+                    {totalValues?.netAmount?.toFixed(2)}
                   </td>
                 </tr>
               )}

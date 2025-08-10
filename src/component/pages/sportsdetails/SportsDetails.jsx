@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
 import { useActiveMatchQuery } from "../../../store/service/ActiveMatcheService";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -20,7 +21,11 @@ const SportsDetails = () => {
 
   const nav = useNavigate();
 
-  const { data: sportDetail } = useActiveMatchQuery(activeTabData);
+  const {
+    data: sportDetail,
+    isLoading,
+    isFetching,
+  } = useActiveMatchQuery(activeTabData);
 
   const handlePlusMinus = (matchId) => {
     setDropdownStates(false);
@@ -70,6 +75,7 @@ const SportsDetails = () => {
       </Row>
 
       <div className="table_section">
+        {(isFetching || isLoading) && <CustomLoading />}
         <table className="ant-spin-nested-loading">
           <thead>
             <tr>

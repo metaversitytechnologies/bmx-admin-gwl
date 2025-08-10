@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
 import { useGetCompletdCasinoQuery } from "../../../store/service/SportDetailServices";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -173,12 +174,15 @@ const CasinoPandLDetail = () => {
                 eventName: "Total",
                 date: "",
                 pnl: totalPnl,
-                isTotal: true, 
+                isTotal: true,
               },
               ...(data?.data || []),
             ]}
             rowKey={(record, index) => index}
-            loading={isLoading || isFetching}
+            loading={{
+              spinning: isLoading || isFetching,
+              indicator: <CustomLoading />,
+            }}
             pagination={true}
           />
         </div>

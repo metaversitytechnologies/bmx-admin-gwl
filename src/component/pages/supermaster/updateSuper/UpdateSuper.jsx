@@ -17,6 +17,7 @@ import {
   useGetUserQuery,
   useUpdateUserMutation,
 } from "../../../../store/service/userlistService";
+import { convertCode } from "../../../../store/constant";
 
 const updateNameDetails = {
   6: "Super Admin",
@@ -72,31 +73,11 @@ const UpdateSuper = () => {
     }
   }, [resuilt?.data]);
 
-  console.log(commType, "commTypecommTypecommType");
-
-  // useEffect(() => {
-  //   if (updateData?.status) {
-  //     api.success({
-  //       message: updateData?.message,
-  //       description: "Success",
-  //       placement: "top",
-  //       closeIcon: false,
-  //     });
-  //     form.resetFields();
-  //   } else if (!updateData?.status || error?.data?.message) {
-  //     api.error({
-  //       message: updateData?.message || error?.data?.message,
-  //       placement: "top",
-  //       closeIcon: false,
-  //     });
-  //   }
-  // }, [updateData, error]);
-
   const onFinish = (values) => {
     const isNoComm = values?.comm_type === "no-comm";
 
     const userData = {
-      userId: values?.userId,
+      userId: userId,
       userName: values?.name,
       reference: values?.reference,
       password: resuilt?.data?.password,
@@ -146,8 +127,6 @@ const UpdateSuper = () => {
 
   const { Option } = Select;
 
-  console.log(getUserField("MatchCommission"), "getUserField");
-
   return (
     <>
       {contextHolder}
@@ -180,7 +159,7 @@ const UpdateSuper = () => {
             wrapperCol={{ span: 16 }}
             onFinish={onFinish}
             fields={[
-              { name: "userId", value: resuilt?.data?.userId },
+              { name: "userId", value: convertCode(resuilt?.data?.userId) },
               { name: "name", value: resuilt?.data?.userName },
               { name: "reference", value: resuilt?.data?.reference },
               { name: "number", value: resuilt?.data?.contact },

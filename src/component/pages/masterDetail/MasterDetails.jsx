@@ -88,7 +88,6 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
           {data
             ?.filter((res) => userTypeMatch[uType]?.includes(res?.userType))
             ?.map((items) => {
-              console.log(items, "sasdsadasdasdas");
               return (
                 <Col md={12} xs={24} key={items?.id}>
                   <Card bordered={false}>

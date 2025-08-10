@@ -2,11 +2,12 @@ import { Card, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCasinoBetListByTableQuery } from "../../../store/service/CasinoServices";
 import moment from "moment";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const DisplayGames = () => {
   const nav = useNavigate();
   const { id, name, date } = useParams();
-  const { data } = useGetCasinoBetListByTableQuery({
+  const { data, isLoading, isFetching } = useGetCasinoBetListByTableQuery({
     tableId: id,
     isActive: true,
   });
@@ -79,7 +80,16 @@ const DisplayGames = () => {
           </p>
         </div>
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Table bordered columns={columns} dataSource={data?.data || []} />
+          <Table
+            bordered
+            columns={columns}
+            rowKey={(record, index) => index}
+            loading={{
+              spinning: isLoading || isFetching,
+              indicator: <CustomLoading />,
+            }}
+            dataSource={data?.data || []}
+          />
         </div>
       </Card>
     </div>

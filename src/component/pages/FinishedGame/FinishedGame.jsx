@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
 import { useGetCompletedSportQuery } from "../../../store/service/SportDetailServices";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const { RangePicker } = DatePicker;
 
@@ -29,13 +30,11 @@ const FinishedGame = () => {
   const [dataNameee, setDataNameee] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownStates, setDropdownStates] = useState([]);
-  const [layoutOpen, setLayoutOpen] = useState(false);
-  const [statusStr, setStatusStr] = useState("");
   const [activeTabData, setActtiveTabData] = useState(4);
 
   const nav = useNavigate();
 
-  const { data } = useGetCompletedSportQuery({
+  const { data, isFetching, isLoading } = useGetCompletedSportQuery({
     index: indexData,
     noOfRecords: 100,
   });
@@ -45,7 +44,6 @@ const FinishedGame = () => {
     setMatchId(matchId);
     setDataNameee(sportName);
     setInPlay(inPlay);
-    setStatusStr(statusStraVal);
   };
 
   const handlePlusMinus = (matchId) => {
@@ -149,11 +147,11 @@ const FinishedGame = () => {
     setDateData(dateString);
   };
 
-  const sportData = [
-    { sportId: 4, sportName: "Cricket" },
-    { sportId: 1, sportName: "Football" },
-    { sportId: 2, sportName: "Tennis" },
-  ];
+  // const sportData = [
+  //   { sportId: 4, sportName: "Cricket" },
+  //   { sportId: 1, sportName: "Football" },
+  //   { sportId: 2, sportName: "Tennis" },
+  // ];
 
   const sportDetail = {
     data: {
@@ -198,11 +196,9 @@ const FinishedGame = () => {
     const updatedDropdownStates = dropdownStates.map(() => false);
     setDropdownStates(updatedDropdownStates);
     setIsDropdownOpen(false);
-    setLayoutOpen(false);
   };
 
   const toggleDropdown = (index) => {
-    setLayoutOpen(false);
     const updatedDropdownStates = [...dropdownStates];
     updatedDropdownStates[index] = !updatedDropdownStates[index];
     setDropdownStates(updatedDropdownStates);
@@ -222,10 +218,6 @@ const FinishedGame = () => {
       element?.removeEventListener("scroll", handleScroll);
     };
   }, [isDropdownOpen]);
-
-  const handleSportId = (id) => {
-    setActtiveTabData(id);
-  };
 
   return (
     <>
@@ -256,6 +248,7 @@ const FinishedGame = () => {
           </Col>
         </Row>
         <div ref={myElementRef} className="table_section">
+          {(isFetching || isLoading) && <CustomLoading />}
           <table className="ant-spin-nested-loading">
             <thead>
               <tr>
@@ -298,7 +291,9 @@ const FinishedGame = () => {
                     </Dropdown>
                   </td>
                   <td>{res.eventName}</td>
-                  <td>{moment(res.createdOn).format("DD-MM-YYYY, HH:mm:ss")}</td>
+                  <td>
+                    {moment(res.createdOn).format("DD-MM-YYYY, HH:mm:ss")}
+                  </td>
                   <td>{moment(res.createdOn).format("DD-MM-YYYY, h:mm A")}</td>
                   <td>T20</td>
 
