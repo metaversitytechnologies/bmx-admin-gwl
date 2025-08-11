@@ -60,7 +60,7 @@ const Sidebar = (props) => {
           onClick={() => nav("/dashboard")}
           className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
           <img
-            src={"https://master.antpro99.pro/assets/images/antpro.png"}
+            src={"/Images/logo.png"}
             alt="alt"
           />
         </div>
@@ -94,6 +94,8 @@ const Sidebar = (props) => {
                   setHoveredItem={setHoveredItem}
                   defaultSrc="/Images/dashbord.png"
                   hoverSrc="/Images/dash-hover.png"
+                  width={23}
+                  hoverWidth={22}
                 />
               ),
               label: (
@@ -114,8 +116,8 @@ const Sidebar = (props) => {
                   id="2"
                   hoveredItem={hoveredItem}
                   setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/user.png"
-                  hoverSrc="/Images/user-hover.png"
+                  defaultSrc="/Images/adminbar.png"
+                  hoverSrc="/Images/admin-bar-hover.png"
                   width={22}
                   hoverWidth={22}
                 />
@@ -203,10 +205,10 @@ const Sidebar = (props) => {
                   id="3"
                   hoveredItem={hoveredItem}
                   setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/left-sport.png"
-                  hoverSrc="/Images/left-sport-hover.png"
-                  width={23}
-                  hoverWidth={22}
+                  defaultSrc="/Images/casino.png"
+                  hoverSrc="/Images/casino-hover.png"
+                  width={24}
+                  hoverWidth={23}
                 />
               ),
               label: (
@@ -240,8 +242,8 @@ const Sidebar = (props) => {
                   setHoveredItem={setHoveredItem}
                   defaultSrc="/Images/casino.png"
                   hoverSrc="/Images/casino-hover.png"
-                  width={22}
-                  hoverWidth={22}
+                  width={24}
+                  hoverWidth={23}
                 />
               ),
               label: (
@@ -272,8 +274,8 @@ const Sidebar = (props) => {
                   setHoveredItem={setHoveredItem}
                   defaultSrc="/Images/ledger.png"
                   hoverSrc="/Images/ledger-hover.png"
-                  width={22}
-                  hoverWidth={22}
+                  width={24}
+                  hoverWidth={24}
                 />
               ),
               label: (
@@ -458,9 +460,9 @@ const Sidebar = (props) => {
                   id="7"
                   hoveredItem={hoveredItem}
                   setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/comm.png"
-                  hoverSrc="/Images/comm-hover.png"
-                  width={22}
+                  defaultSrc="/Images/dashbord.png"
+                  hoverSrc="/Images/dash-hover.png"
+                  width={23}
                   hoverWidth={22}
                 />
               ),
@@ -483,7 +485,7 @@ const Sidebar = (props) => {
                   defaultSrc="/Images/report.png"
                   hoverSrc="/Images/report-hover.png"
                   width={22}
-                  hoverWidth={22}
+                  hoverWidth={25}
                 />
               ),
               label: (
@@ -512,9 +514,9 @@ const Sidebar = (props) => {
                   id="9"
                   hoveredItem={hoveredItem}
                   setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/setting.png"
-                  hoverSrc="/Images/setting-hover.png"
-                  width={22}
+                  defaultSrc="/Images/dashbord.png"
+                  hoverSrc="/Images/dash-hover.png"
+                  width={23}
                   hoverWidth={22}
                 />
               ),
@@ -534,7 +536,7 @@ const Sidebar = (props) => {
 
       <div className="mob_side">
         <Drawer
-          title={<img onClick={props.action} src={props?.logo} />}
+          title={<img onClick={props.action} src='/Images/logo.png' />}
           className="drawer_main"
           placement="left"
           closable={false}
@@ -559,6 +561,8 @@ const Sidebar = (props) => {
                     setHoveredItem={setHoveredItem}
                     defaultSrc="/Images/dashbord.png"
                     hoverSrc="/Images/dash-hover.png"
+                    width={23}
+                    hoverWidth={22}
                   />
                 ),
                 label: (
@@ -581,8 +585,8 @@ const Sidebar = (props) => {
                     id="2"
                     hoveredItem={hoveredItem}
                     setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/user.png"
-                    hoverSrc="/Images/user-hover.png"
+                    defaultSrc="/Images/adminbar.png"
+                    hoverSrc="/Images/admin-bar-hover.png"
                     width={22}
                     hoverWidth={22}
                   />
@@ -694,10 +698,10 @@ const Sidebar = (props) => {
                     id="3"
                     hoveredItem={hoveredItem}
                     setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/left-sport.png"
-                    hoverSrc="/Images/left-sport-hover.png"
-                    width={23}
-                    hoverWidth={22}
+                    defaultSrc="/Images/casino.png"
+                    hoverSrc="/Images/casino-hover.png"
+                    width={24}
+                    hoverWidth={23}
                   />
                 ),
                 label: (
@@ -745,8 +749,8 @@ const Sidebar = (props) => {
                     setHoveredItem={setHoveredItem}
                     defaultSrc="/Images/casino.png"
                     hoverSrc="/Images/casino-hover.png"
-                    width={22}
-                    hoverWidth={22}
+                    width={24}
+                    hoverWidth={23}
                   />
                 ),
                 label: (
@@ -793,8 +797,8 @@ const Sidebar = (props) => {
                     setHoveredItem={setHoveredItem}
                     defaultSrc="/Images/ledger.png"
                     hoverSrc="/Images/ledger-hover.png"
-                    width={22}
-                    hoverWidth={22}
+                    width={24}
+                    hoverWidth={24}
                   />
                 ),
                 label: (
@@ -1024,9 +1028,9 @@ const Sidebar = (props) => {
                     id="7"
                     hoveredItem={hoveredItem}
                     setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/comm.png"
-                    hoverSrc="/Images/comm-hover.png"
-                    width={22}
+                    defaultSrc="/Images/dashbord.png"
+                    hoverSrc="/Images/dash-hover.png"
+                    width={23}
                     hoverWidth={22}
                   />
                 ),
@@ -1051,7 +1055,7 @@ const Sidebar = (props) => {
                     defaultSrc="/Images/report.png"
                     hoverSrc="/Images/report-hover.png"
                     width={22}
-                    hoverWidth={22}
+                    hoverWidth={24}
                   />
                 ),
                 label: (
@@ -1091,9 +1095,9 @@ const Sidebar = (props) => {
                     id="9"
                     hoveredItem={hoveredItem}
                     setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/setting.png"
-                    hoverSrc="/Images/setting-hover.png"
-                    width={22}
+                    defaultSrc="/Images/dashbord.png"
+                    hoverSrc="/Images/dash-hover.png"
+                    width={23}
                     hoverWidth={22}
                   />
                 ),

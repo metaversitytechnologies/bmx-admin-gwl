@@ -101,10 +101,7 @@ const Signin = () => {
                 </p>
               </div>
               <div className="gx-app-logo">
-                <img
-                  alt="example"
-                  src={"https://master.antpro99.pro/assets/images/antpro.png"}
-                />
+                <img alt="example" src={"/Images/logo.png"} />
               </div>
             </div>
 

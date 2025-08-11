@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 const SportModal = ({ setOpenModals, openModal }) => {
   const data = [
     {
-      image: <BiUserCircle />,
       name: "Active Games",
       path: "/Events/sports-details",
       size: "20",
@@ -15,7 +14,6 @@ const SportModal = ({ setOpenModals, openModal }) => {
       userType: 0,
     },
     {
-      image: <BiUserCircle />,
       name: "Finished Games",
       path: `/finish-game`,
       size: "20",
@@ -57,7 +55,7 @@ const SportModal = ({ setOpenModals, openModal }) => {
                             style={{ borderRadius: 20 }}>
                             <div className="gx-mr-1 gx-mr-xl-3">
                               {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                              {items?.image}
+                             <img src="/Images/sheare.png" width={30} />
                             </div>
                             <div className="gx-media-body">
                               <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">

@@ -293,6 +293,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getCompletedPlusMinus: build.query({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-completed-casino-plusminus`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -329,5 +338,6 @@ export const {
   useGetAgentPlusMinusQuery,
   useLazyGetUserLabilatyQuery,
   useGetFancyBetVMutation,
-  useGetAllSessionBetQuery
+  useGetAllSessionBetQuery,
+  useGetCompletedPlusMinusQuery
 } = sportDetailsApi;

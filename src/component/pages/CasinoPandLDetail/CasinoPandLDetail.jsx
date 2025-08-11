@@ -77,7 +77,8 @@ const CasinoPandLDetail = () => {
                       marginRight: "15px",
                     }}
                     type="primary">
-                    <Link to="/Casino/AndarBahar/plus-minus-type">
+                    <Link
+                      to={`/Casino/AndarBahar/plus-minus-type/${record?.date}/${record?.casinoId}`}>
                       plusminus
                     </Link>
                   </Button>

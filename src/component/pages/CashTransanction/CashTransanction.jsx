@@ -92,7 +92,7 @@ const CashTransanction = ({ setOpenModals, openModal }) => {
                               className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                               style={{ borderRadius: 20 }}>
                               <div className="gx-mr-1 gx-mr-xl-3">
-                                <img src="/Images/cash.png" width={27} />
+                                <BiUserCircle />
                               </div>
                               <div className="gx-media-body">
                                 <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">

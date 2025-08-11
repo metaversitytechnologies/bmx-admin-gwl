@@ -192,7 +192,7 @@ const Main = () => {
         />
 
         <Route
-          path="/Casino/AndarBahar/plus-minus-type"
+          path="/Casino/AndarBahar/plus-minus-type/:date/:id"
           element={<AndarBaharPlusMinus />}
         />
         <Route

@@ -1,61 +1,60 @@
-import { BsFiles } from "react-icons/bs";
 import { Card, Col, Modal, Row } from "antd";
+import { BiUserCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
-
 
 const LadgerDetails = ({ setOpenModals, openModal }) => {
   const data = [
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "P/L",
       path: "/Events/matchledger",
       size: "20",
       userType: 10,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "My Ledger",
       path: "/client/my-ledger",
       size: "20",
       userType: 10,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "Admin",
       path: "/client/ledger-super/6/Admin",
       size: "20",
       userType: 6,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "Mini Admin",
       path: "/client/ledger-super/5/Mini-Admin",
       size: "20",
       userType: 5,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "Master",
       path: "/client/ledger-super/4/Master",
       size: "20",
       userType: 4,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "Super",
       path: "/client/ledger-super/3/Super",
       size: "20",
       userType: 3,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "Agent",
       path: `/client/ledger-super/2/Agent`,
       size: "20",
       userType: 2,
     },
     {
-      image: <BsFiles />,
+      image: <BiUserCircle />,
       name: "Client",
       path: "/client/ledger-super/1/Client",
       size: "20",
@@ -102,7 +101,7 @@ const LadgerDetails = ({ setOpenModals, openModal }) => {
                               className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                               style={{ borderRadius: 20 }}>
                               <div className="gx-mr-1 gx-mr-xl-3">
-                                <img src="/Images/ledger.png" width={25} />
+                                <BiUserCircle />
                               </div>
                               <div className="gx-media-body">
                                 <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">

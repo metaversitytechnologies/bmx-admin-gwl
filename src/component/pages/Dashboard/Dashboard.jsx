@@ -12,6 +12,7 @@ import SettingModals from "./SettingModals";
 import MasterDetails from "../masterDetail/MasterDetails";
 import SportModal from "./SportModal";
 import { convertCode } from "../../../store/constant";
+import { BiUserCircle } from "react-icons/bi";
 
 const Dashboard = () => {
   const [openModal, setOpenModals] = useState(false);
@@ -54,7 +55,8 @@ const Dashboard = () => {
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
                           {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                          <img src="/Images/dash.png" height={33} />
+                          {/* <img src="/Images/dash.png" height={33} /> */}
+                          <BiUserCircle style={{ font: "35px" }} />
                         </div>
                         <div className="gx-media-body">
                           <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
@@ -74,7 +76,6 @@ const Dashboard = () => {
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                           <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                          <p className="gx-mb-0">My Team</p>
                         </div>
                       </div>
                     </div>
@@ -93,7 +94,7 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <img src="/Images/left-sport.png" height={22.5} />
+                          <img src="/Images/sheare.png" width={30} />
                         </div>
                         <div className="gx-media-body">
                           <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
@@ -122,7 +123,7 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <img src="/Images/ledger.png" width={25} />
+                          <BiUserCircle style={{ font: "35px" }} />
                         </div>
                         <div className="gx-media-body">
                           <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
@@ -152,15 +153,15 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <img src="/Images/cash.png" width={27} />
+                          <BiUserCircle />
                         </div>
                         <div className="gx-media-body">
                           <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Reports
+                            Cash Transaction
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                           <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                          <p className="gx-mb-0">Cash Transaction</p>
+                          {/* <p className="gx-mb-0">Cash Transaction</p> */}
                         </div>
                       </div>
                     </div>
@@ -244,7 +245,7 @@ const Dashboard = () => {
             {" "}
             {[
               {
-                icon: <img src="/Images/user.png" width={30} />,
+                icon: <img src="/Images/usernew.png" width={30} />,
                 title: `${convertCode(localStorage.getItem("userId"))}`,
                 desc: `You are ${
                   uType == 7
@@ -263,7 +264,7 @@ const Dashboard = () => {
                 }`,
               },
               {
-                icon: <img src="/Images/chips.png" width={30} />,
+                icon: <img src="/Images/dia.png" width={30} />,
                 title: `${dataDes?.data?.balance?.toFixed(2)}`,
                 desc: "Chips",
               },
@@ -278,7 +279,7 @@ const Dashboard = () => {
                 desc: "My Share",
               },
               {
-                icon: <img src="/Images/com_s.png" width={30} />,
+                icon: <img src="/Images/sheare.png" width={30} />,
                 title: `${dataDes?.data?.companyShare}%`,
                 desc: "Company Share",
               },

@@ -1,117 +1,106 @@
-import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table } from "antd";
-import { render } from "react-dom";
-// import ModalsData from "./ModalsData/ModalsData";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { Table } from "antd";
+import { useGetCompletedPlusMinusQuery } from "../../../../store/service/SportDetailServices";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 
 const AndarBaharPlusMinus = () => {
   const nav = useNavigate();
   const handleBackClick = () => {
     nav(-1);
   };
+  const { date, id } = useParams();
 
-  //   const [isDepositeModalOpen, SetisDepositeModalOpen] = useState(false);
-  //   const [WithdrawnModal, SetWithdrawnModal] = useState(false);
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
-  //   const handleDepositeOk = () => {
-  //     SetisDepositeModalOpen(false);
-  //   };
-  //   const handleDepositeCancel = () => {
-  //     SetisDepositeModalOpen(false);
-  //   };
-  //   const showDepositModal = () => {
-  //     SetisDepositeModalOpen(true);
-  //   };
-
-  //   const handleWithdrawnOk = () => {
-  //     SetWithdrawnModal(false);
-  //   };
-  //   const handleWithdrawnCancel = () => {
-  //     SetWithdrawnModal(false);
-  //   };
-  //   const showWithdrawnModal = () => {
-  //     SetWithdrawnModal(true);
-  //   };
-
-  const [Active, setActive] = useState("inActive");
-  const [inActive, setInActive] = useState(true);
-
-  const handleActive = () => {
-    if (Active === "inActive") {
-      setActive("Active");
-      setInActive(false);
-    } else {
-      setActive("inActive");
-      setInActive(true);
-    }
-  };
-  const data = [
+  const {
+    data: casino,
+    isLoading,
+    isFetching,
+  } = useGetCompletedPlusMinusQuery(
     {
-      key: "1",
-      code: "SA152471",
-      name: "John Brown",
-      casino_amt: <span style={{ color: "green" }}>240</span>,
-      casino_comm: <span style={{ color: "green" }}>0.00</span>,
-      total_amount: <span style={{ color: "green" }}>240</span>,
-      my_share: <span style={{ color: "red" }}>-90</span>,
-      m_app: <span style={{ color: "green" }}>0.00</span>,
-      net_amount: <span style={{ color: "green" }}>200</span>,
+      userId: userId,
+      date: date,
+      casinoId: id,
     },
-    {
-      key: "2",
-      code: "SA152471",
-      name: "Joe Black",
-      casino_amt: <span style={{ color: "red" }}>-40</span>,
-      casino_comm: <span style={{ color: "green" }}>0.00</span>,
-      total_amount: <span style={{ color: "red" }}>-40</span>,
-      my_share: <span style={{ color: "green" }}>90</span>,
-      m_app: <span style={{ color: "green" }}>0.00</span>,
-      net_amount: <span style={{ color: "green" }}>300</span>,
-    },
-  ];
+    { refetchOnMountOrArgChange: true }
+  );
 
   const columns = [
     {
       title: "Code",
-      dataIndex: "code",
-      key: "code",
+      dataIndex: "userId",
+      key: "userId",
+      render: (text) => (
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            !text?.startsWith("C") && setUserId(text);
+          }}>
+          {text}
+        </span>
+      ),
     },
     {
       title: "Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "userName",
+      key: "userName",
       render: (text) => <span style={{ fontWeight: 500 }}>{text}</span>,
     },
     {
       title: "Casino Amt",
-      dataIndex: "casino_amt",
-      key: "casino_amt",
+      dataIndex: "amount",
+      key: "amount",
+      render: (text) => (
+        <span style={{ color: text > 0 ? "green" : "red" }}>
+          {text?.toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "Casino Comm",
-      dataIndex: "casino_comm",
-      key: "casino_comm",
+      dataIndex: "commission",
+      key: "commission",
+      render: (text) => (
+        <span style={{ color: text > 0 ? "green" : "red" }}>
+          {text?.toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "Total Amount",
-      dataIndex: "total_amount",
-      key: "total_amount",
+      dataIndex: "total",
+      key: "total",
+      render: (text) => (
+        <span style={{ color: text > 0 ? "green" : "red" }}>
+          {text?.toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "My Share",
-      dataIndex: "my_share",
-      key: "my_share",
+      dataIndex: "myShare",
+      key: "myShare",
+      render: (text) => (
+        <span style={{ color: text > 0 ? "green" : "red" }}>
+          {text?.toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "M.App",
-      dataIndex: "m_app",
-      key: "m_app",
+      dataIndex: "mapp",
+      key: "mapp",
     },
     {
       title: "Net Amount",
-      dataIndex: "net_amount",
-      key: "net_amount",
+      dataIndex: "netAmount",
+      key: "netAmount",
+      render: (text) => (
+        <span style={{ color: text > 0 ? "green" : "red" }}>
+          {text?.toFixed(2)}
+        </span>
+      ),
     },
   ];
 
@@ -133,14 +122,70 @@ const AndarBaharPlusMinus = () => {
         </div>
         <div className="table_section">
           <Table
-            className=" roulette_table"
+            className="roulette_table"
             bordered
+            loading={{
+              spinning: isLoading || isFetching,
+              indicator: <CustomLoading />,
+            }}
             columns={columns}
-            dataSource={data}
+            dataSource={casino?.data || []}
             pagination={false}
-            rowClassName={(record) => {
-              return record?.key == 2 ? "dateHiglight" : "";
-            }}></Table>
+            summary={(pageData) => {
+              let totalAmount = 0;
+              let totalCommission = 0;
+              let totalTotal = 0;
+              let totalMyShare = 0;
+              let totalNetAmount = 0;
+
+              pageData.forEach(
+                ({ amount, commission, total, myShare, netAmount }) => {
+                  totalAmount += amount || 0;
+                  totalCommission += commission || 0;
+                  totalTotal += total || 0;
+                  totalMyShare += myShare || 0;
+                  totalNetAmount += netAmount || 0;
+                }
+              );
+
+              return (
+                <Table.Summary.Row className="dateHiglight">
+                  <Table.Summary.Cell
+                    index={0}
+                    colSpan={2}
+                    style={{ fontWeight: "bold" }}>
+                    Total
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell
+                    index={2}
+                    className={totalAmount > 0 ? "green" : "red"}>
+                    {totalAmount.toFixed(2)}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell
+                    index={3}
+                    className={totalCommission > 0 ? "green" : "red"}>
+                    {totalCommission.toFixed(2)}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell
+                    index={4}
+                    className={totalTotal > 0 ? "green" : "red"}>
+                    {totalTotal.toFixed(2)}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell
+                    index={5}
+                    className={totalMyShare > 0 ? "green" : "red"}>
+                    {totalMyShare.toFixed(2)}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={6}></Table.Summary.Cell>
+                  <Table.Summary.Cell
+                    index={7}
+                    className={totalNetAmount > 0 ? "green" : "red"}>
+                    {totalNetAmount.toFixed(2)}
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              );
+            }}
+          />
         </div>
       </div>
     </>
