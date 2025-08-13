@@ -285,7 +285,7 @@ const AgentTransactions = () => {
       </Card>
 
       <Card className="sport_detail ledger_data">
-        {ledgerDetails && <TransactionTable data={ledgerDetails?.data} />}
+        {ledgerDetails && <TransactionTable trigger={trigger} clientId={clientId} data={ledgerDetails?.data} />}
       </Card>
     </>
   );

@@ -302,6 +302,33 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getDeletedTranstion: build.mutation({
+      query: (body) => {
+        return {
+          url: `/ant-pro/delete-transaction`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getCommitionReport: build.mutation({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-commission-report`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getTranstionDeatils: build.query({
+      query: (body) => {
+        return {
+          url: `ant-pro/get-deleted-transaction`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -339,5 +366,8 @@ export const {
   useLazyGetUserLabilatyQuery,
   useGetFancyBetVMutation,
   useGetAllSessionBetQuery,
-  useGetCompletedPlusMinusQuery
+  useGetCompletedPlusMinusQuery,
+  useGetDeletedTranstionMutation,
+  useGetCommitionReportMutation,
+  useGetTranstionDeatilsQuery
 } = sportDetailsApi;

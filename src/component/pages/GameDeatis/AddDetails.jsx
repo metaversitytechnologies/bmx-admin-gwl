@@ -159,6 +159,16 @@ const AddDetails = ({
   const getColumnsByUserMatchType = (userType, sessionType) => {
     const allColumns = [
       {
+        title: "User",
+        dataIndex: "userId",
+        key: "userId",
+        render: (text, record) => (
+          <span>
+            {record?.userId} ({record?.userName})
+          </span>
+        ),
+      },
+      {
         title: "Rate",
         dataIndex: "odds",
         key: "odds",
@@ -190,16 +200,7 @@ const AddDetails = ({
         dataIndex: "selectionName",
         key: "selectionName",
       },
-      {
-        title: "User",
-        dataIndex: "userId",
-        key: "noAmount",
-        render: (text, record) => (
-          <span>
-            {record?.userId} ({record?.userName})
-          </span>
-        ),
-      },
+
       {
         title: "Agent",
         dataIndex: "dealerUserId",
@@ -378,7 +379,7 @@ const AddDetails = ({
   return (
     <Modal
       title="All Details"
-      className="main_modal_div"
+      className="main_modal_div all_details_data"
       footer={false}
       open={open}
       width={900}
@@ -418,6 +419,7 @@ const AddDetails = ({
           }
           dataSource={data?.data || []}
           rowKey={(record, index) => index}
+          rowClassName={(text, record) => (text?.isBack ? "back" : "lay")}
         />
       </div>
     </Modal>

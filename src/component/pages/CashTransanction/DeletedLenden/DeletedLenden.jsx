@@ -1,9 +1,8 @@
-import {
-  Card, Empty,
-} from "antd";
+import { Card, Empty } from "antd";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
+import { useGetTranstionDeatilsQuery } from "../../../../store/service/SportDetailServices";
 
 const DeletedLenden = () => {
   const nav = useNavigate();
@@ -13,35 +12,9 @@ const DeletedLenden = () => {
 
   const { id } = useParams();
 
-  // Static mock data
-  const data = {
-    data: [
-      {
-        key: 1,
-        date: "2025-06-10T10:30:00Z",
-        collectionName: "Payment Received",
-        debit: 0,
-        credit: 500,
-        balance: 1500,
-        paymentType: "Cash",
-        remarks: "Paid in full",
-        doneBy: "John Doe",
-        deletedBy: "Admin",
-      },
-      {
-        key: 2,
-        date: "2025-06-12T14:15:00Z",
-        collectionName: "Invoice Payment",
-        debit: 200,
-        credit: 0,
-        balance: 1300,
-        paymentType: "Online",
-        remarks: "Partial refund",
-        doneBy: "Jane Smith",
-        deletedBy: "Manager",
-      }
-    ]
-  };
+  const { data } = useGetTranstionDeatilsQuery({
+    userId: id,
+  });
 
   return (
     <>

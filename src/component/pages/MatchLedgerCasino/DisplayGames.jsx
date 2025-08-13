@@ -64,7 +64,7 @@ const DisplayGames = () => {
     <div className="match_slip match_ledger">
       <Card
         className="sport_detail team_name"
-        title={`${name} (${date})`}
+        title={`${name} ${date ? date : ""}`}
         style={{
           margin: 0,
           width: "100%",

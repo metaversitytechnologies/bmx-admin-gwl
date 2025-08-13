@@ -1,15 +1,20 @@
+import { useEffect, useState } from "react";
 import { Button, Dropdown, Popconfirm, Space, notification } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import moment from "moment";
+import { useGetDeletedTranstionMutation } from "../../../store/service/SportDetailServices";
+import { convertCodeReverse } from "../../../store/constant";
 
-const TransactionTable = ({ data }) => {
+const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   const [api, contextHolder] = notification.useNotification();
   const nav = useNavigate();
 
+  const [trigger, { error }] = useGetDeletedTranstionMutation();
+  const [selectedId, setSelectedId] = useState(null); // store clicked transaction ID
+
   const fetchDeletedTran = () => {
-    nav(`/client/deletedlenden/1001`);
+    nav(`/client/deletedlenden/${clientId}`);
   };
 
   const openNotification = (mess) => {
@@ -29,11 +34,30 @@ const TransactionTable = ({ data }) => {
     });
   };
 
-  const handleDelete = (id) => {
-    const updated = transactions.filter((tran) => tran._id !== id);
-    setTransactions(updated);
-    openNotification("Transaction deleted successfully");
+  const handleDelete = async () => {
+    try {
+      if (!selectedId) return;
+      await trigger({
+        transactionId: selectedId,
+        userId: clientId,
+      }).unwrap();
+      triggerTran({
+        userId: convertCodeReverse(clientId),
+        transactiontype: "All",
+      });
+      openNotification("Transaction deleted successfully");
+    } catch (error) {
+      // openNotificationError("Failed to delete transaction");
+    } finally {
+      setSelectedId(null); // clear after action
+    }
   };
+
+  useEffect(() => {
+    if (!error?.data?.status && error?.data?.message) {
+      openNotificationError(error?.data?.message);
+    }
+  }, [error]);
 
   const totalCreadit = data?.reduce((acc, item) => acc + item.credit, 0) || 0;
   const totalDebit = data?.reduce((acc, item) => acc + item.debit, 0) || 0;
@@ -44,11 +68,18 @@ const TransactionTable = ({ data }) => {
     {
       label: (
         <Popconfirm
-          description="Are you sure to delete this transaction?"
-          onConfirm={() => handleDelete(id)}
+          description="Are you sure to delete?"
+          onConfirm={handleDelete} // Call delete using stored ID
+          className="ant-btn-default_no"
           okText="Yes"
           cancelText="No">
-          <p>Delete</p>
+          <p
+            onClick={(e) => {
+              e.preventDefault();
+              setSelectedId(id); // store the clicked transaction ID
+            }}>
+            Delete
+          </p>
         </Popconfirm>
       ),
       key: "0",
@@ -82,7 +113,7 @@ const TransactionTable = ({ data }) => {
         </div>
       </div>
       <div className="table_section" style={{ paddingBottom: "20px" }}>
-        <table className="">
+        <table>
           <thead>
             <tr>
               <th
@@ -92,7 +123,7 @@ const TransactionTable = ({ data }) => {
               </th>
               <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Date</th>
               <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
-                Collection Name{" "}
+                Collection Name
               </th>
               <th
                 style={{ whiteSpace: "nowrap", padding: "5px" }}
@@ -117,13 +148,15 @@ const TransactionTable = ({ data }) => {
           </thead>
           <tbody>
             {data?.length > 0 ? (
-              data?.map((res, idx) => (
-                <tr key={res._id || idx}>
+              data.map((res, idx) => (
+                <tr
+                  key={res._id || idx}
+                  className={res?.id ? "gx-bg-yellow" : ""}>
                   <td>
-                    {res?.doneBy && !res?.isRollback && (
+                    {res?.id && (
                       <Dropdown
                         className="table_dropdown sport_droupdown"
-                        menu={{ items: items(res._id), className: "trans" }}
+                        menu={{ items: items(res.id), className: "trans" }}
                         trigger={["click", "contextMenu"]}>
                         <p onClick={(e) => e.preventDefault()}>
                           <Space>

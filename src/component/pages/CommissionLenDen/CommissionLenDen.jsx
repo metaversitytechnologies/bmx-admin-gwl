@@ -6,57 +6,44 @@ import {
   Empty,
   Input,
   Row,
+  Select,
   Space,
   Tag,
 } from "antd";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+// import { useGetCommissionMutation } from "../../../store/service/CasinoServices";
+import { useLazyFilterbyClientQuery } from "../../../store/service/supermasteAccountStatementServices";
+import { useGetCommitionReportMutation } from "../../../store/service/SportDetailServices";
 
 const { RangePicker } = DatePicker;
 
 const CommissionLenDen = () => {
+  const [clientId, setClientId] = useState("");
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
+
+  const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
+
+  const [trigger, { data }] = useGetCommitionReportMutation();
+
+  useEffect(() => {
+    trigger({ userId: clientId, fromDate: dateData[0], toDate: dateData[1] });
+  }, [clientId, dateData]);
 
   const onChange = (data, dateString) => {
     setDateData(dateString);
   };
 
-  //  const handleQuickSelect = (type) => {
-  //   const today = dayjs();
-  //   let start, end;
+  
 
-  //   switch (type) {
-  //     case 'today':
-  //       start = end = today;
-  //       break;
-  //     case 'yesterday':
-  //       start = end = today.subtract(1, 'day');
-  //       break;
-  //     case 'thisWeek':
-  //       start = today.startOf('week');
-  //       end = today.endOf('week');
-  //       break;
-  //     case 'lastWeek':
-  //       start = today.subtract(1, 'week').startOf('week');
-  //       end = today.subtract(1, 'week').endOf('week');
-  //       break;
-  //     case 'thisMonth':
-  //       start = today.startOf('month');
-  //       end = today.endOf('month');
-  //       break;
-  //     case 'lastMonth':
-  //       start = today.subtract(1, 'month').startOf('month');
-  //       end = today.subtract(1, 'month').endOf('month');
-  //       break;
-  //     default:
-  //       return;
-  //   }
-
-  //   onChange([start, end]);
-  // };
+  useEffect(() => {
+    userTrigger({
+      userType: 2,
+    });
+  }, []);
 
   return (
     <>
@@ -99,12 +86,22 @@ const CommissionLenDen = () => {
                 )}
               />
             </Col>
-            <Col xl={7} lg={7} md={24} xs={24}>
-              <Input
-                style={{
-                  width: "300px",
+            <Col xl={7} lg={7} md={15} xs={15}>
+              <Select
+                placeholder="Select User"
+                showSearch
+                onSearch={(value) => {
+                  if (value) userTrigger({ userId: value, userType: 2 });
                 }}
-                placeholder="Agent Username"
+                value={clientId}
+                allowClear
+                onSelect={(value) => setClientId(value)}
+                options={
+                  userData?.data?.map((user) => ({
+                    label: `${user.userName} (${user.userId})`,
+                    value: user.userId,
+                  })) || []
+                }
               />
             </Col>
             <Col xl={2} lg={2} md={24} xs={24}>
@@ -144,12 +141,34 @@ const CommissionLenDen = () => {
                 <th>T.Comm.</th>
                 <th>Comm.</th>
               </tr>
-              <tr>
-                <td colSpan={11}>
-                  {" "}
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                </td>
-              </tr>
+
+              {data?.data?.length > 0 ? (
+                data?.data?.map((items) => {
+                  return (
+                    <tr key={items?.userid}>
+                      <td>
+                        {items?.userId} ({items?.userName})
+                      </td>
+                      <td>{items?.matchCommMila}</td>
+                      <td>{items?.sessionCommMila}</td>
+                      <td>{items?.casinoCommMila}</td>
+                      <td>{items?.totalCommMila}</td>
+                      <td>{items?.matchCommDena}</td>
+                      <td>{items?.sessionCommDena}</td>
+                      <td>{items?.casinoCommDena}</td>
+                      <td>{items?.totalCommDena}</td>
+                      <td>{items?.leftCommission}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={11}>
+                    {" "}
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </td>
+                </tr>
+              )}
             </table>
           </div>
         </Card>

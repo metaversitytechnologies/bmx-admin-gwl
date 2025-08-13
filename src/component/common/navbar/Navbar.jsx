@@ -82,7 +82,7 @@ const Navbar = ({ action, logo }) => {
             </Button>
           </Space>
 
-          <img onClick={handleDashbordHome} src={logo} alt="" />
+          <img onClick={handleDashbordHome} src="/Images/logo.png" alt="" />
         </div>
         <div className="nav_drop">
           <div className="sub_menu_nav">

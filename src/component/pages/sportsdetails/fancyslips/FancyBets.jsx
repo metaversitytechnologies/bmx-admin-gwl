@@ -113,12 +113,12 @@ const FancyBets = () => {
               <table className="">
                 <thead>
                   <tr>
+                    <th>Client Name</th>
                     <th>Run</th>
                     <th>Rate</th>
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Session</th>
-                    <th>Client Name</th>
                     <th>Creator Name</th>
                     <th>Date</th>
                     <th>Loss</th>
@@ -131,6 +131,9 @@ const FancyBets = () => {
                       <tr
                         key={id}
                         className={res?.mode !== "YES" ? "lay" : "back"}>
+                        <td>
+                          {res?.parentName} ({res?.parentId})
+                        </td>
                         <td>{res?.run}</td>
                         <td>{res?.rate}</td>
                         <td>{res?.amount}</td>
@@ -138,9 +141,6 @@ const FancyBets = () => {
                         <td>{res?.selectionName}</td>
                         <td>
                           {res?.username} ({res?.userId})
-                        </td>
-                        <td>
-                          {res?.parentName} ({res?.parentId})
                         </td>
 
                         <td>{res?.time}</td>

@@ -65,43 +65,43 @@ const CompletedFancy = () => {
                 </tr>
               </thead>
               <tbody>
-                {fancyData?.data?.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{item?.fancyName}</td>
-                      <td>{item?.pnl?.toFixed(2)}</td>
-                      <td>{item?.result}</td>
-                      <td>{item?.netPnl?.toFixed(2)}</td>
-                      <td>
-                        <button
-                          onClick={() =>
-                            nav(`/event-profit-loss/${id}/${item?.fancyId}`)
-                          }
-                          type="button"
-                          className="ant-btn  ant-btn-sm gx-text-white gx-border-redius0"
-                          style={{
-                            backgroundColor: "rgb(255, 85, 0)",
-                            padding: "0px 8px",
-                            height: "24px",
-                            lineHeight: "23px",
-                            border: "unset",
-                            outline: "unset",
-                            fontWeight: 400,
-                          }}>
-                          <span>Show Bets</span>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-
-              <tbody>
-                <tr>
-                  <td colSpan={5}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  </td>
-                </tr>
+                {fancyData?.data?.length > 0 ? (
+                  fancyData?.data?.map((item, index) => {
+                    return (
+                      <tr key={index} className={item?.isBack ? "back" : "lay"}>
+                        <td>{item?.fancyName}</td>
+                        <td>{item?.pnl?.toFixed(2)}</td>
+                        <td>{item?.result}</td>
+                        <td>{item?.netPnl?.toFixed(2)}</td>
+                        <td>
+                          <button
+                            onClick={() =>
+                              nav(`/event-profit-loss/${id}/${item?.fancyId}`)
+                            }
+                            type="button"
+                            className="ant-btn  ant-btn-sm gx-text-white gx-border-redius0"
+                            style={{
+                              backgroundColor: "rgb(255, 85, 0)",
+                              padding: "0px 8px",
+                              height: "24px",
+                              lineHeight: "23px",
+                              border: "unset",
+                              outline: "unset",
+                              fontWeight: 400,
+                            }}>
+                            <span>Show Bets</span>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={5}>
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

@@ -587,6 +587,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
           handleDepositeOk={handleCloseDepositModal}
           handleDepositeCancel={handleCloseDepositModal}
           fetchData={fetchData}
+          userType={userType}
         />
         <Exposure openExp={openExp} setOpenExp={setOpenExp} userId={userId} />
 

@@ -11,11 +11,11 @@ const Deposit = ({
   handleDepositeOk,
   handleDepositeCancel,
   fetchData,
+  userType,
 }) => {
   const [form] = Form.useForm();
 
-  const [trigger, { data, isLoading, error }] =
-    useLazyDepositAndWithdrawQuery();
+  const [trigger, { isLoading }] = useLazyDepositAndWithdrawQuery();
 
   const onFinish = async (values) => {
     const depositData = {
@@ -72,7 +72,16 @@ const Deposit = ({
                 className={
                   datadeposit?.balance < 0 ? "text_danger" : "text_success"
                 }>
-                {datadeposit?.balance}
+                {userType == 1
+                  ? (
+                      Number(datadeposit?.balance) +
+                      Number(datadeposit?.balanceWithPnl) -
+                      Number(datadeposit?.liability?.toFixed(2) || 0)
+                    )?.toFixed()
+                  : (
+                      Number(datadeposit?.balance) +
+                      Number(datadeposit?.balanceWithPnl)
+                    )?.toFixed()}
               </span>{" "}
             </p>
           </div>

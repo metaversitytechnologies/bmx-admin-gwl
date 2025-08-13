@@ -130,11 +130,11 @@ const FancyBets = ({ setFancyId, fancyId }) => {
             <table className="">
               <thead>
                 <tr>
+                  <th>Client</th>
                   <th>Rate</th>
                   <th>Amount</th>
                   <th>Type</th>
                   <th>Team</th>
-                  <th>Client</th>
                   <th>Agent</th>
                   <th>Date</th>
                   <th>Loss</th>
@@ -147,14 +147,10 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                     <tr
                       key={index}
                       className={
-                        item?.mode === "L"
+                        item?.mode === "YES"
                           ? "matchdtailsYesBackground"
                           : "matchdtailsNoBack"
                       }>
-                      <td>{item?.rate}</td>
-                      <td>{item?.amount}</td>
-                      <td>{item?.mode}</td>
-                      <td>{item?.selectionName}</td>
                       <td
                         style={{ cursor: "pointer" }}
                         onClick={() => {
@@ -164,6 +160,11 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                         }}>
                         {item?.username} ({item?.userId})
                       </td>
+                      <td>{item?.rate}</td>
+                      <td>{item?.amount}</td>
+                      <td>{item?.mode}</td>
+                      <td>{item?.selectionName}</td>
+
                       <td>
                         {item?.parentName} ({item?.parentId})
                       </td>
@@ -266,12 +267,13 @@ const FancyBets = ({ setFancyId, fancyId }) => {
             <table className="">
               <thead>
                 <tr>
+                  <th>Client</th>
+
                   <th>Rate</th>
                   <th>Amount</th>
                   <th>Type</th>
                   <th>Odds Type</th>
                   <th>Team</th>
-                  <th>Client</th>
                   <th>Agent</th>
                   <th>Date</th>
                   <th>Loss</th>
@@ -288,11 +290,6 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                           ? "matchdtailsYesBackground"
                           : "matchdtailsNoBack"
                       }>
-                      <td>{item?.odds}</td>
-                      <td>{item?.stake}</td>
-                      <td>{item?.mode === "L" ? "Lagia" : "Khai"}</td>
-                      <td>{item?.marketType}</td>
-                      <td>{item?.team}</td>
                       <td
                         style={{ cursor: "pointer" }}
                         onClick={() => {
@@ -302,6 +299,12 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                         }}>
                         {item?.username} ({item?.userId})
                       </td>
+                      <td>{item?.odds}</td>
+                      <td>{item?.stake}</td>
+                      <td>{item?.mode === "L" ? "Lagia" : "Khai"}</td>
+                      <td>{item?.marketType}</td>
+                      <td>{item?.team}</td>
+
                       <td>
                         {item?.parentName} (convertCode({item?.parentId}))
                       </td>
