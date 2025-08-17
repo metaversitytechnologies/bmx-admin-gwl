@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal, Table } from "antd";
 import AccountModals from "../AccountModals";
 import moment from "moment";
+import { convertCode } from "../../../../../store/constant";
 
 const AllStatement = ({ dateData, isLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,6 +18,12 @@ const AllStatement = ({ dateData, isLoading }) => {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      render: (text) => {
+        const output = text.replace(/\((.*?)\)/g, (match, code) => {
+          return `(${convertCode(code)})`;
+        });
+        return <span>{output}</span>;
+      },
     },
 
     {

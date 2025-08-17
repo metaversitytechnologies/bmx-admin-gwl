@@ -328,13 +328,18 @@ const FancyBets = ({ setFancyId, fancyId }) => {
           </button>
         </div>
 
-        <div className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+        <div
+          className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white"
+          style={{
+            gap: "12px",
+          }}>
           <div>
             <div style={{ textAlign: "center", textTransform: "uppercase" }}>
               Match Bets - {filteredAllOdds?.length || 0}
             </div>
             <div className="  gx-text-white gx-text-uppercase">
               <Input
+                style={{ height: "32px" }}
                 placeholder="Search Client..."
                 value={searchTermOdds}
                 onChange={(e) => setSearchTermOdds(e.target.value)}

@@ -6,6 +6,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { useAccOprationQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import { convertCode } from "../../../../store/constant";
 
 const { RangePicker } = DatePicker;
 
@@ -48,11 +49,23 @@ const AccountOperations = () => {
       title: "Done By",
       dataIndex: "doneBy",
       key: "doneBy",
+      render: (text) => {
+        const output = text.replace(/\((.*?)\)/g, (match, code) => {
+          return `(${convertCode(code)})`;
+        });
+        return <span>{output}</span>;
+      },
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      render: (text) => {
+        const output = text.replace(/\((.*?)\)/g, (match, code) => {
+          return `(${convertCode(code)})`;
+        });
+        return <span>{output}</span>;
+      },
     },
   ];
 

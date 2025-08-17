@@ -18,8 +18,9 @@ const nameData = {
 
 const SuperAgentLedger = () => {
   const { id: userTyep, name: Listname, userId } = useParams();
-  const [clearData, setClearData] = useState([]); // always array
+  const [clearData, setClearData] = useState([]);
   const [denaList, setDenaList] = useState([]);
+  const [lenaList, setLenaList] = useState([]);
 
   const { data, isLoading, isFetching } = useGetLedgerAllQuery({
     requestTypeUser: Number(userTyep),
@@ -37,25 +38,38 @@ const SuperAgentLedger = () => {
     ? denaList.reduce((acc, curr) => acc + (curr?.currentBalance || 0), 0)
     : 0;
 
-  const lenaTotal = Array.isArray(data?.data?.lena)
-    ? data.data.lena.reduce(
-        (acc, curr) => acc + (curr?.currentBalance || 0),
-        0
-      )
+  const lenaTotal = Array.isArray(lenaList)
+    ? lenaList.reduce((acc, curr) => acc + (curr?.currentBalance || 0), 0)
     : 0;
 
-  // filter Clear (only dena with closinBalane = 0)
+  // filter Clear, Dena, Lena with parentId check
+
   useEffect(() => {
     if (data?.data) {
       const dena = Array.isArray(data.data.dena) ? data.data.dena : [];
+      const lena = Array.isArray(data.data.lena) ? data.data.lena : [];
 
       const clearList = dena.filter((item) => item?.closinBalane === 0);
       const filteredDena = dena.filter((item) => item?.closinBalane !== 0);
+      console.log(userId, "Dfsdfsdfsdf");
+      // if userId exists, filter by parentId
+      const denaFiltered = userId
+        ? filteredDena.filter((item) => item?.parentId == userId)
+        : filteredDena;
 
-      setClearData(clearList); // always array (empty bhi ho sakta hai)
-      setDenaList(filteredDena);
+      const clearFiltered = userId
+        ? clearList.filter((item) => item?.parentId == userId)
+        : clearList;
+
+      const lenaFiltered = userId
+        ? lena.filter((item) => item?.parentId == userId)
+        : lena;
+
+      setClearData(clearFiltered);
+      setDenaList(denaFiltered);
+      setLenaList(lenaFiltered);
     }
-  }, [data]);
+  }, [data, userId]);
 
   const handleDownline = (userId) => {
     nav(
@@ -71,8 +85,7 @@ const SuperAgentLedger = () => {
       render: (text, record) => (
         <span
           style={{ color: "#038fde", cursor: "pointer" }}
-          onClick={() => handleDownline(record?.userId)}
-        >
+          onClick={() => handleDownline(record?.userId)}>
           <EyeOutlined /> {record?.fullName} ({convertCode(record?.userId)})
         </span>
       ),
@@ -81,9 +94,7 @@ const SuperAgentLedger = () => {
       title: "Balance",
       dataIndex: "closinBalane",
       key: "closinBalane",
-      render: (text, record) => (
-        <span>{Math.abs(record?.closinBalane)}</span>
-      ),
+      render: (text, record) => <span>{Math.abs(record?.closinBalane)}</span>,
     },
     {
       title: <Money textColor="#FFF" />,
@@ -93,8 +104,7 @@ const SuperAgentLedger = () => {
           style={{ cursor: "pointer" }}
           onClick={() =>
             nav(`/client/txn-super/${Listname}/${userTyep}/${record?.userId}`)
-          }
-        >
+          }>
           <Money textColor="#038fde" />
         </span>
       ),
@@ -106,22 +116,23 @@ const SuperAgentLedger = () => {
       <Card
         className="sport_detail ledger_data led_super"
         title={`${Listname?.replace("-", " ")} Ledger`}
-        extra={<button onClick={handleBackbtn}>Back</button>}
-      >
-        <Row className="main_super_super_ledger" gutter={[12]}>
+        extra={<button onClick={handleBackbtn}>Back</button>}>
+        <Row className="main_super_super_ledger" gutter={[24]}>
           {["Lena", "Dena", "Clear"].map((itemName, index) => (
-            <Col key={index} xl={7} xs={24} lg={7} md={24}>
-              <div className={`super_ledger item${index + 1}`}>
+            <Col key={index} xs={24} lg={8} md={24}>
+              <div
+                className={`super_ledger item${index + 1}`}
+                style={{ width: "100%" }}>
                 <div>{itemName}</div>
                 <div>
                   {itemName === "Dena"
                     ? Math.abs(denaTotal)?.toFixed(2)
                     : itemName === "Clear"
-                    ? clearData.length // show count of clear users
+                    ? clearData.length
                     : Math.abs(lenaTotal)?.toFixed(2)}
                 </div>
               </div>
-              <div className="table_section">
+              <div className="table_section" style={{ width: "100%" }}>
                 <Table
                   className="live_table limit_update"
                   bordered
@@ -133,10 +144,10 @@ const SuperAgentLedger = () => {
                   }}
                   dataSource={
                     itemName === "Clear"
-                      ? clearData // even if [], Table will render with "No Data"
+                      ? clearData
                       : itemName === "Dena"
                       ? denaList
-                      : data?.data?.[itemName.toLowerCase()]
+                      : lenaList
                   }
                 />
               </div>
