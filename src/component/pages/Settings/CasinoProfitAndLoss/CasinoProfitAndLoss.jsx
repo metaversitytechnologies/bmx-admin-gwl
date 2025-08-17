@@ -48,16 +48,22 @@ const CasinoProfitAndLoss = () => {
         title="Diamond Casino Details"
         extra={<button onClick={handleBackClick}>Back</button>}>
         <Row className="profit_apply">
-          <Col xs={24} xl={6} lg={6} md={24}>
+          <Col xs={12} xl={6} lg={6} md={12}>
             <div className="profit_date">
               <RangePicker onChange={handleRangeChange} />
             </div>
           </Col>
-          <Col xs={4} xl={4} lg={4} md={4} className="mb-2 btn_apply">
-            <button className="ant-btn-danger" onClick={() => refetch()}>
+          <Col xs={8} xl={4} lg={4} md={8} className="btn_apply">
+            <button
+              className="ant-btn-danger"
+              onClick={() => refetch()}
+              style={{ whiteSpace: "wrap" }}>
               Apply
             </button>
-            <button className="apply_btn1" onClick={handleTodayClick}>
+            <button
+              className="apply_btn1"
+              onClick={handleTodayClick}
+              style={{ whiteSpace: "wrap" }}>
               Today P/L
             </button>
           </Col>

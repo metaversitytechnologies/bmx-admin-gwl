@@ -1,6 +1,6 @@
 import React from "react";
 
-const Bookmaker = ({ data, pnl, oddsPnlMy }) => {
+const Bookmaker = ({ data, pnl, oddsPnlMy, handleTtlBook, handleOddBook }) => {
   const [showTtlBook, setShowTtlBook] = React.useState(true);
 
   return (
@@ -39,7 +39,10 @@ const Bookmaker = ({ data, pnl, oddsPnlMy }) => {
                                   color: !showTtlBook ? "white" : "black",
                                   fontWeight: 500,
                                 }}
-                                onClick={() => setShowTtlBook(true)}>
+                                onClick={() => {
+                                  setShowTtlBook(true);
+                                  handleOddBook();
+                                }}>
                                 Ttl Book
                               </div>
                               <div
@@ -52,7 +55,10 @@ const Bookmaker = ({ data, pnl, oddsPnlMy }) => {
                                   color: showTtlBook ? "white" : "black",
                                   fontWeight: 500,
                                 }}
-                                onClick={() => setShowTtlBook(false)}>
+                                onClick={() => {
+                                  setShowTtlBook(false);
+                                  handleTtlBook();
+                                }}>
                                 My Book
                               </div>
                             </div>

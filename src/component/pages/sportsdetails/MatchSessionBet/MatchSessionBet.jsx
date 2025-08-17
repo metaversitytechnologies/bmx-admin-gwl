@@ -85,12 +85,11 @@ const MatchSessionBet = () => {
                 <tbody>
                   {matchBets?.data?.matchBets?.betList?.length > 0 ? (
                     matchBets?.data.matchBets?.betList?.map((bet, index) => {
-                      console.log(bet, "betbetbetbet");
                       return (
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{bet?.odds}</td>
-                          <td>{bet?.mode}</td>
+                          <td>{bet?.mode === "K" ? "Lagai" : "KHAI"}</td>
                           <td>{bet?.team}</td>
                           <td>{bet.marketType}</td>
                           <td>{bet?.stake}</td>
@@ -154,7 +153,7 @@ const MatchSessionBet = () => {
                           <td>{item?.rate}</td>
                           <td>{item?.run}</td>
                           <td>{item?.declared}</td>
-                          <td>{item?.mode}</td>
+                          <td>{item?.mode === "YES" ? "NO" : "YES"}</td>
                           <td>{item?.amount}</td>
                           <td
                             style={{

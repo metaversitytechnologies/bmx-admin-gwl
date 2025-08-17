@@ -14,7 +14,6 @@ const AccountOperations = () => {
   const time = moment().format("YYYY-MM-DD");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dateData, setDateData] = useState([timeBefore, time]);
-  const [detailType, setDetailsType] = useState("ALL");
   const onChange = (date, dateString) => {
     setDateData(dateString);
   };
@@ -90,7 +89,7 @@ const AccountOperations = () => {
             <div className="table_section statement_tabs_data">
               <div className="table_section">
                 <Table
-                  className="live_table agent_master"
+                  className="live_table agent_master1"
                   bordered
                   columns={columns}
                   dataSource={data?.data || []}

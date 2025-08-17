@@ -80,7 +80,7 @@ const AllBets = () => {
             <div className="table_section statement_tabs_data">
               <div className="table_section">
                 <Table
-                  className="live_table agent_master"
+                  className="live_table agent_master "
                   bordered
                   columns={columns}
                   dataSource={data?.data || []}

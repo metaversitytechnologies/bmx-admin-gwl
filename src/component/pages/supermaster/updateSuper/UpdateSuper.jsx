@@ -46,20 +46,21 @@ const Responsedata = {
 };
 
 const UpdateSuper = () => {
-  const getUserField = (fieldSuffix) =>
-    resuilt?.data?.[Responsedata?.[id] + fieldSuffix] || 0;
+  const { id, userId } = useParams();
   const [api, contextHolder] = notification.useNotification();
   const [commType, setCommType] = useState("");
   const [form] = Form.useForm();
   const nav = useNavigate();
   const [data, setData] = useState();
 
-  const { id, userId } = useParams();
   const [trigger, { data: updateData, isLoading }] = useUpdateUserMutation();
   const { data: resuilt } = useGetUserQuery(
     { userId },
     { refetchOnMountOrArgChange: true }
   );
+
+  const getUserField = (fieldSuffix) =>
+    resuilt?.data?.[Responsedata?.[id] + fieldSuffix] || 0;
 
   useEffect(() => {
     if (resuilt?.status) {
@@ -84,16 +85,15 @@ const UpdateSuper = () => {
       contact: values.number,
       flatShare: false,
       casinoPlay: true,
-      mobileAppCharge: 0,
+      mobileAppCharge: getUserField("MobileAppCharge"),
       commissionType: isNoComm ? 1 : 2,
       partnership: values?.share,
       casinoPartnership: values?.supercasinocomm,
-      internationalCasinoPartnership: 100,
+      internationalCasinoPartnership: getUserField("IntlCasinoPartnership"),
       matchCommission: isNoComm ? 0 : values?.super_match_comm,
       sessionCommission: isNoComm ? 0 : values?.super_sess_comm,
       casinoCommission: isNoComm ? 0 : values?.sess_comm,
     };
-
     trigger(userData);
     form.resetFields();
   };
@@ -181,23 +181,23 @@ const UpdateSuper = () => {
                     ? "Bet by Bet"
                     : "No Comm",
               },
-              { name: "matchcomm", value: getUserField("MatchCommission") },
+              { name: "matchcomm", value: resuilt?.data?.myMatchCommission },
               {
                 name: "super_match_comm",
-                value: resuilt?.data?.myMatchCommission,
+                value: getUserField("MatchCommission"),
               },
-              { name: "sesscomm", value: getUserField("SessionCommision") },
+              { name: "sesscomm", value: resuilt?.data?.mySessionCommision },
               {
                 name: "super_sess_comm",
-                value: resuilt?.data?.mySessionCommision,
+                value: getUserField("SessionCommision"),
               },
               {
                 name: "sess_comm",
-                value: resuilt?.data?.myCasinoCommission,
+                value: getUserField("CasinoCommission"),
               },
               {
                 name: "super_casino_share",
-                value: getUserField("CasinoPartnership"),
+                value: resuilt?.data?.myCasinoPartnership,
               },
               {
                 name: "matchShare",
@@ -205,11 +205,11 @@ const UpdateSuper = () => {
               },
               {
                 name: "super_casino_comm",
-                value: getUserField("CasinoCommission"),
+                value: resuilt?.data?.myCasinoCommission,
               },
               {
                 name: "supercasinocomm",
-                value: resuilt?.data?.myCasinoPartnership,
+                value: getUserField("CasinoPartnership"),
               },
               {
                 name: "share",

@@ -35,6 +35,21 @@ const GameDeatis = () => {
     });
   }, [id]);
 
+  const handleTtlBook = ()=>{
+     triggerMy({
+      matchId: id ?? "",
+      matchCompleted: true,
+      userId: "",
+    });
+  }
+  const handleOddBook = ()=>{
+      trigger({
+      matchId: id ?? "",
+      matchCompleted: true,
+      userId: "",
+    });
+  }
+
   return (
     <Row justify="center" className="main_details_page">
       <Col xs={24} lg={24}>
@@ -77,6 +92,8 @@ const GameDeatis = () => {
                     data={data}
                     pnl={oddsPnl?.data}
                     oddsPnlMy={oddsPnlMy?.data}
+                    handleTtlBook={handleTtlBook}
+                    handleOddBook={handleOddBook}
                   />
                   <FancyData
                     data={data}

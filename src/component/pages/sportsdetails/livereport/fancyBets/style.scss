@@ -55,3 +55,17 @@ a.gx-bg-primary:focus,
 a.gx-bg-primary:hover {
   background-color: #038fde !important;
 }
+
+.mobile-open {
+  display: none !important;
+  @media screen and (max-width: 800px) {
+    display: flex !important;
+  }
+}
+
+.deskOpen {
+  display: flex !important;
+  @media screen and (max-width: 800px) {
+    display: none !important;
+  }
+}

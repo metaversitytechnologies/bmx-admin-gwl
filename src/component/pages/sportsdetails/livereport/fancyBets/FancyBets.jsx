@@ -77,7 +77,7 @@ const FancyBets = ({ setFancyId, fancyId }) => {
           width: "100%",
         }}
         className="sport_detail matched_bets">
-        <div className="gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+        <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
           Fancy Bets - {filteredAllfancy?.length || 0}
           {fancyId && (
             <button
@@ -123,6 +123,72 @@ const FancyBets = ({ setFancyId, fancyId }) => {
             className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
             <span className="ml-1 px-1">PDF</span>
           </button>
+        </div>
+
+        <div className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+          <div>
+            <div style={{ textAlign: "center", textTransform: "uppercase" }}>
+              Fancy Bets - {filteredAllfancy?.length || 0}
+            </div>
+
+            <Input
+              style={{ width: "150px", height: "33px" }}
+              placeholder="Search Client..."
+              value={searchTermfancy}
+              onChange={(e) => setSearchTermfancy(e.target.value)}
+            />
+          </div>
+          <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
+            <div
+              style={{ textAlign: "center" }}
+              className=" gx-font-weight-semi-bold OddsType">
+              OddsType
+            </div>
+            <Select
+              style={{ width: 150 }}
+              defaultValue="All OddsType"
+              value={fancyId}
+              onChange={(value) => setFancyId(value)}
+              options={[
+                { value: "", label: "All Fancies" },
+                ...(sessionBets?.data || []).map((item) => ({
+                  value: item.fancyId,
+                  label: item.fancyName,
+                })),
+              ]}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "4px",
+            }}>
+            {fancyId && (
+              <button
+                type="button"
+                className="ant-btn ant-btn-default gx-my-0  gx-bg-primary gx-text-white"
+                style={{ fontWeight: 400 }}
+                onClick={() => {
+                  setFancyId("");
+                  triggerSessionBets({
+                    matchId: id,
+                    userId: "",
+                    marketId: "",
+                    matchCompleted: false,
+                  });
+                }}>
+                <span>All Fancy</span>
+              </button>
+            )}
+            <button
+              type="button"
+              className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
+              <span className="ml-1 px-1">PDF</span>
+            </button>
+          </div>
         </div>
 
         <div className="table_section">
@@ -227,7 +293,7 @@ const FancyBets = ({ setFancyId, fancyId }) => {
           width: "100%",
         }}
         className="sport_detail matched_bets">
-        <div className="gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+        <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
           Match Bets - {filteredAllOdds?.length || 0}
           <div
             className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase"
@@ -238,6 +304,49 @@ const FancyBets = ({ setFancyId, fancyId }) => {
               onChange={(e) => setSearchTermOdds(e.target.value)}
             />
             <span className=" gx-font-weight-semi-bold OddsType">OddsType</span>
+            <Select
+              style={{ width: 150 }}
+              defaultValue="All OddsType"
+              value={oddsType}
+              onChange={(value) => setOddsType(value)}
+              options={[
+                // {
+                //   value: "All",
+                //   label: "All OddsType",
+                // },
+                {
+                  value: "Bookmaker",
+                  label: "Bookmaker",
+                },
+              ]}
+            />
+          </div>
+          <button
+            type="button"
+            className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
+            <span className="ml-1 px-1">PDF</span>
+          </button>
+        </div>
+
+        <div className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+          <div>
+            <div style={{ textAlign: "center", textTransform: "uppercase" }}>
+              Match Bets - {filteredAllOdds?.length || 0}
+            </div>
+            <div className="  gx-text-white gx-text-uppercase">
+              <Input
+                placeholder="Search Client..."
+                value={searchTermOdds}
+                onChange={(e) => setSearchTermOdds(e.target.value)}
+              />
+            </div>
+          </div>
+          <div>
+            <div
+              style={{ textAlign: "center", textTransform: "uppercase" }}
+              className=" gx-font-weight-semi-bold OddsType">
+              OddsType
+            </div>
             <Select
               style={{ width: 150 }}
               defaultValue="All OddsType"

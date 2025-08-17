@@ -14,7 +14,10 @@ const MatchLedgerCasino = () => {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>
-          <Link className="gx-text-blue" style={{ fontWeight: 400 }}>
+          <Link
+            to={`/casino/${items?.tableId}`}
+            className="gx-text-blue"
+            style={{ fontWeight: 400 }}>
             {items?.name}
           </Link>
         </td>

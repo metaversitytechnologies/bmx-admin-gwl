@@ -119,12 +119,12 @@ const CasinoProfitAndLossDetails = () => {
         title="Diamond Casino Details"
         extra={<button onClick={handleBackClick}>Back</button>}>
         <Row className="profit_apply">
-          <Col xs={24} xl={6} lg={6} md={24}>
+          <Col xs={12} xl={6} lg={6} md={12}>
             <div className="profit_date">
               <RangePicker onChange={handleRangeChange} />
             </div>
           </Col>
-          <Col xs={24} xl={8} lg={8} md={24}>
+          <Col xs={12} xl={8} lg={8} md={12}>
             <Select
               placeholder="Select Client"
               onSearch={(value) => {
@@ -147,7 +147,7 @@ const CasinoProfitAndLossDetails = () => {
               }
             />
           </Col>
-          <Col xs={4} xl={4} lg={4} md={4} className="mb-2 btn_apply">
+          <Col xs={6} xl={4} lg={4} md={6} className="mb-2 btn_apply">
             <button className="ant-btn-danger">Apply</button>
             <button className="apply_btn1" onClick={handleTodayClick}>
               Today P/L

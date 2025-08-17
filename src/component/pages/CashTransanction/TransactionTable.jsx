@@ -61,8 +61,9 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
 
   const totalCreadit = data?.reduce((acc, item) => acc + item.credit, 0) || 0;
   const totalDebit = data?.reduce((acc, item) => acc + item.debit, 0) || 0;
-  const totalBalance =
-    data?.reduce((acc, item) => acc + Number(item.balance || 0), 0) || 0;
+  // const totalBalance =
+  //   data?.reduce((acc, item) => acc + Number(item.balance || 0), 0) || 0;
+  const totalBalance = totalCreadit - totalDebit;
 
   const items = (id) => [
     {
@@ -91,7 +92,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
       {contextHolder}
       <div className="my_ledger" style={{ padding: "12px 0px" }}>
         <div>
-          <h3 style={{ padding: "5px", color: "rgb(214, 75, 75)" }}>
+          <h3 style={{ padding: "5px", color: "red" }}>
             Dena : {totalCreadit?.toFixed(2)}
           </h3>
         </div>
@@ -104,7 +105,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
           <h3
             style={{ padding: "5px" }}
             className={totalBalance < 0 ? "text_danger" : "text_success"}>
-            Balance: {totalBalance?.toFixed(2)}{" "}
+            Balance: {(-1 * totalBalance)?.toFixed(2)}{" "}
             {totalBalance > 0 ? "(Lena)" : "(Dena)"}
           </h3>
         </div>
@@ -179,7 +180,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                     {res?.credit}
                   </td>
                   <td style={{ whiteSpace: "nowrap" }} className="text-right">
-                    {res?.balance?.toFixed(2)} (
+                    {(-1 * res?.balance)?.toFixed(2)} (
                     {res?.balance > 0 ? "Lena" : "Dena"})
                   </td>
                   <td style={{ whiteSpace: "nowrap" }}>{res?.paymentType}</td>

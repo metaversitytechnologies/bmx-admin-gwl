@@ -65,14 +65,14 @@ const SecureCode = () => {
             style={{
               padding: "12px 20px",
             }}>
-            <Col xs={24} md={24} lg={7} xl={7}>
+            <Col xs={18} md={18} lg={7} xl={7}>
               <Input
                 style={{ height: "36px", borderRadius: "0px" }}
                 placeholder="Enter"
                 onChange={(e) => setClientId(convertCodeReverse(e.target.value))}
               />
             </Col>
-            <Col xs={24} md={24} lg={7} xl={7}>
+            <Col xs={6} md={6} lg={7} xl={7}>
               <Button
                 type="primary"
                 style={{ height: "36px" }}

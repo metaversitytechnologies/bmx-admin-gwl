@@ -92,7 +92,7 @@
   display: -ms-flex;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   -ms-align-items: flex-start;
   align-items: flex-start;
 }

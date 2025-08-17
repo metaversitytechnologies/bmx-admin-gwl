@@ -167,7 +167,7 @@ const FancySlips = ({ name }) => {
                   label="Select OddsType"
                   required={false}
                   // rules={[{ required: true, message: "Please Odd Type User" }]}
-                  >
+                >
                   <Select
                     placeholder="Select User"
                     value={oddsType}
@@ -216,10 +216,10 @@ const FancySlips = ({ name }) => {
                     matchBets?.data?.betList.map((res, id) => (
                       <tr
                         key={id}
-                        className={res?.mode !== "L" ? "lay" : "back"}>
+                        className={res?.mode !== "L" ? "back" : "lay"}>
                         <td>{res?.odds}</td>
                         <td>{res?.stake}</td>
-                        <td>{res?.mode === "L" ? "Lagai" : "Khai"}</td>
+                        <td>{res?.mode === "L" ? "Khai" : "Lagai"}</td>
                         <td>{res?.team}</td>
                         <td>
                           {res?.username} ({res?.userId})

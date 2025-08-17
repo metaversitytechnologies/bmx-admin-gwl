@@ -1,9 +1,12 @@
 import { Card, Col, Row, Select, Table } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useGetCompletedFancyMutation } from "../../../../../store/service/SportDetailServices";
+import { useLazyFilterbyClientQuery } from "../../../../../store/service/supermasteAccountStatementServices";
 
 const CompeleteFancy = () => {
+  const [clientId, setClientId] = useState("");
+
   const { pathname } = useLocation();
 
   const nav = useNavigate();
@@ -60,17 +63,15 @@ const CompeleteFancy = () => {
       title: "PNL",
       dataIndex: "pnl",
       key: "pnl",
-      render:(text)=>(
-        <span>{text?.toFixed(2)}</span>
-      )
+      render: (text) => <span>{text?.toFixed(2)}</span>,
     },
   ];
-
+  const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
   const [trigger, { data, isLoading, isFetching }] =
     useGetCompletedFancyMutation();
 
   useEffect(() => {
-    trigger({ matchId: id });
+    trigger({ matchId: id, userId: clientId });
   }, [id]);
 
   const totalPnl = data?.data?.reduce((acc, item) => acc + item.pnl, 0) || 0;
@@ -103,16 +104,29 @@ const CompeleteFancy = () => {
             <Col xs={24} md={24} lg={6} xl={6}>
               <Select
                 placeholder="Select User"
-                options={[]}
                 showSearch
-                allowClear
-                // onSelect={(value) => setClientId(value)}
+                onSearch={(value) => {
+                  if (value) userTrigger({ userId: value, userType: 1 });
+                }}
+                value={clientId}
+                onSelect={(value) => setClientId(value)}
+                options={
+                  userData?.data?.map((user) => ({
+                    label: `${user.userName} (${user.userId})`,
+                    value: user.userId,
+                  })) || []
+                }
               />
             </Col>
             <Col xs={24} md={24} lg={6} xl={6}>
               <Select
-                placeholder="Select User"
-                options={[]}
+                placeholder="Select Fancy"
+                options={[
+                  {
+                    value: "All",
+                    label: "All Fancy",
+                  },
+                ]}
                 showSearch
                 allowClear
                 // onSelect={(value) => setClientId(value)}
@@ -131,7 +145,7 @@ const CompeleteFancy = () => {
           <div className="table_section statement_tabs_data">
             <div className="table_section">
               <Table
-                className="live_table agent_master"
+                className="live_table agent_master1"
                 bordered
                 columns={columns}
                 dataSource={data?.data || []}

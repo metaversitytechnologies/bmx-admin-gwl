@@ -47,7 +47,7 @@ const UserSearch = () => {
             <div className="user_section">
               <Row>
                 <Col xs={24} md={24} lg={1} xl={1}></Col>
-                <Col xs={24} md={24} lg={8} xl={8}>
+                <Col xs={18} md={18} lg={8} xl={8}>
                   <Input
                     placeholder="Enter"
                     className="user_search_inp"
@@ -55,7 +55,7 @@ const UserSearch = () => {
                     onChange={handleChange}
                   />
                 </Col>
-                <Col xs={24} md={24} lg={2} xl={2}>
+                <Col xs={6} md={6} lg={2} xl={2}>
                   <Button
                     type="primary"
                     className="show_btn_user"

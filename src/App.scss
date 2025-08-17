@@ -736,5 +736,31 @@ th.ant-table-cell {
 }
 
 .gx-bg-yellow {
-    background-color: #fadb14 !important;
+  background-color: #fadb14 !important;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
+  .ant-table-tbody
+  > tr.ant-table-row:hover
+  > th,
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
+  .ant-table-tbody
+  > tr.ant-table-row:hover
+  > td,
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
+  .ant-table-tbody
+  > tr
+  > th.ant-table-cell-row-hover,
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
+  .ant-table-tbody
+  > tr
+  > td.ant-table-cell-row-hover {
+  background: transparent !important;
+}
+
+.agent_master tbody tr {
+  background: #13bf35;
+  td {
+    color: #000 !important;
+  }
 }

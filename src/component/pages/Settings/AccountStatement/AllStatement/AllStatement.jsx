@@ -64,7 +64,7 @@ const AllStatement = ({ dateData, isLoading }) => {
       <div className="table_section statement_tabs_data">
         <div className="table_section">
           <Table
-            className="live_table statemt_account agent_master"
+            className="live_table statemt_account agent_master1"
             bordered
             rowClassName="c_pointer"
             // onRow={(record, rowIndex) => {

@@ -63,7 +63,11 @@ const MyLedger = () => {
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
-  const { data: ledgerData, isLoading, isFetching } = useGetMyLedgerQuery({
+  const {
+    data: ledgerData,
+    isLoading,
+    isFetching,
+  } = useGetMyLedgerQuery({
     ledgerType: "ALL",
     fromDate: timeBefore,
     toDate: time,
@@ -73,11 +77,13 @@ const MyLedger = () => {
     ledgerData?.data?.reduce((acc, item) => acc + item.credit, 0) || 0;
   const totalDebit =
     ledgerData?.data?.reduce((acc, item) => acc + item.debit, 0) || 0;
-  const totalBalance =
-    ledgerData?.data?.reduce(
-      (acc, item) => acc + Number(item.balance || 0),
-      0
-    ) || 0;
+  // const totalBalance =
+  //   ledgerData?.data?.reduce(
+  //     (acc, item) => acc + Number(item.balance || 0),
+  //     0
+  //   ) || 0;
+
+  const totalBalance = totalCreadit - totalDebit;
 
   return (
     <>

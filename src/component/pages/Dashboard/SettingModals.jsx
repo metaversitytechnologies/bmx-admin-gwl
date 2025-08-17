@@ -48,7 +48,8 @@ const SettingModals = ({ setOpenModals, openModal }) => {
           </Col>
           <Col md={12} xs={24}>
             <Card bordered={false}>
-              <Link to={`client/account-operations/${userId}`}>
+              {/* /client/account-operations/${dataVal} */}
+              <Link to={`/account-operation/${userId}`}>
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">
                     <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">

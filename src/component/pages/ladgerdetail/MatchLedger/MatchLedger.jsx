@@ -33,6 +33,7 @@ const MatchLedger = () => {
       title: "Debit",
       dataIndex: "debit",
       key: "debit",
+       render: (text) => <span className="text_danger">{text}</span>,
     },
     {
       title: "Credit",
@@ -72,13 +73,13 @@ const MatchLedger = () => {
         title="Profit Loss"
         extra={<button onClick={() => nav(-1)}>Back</button>}>
         <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
-          <Col lg={6} xs={20} className="match_ladger profit_loss_ledger">
+          <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
             <DatePicker.RangePicker
               defaultValue={[dayjs(timeBefore), dayjs(time)]}
               onChange={onChange}
             />
           </Col>
-          <Col lg={6} xs={20} className="match_ladger profit_loss_ledger">
+          <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
             <Select
               style={{ width: "100%" }}
               placeholder="Select Game Type"
@@ -104,7 +105,7 @@ const MatchLedger = () => {
               allowClear
             />
           </Col>
-          <Col lg={6} xs={12}>
+          <Col lg={6} xs={8}>
             <div className="matchladger_total">
               <p style={{ fontSize: "20px" }}>
                 Total:{" "}
