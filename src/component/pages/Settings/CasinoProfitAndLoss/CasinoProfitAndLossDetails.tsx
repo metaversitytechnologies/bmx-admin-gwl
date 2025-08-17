@@ -109,7 +109,6 @@ const CasinoProfitAndLossDetails = () => {
     });
   };
 
-  console.log(casinoData?.data, "casinoDatacasinoData");
 
   return (
     <div className="match_slip casino_diamond_details">

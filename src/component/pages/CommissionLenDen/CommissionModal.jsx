@@ -1,0 +1,84 @@
+import { Card, Modal, Row, Table } from "antd";
+import { useNavigate } from "react-router-dom";
+
+const CommissionModal = ({ openModal, setOpenModals }) => {
+  const nav = useNavigate();
+  const columns = [
+    {
+      title: "DATE",
+      dataIndex: "date",
+      key: "date",
+      onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+    },
+    {
+      title: "M Comm",
+      dataIndex: "userId",
+      key: "userId",
+    },
+    {
+      title: "S Comm",
+      dataIndex: "marketId",
+      key: "marketId",
+    },
+    {
+      title: "C Comm",
+      dataIndex: "selectionName",
+      key: "selectionName",
+    },
+    {
+      title: "Done By",
+      dataIndex: "winner",
+      key: "winner",
+    },
+  ];
+  const handleBackClick = () => {
+    nav(-1);
+  };
+  return (
+    <Modal
+      width={800}
+      onCancel={() => setOpenModals(false)}
+      className="modal_deposit"
+      title={
+        <h1>
+          <span>Commission Modal</span>
+        </h1>
+      }
+      footer={
+        <button
+          onClick={() => setOpenModals(false)}
+          className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
+          Close
+        </button>
+      }
+      closable={{ "aria-label": "Custom Close Button" }}
+      open={openModal}>
+      <div className="match_slip">
+        <Card
+          style={{ margin: 0, width: "100%" }}
+          className="sport_detail"
+          title="Comm Lena Dena History"
+          extra={<button onClick={handleBackClick}>Back</button>}>
+          <div className="table_section comm_dsata_table">
+            <Table
+              className="live_table acc_tabel limit_update"
+              bordered
+              rowClassName={(record) =>
+                record?.pnl < 0 ? "red_back" : "green_back"
+              }
+              columns={columns}
+              // loading={{
+              //   spinning: isLoading || isFetching,
+              //   indicator: <CustomLoading />,
+              // }}
+              dataSource={[]}
+              pagination={false}
+            />
+          </div>
+        </Card>
+      </div>
+    </Modal>
+  );
+};
+
+export default CommissionModal;

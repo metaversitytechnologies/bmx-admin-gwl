@@ -4,7 +4,6 @@ import {
   Col,
   DatePicker,
   Empty,
-  Input,
   Row,
   Select,
   Space,
@@ -13,21 +12,27 @@ import {
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-// import { useGetCommissionMutation } from "../../../store/service/CasinoServices";
 import { useLazyFilterbyClientQuery } from "../../../store/service/supermasteAccountStatementServices";
 import { useGetCommitionReportMutation } from "../../../store/service/SportDetailServices";
+import CommissionModal from "./CommissionModal";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import UserCommissionModal from "./UserCommissionModal";
 
 const { RangePicker } = DatePicker;
 
 const CommissionLenDen = () => {
+  const [open, setOpen] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
   const [clientId, setClientId] = useState("");
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
+  const userType = localStorage.getItem("userType");
+
   const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
 
-  const [trigger, { data }] = useGetCommitionReportMutation();
+  const [trigger, { data, isLoading }] = useGetCommitionReportMutation();
 
   useEffect(() => {
     trigger({ userId: clientId, fromDate: dateData[0], toDate: dateData[1] });
@@ -37,17 +42,20 @@ const CommissionLenDen = () => {
     setDateData(dateString);
   };
 
-  
-
   useEffect(() => {
     userTrigger({
       userType: 2,
     });
   }, []);
 
+  const handleApply = () => {
+    trigger({ userId: clientId, fromDate: dateData[0], toDate: dateData[1] });
+  };
+
   return (
     <>
-      <div className="match_slip login_report">
+      <div className="match_slip login_report" style={{ position: "relative" }}>
+        {isLoading && <CustomLoading />}
         <Card
           style={{
             margin: "0px",
@@ -86,24 +94,26 @@ const CommissionLenDen = () => {
                 )}
               />
             </Col>
-            <Col xl={7} lg={7} md={15} xs={15}>
-              <Select
-                placeholder="Select User"
-                showSearch
-                onSearch={(value) => {
-                  if (value) userTrigger({ userId: value, userType: 2 });
-                }}
-                value={clientId}
-                allowClear
-                onSelect={(value) => setClientId(value)}
-                options={
-                  userData?.data?.map((user) => ({
-                    label: `${user.userName} (${user.userId})`,
-                    value: user.userId,
-                  })) || []
-                }
-              />
-            </Col>
+            {userType != 2 && (
+              <Col xl={7} lg={7} md={15} xs={15}>
+                <Select
+                  placeholder="Select User"
+                  showSearch
+                  onSearch={(value) => {
+                    if (value) userTrigger({ userId: value, userType: 2 });
+                  }}
+                  value={clientId}
+                  allowClear
+                  onSelect={(value) => setClientId(value)}
+                  options={
+                    userData?.data?.map((user) => ({
+                      label: `${user.userName} (${user.userId})`,
+                      value: user.userId,
+                    })) || []
+                  }
+                />
+              </Col>
+            )}
             <Col xl={2} lg={2} md={24} xs={24}>
               <Button
                 type="ghost"
@@ -112,7 +122,8 @@ const CommissionLenDen = () => {
                   color: "#fff",
                   borderRadius: "unset",
                   height: "36px",
-                }}>
+                }}
+                onClick={handleApply}>
                 Apply
               </Button>
             </Col>
@@ -144,20 +155,76 @@ const CommissionLenDen = () => {
 
               {data?.data?.length > 0 ? (
                 data?.data?.map((items) => {
+                  const isUser = items?.userId?.startsWith("C");
+
                   return (
-                    <tr key={items?.userid}>
-                      <td>
-                        {items?.userId} ({items?.userName})
+                    <tr
+                      key={items?.userid}
+                      style={{
+                        background: isUser ? "#fff" : "#000",
+                        color: "#fff",
+                      }}>
+                      <td
+                        style={{
+                          color: isUser ? "#000" : "#fff",
+                          fontWeight: 600,
+                        }}>
+                        <span
+                          className="gx-text-blue gx-text-nowrap"
+                          onClick={() => setOpenUser(!openUser)}>
+                          <span className="gx-px-2 ">
+                            {" "}
+                            {items?.userName} ({items?.userId})
+                          </span>
+                          <i className="icon icon-view-o"></i>
+                        </span>
                       </td>
-                      <td>{items?.matchCommMila}</td>
-                      <td>{items?.sessionCommMila}</td>
-                      <td>{items?.casinoCommMila}</td>
-                      <td>{items?.totalCommMila}</td>
-                      <td>{items?.matchCommDena}</td>
-                      <td>{items?.sessionCommDena}</td>
-                      <td>{items?.casinoCommDena}</td>
-                      <td>{items?.totalCommDena}</td>
-                      <td>{items?.leftCommission}</td>
+                      <td style={{ color: "green", fontWeight: 600 }}>
+                        {items?.matchCommMila?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "green", fontWeight: 600 }}>
+                        {items?.sessionCommMila?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "green", fontWeight: 600 }}>
+                        {items?.casinoCommMila?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "green", fontWeight: 600 }}>
+                        {items?.totalCommMila?.toFixed(2)}
+                      </td>
+                      <td>
+                        {isUser && (
+                          <div className="ant-row gx-pl-4">
+                            <div className="ant-col">
+                              <Button
+                                type="button"
+                                className="ant-btn ant-btn-default gx-bg-grey gx-text-white">
+                                <span>Reset</span>
+                              </Button>
+                              <Button
+                                type="button"
+                                className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
+                                onClick={() => setOpen(!open)}>
+                                <span>History</span>
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </td>
+                      <td style={{ color: "red", fontWeight: 600 }}>
+                        {items?.matchCommDena?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "red", fontWeight: 600 }}>
+                        {items?.sessionCommDena?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "red", fontWeight: 600 }}>
+                        {items?.casinoCommDena?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "red", fontWeight: 600 }}>
+                        {items?.totalCommDena?.toFixed(2)}
+                      </td>
+                      <td style={{ color: "green", fontWeight: 600 }}>
+                        {items?.leftCommission?.toFixed(2) || "0.00"}
+                      </td>
                     </tr>
                   );
                 })
@@ -173,6 +240,8 @@ const CommissionLenDen = () => {
           </div>
         </Card>
       </div>
+      <CommissionModal setOpenModals={setOpen} openModal={open} />
+      <UserCommissionModal setOpenModals={setOpenUser} openModal={openUser} />
     </>
   );
 };

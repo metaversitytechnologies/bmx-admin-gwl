@@ -71,8 +71,6 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
     },
   ];
 
-  
-
   return (
     <>
       <Modal
@@ -104,6 +102,13 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
               spinning: isLoading,
               indicator: <CustomLoading />,
             }}
+            rowClassName={(record) => {
+              if (record?.marketType === "Fancy") {
+                return record?.back ? "bacl" : "lay";
+              } else {
+                return record?.back ? "back" : "lay";
+              }
+            }}
             summary={(pageData) => {
               let totalProfit = 0;
               let totalLoss = 0;
@@ -119,10 +124,12 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
                     <strong>Total</strong>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell index={6}>
-                    <strong>{totalLoss.toFixed(2)}</strong>
+                    <strong style={{ color: totalLoss > 0 ? "green" : "red" }}>
+                      {totalLoss.toFixed(2)}
+                    </strong>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell index={7}>
-                    <strong>{totalProfit.toFixed(2)}</strong>
+                    <strong style={{ color: totalProfit > 0 ? "green" : "red" }}>{totalProfit.toFixed(2)}</strong>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
               );
