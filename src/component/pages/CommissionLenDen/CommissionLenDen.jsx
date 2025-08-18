@@ -30,6 +30,7 @@ const CommissionLenDen = () => {
     moment().subtract(14, "days").format("YYYY-MM-DD"),
     moment().format("YYYY-MM-DD"),
   ]);
+  const userId = localStorage.getItem("userId");
   const [totals, setTotals] = useState({
     mMatch: 0,
     mSession: 0,
@@ -50,8 +51,12 @@ const CommissionLenDen = () => {
 
   // ----------------- Effects -----------------
   useEffect(() => {
-    trigger({ userId: clientId, fromDate: dateData[0], toDate: dateData[1] });
-  }, [clientId, dateData]);
+    trigger({
+      userId: userType == 2 ? userId : clientId,
+      fromDate: dateData[0],
+      toDate: dateData[1],
+    });
+  }, [clientId, dateData, userType]);
 
   useEffect(() => {
     userTrigger({ userType: 2 });
@@ -102,16 +107,18 @@ const CommissionLenDen = () => {
     }
   }, [data]);
 
-  // ----------------- Handlers -----------------
   const handleApply = () => {
-    trigger({ userId: clientId, fromDate: dateData[0], toDate: dateData[1] });
+    trigger({
+      userId: userType == 2 ? userId : clientId,
+      fromDate: dateData[0],
+      toDate: dateData[1],
+    });
   };
 
   const handleDateChange = (_, dateString) => {
     setDateData(dateString);
   };
 
-  // ----------------- JSX -----------------
   return (
     <>
       <div className="match_slip login_report" style={{ position: "relative" }}>
@@ -263,12 +270,7 @@ const CommissionLenDen = () => {
                   data.data.map((items) => {
                     const isUser = items?.userId?.startsWith("C");
                     return (
-                      <tr
-                        key={items?.userId}
-                        style={{
-                          background: isUser ? "#fff" : "#000",
-                          color: isUser ? "#000" : "#fff",
-                        }}>
+                      <tr key={items?.userId}>
                         <td style={{ fontWeight: 600 }}>
                           <span
                             className="gx-text-blue gx-text-nowrap"

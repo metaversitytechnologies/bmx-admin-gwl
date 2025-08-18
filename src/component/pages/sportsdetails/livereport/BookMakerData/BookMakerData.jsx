@@ -35,6 +35,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
     setShowMyBook(2);
     const oddsPnl = {
       matchId: Number(id),
+      matchCompleted: false,
     };
     trigger(oddsPnl);
   };
@@ -43,6 +44,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
     setShowMyBook1(2);
     const oddsPnl = {
       matchId: Number(id),
+      matchCompleted: false,
     };
     trigger(oddsPnl);
   };
@@ -56,6 +58,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
       });
     const oddsPnl = {
       matchId: Number(id),
+      matchCompleted: false,
     };
     trigger(oddsPnl);
   }, [matchid]);

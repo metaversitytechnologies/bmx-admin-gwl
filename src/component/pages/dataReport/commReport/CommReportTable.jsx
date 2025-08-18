@@ -18,7 +18,6 @@ const CommReportTable = ({ data, isLoading, setPaginationTotal, paginationTotal,
 
 //   console.log(commLiya, commDiya, "dscdscs");
 
-console.log(data, "adssssa")
 
   return (
     <>

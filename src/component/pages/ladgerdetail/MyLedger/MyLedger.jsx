@@ -83,7 +83,8 @@ const MyLedger = () => {
   //     0
   //   ) || 0;
 
-  const totalBalance = totalCreadit - totalDebit;
+  // const totalBalance = totalCreadit - totalDebit;
+  const totalBalance = totalDebit - totalCreadit;
 
   return (
     <>
@@ -97,7 +98,7 @@ const MyLedger = () => {
         <div className="my_ledger">
           <div>
             <h3 style={{ padding: "5px", color: "green", fontSize: "20px" }}>
-              Lena : {totalCreadit?.toFixed(2)}
+              Lena :{totalDebit?.toFixed(2)}
             </h3>
           </div>
           <div>
@@ -107,7 +108,7 @@ const MyLedger = () => {
                 color: "rgb(214, 75, 75)",
                 fontSize: "20px",
               }}>
-              Dena : {totalDebit?.toFixed(2)}
+              Dena : {totalCreadit?.toFixed(2)}
             </h3>
           </div>
           <div>

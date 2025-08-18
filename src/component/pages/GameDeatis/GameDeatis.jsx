@@ -25,12 +25,12 @@ const GameDeatis = () => {
   useEffect(() => {
     trigger({
       matchId: id ?? "",
-      matchCompleted: true,
+      matchCompleted: false,
       userId: "",
     });
     triggerMy({
       matchId: id ?? "",
-      matchCompleted: true,
+      matchCompleted: false,
       userId: "",
     });
   }, [id]);
@@ -38,14 +38,14 @@ const GameDeatis = () => {
   const handleTtlBook = ()=>{
      triggerMy({
       matchId: id ?? "",
-      matchCompleted: true,
+      matchCompleted: false,
       userId: "",
     });
   }
   const handleOddBook = ()=>{
       trigger({
       matchId: id ?? "",
-      matchCompleted: true,
+      matchCompleted: false,
       userId: "",
     });
   }

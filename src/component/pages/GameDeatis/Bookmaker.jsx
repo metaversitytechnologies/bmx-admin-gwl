@@ -125,6 +125,14 @@ const Bookmaker = ({ data, pnl, oddsPnlMy, handleTtlBook, handleOddBook }) => {
                             ]
                           : [];
 
+                        const pnlOdds = showTtlBook
+                          ? plnOddsArray?.find(
+                              (element) => element?.selectionId == runner?.sid
+                            )?.pnl || 0
+                          : plnOddsArrayMy?.find(
+                              (element) => element?.selectionId == runner?.sid
+                            )?.pnl || 0;
+
                         return (
                           <tr
                             key={runner?.selectionId}
@@ -137,23 +145,11 @@ const Bookmaker = ({ data, pnl, oddsPnlMy, handleTtlBook, handleOddBook }) => {
                                 </div>
                                 <div
                                   className={
-                                    plnOddsArray?.find(
-                                      (element) =>
-                                        element?.selectionId ==
-                                        runner?.selectionId
-                                    )
+                                    pnlOdds > 0
                                       ? "gx-text-success"
                                       : "gx-text-danger"
                                   }>
-                                  {showTtlBook
-                                    ? plnOddsArray?.find(
-                                        (element) =>
-                                          element?.selectionId == runner?.sid
-                                      )?.pnl || 0
-                                    : plnOddsArrayMy?.find(
-                                        (element) =>
-                                          element?.selectionId == runner?.sid
-                                      )?.pnl || 0}
+                                  {pnlOdds?.toFixed(2)}
                                 </div>
                               </div>
                             </td>

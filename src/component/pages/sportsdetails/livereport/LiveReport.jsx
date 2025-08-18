@@ -53,6 +53,7 @@ const LiveReport = () => {
       });
     const oddsPnl = {
       matchId: Number(id),
+      matchCompleted: false,
     };
     trigger(oddsPnl);
     winnerPnl({
@@ -69,6 +70,7 @@ const LiveReport = () => {
     setActiveBookData(1);
     const oddsPnl = {
       matchId: Number(id),
+      matchCompleted: false
     };
     trigger(oddsPnl);
   };
@@ -111,7 +113,6 @@ const LiveReport = () => {
       }
     : {};
 
-
   return (
     <>
       {isLoading ? (
@@ -140,7 +141,7 @@ const LiveReport = () => {
                                   cursor: "pointer",
                                   backgroundColor: "rgb(235, 109, 136)",
                                   color: "white",
-                                   fontSize:"16px"
+                                  fontSize: "16px",
                                 }}
                                 onClick={(e) => handleTtlBook(e)}>
                                 Ttl Book
@@ -150,7 +151,7 @@ const LiveReport = () => {
                                   padding: "6px 8px",
                                   cursor: "pointer",
                                   backgroundColor: "rgb(255, 255, 255)",
-                                   fontSize:"16px"
+                                  fontSize: "16px",
                                 }}>
                                 {" "}
                                 My Book

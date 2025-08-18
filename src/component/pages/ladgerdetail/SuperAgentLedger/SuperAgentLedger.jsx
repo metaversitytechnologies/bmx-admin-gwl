@@ -35,11 +35,11 @@ const SuperAgentLedger = () => {
 
   // totals
   const denaTotal = Array.isArray(denaList)
-    ? denaList.reduce((acc, curr) => acc + (curr?.currentBalance || 0), 0)
+    ? denaList.reduce((acc, curr) => acc + (curr?.closinBalane || 0), 0)
     : 0;
 
   const lenaTotal = Array.isArray(lenaList)
-    ? lenaList.reduce((acc, curr) => acc + (curr?.currentBalance || 0), 0)
+    ? lenaList.reduce((acc, curr) => acc + (curr?.closinBalane || 0), 0)
     : 0;
 
   // filter Clear, Dena, Lena with parentId check
