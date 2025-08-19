@@ -262,7 +262,7 @@ const AddDetails = ({
         key: "adminP",
       },
       {
-        title: `${data?.data?.[0]?.team1}`,
+        title: `${data?.data?.dataList?.[0]?.team1}`,
         dataIndex: "team1Pnl",
         key: "team1Pnl",
         render: (value) => (
@@ -270,7 +270,7 @@ const AddDetails = ({
         ),
       },
       {
-        title: `${data?.data?.[0]?.team2}`,
+        title: `${data?.data?.dataList?.[0]?.team2}`,
         dataIndex: "team2Pnl",
         key: "team2Pnl",
         render: (value) => (
@@ -278,7 +278,7 @@ const AddDetails = ({
         ),
       },
       {
-        title: `${data?.data?.[0]?.team3}`,
+        title: `${data?.data?.dataList?.[0]?.team3}`,
         dataIndex: "team3Pnl",
         key: "team3Pnl",
         render: (value) => (
@@ -342,8 +342,8 @@ const AddDetails = ({
     },
     {
       title: "Plus/Minus",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "pnl",
+      key: "pnl",
       align: "center",
       render: (value) => (
         <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
@@ -354,23 +354,25 @@ const AddDetails = ({
   useEffect(() => {
     trigger({ userId: clientId, matchId: id, forFancy: sessionType });
   }, [clientId, id, sessionType, trigger]);
-
   useEffect(() => {
-    if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
-      const totals = data.data.reduce((acc, item) => {
-        acc[item.team1] = (acc[item.team1] || 0) + (item.team1Pnl || 0);
-        acc[item.team2] = (acc[item.team2] || 0) + (item.team2Pnl || 0);
-        if (item.team3) {
-          acc[item.team3] = (acc[item.team3] || 0) + (item.team3Pnl || 0);
-        }
-        return acc;
-      }, {});
-
-      const formatted = Object.entries(totals).map(([team, pnl], index) => ({
-        key: index,
-        team,
-        name: pnl,
-      }));
+    if (data?.data) {
+      const formatted = [
+        {
+          key: 0,
+          team: data.data.selection1,
+          pnl: data.data.pnl1,
+        },
+        {
+          key: 1,
+          team: data.data.selection2,
+          pnl: data.data.pnl2,
+        },
+        data.data.selection3 && {
+          key: 2,
+          team: data.data.selection3,
+          pnl: data.data.pnl3,
+        },
+      ].filter(Boolean);
 
       setTeamTableData(formatted);
     }
@@ -417,7 +419,7 @@ const AddDetails = ({
               ? getColumnsByUserType(userType, sessionType)
               : getColumnsByUserMatchType(userType, sessionType)
           }
-          dataSource={data?.data || []}
+          dataSource={data?.data?.dataList || []}
           rowKey={(record, index) => index}
           rowClassName={(text, record) => (text?.isBack ? "back" : "lay")}
         />

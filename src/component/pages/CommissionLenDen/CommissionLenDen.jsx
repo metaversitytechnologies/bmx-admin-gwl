@@ -13,7 +13,10 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../store/service/supermasteAccountStatementServices";
-import { useGetCommitionReportMutation } from "../../../store/service/SportDetailServices";
+import {
+  useGetCommissionClientWiseMutation,
+  useGetCommitionReportMutation,
+} from "../../../store/service/SportDetailServices";
 import CommissionModal from "./CommissionModal";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import UserCommissionModal from "./UserCommissionModal";
@@ -48,6 +51,8 @@ const CommissionLenDen = () => {
   // ----------------- API hooks -----------------
   const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
   const [trigger, { data, isLoading }] = useGetCommitionReportMutation();
+  const [triggerClient, { data: commissionDate, loading }] =
+    useGetCommissionClientWiseMutation();
 
   // ----------------- Effects -----------------
   useEffect(() => {
@@ -117,6 +122,15 @@ const CommissionLenDen = () => {
 
   const handleDateChange = (_, dateString) => {
     setDateData(dateString);
+  };
+
+  const handleClientWiseData = (clientId) => {
+    setOpenUser(!openUser);
+    triggerClient({
+      userId: clientId?.userId,
+      fromDate: dateData[0],
+      toDate: dateData[1],
+    });
   };
 
   return (
@@ -273,9 +287,13 @@ const CommissionLenDen = () => {
                       <tr key={items?.userId}>
                         <td style={{ fontWeight: 600 }}>
                           <span
+                            onClick={() => handleClientWiseData(items)}
                             className="gx-text-blue gx-text-nowrap"
-                            onClick={() => setOpenUser(!openUser)}>
+                            style={{ cursor: "pointer" }}>
                             {items?.userName} ({items?.userId})
+                            <i
+                              style={{ marginLeft: "5px" }}
+                              className="icon icon-view-o"></i>
                           </span>
                         </td>
                         {/* Mila */}
@@ -354,7 +372,12 @@ const CommissionLenDen = () => {
 
       {/* Modals */}
       <CommissionModal setOpenModals={setOpen} openModal={open} />
-      <UserCommissionModal setOpenModals={setOpenUser} openModal={openUser} />
+      <UserCommissionModal
+        setOpenModals={setOpenUser}
+        openModal={openUser}
+        commissionDate={commissionDate?.data}
+        loading={loading}
+      />
     </>
   );
 };

@@ -272,7 +272,7 @@ const depthKeys = [
   "masterName",
   "dealerName",
 ];
-const depthKeysF = ["Ad.", "SUB", "MA", "SA", "A"];
+const depthKeysF = ["ADM", "AD", "MA", "SA", "A"];
 
 const LedgerDataComponentSuperCasino = ({ ledgerData }) => {
   return (

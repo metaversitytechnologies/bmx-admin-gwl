@@ -329,6 +329,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getCommissionClientWise: build.mutation({
+      query: (body) => {
+        return {
+          url: `ant-pro/get-commission-report-clientwise`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -369,5 +378,6 @@ export const {
   useGetCompletedPlusMinusQuery,
   useGetDeletedTranstionMutation,
   useGetCommitionReportMutation,
-  useGetTranstionDeatilsQuery
+  useGetTranstionDeatilsQuery,
+  useGetCommissionClientWiseMutation
 } = sportDetailsApi;

@@ -86,7 +86,9 @@ const MatchSessionBet = () => {
                   {matchBets?.data?.matchBets?.betList?.length > 0 ? (
                     matchBets?.data.matchBets?.betList?.map((bet, index) => {
                       return (
-                        <tr key={index}>
+                        <tr
+                          key={index}
+                          className={bet?.mode === "K" ? "back" : "lay"}>
                           <td>{index + 1}</td>
                           <td>{bet?.odds}</td>
                           <td>{bet?.mode === "K" ? "Lagai" : "KHAI"}</td>
@@ -118,7 +120,7 @@ const MatchSessionBet = () => {
                           color: totalPnl > 0 ? "green" : "red",
                           fontWeight: 700,
                         }}>
-                        {totalPnlM}
+                        {totalPnlM?.toFixed(2)}
                       </span>
                     </td>
                     <td></td>
@@ -147,7 +149,9 @@ const MatchSessionBet = () => {
                   {matchBets?.data?.sessionBets?.length > 0 ? (
                     matchBets?.data?.sessionBets?.map((item, index) => {
                       return (
-                        <tr key={index}>
+                        <tr
+                          key={index}
+                          className={item?.mode === "YES" ? "back" : "lay"}>
                           <td>{index + 1}</td>
                           <td>{item?.selectionName}</td>
                           <td>{item?.rate}</td>
@@ -186,7 +190,7 @@ const MatchSessionBet = () => {
                           color: totalPnl > 0 ? "green" : "red",
                           fontWeight: 700,
                         }}>
-                        {totalPnl}
+                        {totalPnl?.toFixed(2)}
                       </span>
                     </td>
                     <td></td>
