@@ -32,34 +32,34 @@
     margin-right: 15px;
     .ant-checkbox-input {
       &::after {
-        border: 2px solid #7d5c0e;
+        border: 2px solid #380023;
       }
     }
     .ant-checkbox-checked {
       .ant-checkbox-inner {
-        background-color: #7d5c0e;
-        border-color: #7d5c0e;
+        background-color: #380023;
+        border-color: #380023;
         &:hover {
-          background-color: #7d5c0e !important;
+          background-color: #380023 !important;
         }
       }
     }
     .ant-checkbox-wrapper {
       &:hover {
-        border-color: #7d5c0e !important;
+        border-color: #380023 !important;
       }
     }
 
     .ant-checkbox-wrapper:not(.ant-checkbox-wrapper-disabled) {
       &:hover {
-        border-color: #7d5c0e;
+        border-color: #380023;
       }
     }
     .ant-checkbox-inner,
     .ant-checkbox-checked:not(.ant-checkbox-disabled) {
       &:hover {
         .ant-checkbox-inner {
-          background-color: #7d5c0e !important;
+          background-color: #380023 !important;
         }
       }
     }
@@ -67,9 +67,9 @@
       &:hover {
         .ant-checkbox-checked:not(.ant-checkbox-disabled) {
           &::after {
-            border-color: #7d5c0e;
+            border-color: #380023;
           }
-          border-color: #7d5c0e;
+          border-color: #380023;
         }
       }
     }
@@ -185,13 +185,13 @@
   table {
     thead {
       tr {
-        background-color: #7d5c0e;
+        background-color: #380023;
         color: #fff;
         min-height: 53px;
       }
     }
     th.ant-table-cell {
-      background-color: #7d5c0e;
+      background-color: #380023;
       color: #fff;
       min-height: 53px;
     }

@@ -204,7 +204,7 @@
     padding: 8px;
   }
   .ant-table .ant-table-thead > tr > th {
-    background-color: #7d5c0e;
+    background-color: #380023;
     color: #ffffff;
     border-radius: 0 !important;
   }
@@ -231,7 +231,7 @@
     background-color: #a7d8fd !important;
   }
   .matchdtailsNoBackground {
-    background-color: #f9c9d4;
+    background-color: #f9c9d4 !important;
   }
   .ant-table-tbody > tr > td,
   .ant-table-thead > tr > th {
@@ -464,5 +464,17 @@ a.gx-bg-white:hover {
     td {
       white-space: nowrap !important;
     }
+  }
+}
+
+.ant-table-thead {
+  .matchdtailsNoBackground {
+    background-color: #ef839b !important;
+  }
+  .matchdtailsYesBackground{
+    background-color: #63b7f7 !important;
+  }
+  .matchdtailsNoYesBackground{
+    background: linear-gradient(to right, rgb(239, 131, 155), rgb(99, 183, 247)) !important;
   }
 }

@@ -268,13 +268,13 @@ const CommissionLenDen = () => {
                       {totals.dCasino}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dMatch + totals.dSession + totals.dCasino}
+                      {(totals.dMatch + totals.dSession + totals.dCasino)?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch +
+                      {((totals.mMatch +
                         totals.mSession +
-                        totals.mCasino -
-                        (totals.dMatch + totals.dSession + totals.dCasino)}
+                        totals.mCasino) -
+                        (totals.dMatch + totals.dSession + totals.dCasino))?.toFixed(2) || "0.00"}
                     </td>
                   </tr>
                 )}
@@ -317,7 +317,7 @@ const CommissionLenDen = () => {
                           {isUser && (
                             <div className="ant-row gx-pl-4">
                               <div className="ant-col">
-                                <Button className="ant-btn ant-btn-default gx-bg-grey gx-text-white">
+                                <Button className="ant-btn ant-btn-default gx-bg-grey gx-text-white" style={{ marginBottom: "10px" }}>
                                   <span>Reset</span>
                                 </Button>
                                 <Button
@@ -347,12 +347,12 @@ const CommissionLenDen = () => {
                           )?.toFixed(2)}
                         </td>
                         <td style={{ color: "green", fontWeight: 600 }}>
-                          {items?.matchCommMila +
+                          {((items?.matchCommMila +
                             items?.sessionCommMila +
-                            items?.casinoCommMila -
+                            items?.casinoCommMila) -
                             (items?.matchCommDena +
                               items?.sessionCommDena +
-                              items?.casinoCommDena) || "0.00"}
+                              items?.casinoCommDena))?.toFixed(2) || "0.00"}
                         </td>
                       </tr>
                     );

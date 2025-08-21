@@ -73,7 +73,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         <div
           onClick={() => setShowMatchBet(true)}
           style={{
-            background: showMatchBet ? "#7d5c0e" : "",
+            background: showMatchBet ? "#380023" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -84,7 +84,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         <div
           onClick={() => setShowMatchBet(false)}
           style={{
-            background: !showMatchBet ? "#7d5c0e" : "",
+            background: !showMatchBet ? "#380023" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,

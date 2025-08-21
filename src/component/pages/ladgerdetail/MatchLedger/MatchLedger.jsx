@@ -32,14 +32,18 @@ const MatchLedger = () => {
     {
       title: "Debit",
       dataIndex: "debit",
+      align: "right",
       key: "debit",
-       render: (text) => <span className="text_danger">{text}</span>,
+      render: (text) => <span className="text_danger">{text?.toFixed(2)}</span>,
     },
     {
       title: "Credit",
       dataIndex: "credit",
       key: "credit",
-      render: (text) => <span className="text_success">{text}</span>,
+      align: "right",
+      render: (text) => (
+        <span className="text_success">{text?.toFixed(2)}</span>
+      ),
     },
   ];
 

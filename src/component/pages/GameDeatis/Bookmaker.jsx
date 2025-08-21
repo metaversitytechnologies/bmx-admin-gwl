@@ -27,12 +27,7 @@ const Bookmaker = ({
                     </colgroup>
                     <thead className="ant-table-thead">
                       <tr>
-                        <th
-                          className="ant-table-cell matchdtailsBlackBackground"
-                          style={{
-                            background:
-                              "linear-gradient(to right, rgb(239, 131, 155), rgb(99, 183, 247))",
-                          }}>
+                        <th className="ant-table-cell matchdtailsNoYesBackground">
                           <div className="gx-bg-flex gx-justify-content-between gx-align-items-center minMax">
                             <div style={{ display: "flex" }}>
                               <div

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const gridStyle = {
   width: "23%",
-  background: "#7d5c0e",
+  background: "#380023",
   color: "#fff",
   margin: "10px",
 };

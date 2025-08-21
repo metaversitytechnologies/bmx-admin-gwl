@@ -72,7 +72,7 @@ const Sidebar = (props) => {
         collapsed={collapsed}
         className={`side_bar coll desk_side`}
         style={{
-          background: "#7d5c0e",
+          background: "#380023",
           height: "100vh",
           minHeight: "100vh",
           maxHeight: "100vh",

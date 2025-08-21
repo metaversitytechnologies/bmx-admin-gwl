@@ -151,8 +151,8 @@ const CompeleteFancy = () => {
                 dataSource={data?.data || []}
                 loading={isLoading || isFetching}
                 rowClassName={(record) => {
-                  if (record.pnl > 0) return "gx-bg-green-0";
-                  if (record.pnl < 0) return "gx-bg-red ";
+                  if (record.pnl >= 0) return "gx-bg-green-0";
+                  if (record.pnl < 0) return "gx-bg-red";
                   return "";
                 }}
               />
