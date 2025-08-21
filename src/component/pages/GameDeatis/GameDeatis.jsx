@@ -16,39 +16,64 @@ import { useParams } from "react-router-dom";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
+  const [showTtlBook, setShowTtlBook] = useState(true);
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
+    const [showMatchBet, setShowMatchBet] = useState(true);
+
+  // useEffect(() => {
+  //   trigger({
+  //     matchId: id ?? "",
+  //     matchCompleted: false,
+  //     userId: "",
+  //   });
+  //   triggerMy({
+  //     matchId: id ?? "",
+  //     matchCompleted: false,
+  //     userId: "",
+  //   });
+  // }, [id]);
 
   useEffect(() => {
-    trigger({
-      matchId: id ?? "",
-      matchCompleted: false,
-      userId: "",
-    });
+    const interval = setInterval(() => {
+      if (showTtlBook) {
+        trigger({
+          matchId: id ?? "",
+          matchCompleted: false,
+          userId: "",
+        });
+      } else {
+        triggerMy({
+          matchId: id ?? "",
+          matchCompleted: false,
+          userId: "",
+        });
+      }
+    }, 1000); // 1000ms = 1 second
+
+    return () => clearInterval(interval);
+  }, [id, showTtlBook]);
+
+  const handleTtlBook = () => {
+    setShowTtlBook(true);
     triggerMy({
       matchId: id ?? "",
       matchCompleted: false,
       userId: "",
     });
-  }, [id]);
+  };
 
-  const handleTtlBook = ()=>{
-     triggerMy({
+  const handleOddBook = () => {
+    setShowTtlBook(false);
+    trigger({
       matchId: id ?? "",
       matchCompleted: false,
       userId: "",
     });
-  }
-  const handleOddBook = ()=>{
-      trigger({
-      matchId: id ?? "",
-      matchCompleted: false,
-      userId: "",
-    });
-  }
+  };
 
   return (
     <Row justify="center" className="main_details_page">
@@ -94,15 +119,18 @@ const GameDeatis = () => {
                     oddsPnlMy={oddsPnlMy?.data}
                     handleTtlBook={handleTtlBook}
                     handleOddBook={handleOddBook}
+                    setShowTtlBook={setShowTtlBook}
+                    showTtlBook={showTtlBook}
                   />
                   <FancyData
                     data={data}
                     setFancyId={setFancyId}
                     fancyId={fancyId}
+                    setShowMatchBet={setShowMatchBet}
                   />
                 </Col>
               </Row>
-              <FancyBets setFancyId={setFancyId} fancyId={fancyId} />
+              <FancyBets showMatchBet={showMatchBet} setShowMatchBet={setShowMatchBet} setFancyId={setFancyId} fancyId={fancyId} />
               <CompletedFancy />
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button

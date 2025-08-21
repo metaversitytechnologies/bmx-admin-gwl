@@ -1,4 +1,4 @@
-import { Card, Empty, Input, Select } from "antd";
+import { Card, Empty, Input, Row, Select } from "antd";
 import "./style.scss";
 import {
   useGetAllSessionBetQuery,
@@ -11,9 +11,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddDetails from "../../../GameDeatis/AddDetails";
 
-const FancyBets = ({ setFancyId, fancyId }) => {
+const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   const [oddsType, setOddsType] = useState("Bookmaker");
-  const [searchTerm, setSearchTerm] = useState("");
   const [searchTermOdds, setSearchTermOdds] = useState("");
   const [searchTermfancy, setSearchTermfancy] = useState("");
   const [openResponsive, setOpenResponsive] = useState(false);
@@ -22,10 +21,6 @@ const FancyBets = ({ setFancyId, fancyId }) => {
   const { id } = useParams();
 
   const [trigger, { data: matchBets }] = useGetMatchBetsMutation();
-  const { data: allSesssion } = useGetAllSessionBetQuery(
-    { matchId: id ?? "" },
-    { pollingInterval: 1000 }
-  );
 
   const { data: sessionBets } = useGetSessionHavingBetQuery({
     matchCompleted: false,
@@ -71,101 +66,219 @@ const FancyBets = ({ setFancyId, fancyId }) => {
 
   return (
     <>
-      <Card
-        style={{
-          margin: "0px",
-          width: "100%",
-        }}
-        className="sport_detail matched_bets">
-        <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-          Fancy Bets - {filteredAllfancy?.length || 0}
-          {fancyId && (
+      <Row
+        justify="start"
+        align="middle"
+        style={{ backgroundColor: "rgb(115, 118, 111)", marginTop: "10px" }}>
+        <div
+          onClick={() => setShowMatchBet(true)}
+          style={{
+            background: showMatchBet ? "#7d5c0e" : "",
+            color: "#fff",
+            padding: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}>
+          Match Bet ({filteredAllOdds?.length || 0})
+        </div>
+        <div
+          onClick={() => setShowMatchBet(false)}
+          style={{
+            background: !showMatchBet ? "#7d5c0e" : "",
+            color: "#fff",
+            padding: "12px",
+            fontWeight: 600,
+            cursor: "pointer",
+          }}>
+          Fancy Bet ({filteredAllfancy?.length || 0})
+        </div>
+      </Row>
+
+      {showMatchBet ? (
+        <Card
+          style={{
+            margin: "0px",
+            width: "100%",
+          }}
+          className="sport_detail matched_bets">
+          <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+            {/* Match Bets - {filteredAllOdds?.length || 0} */}
+
+            <div
+              className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase"
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Input
+                placeholder="Search Client..."
+                value={searchTermOdds}
+                onChange={(e) => setSearchTermOdds(e.target.value)}
+              />
+              <span className=" gx-font-weight-semi-bold OddsType">
+                OddsType
+              </span>
+              <Select
+                style={{ width: 150 }}
+                defaultValue="All OddsType"
+                value={oddsType}
+                onChange={(value) => setOddsType(value)}
+                options={[
+                  // {
+                  //   value: "All",
+                  //   label: "All OddsType",
+                  // },
+                  {
+                    value: "Bookmaker",
+                    label: "Bookmaker",
+                  },
+                ]}
+              />
+            </div>
             <button
               type="button"
-              className="ant-btn ant-btn-default gx-my-0  gx-bg-primary gx-text-white"
-              style={{ fontWeight: 400 }}
-              onClick={() => {
-                setFancyId("");
-                triggerSessionBets({
-                  matchId: id,
-                  userId: "",
-                  marketId: "",
-                  matchCompleted: false,
-                });
-              }}>
-              <span>All Fancy</span>
+              className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
+              <span className="ml-1 px-1">PDF</span>
             </button>
-          )}
-          <Input
-            style={{ width: "200px" }}
-            placeholder="Search Client..."
-            value={searchTermfancy}
-            onChange={(e) => setSearchTermfancy(e.target.value)}
-          />
-          <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
-            <span className=" gx-font-weight-semi-bold OddsType">OddsType</span>
-            <Select
-              style={{ width: 150 }}
-              defaultValue="All OddsType"
-              value={fancyId}
-              onChange={(value) => setFancyId(value)}
-              options={[
-                { value: "", label: "All Fancies" },
-                ...(sessionBets?.data || []).map((item) => ({
-                  value: item.fancyId,
-                  label: item.fancyName,
-                })),
-              ]}
-            />
           </div>
-          <button
-            type="button"
-            className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-            <span className="ml-1 px-1">PDF</span>
-          </button>
-        </div>
 
-        <div className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-          <div>
-            <div style={{ textAlign: "center", textTransform: "uppercase" }}>
-              Fancy Bets - {filteredAllfancy?.length || 0}
-            </div>
-
-            <Input
-              style={{ width: "150px", height: "33px" }}
-              placeholder="Search Client..."
-              value={searchTermfancy}
-              onChange={(e) => setSearchTermfancy(e.target.value)}
-            />
-          </div>
-          <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
-            <div
-              style={{ textAlign: "center" }}
-              className=" gx-font-weight-semi-bold OddsType">
-              OddsType
-            </div>
-            <Select
-              style={{ width: 150 }}
-              defaultValue="All OddsType"
-              value={fancyId}
-              onChange={(value) => setFancyId(value)}
-              options={[
-                { value: "", label: "All Fancies" },
-                ...(sessionBets?.data || []).map((item) => ({
-                  value: item.fancyId,
-                  label: item.fancyName,
-                })),
-              ]}
-            />
-          </div>
           <div
+            className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "4px",
+              gap: "12px",
             }}>
+            <div>
+              <div style={{ textAlign: "center", textTransform: "uppercase" }}>
+                {/* Match Bets - {filteredAllOdds?.length || 0} */}
+                &nbsp;
+              </div>
+              <div className="  gx-text-white gx-text-uppercase">
+                <Input
+                  style={{ height: "32px" }}
+                  placeholder="Search Client..."
+                  value={searchTermOdds}
+                  onChange={(e) => setSearchTermOdds(e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <div
+                style={{ textAlign: "center", textTransform: "uppercase" }}
+                className=" gx-font-weight-semi-bold OddsType">
+                OddsType
+              </div>
+              <Select
+                style={{ width: 150 }}
+                defaultValue="All OddsType"
+                value={oddsType}
+                onChange={(value) => setOddsType(value)}
+                options={[
+                  // {
+                  //   value: "All",
+                  //   label: "All OddsType",
+                  // },
+                  {
+                    value: "Bookmaker",
+                    label: "Bookmaker",
+                  },
+                ]}
+              />
+            </div>
+            <button
+              type="button"
+              className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
+              <span className="ml-1 px-1">PDF</span>
+            </button>
+          </div>
+
+          <div className="table_section">
+            <div className="table_section">
+              <table className="">
+                <thead>
+                  <tr>
+                    <th>Client</th>
+
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Odds Type</th>
+                    <th>Team</th>
+                    <th>Agent</th>
+                    <th>Date</th>
+                    <th>Loss</th>
+                    <th>Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredAllOdds?.length > 0 ? (
+                    filteredAllOdds.map((item, index) => (
+                      <tr
+                        key={index}
+                        className={
+                          item?.mode !== "L"
+                            ? "matchdtailsYesBackground"
+                            : "matchdtailsNoBack"
+                        }>
+                        <td
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            setOpenResponsive(true);
+                            setSessionType(false);
+                            setClientId(item.userId);
+                          }}>
+                          {item?.username} ({item?.userId})
+                        </td>
+                        <td>{item?.odds}</td>
+                        <td>{item?.stake}</td>
+                        <td>{item?.mode !== "L" ? "Lagia" : "Khai"}</td>
+                        <td>{item?.marketType}</td>
+                        <td>{item?.team}</td>
+
+                        <td>
+                          {item?.parentName} (convertCode({item?.parentId}))
+                        </td>
+                        <td>{new Date(item?.date).toLocaleString()}</td>
+                        <td>{item?.liability}</td>
+                        <td>{item?.pnl}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="10"
+                        style={{ textAlign: "center", padding: "2rem" }}>
+                        <Empty description="No Data Available" />
+                      </td>
+                    </tr>
+                  )}
+                  {matchBets?.data?.betList?.length > 0 && (
+                    <tr>
+                      <td colSpan={8}>Total</td>
+                      <td>
+                        {matchBets?.data?.betList?.reduce(
+                          (acc, item) => acc + item.liability,
+                          0
+                        ) || 0}
+                      </td>
+                      <td>
+                        {matchBets?.data?.betList?.reduce(
+                          (acc, item) => acc + item.pnl,
+                          0
+                        ) || 0}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Card>
+      ) : (
+        <Card
+          style={{
+            margin: "0px",
+            width: "100%",
+          }}
+          className="sport_detail matched_bets">
+          <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+            {/* Fancy Bets - {filteredAllfancy?.length || 0} */}
             {fancyId && (
               <button
                 type="button"
@@ -183,91 +296,149 @@ const FancyBets = ({ setFancyId, fancyId }) => {
                 <span>All Fancy</span>
               </button>
             )}
+            <Input
+              style={{ width: "200px" }}
+              placeholder="Search Client..."
+              value={searchTermfancy}
+              onChange={(e) => setSearchTermfancy(e.target.value)}
+            />
+            <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
+              <span className=" gx-font-weight-semi-bold OddsType">
+                OddsType
+              </span>
+              <Select
+                style={{ width: 150 }}
+                defaultValue="All OddsType"
+                value={fancyId}
+                onChange={(value) => setFancyId(value)}
+                options={[
+                  { value: "", label: "All Fancies" },
+                  ...(sessionBets?.data || []).map((item) => ({
+                    value: item.fancyId,
+                    label: item.fancyName,
+                  })),
+                ]}
+              />
+            </div>
             <button
               type="button"
               className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
               <span className="ml-1 px-1">PDF</span>
             </button>
           </div>
-        </div>
 
-        <div className="table_section">
-          <div className="table_section">
-            <table className="">
-              <thead>
-                <tr>
-                  <th>Client</th>
-                  <th>Rate</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Team</th>
-                  <th>Agent</th>
-                  <th>Date</th>
-                  <th>Loss</th>
-                  <th>Profit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAllfancy?.length > 0 ? (
-                  filteredAllfancy?.map((item, index) => (
-                    <tr
-                      key={index}
-                      className={
-                        item?.mode === "YES"
-                          ? "matchdtailsYesBackground"
-                          : "matchdtailsNoBack"
-                      }>
-                      <td
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setOpenResponsive(true);
-                          setSessionType(true);
-                          setClientId(item.userId);
-                        }}>
-                        {item?.username} ({item?.userId})
-                      </td>
-                      <td>{item?.rate}</td>
-                      <td>{item?.amount}</td>
-                      <td>{item?.mode}</td>
-                      <td>{item?.selectionName}</td>
+          <div className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
+            <div>
+              <div style={{ textAlign: "center", textTransform: "uppercase" }}>
+                {/* Fancy Bets - {filteredAllfancy?.length || 0} */}
+                &nbsp;
+              </div>
 
-                      <td>
-                        {item?.parentName} ({item?.parentId})
-                      </td>
-                      <td>{item?.time}</td>
-                      <td>{item?.liability}</td>
-                      <td>{item?.pnl}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="10"
-                      style={{ textAlign: "center", padding: "2rem" }}>
-                      <Empty description="No Data Available" />
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+              <Input
+                style={{ width: "150px", height: "33px" }}
+                placeholder="Search Client..."
+                value={searchTermfancy}
+                onChange={(e) => setSearchTermfancy(e.target.value)}
+              />
+            </div>
+            <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
+              <div
+                style={{ textAlign: "center" }}
+                className=" gx-font-weight-semi-bold OddsType">
+                OddsType
+              </div>
+              <Select
+                style={{ width: 150 }}
+                defaultValue="All OddsType"
+                value={fancyId}
+                onChange={(value) => setFancyId(value)}
+                options={[
+                  { value: "", label: "All Fancies" },
+                  ...(sessionBets?.data || []).map((item) => ({
+                    value: item.fancyId,
+                    label: item.fancyName,
+                  })),
+                ]}
+              />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px",
+              }}>
+              {fancyId && (
+                <button
+                  type="button"
+                  className="ant-btn ant-btn-default gx-my-0  gx-bg-primary gx-text-white"
+                  style={{ fontWeight: 400 }}
+                  onClick={() => {
+                    setFancyId("");
+                    triggerSessionBets({
+                      matchId: id,
+                      userId: "",
+                      marketId: "",
+                      matchCompleted: false,
+                    });
+                  }}>
+                  <span>All Fancy</span>
+                </button>
+              )}
+              <button
+                type="button"
+                className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
+                <span className="ml-1 px-1">PDF</span>
+              </button>
+            </div>
           </div>
-        </div>
-        <br />
-        {fancyId && (
+
           <div className="table_section">
             <div className="table_section">
               <table className="">
                 <thead>
                   <tr>
-                    <th>Run</th>
-                    <th>PnL</th>
+                    <th>Client</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Team</th>
+                    <th>Agent</th>
+                    <th>Date</th>
+                    <th>Loss</th>
+                    <th>Profit</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {fancyBookData?.data?.length > 0 ? (
-                    fancyBookData?.data.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item?.odds}</td>
+                  {filteredAllfancy?.length > 0 ? (
+                    filteredAllfancy?.map((item, index) => (
+                      <tr
+                        key={index}
+                        className={
+                          item?.mode === "YES"
+                            ? "matchdtailsYesBackground"
+                            : "matchdtailsNoBack"
+                        }>
+                        <td
+                          style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            setOpenResponsive(true);
+                            setSessionType(true);
+                            setClientId(item.userId);
+                          }}>
+                          {item?.username} ({item?.userId})
+                        </td>
+                        <td>{item?.rate}</td>
+                        <td>{item?.amount}</td>
+                        <td>{item?.mode}</td>
+                        <td>{item?.selectionName}</td>
+
+                        <td>
+                          {item?.parentName} ({item?.parentId})
+                        </td>
+                        <td>{item?.time}</td>
+                        <td>{item?.liability}</td>
                         <td>{item?.pnl}</td>
                       </tr>
                     ))
@@ -284,180 +455,41 @@ const FancyBets = ({ setFancyId, fancyId }) => {
               </table>
             </div>
           </div>
-        )}
-      </Card>
-
-      <Card
-        style={{
-          margin: "0px",
-          width: "100%",
-        }}
-        className="sport_detail matched_bets">
-        <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-          Match Bets - {filteredAllOdds?.length || 0}
-          <div
-            className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase"
-            style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <Input
-              placeholder="Search Client..."
-              value={searchTermOdds}
-              onChange={(e) => setSearchTermOdds(e.target.value)}
-            />
-            <span className=" gx-font-weight-semi-bold OddsType">OddsType</span>
-            <Select
-              style={{ width: 150 }}
-              defaultValue="All OddsType"
-              value={oddsType}
-              onChange={(value) => setOddsType(value)}
-              options={[
-                // {
-                //   value: "All",
-                //   label: "All OddsType",
-                // },
-                {
-                  value: "Bookmaker",
-                  label: "Bookmaker",
-                },
-              ]}
-            />
-          </div>
-          <button
-            type="button"
-            className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-            <span className="ml-1 px-1">PDF</span>
-          </button>
-        </div>
-
-        <div
-          className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white"
-          style={{
-            gap: "12px",
-          }}>
-          <div>
-            <div style={{ textAlign: "center", textTransform: "uppercase" }}>
-              Match Bets - {filteredAllOdds?.length || 0}
-            </div>
-            <div className="  gx-text-white gx-text-uppercase">
-              <Input
-                style={{ height: "32px" }}
-                placeholder="Search Client..."
-                value={searchTermOdds}
-                onChange={(e) => setSearchTermOdds(e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <div
-              style={{ textAlign: "center", textTransform: "uppercase" }}
-              className=" gx-font-weight-semi-bold OddsType">
-              OddsType
-            </div>
-            <Select
-              style={{ width: 150 }}
-              defaultValue="All OddsType"
-              value={oddsType}
-              onChange={(value) => setOddsType(value)}
-              options={[
-                // {
-                //   value: "All",
-                //   label: "All OddsType",
-                // },
-                {
-                  value: "Bookmaker",
-                  label: "Bookmaker",
-                },
-              ]}
-            />
-          </div>
-          <button
-            type="button"
-            className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-            <span className="ml-1 px-1">PDF</span>
-          </button>
-        </div>
-
-        <div className="table_section">
-          <div className="table_section">
-            <table className="">
-              <thead>
-                <tr>
-                  <th>Client</th>
-
-                  <th>Rate</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Odds Type</th>
-                  <th>Team</th>
-                  <th>Agent</th>
-                  <th>Date</th>
-                  <th>Loss</th>
-                  <th>Profit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAllOdds?.length > 0 ? (
-                  filteredAllOdds.map((item, index) => (
-                    <tr
-                      key={index}
-                      className={
-                        item?.mode !== "L"
-                          ? "matchdtailsYesBackground"
-                          : "matchdtailsNoBack"
-                      }>
-                      <td
-                        style={{ cursor: "pointer" }}
-                        onClick={() => {
-                          setOpenResponsive(true);
-                          setSessionType(false);
-                          setClientId(item.userId);
-                        }}>
-                        {item?.username} ({item?.userId})
-                      </td>
-                      <td>{item?.odds}</td>
-                      <td>{item?.stake}</td>
-                      <td>{item?.mode !== "L" ? "Lagia" : "Khai"}</td>
-                      <td>{item?.marketType}</td>
-                      <td>{item?.team}</td>
-
-                      <td>
-                        {item?.parentName} (convertCode({item?.parentId}))
-                      </td>
-                      <td>{new Date(item?.date).toLocaleString()}</td>
-                      <td>{item?.liability}</td>
-                      <td>{item?.pnl}</td>
+          <br />
+          {fancyId && (
+            <div className="table_section">
+              <div className="table_section">
+                <table className="">
+                  <thead>
+                    <tr>
+                      <th>Run</th>
+                      <th>PnL</th>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="10"
-                      style={{ textAlign: "center", padding: "2rem" }}>
-                      <Empty description="No Data Available" />
-                    </td>
-                  </tr>
-                )}
-                {matchBets?.data?.betList?.length > 0 && (
-                  <tr>
-                    <td colSpan={8}>Total</td>
-                    <td>
-                      {matchBets?.data?.betList?.reduce(
-                        (acc, item) => acc + item.liability,
-                        0
-                      ) || 0}
-                    </td>
-                    <td>
-                      {matchBets?.data?.betList?.reduce(
-                        (acc, item) => acc + item.pnl,
-                        0
-                      ) || 0}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </Card>
+                  </thead>
+                  <tbody>
+                    {fancyBookData?.data?.length > 0 ? (
+                      fancyBookData?.data.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item?.odds}</td>
+                          <td>{item?.pnl}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan="10"
+                          style={{ textAlign: "center", padding: "2rem" }}>
+                          <Empty description="No Data Available" />
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </Card>
+      )}
 
       {/* <br />
       <br />

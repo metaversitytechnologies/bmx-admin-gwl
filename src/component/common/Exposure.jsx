@@ -5,12 +5,11 @@ import "./Deposit.scss";
 import { useLazyGetUserLabilatyQuery } from "../../store/service/SportDetailServices";
 import { render } from "react-dom";
 import CustomLoading from "./CustomLoading/CustomLoading";
+import Item from "antd/es/list/Item";
 
 const Exposure = ({ openExp, setOpenExp, userId }) => {
   const [trigger, { data: exposureData, isLoading }] =
     useLazyGetUserLabilatyQuery();
-
-  console.log(userId, "userIduserIduserId");
 
   useEffect(() => {
     trigger({ userId: userId });
@@ -21,6 +20,12 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
       title: "Match",
       dataIndex: "matchName",
       key: "matchName",
+      render: (text, record) => (
+        <span>
+          {record?.matchName}-
+          {record?.marketType === "Fancy" ? record?.marketType : "Bookmaker"}
+        </span>
+      ),
     },
     {
       title: "Stake",
@@ -71,6 +76,13 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
     },
   ];
 
+  const sessionData = exposureData?.data?.filter(
+    (Item) => Item?.marketType === "Fancy"
+  );
+  const matchData = exposureData?.data?.filter(
+    (Item) => Item?.marketType !== "Fancy"
+  );
+
   return (
     <>
       <Modal
@@ -90,13 +102,61 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
           className="table_section exposure"
           style={{
             marginBottom: "100px",
-            height: "70vh",
+            maxHeight: "70vh",
             overflow: "scroll",
             paddingBottom: "10px",
           }}>
           <Table
             columns={column}
-            dataSource={exposureData?.data || []}
+            dataSource={matchData || []}
+            pagination={false}
+            loading={{
+              spinning: isLoading,
+              indicator: <CustomLoading />,
+            }}
+            rowClassName={(record) => {
+              if (record?.marketType === "Fancy") {
+                return record?.back ? "back" : "lay";
+              } else {
+                return record?.back ? "back" : "lay";
+              }
+            }}
+            summary={(pageData) => {
+              let totalProfit = 0;
+              let totalLoss = 0;
+
+              pageData.forEach(({ profit, loss }) => {
+                totalProfit += profit || 0;
+                totalLoss += loss || 0;
+              });
+
+              return (
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0}>
+                    <strong>Total</strong>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={6}>
+                    <strong style={{ color: "red" }}>
+                      {totalLoss.toFixed(2)}
+                    </strong>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={7}>
+                    <strong style={{ color: "green" }}>
+                      {totalProfit.toFixed(2)}
+                    </strong>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              );
+            }}
+          />
+          <Table
+            columns={column}
+            dataSource={sessionData || []}
             pagination={false}
             loading={{
               spinning: isLoading,
@@ -120,22 +180,28 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
 
               return (
                 <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} colSpan={6}>
+                  <Table.Summary.Cell index={0}>
                     <strong>Total</strong>
                   </Table.Summary.Cell>
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
+                  <Table.Summary.Cell index={0} />
                   <Table.Summary.Cell index={6}>
-                    <strong style={{ color: totalLoss > 0 ? "green" : "red" }}>
+                    <strong style={{ color: "red" }}>
                       {totalLoss.toFixed(2)}
                     </strong>
                   </Table.Summary.Cell>
                   <Table.Summary.Cell index={7}>
-                    <strong style={{ color: totalProfit > 0 ? "green" : "red" }}>{totalProfit.toFixed(2)}</strong>
+                    <strong style={{ color: "green" }}>
+                      {totalProfit.toFixed(2)}
+                    </strong>
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
               );
             }}
           />
-          <br />
           <br />
         </div>
       </Modal>

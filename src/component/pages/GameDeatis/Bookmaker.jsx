@@ -1,8 +1,14 @@
 import React from "react";
 
-const Bookmaker = ({ data, pnl, oddsPnlMy, handleTtlBook, handleOddBook }) => {
-  const [showTtlBook, setShowTtlBook] = React.useState(true);
-
+const Bookmaker = ({
+  data,
+  pnl,
+  oddsPnlMy,
+  handleTtlBook,
+  handleOddBook,
+  setShowTtlBook,
+  showTtlBook,
+}) => {
   return (
     <>
       <div

@@ -1,6 +1,6 @@
 import React from "react";
 
-const FancyData = ({ data, setFancyId }) => {
+const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
   return (
     <>
       {data &&
@@ -85,6 +85,7 @@ const FancyData = ({ data, setFancyId }) => {
                                             }}
                                             onClick={() => {
                                               setFancyId(fancy?.sid);
+                                              setShowMatchBet(false);
                                             }}>
                                             <span> Book</span>
                                           </button>

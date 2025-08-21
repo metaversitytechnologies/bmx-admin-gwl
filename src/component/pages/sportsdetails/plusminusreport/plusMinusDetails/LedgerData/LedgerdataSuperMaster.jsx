@@ -27,9 +27,9 @@ const RecursiveCard = ({ data, depth }) => {
                     <thead>
                       <tr>
                         <th colSpan={4} />
-                        <th colSpan={7}>Agent PlusMinus </th>
-                        <th colSpan={7}>Super Agent PlusMinus </th>
-                        <th colSpan={7}>Master Agent PlusMinus </th>
+                        <th colSpan={6}>Agent PlusMinus </th>
+                        <th colSpan={6}>Super Agent PlusMinus </th>
+                        <th colSpan={6}>Master Agent PlusMinus </th>
                       </tr>
                     </thead>
                     <thead>
