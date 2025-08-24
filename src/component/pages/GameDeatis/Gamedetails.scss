@@ -466,3 +466,18 @@ a.gx-bg-white:hover {
     }
   }
 }
+.ant-table-thead {
+  .matchdtailsNoBackground {
+    background-color: #ef839b !important;
+  }
+  .matchdtailsYesBackground {
+    background-color: #63b7f7 !important;
+  }
+  .matchdtailsNoYesBackground {
+    background: linear-gradient(
+      to right,
+      rgb(239, 131, 155),
+      rgb(99, 183, 247)
+    ) !important;
+  }
+}

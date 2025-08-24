@@ -25,12 +25,7 @@ const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
                             </colgroup>
                             <thead className="ant-table-thead">
                               <tr>
-                                <th
-                                  className="ant-table-cell"
-                                  style={{
-                                    background:
-                                      "linear-gradient(to right, rgb(239, 131, 155), rgb(99, 183, 247))",
-                                  }}>
+                                <th className="ant-table-cell matchdtailsNoYesBackground">
                                   <div className="gx-bg-flex gx-justify-content-between gx-align-items-center gx-px-1">
                                     <span className="gx-px-3 gx-py-1 gx-bg-primary">
                                       {item}
@@ -43,17 +38,15 @@ const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
                                   </div>
                                 </th>
                                 <th
-                                  className="ant-table-cell"
+                                  className="ant-table-cell matchdtailsNoBackground"
                                   style={{
-                                    backgroundColor: "rgb(239, 131, 155)",
                                     textAlign: "center",
                                   }}>
                                   No
                                 </th>
                                 <th
-                                  className="ant-table-cell"
+                                  className="ant-table-cell matchdtailsYesBackground"
                                   style={{
-                                    backgroundColor: "rgb(99, 183, 247)",
                                     textAlign: "center",
                                   }}>
                                   YES

@@ -133,6 +133,12 @@ const CommissionLenDen = () => {
     });
   };
 
+  const totalFull =
+    totals.mMatch +
+    totals.mSession +
+    totals.mCasino -
+    (totals.dMatch + totals.dSession + totals.dCasino);
+
   return (
     <>
       <div className="match_slip login_report" style={{ position: "relative" }}>
@@ -246,35 +252,44 @@ const CommissionLenDen = () => {
                       <span className="gx-px-2">{userDetails?.label}</span>
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch}
+                      {totals.mMatch?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mSession}
+                      {totals.mSession?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mCasino}
+                      {totals.mCasino?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch + totals.mSession + totals.mCasino}
+                      {(
+                        totals.mMatch +
+                        totals.mSession +
+                        totals.mCasino
+                      )?.toFixed(2)}
                     </td>
                     <td></td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dMatch}
+                      {totals.dMatch?.toFixed(2)}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dSession}
+                      {totals.dSession?.toFixed(2)}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dCasino}
+                      {totals.dCasino?.toFixed(2)}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dMatch + totals.dSession + totals.dCasino}
+                      {(
+                        totals.dMatch +
+                        totals.dSession +
+                        totals.dCasino
+                      )?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch +
-                        totals.mSession +
-                        totals.mCasino -
-                        (totals.dMatch + totals.dSession + totals.dCasino)}
+                    <td
+                      style={{
+                        color: totalFull >= 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {totalFull?.toFixed(2)}
                     </td>
                   </tr>
                 )}
@@ -283,6 +298,13 @@ const CommissionLenDen = () => {
                 {data?.data?.length > 0 ? (
                   data.data.map((items) => {
                     const isUser = items?.userId?.startsWith("C");
+                    const fullData =
+                      items?.matchCommMila +
+                      items?.sessionCommMila +
+                      items?.casinoCommMila -
+                      (items?.matchCommDena +
+                        items?.sessionCommDena +
+                        items?.casinoCommDena);
                     return (
                       <tr key={items?.userId}>
                         <td style={{ fontWeight: 600 }}>
@@ -317,7 +339,9 @@ const CommissionLenDen = () => {
                           {isUser && (
                             <div className="ant-row gx-pl-4">
                               <div className="ant-col">
-                                <Button className="ant-btn ant-btn-default gx-bg-grey gx-text-white">
+                                <Button
+                                  className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
+                                  style={{ marginBottom: "8px" }}>
                                   <span>Reset</span>
                                 </Button>
                                 <Button
@@ -346,13 +370,12 @@ const CommissionLenDen = () => {
                             items?.casinoCommDena
                           )?.toFixed(2)}
                         </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
-                          {items?.matchCommMila +
-                            items?.sessionCommMila +
-                            items?.casinoCommMila -
-                            (items?.matchCommDena +
-                              items?.sessionCommDena +
-                              items?.casinoCommDena) || "0.00"}
+                        <td
+                          style={{
+                            color: fullData >= 0 ? "green" : "red",
+                            fontWeight: 600,
+                          }}>
+                          {fullData?.toFixed(2) || "0.00"}
                         </td>
                       </tr>
                     );
