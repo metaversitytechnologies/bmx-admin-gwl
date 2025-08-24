@@ -1,20 +1,18 @@
 import { useEffect, useState } from "react";
 import "./Navbar.scss";
 // import { AiOutlineDown } from "react-icons/ai";
-import { Dropdown, Input, Space, Modal, Button } from "antd";
-import { CaretDownOutlined, DownOutlined } from "@ant-design/icons";
-import { Form, Link, useNavigate } from "react-router-dom";
+import { Dropdown, Space, Modal, Button } from "antd";
+import { CaretDownOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
-import { useForm } from "antd/es/form/Form";
 import { MdMenu } from "react-icons/md";
 
 const Navbar = ({ action, logo }) => {
   const userData = localStorage.getItem("username");
 
-  const [trigger, { error, isLoading, isError }] = useLogoutMutation();
+  const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState();
   const nav = useNavigate();
 
   const handleLogout = () => {
@@ -44,9 +42,6 @@ const Navbar = ({ action, logo }) => {
     }
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
   const handleCancel = () => {
     if ((pType == "old" || pType == "Old") && uType == "5") {
       setIsModalOpen(true);
@@ -70,7 +65,6 @@ const Navbar = ({ action, logo }) => {
 
   return (
     <>
-      {/* {localStorage.getItem("token") !== null && ( */}
       <div className="nav">
         <div
           style={{
@@ -82,7 +76,12 @@ const Navbar = ({ action, logo }) => {
             </Button>
           </Space>
 
-          <img onClick={handleDashbordHome} src="/Images/logo.png" alt="" />
+          <img
+            onClick={handleDashbordHome}
+            src={"/img/logo.png"}
+            alt=""
+            height={40}
+          />
         </div>
         <div className="nav_drop">
           <div className="sub_menu_nav">
@@ -122,7 +121,6 @@ const Navbar = ({ action, logo }) => {
           </div>
         </div>
       </div>
-      {/* // )} */}
 
       <Modal
         className="change_pass"

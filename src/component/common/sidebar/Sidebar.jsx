@@ -60,8 +60,10 @@ const Sidebar = (props) => {
           onClick={() => nav("/dashboard")}
           className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
           <img
-            src={"/Images/logo.png"}
+            // src={"/Images/logo.png"}
+            src={"/img/logo.png"}
             alt="alt"
+            height={50}
           />
         </div>
       </div>
@@ -536,7 +538,7 @@ const Sidebar = (props) => {
 
       <div className="mob_side">
         <Drawer
-          title={<img onClick={props.action} src='/Images/logo.png' />}
+          title={<img onClick={props.action} src={"/img/logo.png"} />}
           className="drawer_main"
           placement="left"
           closable={false}

@@ -83,7 +83,8 @@ const Signin = () => {
               <>
                 <div className="main_loading_section"> </div>
                 <div className="loading_image">
-                  <img src="/Images/loaderfast.svg" alt="helllo" />
+                  {/* <img src="/Images/loaderfast.svg" alt="helllo" /> */}
+                  <img src="/img/logo.png" alt="logo" />
                 </div>
               </>
             ) : null}
@@ -101,7 +102,7 @@ const Signin = () => {
                 </p>
               </div>
               <div className="gx-app-logo">
-                <img alt="example" src={"/Images/logo.png"} />
+                <img alt="example" src={"/img/logo.png"} height={60}/>
               </div>
             </div>
 
