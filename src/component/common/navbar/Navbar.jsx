@@ -7,10 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { MdMenu } from "react-icons/md";
+import SelfDeposit from "../DepositModal/SelfDeposit";
 
 const Navbar = ({ action, logo }) => {
   const userData = localStorage.getItem("username");
-
+  const userType = localStorage.getItem("userType");
+  const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
   const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const nav = useNavigate();
@@ -22,6 +24,14 @@ const Navbar = ({ action, logo }) => {
   };
 
   const items = [
+    ...(userType == "7"
+      ? [
+          {
+            label: "Deposit",
+            key: "2",
+          },
+        ]
+      : []),
     {
       label: "Change Password",
       key: "0",
@@ -32,13 +42,13 @@ const Navbar = ({ action, logo }) => {
       key: "1",
     },
   ];
-
   const handleModal = (e) => {
-    // e.preventDefault();
     if (e.key == 0) {
       setIsModalOpen(true);
+    } else if (e.key == 2) {
+      setIsDepositeModalOpen(true);
     } else {
-      console.log("hii");
+      console.log("logout");
     }
   };
 
@@ -93,7 +103,7 @@ const Navbar = ({ action, logo }) => {
                 items,
                 onClick: handleModal,
               }}
-              trigger={["hover"]}>
+              trigger={["click"]}>
               <p
                 className="user_deatils"
                 style={{ cursor: "pointer", marginRight: "42px" }}
@@ -133,6 +143,10 @@ const Navbar = ({ action, logo }) => {
           <ChangePassword setIsModalOpen={setIsModalOpen} />
         </div>
       </Modal>
+      <SelfDeposit
+        isDepositeModalOpen={isDepositeModalOpen}
+        setIsDepositeModalOpen={setIsDepositeModalOpen}
+      />
     </>
   );
 };
