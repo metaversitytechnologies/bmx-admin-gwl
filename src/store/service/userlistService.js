@@ -165,6 +165,13 @@ export const userlistApi = createApi({
         body,
       }),
     }),
+    appDetails: build.query({
+      query: (body) => ({
+        url: "/app-detail/app-detail-all",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -189,5 +196,6 @@ export const {
   useGetMyLedgerQuery,
   useGetGenerateMutation,
   useGetUpdatePasswordMutation,
-  useAccOprationQuery
+  useAccOprationQuery,
+  useAppDetailsQuery
 } = userlistApi;

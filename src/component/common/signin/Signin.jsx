@@ -26,8 +26,8 @@ const Signin = () => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      // url: "superadmin.fastbet365.in",
-      url,
+      url: "superadmin.fastbet365.in",
+      // url,
     };
 
     if (values?.OTP) {
@@ -83,8 +83,7 @@ const Signin = () => {
               <>
                 <div className="main_loading_section"> </div>
                 <div className="loading_image">
-                  {/* <img src="/Images/loaderfast.svg" alt="helllo" /> */}
-                  <img src="/img/logo.png" alt="logo" />
+                  <img src="/Images/loaderfast.svg" alt="helllo" />
                 </div>
               </>
             ) : null}
@@ -102,7 +101,7 @@ const Signin = () => {
                 </p>
               </div>
               <div className="gx-app-logo">
-                <img alt="example" src={"/img/logo.png"} height={60}/>
+                <img alt="example" src={"/Images/logo.png"} />
               </div>
             </div>
 

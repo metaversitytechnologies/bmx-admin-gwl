@@ -21,6 +21,7 @@ import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
 import SelectUpline from "./SelectUpline";
 import { convertCodeReverse } from "../../../store/constant";
+import { useAppDetailsQuery } from "../../../store/service/userlistService";
 
 const createName = {
   7: "Admin",
@@ -68,6 +69,8 @@ const NewCreateUser = () => {
   const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
   var mobileNum = /^[6-9][0-9]{9}$/;
 
+  const { data: appDeatis } = useAppDetailsQuery();
+
   const userId = localStorage.getItem("userId");
   const userType = localStorage.getItem("userType");
   const { data: userDetails } = useGetUserDetailsQuery({
@@ -90,6 +93,7 @@ const NewCreateUser = () => {
       sess_comm,
       Match_comm,
       Coins,
+      appId,
     } = values;
     const userData = {
       username: Name,
@@ -107,7 +111,7 @@ const NewCreateUser = () => {
       casinoCommission: commiType === "bbb" ? cassino_Comm : 0,
       limit: Coins,
       parentIdForUserCreation: convertCodeReverse(parentId),
-      appId: "16",
+      ...(Number(id) === 7 && { appId: appId }),
     };
     createUser(userData);
   };
@@ -123,6 +127,8 @@ const NewCreateUser = () => {
   }, [UserList, error]);
 
   const nav = useNavigate();
+
+  console.log("appDeatis", appDeatis?.data);
 
   return (
     <div className="create_user_section">
@@ -376,6 +382,27 @@ const NewCreateUser = () => {
                               label: "Change",
                             },
                           ]}
+                        />
+                      </Form.Item>
+                    </Col>
+                  )}
+                  {Number(id) === 7 && (
+                    <Col lg={12} xs={24}>
+                      <Form.Item
+                        label="App Url"
+                        name="appId"
+                        placeholder="Select App Deatis"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please select your app details!",
+                          },
+                        ]}>
+                        <Select
+                          options={appDeatis?.data?.map((item) => ({
+                            value: item.id,
+                            label: item.appName,
+                          }))}
                         />
                       </Form.Item>
                     </Col>
