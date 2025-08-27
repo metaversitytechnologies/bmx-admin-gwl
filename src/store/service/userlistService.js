@@ -165,6 +165,14 @@ export const userlistApi = createApi({
         body,
       }),
     }),
+    selfDeposit: build.mutation({
+      query: (body) => ({
+        url: "/superadmin/self-deposit",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["dashboard"],
+    }),
   }),
 });
 
@@ -189,5 +197,6 @@ export const {
   useGetMyLedgerQuery,
   useGetGenerateMutation,
   useGetUpdatePasswordMutation,
-  useAccOprationQuery
+  useAccOprationQuery,
+  useSelfDepositMutation,
 } = userlistApi;

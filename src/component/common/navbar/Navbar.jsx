@@ -8,12 +8,15 @@ import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { useForm } from "antd/es/form/Form";
 import { MdMenu } from "react-icons/md";
+import SelfDeposit from "../DepositModal/SelfDeposit";
 
 const Navbar = ({ action, logo }) => {
   const userData = localStorage.getItem("username");
+  const userType = localStorage.getItem("userType");
 
-  const [trigger, { error, isLoading, isError }] = useLogoutMutation();
+  const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const nav = useNavigate();
 
@@ -24,6 +27,14 @@ const Navbar = ({ action, logo }) => {
   };
 
   const items = [
+    ...(userType == "7"
+      ? [
+          {
+            label: "Deposit",
+            key: "2",
+          },
+        ]
+      : []),
     {
       label: "Change Password",
       key: "0",
@@ -39,14 +50,13 @@ const Navbar = ({ action, logo }) => {
     // e.preventDefault();
     if (e.key == 0) {
       setIsModalOpen(true);
+    } else if (e.key == 2) {
+      setIsDepositeModalOpen(true);
     } else {
-      console.log("hii");
+      console.log("logout");
     }
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
   const handleCancel = () => {
     if ((pType == "old" || pType == "Old") && uType == "5") {
       setIsModalOpen(true);
@@ -94,7 +104,7 @@ const Navbar = ({ action, logo }) => {
                 items,
                 onClick: handleModal,
               }}
-              trigger={["hover"]}>
+              trigger={["click"]}>
               <p
                 className="user_deatils"
                 style={{ cursor: "pointer", marginRight: "42px" }}
@@ -135,6 +145,10 @@ const Navbar = ({ action, logo }) => {
           <ChangePassword setIsModalOpen={setIsModalOpen} />
         </div>
       </Modal>
+      <SelfDeposit
+        isDepositeModalOpen={isDepositeModalOpen}
+        setIsDepositeModalOpen={setIsDepositeModalOpen}
+      />
     </>
   );
 };
