@@ -180,6 +180,13 @@ export const userlistApi = createApi({
       }),
       invalidatesTags: ["dashboard"],
     }),
+    getCasinoLability: build.query({
+      query: (body) => ({
+        url: `/casino/liability`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -207,4 +214,5 @@ export const {
   useAccOprationQuery,
   useAppDetailsQuery,
   useSelfDepositMutation,
+  useGetCasinoLabilityQuery,
 } = userlistApi;
