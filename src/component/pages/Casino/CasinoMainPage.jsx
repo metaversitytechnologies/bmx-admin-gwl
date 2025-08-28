@@ -41,6 +41,8 @@ const CasinoMainPage = () => {
                   <VideoSection
                     t3={odds && odds?.length !== 0 && odds.t3}
                     t1={odds && odds?.length !== 0 && odds?.t1?.[0]}
+                    t2={odds && odds?.t1}
+                    time={odds?.time}
                   />
                   <LastResult />
                 </div>
@@ -51,7 +53,7 @@ const CasinoMainPage = () => {
                 {id === "51" && <TeenPatti odds={odds?.t2} id="51" />}
                 {id === "57" && <TeenPatti odds={odds?.t1} id="57" />}
                 {id === "56" && <AAA odds={odds?.t2} />}
-                {id === "52" || id === "62" && <DT20 odds={odds?.t2} />}
+                {id === "52" || (id === "62" && <DT20 odds={odds?.t2} />)}
                 {id === "53" && <Lucky7B odds={odds?.t2} />}
                 {id === "61" && <TeenPattiOneDay odds={odds} />}
               </div>

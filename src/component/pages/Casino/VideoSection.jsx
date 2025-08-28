@@ -4,8 +4,9 @@ import Card2OnVideo from "./Card2OnVideo";
 import SingleCardOnVideo from "./SingleCardOnVideo";
 import AndarBaharCardOnVideo from "./AndarBaharCardOnVideo";
 import PropTypes from "prop-types";
+import OneDayCard from "./OneDayCard";
 
-const VideoSection = ({ t1, t3 }) => {
+const VideoSection = ({ t1, t3, t2, time }) => {
   const { id } = useParams();
 
   const videoData = {
@@ -22,10 +23,12 @@ const VideoSection = ({ t1, t3 }) => {
     52: <Card2OnVideo t1={t1} />,
     54: <SingleCardOnVideo t1={t1} />,
     60: <AndarBaharCardOnVideo t3={t3} />,
-    61: <Card2OnVideo t1={t1} />,
+    // 61: <Card2OnVideo t1={t1} />,
     55: <SingleCardOnVideo t1={t1} />,
     53: <SingleCardOnVideo t1={t1} />,
     57: <CardOnVideo t1={t1} />,
+    61: <OneDayCard t2={t2} />,
+    62: <Card2OnVideo t2={t2} />,
   };
   return (
     <div className="gx-news-tags-row ">
