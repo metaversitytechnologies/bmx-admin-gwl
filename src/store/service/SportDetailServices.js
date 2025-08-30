@@ -320,6 +320,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getCommitionReportHostopry: build.mutation({
+      query: (body) => {
+        return {
+          url: `/ant-pro/get-commission-report-history`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
     getTranstionDeatils: build.query({
       query: (body) => {
         return {
@@ -333,6 +342,15 @@ export const sportDetailsApi = createApi({
       query: (body) => {
         return {
           url: `ant-pro/get-commission-report-clientwise`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getCommissionReset: build.mutation({
+      query: (body) => {
+        return {
+          url: `/ant-pro/reset-commission-report`,
           method: "POST",
           body,
         };
@@ -379,5 +397,7 @@ export const {
   useGetDeletedTranstionMutation,
   useGetCommitionReportMutation,
   useGetTranstionDeatilsQuery,
-  useGetCommissionClientWiseMutation
+  useGetCommissionClientWiseMutation,
+  useGetCommitionReportHostopryMutation,
+  useGetCommissionResetMutation
 } = sportDetailsApi;

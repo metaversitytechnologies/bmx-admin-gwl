@@ -5,13 +5,11 @@ import CompletedFancy from "./CompletedFancy";
 import { useEffect, useState } from "react";
 import { useEventDetailQuery } from "../../../store/service/eventDetailServices";
 import FancyData from "./FancyData";
-import MatchOdds from "./MatchOdds";
 import {
   useLazyOddsQuPnlMyQuery,
   useLazyOddsQuPnlQuery,
 } from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
-import { use } from "react";
 import { useParams } from "react-router-dom";
 
 const GameDeatis = () => {
@@ -22,7 +20,7 @@ const GameDeatis = () => {
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
-    const [showMatchBet, setShowMatchBet] = useState(true);
+  const [showMatchBet, setShowMatchBet] = useState(0);
 
   // useEffect(() => {
   //   trigger({
@@ -130,7 +128,12 @@ const GameDeatis = () => {
                   />
                 </Col>
               </Row>
-              <FancyBets showMatchBet={showMatchBet} setShowMatchBet={setShowMatchBet} setFancyId={setFancyId} fancyId={fancyId} />
+              <FancyBets
+                showMatchBet={showMatchBet}
+                setShowMatchBet={setShowMatchBet}
+                setFancyId={setFancyId}
+                fancyId={fancyId}
+              />
               <CompletedFancy />
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button

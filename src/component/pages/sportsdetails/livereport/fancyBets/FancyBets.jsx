@@ -71,9 +71,9 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         align="middle"
         style={{ backgroundColor: "rgb(115, 118, 111)", marginTop: "10px" }}>
         <div
-          onClick={() => setShowMatchBet(true)}
+          onClick={() => setShowMatchBet(1)}
           style={{
-            background: showMatchBet ? "#7d5c0e" : "",
+            background: showMatchBet === 1 ? "#7d5c0e" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -82,9 +82,9 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
           Match Bet ({filteredAllOdds?.length || 0})
         </div>
         <div
-          onClick={() => setShowMatchBet(false)}
+          onClick={() => setShowMatchBet(2)}
           style={{
-            background: !showMatchBet ? "#7d5c0e" : "",
+            background: showMatchBet === 2 ? "#7d5c0e" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -94,7 +94,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         </div>
       </Row>
 
-      {showMatchBet ? (
+      {showMatchBet === 1 && (
         <Card
           style={{
             margin: "0px",
@@ -225,7 +225,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           }}>
                           {item?.username} ({item?.userId})
                         </td>
-                        <td>{item?.odds}</td>
+                        <td>{Number(item?.odds)?.toFixed(2)}</td>
                         <td>{item?.stake}</td>
                         <td>{item?.mode !== "L" ? "Lagia" : "Khai"}</td>
                         <td>{item?.marketType}</td>
@@ -270,7 +270,8 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
             </div>
           </div>
         </Card>
-      ) : (
+      )}
+      {showMatchBet === 2 && (
         <Card
           style={{
             margin: "0px",
@@ -429,7 +430,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           }}>
                           {item?.username} ({item?.userId})
                         </td>
-                        <td>{item?.rate}</td>
+                        <td>{Number(item?.rate)?.toFixed(2)}</td>
                         <td>{item?.amount}</td>
                         <td>{item?.mode}</td>
                         <td>{item?.selectionName}</td>

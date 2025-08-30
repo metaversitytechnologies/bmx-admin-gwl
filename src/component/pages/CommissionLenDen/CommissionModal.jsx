@@ -1,7 +1,15 @@
 import { Card, Modal, Row, Table } from "antd";
 import { useNavigate } from "react-router-dom";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import { render } from "react-dom";
+import moment from "moment";
 
-const CommissionModal = ({ openModal, setOpenModals }) => {
+const CommissionModal = ({
+  openModal,
+  setOpenModals,
+  commHistory,
+  isLoading,
+}) => {
   const nav = useNavigate();
   const columns = [
     {
@@ -9,26 +17,29 @@ const CommissionModal = ({ openModal, setOpenModals }) => {
       dataIndex: "date",
       key: "date",
       onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+      render: (text) => (
+        <span>{moment(text).format("D/M/YYYY, hh:mm:ss a")}</span>
+      ),
     },
     {
       title: "M Comm",
-      dataIndex: "userId",
-      key: "userId",
+      dataIndex: "matchComm",
+      key: "matchComm",
     },
     {
       title: "S Comm",
-      dataIndex: "marketId",
-      key: "marketId",
+      dataIndex: "sessionComm",
+      key: "sessionComm",
     },
     {
       title: "C Comm",
-      dataIndex: "selectionName",
-      key: "selectionName",
+      dataIndex: "casinocomm",
+      key: "casinocomm",
     },
     {
       title: "Done By",
-      dataIndex: "winner",
-      key: "winner",
+      dataIndex: "detail",
+      key: "detail",
     },
   ];
   const handleBackClick = () => {
@@ -67,11 +78,11 @@ const CommissionModal = ({ openModal, setOpenModals }) => {
                 record?.pnl < 0 ? "red_back" : "green_back"
               }
               columns={columns}
-              // loading={{
-              //   spinning: isLoading || isFetching,
-              //   indicator: <CustomLoading />,
-              // }}
-              dataSource={[]}
+              loading={{
+                spinning: isLoading,
+                indicator: <CustomLoading />,
+              }}
+              dataSource={commHistory || []}
               pagination={false}
             />
           </div>

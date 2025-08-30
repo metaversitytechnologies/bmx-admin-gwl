@@ -78,7 +78,7 @@ const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
                                             }}
                                             onClick={() => {
                                               setFancyId(fancy?.sid);
-                                              setShowMatchBet(false);
+                                              setShowMatchBet(2);
                                             }}>
                                             <span> Book</span>
                                           </button>

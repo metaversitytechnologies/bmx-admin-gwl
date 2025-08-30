@@ -15,11 +15,14 @@ import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../store/service/supermasteAccountStatementServices";
 import {
   useGetCommissionClientWiseMutation,
+  useGetCommissionResetMutation,
+  useGetCommitionReportHostopryMutation,
   useGetCommitionReportMutation,
 } from "../../../store/service/SportDetailServices";
 import CommissionModal from "./CommissionModal";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import UserCommissionModal from "./UserCommissionModal";
+import { openNotification } from "../../../App";
 
 const { RangePicker } = DatePicker;
 
@@ -53,6 +56,10 @@ const CommissionLenDen = () => {
   const [trigger, { data, isLoading }] = useGetCommitionReportMutation();
   const [triggerClient, { data: commissionDate, loading }] =
     useGetCommissionClientWiseMutation();
+  const [getCommiHistory, { data: commHistory, isLoading: histLoading }] =
+    useGetCommitionReportHostopryMutation();
+  const [getResetComm, { isLoading: resetLoading }] =
+    useGetCommissionResetMutation();
 
   // ----------------- Effects -----------------
   useEffect(() => {
@@ -138,6 +145,28 @@ const CommissionLenDen = () => {
     totals.mSession +
     totals.mCasino -
     (totals.dMatch + totals.dSession + totals.dCasino);
+
+  const handleOpenHistory = (userId) => {
+    getCommiHistory({
+      userId: userId,
+      // fromDate: dateData[0],
+      // toDate: dateData[1],
+    });
+    setOpen(true);
+  };
+
+  const handleResetComm = async (userId) => {
+    const res = await getResetComm({
+      userId: userId,
+      fromDate: dateData[0],
+      toDate: dateData[1],
+    }).unwrap();
+    if (res?.status) {
+      openNotification("Commission Report Reset Successfully", "success");
+    } else {
+      openNotification(res?.message, "error");
+    }
+  };
 
   return (
     <>
@@ -340,13 +369,17 @@ const CommissionLenDen = () => {
                             <div className="ant-row gx-pl-4">
                               <div className="ant-col">
                                 <Button
+                                  isLoading={resetLoading}
+                                  onClick={() => handleResetComm(items?.userId)}
                                   className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
                                   style={{ marginBottom: "8px" }}>
                                   <span>Reset</span>
                                 </Button>
                                 <Button
                                   className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
-                                  onClick={() => setOpen(!open)}>
+                                  onClick={() =>
+                                    handleOpenHistory(items?.userId)
+                                  }>
                                   <span>History</span>
                                 </Button>
                               </div>
@@ -394,7 +427,12 @@ const CommissionLenDen = () => {
       </div>
 
       {/* Modals */}
-      <CommissionModal setOpenModals={setOpen} openModal={open} />
+      <CommissionModal
+        commHistory={commHistory?.data}
+        setOpenModals={setOpen}
+        openModal={open}
+        isLoading={histLoading}
+      />
       <UserCommissionModal
         setOpenModals={setOpenUser}
         openModal={openUser}
