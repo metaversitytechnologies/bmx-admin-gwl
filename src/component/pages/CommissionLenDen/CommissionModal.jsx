@@ -38,8 +38,8 @@ const CommissionModal = ({
     },
     {
       title: "Done By",
-      dataIndex: "detail",
-      key: "detail",
+      dataIndex: "resettingCommReportUserId",
+      key: "resettingCommReportUserId",
     },
   ];
   const handleBackClick = () => {
