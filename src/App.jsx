@@ -4,7 +4,6 @@ import { store } from "./store/store";
 import Main from "./component/common/main/Main";
 import { notification } from "antd";
 import "./assets/gaxon/styles.css";
-import { duration } from "moment";
 
 let apiRef;
 export const openNotification = (mess) => {
