@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import moment from "moment";
 import {
   Button,
   Card,
@@ -9,91 +13,96 @@ import {
   Select,
   notification,
 } from "antd";
-import dayjs from "dayjs";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import TransactionTable from "../TransactionTable";
-import { useEffect, useState } from "react";
 import {
   useCreateLedgerMutation,
   useGetLedgerDetailsMutation,
   useLazyFilterbyClientQuery,
 } from "../../../../store/service/supermasteAccountStatementServices";
-import moment from "moment";
 import { convertCode, convertCodeReverse } from "../../../../store/constant";
 import { openNotification, openNotificationError } from "../../../../App";
+import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+
+// your custom loader
 
 const dateFormat = "YYYY/MM/DD";
+const { Option } = Select;
 
 const AgentTransactions = () => {
   const { name, id, userId } = useParams();
-  const [api, contextHolder] = notification.useNotification();
-  var curr = new Date();
-  const time = moment(curr).format("YYYY-MM-DD");
-
-  const [clientId, setClientId] = useState("");
-
-  const [startDate, setStartDate] = useState(time);
-  const [form] = Form.useForm();
   const { pathname } = useLocation();
-
   const nav = useNavigate();
 
-  const handleBackbtn = () => {
-    nav(-1);
-  };
+  const [api, contextHolder] = notification.useNotification();
+  const [form] = Form.useForm();
 
-  const { Option } = Select;
+  const [clientId, setClientId] = useState("");
+  const [startDate, setStartDate] = useState(
+    moment(new Date()).format("YYYY-MM-DD")
+  );
+
+  const [isPolling, setIsPolling] = useState(false);
 
   const [getClient, result] = useLazyFilterbyClientQuery();
   const [trigger, { data: ledgerDetails }] = useGetLedgerDetailsMutation();
   const [createTran, { data: createTranstions, error, isLoading }] =
     useCreateLedgerMutation();
 
+  /** Handlers */
+  const handleBackbtn = () => nav(-1);
 
+  const onSelectDate = (_, dateString) => setStartDate(dateString);
 
   const onFinish = (values) => {
-    const createTranstions = {
+    const payload = {
       userId: convertCodeReverse(values?.client),
       collection: values?.collection,
       amount: Number(values?.amount),
       paymentType: values?.payment_type,
       remark: values?.remark,
     };
-    createTran(createTranstions);
-    form?.resetFields();
+
+    createTran(payload);
+    form.resetFields();
   };
 
-  const onSelectDate = (date, dateString) => {
-    setStartDate(dateString);
-  };
-
+  /** Effects */
   useEffect(() => {
-    getClient({
-      userType: id,
-    });
+    getClient({ userType: id });
   }, [id]);
 
   useEffect(() => {
     if (createTranstions?.status) {
       openNotification(createTranstions?.message);
-      trigger({
-        userId: userId
-          ? convertCodeReverse(userId)
-          : convertCodeReverse(clientId),
-        transactiontype: "All",
-      });
-      form?.resetFields();
+      setIsPolling(true);
+      const timeoutId = setTimeout(async () => {
+        await trigger({
+          userId: userId
+            ? convertCodeReverse(userId)
+            : convertCodeReverse(clientId),
+          transactiontype: "All",
+        });
+
+        setIsPolling(false);
+      }, 2000);
+
+      form.resetFields();
+
+      return () => clearTimeout(timeoutId);
     } else if (createTranstions?.status === false || error?.data?.message) {
       openNotificationError(createTranstions?.message || error?.data?.message);
     }
-  }, [createTranstions, error]);
+  }, [createTranstions, error, clientId, userId, trigger, form]);
 
   useEffect(() => {
-    trigger({ userId: convertCodeReverse(userId), transactiontype: "All" });
+    if (userId) {
+      trigger({ userId: convertCodeReverse(userId), transactiontype: "All" });
+    }
   }, [userId]);
 
   useEffect(() => {
-    form?.resetFields();
+    form.resetFields();
     setClientId("");
   }, [pathname]);
 
@@ -115,7 +124,8 @@ const AgentTransactions = () => {
   }, [result, userId]);
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
+      {isPolling && <CustomLoading />}
       {contextHolder}
       <Card
         className="sport_detail ledger_data cash_data"
@@ -132,25 +142,18 @@ const AgentTransactions = () => {
             onFinish={onFinish}
             autoComplete="off">
             <Row>
+              {/* Client */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="client"
                   name="client"
-                  required
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please select Client",
-                    },
-                  ]}>
+                  rules={[{ required: true, message: "Please select Client" }]}>
                   <Select
                     placeholder="Select Client"
-                    onSearch={(value) => {
-                      if (value) getClient({ userType: id });
-                    }}
                     showSearch
                     value={clientId}
                     allowClear
+                    onSearch={(value) => value && getClient({ userType: id })}
                     onSelect={(value) => {
                       setClientId(value);
                       trigger({
@@ -167,90 +170,73 @@ const AgentTransactions = () => {
                   />
                 </Form.Item>
               </Col>
+
+              {/* Collection */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Collection"
                   name="collection"
-                  required
                   rules={[
-                    {
-                      required: true,
-                      message: "Please select Collection",
-                    },
+                    { required: true, message: "Please select Collection" },
                   ]}>
                   <Select defaultValue="Select Cash A/C" allowClear>
                     <Option value="CA1 CASH">Cash A/C</Option>
                   </Select>
                 </Form.Item>
               </Col>
+
+              {/* Date */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item label="Date" name="Date">
                   <DatePicker
                     required
                     onChange={onSelectDate}
                     className="transations_date"
-                    // defaultValue={moment()}
                     format={dateFormat}
                     defaultValue={dayjs(startDate)}
                   />
                 </Form.Item>
               </Col>
+
+              {/* Amount */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Amount"
                   name="amount"
-                  required
-                  rules={[
-                    {
-                      required: true,
-                      message: "Enter Amount",
-                    },
-                  ]}>
+                  rules={[{ required: true, message: "Enter Amount" }]}>
                   <Input type="number" placeholder="Enter Amount" />
                 </Form.Item>
               </Col>
+
+              {/* Payment Type */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Payment Type"
                   name="payment_type"
-                  required
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please Select One",
-                    },
-                  ]}>
+                  rules={[{ required: true, message: "Please Select One" }]}>
                   <Select placeholder="Payment Type" allowClear>
                     <Option value="payment - dena">PAYMENT - DIYA</Option>
                     <Option value="payment - lena">PAYMENT - LIYA</Option>
                   </Select>
                 </Form.Item>
               </Col>
+
+              {/* Remark */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Remark"
                   name="remark"
-                  required
-                  rules={[
-                    {
-                      required: true,
-                      message: "Enter Remark",
-                    },
-                  ]}>
+                  rules={[{ required: true, message: "Enter Remark" }]}>
                   <Input type="text" placeholder="Remarks" />
                 </Form.Item>
               </Col>
+
+              {/* Ledger Type */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="Ledger Type"
                   name="ledger_type"
-                  required={false}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please Select One",
-                    },
-                  ]}>
+                  rules={[{ required: true, message: "Please Select One" }]}>
                   <Select placeholder="All" allowClear>
                     <Option value="All">All</Option>
                     <Option value="Diamond">Diamond Casino</Option>
@@ -261,6 +247,7 @@ const AgentTransactions = () => {
                 </Form.Item>
               </Col>
             </Row>
+
             <Form.Item wrapperCol={{ span: 24 }}>
               <Button loading={isLoading} type="primary" htmlType="submit">
                 Submit
@@ -271,9 +258,15 @@ const AgentTransactions = () => {
       </Card>
 
       <Card className="sport_detail ledger_data">
-        {ledgerDetails && <TransactionTable trigger={trigger} clientId={clientId} data={ledgerDetails?.data} />}
+        {ledgerDetails && (
+          <TransactionTable
+            trigger={trigger}
+            clientId={clientId}
+            data={ledgerDetails?.data}
+          />
+        )}
       </Card>
-    </>
+    </div>
   );
 };
 
