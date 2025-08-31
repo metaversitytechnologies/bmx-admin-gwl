@@ -71,9 +71,9 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         align="middle"
         style={{ backgroundColor: "rgb(115, 118, 111)", marginTop: "10px" }}>
         <div
-          onClick={() => setShowMatchBet(true)}
+          onClick={() => setShowMatchBet(1)}
           style={{
-            background: showMatchBet ? "#380023" : "",
+            background: showMatchBet === 1 ? "#380023" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -82,9 +82,9 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
           Match Bet ({filteredAllOdds?.length || 0})
         </div>
         <div
-          onClick={() => setShowMatchBet(false)}
+          onClick={() => setShowMatchBet(2)}
           style={{
-            background: !showMatchBet ? "#380023" : "",
+            background: showMatchBet === 2 ? "#380023" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -94,7 +94,8 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         </div>
       </Row>
 
-      {showMatchBet ? (
+      {showMatchBet === 1 &&
+      (
         <Card
           style={{
             margin: "0px",
@@ -270,7 +271,8 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
             </div>
           </div>
         </Card>
-      ) : (
+      ) }
+      {showMatchBet === 2 && (
         <Card
           style={{
             margin: "0px",

@@ -15,11 +15,14 @@ import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../store/service/supermasteAccountStatementServices";
 import {
   useGetCommissionClientWiseMutation,
+  useGetCommissionResetMutation,
+  useGetCommitionReportHostopryMutation,
   useGetCommitionReportMutation,
 } from "../../../store/service/SportDetailServices";
 import CommissionModal from "./CommissionModal";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import UserCommissionModal from "./UserCommissionModal";
+import { openNotification, openNotificationError } from "../../../App";
 
 const { RangePicker } = DatePicker;
 
@@ -53,6 +56,10 @@ const CommissionLenDen = () => {
   const [trigger, { data, isLoading }] = useGetCommitionReportMutation();
   const [triggerClient, { data: commissionDate, loading }] =
     useGetCommissionClientWiseMutation();
+  const [getCommiHistory, { data: commHistory, isLoading: histLoading }] =
+    useGetCommitionReportHostopryMutation();
+  const [getResetComm, { isLoading: resetLoading }] =
+    useGetCommissionResetMutation();
 
   // ----------------- Effects -----------------
   useEffect(() => {
@@ -131,6 +138,39 @@ const CommissionLenDen = () => {
       fromDate: dateData[0],
       toDate: dateData[1],
     });
+  };
+
+  const totalFull =
+    totals.mMatch +
+    totals.mSession +
+    totals.mCasino -
+    (totals.dMatch + totals.dSession + totals.dCasino);
+
+  const handleOpenHistory = (userId) => {
+    getCommiHistory({
+      userId: userId,
+      // fromDate: dateData[0],
+      // toDate: dateData[1],
+    });
+    setOpen(true);
+  };
+
+  const handleResetComm = async (userId) => {
+    const res = await getResetComm({
+      userId: userId,
+      fromDate: dateData[0],
+      toDate: dateData[1],
+    }).unwrap();
+    if (res?.status) {
+      trigger({
+        userId: userType == 2 ? userId : clientId,
+        fromDate: dateData[0],
+        toDate: dateData[1],
+      });
+      openNotification("Commission Report Reset Successfully", "success");
+    } else {
+      openNotificationError(res?.message, "error");
+    }
   };
 
   return (
@@ -246,35 +286,44 @@ const CommissionLenDen = () => {
                       <span className="gx-px-2">{userDetails?.label}</span>
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch}
+                      {totals.mMatch?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mSession}
+                      {totals.mSession?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mCasino}
+                      {totals.mCasino?.toFixed(2)}
                     </td>
                     <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch + totals.mSession + totals.mCasino}
+                      {(
+                        totals.mMatch +
+                        totals.mSession +
+                        totals.mCasino
+                      )?.toFixed(2)}
                     </td>
                     <td></td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dMatch}
+                      {totals.dMatch?.toFixed(2)}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dSession}
+                      {totals.dSession?.toFixed(2)}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dCasino}
+                      {totals.dCasino?.toFixed(2)}
                     </td>
                     <td style={{ color: "red", fontWeight: 600 }}>
-                      {(totals.dMatch + totals.dSession + totals.dCasino)?.toFixed(2)}
+                      {(
+                        totals.dMatch +
+                        totals.dSession +
+                        totals.dCasino
+                      )?.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {((totals.mMatch +
-                        totals.mSession +
-                        totals.mCasino) -
-                        (totals.dMatch + totals.dSession + totals.dCasino))?.toFixed(2) || "0.00"}
+                    <td
+                      style={{
+                        color: totalFull >= 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {totalFull?.toFixed(2)}
                     </td>
                   </tr>
                 )}
@@ -283,6 +332,13 @@ const CommissionLenDen = () => {
                 {data?.data?.length > 0 ? (
                   data.data.map((items) => {
                     const isUser = items?.userId?.startsWith("C");
+                    const fullData =
+                      items?.matchCommMila +
+                      items?.sessionCommMila +
+                      items?.casinoCommMila -
+                      (items?.matchCommDena +
+                        items?.sessionCommDena +
+                        items?.casinoCommDena);
                     return (
                       <tr key={items?.userId}>
                         <td style={{ fontWeight: 600 }}>
@@ -317,12 +373,18 @@ const CommissionLenDen = () => {
                           {isUser && (
                             <div className="ant-row gx-pl-4">
                               <div className="ant-col">
-                                <Button className="ant-btn ant-btn-default gx-bg-grey gx-text-white" style={{ marginBottom: "10px" }}>
+                                <Button
+                                  isLoading={resetLoading}
+                                  onClick={() => handleResetComm(items?.userId)}
+                                  className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
+                                  style={{ marginBottom: "8px" }}>
                                   <span>Reset</span>
                                 </Button>
                                 <Button
                                   className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
-                                  onClick={() => setOpen(!open)}>
+                                  onClick={() =>
+                                    handleOpenHistory(items?.userId)
+                                  }>
                                   <span>History</span>
                                 </Button>
                               </div>
@@ -346,13 +408,12 @@ const CommissionLenDen = () => {
                             items?.casinoCommDena
                           )?.toFixed(2)}
                         </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
-                          {((items?.matchCommMila +
-                            items?.sessionCommMila +
-                            items?.casinoCommMila) -
-                            (items?.matchCommDena +
-                              items?.sessionCommDena +
-                              items?.casinoCommDena))?.toFixed(2) || "0.00"}
+                        <td
+                          style={{
+                            color: fullData >= 0 ? "green" : "red",
+                            fontWeight: 600,
+                          }}>
+                          {fullData?.toFixed(2) || "0.00"}
                         </td>
                       </tr>
                     );
@@ -371,7 +432,12 @@ const CommissionLenDen = () => {
       </div>
 
       {/* Modals */}
-      <CommissionModal setOpenModals={setOpen} openModal={open} />
+      <CommissionModal
+        commHistory={commHistory?.data}
+        setOpenModals={setOpen}
+        openModal={open}
+        isLoading={histLoading}
+      />
       <UserCommissionModal
         setOpenModals={setOpenUser}
         openModal={openUser}

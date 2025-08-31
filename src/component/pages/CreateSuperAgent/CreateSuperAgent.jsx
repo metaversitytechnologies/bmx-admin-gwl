@@ -9,7 +9,6 @@ import {
   Row,
   Select,
   Spin,
-  Switch,
   notification,
 } from "antd";
 import { useEffect, useState } from "react";
@@ -17,8 +16,8 @@ import axios from "axios";
 import {
   useCreateUserMutation,
   useLazyCreateUserDataQuery,
-  useLazyIsUserIdQuery,
 } from "../../../store/service/userlistService";
+import { openNotification, openNotificationError } from "../../../App";
 
 const CreateSuperAgent = ({ createName }) => {
   const [userData, setUserData] = useState({});
@@ -36,24 +35,6 @@ const CreateSuperAgent = ({ createName }) => {
     setLuPassword(e.target.value);
   };
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const userId = localStorage.getItem("userId");
   const [state, setState] = useState({
     isAuraAllowed: "",
     isSuperNovaAllowed: "",
@@ -61,13 +42,9 @@ const CreateSuperAgent = ({ createName }) => {
     isVirtualAllowed: "",
     isSportBookAllowed: "",
   });
- 
-
 
   const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
   var mobileNum = /^[6-9][0-9]{9}$/;
-
-  const [getData, { data: results }] = useLazyIsUserIdQuery();
 
   const handelUseId = (e) => {
     setCreateUserID(e.target.value);
@@ -80,18 +57,6 @@ const CreateSuperAgent = ({ createName }) => {
   useEffect(() => {
     trigger();
   }, [data?.data]);
-
-  useEffect(() => {
-    getData({
-      userId: hostname.includes("create-super")
-        ? "S" + createUserId
-        : hostname.includes("create-agent")
-        ? "M" + createUserId
-        : hostname.includes("create-dealer")
-        ? "A" + createUserId
-        : "C" + createUserId,
-    });
-  }, [createUserId]);
 
   const hostname = window.location.pathname;
 

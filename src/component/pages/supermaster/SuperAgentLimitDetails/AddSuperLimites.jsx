@@ -7,6 +7,7 @@ import {
   useSuperuserListMutation,
 } from "../../../../store/service/supermasteAccountStatementServices";
 import { convertCode } from "../../../../store/constant";
+import { openNotification, openNotificationError } from "../../../../App";
 
 const AddSuperLimites = () => {
   const [form] = Form.useForm();
@@ -39,23 +40,7 @@ const AddSuperLimites = () => {
     fetchData();
   }, [id, indexData, paginationTotal]);
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
+ 
   const handleInputChange = (userId, value) => {
     setInputValues((prev) => ({
       ...prev,

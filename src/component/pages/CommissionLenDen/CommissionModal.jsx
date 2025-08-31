@@ -1,7 +1,15 @@
-import { Card, Modal, Row, Table } from "antd";
+import { Button, Card, Modal, Row, Table } from "antd";
 import { useNavigate } from "react-router-dom";
+import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import { render } from "react-dom";
+import moment from "moment";
 
-const CommissionModal = ({ openModal, setOpenModals }) => {
+const CommissionModal = ({
+  openModal,
+  setOpenModals,
+  commHistory,
+  isLoading,
+}) => {
   const nav = useNavigate();
   const columns = [
     {
@@ -9,26 +17,29 @@ const CommissionModal = ({ openModal, setOpenModals }) => {
       dataIndex: "date",
       key: "date",
       onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+      render: (text) => (
+        <span>{moment(text).format("D/M/YYYY, hh:mm:ss a")}</span>
+      ),
     },
     {
       title: "M Comm",
-      dataIndex: "userId",
-      key: "userId",
+      dataIndex: "matchComm",
+      key: "matchComm",
     },
     {
       title: "S Comm",
-      dataIndex: "marketId",
-      key: "marketId",
+      dataIndex: "sessionComm",
+      key: "sessionComm",
     },
     {
       title: "C Comm",
-      dataIndex: "selectionName",
-      key: "selectionName",
+      dataIndex: "casinocomm",
+      key: "casinocomm",
     },
     {
       title: "Done By",
-      dataIndex: "winner",
-      key: "winner",
+      dataIndex: "resettingCommReportUserId",
+      key: "resettingCommReportUserId",
     },
   ];
   const handleBackClick = () => {
@@ -38,18 +49,18 @@ const CommissionModal = ({ openModal, setOpenModals }) => {
     <Modal
       width={800}
       onCancel={() => setOpenModals(false)}
-      className="modal_deposit"
+      className="modal_deposit ant_modal_commfooter"
       title={
         <h1>
           <span>Commission Modal</span>
         </h1>
       }
       footer={
-        <button
+        <Button
           onClick={() => setOpenModals(false)}
           className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
           Close
-        </button>
+        </Button>
       }
       closable={{ "aria-label": "Custom Close Button" }}
       open={openModal}>
@@ -57,8 +68,7 @@ const CommissionModal = ({ openModal, setOpenModals }) => {
         <Card
           style={{ margin: 0, width: "100%" }}
           className="sport_detail"
-          title="Comm Lena Dena History"
-          extra={<button onClick={handleBackClick}>Back</button>}>
+          title="Comm Lena Dena History">
           <div className="table_section comm_dsata_table">
             <Table
               className="live_table acc_tabel limit_update"
@@ -67,11 +77,11 @@ const CommissionModal = ({ openModal, setOpenModals }) => {
                 record?.pnl < 0 ? "red_back" : "green_back"
               }
               columns={columns}
-              // loading={{
-              //   spinning: isLoading || isFetching,
-              //   indicator: <CustomLoading />,
-              // }}
-              dataSource={[]}
+              loading={{
+                spinning: isLoading,
+                indicator: <CustomLoading />,
+              }}
+              dataSource={commHistory || []}
               pagination={false}
             />
           </div>

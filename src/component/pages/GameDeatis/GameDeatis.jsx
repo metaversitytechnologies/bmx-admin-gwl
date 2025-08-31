@@ -22,7 +22,7 @@ const GameDeatis = () => {
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
-    const [showMatchBet, setShowMatchBet] = useState(true);
+    const [showMatchBet, setShowMatchBet] = useState(0);
 
   // useEffect(() => {
   //   trigger({

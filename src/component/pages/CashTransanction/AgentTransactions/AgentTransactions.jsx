@@ -20,6 +20,7 @@ import {
 } from "../../../../store/service/supermasteAccountStatementServices";
 import moment from "moment";
 import { convertCode, convertCodeReverse } from "../../../../store/constant";
+import { openNotification, openNotificationError } from "../../../../App";
 
 const dateFormat = "YYYY/MM/DD";
 
@@ -48,22 +49,7 @@ const AgentTransactions = () => {
   const [createTran, { data: createTranstions, error, isLoading }] =
     useCreateLedgerMutation();
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  
 
   const onFinish = (values) => {
     const createTranstions = {

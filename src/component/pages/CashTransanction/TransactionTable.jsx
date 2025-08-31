@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useGetDeletedTranstionMutation } from "../../../store/service/SportDetailServices";
 import { convertCodeReverse } from "../../../store/constant";
+import { openNotification, openNotificationError } from "../../../App";
 
 const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   const [api, contextHolder] = notification.useNotification();
@@ -17,22 +18,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
     nav(`/client/deletedlenden/${clientId}`);
   };
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  
 
   const handleDelete = async () => {
     try {

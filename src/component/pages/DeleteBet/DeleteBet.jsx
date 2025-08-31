@@ -18,6 +18,7 @@ import {
   useGetBetlistAllMutation,
   useGetDeletedBetMutation,
 } from "../../../store/service/SportDetailServices";
+import { openNotification, openNotificationError } from "../../../App";
 
 const { Option } = Select;
 
@@ -41,22 +42,7 @@ const DeleteBet = () => {
   const [getDeletedBet, { data: getDelete, isLoading, error }] =
     useGetDeletedBetMutation();
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  
 
   const columns = [
     {

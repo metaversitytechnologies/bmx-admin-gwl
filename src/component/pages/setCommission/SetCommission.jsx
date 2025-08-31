@@ -14,6 +14,7 @@ import {
   useGetCommissionMutation,
   useSetCommissionMutation,
 } from "../../../store/service/CasinoServices";
+import { openNotification, openNotificationError } from "../../../App";
 
 const columns = [
   {
@@ -52,30 +53,7 @@ const SetCommission = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const onFinish = (value) => {
-    trigger({
-      fancyCommission: value?.fancycomm,
-      oddsCommission: value?.oddscomm,
-      casinoCommission: value?.casinocomm,
-    });
-  };
+  
 
   useEffect(() => {
     if (data?.status == true) {
