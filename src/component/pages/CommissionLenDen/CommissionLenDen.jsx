@@ -22,7 +22,7 @@ import {
 import CommissionModal from "./CommissionModal";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import UserCommissionModal from "./UserCommissionModal";
-import { openNotification } from "../../../App";
+import { openNotification, openNotificationError } from "../../../App";
 
 const { RangePicker } = DatePicker;
 
@@ -162,9 +162,14 @@ const CommissionLenDen = () => {
       toDate: dateData[1],
     }).unwrap();
     if (res?.status) {
+      trigger({
+        userId: userType == 2 ? userId : clientId,
+        fromDate: dateData[0],
+        toDate: dateData[1],
+      });
       openNotification("Commission Report Reset Successfully", "success");
     } else {
-      openNotification(res?.message, "error");
+      openNotificationError(res?.message, "error");
     }
   };
 

@@ -2,6 +2,7 @@ import { Button, Form, Input, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLazyUpDateLimitesQuery, useMinusLimitMutation, useWithdrawMutation } from "../../../../store/service/userlistService";
 import { useLocation, useParams } from "react-router-dom";
+import { openNotification, openNotificationError } from "../../../../App";
 
 const MinusLimit = (props) => {
   const [addTotal, setAddTotal] = useState(0);
@@ -29,22 +30,7 @@ const MinusLimit = (props) => {
     })
   }, [id])
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+ 
 
   const onFinish = (values) => {
     const addList = {

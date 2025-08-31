@@ -21,6 +21,7 @@ import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
 import SelectUpline from "./SelectUpline";
 import { convertCodeReverse } from "../../../store/constant";
+import { openNotification, openNotificationError } from "../../../App";
 
 const createName = {
   7: "Admin",
@@ -40,23 +41,6 @@ const NewCreateUser = () => {
 
   const commissionType = (value) => {
     setCommiType(value);
-  };
-
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
   };
 
   const { id } = useParams();

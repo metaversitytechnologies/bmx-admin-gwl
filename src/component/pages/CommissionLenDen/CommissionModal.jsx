@@ -1,4 +1,4 @@
-import { Card, Modal, Row, Table } from "antd";
+import { Button, Card, Modal, Row, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import { render } from "react-dom";
@@ -55,13 +55,7 @@ const CommissionModal = ({
           <span>Commission Modal</span>
         </h1>
       }
-      footer={
-        <button
-          onClick={() => setOpenModals(false)}
-          className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
-          Close
-        </button>
-      }
+      footer={null}
       closable={{ "aria-label": "Custom Close Button" }}
       open={openModal}>
       <div className="match_slip">

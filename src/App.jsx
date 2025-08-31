@@ -3,31 +3,31 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import Main from "./component/common/main/Main";
 import { notification } from "antd";
-import './assets/gaxon/styles.css'
+import "./assets/gaxon/styles.css";
 
 let apiRef;
 export const openNotification = (mess) => {
-    apiRef?.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  apiRef?.success({
+    message: mess,
+    description: "Success",
+    closeIcon: false,
+    placement: "top",
+    duration: 1,
+  });
+};
 
 export const openNotificationError = (mess) => {
-    apiRef?.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
+  apiRef?.error({
+    message: mess,
+    closeIcon: false,
+    placement: "top",
+    duration: 1,
+  });
+};
 function App() {
-  
-  const [api,contextHolder ] = notification.useNotification();
-  apiRef=api;
- 
-  
+  const [api, contextHolder] = notification.useNotification();
+  apiRef = api;
+
   return (
     <Provider store={store}>
       <div>

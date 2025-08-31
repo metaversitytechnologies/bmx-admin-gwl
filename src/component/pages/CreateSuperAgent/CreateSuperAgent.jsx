@@ -19,6 +19,7 @@ import {
   useLazyCreateUserDataQuery,
   useLazyIsUserIdQuery,
 } from "../../../store/service/userlistService";
+import { openNotification, openNotificationError } from "../../../App";
 
 const CreateSuperAgent = ({ createName }) => {
   const [userData, setUserData] = useState({});
@@ -36,22 +37,6 @@ const CreateSuperAgent = ({ createName }) => {
     setLuPassword(e.target.value);
   };
 
-  const openNotification = (mess) => {
-    api.success({
-      message: mess,
-      description: "Success",
-      closeIcon: false,
-      placement: "top",
-    });
-  };
-
-  const openNotificationError = (mess) => {
-    api.error({
-      message: mess,
-      closeIcon: false,
-      placement: "top",
-    });
-  };
 
   const userId = localStorage.getItem("userId");
   const [state, setState] = useState({
