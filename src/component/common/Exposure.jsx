@@ -28,6 +28,11 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
       ),
     },
     {
+      title: "Selection Name",
+      dataIndex: "selectionName",
+      key: "selectionName",
+    },
+    {
       title: "Stake",
       dataIndex: "stake",
       key: "stake",
@@ -57,11 +62,6 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
       title: "Time",
       dataIndex: "date",
       key: "date",
-    },
-    {
-      title: "Market Type",
-      dataIndex: "selectionName",
-      key: "selectionName",
     },
     {
       title: "Loss",
