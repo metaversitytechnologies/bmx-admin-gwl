@@ -60,8 +60,8 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
     },
     {
       title: "Market Type",
-      dataIndex: "marketType",
-      key: "marketType",
+      dataIndex: "selectionName",
+      key: "selectionName",
     },
     {
       title: "Loss",
@@ -164,7 +164,7 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
             }}
             rowClassName={(record) => {
               if (record?.marketType === "Fancy") {
-                return record?.back ? "bacl" : "lay";
+                return record?.back ? "back" : "lay";
               } else {
                 return record?.back ? "back" : "lay";
               }
