@@ -86,7 +86,9 @@ const Bookmaker = ({
                       </tr>
                     </thead>
                     <tbody className="ant-table-tbody">
-                      {data?.Bookmaker?.map((runner, index) => {
+                      {data?.Bookmaker?.filter(
+                        (item) => item?.t === "Bookmaker"
+                      )?.map((runner, index) => {
                         const pnlsOdds = pnl?.find(
                           (element) => element?.marketId == runner?.mid
                         );
