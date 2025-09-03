@@ -60,6 +60,13 @@ import AllBets from "../../pages/MatchLedgerCasino/AllBets";
 import CasinoPLMinus from "../../pages/RouletteDetail/RoulettePlusMinus/CasinoPLMinus";
 import DeleteBet from "../../pages/DeleteBet/DeleteBet";
 import CasinoProfitAndLossDetails from "../../pages/Settings/CasinoProfitAndLoss/CasinoProfitAndLossDetails";
+import CreateLedger from "../../pages/PostLedgerSection/CreateLedger";
+import CreateDomain from "../../pages/CreateDomain/CreateDomain";
+import EventControllor from "../../pages/EventControllor/EventControllor";
+import CompletedActive from "../../pages/EventControllor/CompletedActive";
+import DeletedBets from "../../pages/EventControllor/DeletedBets";
+import DeleteSessionBets from "../../pages/EventControllor/DeleteSessionBets";
+import DeleteMatchBets from "../../pages/EventControllor/DeleteMatchBets";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -76,6 +83,20 @@ const Main = () => {
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
         <Route path="/delete-bet" element={<DeleteBet />} />
+        <Route path="/create-domain" element={<CreateDomain />} />
+        <Route path="/event-lock" element={<EventControllor />} />
+        <Route path="/completd-actibe-bet" element={<CompletedActive />} />
+        <Route path="/delete-bets" element={<DeletedBets />} />
+        <Route path="/delete-session/:id?" element={<DeleteSessionBets />} />
+        <Route path="/delete-match/:id?" element={<DeleteMatchBets />} />
+        <Route
+          path="/create-ledger"
+          element={<CreateLedger forPostLedger={true} />}
+        />
+        <Route
+          path="/rollback"
+          element={<CreateLedger forPostLedger={false} />}
+        />
         <Route
           path="/display-games/:id/:name/:date?"
           element={<DisplayGames />}
@@ -122,10 +143,7 @@ const Main = () => {
           path="/client/update-dealer/:id"
           element={<UpdateSuper updateName={"Agent"} />}
         />
-        <Route
-          path="/account-operation/:id"
-          element={<AccountOperations />}
-        />
+        <Route path="/account-operation/:id" element={<AccountOperations />} />
         <Route path="/account-statement/:id?" element={<AccountStatement />} />
 
         <Route path="/account-operation" element={<AccountOperations />} />
@@ -170,7 +188,10 @@ const Main = () => {
         <Route path="/markets" element={<Settings />} />
         <Route path="/profitandloss" element={<ProfitAndLoss />} />
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
-        <Route path="/casinoprofitandloss/:id" element={<CasinoProfitAndLossDetails />} />
+        <Route
+          path="/casinoprofitandloss/:id"
+          element={<CasinoProfitAndLossDetails />}
+        />
         <Route path="/Casino/today-pandl" element={<TodayProfitLoss />} />
         <Route path="/client/mobile-app-report" element={<SelectClient />} />
         <Route

@@ -94,8 +94,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         </div>
       </Row>
 
-      {showMatchBet === 1 &&
-      (
+      {showMatchBet === 1 && (
         <Card
           style={{
             margin: "0px",
@@ -271,7 +270,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
             </div>
           </div>
         </Card>
-      ) }
+      )}
       {showMatchBet === 2 && (
         <Card
           style={{
@@ -403,6 +402,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                   <tr>
                     <th>Client</th>
                     <th>Rate</th>
+                    <th>Run</th>
                     <th>Amount</th>
                     <th>Type</th>
                     <th>Team</th>
@@ -432,6 +432,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           {item?.username} ({item?.userId})
                         </td>
                         <td>{Number(item?.rate)?.toFixed(2)}</td>
+                        <td>{item?.run}</td>
                         <td>{item?.amount}</td>
                         <td>{item?.mode}</td>
                         <td>{item?.selectionName}</td>

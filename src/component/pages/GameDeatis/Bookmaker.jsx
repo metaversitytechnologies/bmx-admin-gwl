@@ -41,8 +41,8 @@ const Bookmaker = ({
                                   fontWeight: 500,
                                 }}
                                 onClick={() => {
-                                  setShowTtlBook(true);
-                                  handleOddBook();
+                                  setShowTtlBook(false);
+                                  handleTtlBook();
                                 }}>
                                 Ttl Book
                               </div>
@@ -57,8 +57,8 @@ const Bookmaker = ({
                                   fontWeight: 500,
                                 }}
                                 onClick={() => {
-                                  setShowTtlBook(false);
-                                  handleTtlBook();
+                                  setShowTtlBook(true);
+                                  handleOddBook();
                                 }}>
                                 My Book
                               </div>

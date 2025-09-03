@@ -187,6 +187,98 @@ export const userlistApi = createApi({
         body,
       }),
     }),
+    getMatchListLeder: build.query({
+      query: (body) => ({
+        url: `/sports/match-list-postledger-androllback`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getPostLeder: build.mutation({
+      query: (body) => ({
+        url: `/ledger/post-ledger`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getRollBack: build.mutation({
+      query: (body) => ({
+        url: `/ledger/rollback-ledger`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getCreateApp: build.mutation({
+      query: (body) => ({
+        url: `/app-detail/create`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getUpdateApp: build.mutation({
+      query: (body) => ({
+        url: `/app-detail/update`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getEventLockList: build.query({
+      query: () => ({
+        url: `/sports/active-event-list`,
+        method: "POST",
+      }),
+    }),
+    getEventActiveDeactive: build.mutation({
+      query: (body) => ({
+        url: `/sports/upadte-event-activation`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getCompletdMatches: build.query({
+      query: (body) => ({
+        url: `/report/get-active-bets-of-completed-matches`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getDeletedMatches: build.query({
+      query: (body) => ({
+        url: `/sports/event-ledger-not-posted`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getDeletedBetByTime: build.mutation({
+      query: (body) => ({
+        url: `/superadmin/delete-bet-bytime`,
+        method: "POST",
+        body,
+      }),
+    }),
+
+    getSessionBetDeleted: build.query({
+      query: (body) => ({
+        url: `/report/get-session-bets-to-delete`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getMatchedBetDeleted: build.query({
+      query: (body) => ({
+        url: `/report/get-match-bets-to-delete`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getDeletdBet: build.mutation({
+      query: (body) => ({
+        url: `/superadmin/delete-bet-byid`,
+        method: "POST",
+        body,
+      }),
+    }),
+    
   }),
 });
 
@@ -215,4 +307,17 @@ export const {
   useAppDetailsQuery,
   useSelfDepositMutation,
   useGetCasinoLabilityQuery,
+  useGetMatchListLederQuery,
+  useGetPostLederMutation,
+  useGetRollBackMutation,
+  useGetCreateAppMutation,
+  useGetUpdateAppMutation,
+  useGetEventLockListQuery,
+  useGetEventActiveDeactiveMutation,
+  useGetCompletdMatchesQuery,
+  useGetDeletedMatchesQuery,
+  useGetDeletedBetByTimeMutation,
+  useGetSessionBetDeletedQuery,
+  useGetDeletdBetMutation,
+  useGetMatchedBetDeletedQuery
 } = userlistApi;

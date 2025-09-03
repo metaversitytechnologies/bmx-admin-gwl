@@ -61,12 +61,23 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const [openResetPassModal, setOpenResetPassModal] = useState(false);
   const [openExp, setOpenExp] = useState(false);
+  const [userToSearch, setUserToSearch] = useState("");
 
   const [form] = Form.useForm();
   const { parentId: parentIdFromParams, userTyep } = useParams();
   const myElementRef = useRef(null);
 
   // API Hooks
+
+  useEffect(() => {
+    if (userType === "1") {
+      setPaginationTotal(100);
+    } else {
+      setPaginationTotal(50);
+    }
+    setUserToSearch("");
+  }, [userType]);
+
   const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
     useSuperuserListMutation();
   const [getBetLock] = useUserBetLockMutation();
@@ -83,7 +94,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       parentId: parentIdFromParams || "",
       noOfRecords: paginationTotal,
       index: indexData,
-      userToSearch: "",
+      userToSearch,
     });
   };
 
@@ -218,6 +229,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const currentPage = superuserListData?.data?.currentPage || 0;
 
   const onSearchFinish = (values) => {
+    setUserToSearch(values?.username);
     getSuperuserList({
       userType: userType,
       parentId: parentIdFromParams || null,
@@ -500,7 +512,9 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                             handleExposure(res?.userId);
                           }
                         }}
-                        className="gx-text-blue gx-pointer gx-text-nowrap">
+                        className={`${
+                          userTyep == "1" ? "" : "gx-text-blue gx-pointer"
+                        }  gx-text-nowrap`}>
                         <SlEye /> {res?.userName}
                       </span>
                     </td>

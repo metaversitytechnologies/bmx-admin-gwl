@@ -44,6 +44,14 @@ const Responsedata = {
   5: "subAdmin",
   6: "admin",
 };
+const ResponsedataUpper = {
+  2: "dealer",
+  3: "super",
+  4: "master",
+  5: "subAdmin",
+  6: "admin",
+  7: "my",
+};
 
 const UpdateSuper = () => {
   const { id, userId } = useParams();
@@ -61,6 +69,8 @@ const UpdateSuper = () => {
 
   const getUserField = (fieldSuffix) =>
     resuilt?.data?.[Responsedata?.[id] + fieldSuffix] || 0;
+  const getUserUpper = (fieldSuffix) =>
+    resuilt?.data?.[ResponsedataUpper?.[Number(id) + 1] + fieldSuffix] || 0;
 
   useEffect(() => {
     if (resuilt?.status) {
@@ -168,25 +178,25 @@ const UpdateSuper = () => {
               {
                 name: "comm_type",
                 value:
-                  resuilt?.data?.myCasinoPartnership > 0 ||
-                  resuilt?.data?.myMatchCommission > 0
+                  getUserUpper("CasinoPartnership") > 0 ||
+                  getUserUpper("MatchCommission") > 0
                     ? "bbb"
                     : "no-comm",
               },
               {
                 name: "commType",
                 value:
-                  resuilt?.data?.myCasinoPartnership > 0 ||
-                  resuilt?.data?.myMatchCommission > 0
+                  getUserUpper("CasinoPartnership") > 0 ||
+                  getUserUpper("MatchCommission") > 0
                     ? "Bet by Bet"
                     : "No Comm",
               },
-              { name: "matchcomm", value: resuilt?.data?.myMatchCommission },
+              { name: "matchcomm", value: getUserUpper("MatchCommission") },
               {
                 name: "super_match_comm",
                 value: getUserField("MatchCommission"),
               },
-              { name: "sesscomm", value: resuilt?.data?.mySessionCommision },
+              { name: "sesscomm", value: getUserUpper("SessionCommision") },
               {
                 name: "super_sess_comm",
                 value: getUserField("SessionCommision"),
@@ -197,15 +207,15 @@ const UpdateSuper = () => {
               },
               {
                 name: "super_casino_share",
-                value: resuilt?.data?.myCasinoPartnership,
+                value: getUserUpper("CasinoPartnership"),
               },
               {
                 name: "matchShare",
-                value: resuilt?.data?.myPartnership,
+                value: getUserUpper("Partnership"),
               },
               {
                 name: "super_casino_comm",
-                value: resuilt?.data?.myCasinoCommission,
+                value: getUserField("CasinoCommission"),
               },
               {
                 name: "supercasinocomm",

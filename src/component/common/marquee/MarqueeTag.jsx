@@ -7,9 +7,12 @@ const MarqueeTag = () => {
     <>
       <div className="marque_section">
         <Marquee style={{ textTransform: "capitalize" }}>
-          "{window.location.hostname.split(".")?.[1]}{" "} में आपका स्वागत है हमारी
+          {/* "{window.location.hostname.split(".")?.[1]} में आपका स्वागत है हमारी
           कोई डुप्लीकेट वेबसाइट नहीं है कृपा हमारी आधिकारिक लिंक{" "}
-          <span style={{ padding: "0px 3px" }}>{domain}</span> से ही लॉगिन करें"
+          <span style={{ padding: "0px 3px" }}>{domain}</span> से ही लॉगिन करें" */}
+          {window.location.hostname.split(".")?.[1]} {" "} में आपका स्वागत है हमारी
+          कोई डुप्लीकेट वेबसाइट नहीं है कृपया हमारी आधिकारिक लिंक{" "}
+          <span style={{ padding: "1px 3px" }}>{domain}</span> से ही लॉगिन करें
         </Marquee>
       </div>
     </>

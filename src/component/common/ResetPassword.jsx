@@ -22,10 +22,27 @@ const ResetPassword = ({
   };
 
   const [trigger, { isLoading }] = useGetUpdatePasswordMutation();
-  const { userTyep } = useParams(); // Not sure if you still need this
+  const { userTyep } = useParams(); // Not used, but kept if you need later
 
   const handleDepositeCancel = () => {
     setOpenResetPass(false);
+  };
+
+  // Fallback for iOS / Safari
+  const fallbackCopy = (text) => {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed"; // avoid scrolling to bottom
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      message.success("Copied using fallback method!");
+    } catch (err) {
+      message.error("Copy not supported on this browser.");
+    }
+    document.body.removeChild(textarea);
   };
 
   const handleDepositeOk = async () => {
@@ -35,26 +52,39 @@ const ResetPassword = ({
       otp: data?.otp,
     };
 
-    try {
-      await trigger(payload).unwrap();
-
-      let passwordText = `New Password
+    let passwordText = `New Password
 LINK : ${domainLink[Number(userType)]}
 ID   : ${convertCode(userId)}
 PW   : ${data?.password}`;
 
-      // Only add OTP if userType is NOT 1
-      if (Number(userType) != 1) {
-        passwordText += `\nOTP  : ${data?.otp}`;
+    if (Number(userType) !== 1) {
+      passwordText += `\nOTP  : ${data?.otp}`;
+    }
+
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(passwordText);
+      } else {
+        fallbackCopy(passwordText);
       }
+      message.success("Copied to clipboard!");
+    } catch (err) {
+      console.error("Clipboard error:", err);
+      fallbackCopy(passwordText);
+    }
 
-      await navigator.clipboard.writeText(passwordText);
-
-      message.success("Password updated and copied to clipboard!");
-      setOpenResetPass(false);
-    } catch (error) {
-      console.error("Error updating password:", error);
-      message.error("Failed to update password.");
+    // Call API after copy
+    try {
+      const res = await trigger(payload).unwrap();
+      if (res?.status) {
+        // message.success("Password updated!");
+        setOpenResetPass(false);
+      } else {
+        message.error(res?.message || "Failed to update password");
+      }
+    } catch (err) {
+      console.error("API error:", err);
+      message.error("Something went wrong while updating password.");
     }
   };
 
@@ -96,7 +126,7 @@ PW   : ${data?.password}`;
 LINK : ${domainLink[Number(userType)]}
 ID   : ${convertCode(userId)}
 PW   : ${data?.password}${
-          Number(userType) != 1 ? `\nOTP  : ${data?.otp}` : ""
+          Number(userType) !== 1 ? `\nOTP  : ${data?.otp}` : ""
         }`}
       />
     </Modal>

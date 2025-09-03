@@ -6,9 +6,7 @@ import Navbar from "../common/navbar/Navbar";
 import "./Layout.scss";
 import MarqueeTag from "../common/marquee/MarqueeTag";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useJwtTokenQuery } from "../../store/service/jwtTokenServices";
 import HomeRules from "../pages/HomeRules";
-import JwtToken from "./JwtToken";
 
 const LayOut = () => {
   const [collapsed, setCollapsed] = useState();
@@ -56,8 +54,6 @@ const LayOut = () => {
 
   return (
     <>
-      {(pType == "New" || pType == "new") && <JwtToken />}
-
       <Layout className="main_layout">
         <Sidebar collll={collll} open={open} action={toggleDarawer} />
         <Layout>

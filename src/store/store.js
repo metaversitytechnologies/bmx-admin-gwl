@@ -11,7 +11,6 @@ import useref from "./global/elementSlice";
 import { sportDetailsApi } from "./service/SportDetailServices";
 import { oddsPnlApi } from "./service/OddsPnlServices";
 
-import { jwtApi } from "./service/jwtTokenServices";
 import { casinoDetailsApi } from "./service/CasinoServices";
 import { casinoData } from "./service/casinoService";
 
@@ -29,7 +28,7 @@ export const store = configureStore({
     [fancyBookApi.reducerPath]: fancyBookApi.reducer,
     [sportDetailsApi.reducerPath]: sportDetailsApi.reducer,
     [oddsPnlApi.reducerPath]: oddsPnlApi.reducer,
-    [jwtApi.reducerPath]: jwtApi.reducer,
+
     [casinoDetailsApi.reducerPath]: casinoDetailsApi.reducer,
     [casinoData.reducerPath]: casinoData.reducer,
   },
@@ -44,7 +43,6 @@ export const store = configureStore({
       .concat(fancyBookApi.middleware)
       .concat(sportDetailsApi.middleware)
       .concat(oddsPnlApi.middleware)
-      .concat(jwtApi.middleware)
       .concat(casinoDetailsApi.middleware)
       .concat(casinoData.middleware),
 });
