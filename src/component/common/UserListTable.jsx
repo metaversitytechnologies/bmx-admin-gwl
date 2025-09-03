@@ -9,6 +9,7 @@ import {
   Pagination,
   Space,
   Spin,
+  Tag,
 } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
@@ -530,15 +531,12 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                             res?.liability !== 0 && handleExposure(res?.userId);
                           }}
                           style={{
+                            border: "1px solid #fff",
                             fontWeight: 600,
-                            color:
-                              res?.liability > 0
-                                ? "green"
-                                : res?.liability == 0
-                                ? "#595959"
-                                : "red",
                           }}>
-                          {res?.liability?.toFixed(2) || 0}
+                          <Tag color="#f50">
+                            {res?.liability?.toFixed(2) || 0}
+                          </Tag>
                         </span>
                       </td>
                     )}
