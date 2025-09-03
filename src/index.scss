@@ -39,9 +39,23 @@ body {
     &:first-child {
       min-width: 250px !important;
     }
-    &:nth-child(5){
+    &:nth-child(5) {
       min-width: 200px !important;
     }
     border: 1px solid #ebeaea;
   }
+}
+
+:root {
+  --login-bg: #7d5c0e;
+  --bg-color: #7d5c0e;
+  --btn-bg-color: #7d5c0e;
+  --header-bg: #7d5c0e;
+}
+
+[data-theme="theme1"] {
+  --login-bg: linear-gradient(#1b0013 0, #380023);
+  --bg-color: #380023;
+  --btn-bg-color: #380023;
+  --header-bg: #380023;
 }

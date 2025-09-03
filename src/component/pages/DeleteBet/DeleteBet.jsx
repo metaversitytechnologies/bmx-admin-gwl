@@ -42,7 +42,6 @@ const DeleteBet = () => {
   const [getDeletedBet, { data: getDelete, isLoading, error }] =
     useGetDeletedBetMutation();
 
-  
 
   const columns = [
     {

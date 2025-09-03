@@ -11,12 +11,12 @@ const CardComp = ({ shown, card }) => {
             <img
               className="card_front"
               src={`https://versionobj.ecoassetsservice.com/v14/static/front/img/cards/${
-                card.includes("HH")
-                  ? card.replace(/HH/, "SS")
-                  : card.includes("SS")
-                  ? card.replace(/SS/, "DD")
-                  : card.includes("DD")
-                  ? card.replace(/DD/, "HH")
+                card?.includes("HH")
+                  ? card?.replace(/HH/, "SS")
+                  : card?.includes("SS")
+                  ? card?.replace(/SS/, "DD")
+                  : card?.includes("DD")
+                  ? card?.replace(/DD/, "HH")
                   : card
               }.jpg`}
               alt=""

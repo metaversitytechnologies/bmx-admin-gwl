@@ -8,13 +8,16 @@ import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { MdMenu } from "react-icons/md";
 import SelfDeposit from "../DepositModal/SelfDeposit";
+import { isAntPro } from "../../../store/constant";
 
 const Navbar = ({ action, logo }) => {
   const userData = localStorage.getItem("username");
   const userType = localStorage.getItem("userType");
-  const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
+
   const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
+  const [userInfo, setUserInfo] = useState();
   const nav = useNavigate();
 
   const handleLogout = () => {
@@ -86,12 +89,16 @@ const Navbar = ({ action, logo }) => {
             </Button>
           </Space>
 
-          <img
-            onClick={handleDashbordHome}
-            src={"/img/logo.png"}
-            alt=""
-            height={40}
-          />
+          {isAntPro ? (
+            <img alt="example" src={"/Images/logo.png"} />
+          ) : (
+            <img
+              onClick={handleDashbordHome}
+              src={"/img/logo.png"}
+              alt=""
+              height={40}
+            />
+          )}
         </div>
         <div className="nav_drop">
           <div className="sub_menu_nav">

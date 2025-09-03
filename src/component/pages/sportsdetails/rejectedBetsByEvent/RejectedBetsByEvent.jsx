@@ -12,6 +12,7 @@ const RejectedBetsByEvent = () => {
       title: "Rate",
       dataIndex: "rate",
       key: "rate",
+      render: (text) => <span>{Number(text).toFixed(2)}</span>,
     },
     {
       title: "Amount",

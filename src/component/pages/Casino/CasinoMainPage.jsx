@@ -9,9 +9,9 @@ import TeenPatti from "./TeenPatti";
 import AAA from "./AAA";
 import DT20 from "./DT20";
 import Lucky7B from "./Lucky7B";
+import TeenPattiOneDay from "./TeenPattiOneDay";
 import NonDeclare from "./NonDeclare";
 import Result from "./Result";
-import TeenPattiOneDay from "./TeenPattiOneDay";
 
 const CasinoMainPage = () => {
   const nav = useNavigate();

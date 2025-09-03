@@ -3,7 +3,7 @@
   padding-bottom: 2px;
   margin: 0px 28px;
   .sub_select_upline {
-    background: #380023 !important;
+    background: var(--bg-color) !important;
     color: #fff;
   }
   .select_upline_list {
@@ -39,14 +39,14 @@
   li {
     &:hover {
       color: #fff !important;
-      background: #380023 !important;
+      background: var(--bg-color) !important;
       border-radius: unset;
     }
   }
 }
 
 .ant-select-item.ant-select-item-option.ant-select-item-option-active {
-  background: #380023;
+  background: var(--bg-color);
   color: #fff;
   border-radius: unset;
 }

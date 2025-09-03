@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { baseUrl, baseUrlkho, isAntPro } from "../../../store/constant";
 
 export const useOdds = (value) => {
   const [odds, setOdds] = useState(null);
@@ -9,7 +10,11 @@ export const useOdds = (value) => {
   useEffect(() => {
     const timer = setInterval(() => {
       if (value) {
-        fetch(`${import.meta.env.VITE_ODDS_API}/betfair_api/casino/data/meta-${value}`)
+        fetch(
+          `${
+            import.meta.env.VITE_ODDS_API
+          }/betfair_api/casino/data/meta-${value}`
+        )
           .then((res) => res.json())
           .then((res) => {
             if (Array.isArray(res?.bf)) {
@@ -30,8 +35,8 @@ export const useOdds = (value) => {
                   Number(item.gstatus) === 1
                     ? true
                     : Number(item.gstatus) === 0
-                      ? false
-                      : item.gstatus;
+                    ? false
+                    : item.gstatus;
                 item.pnl = pnl[item.sid] || 0;
                 res.t2BySid[item.sid] = item;
               });
@@ -55,7 +60,7 @@ export const useOdds = (value) => {
     const timer = setInterval(() => {
       const mid = odds?.t1?.[0]?.mid;
       if (Number(mid)) {
-        fetch(`${import.meta.env.VITE_BASE_URL}/casino/liability`, {
+        fetch(`${isAntPro ? baseUrl : baseUrlkho}/casino/liability`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

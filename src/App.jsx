@@ -4,6 +4,8 @@ import { store } from "./store/store";
 import Main from "./component/common/main/Main";
 import { notification } from "antd";
 import "./assets/gaxon/styles.css";
+import { useEffect } from "react";
+import { isAntPro } from "./store/constant";
 
 let apiRef;
 export const openNotification = (mess) => {
@@ -24,15 +26,24 @@ export const openNotificationError = (mess) => {
     duration: 1,
   });
 };
+
 function App() {
   const [api, contextHolder] = notification.useNotification();
   apiRef = api;
+
+  useEffect(() => {
+    if (isAntPro) {
+      document.documentElement.removeAttribute("data-theme");
+    } else {
+      document.documentElement.setAttribute("data-theme", "theme1");
+    }
+  }, []); 
 
   return (
     <Provider store={store}>
       <div>
         {contextHolder}
-        <Main />{" "}
+        <Main />
       </div>
     </Provider>
   );

@@ -93,15 +93,15 @@ table {
 .match_table {
   .ant-checkbox-checked {
     .ant-checkbox-inner {
-      background-color: #380023 !important;
-      border-color: #380023 !important;
+      background-color: var(--bg-color) !important;
+      border-color: #000 !important;
     }
   }
 }
 
 .ant-checkbox-inner {
   &::after {
-    background-color: #380023 !important;
+    background-color: var(--bg-color) !important;
   }
 }
 

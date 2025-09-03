@@ -21,7 +21,7 @@
 }
 
 .ant-menu-sub {
-  background: #380023 !important;
+  background: var(--bg-color) !important;
   border-radius: unset !important;
   color: #fff;
   width: 91%;
@@ -177,6 +177,7 @@
       line-height: 30px !important;
       color: #545454 !important;
       font-weight: 600 !important;
+      padding: 0px 11px !important;
     }
   }
 }
@@ -205,7 +206,7 @@
     margin-bottom: 30px;
   }
   .ant-btn-default {
-    background: #380023 !important;
+    background: var(--btn-bg-color) !important;
     color: #fff;
     border-radius: 2px;
     border: unset;
@@ -228,7 +229,7 @@
       height: 52px;
       width: 100%;
       position: absolute;
-      background: #380023;
+      background: var(--bg-color);
       color: #fff;
       top: 0;
       left: 0;
@@ -271,7 +272,7 @@
       margin: 12px;
     }
     .return {
-      background: #380023 !important;
+      background: var(--bg-color) !important;
       color: #fff;
       border-radius: 2px;
       border: unset;

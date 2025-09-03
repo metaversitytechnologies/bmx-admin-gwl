@@ -35,6 +35,8 @@ const CreateSuperAgent = ({ createName }) => {
     setLuPassword(e.target.value);
   };
 
+
+  const userId = localStorage.getItem("userId");
   const [state, setState] = useState({
     isAuraAllowed: "",
     isSuperNovaAllowed: "",
@@ -196,40 +198,40 @@ const CreateSuperAgent = ({ createName }) => {
                         required: true,
                         message: "Please Enter UserID",
                       },
-                      {
-                        validator: async (rules, value) => {
-                          try {
-                            const results = await axios.post(
-                              "user/is-userid-available",
-                              {
-                                userId: hostname.includes("create-super")
-                                  ? "S" + value
-                                  : hostname.includes("create-agent")
-                                  ? "M" + value
-                                  : hostname.includes("create-dealer")
-                                  ? "A" + value
-                                  : "C" + value,
-                              },
-                              {
-                                headers: {
-                                  Authorization: `Bearer ${localStorage.getItem(
-                                    "token"
-                                  )}`,
-                                },
-                                baseURL: import.meta.env.VITE_BASE_URL,
-                              }
-                            );
+                      // {
+                      //   validator: async (rules, value) => {
+                      //     try {
+                      //       const results = await axios.post(
+                      //         "user/is-userid-available",
+                      //         {
+                      //           userId: hostname.includes("create-super")
+                      //             ? "S" + value
+                      //             : hostname.includes("create-agent")
+                      //             ? "M" + value
+                      //             : hostname.includes("create-dealer")
+                      //             ? "A" + value
+                      //             : "C" + value,
+                      //         },
+                      //         {
+                      //           headers: {
+                      //             Authorization: `Bearer ${localStorage.getItem(
+                      //               "token"
+                      //             )}`,
+                      //           },
+                      //           baseURL: import.meta.env.VITE_BASE_URL,
+                      //         }
+                      //       );
 
-                            if (results?.data.status === false) {
-                              return Promise.reject(
-                                new Error(results?.data.message)
-                              );
-                            }
-                          } catch (err) {
-                            console.log(err);
-                          }
-                        },
-                      },
+                      //       if (results?.data.status === false) {
+                      //         return Promise.reject(
+                      //           new Error(results?.data.message)
+                      //         );
+                      //       }
+                      //     } catch (err) {
+                      //       console.log(err);
+                      //     }
+                      //   },
+                      // },
                     ]}>
                     <Input
                       type="text"

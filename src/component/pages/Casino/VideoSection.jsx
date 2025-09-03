@@ -27,8 +27,8 @@ const VideoSection = ({ t1, t3, t2, time }) => {
     55: <SingleCardOnVideo t1={t1} />,
     53: <SingleCardOnVideo t1={t1} />,
     57: <CardOnVideo t1={t1} />,
-    61 : <OneDayCard t2={t2} />,
-    62 : <Card2OnVideo t2={t2} />
+    61: <OneDayCard t2={t2} />,
+    62: <Card2OnVideo t2={t2} />,
   };
   return (
     <div className="gx-news-tags-row ">

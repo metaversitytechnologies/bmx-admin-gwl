@@ -53,7 +53,15 @@ const SetCommission = () => {
   const nav = useNavigate();
   const [form] = Form.useForm();
 
-  
+
+
+  const onFinish = (value) => {
+    trigger({
+      fancyCommission: value?.fancycomm,
+      oddsCommission: value?.oddscomm,
+      casinoCommission: value?.casinocomm,
+    });
+  };
 
   useEffect(() => {
     if (data?.status == true) {

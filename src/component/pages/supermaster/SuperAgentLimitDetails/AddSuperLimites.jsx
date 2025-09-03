@@ -1,7 +1,7 @@
 import { Button, Form, Input, notification, Pagination } from "antd";
 import { useEffect, useState } from "react";
 
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   useLazyDepositAndWithdrawQuery,
   useSuperuserListMutation,
@@ -40,7 +40,8 @@ const AddSuperLimites = () => {
     fetchData();
   }, [id, indexData, paginationTotal]);
 
- 
+
+
   const handleInputChange = (userId, value) => {
     setInputValues((prev) => ({
       ...prev,

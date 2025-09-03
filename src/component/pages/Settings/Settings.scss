@@ -1,6 +1,6 @@
 .setting_main {
   .setting_data1 {
-    background: #380023;
+    background: var(--bg-color);
     margin-right: 13px;
     margin-top: 12px;
     margin-bottom: 20px;
@@ -15,7 +15,7 @@
     }
   }
   .setting_data {
-    background: #380023;
+    background: var(--bg-color);
     margin: 12px 13px;
     margin-bottom: 20px;
     display: flex;
@@ -57,7 +57,7 @@
           border-collapse: collapse;
           width: 100%;
           th {
-            background: #380023;
+            background: var(--bg-color);
             color: #fff;
             padding: 0 3px;
             border-right: 1px solid #e8e8e8;

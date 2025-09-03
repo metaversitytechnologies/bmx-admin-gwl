@@ -1,8 +1,8 @@
 .limit_update {
   .ant-table-thead {
-    background-color: #380023 !important;
+    background-color: var(--bg-color) !important;
     th.ant-table-cell {
-      background: #380023 !important;
+      background: var(--bg-color) !important;
       padding: 5px 10px !important;
       color: #fff !important;
       &:first-child {
@@ -68,7 +68,7 @@
             border-color: #038fde;
             box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
             color: #ffffff !important;
-            background-color: #380023 !important;
+            background-color: var(--bg-color) !important;
             border: 1px solid #ff4d4f;
             border-radius: 2px;
             outline: unset;
@@ -117,7 +117,7 @@
     border-color: #038fde;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
     color: #ffffff !important;
-    background-color: #380023 !important;
+    background-color: var(--bg-color) !important;
     border-color: #ff4d4f;
     border-radius: 2px;
     outline: unset;

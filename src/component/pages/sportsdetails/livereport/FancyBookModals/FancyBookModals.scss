@@ -2,25 +2,25 @@
   display: flex;
   margin-top: 14px;
   padding: 6px;
-  border-bottom: 1px solid #380023 !important;
+  border-bottom: 1px solid var(--bg-color) !important;
   h3 {
     &:first-child {
       width: 200px;
     }
     font-size: 16px;
-    color: #380023;
+    color: var(--bg-color);
   }
 }
 .pnl {
   display: flex;
-  border: 1px solid #380023;
+  border: 1px solid var(--bg-color);
   //   padding: 4px;
   border-top: unset;
   height: 22px;
   p {
     &:first-child {
       width: 200px;
-      border-right: 1px solid #380023;
+      border-right: 1px solid var(--bg-color);
       padding-left: 6px;
     }
     &:nth-child(even) {

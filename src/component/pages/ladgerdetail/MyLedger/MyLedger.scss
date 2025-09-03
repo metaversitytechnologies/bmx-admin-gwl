@@ -28,7 +28,7 @@
     border-radius: 3px;
     a {
       padding: 0px !important;
-      color: #380023 !important;
+      color: var(--bg-color) !important;
     }
   }
   li.ant-pagination-item {
@@ -43,13 +43,13 @@
   margin-right: 11px;
   span.anticon.anticon-left {
     svg {
-      color: #380023 !important;
+      color: var(--bg-color) !important;
       font-size: 12px !important;
     }
   }
   span.anticon.anticon-right {
     svg {
-      color: #380023 !important;
+      color: var(--bg-color) !important;
       font-size: 12px !important;
     }
   }
@@ -58,11 +58,11 @@
 .ant-pagination-item-active {
   font-weight: 500;
   background-color: #ffffff !important;
-  border-color: #380023 !important;
+  border-color: var(--bg-color) !important;
 }
 .ant-pagination-item-active {
   a {
-    color: #380023 !important;
+    color: var(--bg-color) !important;
   }
 }
 

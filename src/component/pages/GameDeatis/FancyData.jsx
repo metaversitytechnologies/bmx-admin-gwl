@@ -5,10 +5,7 @@ const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
     <>
       {data &&
         Object.entries(data)
-          ?.sort(
-            ([, a], [, b]) =>
-              Number(a?.[0]?.srno ?? 0) - Number(b?.[0]?.srno ?? 0)
-          )
+          ?.sort(([, a], [, b]) => Number(a?.[0]?.srno ?? 0) - Number(b?.[0]?.srno ?? 0))
           .map(([item, values]) => {
             if (["Odds", "Bookmaker"].includes(item)) return <></>;
             if (values?.length > 0)

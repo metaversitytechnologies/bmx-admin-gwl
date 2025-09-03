@@ -47,7 +47,7 @@
 
   .drawer_main {
     .ant-drawer-wrapper-body {
-      background-color: #380023;
+      background-color: var(--bg-color);
       color: #fff !important;
       .ant-drawer-header {
         background-color: rgba(0, 0, 0, 0.3);

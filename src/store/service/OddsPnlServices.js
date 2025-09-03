@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { baseUrl, baseUrlkho, isAntPro } from "../constant";
 
 export const oddsPnlApi = createApi({
   reducerPath: "oddsPnlApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
+    baseUrl: isAntPro ? baseUrl : baseUrlkho,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       headers.set("Authorization", `Bearer ${token}`);

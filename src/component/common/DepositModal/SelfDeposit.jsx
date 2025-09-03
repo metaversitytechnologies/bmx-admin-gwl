@@ -29,8 +29,6 @@ const SelfDeposit = ({ isDepositeModalOpen, setIsDepositeModalOpen }) => {
     form.resetFields();
   };
 
-  console.log(isDepositeModalOpen, "isDepositeModalOpen");
-
   return (
     <>
       <Modal

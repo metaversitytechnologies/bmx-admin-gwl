@@ -37,7 +37,7 @@
       width: 24px;
     }
     th.ant-table-cell {
-      background: #380023;
+      background: var(--bg-color);
       color: #fff;
       padding: 0 3px !important;
     }
@@ -84,7 +84,7 @@
     border: solid 1px #d9d9d9;
     border-radius: 2px !important;
     color: #fff;
-    background-color: #380023;
+    background-color: var(--bg-color);
     border-color: #d9d9d9;
   }
   svg {
@@ -100,7 +100,7 @@
     height: 52px;
     width: 100%;
     position: absolute;
-    background: #380023;
+    background: var(--bg-color);
     color: #fff;
     top: 0;
     left: 0;
@@ -171,7 +171,7 @@ ul.menu_data {
       font-weight: 500;
     }
     a {
-      color: #380023;
+      color: var(--bg-color);
       font-weight: 500;
     }
   }

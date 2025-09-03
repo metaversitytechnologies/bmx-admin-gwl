@@ -6,7 +6,7 @@ import {
 } from "../../../store/service/authService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { convertCodeReverse } from "../../../store/constant";
+import { convertCodeReverse, isAntPro } from "../../../store/constant";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
@@ -26,8 +26,8 @@ const Signin = () => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      // url: "superadmin.fastbet365.in",
-      url,
+      url: "superadmin.fastbet365.in",
+      // url,
     };
 
     if (values?.OTP) {
@@ -100,11 +100,16 @@ const Signin = () => {
                   </span>
                 </p>
               </div>
-              <div className="gx-app-logo">
-                <img alt="example" src={"/Images/logo.png"} />
-              </div>
+              {isAntPro ? (
+                <div className="gx-app-logo">
+                  <img alt="example" src={"/Images/logo.png"} />
+                </div>
+              ) : (
+                <div className="gx-app-logo">
+                  <img alt="example" src={"/img/logo.png"} height={100}/>
+                </div>
+              )}
             </div>
-
             <div className="gx-app-login-content">
               <Form
                 name="basic"

@@ -73,7 +73,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         <div
           onClick={() => setShowMatchBet(1)}
           style={{
-            background: showMatchBet === 1 ? "#380023" : "",
+            background: showMatchBet === 1 ? "var(--bg-color)" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -84,7 +84,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
         <div
           onClick={() => setShowMatchBet(2)}
           style={{
-            background: showMatchBet === 2 ? "#380023" : "",
+            background: showMatchBet === 2 ? "var(--bg-color)" : "",
             color: "#fff",
             padding: "12px",
             fontWeight: 600,
@@ -226,7 +226,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           }}>
                           {item?.username} ({item?.userId})
                         </td>
-                        <td>{item?.odds}</td>
+                        <td>{Number(item?.odds)?.toFixed(2)}</td>
                         <td>{item?.stake}</td>
                         <td>{item?.mode !== "L" ? "Lagia" : "Khai"}</td>
                         <td>{item?.marketType}</td>
@@ -431,7 +431,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           }}>
                           {item?.username} ({item?.userId})
                         </td>
-                        <td>{item?.rate}</td>
+                        <td>{Number(item?.rate)?.toFixed(2)}</td>
                         <td>{item?.amount}</td>
                         <td>{item?.mode}</td>
                         <td>{item?.selectionName}</td>

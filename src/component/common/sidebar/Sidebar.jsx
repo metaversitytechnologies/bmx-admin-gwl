@@ -6,6 +6,7 @@ import { Button } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Link, useNavigate } from "react-router-dom";
 import { HoverIcon } from "./HeroIcon";
+import { isAntPro } from "../../../store/constant";
 
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
 
@@ -59,12 +60,16 @@ const Sidebar = (props) => {
         <div
           onClick={() => nav("/dashboard")}
           className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
-          <img
-            // src={"/Images/logo.png"}
-            src={"/img/logo.png"}
-            alt="alt"
-            height={50}
-          />
+          {isAntPro ? (
+            <img alt="example" src={"/Images/logo.png"} />
+          ) : (
+            <img
+              // src={"/Images/logo.png"}
+              src={"/img/logo.png"}
+              alt="alt"
+              height={50}
+            />
+          )}
         </div>
       </div>
       <Sider
@@ -74,7 +79,7 @@ const Sidebar = (props) => {
         collapsed={collapsed}
         className={`side_bar coll desk_side`}
         style={{
-          background: "#380023",
+          background: "var(--bg-color)",
           height: "100vh",
           minHeight: "100vh",
           maxHeight: "100vh",
@@ -538,7 +543,12 @@ const Sidebar = (props) => {
 
       <div className="mob_side">
         <Drawer
-          title={<img onClick={props.action} src={"/img/logo.png"} />}
+          title={
+            <img
+              onClick={props.action}
+              src={isAntPro ? "/Images/logo.png" : "/img/logo.png"}
+            />
+          }
           className="drawer_main"
           placement="left"
           closable={false}

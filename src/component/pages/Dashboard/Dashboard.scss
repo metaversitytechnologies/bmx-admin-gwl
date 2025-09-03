@@ -159,7 +159,7 @@
     padding: 15px 20px;
   }
   .gx-overlay-fillchart .gx-fillchart-content {
-    background-color: #380023;
+    background-color: var(--bg-color);
     border-radius: 20px;
   }
   .gx-media-body {
@@ -215,7 +215,7 @@
     }
   }
   .gx-bg-grey {
-    background-color: #380023 !important;
+    background-color: var(--bg-color) !important;
   }
 }
 
@@ -305,7 +305,7 @@
     }
   }
   .gx-overlay-fillchart .gx-fillchart-content {
-    background-color: #380023;
+    background-color: var(--bg-color);
     border-radius: 20px;
   }
 

@@ -38,7 +38,7 @@ a:hover {
   color: red;
 }
 .ant-btn-default {
-  background: #380023 !important;
+  background: var(--btn-bg-color) !important;
   color: #fff;
   border-radius: 2px;
   border: unset;
@@ -673,7 +673,7 @@ div#rc-tabs-0-tab-2 {
 }
 
 th.ant-table-cell {
-  background: #380023 !important;
+  background: var(--bg-color) !important;
 }
 
 .casino_diamond_details {
@@ -777,10 +777,9 @@ th.ant-table-cell {
   margin-bottom: 20px !important;
 }
 
-
-.ant_modal_commfooter{
-  .ant-modal-footer{
-        margin-top: 0px !important;
-        margin-bottom: 12px !important;
+.ant_modal_commfooter {
+  .ant-modal-footer {
+    margin-top: 0px !important;
+    margin-bottom: 12px !important;
   }
 }

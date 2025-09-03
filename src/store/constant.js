@@ -28,4 +28,7 @@ export function convertCodeReverse(name) {
   return name;
 }
 
-
+export const baseUrl = import.meta.env.VITE_BASE_URL;
+export const baseUrlkho = import.meta.env.VITE_BASE_URL_KHO;
+export const oddsApi = import.meta.env.VITE_ODDS_API;
+export const isAntPro = import.meta.env.VITE_IS_ANTPRO === "true";

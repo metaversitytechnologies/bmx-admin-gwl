@@ -1,8 +1,9 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseUrl, baseUrlkho, isAntPro } from "../constant";
 
 export const dynamicBaseQuery = async (args, WebApi, extraOptions) => {
   const rawBaseQuery = fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
+    baseUrl: isAntPro ? baseUrl : baseUrlkho,
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },

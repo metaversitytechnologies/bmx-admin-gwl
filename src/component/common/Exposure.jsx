@@ -5,7 +5,6 @@ import "./Deposit.scss";
 import { useLazyGetUserLabilatyQuery } from "../../store/service/SportDetailServices";
 import { render } from "react-dom";
 import CustomLoading from "./CustomLoading/CustomLoading";
-import Item from "antd/es/list/Item";
 
 const Exposure = ({ openExp, setOpenExp, userId }) => {
   const [trigger, { data: exposureData, isLoading }] =
@@ -63,7 +62,6 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
       dataIndex: "date",
       key: "date",
     },
-
     {
       title: "Loss",
       dataIndex: "loss",

@@ -248,6 +248,7 @@ export const supermasteAccountStatementApi = createApi({
         body,
       }),
     }),
+   
   }),
 });
 
@@ -285,4 +286,5 @@ export const {
   useCreateLedgerMutation,
   useGetUserActiveDeactiveMutation,
   useGetChildListLimitMutation,
+
 } = supermasteAccountStatementApi;
