@@ -5,7 +5,7 @@ import Main from "./component/common/main/Main";
 import { notification } from "antd";
 import "./assets/gaxon/styles.css";
 import { useEffect } from "react";
-import { isAntPro } from "./store/constant";
+import { themeName } from "./store/constant";
 
 let apiRef;
 export const openNotification = (mess) => {
@@ -32,12 +32,8 @@ function App() {
   apiRef = api;
 
   useEffect(() => {
-    if (isAntPro) {
-      document.documentElement.removeAttribute("data-theme");
-    } else {
-      document.documentElement.setAttribute("data-theme", "theme1");
-    }
-  }, []); 
+    document.documentElement.setAttribute("data-theme", themeName);
+  }, []);
 
   return (
     <Provider store={store}>

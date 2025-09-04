@@ -6,7 +6,7 @@ import {
 } from "../../../store/service/authService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { convertCodeReverse, isAntPro } from "../../../store/constant";
+import { convertCodeReverse, imgUrl } from "../../../store/constant";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
@@ -100,15 +100,10 @@ const Signin = () => {
                   </span>
                 </p>
               </div>
-              {isAntPro ? (
-                <div className="gx-app-logo">
-                  <img alt="example" src={"/Images/logo.png"} />
-                </div>
-              ) : (
-                <div className="gx-app-logo">
-                  <img alt="example" src={"/img/logo.png"} height={100}/>
-                </div>
-              )}
+
+              <div className="gx-app-logo">
+                <img alt="example" src={imgUrl} height={80} />
+              </div>
             </div>
             <div className="gx-app-login-content">
               <Form

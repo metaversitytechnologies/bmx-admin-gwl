@@ -11,6 +11,7 @@ import {
 } from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
 import { useParams } from "react-router-dom";
+import { isNsg } from "../../../store/constant";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
@@ -102,7 +103,11 @@ const GameDeatis = () => {
                 className="ant-row"
                 style={{ height: !showFullScore ? 110 : 220 }}>
                 <iframe
-                  src={`https://score.trovetown.co/socket-iframe-1/crickexpo/${id}`}
+                  src={
+                    isNsg
+                      ? `https://score.trovetown.co/socket-iframe-8/crickexpo/${id}`
+                      : `https://score.trovetown.co/socket-iframe-1/crickexpo/${id}`
+                  }
                   title="Score-I-frame"
                   className=""
                   style={{ width: "100%", height: "100%", border: "none" }}

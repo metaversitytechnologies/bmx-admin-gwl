@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { baseUrl, baseUrlkho, isAntPro } from "../constant";
+import { baseUrl } from "../constant";
 
 export const fancyBookApi = createApi({
   reducerPath: "fancyBookApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: isAntPro ? baseUrl : baseUrlkho,
+    baseUrl: baseUrl,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       headers.set("Authorization", `Bearer ${token}`);
@@ -16,10 +16,10 @@ export const fancyBookApi = createApi({
       query: (body) => ({
         url: `/bets/fancy-book`,
         method: "POST",
-        body
+        body,
       }),
-    })
+    }),
   }),
 });
 
-export const {useFancyBookQuery } = fancyBookApi;
+export const { useFancyBookQuery } = fancyBookApi;

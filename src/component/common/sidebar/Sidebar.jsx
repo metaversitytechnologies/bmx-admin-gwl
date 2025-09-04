@@ -6,7 +6,7 @@ import { Button } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Link, useNavigate } from "react-router-dom";
 import { HoverIcon } from "./HeroIcon";
-import { isAntPro } from "../../../store/constant";
+import { imgUrl } from "../../../store/constant";
 
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
 
@@ -61,16 +61,7 @@ const Sidebar = (props) => {
         <div
           onClick={() => nav("/dashboard")}
           className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
-          {isAntPro ? (
-            <img alt="example" src={"/Images/logo.png"} />
-          ) : (
-            <img
-              // src={"/Images/logo.png"}
-              src={"/img/logo.png"}
-              alt="alt"
-              height={50}
-            />
-          )}
+          <img alt="example" src={imgUrl} height={50} />
         </div>
       </div>
       <Sider
@@ -552,12 +543,7 @@ const Sidebar = (props) => {
 
       <div className="mob_side">
         <Drawer
-          title={
-            <img
-              onClick={props.action}
-              src={isAntPro ? "/Images/logo.png" : "/img/logo.png"}
-            />
-          }
+          title={<img onClick={props.action} src={imgUrl} />}
           className="drawer_main"
           placement="left"
           closable={false}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { baseUrl, baseUrlkho, isAntPro } from "../../../store/constant";
+import { baseUrl } from "../../../store/constant";
 
 export const useOdds = (value) => {
   const [odds, setOdds] = useState(null);
@@ -60,7 +60,7 @@ export const useOdds = (value) => {
     const timer = setInterval(() => {
       const mid = odds?.t1?.[0]?.mid;
       if (Number(mid)) {
-        fetch(`${isAntPro ? baseUrl : baseUrlkho}/casino/liability`, {
+        fetch(`${baseUrl}/casino/liability`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,

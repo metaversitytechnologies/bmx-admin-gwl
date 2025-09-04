@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { baseUrl, baseUrlkho, isAntPro } from "../constant";
+import { baseUrl } from "../constant";
 
 export const loginReportApi = createApi({
   reducerPath: "loginReportApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: isAntPro ? baseUrl : baseUrlkho,
+    baseUrl: baseUrl,
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       headers.set("Authorization", `Bearer ${token}`);

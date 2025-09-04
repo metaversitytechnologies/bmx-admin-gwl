@@ -37,8 +37,8 @@ const updateName = {
 };
 
 const Responsedata = {
-  1: "dealer",
-  2: "super",
+  1: "",
+  2: "dealer",
   3: "master",
   4: "superMaster",
   5: "subAdmin",
@@ -46,7 +46,7 @@ const Responsedata = {
 };
 const ResponsedataUpper = {
   2: "dealer",
-  3: "super",
+  3: "superMaster",
   4: "master",
   5: "subAdmin",
   6: "admin",
@@ -75,14 +75,22 @@ const UpdateSuper = () => {
   useEffect(() => {
     if (resuilt?.status) {
       setData(resuilt?.data);
-      setCommType(
-        resuilt?.data?.myCasinoPartnership > 0 ||
-          resuilt?.data?.myMatchCommission > 0
+      const userCom =
+        resuilt?.data?.matchCommission > 0 ||
+        resuilt?.data?.sessionCommision > 0
           ? "bbb"
-          : "no-comm"
-      );
+          : "no-comm";
+      const otherCom =
+        getUserUpper("SessionCommision") > 0 ||
+        getUserUpper("MatchCommission") > 0
+          ? "bbb"
+          : "no-comm";
+      const isComm = id == "1" ? userCom : otherCom;
+      setCommType(isComm);
     }
   }, [resuilt?.data]);
+
+  console.log(commType, "dasdasdasdas");
 
   const onFinish = (values) => {
     const isNoComm = values?.comm_type === "no-comm";
@@ -132,6 +140,7 @@ const UpdateSuper = () => {
   }, [updateData]);
 
   const onCommissionType = (value) => {
+    console.log(value, "valuevalue");
     setCommType(value);
   };
 
@@ -177,16 +186,12 @@ const UpdateSuper = () => {
               { name: "password", value: "******" },
               {
                 name: "comm_type",
-                value:
-                  getUserUpper("CasinoPartnership") > 0 ||
-                  getUserUpper("MatchCommission") > 0
-                    ? "bbb"
-                    : "no-comm",
+                value: commType,
               },
               {
                 name: "commType",
                 value:
-                  getUserUpper("CasinoPartnership") > 0 ||
+                  getUserUpper("SessionCommision") > 0 ||
                   getUserUpper("MatchCommission") > 0
                     ? "Bet by Bet"
                     : "No Comm",
@@ -194,16 +199,25 @@ const UpdateSuper = () => {
               { name: "matchcomm", value: getUserUpper("MatchCommission") },
               {
                 name: "super_match_comm",
-                value: getUserField("MatchCommission"),
+                value:
+                  id === "1"
+                    ? resuilt?.data?.matchCommission
+                    : getUserField("MatchCommission"),
               },
               { name: "sesscomm", value: getUserUpper("SessionCommision") },
               {
                 name: "super_sess_comm",
-                value: getUserField("SessionCommision"),
+                value:
+                  id === "1"
+                    ? resuilt?.data?.sessionCommision
+                    : getUserField("SessionCommision"),
               },
               {
                 name: "sess_comm",
-                value: getUserField("CasinoCommission"),
+                value:
+                  id === "1"
+                    ? resuilt?.data?.casinoCommission
+                    : getUserField("CasinoCommission"),
               },
               {
                 name: "super_casino_share",
@@ -215,15 +229,24 @@ const UpdateSuper = () => {
               },
               {
                 name: "super_casino_comm",
-                value: getUserField("CasinoCommission"),
+                value:
+                  id === "1"
+                    ? resuilt?.data?.casinoCommission
+                    : getUserField("CasinoCommission"),
               },
               {
                 name: "supercasinocomm",
-                value: getUserField("CasinoPartnership"),
+                value:
+                  id === "1"
+                    ? resuilt?.data?.casinoPartnership
+                    : getUserField("CasinoPartnership"),
               },
               {
                 name: "share",
-                value: getUserField("Partnership"),
+                value:
+                  id === "1"
+                    ? resuilt?.data?.partnership
+                    : getUserField("Partnership"),
               },
               { name: "match_share", value: resuilt?.data?.matchShare },
             ]}>

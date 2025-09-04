@@ -33,7 +33,7 @@ const CompletedActive = () => {
             </tr>
           </thead>
           <tbody>
-            {sportDetail?.data.length > 0 ? (
+            {sportDetail?.data?.length > 0 ? (
               sportDetail?.data?.map((res, id) => (
                 <tr key={res.matchId || id}>
                   <td>{id + 1}</td>

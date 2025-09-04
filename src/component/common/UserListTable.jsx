@@ -460,7 +460,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                   <th>D.O.J </th>
                   <th>Share%</th>
                   <th>PWD</th>
-                  {userType == 1 && <th>Exposure</th>}
+                  {userType == 1 && <th style={{textAlign:"right"}}>Exposure</th>}
                   <th colSpan={3} className="text-center">
                     {Listname} Comm %
                   </th>
@@ -513,9 +513,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                             handleExposure(res?.userId);
                           }
                         }}
-                        className={`${
-                          userTyep == "1" ? "" : "gx-text-blue gx-pointer"
-                        }  gx-text-nowrap`}>
+                        className={`${"gx-text-blue gx-pointer"}  gx-text-nowrap`}>
                         <SlEye /> {res?.userName}
                       </span>
                     </td>
@@ -525,7 +523,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     <td>{res?.partnerShip}</td>
                     <td>*******</td>
                     {userType == 1 && (
-                      <td>
+                      <td style={{textAlign:"right"}}>
                         <span
                           onClick={() => {
                             res?.liability !== 0 && handleExposure(res?.userId);
@@ -534,9 +532,11 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                             border: "1px solid #fff",
                             fontWeight: 600,
                           }}>
-                          <Tag color="#f50">
-                            {res?.liability?.toFixed(2) || 0}
-                          </Tag>
+                          {/* <Tag color="#f50"> */}
+                          {res?.liability === 0
+                            ? "0"
+                            : res?.liability?.toFixed(2) || 0}
+                          {/* </Tag> */}
                         </span>
                       </td>
                     )}

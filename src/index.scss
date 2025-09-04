@@ -51,11 +51,20 @@ body {
   --bg-color: #7d5c0e;
   --btn-bg-color: #7d5c0e;
   --header-bg: #7d5c0e;
+  --login-wrap: #8b8f87;
 }
 
-[data-theme="theme1"] {
+[data-theme="kohinoor"] {
   --login-bg: linear-gradient(#1b0013 0, #380023);
   --bg-color: #380023;
   --btn-bg-color: #380023;
   --header-bg: #380023;
+  --login-wrap: #8b8f87;
+}
+[data-theme="nsgpro"] {
+  --login-bg: #010f0f;
+  --bg-color: #094507;
+  --btn-bg-color: #094507;
+  --header-bg: #094507;
+  --login-wrap: rgb(11, 27, 22);
 }

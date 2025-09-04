@@ -5,7 +5,7 @@
   flex-wrap: nowrap;
   flex-direction: column;
   overflow-x: hidden;
-  background-color: #8b8f87;
+  background-color: var(--login-wrap);
   width: 100vw;
 
   .gx-app-login-container {

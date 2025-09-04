@@ -8,7 +8,7 @@ import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { MdMenu } from "react-icons/md";
 import SelfDeposit from "../DepositModal/SelfDeposit";
-import { isAntPro } from "../../../store/constant";
+import { imgUrl } from "../../../store/constant";
 
 const Navbar = ({ action, logo }) => {
   const userData = localStorage.getItem("username");
@@ -89,16 +89,7 @@ const Navbar = ({ action, logo }) => {
             </Button>
           </Space>
 
-          {isAntPro ? (
-            <img alt="example" src={"/Images/logo.png"} />
-          ) : (
-            <img
-              onClick={handleDashbordHome}
-              src={"/img/logo.png"}
-              alt=""
-              height={40}
-            />
-          )}
+          <img alt="example" src={imgUrl} height={40} />
         </div>
         <div className="nav_drop">
           <div className="sub_menu_nav">
