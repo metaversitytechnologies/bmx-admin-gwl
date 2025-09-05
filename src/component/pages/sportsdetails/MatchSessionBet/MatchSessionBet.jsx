@@ -88,10 +88,10 @@ const MatchSessionBet = () => {
                       return (
                         <tr
                           key={index}
-                          className={bet?.mode === "K" ? "back" : "lay"}>
+                          className={bet?.mode === "L" ? "back" : "lay"}>
                           <td>{index + 1}</td>
                           <td>{Number(bet?.odds)?.toFixed(2)}</td>
-                          <td>{bet?.mode === "K" ? "Lagai" : "KHAI"}</td>
+                          <td>{bet?.mode === "L" ? "Lagai" : "KHAI"}</td>
                           <td>{bet?.team}</td>
                           <td>{bet.marketType}</td>
                           <td>{bet?.stake}</td>
@@ -157,7 +157,7 @@ const MatchSessionBet = () => {
                           <td>{Number(item?.rate)?.toFixed(2)}</td>
                           <td>{item?.run}</td>
                           <td>{item?.declared}</td>
-                          <td>{item?.mode === "YES" ? "NO" : "YES"}</td>
+                          <td>{item?.mode}</td>
                           <td>{item?.amount}</td>
                           <td
                             style={{

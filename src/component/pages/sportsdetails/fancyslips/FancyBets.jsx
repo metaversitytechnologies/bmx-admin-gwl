@@ -130,14 +130,14 @@ const FancyBets = () => {
                     sessionData?.data?.map((res, id) => (
                       <tr
                         key={id}
-                        className={res?.mode !== "YES" ? "back" : "lay"}>
+                        className={res?.mode === "YES" ? "back" : "lay"}>
                         <td>
                           {res?.parentName} ({res?.parentId})
                         </td>
                         <td>{res?.run}</td>
                         <td>{res?.rate}</td>
                         <td>{res?.amount}</td>
-                        <td>{res?.mode === "YES" ? "NO" : "YES"}</td>
+                        <td>{res?.mode}</td>
                         <td>{res?.selectionName}</td>
                         <td>
                           {res?.username} ({res?.userId})

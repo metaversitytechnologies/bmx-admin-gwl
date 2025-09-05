@@ -216,10 +216,10 @@ const FancySlips = ({ name }) => {
                     matchBets?.data?.betList.map((res, id) => (
                       <tr
                         key={id}
-                        className={res?.mode !== "L" ? "back" : "lay"}>
+                        className={res?.mode === "L" ? "back" : "lay"}>
                         <td>{Number(res?.odds).toFixed(2)}</td>
                         <td>{res?.stake}</td>
-                        <td>{res?.mode === "L" ? "Khai" : "Lagai"}</td>
+                        <td>{res?.mode !== "L" ? "Khai" : "Lagai"}</td>
                         <td>{res?.team}</td>
                         <td>
                           {res?.username} ({res?.userId})

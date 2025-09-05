@@ -460,7 +460,9 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                   <th>D.O.J </th>
                   <th>Share%</th>
                   <th>PWD</th>
-                  {userType == 1 && <th style={{textAlign:"right"}}>Exposure</th>}
+                  {userType == 1 && (
+                    <th style={{ textAlign: "right" }}>Exposure</th>
+                  )}
                   <th colSpan={3} className="text-center">
                     {Listname} Comm %
                   </th>
@@ -523,7 +525,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                     <td>{res?.partnerShip}</td>
                     <td>*******</td>
                     {userType == 1 && (
-                      <td style={{textAlign:"right"}}>
+                      <td style={{ textAlign: "right" }}>
                         <span
                           onClick={() => {
                             res?.liability !== 0 && handleExposure(res?.userId);
@@ -531,6 +533,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                           style={{
                             border: "1px solid #fff",
                             fontWeight: 600,
+                            color: res?.liability === 0 ? "#1890ff" : "#000",
+                            cursor:"pointer"
                           }}>
                           {/* <Tag color="#f50"> */}
                           {res?.liability === 0

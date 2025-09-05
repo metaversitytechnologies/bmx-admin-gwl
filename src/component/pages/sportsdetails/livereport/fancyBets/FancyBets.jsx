@@ -212,7 +212,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                       <tr
                         key={index}
                         className={
-                          item?.mode !== "L"
+                          item?.mode === "L"
                             ? "matchdtailsYesBackground"
                             : "matchdtailsNoBack"
                         }>
@@ -227,7 +227,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                         </td>
                         <td>{Number(item?.odds)?.toFixed(2)}</td>
                         <td>{item?.stake}</td>
-                        <td>{item?.mode !== "L" ? "Lagia" : "Khai"}</td>
+                        <td>{item?.mode === "L" ? "Lagia" : "Khai"}</td>
                         <td>{item?.marketType}</td>
                         <td>{item?.team}</td>
 
