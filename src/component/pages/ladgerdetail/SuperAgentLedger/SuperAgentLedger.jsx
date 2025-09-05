@@ -51,7 +51,6 @@ const SuperAgentLedger = () => {
 
       const clearList = dena.filter((item) => item?.closinBalane === 0);
       const filteredDena = dena.filter((item) => item?.closinBalane !== 0);
-      console.log(userId, "Dfsdfsdfsdf");
       // if userId exists, filter by parentId
       const denaFiltered = userId
         ? filteredDena.filter((item) => item?.parentId == userId)

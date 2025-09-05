@@ -481,3 +481,10 @@ a.gx-bg-white:hover {
     ) !important;
   }
 }
+
+.ant_row_tv_section {
+  height: 600px;
+  @media (max-width: 800px) {
+    height: 221px;
+  }
+}

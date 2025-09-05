@@ -205,7 +205,10 @@ const Dashboard = () => {
               lg={12}
               xl={6}
               className="colo_name"
-              onClick={() => setSetting(!openSetting)}>
+              onClick={() => {
+                localStorage.clear();
+                nav("/");
+              }}>
               <div>
                 <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
                   <div className="ant-card-body">

@@ -90,7 +90,6 @@ const UpdateSuper = () => {
     }
   }, [resuilt?.data]);
 
-  console.log(commType, "dasdasdasdas");
 
   const onFinish = (values) => {
     const isNoComm = values?.comm_type === "no-comm";
@@ -113,7 +112,7 @@ const UpdateSuper = () => {
       casinoCommission: isNoComm ? 0 : values?.sess_comm,
     };
     trigger(userData);
-    form.resetFields();
+    // form.resetFields();
   };
 
   useEffect(() => {
@@ -125,7 +124,7 @@ const UpdateSuper = () => {
         placement: "top",
         closeIcon: false,
       });
-      form.resetFields();
+      // form.resetFields();
 
       setTimeout(() => {
         nav(-1);

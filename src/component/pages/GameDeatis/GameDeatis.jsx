@@ -16,6 +16,7 @@ import { isNsg } from "../../../store/constant";
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
   const [showTtlBook, setShowTtlBook] = useState(true);
+  const [showTv, setShowTv] = useState(false);
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
@@ -91,6 +92,7 @@ const GameDeatis = () => {
                   FS
                 </span>
                 <img
+                  onClick={() => setShowTv(!showTv)}
                   src="/Images/tv_icon.png"
                   alt="tv.png"
                   className="gx-bg-white gx-py-1 gx-mr-2"
@@ -99,6 +101,16 @@ const GameDeatis = () => {
               </Row>
 
               <div className="ant-row" />
+              {showTv && (
+                <div className="ant_row_tv_section">
+                  <iframe
+                    src={`https://tv.tresting.com/?eventid=${id}`}
+                    title="Score-I-frame"
+                    className=""
+                    style={{ width: "100%", height: "100%", border: "none" }}
+                  />
+                </div>
+              )}
               <div
                 className="ant-row"
                 style={{ height: !showFullScore ? 110 : 220 }}>
@@ -113,6 +125,7 @@ const GameDeatis = () => {
                   style={{ width: "100%", height: "100%", border: "none" }}
                 />
               </div>
+
               <Row className="gx-px-0 gx-py-0 main_game_details">
                 <Col md={18} xs={24}>
                   {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}

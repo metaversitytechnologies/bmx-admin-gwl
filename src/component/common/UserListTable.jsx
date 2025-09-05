@@ -533,7 +533,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                           style={{
                             border: "1px solid #fff",
                             fontWeight: 600,
-                            color: res?.liability === 0 ? "#1890ff" : "#000",
+                            color: res?.liability !== 0 ? "#1890ff" : "#000",
                             cursor:"pointer"
                           }}>
                           {/* <Tag color="#f50"> */}

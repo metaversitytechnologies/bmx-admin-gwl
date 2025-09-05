@@ -112,10 +112,10 @@ const AgentTransactions = () => {
       );
 
       if (matchedClient) {
-        form.setFieldsValue({ client: matchedClient.userId });
+        form.setFieldsValue({ client: convertCode(matchedClient.userId) });
         setClientId(matchedClient.userId);
         trigger({
-          userId: convertCodeReverse(matchedClient.userId),
+          userId: matchedClient.userId,
           transactiontype: "All",
         });
       }
@@ -129,8 +129,7 @@ const AgentTransactions = () => {
       <Card
         className="sport_detail ledger_data cash_data"
         title={`${name?.replace("-", " ")} Transactions`}
-        extra={<button onClick={handleBackbtn}>Back</button>}
-      >
+        extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
           <Form
             className="form_data mt-16 cash_data"
@@ -140,16 +139,14 @@ const AgentTransactions = () => {
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
-            autoComplete="off"
-          >
+            autoComplete="off">
             <Row>
               {/* Client */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
                   label="client"
                   name="client"
-                  rules={[{ required: true, message: "Please select Client" }]}
-                >
+                  rules={[{ required: true, message: "Please select Client" }]}>
                   <Select
                     placeholder="Select Client"
                     showSearch
@@ -180,8 +177,7 @@ const AgentTransactions = () => {
                   name="collection"
                   rules={[
                     { required: true, message: "Please select Collection" },
-                  ]}
-                >
+                  ]}>
                   <Select defaultValue="Select Cash A/C" allowClear>
                     <Option value="CA1 CASH">Cash A/C</Option>
                   </Select>
@@ -206,8 +202,7 @@ const AgentTransactions = () => {
                 <Form.Item
                   label="Amount"
                   name="amount"
-                  rules={[{ required: true, message: "Enter Amount" }]}
-                >
+                  rules={[{ required: true, message: "Enter Amount" }]}>
                   <Input type="number" placeholder="Enter Amount" />
                 </Form.Item>
               </Col>
@@ -217,8 +212,7 @@ const AgentTransactions = () => {
                 <Form.Item
                   label="Payment Type"
                   name="payment_type"
-                  rules={[{ required: true, message: "Please Select One" }]}
-                >
+                  rules={[{ required: true, message: "Please Select One" }]}>
                   <Select placeholder="Payment Type" allowClear>
                     <Option value="payment - dena">PAYMENT - DIYA</Option>
                     <Option value="payment - lena">PAYMENT - LIYA</Option>
@@ -231,8 +225,7 @@ const AgentTransactions = () => {
                 <Form.Item
                   label="Remark"
                   name="remark"
-                  rules={[{ required: true, message: "Enter Remark" }]}
-                >
+                  rules={[{ required: true, message: "Enter Remark" }]}>
                   <Input type="text" placeholder="Remarks" />
                 </Form.Item>
               </Col>
@@ -242,8 +235,7 @@ const AgentTransactions = () => {
                 <Form.Item
                   label="Ledger Type"
                   name="ledger_type"
-                  rules={[{ required: true, message: "Please Select One" }]}
-                >
+                  rules={[{ required: true, message: "Please Select One" }]}>
                   <Select placeholder="All" allowClear>
                     <Option value="All">All</Option>
                     <Option value="Diamond">Diamond Casino</Option>
