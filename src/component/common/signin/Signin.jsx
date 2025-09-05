@@ -6,7 +6,9 @@ import {
 } from "../../../store/service/authService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { convertCodeReverse, imgUrl } from "../../../store/constant";
+import { convertCodeReverse, imgUrl, isNsg } from "../../../store/constant";
+import { AiOutlineUser } from "react-icons/ai";
+import { CiLock } from "react-icons/ci";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
@@ -15,6 +17,11 @@ const Signin = () => {
   const nav = useNavigate();
 
   const [showOtp, setShowOtp] = useState(false);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    OTP: "",
+  });
 
   const hostname = window.location.hostname;
 
@@ -26,16 +33,11 @@ const Signin = () => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      // url: "superadmin.fastbet365.in",
       url,
     };
 
     if (values?.OTP) {
-      const res = await triggerWotp({
-        ...authPayload,
-        otp: values?.OTP,
-      });
-
+      const res = await triggerWotp({ ...authPayload, otp: values?.OTP });
       if (res?.data?.token) {
         nav("/dashboard");
         localStorage.setItem("token", res?.data?.token);
@@ -55,8 +57,18 @@ const Signin = () => {
     }
   };
 
+  // for Antd
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+
+  // for plain UI
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = () => {
+    onFinish(formData); // reuse same logic
   };
 
   useEffect(() => {
@@ -74,19 +86,77 @@ const Signin = () => {
     }
   }, [error, logindata]);
 
+  // toggle: assume you have `isNsg` from somewhere
+
   return (
-    <>
-      <div className="gx-app-login-wrap">
+    <div className="gx-app-login-wrap">
+      {isNsg ? (
+        <div className="login-container-main">
+          <div className="logo">
+            <img
+              src={"/img/logo-nsg.png"}
+              alt="logo"
+              className="login-logo-img"
+              height={50}
+            />
+          </div>
+
+          <div className="login-box">
+            <div className="input-group">
+              <AiOutlineUser className="input-icon" />
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                autoComplete="off"
+                placeholder="Enter Username"
+              />
+            </div>
+            <div className="input-group">
+              <CiLock className="input-icon" />
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter Password"
+              />
+            </div>
+
+            {showOtp && (
+              <div className="input-group">
+                <CiLock className="input-icon" />
+                <input
+                  type="number"
+                  name="OTP"
+                  value={formData.OTP}
+                  onChange={handleChange}
+                  placeholder="Enter OTP"
+                />
+              </div>
+            )}
+
+            <button onClick={handleLogin} className="login-btn">
+              {showOtp ? "Verify OTP" : "Login Now"}
+            </button>
+
+            <div className="footer-note">
+              ©️ 2025 nsgpro99 | Not for restricted territories
+            </div>
+          </div>
+        </div>
+      ) : (
         <div className="gx-app-login-container">
           <div className="gx-app-login-main-content">
-            {isLoading ? (
+            {isLoading && (
               <>
                 <div className="main_loading_section"> </div>
                 <div className="loading_image">
                   <img src="/Images/loaderfast.svg" alt="helllo" />
                 </div>
               </>
-            ) : null}
+            )}
 
             <div className="gx-app-logo-content">
               <div className="gx-app-logo-content-bg" />
@@ -122,55 +192,27 @@ const Signin = () => {
                       message: "The input is not valid user ID!",
                     },
                   ]}>
-                  <Input
-                    onChange={onFinishFailed}
-                    onFocus={onFinishFailed}
-                    onMouseEnter={onFinishFailed}
-                    placeholder="User ID"
-                  />
+                  <Input placeholder="User ID" />
                 </Form.Item>
 
                 <Form.Item
                   name="password"
                   rules={[
-                    {
-                      required: true,
-                      message: "Please input your Password!",
-                    },
+                    { required: true, message: "Please input your Password!" },
                   ]}>
-                  <Input
-                    type="password"
-                    onMouseLeave={onFinishFailed}
-                    onFocus={onFinishFailed}
-                    onChange={onFinishFailed}
-                    placeholder="Password"
-                  />
+                  <Input type="password" placeholder="Password" />
                 </Form.Item>
 
                 {showOtp && (
                   <Form.Item
                     name="OTP"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Otp!",
-                      },
-                    ]}>
-                    <Input
-                      type="number"
-                      placeholder="OTP"
-                      onChange={onFinishFailed}
-                      onFocus={onFinishFailed}
-                      onMouseLeave={onFinishFailed}
-                    />
+                    rules={[{ required: true, message: "Please input Otp!" }]}>
+                    <Input type="number" placeholder="OTP" />
                   </Form.Item>
                 )}
 
                 <Form.Item className="sign_btn">
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ marginBottom: "0px" }}>
+                  <Button type="primary" htmlType="submit">
                     {showOtp ? "Verify OTP" : "Sign in"}
                   </Button>
                 </Form.Item>
@@ -187,8 +229,8 @@ const Signin = () => {
             18+ Only
           </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 
