@@ -1,4 +1,4 @@
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .team_name {
     font-size: 20px !important ;
   }
@@ -30,7 +30,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .match_slip {
     .sport_detail {
       .ant-select-single {
@@ -44,12 +44,12 @@
 .completed_fancy_slip {
   margin: 30px 15px;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 0px;
   }
   .ant-card-head-title {
     font-size: 28px !important;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 20px !important;
     }
   }

@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Dropdown,
+  Empty,
   Form,
   Input,
   Menu,
@@ -36,7 +37,7 @@ import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
 import Exposure from "./Exposure";
 import CustomLoading from "./CustomLoading/CustomLoading";
-import { convertCode } from "../../store/constant";
+import { convertCode, convertCodeReverse } from "../../store/constant";
 
 const routeFromUSerType = {
   6: "/user-list/mamin/5",
@@ -52,7 +53,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [selectedUserIdForActions, setSelectedUserIdForActions] =
     useState(null);
-  const [paginationTotal, setPaginationTotal] = useState(50);
+  const [paginationTotal, setPaginationTotal] = useState(25);
   const [indexData, setIndexData] = useState(0);
   const [partnershipDetails, setPartnershipDetails] = useState({});
   const [userIdForPartnership, setUserIdForPartnership] = useState("");
@@ -63,21 +64,24 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const [openResetPassModal, setOpenResetPassModal] = useState(false);
   const [openExp, setOpenExp] = useState(false);
   const [userToSearch, setUserToSearch] = useState("");
-
-  const [form] = Form.useForm();
+  const [activeSearch, setActiveSearch] = useState(null);
+  const [codeForm] = Form.useForm();
+  const [nameForm] = Form.useForm();
   const { parentId: parentIdFromParams, userTyep } = useParams();
   const myElementRef = useRef(null);
+  const codeRef = useRef(null);
+  const nameRef = useRef(null);
 
   // API Hooks
 
-  useEffect(() => {
-    if (userType === "1") {
-      setPaginationTotal(100);
-    } else {
-      setPaginationTotal(50);
-    }
-    setUserToSearch("");
-  }, [userType]);
+  // useEffect(() => {
+  //   if (userType === "1") {
+  //     setPaginationTotal(100);
+  //   } else {
+  //     setPaginationTotal(50);
+  //   }
+  //   setUserToSearch("");
+  // }, [userType]);
 
   const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
     useSuperuserListMutation();
@@ -89,17 +93,23 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     { data: partnershipDetail, isLoading: loadingPartnership },
   ] = usePartnershipMutation();
 
-  const fetchData = () => {
-    getSuperuserList({
+  const [userDetailsData, setUserDetailsData] = useState();
+  const fetchData = async (userId) => {
+    const res = await getSuperuserList({
       userType: userType,
       parentId: parentIdFromParams || "",
       noOfRecords: paginationTotal,
       index: indexData,
-      userToSearch,
-    });
+      userToSearch: userToSearch || userId,
+    }).unwrap();
+    if (res?.status) {
+      setActiveSearch(null);
+      setShowSearchDropdown(false);
+      setUserDetailsData(res?.data?.userListV2);
+    } else {
+      setUserDetailsData([]);
+    }
   };
-
-  // --- Handlers for Modals and Dropdowns ---
 
   const handleShowPartnershipModal = (userId) => {
     setUserIdForPartnership(userId);
@@ -204,12 +214,10 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   }, [parentIdFromParams, userType, paginationTotal, indexData]);
 
   useEffect(() => {
-    if (superuserListData?.data?.userListV2) {
-      setDropdownOpenStates(
-        new Array(superuserListData.data.userListV2.length).fill(false)
-      );
+    if (userDetailsData) {
+      setDropdownOpenStates(new Array(userDetailsData.length).fill(false));
     }
-  }, [superuserListData?.data?.userListV2]);
+  }, [userDetailsData]);
 
   useEffect(() => {
     const element = myElementRef.current;
@@ -231,14 +239,27 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
 
   const onSearchFinish = (values) => {
     setUserToSearch(values?.username);
-    getSuperuserList({
+    fetchData(convertCodeReverse(values?.username));
+  };
+
+  const handleResetData = async () => {
+    codeForm.resetFields();
+    nameForm.resetFields();
+    setUserToSearch();
+    const res = await getSuperuserList({
       userType: userType,
-      parentId: parentIdFromParams || null,
+      parentId: parentIdFromParams || "",
       noOfRecords: paginationTotal,
       index: indexData,
-      // userId: values?.username,
-      userToSearch: values?.username,
-    });
+      userToSearch: "",
+    }).unwrap();
+    if (res?.status) {
+      setActiveSearch(null);
+      setShowSearchDropdown(false);
+      setUserDetailsData(res?.data?.userListV2);
+    } else {
+      setUserDetailsData([]);
+    }
   };
 
   const [resetPassword, { data: resetPassData }] = useGetGenerateMutation();
@@ -363,6 +384,23 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     setUserId(useId);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        (codeRef.current && codeRef.current.contains(event.target)) ||
+        (nameRef.current && nameRef.current.contains(event.target))
+      ) {
+        return; // inside click → do nothing
+      }
+      setActiveSearch(null); // outside click → close
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       {isOverlayOpen && <div className="overlay_layout"></div>}
@@ -390,13 +428,14 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                   <th>
                     <div
                       className="main_search_droup"
-                      style={{ position: "relative" }}>
+                      style={{ position: "relative" }}
+                      ref={codeRef}>
                       <p>Code</p>
-                      {showSearchDropdown && (
+                      {activeSearch === "code" && (
                         <Menu className="menu_item">
                           <Form
                             name="code"
-                            form={form}
+                            form={codeForm}
                             initialValues={{
                               remember: true,
                             }}
@@ -419,7 +458,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                               </Form.Item>
                               <Form.Item>
                                 <Button
-                                  onClick={() => form.resetFields()}
+                                  type="button"
+                                  onClick={() => handleResetData()}
                                   className="ant_reset_btn"
                                   style={{ width: "86px" }}>
                                   Reset
@@ -433,14 +473,72 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                         <Space>
                           <SearchOutlined
                             onClick={() =>
-                              setShowSearchDropdown(!showSearchDropdown)
+                              setActiveSearch(
+                                activeSearch === "code" ? null : "code"
+                              )
                             }
                           />
                         </Space>
                       </p>
                     </div>
                   </th>
-                  <th>Name</th>
+                  <th>
+                    <div
+                      className="main_search_droup"
+                      style={{ position: "relative" }}
+                      ref={nameRef}>
+                      <p>Name</p>
+                      {activeSearch === "name" && (
+                        <Menu className="menu_item">
+                          <Form
+                            name="code"
+                            form={nameForm}
+                            initialValues={{
+                              remember: true,
+                            }}
+                            onFinish={onSearchFinish}
+                            autoComplete="off">
+                            <Form.Item name="username">
+                              <Input />
+                            </Form.Item>
+                            <div className="agent_search_deatil">
+                              <Form.Item>
+                                <Button
+                                  type="primary"
+                                  htmlType="submit"
+                                  style={{
+                                    width: "86px",
+                                    marginRight: "8px",
+                                  }}>
+                                  <SearchOutlined /> Search
+                                </Button>
+                              </Form.Item>
+                              <Form.Item>
+                                <Button
+                                  type="button"
+                                  onClick={() => handleResetData()}
+                                  className="ant_reset_btn"
+                                  style={{ width: "86px" }}>
+                                  Reset
+                                </Button>
+                              </Form.Item>
+                            </div>
+                          </Form>
+                        </Menu>
+                      )}
+                      <p className="search_code">
+                        <Space>
+                          <SearchOutlined
+                            onClick={() =>
+                              setActiveSearch(
+                                activeSearch === "name" ? null : "name"
+                              )
+                            }
+                          />
+                        </Space>
+                      </p>
+                    </div>
+                  </th>
                   <th>
                     {userType == 7
                       ? "SuperAdmin"
@@ -471,101 +569,114 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                 </tr>
               </thead>
               <tbody>
-                {superuserListData?.data?.userListV2?.map((res, id) => (
-                  <tr key={id}>
-                    <td>
-                      <div
-                        onClick={() => handleShowPartnershipModal(res?.userId)}
-                        className="plus_btn">
-                        <PlusOutlined />
-                      </div>
-                    </td>
-                    <td
-                      onClick={() =>
-                        handleParentIdChange(res?.userid, res?.parent)
-                      }>
-                      <Dropdown
-                        className="droup_menu"
-                        open={dropdownOpenStates[id]}
-                        onOpenChange={() => toggleDropdown(id)}
-                        menu={{
-                          items: getActionMenuItems(res),
-                          className: "menu_data",
-                        }}
-                        trigger={["click", "contextMenu"]}>
+                {userDetailsData?.length > 0 ? (
+                  userDetailsData?.map((res, id) => (
+                    <tr key={id}>
+                      <td>
                         <div
-                          className="droup_link"
-                          style={{ cursor: "pointer" }}
-                          onClick={() => handleEditUserData(res?.userid)}>
-                          <Space>
-                            <CaretDownOutlined />
-                          </Space>
-                        </div>
-                      </Dropdown>
-                    </td>
-                    <td>{convertCode(res?.userId)}</td>
-                    <td>
-                      <span
-                        onClick={() => {
-                          if (userTyep != 1) {
-                            nav(
-                              `${routeFromUSerType[userType]}/${res?.userId}`
-                            );
-                          } else if (res?.liability !== 0) {
-                            handleExposure(res?.userId);
+                          onClick={() =>
+                            handleShowPartnershipModal(res?.userId)
                           }
-                        }}
-                        className={`${"gx-text-blue gx-pointer"}  gx-text-nowrap`}>
-                        <SlEye /> {res?.userName}
-                      </span>
-                    </td>
-                    <td>{convertCode(res?.parentId)}</td>
-                    <td>{res?.contact}</td>
-                    <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
-                    <td>{res?.partnerShip}</td>
-                    <td>*******</td>
-                    {userType == 1 && (
-                      <td style={{ textAlign: "right" }}>
+                          className="plus_btn">
+                          <PlusOutlined />
+                        </div>
+                      </td>
+                      <td
+                        onClick={() =>
+                          handleParentIdChange(res?.userid, res?.parent)
+                        }>
+                        <Dropdown
+                          className="droup_menu"
+                          open={dropdownOpenStates[id]}
+                          onOpenChange={() => toggleDropdown(id)}
+                          menu={{
+                            items: getActionMenuItems(res),
+                            className: "menu_data",
+                          }}
+                          trigger={["click", "contextMenu"]}>
+                          <div
+                            className="droup_link"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleEditUserData(res?.userid)}>
+                            <Space>
+                              <CaretDownOutlined />
+                            </Space>
+                          </div>
+                        </Dropdown>
+                      </td>
+                      <td>{convertCode(res?.userId)}</td>
+                      <td>
                         <span
                           onClick={() => {
-                            res?.liability !== 0 && handleExposure(res?.userId);
+                            if (userTyep != 1) {
+                              nav(
+                                `${routeFromUSerType[userType]}/${res?.userId}`
+                              );
+                            } else if (res?.liability !== 0) {
+                              handleExposure(res?.userId);
+                            }
                           }}
-                          style={{
-                            border: "1px solid #fff",
-                            fontWeight: 600,
-                            color: res?.liability !== 0 ? "#1890ff" : "#000",
-                            cursor:"pointer"
-                          }}>
-                          {/* <Tag color="#f50"> */}
-                          {res?.liability === 0
-                            ? "0"
-                            : res?.liability?.toFixed(2) || 0}
-                          {/* </Tag> */}
+                          className={`${"gx-text-blue gx-pointer"}  gx-text-nowrap`}>
+                          <SlEye /> {res?.userName}
                         </span>
                       </td>
-                    )}
-                    <td>
-                      {res?.matchCommission === 0 &&
-                      res?.sessionCommission === 0
-                        ? "NOC"
-                        : "BBB"}
+                      <td>
+                        {res?.parentName} ({convertCode(res?.parentId)})
+                      </td>
+                      <td>{res?.contact}</td>
+                      <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
+                      <td>{res?.partnerShip}</td>
+                      <td>*******</td>
+                      {userType == 1 && (
+                        <td style={{ textAlign: "right" }}>
+                          <span
+                            onClick={() => {
+                              res?.liability !== 0 &&
+                                handleExposure(res?.userId);
+                            }}
+                            style={{
+                              border: "1px solid #fff",
+                              fontWeight: 600,
+                              color: res?.liability !== 0 ? "#1890ff" : "#000",
+                              cursor: "pointer",
+                            }}>
+                            {/* <Tag color="#f50"> */}
+                            {res?.liability === 0
+                              ? "0"
+                              : res?.liability?.toFixed(2) || 0}
+                            {/* </Tag> */}
+                          </span>
+                        </td>
+                      )}
+                      <td>
+                        {res?.matchCommission === 0 &&
+                        res?.sessionCommission === 0
+                          ? "NOC"
+                          : "BBB"}
+                      </td>
+                      <td>{Number(res?.matchCommission)?.toFixed(2)}</td>
+                      <td>{Number(res?.sessionCommission)?.toFixed(2)}</td>
+                      <td className="text-right">
+                        {userType == 1
+                          ? (
+                              Number(res?.balance) +
+                              Number(res?.balanceWithPnl) -
+                              Number(res?.liability?.toFixed(2) || 0)
+                            )?.toFixed()
+                          : (
+                              Number(res?.balance) + Number(res?.balanceWithPnl)
+                            )?.toFixed()}
+                      </td>
+                      <td>{res?.isActive ? "Active" : "InActive"}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={15}>
+                      <Empty />
                     </td>
-                    <td>{Number(res?.matchCommission)?.toFixed(2)}</td>
-                    <td>{Number(res?.sessionCommission)?.toFixed(2)}</td>
-                    <td className="text-right">
-                      {userType == 1
-                        ? (
-                            Number(res?.balance) +
-                            Number(res?.balanceWithPnl) -
-                            Number(res?.liability?.toFixed(2) || 0)
-                          )?.toFixed()
-                        : (
-                            Number(res?.balance) + Number(res?.balanceWithPnl)
-                          )?.toFixed()}
-                    </td>
-                    <td>{res?.isActive ? "Active" : "InActive"}</td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -578,7 +689,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
               pageSize={paginationTotal}
               onChange={(page) => setIndexData(page - 1)}
               showSizeChanger
-              pageSizeOptions={["50", "100", "150", "200", "250"]}
+              pageSizeOptions={["25", "50", "100", "150", "200", "250"]}
               onShowSizeChange={(current, size) => {
                 setPaginationTotal(size);
                 setIndexData(0);

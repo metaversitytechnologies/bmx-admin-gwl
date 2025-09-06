@@ -85,10 +85,11 @@ const GameDeatis = () => {
                 justify="start"
                 align="middle"
                 className="gx-px-2 gx-py-1"
-                style={{ backgroundColor: "rgb(115, 118, 111)" }}>
+                style={{ backgroundColor: "#000" }}>
                 <span
                   className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2"
-                  onClick={() => setShowFullScore(!showFullScore)}>
+                  onClick={() => setShowFullScore(!showFullScore)}
+                  style={{ cursor: "pointer" }}>
                   FS
                 </span>
                 <img
@@ -96,7 +97,7 @@ const GameDeatis = () => {
                   src="/Images/tv_icon.png"
                   alt="tv.png"
                   className="gx-bg-white gx-py-1 gx-mr-2"
-                  style={{ width: 25 }}
+                  style={{ width: 25, cursor: "pointer" }}
                 />
               </Row>
 
@@ -153,13 +154,13 @@ const GameDeatis = () => {
                 fancyId={fancyId}
               />
               <CompletedFancy />
-              <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
+              {/* <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button
                   type="button"
                   className="ant-btn ant-btn-default gx-my-0  gx-bg-grey gx-text-white gx-font-weight-semi-bold ">
                   <span>All Matches</span>
                 </button>
-              </Row>
+              </Row> */}
             </div>
           </Col>
         </Row>

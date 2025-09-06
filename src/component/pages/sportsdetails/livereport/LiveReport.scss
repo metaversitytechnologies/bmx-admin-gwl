@@ -265,7 +265,7 @@
   background-color: #fff;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .main_live_section {
     margin: 20px 8px !important;
     margin-inline: 2%;
@@ -465,7 +465,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .bookData {
     width: 20% !important;
     min-width: 20% !important;
@@ -520,7 +520,7 @@
 
 .ht {
   height: 47px;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     height: 51px;
     min-height: 51px;
     max-height: 51px;
@@ -553,7 +553,7 @@
 
 .tv-iframe {
   transform-origin: center 15px;
-  // @media screen and (max-width: 800px) {
+  // @media screen and (max-width: 1024px) {
   //   height: 290px;
   // }
 }

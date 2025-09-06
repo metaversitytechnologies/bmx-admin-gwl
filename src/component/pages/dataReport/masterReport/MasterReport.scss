@@ -1,9 +1,9 @@
-.report_download{
-    display: flex;
-    @media screen and (max-width:800px) {
-        justify-content: space-between;
-    }
-    .download{
-        margin-left: 24px;
-    }
+.report_download {
+  display: flex;
+  @media screen and (max-width: 1024px) {
+    justify-content: space-between;
+  }
+  .download {
+    margin-left: 24px;
+  }
 }

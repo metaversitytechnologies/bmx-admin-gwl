@@ -125,7 +125,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .de_table {
     display: block;
     width: 100%;
@@ -207,7 +207,7 @@
 .mr-10 {
   margin-right: 32px;
   margin-left: 32px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin-right: 15px !important;
     margin-left: 15px !important;
   }

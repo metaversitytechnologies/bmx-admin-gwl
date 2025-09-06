@@ -51,6 +51,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getQueryMatchBets: build.query({
+      query: (body) => {
+        return {
+          url: `/report/get-match-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
     getMatchAndSessionBet: build.mutation({
       query: (body) => {
         return {
@@ -88,6 +97,15 @@ export const sportDetailsApi = createApi({
       },
     }),
     getSessionBet: build.mutation({
+      query: (body) => {
+        return {
+          url: `/report/get-session-bets`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
+    getSessionQureyBet: build.query({
       query: (body) => {
         return {
           url: `/report/get-session-bets`,
@@ -399,5 +417,7 @@ export const {
   useGetTranstionDeatilsQuery,
   useGetCommissionClientWiseMutation,
   useGetCommitionReportHostopryMutation,
-  useGetCommissionResetMutation
+  useGetCommissionResetMutation,
+  useGetQueryMatchBetsQuery,
+  useGetSessionQureyBetQuery
 } = sportDetailsApi;

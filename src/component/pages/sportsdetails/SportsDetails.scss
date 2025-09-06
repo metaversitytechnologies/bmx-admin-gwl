@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   // box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 20px 0px;
   }
   .rejected_row {
@@ -181,7 +181,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .sport_detail {
     margin: 0px !important;
     margin-inline: 2%;

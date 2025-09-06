@@ -1,13 +1,13 @@
-.client_selected{
-    width: 30%;
-    margin:"10px 30px"
+.client_selected {
+  width: 30%;
+  margin: "10px 30px";
 }
 
-@media screen and (max-width: 800px) {
-    .client_selected{
-        width: 80% !important;
-        margin: 10px auto !important;
-        display: flex;
-        justify-content: center;
-    }
+@media screen and (max-width: 1024px) {
+  .client_selected {
+    width: 80% !important;
+    margin: 10px auto !important;
+    display: flex;
+    justify-content: center;
+  }
 }

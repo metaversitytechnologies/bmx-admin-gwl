@@ -1,139 +1,137 @@
-.right_form_data{
+.right_form_data {
+  .ant-form-item-explain {
+    margin-left: 32px;
+  }
+}
+.form_data {
+  position: relative;
+  .ant-row.ant-form-item-row {
+    margin-bottom: 12px;
+  }
+}
+.ant-row.super_agent {
+  margin-top: 22px;
+}
+.sub_super {
+  margin-left: 4px;
+}
+@media screen and (max-width: 1024px) {
+  .right_form_data {
     .ant-form-item-explain {
-        margin-left: 32px;
+      margin-left: 0px;
     }
-}
-.form_data{
-    position: relative;
-    .ant-row.ant-form-item-row{
-        margin-bottom: 12px;
-    }
-}
-.ant-row.super_agent{
-    margin-top: 22px;
-}
-.sub_super{
-    margin-left: 4px;
-}
-@media screen and (max-width: 800px) {
-    .right_form_data{
-        .ant-form-item-explain {
-            margin-left: 0px;
-        }
-    }
-    .number_field {
-        width: 100% !important;
-    }
+  }
+  .number_field {
+    width: 100% !important;
+  }
 }
 
-.ant-select-arrow{
+.ant-select-arrow {
+  color: #d9d9d9;
+  svg {
     color: #d9d9d9;
-    svg{
-        color: #d9d9d9;
-    }
+  }
 }
 
-.ant-notification-notice-success{
-    background: #51A351 !important;
-    box-shadow: 0 0 12px #999 !important;
-    cursor: pointer;
-    font-size: 1em;
-    opacity: .9;
-    &:hover{
-        opacity:1; 
-    }
-    .ant-notification-notice-icon-success.anticon {
-        color: #fff !important;
-    }
-    .ant-notification-notice-with-icon {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .ant-notification-notice-message {
-        font-size: 1.4em !important;
-        line-height: 1.2em !important;
-        font-weight: 600 !important;
-        color: #fff !important;
-    }
-    .ant-notification-notice-description{
-        font-size: 1em !important;
-        line-height: 1.2em !important;
-        color: #fff !important;
-    }
+.ant-notification-notice-success {
+  background: #51a351 !important;
+  box-shadow: 0 0 12px #999 !important;
+  cursor: pointer;
+  font-size: 1em;
+  opacity: 0.9;
+  &:hover {
+    opacity: 1;
+  }
+  .ant-notification-notice-icon-success.anticon {
+    color: #fff !important;
+  }
+  .ant-notification-notice-with-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ant-notification-notice-message {
+    font-size: 1.4em !important;
+    line-height: 1.2em !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+  }
+  .ant-notification-notice-description {
+    font-size: 1em !important;
+    line-height: 1.2em !important;
+    color: #fff !important;
+  }
 }
 
-
-.ant-notification-notice-error{
-    background: #ff4d4ffa !important;
-    box-shadow: 0 0 12px #999 !important;
-    // width: 300px !important;
-    cursor: pointer;
-    font-size: 1em;
-    opacity: .9;
-    &:hover{
-        opacity:1; 
-    }
-    .ant-notification-notice-icon-error.anticon {
-        color: #fff !important;
-    }
-    .ant-notification-notice-with-icon {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .ant-notification-notice-message {
-        font-size: 1.4em !important;
-        line-height: 1.2em !important;
-        font-weight: 600 !important;
-        color: #fff !important;
-    }
-    .ant-notification-notice-description{
-        font-size: 1em !important;
-        line-height: 1.2em !important;
-        color: #fff !important;
-    }
+.ant-notification-notice-error {
+  background: #ff4d4ffa !important;
+  box-shadow: 0 0 12px #999 !important;
+  // width: 300px !important;
+  cursor: pointer;
+  font-size: 1em;
+  opacity: 0.9;
+  &:hover {
+    opacity: 1;
+  }
+  .ant-notification-notice-icon-error.anticon {
+    color: #fff !important;
+  }
+  .ant-notification-notice-with-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ant-notification-notice-message {
+    font-size: 1.4em !important;
+    line-height: 1.2em !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+  }
+  .ant-notification-notice-description {
+    font-size: 1em !important;
+    line-height: 1.2em !important;
+    color: #fff !important;
+  }
 }
 
 a.ant-notification-notice-close {
-    display: none !important;
+  display: none !important;
 }
 
 // spin icon css
 
-
 .ant-spin-nested-loading {
-    position: relative;
+  position: relative;
 }
 
 .spin_icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 4;
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 150px;
-    background: #ffffffa3;
-    .ant-spin.ant-spin-lg {
-        span.ant-spin-dot.ant-spin-dot-spin {
-            font-size: 29px;
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            margin: -10px;
-        }
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  background: #ffffffa3;
+  .ant-spin.ant-spin-lg {
+    span.ant-spin-dot.ant-spin-dot-spin {
+      font-size: 29px;
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      margin: -10px;
     }
+  }
 }
 
 .casino_details {
-    display: flex;
-    justify-content: space-between;
-    margin: 0px 20px;
-    flex-wrap: wrap;
-    gap: 21px;
-    @media screen and (max-width: 800px) {
-        margin: 0px !important;
-    }
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 20px;
+  flex-wrap: wrap;
+  gap: 21px;
+  @media screen and (max-width: 1024px) {
+    margin: 0px !important;
+  }
 }

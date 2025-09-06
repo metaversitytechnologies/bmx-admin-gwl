@@ -11,7 +11,9 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
     useLazyGetUserLabilatyQuery();
 
   useEffect(() => {
-    trigger({ userId: userId });
+    if (userId) {
+      trigger({ userId: userId });
+    }
   }, [userId]);
 
   const column = [
@@ -85,6 +87,7 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
   return (
     <>
       <Modal
+        width={1000}
         className="modal_deposit"
         title={
           <h1>
@@ -120,39 +123,40 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
                 return record?.back ? "back" : "lay";
               }
             }}
-            summary={(pageData) => {
-              let totalProfit = 0;
-              let totalLoss = 0;
+            // summary={(pageData) => {
+            //   let totalProfit = 0;
+            //   let totalLoss = 0;
 
-              pageData.forEach(({ profit, loss }) => {
-                totalProfit += profit || 0;
-                totalLoss += loss || 0;
-              });
+            //   pageData.forEach(({ profit, loss }) => {
+            //     totalProfit += profit || 0;
+            //     totalLoss += loss || 0;
+            //   });
 
-              return (
-                <Table.Summary.Row>
-                  <Table.Summary.Cell index={0}>
-                    <strong>Total</strong>
-                  </Table.Summary.Cell>
-                  <Table.Summary.Cell index={0} />
-                  <Table.Summary.Cell index={0} />
-                  <Table.Summary.Cell index={0} />
-                  <Table.Summary.Cell index={0} />
-                  <Table.Summary.Cell index={0} />
-                  <Table.Summary.Cell index={6}>
-                    <strong style={{ color: "red" }}>
-                      {totalLoss.toFixed(2)}
-                    </strong>
-                  </Table.Summary.Cell>
-                  <Table.Summary.Cell index={7}>
-                    <strong style={{ color: "green" }}>
-                      {totalProfit.toFixed(2)}
-                    </strong>
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              );
-            }}
+            //   return (
+            //     <Table.Summary.Row>
+            //       <Table.Summary.Cell index={0}>
+            //         <strong>Total</strong>
+            //       </Table.Summary.Cell>
+            //       <Table.Summary.Cell index={0} />
+            //       <Table.Summary.Cell index={0} />
+            //       <Table.Summary.Cell index={0} />
+            //       <Table.Summary.Cell index={0} />
+            //       <Table.Summary.Cell index={0} />
+            //       <Table.Summary.Cell index={6}>
+            //         <strong style={{ color: "red" }}>
+            //           {totalLoss.toFixed(2)}
+            //         </strong>
+            //       </Table.Summary.Cell>
+            //       <Table.Summary.Cell index={7}>
+            //         <strong style={{ color: "green" }}>
+            //           {totalProfit.toFixed(2)}
+            //         </strong>
+            //       </Table.Summary.Cell>
+            //     </Table.Summary.Row>
+            //   );
+            // }}
           />
+          <br />
           <Table
             columns={column}
             dataSource={sessionData || []}

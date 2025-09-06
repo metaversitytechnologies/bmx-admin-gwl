@@ -2,7 +2,7 @@
   .ant-picker.ant-picker-range {
     width: 92%;
     margin-inline: 8%;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       margin-inline: unset;
       width: 100%;
     }
@@ -33,7 +33,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .match_ladger {
     // .ant-picker.ant-picker-range{
     //     width: 99% !important;
@@ -63,13 +63,13 @@
     font-size: 24px;
     text-align: center;
   }
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     margin-top: -9px;
     margin-bottom: 0px;
   }
 }
 .rep_download {
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     float: right;
   }
 }

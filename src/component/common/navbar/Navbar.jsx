@@ -63,10 +63,6 @@ const Navbar = ({ action, logo }) => {
     }
   };
 
-  const handleDashbordHome = () => {
-    nav("/dashboard");
-  };
-
   const pType = localStorage.getItem("passType");
   const uType = localStorage.getItem("userType");
 
@@ -82,6 +78,8 @@ const Navbar = ({ action, logo }) => {
         <div
           style={{
             marginTop: "0px",
+            display:"flex",
+            alignItems:"center"
           }}>
           <Space className="open_btn">
             <Button type="" className="sub_open_btn" onClick={action}>

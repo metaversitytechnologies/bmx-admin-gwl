@@ -97,7 +97,7 @@ const Dashboard = () => {
                           <img src="/Images/sheare.png" width={30} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                          <h1 className=" gx-text-capitalize gx-fs-lg  gx-font-weight-semi-bold  gx-text-white">
                             {`Sport's Details`}
                           </h1>
                         </div>
@@ -126,7 +126,7 @@ const Dashboard = () => {
                           <BiUserCircle style={{ font: "35px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className=" gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
+                          <h1 className=" gx-text-capitalize  gx-fs-lg gx-font-weight-semi-bold  gx-text-white">
                             Ledger
                           </h1>
                         </div>

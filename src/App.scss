@@ -219,13 +219,13 @@ div#rc-tabs-0-tab-2 {
 
 .company_report {
   margin: 30px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 20px 15px;
   }
   .ant-card-head .ant-card-head-title {
     font-size: 24px !important;
     font-weight: 600;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 20px !important;
     }
   }
@@ -233,13 +233,13 @@ div#rc-tabs-0-tab-2 {
 
 .match_bets_session {
   margin: 30px 40px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 20px 15px;
   }
   .ant-card-head .ant-card-head-title {
     font-size: 20px !important;
     font-weight: 600;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 18px !important;
     }
   }
@@ -271,7 +271,7 @@ div#rc-tabs-0-tab-2 {
 
 .client_report {
   margin: 30px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 15px 10px;
   }
   h1,
@@ -292,7 +292,7 @@ div#rc-tabs-0-tab-2 {
 .rehected_bet {
   margin: 30px 80px !important;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 15px 10px;
   }
   .ant-card-head-title {
@@ -323,12 +323,12 @@ div#rc-tabs-0-tab-2 {
 
 .profit_loss_table {
   margin: 30px 70px !important;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 15px 10px;
   }
   .ant-card-head-title {
     font-size: 28px !important;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 20px !important;
     }
   }
@@ -358,7 +358,7 @@ div#rc-tabs-0-tab-2 {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .transations_date {
     width: 100%;
     min-width: 100%;
@@ -410,13 +410,13 @@ div#rc-tabs-0-tab-2 {
 
 .match_ledger {
   margin: 30px 60px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 0px;
   }
   .ant-card-head-title {
     font-size: 28px !important;
     font-weight: 400 !important;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 20px !important;
     }
   }
@@ -441,13 +441,13 @@ div#rc-tabs-0-tab-2 {
 
 .all_casino_games {
   margin: 30px 80px !important;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 20px 10px !important;
   }
   .ant-card-head-title {
     font-size: 28px !important;
     font-weight: 400 !important;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 20px !important;
     }
   }
@@ -455,7 +455,7 @@ div#rc-tabs-0-tab-2 {
 
 .All_bets {
   margin: 30px 60px !important;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 20px 10px !important;
   }
   .ant-card-head-title {
@@ -478,7 +478,7 @@ div#rc-tabs-0-tab-2 {
 .company_resport_casi {
   margin: 15px 65px !important;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 15px 10px;
   }
   th.ant-table-cell {
@@ -679,7 +679,7 @@ th.ant-table-cell {
 .casino_diamond_details {
   padding: 32px 90px;
   flex: 1 1;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     padding: 20px 30px;
   }
   .ant-card-head-title {

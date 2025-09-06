@@ -58,14 +58,14 @@ a.gx-bg-primary:hover {
 
 .mobile-open {
   display: none !important;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     display: flex !important;
   }
 }
 
 .deskOpen {
   display: flex !important;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     display: none !important;
   }
 }

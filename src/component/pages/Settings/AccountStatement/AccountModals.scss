@@ -62,10 +62,10 @@
   position: absolute;
   right: 19px;
   top: -60px;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     top: -49px;
   }
 }
-.datepicker{
+.datepicker {
   position: relative;
 }

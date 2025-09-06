@@ -15,7 +15,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .ant-card {
     margin-bottom: 20px !important;
     .ant-card-grid {
@@ -42,7 +42,7 @@
     text-align: left !important;
   }
 }
-@media screen and (min-width: 351px) and (max-width: 800px) {
+@media screen and (min-width: 351px) and (max-width: 1024px) {
   .ant-card-grid {
     width: 43% !important;
     text-align: left !important;
@@ -171,6 +171,10 @@
   .gx-fs-lg {
     font-size: 16px;
     line-height: 1;
+
+    @media (max-width: 1024px) {
+      font-size: 14px !important;
+    }
   }
   .gx-text-capitalize {
     text-transform: capitalize;
@@ -178,10 +182,7 @@
   .gx-font-weight-semi-bold {
     font-weight: 600;
   }
-  .gx-fs-lg {
-    font-size: 16px;
-    line-height: 1;
-  }
+
   .gx-text-capitalize {
     text-transform: capitalize;
   }
@@ -320,6 +321,9 @@
     font-size: 16px;
     line-height: 1;
     margin-bottom: 0.5em;
+    @media (max-width: 800px) {
+      font-size: 14px !important;
+    }
   }
   .gx-text-capitalize {
     text-transform: capitalize;

@@ -22,13 +22,13 @@ span.ant-spin-dot.ant-spin-dot-spin {
 .acc_download {
   display: flex;
   align-items: center;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     display: block;
   }
 }
 .account_match_slip {
   margin: 30px 68px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 18px 6px;
   }
   .ant-card-head {
@@ -47,7 +47,7 @@ span.ant-spin-dot.ant-spin-dot-spin {
   flex-wrap: nowrap !important;
   padding-left: 0.25rem;
   color: #fff;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     justify-content: flex-start;
     margin-bottom: 12px;
   }

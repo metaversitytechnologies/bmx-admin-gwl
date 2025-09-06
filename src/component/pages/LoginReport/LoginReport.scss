@@ -1,7 +1,7 @@
 .login_report {
   margin: 25px 15px;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 0px;
   }
   .team_name {
@@ -15,7 +15,7 @@
     font-size: 28px !important;
     font-weight: 500 !important;
     padding: 9px 0px !important;
-    @media (max-width: 800px) {
+    @media (max-width: 1024px) {
       font-size: 20px !important;
     }
   }
@@ -28,7 +28,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .sub_live_section.live_report {
     display: flex;
     align-items: center;
@@ -51,12 +51,12 @@
 .login_report_data {
   display: flex;
   align-items: center;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     display: block;
   }
   .form_data {
     width: 27%;
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 1024px) {
       width: 100%;
     }
   }

@@ -374,7 +374,7 @@ a.gx-bg-white:hover {
 
 .main_details_page {
   margin: 30px 20px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     margin: 25px 5px;
   }
   .ant-btn {
@@ -484,7 +484,7 @@ a.gx-bg-white:hover {
 
 .ant_row_tv_section {
   height: 600px;
-  @media (max-width: 800px) {
+  @media (max-width: 1024px) {
     height: 221px;
   }
 }

@@ -1,46 +1,87 @@
-import { Button, Form, Input, notification, Pagination } from "antd";
-import { useEffect, useState } from "react";
-
+import {
+  Button,
+  Empty,
+  Form,
+  Input,
+  Menu,
+  notification,
+  Pagination,
+  Space,
+} from "antd";
+import { useEffect, useRef, useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import {
   useLazyDepositAndWithdrawQuery,
   useSuperuserListMutation,
 } from "../../../../store/service/supermasteAccountStatementServices";
-import { convertCode } from "../../../../store/constant";
+import { convertCode, convertCodeReverse } from "../../../../store/constant";
 import { openNotification, openNotificationError } from "../../../../App";
 
 const AddSuperLimites = () => {
-  const [form] = Form.useForm();
+  const [codeForm] = Form.useForm();
+  const [nameForm] = Form.useForm();
   const { id } = useParams();
   const [api, contextHolder] = notification.useNotification();
 
+  const [activeSearchColumn, setActiveSearchColumn] = useState(null);
+
+  const [userToSearch, setUserToSearch] = useState("");
   const [inputValues, setInputValues] = useState({});
   const [paginationTotal, setPaginationTotal] = useState(50);
   const [indexData, setIndexData] = useState(0);
-
-  const [getSuperuserList, { data: superuserListData, isLoading }] =
-    useSuperuserListMutation();
-
+  const [getSuperuserList] = useSuperuserListMutation();
   const [triggerDeposit] = useLazyDepositAndWithdrawQuery();
 
-  const totalPages = superuserListData?.data?.totalPages || 1;
-  const currentPage = superuserListData?.data?.currentPage || 0;
+  const [userDetailsData, setUserDetailsData] = useState([]);
+  const [paginationInfo, setPaginationInfo] = useState({
+    totalPages: 1,
+    currentPage: 0,
+  });
 
-  const fetchData = () => {
-    getSuperuserList({
+  const codeRef = useRef(null);
+  const nameRef = useRef(null);
+
+  const fetchData = async (searchValue = userToSearch) => {
+    const res = await getSuperuserList({
       userType: id,
       parentId: "",
       noOfRecords: paginationTotal,
       index: indexData,
-      userToSearch: "",
-    });
+      userToSearch: convertCodeReverse(searchValue) || "",
+    }).unwrap();
+    if (res?.status) {
+      setUserDetailsData(res?.data?.userListV2 || []);
+      setPaginationInfo({
+        totalPages: res?.data?.totalPages || 1,
+        currentPage: res?.data?.currentPage || 0,
+      });
+    } else {
+      setUserDetailsData([]);
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, [id, indexData, paginationTotal]);
+  }, [id, indexData, paginationTotal, userToSearch]);
 
+  // 🔹 close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        (codeRef.current && codeRef.current.contains(event.target)) ||
+        (nameRef.current && nameRef.current.contains(event.target))
+      ) {
+        return; // inside click → do nothing
+      }
+      setActiveSearchColumn(null); // outside click → close
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleInputChange = (userId, value) => {
     setInputValues((prev) => ({
@@ -70,15 +111,30 @@ const AddSuperLimites = () => {
           openNotification(
             `${isAdd ? "Added" : "Deducted"} ${amount} to ${user.userName}`
           );
-          fetchData(); // Refresh after action
+          fetchData();
           setInputValues((prev) => ({ ...prev, [user.userId]: "" }));
         } else {
           openNotificationError(res?.message);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         openNotificationError("Transaction failed");
       });
+  };
+
+  const onSearchFinish = (values) => {
+    setUserToSearch(values?.username?.trim() || "");
+    setIndexData(0);
+    setActiveSearchColumn(null);
+  };
+
+  const handleResetData = async () => {
+    codeForm.resetFields();
+    nameForm.resetFields();
+    setUserToSearch("");
+    setIndexData(0);
+    fetchData("");
+    setActiveSearchColumn(null);
   };
 
   return (
@@ -88,19 +144,127 @@ const AddSuperLimites = () => {
         className="table_section mwt sport_detail"
         style={{ paddingBottom: "12px" }}>
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Form form={form} autoComplete="off">
-            <table className="live_table limit_update">
-              <thead>
-                <tr>
-                  <th>Code</th>
-                  <th>Name</th>
-                  <th>C. Chips</th>
-                  <th>Add / Minus Limit</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {superuserListData?.data?.userListV2?.map((user, key) => (
+          <table className="live_table limit_update">
+            <thead>
+              <tr>
+                {/* Code column */}
+                <th>
+                  <div
+                    className="main_search_droup"
+                    style={{ position: "relative" }}
+                    ref={codeRef}>
+                    <p>Code</p>
+                    {activeSearchColumn === "code" && (
+                      <Menu className="menu_item">
+                        <Form
+                          name="code"
+                          form={codeForm}
+                          onFinish={onSearchFinish}
+                          autoComplete="off"
+                          onSubmitCapture={(e) => e.preventDefault()}>
+                          <Form.Item name="username">
+                            <Input placeholder="Enter code" />
+                          </Form.Item>
+                          <div className="agent_search_deatil">
+                            <Form.Item>
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                style={{ width: "86px", marginRight: "8px" }}>
+                                <SearchOutlined /> Search
+                              </Button>
+                            </Form.Item>
+                            <Form.Item>
+                              <Button
+                                type="button"
+                                onClick={handleResetData}
+                                className="ant_reset_btn"
+                                style={{ width: "86px" }}>
+                                Reset
+                              </Button>
+                            </Form.Item>
+                          </div>
+                        </Form>
+                      </Menu>
+                    )}
+                    <p className="search_code">
+                      <Space>
+                        <SearchOutlined
+                          onClick={() =>
+                            setActiveSearchColumn(
+                              activeSearchColumn === "code" ? null : "code"
+                            )
+                          }
+                        />
+                      </Space>
+                    </p>
+                  </div>
+                </th>
+
+                {/* Name column */}
+                <th>
+                  <div
+                    className="main_search_droup"
+                    style={{ position: "relative" }}
+                    ref={nameRef}>
+                    <p>Name</p>
+                    {activeSearchColumn === "name" && (
+                      <Menu
+                        className="menu_item"
+                        style={{ right: 0, left: "unset" }}>
+                        <Form
+                          name="name"
+                          form={nameForm}
+                          onFinish={onSearchFinish}
+                          autoComplete="off"
+                          onSubmitCapture={(e) => e.preventDefault()}>
+                          <Form.Item name="username">
+                            <Input placeholder="Enter name" />
+                          </Form.Item>
+                          <div className="agent_search_deatil">
+                            <Form.Item>
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                style={{ width: "86px", marginRight: "8px" }}>
+                                <SearchOutlined /> Search
+                              </Button>
+                            </Form.Item>
+                            <Form.Item>
+                              <Button
+                                type="button"
+                                onClick={handleResetData}
+                                className="ant_reset_btn"
+                                style={{ width: "86px" }}>
+                                Reset
+                              </Button>
+                            </Form.Item>
+                          </div>
+                        </Form>
+                      </Menu>
+                    )}
+                    <p className="search_code">
+                      <Space>
+                        <SearchOutlined
+                          onClick={() =>
+                            setActiveSearchColumn(
+                              activeSearchColumn === "name" ? null : "name"
+                            )
+                          }
+                        />
+                      </Space>
+                    </p>
+                  </div>
+                </th>
+
+                <th>C. Chips</th>
+                <th>Add / Minus Limit</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userDetailsData?.length > 0 ? (
+                userDetailsData.map((user, key) => (
                   <tr key={key}>
                     <td>{convertCode(user?.userId)}</td>
                     <td>{user?.userName}</td>
@@ -125,28 +289,32 @@ const AddSuperLimites = () => {
                       <div className="minus_btn">
                         <Button
                           className="add"
-                          loading={isLoading}
                           onClick={() => handleLimitAction(user, true)}>
                           Add
                         </Button>
                         <Button
                           className="minus"
-                          loading={isLoading}
                           onClick={() => handleLimitAction(user, false)}>
                           Minus
                         </Button>
                       </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </Form>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5}>
+                    <Empty />
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
 
           <div style={{ marginTop: 20, textAlign: "right" }}>
             <Pagination
-              current={currentPage + 1}
-              total={totalPages * paginationTotal}
+              current={paginationInfo.currentPage + 1}
+              total={paginationInfo.totalPages * paginationTotal}
               pageSize={paginationTotal}
               showSizeChanger
               pageSizeOptions={["25", "50", "100", "200", "300", "500"]}

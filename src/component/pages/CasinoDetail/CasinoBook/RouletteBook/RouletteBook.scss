@@ -1,33 +1,33 @@
 .main_roulette_section {
-    .main_number{
-        margin: 10px;
-        .upper_number{
-            width: 60px;
-        height: 60px;
-        line-height: 60px;
-        border-radius: 50%;
-        text-align: center;
-        color: rgb(1, 39, 111);
-        background-color: rgb(247, 240, 35);
-        margin: 0px auto;
-        font-size: 24px;
-        font-weight: 100;
-        cursor: pointer;
-        }
-        .sub_number{
-            background-color: rgb(76, 16, 136);
-            text-align: center;
-            padding: 0px 5px;
-            margin: 6px 4px 0px;
-            border-radius: 3px;
-            font-size: 18px;
-            color: rgb(255, 255, 255);
-            border: 1px dashed rgb(154, 154, 154);
-            height: 30px;
-            line-height: 30px;
-        }
+  .main_number {
+    margin: 10px;
+    .upper_number {
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 50%;
+      text-align: center;
+      color: rgb(1, 39, 111);
+      background-color: rgb(247, 240, 35);
+      margin: 0px auto;
+      font-size: 24px;
+      font-weight: 100;
+      cursor: pointer;
     }
-   
+    .sub_number {
+      background-color: rgb(76, 16, 136);
+      text-align: center;
+      padding: 0px 5px;
+      margin: 6px 4px 0px;
+      border-radius: 3px;
+      font-size: 18px;
+      color: rgb(255, 255, 255);
+      border: 1px dashed rgb(154, 154, 154);
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+
   .match_id_section {
     .number_section {
       display: flex;
@@ -52,30 +52,28 @@
   }
 }
 
-.bets{
-    .ant-card-head-title{
-        font-size: 20px !important;
-    }
+.bets {
+  .ant-card-head-title {
+    font-size: 20px !important;
+  }
 }
-.roulette_casino{
-    .ant-card-head-title{
-        font-size: 20px !important;
-    }
+.roulette_casino {
+  .ant-card-head-title {
+    font-size: 20px !important;
+  }
 }
 
-
-@media screen and (max-width: 800px) {
-    .main_roulette_section {
-        .match_id_section {
-          .number_section {
-           
-            padding: 25px 0px 25px 12px;
-            span {
-                padding: 0px 10px;
-                margin: 2px;
-                font-weight: 600;
-            }
-          }
+@media screen and (max-width: 1024px) {
+  .main_roulette_section {
+    .match_id_section {
+      .number_section {
+        padding: 25px 0px 25px 12px;
+        span {
+          padding: 0px 10px;
+          margin: 2px;
+          font-weight: 600;
         }
       }
+    }
+  }
 }

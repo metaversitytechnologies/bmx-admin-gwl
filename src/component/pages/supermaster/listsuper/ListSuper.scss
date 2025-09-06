@@ -198,7 +198,7 @@ ul.menu_data {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .live_table {
     overflow: scroll;
   }
@@ -252,7 +252,7 @@ ul.menu_data {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   p.ant-dropdown-trigger.droup_link.droup_menu {
     position: static;
     background: #038fde;
@@ -279,6 +279,7 @@ ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.menu_item {
   left: -8px;
   top: 23px;
   z-index: 3;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .over_view {
@@ -291,12 +292,12 @@ ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.menu_item {
   left: 0;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1024px) {
   .ant-drawer-body {
     margin: 24px 0px !important;
   }
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
   .partnership {
     width: 100%;
     overflow: scroll;
