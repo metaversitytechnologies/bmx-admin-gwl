@@ -488,3 +488,22 @@ a.gx-bg-white:hover {
     height: 221px;
   }
 }
+
+.book_Data {
+  tr {
+    th.ant-table-cell {
+      color: #fff;
+    }
+  }
+  .ant-modal-content {
+    padding: 0px 12px !important;
+    height: 90vh;
+  }
+  .ant-modal-body {
+    margin-bottom: unset !important;
+  }
+}
+
+.nowrape {
+  white-space: nowrap;
+}

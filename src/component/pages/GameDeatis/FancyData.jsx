@@ -1,11 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import BookDataShow from "./BookDataShow";
+import {
+  useGetFancyBookMutation,
+  useGetSessionBetMutation,
+} from "../../../store/service/SportDetailServices";
+import { useParams } from "react-router-dom";
 
-const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
+const FancyData = ({ data }) => {
+  const { id } = useParams();
+  const [openBook, setShowOpenBook] = useState(false);
+  const [fancyName, setFancyName] = useState("");
+  const [getFancyBook, { data: fancyBookData }] = useGetFancyBookMutation();
+  const [getSessionBet, { data: sessionData }] = useGetSessionBetMutation();
+
+  const handleBookData = (fancyId, fancyName) => {
+    setFancyName(fancyName);
+    setShowOpenBook(!openBook);
+    getFancyBook({ fancyId: fancyId, matchId: id });
+    getSessionBet({
+      matchId: id,
+      userId: "",
+      marketId: fancyId,
+      matchCompleted: false,
+    });
+  };
+
   return (
     <>
       {data &&
         Object.entries(data)
-          ?.sort(([, a], [, b]) => Number(a?.[0]?.srno ?? 0) - Number(b?.[0]?.srno ?? 0))
+          ?.sort(
+            ([, a], [, b]) =>
+              Number(a?.[0]?.srno ?? 0) - Number(b?.[0]?.srno ?? 0)
+          )
           .map(([item, values]) => {
             if (["Odds", "Bookmaker"].includes(item)) return <></>;
             if (values?.length > 0)
@@ -78,10 +105,12 @@ const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
                                                 lineHeight: "30px",
                                                 marginLeft: 10,
                                               }}
-                                              onClick={() => {
-                                                setFancyId(fancy?.sid);
-                                                setShowMatchBet(2);
-                                              }}>
+                                              onClick={() =>
+                                                handleBookData(
+                                                  fancy?.sid,
+                                                  fancy?.nation
+                                                )
+                                              }>
                                               <span> Book</span>
                                             </button>
                                           </div>
@@ -151,6 +180,14 @@ const FancyData = ({ data, setFancyId, setShowMatchBet }) => {
                 </div>
               );
           })}
+
+      <BookDataShow
+        openBook={openBook}
+        sessionData={sessionData?.data}
+        fancyBookData={fancyBookData?.data}
+        setOpenBook={setShowOpenBook}
+        fancyName={fancyName}
+      />
     </>
   );
 };

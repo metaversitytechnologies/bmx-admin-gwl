@@ -3,14 +3,11 @@ import "./style.scss";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { LuRefreshCw } from "react-icons/lu";
 import {
-  useGetFancyBookMutation,
-  useGetMatchBetsMutation,
   useGetQueryMatchBetsQuery,
-  useGetSessionBetMutation,
   useGetSessionHavingBetQuery,
   useGetSessionQureyBetQuery,
 } from "../../../../../store/service/SportDetailServices";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import AddDetails from "../../../GameDeatis/AddDetails";
 
@@ -21,6 +18,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   const [openResponsive, setOpenResponsive] = useState(false);
   const [sessionType, setSessionType] = useState(false);
   const [betsDataShow, setBetsData] = useState(false);
+
   const [clientId, setClientId] = useState("");
   const { id } = useParams();
 
@@ -47,13 +45,6 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
     },
     { pollingInterval: 1000 }
   );
-  const [getFancyBook, { data: fancyBookData }] = useGetFancyBookMutation();
-
-  useEffect(() => {
-    if (fancyId) {
-      getFancyBook({ fancyId: fancyId, matchId: id });
-    }
-  }, [fancyId, id]);
 
   const filteredAllOdds =
     matchBets?.data?.betList?.filter(
@@ -82,7 +73,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
           <div
             onClick={() => {
               setShowMatchBet(1);
-              setBetsData(!betsDataShow);
+              setBetsData(true);
               setFancyId("");
             }}
             style={{
@@ -100,7 +91,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
           <div
             onClick={() => {
               setShowMatchBet(2);
-              setBetsData(!betsDataShow);
+              setBetsData(true);
               setFancyId("");
             }}
             style={{
@@ -360,24 +351,6 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               }}
               className="sport_detail matched_bets">
               <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-                {/* Fancy Bets - {filteredAllfancy?.length || 0} */}
-                {fancyId && (
-                  <button
-                    type="button"
-                    className="ant-btn ant-btn-default gx-my-0  gx-bg-primary gx-text-white"
-                    style={{ fontWeight: 400 }}
-                    onClick={() => {
-                      setFancyId("");
-                      triggerSessionBets({
-                        matchId: id,
-                        userId: "",
-                        marketId: "",
-                        matchCompleted: false,
-                      });
-                    }}>
-                    <span>All Fancy</span>
-                  </button>
-                )}
                 <Input
                   style={{ width: "200px" }}
                   placeholder="Search Client..."
@@ -452,23 +425,6 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                     justifyContent: "center",
                     gap: "4px",
                   }}>
-                  {fancyId && (
-                    <button
-                      type="button"
-                      className="ant-btn ant-btn-default gx-my-0  gx-bg-primary gx-text-white"
-                      style={{ fontWeight: 400 }}
-                      onClick={() => {
-                        setFancyId("");
-                        triggerSessionBets({
-                          matchId: id,
-                          userId: "",
-                          marketId: "",
-                          matchCompleted: false,
-                        });
-                      }}>
-                      <span>All Fancy</span>
-                    </button>
-                  )}
                   <button
                     type="button"
                     className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
@@ -540,128 +496,10 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                   </table>
                 </div>
               </div>
-              <br />
-              {fancyId && (
-                <div className="table_section">
-                  <div className="table_section">
-                    <table className="">
-                      <thead>
-                        <tr>
-                          <th>Run</th>
-                          <th>PnL</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {fancyBookData?.data?.length > 0 ? (
-                          fancyBookData?.data.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item?.odds}</td>
-                              <td>{item?.pnl}</td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td
-                              colSpan="10"
-                              style={{ textAlign: "center", padding: "2rem" }}>
-                              <Empty description="No Data Available" />
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              )}
             </Card>
           )}
         </>
       )}
-      {/* <br />
-      <br />
-      <Card
-        style={{
-          margin: "0px",
-          width: "100%",
-        }}
-        className="sport_detail matched_bets">
-        <div className="gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-          All Fancy Bets - {filteredAllSession?.length || 0}
-          <div>
-            <Input
-              placeholder="Search Client..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <button
-            type="button"
-            className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-            <span className="ml-1 px-1">PDF</span>
-          </button>
-        </div>
-
-        <div className="table_section">
-          <div className="table_section">
-            <table className="">
-              <thead>
-                <tr>
-                  <th>Rate</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Team</th>
-                  <th>Client</th>
-                  <th>Date</th>
-                  <th>Loss</th>
-                  <th>Profit</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAllSession?.length > 0 ? (
-                  filteredAllSession?.map((item, index) => {
-                    return (
-                      <tr
-                        key={index}
-                        className={
-                          item?.mode === "YES"
-                            ? "matchdtailsYesBackground"
-                            : "matchdtailsNoBack"
-                        }>
-                        <td>{item?.rate}</td>
-                        <td>{item?.amount}</td>
-                        <td>{item?.mode}</td>
-                        <td>{item?.selectionName}</td>
-                        <td
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            setOpenResponsive(true);
-                            setSessionType(true);
-                            setClientId(item.userId);
-                          }}>
-                          {item?.username} ({item?.userId})
-                        </td>
-                        
-                        <td>{item?.time}</td>
-                        <td>{item?.liability}</td>
-                        <td>{item?.pnl}</td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td
-                      colSpan="10"
-                      style={{ textAlign: "center", padding: "2rem" }}>
-                      <Empty description="No Data Available" />
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </Card> */}
-      
       <AddDetails
         clientId={clientId}
         sessionType={sessionType}

@@ -21,7 +21,7 @@ const CompletedFancy = () => {
 
   return (
     <>
-      <div style={{ marginTop: "10px" }}>
+      <div style={{ marginTop: "4px" }}>
         <Card
           style={{
             margin: "12px",

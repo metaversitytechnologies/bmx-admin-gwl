@@ -87,7 +87,7 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
   return (
     <>
       <Modal
-        width={1000}
+        width={1100}
         className="modal_deposit"
         title={
           <h1>
