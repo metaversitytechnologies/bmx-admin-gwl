@@ -87,9 +87,52 @@ const UpdateSuper = () => {
           : "no-comm";
       const isComm = id == "1" ? userCom : otherCom;
       setCommType(isComm);
+
+      // ✅ Set form values after API data load
+      form.setFieldsValue({
+        userId: convertCode(resuilt?.data?.userId),
+        name: resuilt?.data?.userName,
+        reference: resuilt?.data?.reference,
+        number: resuilt?.data?.contact,
+        password: "******",
+        comm_type: isComm,
+        commType:
+          getUserUpper("SessionCommision") > 0 ||
+          getUserUpper("MatchCommission") > 0
+            ? "Bet by Bet"
+            : "No Comm",
+        matchcomm: getUserUpper("MatchCommission"),
+        super_match_comm:
+          id === "1"
+            ? resuilt?.data?.matchCommission
+            : getUserField("MatchCommission"),
+        sesscomm: getUserUpper("SessionCommision"),
+        super_sess_comm:
+          id === "1"
+            ? resuilt?.data?.sessionCommision
+            : getUserField("SessionCommision"),
+        sess_comm:
+          id === "1"
+            ? resuilt?.data?.casinoCommission
+            : getUserField("CasinoCommission"),
+        super_casino_share: getUserUpper("CasinoPartnership"),
+        matchShare: getUserUpper("Partnership"),
+        super_casino_comm:
+          id === "1"
+            ? resuilt?.data?.casinoCommission
+            : getUserField("CasinoCommission"),
+        supercasinocomm:
+          id === "1"
+            ? resuilt?.data?.casinoPartnership
+            : getUserField("CasinoPartnership"),
+        share:
+          id === "1"
+            ? resuilt?.data?.partnership
+            : getUserField("Partnership"),
+        match_share: resuilt?.data?.matchShare,
+      });
     }
   }, [resuilt?.data]);
-
 
   const onFinish = (values) => {
     const isNoComm = values?.comm_type === "no-comm";
@@ -112,7 +155,6 @@ const UpdateSuper = () => {
       casinoCommission: isNoComm ? 0 : values?.sess_comm,
     };
     trigger(userData);
-    // form.resetFields();
   };
 
   useEffect(() => {
@@ -124,7 +166,6 @@ const UpdateSuper = () => {
         placement: "top",
         closeIcon: false,
       });
-      // form.resetFields();
 
       setTimeout(() => {
         nav(-1);
@@ -176,79 +217,15 @@ const UpdateSuper = () => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             onFinish={onFinish}
-            fields={[
-              { name: "userId", value: convertCode(resuilt?.data?.userId) },
-              { name: "name", value: resuilt?.data?.userName },
-              { name: "reference", value: resuilt?.data?.reference },
-              { name: "number", value: resuilt?.data?.contact },
-
-              { name: "password", value: "******" },
-              {
-                name: "comm_type",
-                value: commType,
-              },
-              {
-                name: "commType",
-                value:
-                  getUserUpper("SessionCommision") > 0 ||
-                  getUserUpper("MatchCommission") > 0
-                    ? "Bet by Bet"
-                    : "No Comm",
-              },
-              { name: "matchcomm", value: getUserUpper("MatchCommission") },
-              {
-                name: "super_match_comm",
-                value:
-                  id === "1"
-                    ? resuilt?.data?.matchCommission
-                    : getUserField("MatchCommission"),
-              },
-              { name: "sesscomm", value: getUserUpper("SessionCommision") },
-              {
-                name: "super_sess_comm",
-                value:
-                  id === "1"
-                    ? resuilt?.data?.sessionCommision
-                    : getUserField("SessionCommision"),
-              },
-              {
-                name: "sess_comm",
-                value:
-                  id === "1"
-                    ? resuilt?.data?.casinoCommission
-                    : getUserField("CasinoCommission"),
-              },
-              {
-                name: "super_casino_share",
-                value: getUserUpper("CasinoPartnership"),
-              },
-              {
-                name: "matchShare",
-                value: getUserUpper("Partnership"),
-              },
-              {
-                name: "super_casino_comm",
-                value:
-                  id === "1"
-                    ? resuilt?.data?.casinoCommission
-                    : getUserField("CasinoCommission"),
-              },
-              {
-                name: "supercasinocomm",
-                value:
-                  id === "1"
-                    ? resuilt?.data?.casinoPartnership
-                    : getUserField("CasinoPartnership"),
-              },
-              {
-                name: "share",
-                value:
-                  id === "1"
-                    ? resuilt?.data?.partnership
-                    : getUserField("Partnership"),
-              },
-              { name: "match_share", value: resuilt?.data?.matchShare },
-            ]}>
+            initialValues={{
+              userId: convertCode(resuilt?.data?.userId),
+              name: resuilt?.data?.userName,
+              reference: resuilt?.data?.reference,
+              number: resuilt?.data?.contact,
+              password: "******",
+              comm_type: commType,
+            }}
+          >
             <Row className="super_agent update_agent">
               <Col lg={12} xs={24}>
                 <Form.Item

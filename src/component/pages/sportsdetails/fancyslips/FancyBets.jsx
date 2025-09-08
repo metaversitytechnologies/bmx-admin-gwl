@@ -24,6 +24,10 @@ const FancyBets = () => {
   const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
 
   useEffect(() => {
+    userTrigger({ userId: "", userType: 1 });
+  }, []);
+
+  useEffect(() => {
     trigger({
       matchId: id,
       userId: clientId,
@@ -86,7 +90,7 @@ const FancyBets = () => {
               <Col xs={24} md={24} lg={8} xl={8}>
                 <Form.Item name="" label="" required={false}>
                   <Select
-                    placeholder="Select User"
+                    placeholder="Select Fancy"
                     value={oddsType}
                     options={[
                       { value: "", label: "All Fancies" },

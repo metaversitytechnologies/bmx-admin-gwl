@@ -77,6 +77,66 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
     },
   ];
 
+  const columnFancy = [
+    {
+      title: "Match",
+      dataIndex: "matchName",
+      key: "matchName",
+      render: (text, record) => (
+        <span>
+          {record?.matchName}-
+          {record?.marketType === "Fancy" ? record?.marketType : "Bookmaker"}
+        </span>
+      ),
+    },
+    {
+      title: "Selection Name",
+      dataIndex: "selectionName",
+      key: "selectionName",
+    },
+    {
+      title: "Stake",
+      dataIndex: "stake",
+      key: "stake",
+    },
+    {
+      title: "Run",
+      dataIndex: "odds",
+      key: "odds",
+    },
+    {
+      title: "Type",
+      dataIndex: "back",
+      key: 2,
+      render: (text, record) => (
+        <span>
+          {record?.marketType == "Fancy"
+            ? record?.back
+              ? "YES"
+              : "NOT"
+            : record?.back
+            ? "LAGAI"
+            : "KHAI"}
+        </span>
+      ),
+    },
+    {
+      title: "Time",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Loss",
+      dataIndex: "loss",
+      render: (text) => <span>{text?.toFixed(2)}</span>,
+    },
+    {
+      title: "Profit",
+      dataIndex: "profit",
+      key: "profit",
+      render: (text) => <span>{text?.toFixed(2)}</span>,
+    },
+  ];
   const sessionData = exposureData?.data?.filter(
     (Item) => Item?.marketType === "Fancy"
   );
@@ -123,42 +183,10 @@ const Exposure = ({ openExp, setOpenExp, userId }) => {
                 return record?.back ? "back" : "lay";
               }
             }}
-            // summary={(pageData) => {
-            //   let totalProfit = 0;
-            //   let totalLoss = 0;
-
-            //   pageData.forEach(({ profit, loss }) => {
-            //     totalProfit += profit || 0;
-            //     totalLoss += loss || 0;
-            //   });
-
-            //   return (
-            //     <Table.Summary.Row>
-            //       <Table.Summary.Cell index={0}>
-            //         <strong>Total</strong>
-            //       </Table.Summary.Cell>
-            //       <Table.Summary.Cell index={0} />
-            //       <Table.Summary.Cell index={0} />
-            //       <Table.Summary.Cell index={0} />
-            //       <Table.Summary.Cell index={0} />
-            //       <Table.Summary.Cell index={0} />
-            //       <Table.Summary.Cell index={6}>
-            //         <strong style={{ color: "red" }}>
-            //           {totalLoss.toFixed(2)}
-            //         </strong>
-            //       </Table.Summary.Cell>
-            //       <Table.Summary.Cell index={7}>
-            //         <strong style={{ color: "green" }}>
-            //           {totalProfit.toFixed(2)}
-            //         </strong>
-            //       </Table.Summary.Cell>
-            //     </Table.Summary.Row>
-            //   );
-            // }}
           />
           <br />
           <Table
-            columns={column}
+            columns={columnFancy}
             dataSource={sessionData || []}
             pagination={false}
             loading={{

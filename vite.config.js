@@ -8,7 +8,7 @@ export default defineConfig({
     host: true,
   },
   build: {
-    outDir: "admin",
+    outDir: "bmx-build",
     sourcemap: true,
   },
 });

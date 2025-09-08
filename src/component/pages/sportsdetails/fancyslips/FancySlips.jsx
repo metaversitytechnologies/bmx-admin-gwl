@@ -80,6 +80,10 @@ const FancySlips = ({ name }) => {
     }
   }, [matchBets]);
 
+  useEffect(() => {
+    userTrigger({ userId: "", userType: 1 });
+  }, []);
+
   return (
     <>
       <div className="match_slip match_bets_report">
@@ -169,7 +173,7 @@ const FancySlips = ({ name }) => {
                   // rules={[{ required: true, message: "Please Odd Type User" }]}
                 >
                   <Select
-                    placeholder="Select User"
+                    placeholder="Select Market"
                     value={oddsType}
                     options={[
                       // {

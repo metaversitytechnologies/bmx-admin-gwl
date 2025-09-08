@@ -86,7 +86,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
             }}>
-            Match Bet ({filteredAllOdds?.length || 0})
+            Match Bet ({matchBets?.data?.betList?.length || 0})
           </div>
           <div
             onClick={() => {
@@ -103,7 +103,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
             }}>
-            Fancy Bet ({filteredAllfancy?.length || 0})
+            Fancy Bet ({sessionData?.data?.length || 0})
           </div>
         </div>
         <div
@@ -299,7 +299,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                             </td>
                             <td>{Number(item?.odds)?.toFixed(2)}</td>
                             <td>{item?.stake}</td>
-                            <td>{item?.mode === "L" ? "Lagia" : "Khai"}</td>
+                            <td>{item?.mode === "L" ? "Lagai" : "Khai"}</td>
                             <td>{item?.marketType}</td>
                             <td>{item?.team}</td>
 

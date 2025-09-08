@@ -72,7 +72,7 @@ const CompeleteFancy = () => {
 
   useEffect(() => {
     trigger({ matchId: id, userId: clientId });
-  }, [id]);
+  }, [id, clientId]);
 
   const totalPnl = data?.data?.reduce((acc, item) => acc + item.pnl, 0) || 0;
 
