@@ -33,8 +33,8 @@ const Signin = () => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      // url,
-      url:"superadmin.fastbet365.in",
+      url,
+      // url:"superadmin.fastbet365.in",
     };
 
     if (values?.OTP) {

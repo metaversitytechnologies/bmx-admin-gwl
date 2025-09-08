@@ -36,34 +36,6 @@ const Sidebar = (props) => {
 
   return (
     <>
-      <div className={collapsed ? "logo_icon" : "logo_icon coll_btn"}>
-        <Button
-          type="text"
-          className="clolapsedd"
-          icon={
-            collapsed ? (
-              <i className="gx-icon-btn icon icon-menu-fold gx-text-white" />
-            ) : (
-              <i className="gx-icon-btn icon icon-menu-unfold gx-text-white" />
-            )
-          }
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: "16px",
-            width: 81,
-            height: 71,
-            border: "unset",
-            textDecoration: "none",
-            outline: "unset",
-            color: "#fff",
-          }}
-        />
-        <div
-          onClick={() => nav("/dashboard")}
-          className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
-          <img alt="example" src={imgUrl} height={50} />
-        </div>
-      </div>
       <Sider
         trigger={null}
         width="280"
@@ -72,12 +44,42 @@ const Sidebar = (props) => {
         className={`side_bar coll desk_side`}
         style={{
           background: "var(--bg-color)",
-          height: "100vh",
-          minHeight: "100vh",
-          maxHeight: "100vh",
-          overflowY: "auto",
         }}>
+        <div className={collapsed ? "logo_icon" : "logo_icon coll_btn"}>
+          <Button
+            type="text"
+            className="clolapsedd"
+            icon={
+              collapsed ? (
+                <i className="gx-icon-btn icon icon-menu-fold gx-text-white" />
+              ) : (
+                <i className="gx-icon-btn icon icon-menu-unfold gx-text-white" />
+              )
+            }
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "16px",
+              width: 81,
+              height: 71,
+              border: "unset",
+              textDecoration: "none",
+              outline: "unset",
+              color: "#fff",
+            }}
+          />
+          <div
+            onClick={() => nav("/dashboard")}
+            className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
+            <img alt="example" src={imgUrl} height={50} />
+          </div>
+        </div>
         <Menu
+          style={{
+            height: "calc(100vh - 70px)",
+            minHeight: "calc(100vh - 70px)",
+            maxHeight: "calc(100vh - 70px)",
+            overflowY: "auto",
+          }}
           theme=""
           mode="inline"
           openKeys={openKeys}

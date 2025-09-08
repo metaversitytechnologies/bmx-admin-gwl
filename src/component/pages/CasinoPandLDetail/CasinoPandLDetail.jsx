@@ -177,14 +177,14 @@ const CasinoPandLDetail = () => {
                 pnl: totalPnl,
                 isTotal: true,
               },
-              ...(data?.data || []),
+              ...(data?.data ? [...data.data].reverse() : []),
             ]}
             rowKey={(record, index) => index}
             loading={{
               spinning: isLoading || isFetching,
               indicator: <CustomLoading />,
             }}
-            pagination={true}
+            pagination={{ pageSize: 20 }}
           />
         </div>
       </Card>

@@ -4,7 +4,7 @@ import Signin from "../signin/Signin";
 import LayOut from "../../layout/LayOut";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 // import MasterDetails from "../../pages/masterDetail/MasterDetails";
-// import LadgerDetails from "../../pages/ladgerdetail/LadgerDetails";
+import LadgerDetails from "../../pages/ladgerdetail/LadgerDetails";
 import SportsDetails from "../../pages/sportsdetails/SportsDetails";
 // import LiveReport from "../../pages/sportsdetails/livereport/LiveReport";
 import PlusMinusReport from "../../pages/sportsdetails/plusminusreport/PlusMinusReport";
@@ -26,7 +26,7 @@ import MatchLedger from "../../pages/ladgerdetail/MatchLedger/MatchLedger";
 import CashTransanction from "../../pages/CashTransanction/CashTransanction";
 import AgentTransactions from "../../pages/CashTransanction/AgentTransactions/AgentTransactions";
 import SetCommission from "../../pages/setCommission/SetCommission";
-// import CommReport from "../../pages/dataReport/commReport/CommReport";
+import CommReport from "../../pages/dataReport/commReport/CommReport";
 import MasterReport from "../../pages/dataReport/masterReport/MasterReport";
 import Rulespage from "../../pages/RulesPage/Rulespage";
 import DeletedLenden from "../../pages/CashTransanction/DeletedLenden/DeletedLenden";
@@ -79,6 +79,8 @@ const Main = () => {
       <Route path="/signin" element={<Signin />} />
       <Route path="" element={<LayOut />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/client/details-master" element={<MasterDetails />} /> */}
+        <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
         <Route path="/delete-bet" element={<DeleteBet />} />
         <Route path="/create-domain" element={<CreateDomain />} />
@@ -245,6 +247,22 @@ const Main = () => {
           element={<MasterReport userType={3} reportName={"Clients"} />}
         />
 
+        <Route
+          path="/client/comm-report-super"
+          element={<CommReport userType={0} reportName={"Master"} />}
+        />
+        <Route
+          path="/client/comm-report-master"
+          element={<CommReport userType={1} reportName={"Super"} />}
+        />
+        <Route
+          path="/client/comm-report-agent"
+          element={<CommReport userType={2} reportName={"Agent"} />}
+        />
+        <Route
+          path="/client/comm-report-client"
+          element={<CommReport userType={3} reportName={"Clients"} />}
+        />
         <Route path="/set-commission" element={<SetCommission />} />
       </Route>
     </Routes>
