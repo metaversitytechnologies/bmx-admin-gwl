@@ -374,6 +374,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getActiveSessionData: build.query({
+      query: (body) => {
+        return {
+          url: `/sports/get-active-fancylist-disp`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -419,5 +428,6 @@ export const {
   useGetCommitionReportHostopryMutation,
   useGetCommissionResetMutation,
   useGetQueryMatchBetsQuery,
-  useGetSessionQureyBetQuery
+  useGetSessionQureyBetQuery,
+  useGetActiveSessionDataQuery
 } = sportDetailsApi;

@@ -77,7 +77,8 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               setFancyId("");
             }}
             style={{
-              background: showMatchBet === 1 ? "var(--bg-color)" : "#5a420a",
+              background:
+                showMatchBet === 1 ? "var(--bg-color)" : "var(--fancy-tab)",
               color: "#fff",
               padding: "12px",
               fontWeight: 600,
@@ -95,7 +96,8 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               setFancyId("");
             }}
             style={{
-              background: showMatchBet === 2 ? "var(--bg-color)" : "#5a420a",
+              background:
+                showMatchBet === 2 ? "var(--bg-color)" : "var(--fancy-tab)",
               color: "#fff",
               padding: "12px",
               fontWeight: 600,
@@ -297,7 +299,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                               }}>
                               {item?.username} ({item?.userId})
                             </td>
-                            <td>{Number(item?.odds)?.toFixed(2)}</td>
+                            <td>{item?.odds}</td>
                             <td>{item?.stake}</td>
                             <td>{item?.mode === "L" ? "Lagai" : "Khai"}</td>
                             <td>{item?.marketType}</td>
@@ -469,7 +471,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                               }}>
                               {item?.username} ({item?.userId})
                             </td>
-                            <td>{Number(item?.rate)?.toFixed(2)}</td>
+                            <td>{item?.rate}</td>
                             <td>{item?.run}</td>
                             <td>{item?.amount}</td>
                             <td>{item?.mode}</td>

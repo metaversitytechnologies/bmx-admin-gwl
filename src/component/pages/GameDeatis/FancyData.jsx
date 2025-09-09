@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import BookDataShow from "./BookDataShow";
 import {
+  useGetActiveSessionDataQuery,
   useGetFancyBookMutation,
   useGetSessionBetMutation,
 } from "../../../store/service/SportDetailServices";
@@ -12,6 +13,9 @@ const FancyData = ({ data }) => {
   const [fancyName, setFancyName] = useState("");
   const [getFancyBook, { data: fancyBookData }] = useGetFancyBookMutation();
   const [getSessionBet, { data: sessionData }] = useGetSessionBetMutation();
+  const { data: activeSession } = useGetActiveSessionDataQuery({
+    matchId: id ?? "",
+  });
 
   const handleBookData = (fancyId, fancyName) => {
     setFancyName(fancyName);
@@ -25,6 +29,12 @@ const FancyData = ({ data }) => {
     });
   };
 
+
+  // ✅ extract all active fancyIds into a Set
+  const activeFancyIds = new Set(
+    activeSession?.data?.map((item) => item.fancyId) ?? []
+  );
+
   return (
     <>
       {data &&
@@ -35,6 +45,13 @@ const FancyData = ({ data }) => {
           )
           .map(([item, values]) => {
             if (["Odds", "Bookmaker"].includes(item)) return <></>;
+
+            const filteredValues = values?.filter((fancy) =>
+              activeFancyIds.has(fancy?.sid)
+            );
+
+            if (!filteredValues?.length) return null;
+
             if (values?.length > 0)
               return (
                 <div
@@ -83,7 +100,7 @@ const FancyData = ({ data }) => {
                                 </tr>
                               </thead>
                               <tbody className="ant-table-tbody">
-                                {values?.map((fancy, index) => {
+                                {filteredValues?.map((fancy) => {
                                   return (
                                     <tr
                                       key={fancy?.sid}

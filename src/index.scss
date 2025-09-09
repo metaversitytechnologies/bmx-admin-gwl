@@ -52,6 +52,7 @@ body {
   --btn-bg-color: #7d5c0e;
   --header-bg: #7d5c0e;
   --login-wrap: #8b8f87;
+  --fancy-tab: #5a420a;
 }
 
 [data-theme="kohinoor"] {
@@ -60,6 +61,7 @@ body {
   --btn-bg-color: #380023;
   --header-bg: #380023;
   --login-wrap: #8b8f87;
+  --fancy-tab: #390023a3;
 }
 [data-theme="nsgpro"] {
   --login-bg: #010f0f;
@@ -67,4 +69,5 @@ body {
   --btn-bg-color: #094507;
   --header-bg: #094507;
   --login-wrap: rgb(11, 27, 22);
+  --fancy-tab: #0a4508cf;
 }
