@@ -34,6 +34,8 @@ const Sidebar = (props) => {
   const uType = localStorage.getItem("userType");
   const hasRole = (roles) => roles.includes(userType);
 
+  const hostName = window.location.hostname;
+
   return (
     <>
       <Sider
@@ -70,7 +72,15 @@ const Sidebar = (props) => {
           <div
             onClick={() => nav("/dashboard")}
             className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
-            <img alt="example" src={imgUrl} height={50} />
+            <img
+              alt="example"
+              src={
+                hostName.includes("mumbaiexchange9")
+                  ? "/img/mum-img.png"
+                  : imgUrl
+              }
+              height={50}
+            />
           </div>
         </div>
         <Menu
@@ -545,7 +555,16 @@ const Sidebar = (props) => {
 
       <div className="mob_side">
         <Drawer
-          title={<img onClick={props.action} src={imgUrl} />}
+          title={
+            <img
+              onClick={props.action}
+              src={
+                hostName.includes("mumbaiexchange9")
+                  ? "/img/mum-img.png"
+                  : imgUrl
+              }
+            />
+          }
           className="drawer_main"
           placement="left"
           closable={false}

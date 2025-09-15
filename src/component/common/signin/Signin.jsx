@@ -29,12 +29,16 @@ const Signin = () => {
     ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
     : hostname;
 
+// const url = hostname.includes("madmin")
+//   ? "sub.antpro.co"
+//   : `${hostname.split(".")[0]}.antpro.co`;
+
   const onFinish = async (values) => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
       url,
-      // url:"superadmin.fastbet365.in",
+      // url: "superadmin.fastbet365.in",
     };
 
     if (values?.OTP) {
@@ -87,7 +91,8 @@ const Signin = () => {
     }
   }, [error, logindata]);
 
-  // toggle: assume you have `isNsg` from somewhere
+  const hostName = window.location.host;
+
 
   return (
     <div className="gx-app-login-wrap">
@@ -95,7 +100,11 @@ const Signin = () => {
         <div className="login-container-main">
           <div className="logo">
             <img
-              src={"/img/logo-nsg.png"}
+              src={
+                hostName.includes("mumbaiexchange9")
+                  ? "/img/mum-img.png"
+                  : "/img/logo-nsg.png"
+              }
               alt="logo"
               className="login-logo-img"
               height={50}

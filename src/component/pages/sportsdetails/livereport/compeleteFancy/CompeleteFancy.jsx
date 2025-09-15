@@ -74,6 +74,10 @@ const CompeleteFancy = () => {
     trigger({ matchId: id, userId: clientId });
   }, [id, clientId]);
 
+  useEffect(() => {
+    userTrigger({ userId: "", userType: 1 });
+  }, []);
+
   const totalPnl = data?.data?.reduce((acc, item) => acc + item.pnl, 0) || 0;
 
   return (
@@ -110,12 +114,16 @@ const CompeleteFancy = () => {
                 }}
                 value={clientId}
                 onSelect={(value) => setClientId(value)}
-                options={
-                  userData?.data?.map((user) => ({
+                options={[
+                  {
+                    label: "All Users",
+                    value: "",
+                  },
+                  ...(userData?.data?.map((user) => ({
                     label: `${user.userName} (${user.userId})`,
                     value: user.userId,
-                  })) || []
-                }
+                  })) || []),
+                ]}
               />
             </Col>
             <Col xs={24} md={24} lg={6} xl={6}>

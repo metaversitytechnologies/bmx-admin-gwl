@@ -13,9 +13,12 @@ const FancyData = ({ data }) => {
   const [fancyName, setFancyName] = useState("");
   const [getFancyBook, { data: fancyBookData }] = useGetFancyBookMutation();
   const [getSessionBet, { data: sessionData }] = useGetSessionBetMutation();
-  const { data: activeSession } = useGetActiveSessionDataQuery({
-    matchId: id ?? "",
-  });
+  const { data: activeSession } = useGetActiveSessionDataQuery(
+    {
+      matchId: id ?? "",
+    },
+    { pollingInterval: 20000 }
+  );
 
   const handleBookData = (fancyId, fancyName) => {
     setFancyName(fancyName);
@@ -29,8 +32,6 @@ const FancyData = ({ data }) => {
     });
   };
 
-
-  // ✅ extract all active fancyIds into a Set
   const activeFancyIds = new Set(
     activeSession?.data?.map((item) => item.fancyId) ?? []
   );
