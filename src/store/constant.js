@@ -28,13 +28,13 @@ export function convertCodeReverse(name) {
   return name;
 }
 
-// ant 
-export const baseUrl = import.meta.env.VITE_BASE_URL;
-export const imgUrl = "/Images/logo.png";
+// // ant 
+// export const baseUrl = import.meta.env.VITE_BASE_URL;
+// export const imgUrl = "/Images/logo.png";
 
 //  KohinoorBase 
-// export const baseUrl = import.meta.env.VITE_BASE_URL_KHO;
-// export const imgUrl = "/img/logo.png";
+export const baseUrl = import.meta.env.VITE_BASE_URL_KHO;
+export const imgUrl = "/img/logo.png";
 
 // nsgBaseUrl
 // export const baseUrl = import.meta.env.VITE_BASE_URL_NSG;

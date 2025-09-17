@@ -108,7 +108,11 @@ const GameDeatis = () => {
               {showTv && (
                 <div className="ant_row_tv_section">
                   <iframe
-                    src={`https://tv.tresting.com/?eventid=${id}`}
+                    src={
+                      isNsg
+                        ? `https://tv.tresting.com/?eventid=${id}`
+                        : `https://mis2.sqmr.xyz/stv.php?eventId=${id}`
+                    }
                     title="Score-I-frame"
                     className=""
                     style={{ width: "100%", height: "100%", border: "none" }}

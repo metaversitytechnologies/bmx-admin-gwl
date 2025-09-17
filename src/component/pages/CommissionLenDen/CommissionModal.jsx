@@ -11,15 +11,21 @@ const CommissionModal = ({
   isLoading,
 }) => {
   const nav = useNavigate();
+
   const columns = [
     {
       title: "DATE",
       dataIndex: "date",
       key: "date",
       onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-      render: (text) => (
-        <span>{moment(text).format("D/M/YYYY, hh:mm:ss a")}</span>
-      ),
+      render: (text) => {
+        if (!text) return "--";
+        return moment(text, "ddd MMM DD HH:mm:ss [IST] YYYY").isValid()
+          ? moment(text, "ddd MMM DD HH:mm:ss [IST] YYYY").format(
+              "DD-MM-YYYY hh:mm A"
+            )
+          : "--";
+      },
     },
     {
       title: "M Comm",

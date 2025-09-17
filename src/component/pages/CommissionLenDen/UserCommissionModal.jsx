@@ -57,17 +57,19 @@ const UserCommissionModal = ({
       open={openModal}
       onCancel={() => setOpenModals(false)}
       className="modal_deposit"
-      title={<h1><span>Commission Modal</span></h1>}
+      title={
+        <h1>
+          <span>Commission Modal</span>
+        </h1>
+      }
       footer={
         <Button
           onClick={() => setOpenModals(false)}
-          className="ant-btn gx-bg-grey ant-modal-footer commission_btn ant-btn-default"
-        >
+          className="ant-btn gx-bg-grey ant-modal-footer commission_btn ant-btn-default">
           Close
         </Button>
       }
-      closable={{ "aria-label": "Custom Close Button" }}
-    >
+      closable={{ "aria-label": "Custom Close Button" }}>
       {loading && <CustomLoading />}
       <div
         className="match_slip"
@@ -75,12 +77,10 @@ const UserCommissionModal = ({
           position: "relative",
           maxHeight: "400px",
           overflow: "scroll",
-        }}
-      >
+        }}>
         <Card
           style={{ margin: "0px", width: "100%" }}
-          className="sport_detail team_name"
-        >
+          className="sport_detail team_name">
           <div className="table_section statement_tabs_data ant-spin-nested-loading">
             <table className="live_table login_data_table">
               <thead>
@@ -141,8 +141,7 @@ const UserCommissionModal = ({
                       style={{
                         color: mTotalData - dTotalData < 0 ? "red" : "green",
                         fontWeight: 600,
-                      }}
-                    >
+                      }}>
                       {(mTotalData - dTotalData).toFixed(2)}
                     </td>
                   </tr>
@@ -166,10 +165,11 @@ const UserCommissionModal = ({
                       <tr key={idx}>
                         <td style={{ fontWeight: 600 }}>{item.matchName}</td>
                         <td style={{ fontWeight: 600, whiteSpace: "nowrap" }}>
-                          {moment(
-                            item.date,
-                            "ddd MMM DD HH:mm:ss z YYYY"
-                          ).format("DD-MM-YYYY hh:mm A")}
+                          {item.date
+                            ? moment(new Date(item.date)).format(
+                                "DD-MM-YYYY hh:mm A"
+                              )
+                            : "--"}
                         </td>
                         <td style={{ color: "green", fontWeight: 600 }}>
                           {item.matchCommMila?.toFixed(2)}
@@ -199,8 +199,7 @@ const UserCommissionModal = ({
                           style={{
                             color: commB < 0 ? "red" : "green",
                             fontWeight: 600,
-                          }}
-                        >
+                          }}>
                           {commB.toFixed(2)}
                         </td>
                       </tr>

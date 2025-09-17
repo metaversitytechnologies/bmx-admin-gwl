@@ -72,14 +72,16 @@ const Navbar = ({ action, logo }) => {
     }
   }, [pType]);
 
+  const hostName = window.location.hostname;
+
   return (
     <>
       <div className="nav">
         <div
           style={{
             marginTop: "0px",
-            display:"flex",
-            alignItems:"center"
+            display: "flex",
+            alignItems: "center",
           }}>
           <Space className="open_btn">
             <Button type="" className="sub_open_btn" onClick={action}>
@@ -87,7 +89,13 @@ const Navbar = ({ action, logo }) => {
             </Button>
           </Space>
 
-          <img alt="example" src={imgUrl} height={40} />
+          <img
+            alt="example"
+            src={
+              hostName.includes("mumbaiexchange9") ? "/img/mum-img.png" : imgUrl
+            }
+            height={40}
+          />
         </div>
         <div className="nav_drop">
           <div className="sub_menu_nav">

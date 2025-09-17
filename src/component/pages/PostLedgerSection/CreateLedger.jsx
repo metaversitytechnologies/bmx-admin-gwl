@@ -12,14 +12,17 @@ const CreateLedger = ({ forPostLedger }) => {
   const nav = useNavigate();
 
   // state for pagination
-  const [pageIndex, setPageIndex] = useState(0); 
-  const [pageSize, setPageSize] = useState(50); 
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(50);
 
-  const { data: sportDetail, refetch } = useGetMatchListLederQuery({
-    noOfRecords: pageSize,
-    index: pageIndex,
-    forPostLedger,
-  });
+  const { data: sportDetail, refetch } = useGetMatchListLederQuery(
+    {
+      noOfRecords: pageSize,
+      index: pageIndex,
+      forPostLedger,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [getPostLedger] = useGetPostLederMutation();
   const [getRolllback] = useGetRollBackMutation();
@@ -49,6 +52,27 @@ const CreateLedger = ({ forPostLedger }) => {
     setPageSize(size); // update dynamic page size
   };
 
+  const getFormattedDate = (dateString) => {
+    if (!dateString) return "--";
+
+    const istFormat = moment(
+      dateString,
+      "ddd MMM DD HH:mm:ss [IST] YYYY",
+      true
+    );
+    if (istFormat.isValid()) {
+      return istFormat.format("DD-MM-YYYY hh:mm A");
+    }
+
+    // Then try standard YYYY-MM-DD HH:mm:ss
+    const isoFormat = moment(dateString, "YYYY-MM-DD HH:mm:ss", true);
+    if (isoFormat.isValid()) {
+      return isoFormat.format("DD-MM-YYYY hh:mm A");
+    }
+
+    return "--";
+  };
+
   return (
     <Card
       className="sport_detail"
@@ -62,7 +86,7 @@ const CreateLedger = ({ forPostLedger }) => {
             <tr>
               <th>Match Name</th>
               <th>Status</th>
-              <th>Ledger Posted?</th>
+              <th>Ledger Posted</th>
               <th>Date</th>
               <th>Action</th>
             </tr>
@@ -70,13 +94,11 @@ const CreateLedger = ({ forPostLedger }) => {
           <tbody>
             {sportDetail?.data?.matchList?.length > 0 ? (
               sportDetail?.data?.matchList?.map((res, id) => (
-                <tr key={res.matchId || id}>
+                <tr key={id}>
                   <td>{res?.matchName}</td>
                   <td>In Active</td>
                   <td>{forPostLedger ? "No" : "Yes"}</td>
-                  <td>
-                    {moment(res.lederPostDate).format("DD-MM-YYYY HH:mm:ss")}
-                  </td>
+                  <td>{getFormattedDate(res.lederPostDate)}</td>
                   <td>
                     <Button
                       type="primary"
