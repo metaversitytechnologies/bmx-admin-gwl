@@ -473,6 +473,29 @@ const Sidebar = (props) => {
               ],
             },
             {
+              className: `${userType === "7" ? "" : "d-none"}`,
+              key: "28",
+              icon: (
+                <HoverIcon
+                  id="28"
+                  hoveredItem={hoveredItem}
+                  setHoveredItem={setHoveredItem}
+                  defaultSrc="/Images/casino.png"
+                  hoverSrc="/Images/casino-hover.png"
+                  width={23}
+                  hoverWidth={22}
+                />
+              ),
+              label: (
+                <Link
+                  onMouseEnter={() => setHoveredItem("28")}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  to="/set-message">
+                  Set Message
+                </Link>
+              ),
+            },
+            {
               key: "8",
               icon: (
                 <HoverIcon
@@ -1082,6 +1105,30 @@ const Sidebar = (props) => {
                     ),
                   },
                 ],
+              },
+              {
+                className: `${userType === "7" ? "" : "d-none"}`,
+                key: "28",
+                icon: (
+                  <HoverIcon
+                    id="28"
+                    hoveredItem={hoveredItem}
+                    setHoveredItem={setHoveredItem}
+                    defaultSrc="/Images/casino.png"
+                    hoverSrc="/Images/casino-hover.png"
+                    width={23}
+                    hoverWidth={22}
+                  />
+                ),
+                label: (
+                  <Link
+                    onClick={() => props?.action()}
+                    onMouseEnter={() => setHoveredItem("28")}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    to="/set-message">
+                    Set Message
+                  </Link>
+                ),
               },
               {
                 key: "18",

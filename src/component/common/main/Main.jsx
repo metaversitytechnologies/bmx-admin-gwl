@@ -67,6 +67,7 @@ import CompletedActive from "../../pages/EventControllor/CompletedActive";
 import DeletedBets from "../../pages/EventControllor/DeletedBets";
 import DeleteSessionBets from "../../pages/EventControllor/DeleteSessionBets";
 import DeleteMatchBets from "../../pages/EventControllor/DeleteMatchBets";
+import SetMessage from "../../pages/SetMessage/SetMessage";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -89,6 +90,7 @@ const Main = () => {
         <Route path="/delete-bets" element={<DeletedBets />} />
         <Route path="/delete-session/:id?" element={<DeleteSessionBets />} />
         <Route path="/delete-match/:id?" element={<DeleteMatchBets />} />
+        <Route path="/set-message" element={<SetMessage />} />
         <Route
           path="/create-ledger"
           element={<CreateLedger forPostLedger={true} />}

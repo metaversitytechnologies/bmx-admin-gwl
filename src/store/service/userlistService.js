@@ -278,7 +278,19 @@ export const userlistApi = createApi({
         body,
       }),
     }),
-    
+    setMessage: build.mutation({
+      query: (body) => ({
+        url: `/message/set-message`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getMessage: build.query({
+      query: () => ({
+        url: `/message/get-message`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -319,5 +331,7 @@ export const {
   useGetDeletedBetByTimeMutation,
   useGetSessionBetDeletedQuery,
   useGetDeletdBetMutation,
-  useGetMatchedBetDeletedQuery
+  useGetMatchedBetDeletedQuery,
+  useGetMessageQuery,
+  useSetMessageMutation
 } = userlistApi;
