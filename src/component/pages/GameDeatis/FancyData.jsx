@@ -47,12 +47,12 @@ const FancyData = ({ data }) => {
           .map(([item, values]) => {
             if (["Odds", "Bookmaker"].includes(item)) return <></>;
 
-            // const filteredValues = values?.filter((fancy) =>
-            //   activeFancyIds.has(fancy?.sid)
-            // );
-            const filteredValues = values;
+            const filteredValues = values?.filter((fancy) =>
+              activeFancyIds.has(fancy?.sid)
+            );
+            // const filteredValues = values;
 
-            // if (!filteredValues?.length) return null;
+            if (!filteredValues?.length) return null;
 
             if (values?.length > 0)
               return (

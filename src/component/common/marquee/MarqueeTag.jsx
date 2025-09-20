@@ -1,15 +1,17 @@
 import Marquee from "react-fast-marquee";
 import "./MarqueeTag.scss";
-import { useGetMessageQuery } from "../../../store/service/userlistService";
+import { useGetMessageQuery } from "../../../store/service/msgServices";
 
 const MarqueeTag = () => {
-  const domain = window.location.hostname.split(".").slice(-2).join(".");
+  // const domain = window.location.hostname.split(".").slice(-2).join(".");
   const { data } = useGetMessageQuery();
+
+  console.log(data, "datadatadata")
   return (
     <>
       <div className="marque_section">
         <Marquee style={{ textTransform: "capitalize" }}>
-          {data?.data}
+          {data?.data?.message}
           {/* "{window.location.hostname.split(".")?.[1]} में आपका स्वागत है हमारी
           कोई डुप्लीकेट वेबसाइट नहीं है कृपा हमारी आधिकारिक लिंक{" "}
           <span style={{ padding: "0px 3px" }}>{domain}</span> से ही लॉगिन करें" */}

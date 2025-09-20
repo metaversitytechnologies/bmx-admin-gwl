@@ -13,6 +13,7 @@ import { oddsPnlApi } from "./service/OddsPnlServices";
 
 import { casinoDetailsApi } from "./service/CasinoServices";
 import { casinoData } from "./service/casinoService";
+import { msgServices } from "./service/msgServices";
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
 
     [casinoDetailsApi.reducerPath]: casinoDetailsApi.reducer,
     [casinoData.reducerPath]: casinoData.reducer,
+    [msgServices.reducerPath]: msgServices.reducer,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware()
@@ -44,5 +46,6 @@ export const store = configureStore({
       .concat(sportDetailsApi.middleware)
       .concat(oddsPnlApi.middleware)
       .concat(casinoDetailsApi.middleware)
+      .concat(msgServices.middleware)
       .concat(casinoData.middleware),
 });
