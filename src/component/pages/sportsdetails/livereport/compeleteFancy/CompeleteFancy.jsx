@@ -6,6 +6,7 @@ import { useLazyFilterbyClientQuery } from "../../../../../store/service/superma
 
 const CompeleteFancy = () => {
   const [clientId, setClientId] = useState("");
+  const [selectedFancyId, setSelectedFancyId] = useState("");
 
   const { pathname } = useLocation();
 
@@ -66,9 +67,27 @@ const CompeleteFancy = () => {
       render: (text) => <span>{text?.toFixed(2)}</span>,
     },
   ];
+
   const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
   const [trigger, { data, isLoading, isFetching }] =
     useGetCompletedFancyMutation();
+
+  // Get unique fancies from the data
+  const uniqueFancies = data?.data?.reduce((acc, item) => {
+    const existing = acc.find(fancy => fancy.fancyId === item.fancyId);
+    if (!existing) {
+      acc.push({
+        fancyId: item.fancyId,
+        fancyName: item.fancyName
+      });
+    }
+    return acc;
+  }, []) || [];
+
+  // Filter data based on selected fancy
+  const filteredData = selectedFancyId 
+    ? data?.data?.filter(item => item.fancyId === selectedFancyId) || []
+    : data?.data || [];
 
   useEffect(() => {
     trigger({ matchId: id, userId: clientId });
@@ -78,7 +97,7 @@ const CompeleteFancy = () => {
     userTrigger({ userId: "", userType: 1 });
   }, []);
 
-  const totalPnl = data?.data?.reduce((acc, item) => acc + item.pnl, 0) || 0;
+  const totalPnl = filteredData?.reduce((acc, item) => acc + item.pnl, 0) || 0;
 
   return (
     <>
@@ -129,15 +148,21 @@ const CompeleteFancy = () => {
             <Col xs={24} md={24} lg={6} xl={6}>
               <Select
                 placeholder="Select Fancy"
+                value={selectedFancyId}
+                onSelect={(value) => setSelectedFancyId(value)}
+                allowClear
+                onClear={() => setSelectedFancyId("")}
                 options={[
                   {
-                    value: "All",
+                    value: "",
                     label: "All Fancy",
                   },
+                  ...uniqueFancies.map((fancy) => ({
+                    value: fancy.fancyId,
+                    label: fancy.fancyName,
+                  })),
                 ]}
                 showSearch
-                allowClear
-                // onSelect={(value) => setClientId(value)}
               />
             </Col>
             <Col xs={24} md={24} lg={6} xl={6}>
@@ -156,7 +181,7 @@ const CompeleteFancy = () => {
                 className="live_table agent_master1"
                 bordered
                 columns={columns}
-                dataSource={data?.data || []}
+                dataSource={filteredData}
                 loading={isLoading || isFetching}
                 rowClassName={(record) => {
                   if (record.pnl >= 0) return "gx-bg-green-0";

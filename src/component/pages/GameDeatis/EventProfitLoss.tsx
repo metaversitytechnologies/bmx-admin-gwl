@@ -64,7 +64,7 @@ const EventProfitLossList = () => {
                     <tr
                       key={id}
                       className={
-                        res?.mode !== "YES" ? "gx-bg-green-0" : "gx-bg-red"
+                        res?.netPnl > 0 ? "gx-bg-green-0" : "gx-bg-red"
                       }>
                       <td>
                         {res?.username} ({res?.userId})
@@ -77,7 +77,7 @@ const EventProfitLossList = () => {
                       <td>{res?.run}</td>
 
                       <td>{res?.amount}</td>
-                      <td>{res?.pnl}</td>
+                      <td>{res?.netPnl}</td>
                     </tr>
                   ))
                 ) : (

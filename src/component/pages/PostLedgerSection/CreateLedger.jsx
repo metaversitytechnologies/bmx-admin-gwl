@@ -24,8 +24,8 @@ const CreateLedger = ({ forPostLedger }) => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const [getPostLedger] = useGetPostLederMutation();
-  const [getRolllback] = useGetRollBackMutation();
+  const [getPostLedger, { isLoading }] = useGetPostLederMutation();
+  const [getRolllback, { isLoading: loading }] = useGetRollBackMutation();
 
   const handleCreate = async (item) => {
     if (forPostLedger) {
@@ -103,6 +103,7 @@ const CreateLedger = ({ forPostLedger }) => {
                     <Button
                       type="primary"
                       onClick={() => handleCreate(res)}
+                      loading={isLoading || loading}
                       className="in_play_btn">
                       {forPostLedger ? "Create Ledger" : "Rollback"}
                     </Button>

@@ -137,8 +137,11 @@ const AgentTransactions = () => {
             form={form}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
             onFinish={onFinish}
+            initialValues={{
+              collection: "CA1 CASH", // 👈 default here
+              ledger_type: "All", // e.g. another default
+            }}
             autoComplete="off">
             <Row>
               {/* Client */}
@@ -175,10 +178,11 @@ const AgentTransactions = () => {
                 <Form.Item
                   label="Collection"
                   name="collection"
+                  initialValue="CA1 CASH"
                   rules={[
                     { required: true, message: "Please select Collection" },
                   ]}>
-                  <Select defaultValue="Select Cash A/C" allowClear>
+                  <Select defaultValue="CA1 CASH" allowClear>
                     <Option value="CA1 CASH">Cash A/C</Option>
                   </Select>
                 </Form.Item>
