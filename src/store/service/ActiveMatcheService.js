@@ -18,8 +18,16 @@ export const activeMatchesApi = createApi({
           method: "GET",
         }
       },
+    }),
+    getMyIp: build.query({
+      query: (args) => {
+        return {
+          url: `/betfair_api/my-ip`,
+          method: "GET",
+        }
+      },
     })
   }),
 });
 
-export const {useActiveMatchQuery} = activeMatchesApi;
+export const {useActiveMatchQuery, useGetMyIpQuery} = activeMatchesApi;

@@ -61,9 +61,11 @@ const LoginReport = () => {
                 data?.data?.map((res, id) => {
                   return (
                     <tr key={id}>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>{res?.country}</td>
+                      <td>
+                        {res?.city} - {res?.region}
+                      </td>
+                      <td>{res?.ipAddress}</td>
                       <td>{res?.ipAddress}</td>
                       <td>{res?.loginDate} </td>
                     </tr>

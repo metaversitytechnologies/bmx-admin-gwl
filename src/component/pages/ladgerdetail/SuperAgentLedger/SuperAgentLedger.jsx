@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { Card, Col, Row, Table } from "antd";
+import { Button, Card, Col, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./SuperAgentLedger.scss";
 import { Money } from "./moneySvg";
 import { EyeOutlined } from "@ant-design/icons";
 import { useGetLedgerAllQuery } from "../../../../store/service/SportDetailServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-import { convertCode } from "../../../../store/constant";
+import { convertCode, isNsg } from "../../../../store/constant";
+import SettlementModal from "./SettlementModal";
 
 const nameData = {
   6: "Mini-Admin",
@@ -21,8 +22,10 @@ const SuperAgentLedger = () => {
   const [clearData, setClearData] = useState([]);
   const [denaList, setDenaList] = useState([]);
   const [lenaList, setLenaList] = useState([]);
+  const [isDepositeModalOpen, setIsDepositModalOpen] = useState(false);
+  const [reportData, setReportData] = useState(null);
 
-  const { data, isLoading, isFetching } = useGetLedgerAllQuery({
+  const { data, isLoading, isFetching, refetch } = useGetLedgerAllQuery({
     requestTypeUser: Number(userTyep),
     ...(userId && { userId }),
   });
@@ -41,8 +44,6 @@ const SuperAgentLedger = () => {
   const lenaTotal = Array.isArray(lenaList)
     ? lenaList.reduce((acc, curr) => acc + (curr?.closinBalane || 0), 0)
     : 0;
-
-  // filter Clear, Dena, Lena with parentId check
 
   useEffect(() => {
     if (data?.data) {
@@ -76,7 +77,15 @@ const SuperAgentLedger = () => {
     );
   };
 
-  const generateColumns = () => [
+  const handleSettelemtData = (report, itemName) => {
+    setIsDepositModalOpen(true);
+    setReportData({
+      ...report,
+      itemName,
+    });
+  };
+
+  const generateColumns = (itemName) => [
     {
       title: "User Name",
       dataIndex: "fullName",
@@ -98,14 +107,28 @@ const SuperAgentLedger = () => {
     {
       title: <Money textColor="#FFF" />,
       key: "settlement",
+      align: "center",
       render: (text, record) => (
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() =>
-            nav(`/client/txn-super/${Listname}/${userTyep}/${record?.userId}`)
-          }>
-          <Money textColor="#038fde" />
-        </span>
+        <div>
+         {itemName !== "Clear" && !isNsg &&  <Button
+            style={{
+              padding: "3px 5px",
+              fontSize: "12px",
+              height: "30px",
+              display: "block",
+              margin: "auto",
+            }}
+            onClick={() => handleSettelemtData(record, itemName)}>
+            Settlement
+          </Button>}
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              nav(`/client/txn-super/${Listname}/${userTyep}/${record?.userId}`)
+            }>
+            <Money textColor="#038fde" />
+          </span>
+        </div>
       ),
     },
   ];
@@ -154,6 +177,14 @@ const SuperAgentLedger = () => {
           ))}
         </Row>
       </Card>
+
+      <SettlementModal
+        handleClose={() => setIsDepositModalOpen(false)}
+        isDepositeModalOpen={isDepositeModalOpen}
+        reportData={reportData}
+        setReportData={setReportData}
+        refetch={refetch}
+      />
     </>
   );
 };

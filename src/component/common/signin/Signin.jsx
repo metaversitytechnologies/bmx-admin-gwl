@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { convertCodeReverse, imgUrl, isNsg } from "../../../store/constant";
 import { AiOutlineUser } from "react-icons/ai";
 import { CiLock } from "react-icons/ci";
+import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
@@ -25,13 +26,13 @@ const Signin = () => {
 
   const hostname = window.location.hostname;
 
+  const { data: userIp } = useGetMyIpQuery();
+
   const url = hostname.includes("madmin")
     ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
     : hostname;
 
-// const url = hostname.includes("madmin")
-//   ? "sub.antpro.co"
-//   : `${hostname.split(".")[0]}.antpro.co`;
+
 
   const onFinish = async (values) => {
     const authPayload = {
@@ -92,7 +93,6 @@ const Signin = () => {
   }, [error, logindata]);
 
   const hostName = window.location.host;
-
 
   return (
     <div className="gx-app-login-wrap">

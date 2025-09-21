@@ -37,7 +37,7 @@ import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
 import Exposure from "./Exposure";
 import CustomLoading from "./CustomLoading/CustomLoading";
-import { convertCode, convertCodeReverse } from "../../store/constant";
+import { convertCode, convertCodeReverse, isNsg } from "../../store/constant";
 
 const routeFromUSerType = {
   6: "/user-list/mamin/5",
@@ -626,7 +626,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                       <td>{res?.contact}</td>
                       <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
                       <td>{res?.partnerShip}</td>
-                      <td>*******</td>
+                      <td>{isNsg ? "*******" : res?.password}</td>
                       {userType == 1 && (
                         <td style={{ textAlign: "right" }}>
                           <span
