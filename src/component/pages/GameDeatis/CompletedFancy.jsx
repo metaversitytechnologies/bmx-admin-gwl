@@ -122,7 +122,7 @@ const CompletedFancy = () => {
                   <thead>
                     <tr>
                       <th>Title</th>
-                      <th>Rate</th>
+                      <th>Run</th>
                       <th>Result</th>
                       <th>Net P&L</th>
                       <th>Action</th>

@@ -137,6 +137,12 @@ const AddSuperLimites = () => {
     setActiveSearchColumn(null);
   };
 
+  const formatUserName = (name, limit = 10) => {
+    if (!name) return "";
+    if (name.includes(" ")) return name;
+    return name.match(new RegExp(`.{1,${limit}}`, "g")).join("-");
+  };
+
   return (
     <>
       {contextHolder}
@@ -267,8 +273,13 @@ const AddSuperLimites = () => {
                 userDetailsData.map((user, key) => (
                   <tr key={key}>
                     <td>{convertCode(user?.userId)}</td>
-                    <td>{user?.userName}</td>
-                    <td>{user?.balance + user?.balanceWithPnl}</td>
+                    <td>
+                      <span className="mob-only">{formatUserName(user?.userName, 10)}</span>{" "}
+                      <span className="desk-only">{user?.userName}</span>{" "}
+                    </td>
+                    <td>
+                      {(user?.balance + user?.balanceWithPnl)?.toFixed(2)}
+                    </td>
                     <td>
                       <Form.Item>
                         <Input

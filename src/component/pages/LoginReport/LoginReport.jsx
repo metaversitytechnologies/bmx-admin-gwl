@@ -58,17 +58,21 @@ const LoginReport = () => {
               </tr>
               {isLoading || isFetching ? <CustomLoading /> : ""}
               {!isError &&
-                data?.data?.map((res, id) => {
-                  return (
-                    <tr key={id}>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>{res?.ipAddress}</td>
-                      <td>{res?.loginDate} </td>
-                    </tr>
-                  );
-                })}
+                data?.data
+                  ?.map((res, id) => {
+                    return (
+                      <tr key={id}>
+                        <td>{res?.country}</td>
+                        <td>
+                          {res?.city} - {res?.region}
+                        </td>
+                        <td>{res?.isp}</td>
+                        <td>{res?.ipAddress}</td>
+                        <td>{res?.loginDate} </td>
+                      </tr>
+                    );
+                  })
+                  .reverse()}
             </table>
 
             {data?.data?.list === undefined || isError ? (

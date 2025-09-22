@@ -168,3 +168,19 @@
 .update_limit {
   margin: -3px 31px;
 }
+
+.mob-only {
+  display: none;
+  @media (max-width: 600px) {
+    display: block;
+  }
+}
+.desk-only {
+  display: block;
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+.minus_btn{
+  display: flex;
+}
