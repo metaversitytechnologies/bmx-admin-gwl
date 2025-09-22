@@ -4,15 +4,11 @@ import {
   Empty,
   message,
   Row,
-  Pagination,
-  Dropdown,
-  Space,
   Select,
   Col,
   DatePicker,
 } from "antd";
 import dayjs from "dayjs";
-import { CaretDownOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
@@ -28,8 +24,6 @@ const DeleteSessionBets = () => {
   const [fancyIdList, setFancyIdList] = useState([]);
   const [fancyId, setFancyId] = useState(null);
   const { id } = useParams();
-  const [pageIndex, setPageIndex] = useState(0); // 0-based
-  const [pageSize, setPageSize] = useState(50); // ✅ Default show 50
   const timeBefore = moment()
     .subtract(14, "days")
     .format("YYYY-MM-DD HH:mm:ss");
@@ -40,11 +34,21 @@ const DeleteSessionBets = () => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({});
-  const { data: sessionBets } = useGetSessionHavingBetQuery({
-    matchCompleted: false,
-    matchId: id ?? "",
-  });
+  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery(
+    {
+      marketId: fancyId ?? "",
+      matchId: id ?? "",
+    },
+    { skip: !fancyId, refetchOnMountOrArgChange: true }
+  );
+  const { data: sessionBets, refetch: getSession } =
+    useGetSessionHavingBetQuery(
+      {
+        matchCompleted: false,
+        matchId: id ?? "",
+      },
+      { refetchOnMountOrArgChange: true }
+    );
 
   const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
   const [getDeletBet] = useGetDeletdBetMutation();
@@ -58,7 +62,10 @@ const DeleteSessionBets = () => {
     }).unwrap();
     if (res?.status) {
       message.success(res?.message);
-      refetch();
+      setTimeout(() => {
+        refetch();
+        getSession();
+      }, 300);
     } else {
       message.error(res?.message);
     }
@@ -75,7 +82,11 @@ const DeleteSessionBets = () => {
     }).unwrap();
     if (res?.status) {
       message.success(res?.message);
-      refetch();
+      setFancyIdList([]); // reset selection after delete
+      setTimeout(() => {
+        refetch();
+        getSession();
+      }, 300);
     } else {
       message.error(res?.message);
     }
@@ -158,7 +169,7 @@ const DeleteSessionBets = () => {
                       className="form-check-input"
                       type="checkbox"
                       id="flexCheckDefault"
-                      checked={items.checked}
+                      checked={fancyIdList.includes(items.id)}
                       onChange={() => handleSessionChange(items.id)}
                     />
                   </td>

@@ -38,7 +38,7 @@ const Signin = () => {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
       url,
-      // url: "superadmin.fastbet365.in",
+      // url: "superadmin.kohinoorpro.com",
     };
 
     if (values?.OTP) {

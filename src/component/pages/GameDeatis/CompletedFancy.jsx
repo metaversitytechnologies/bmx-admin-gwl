@@ -122,8 +122,8 @@ const CompletedFancy = () => {
                   <thead>
                     <tr>
                       <th>Title</th>
-                      <th>P&L</th>
-                      <th>Won By</th>
+                      <th>Rate</th>
+                      <th>Result</th>
                       <th>Net P&L</th>
                       <th>Action</th>
                     </tr>
@@ -136,7 +136,7 @@ const CompletedFancy = () => {
                             key={index}
                             className={item?.isBack ? "back" : "lay"}>
                             <td>{item?.fancyName}</td>
-                            <td>{item?.pnl?.toFixed(2)}</td>
+                            <td>{item?.odds}</td>
                             <td>{item?.result}</td>
                             <td>{item?.netPnl?.toFixed(2)}</td>
                             <td>
