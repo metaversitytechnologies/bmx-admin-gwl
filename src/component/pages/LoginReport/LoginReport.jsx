@@ -65,12 +65,12 @@ const LoginReport = () => {
                       <td>
                         {res?.city} - {res?.region}
                       </td>
-                      <td>{res?.ipAddress}</td>
+                      <td>{res?.isp}</td>
                       <td>{res?.ipAddress}</td>
                       <td>{res?.loginDate} </td>
                     </tr>
                   );
-                })}
+                }).reverse()}
             </table>
 
             {data?.data?.list === undefined || isError ? (
