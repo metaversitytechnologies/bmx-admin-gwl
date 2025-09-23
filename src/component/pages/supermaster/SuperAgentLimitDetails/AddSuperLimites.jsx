@@ -215,9 +215,7 @@ const AddSuperLimites = () => {
                     ref={nameRef}>
                     <p>Name</p>
                     {activeSearchColumn === "name" && (
-                      <Menu
-                        className="menu_item"
-                        style={{ right: 0, left: "unset" }}>
+                      <Menu className="menu_item1 user_ame">
                         <Form
                           name="name"
                           form={nameForm}
@@ -274,7 +272,9 @@ const AddSuperLimites = () => {
                   <tr key={key}>
                     <td>{convertCode(user?.userId)}</td>
                     <td>
-                      <span className="mob-only">{formatUserName(user?.userName, 10)}</span>{" "}
+                      <span className="mob-only">
+                        {formatUserName(user?.userName, 10)}
+                      </span>{" "}
                       <span className="desk-only">{user?.userName}</span>{" "}
                     </td>
                     <td>
