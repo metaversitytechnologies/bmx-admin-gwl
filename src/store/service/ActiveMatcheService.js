@@ -15,7 +15,7 @@ export const activeMatchesApi = createApi({
       query: (args) => {
         return {
           // url: `/betfair_api/active_match/${args}`,
-          url: `/betfair_api/active_match/v5/${args}`,
+          url: `/betfair_api/active_match/v6/${args}`,
           method: "GET",
         }
       },
