@@ -24,35 +24,30 @@ const DeleteSessionBets = () => {
   const [fancyIdList, setFancyIdList] = useState([]);
   const [fancyId, setFancyId] = useState(null);
   const { id } = useParams();
+
   const timeBefore = moment()
     .subtract(14, "days")
     .format("YYYY-MM-DD HH:mm:ss");
   const time = moment().format("YYYY-MM-DD HH:mm:ss");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
+  // ✅ handle date + time change
   const onChange = (date, dateString) => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery(
-    {
-      marketId: fancyId ?? "",
-      matchId: id ?? "",
-    },
-    { skip: !fancyId, refetchOnMountOrArgChange: true }
-  );
-  const { data: sessionBets, refetch: getSession } =
-    useGetSessionHavingBetQuery(
-      {
-        matchCompleted: false,
-        matchId: id ?? "",
-      },
-      { refetchOnMountOrArgChange: true }
-    );
+  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({
+    marketId: fancyId ?? "",
+    matchId: id ?? "",
+  });
+  const { data: sessionBets } = useGetSessionHavingBetQuery({
+    matchCompleted: false,
+    matchId: id ?? "",
+  });
 
-  const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
-  const [getDeletBet] = useGetDeletdBetMutation();
-  // const [getActiveDeactive] = useGetEventActiveDeactiveMutation();
+  const [getDeletedBetByTime, { isLoading: loading }] =
+    useGetDeletedBetByTimeMutation();
+  const [getDeletBet, { isLoading }] = useGetDeletdBetMutation();
 
   const handleDeletedBetbyTime = async () => {
     const res = await getDeletedBetByTime({
@@ -62,10 +57,7 @@ const DeleteSessionBets = () => {
     }).unwrap();
     if (res?.status) {
       message.success(res?.message);
-      setTimeout(() => {
-        refetch();
-        getSession();
-      }, 300);
+      refetch();
     } else {
       message.error(res?.message);
     }
@@ -82,11 +74,7 @@ const DeleteSessionBets = () => {
     }).unwrap();
     if (res?.status) {
       message.success(res?.message);
-      setFancyIdList([]); // reset selection after delete
-      setTimeout(() => {
-        refetch();
-        getSession();
-      }, 300);
+      refetch();
     } else {
       message.error(res?.message);
     }
@@ -106,12 +94,20 @@ const DeleteSessionBets = () => {
       title="Delete Session Bets"
       extra={<button onClick={() => nav(-1)}>Back</button>}>
       <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
+        {/* ✅ Date Range Picker with Time */}
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <DatePicker.RangePicker
-            defaultValue={[dayjs(timeBefore), dayjs(time)]}
+            showTime={{ format: "HH:mm:ss" }} // ✅ enable time picker
+            format="YYYY-MM-DD HH:mm:ss" // ✅ display like 2025-09-26 23:33:10
+            defaultValue={[
+              dayjs(timeBefore, "YYYY-MM-DD HH:mm:ss"),
+              dayjs(time, "YYYY-MM-DD HH:mm:ss"),
+            ]}
             onChange={onChange}
           />
         </Col>
+
+        {/* Fancy Select */}
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <Select
             style={{ width: "100%" }}
@@ -126,8 +122,13 @@ const DeleteSessionBets = () => {
             ]}
           />
         </Col>
+
+        {/* Action Buttons */}
         <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
-          <Button type="primary" onClick={handleDeletedBetbyTime}>
+          <Button
+            type="primary"
+            isLoading={loading}
+            onClick={handleDeletedBetbyTime}>
             Delete Bet By Time
           </Button>
         </Col>
@@ -135,12 +136,14 @@ const DeleteSessionBets = () => {
           <Button
             type="ghost"
             onClick={handleDeletedBet}
+            isLoading={isLoading}
             style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
             Delete Bet
           </Button>
         </Col>
       </Row>
 
+      {/* Table Section */}
       <div className="table_section">
         <table className="ant-spin-nested-loading">
           <thead>
@@ -169,7 +172,7 @@ const DeleteSessionBets = () => {
                       className="form-check-input"
                       type="checkbox"
                       id="flexCheckDefault"
-                      checked={fancyIdList.includes(items.id)}
+                      checked={items.checked}
                       onChange={() => handleSessionChange(items.id)}
                     />
                   </td>
