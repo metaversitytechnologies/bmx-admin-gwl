@@ -4,15 +4,11 @@ import {
   Empty,
   message,
   Row,
-  Pagination,
-  Dropdown,
-  Space,
   Select,
   Col,
   DatePicker,
 } from "antd";
 import dayjs from "dayjs";
-import { CaretDownOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
@@ -28,19 +24,22 @@ const DeleteSessionBets = () => {
   const [fancyIdList, setFancyIdList] = useState([]);
   const [fancyId, setFancyId] = useState(null);
   const { id } = useParams();
-  const [pageIndex, setPageIndex] = useState(0); // 0-based
-  const [pageSize, setPageSize] = useState(50); // ✅ Default show 50
+
   const timeBefore = moment()
     .subtract(14, "days")
     .format("YYYY-MM-DD HH:mm:ss");
   const time = moment().format("YYYY-MM-DD HH:mm:ss");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
+  // ✅ handle date + time change
   const onChange = (date, dateString) => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({});
+  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({
+    marketId: fancyId ?? "",
+    matchId: id ?? "",
+  });
   const { data: sessionBets } = useGetSessionHavingBetQuery({
     matchCompleted: false,
     matchId: id ?? "",
@@ -48,7 +47,6 @@ const DeleteSessionBets = () => {
 
   const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
   const [getDeletBet] = useGetDeletdBetMutation();
-  // const [getActiveDeactive] = useGetEventActiveDeactiveMutation();
 
   const handleDeletedBetbyTime = async () => {
     const res = await getDeletedBetByTime({
@@ -95,12 +93,20 @@ const DeleteSessionBets = () => {
       title="Delete Session Bets"
       extra={<button onClick={() => nav(-1)}>Back</button>}>
       <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
+        {/* ✅ Date Range Picker with Time */}
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <DatePicker.RangePicker
-            defaultValue={[dayjs(timeBefore), dayjs(time)]}
+            showTime={{ format: "HH:mm:ss" }} // ✅ enable time picker
+            format="YYYY-MM-DD HH:mm:ss" // ✅ display like 2025-09-26 23:33:10
+            defaultValue={[
+              dayjs(timeBefore, "YYYY-MM-DD HH:mm:ss"),
+              dayjs(time, "YYYY-MM-DD HH:mm:ss"),
+            ]}
             onChange={onChange}
           />
         </Col>
+
+        {/* Fancy Select */}
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <Select
             style={{ width: "100%" }}
@@ -115,6 +121,8 @@ const DeleteSessionBets = () => {
             ]}
           />
         </Col>
+
+        {/* Action Buttons */}
         <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
           <Button type="primary" onClick={handleDeletedBetbyTime}>
             Delete Bet By Time
@@ -130,6 +138,7 @@ const DeleteSessionBets = () => {
         </Col>
       </Row>
 
+      {/* Table Section */}
       <div className="table_section">
         <table className="ant-spin-nested-loading">
           <thead>

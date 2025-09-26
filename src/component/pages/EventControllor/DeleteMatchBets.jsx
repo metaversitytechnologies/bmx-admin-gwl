@@ -32,7 +32,9 @@ const DeleteMatchBets = () => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetMatchedBetDeletedQuery({});
+  const { data: sportDetail, refetch } = useGetMatchedBetDeletedQuery({
+    matchId: id,
+  });
 
   const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
   const [getDeletBet] = useGetDeletdBetMutation();
