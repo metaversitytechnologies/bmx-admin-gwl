@@ -128,7 +128,7 @@ const CreateSuperAgent = ({ createName }) => {
             <div
               style={{ padding: "5px 8px", fontSize: "22px" }}
               className="team_name">
-              Create {createName}
+              Create {createName}/
             </div>
             <div className="show_btn">
               <button onClick={handleBackClick}>Back</button>

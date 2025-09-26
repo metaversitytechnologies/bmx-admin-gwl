@@ -40,7 +40,10 @@ const DeleteSessionBets = () => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({});
+  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({
+    marketId: fancyId ?? "",
+    matchId: id ?? "",
+  });
   const { data: sessionBets } = useGetSessionHavingBetQuery({
     matchCompleted: false,
     matchId: id ?? "",

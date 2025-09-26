@@ -44,15 +44,12 @@ const NewCreateUser = () => {
     setCommiType(value);
   };
 
-  
-
   const { id } = useParams();
   const handleChange = (value) => {};
   const handleSelect = (value) => {
     setParentId(value);
   };
 
-  const passw = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,15}$/;
   var mobileNum = /^[6-9][0-9]{9}$/;
 
   const { data: appDeatis } = useAppDetailsQuery();
@@ -80,6 +77,7 @@ const NewCreateUser = () => {
       Match_comm,
       Coins,
       appId,
+      loginOtpDisabled,
     } = values;
     const userData = {
       username: Name,
@@ -97,7 +95,10 @@ const NewCreateUser = () => {
       casinoCommission: commiType === "bbb" ? cassino_Comm : 0,
       limit: Coins,
       parentIdForUserCreation: convertCodeReverse(parentId),
-      ...(Number(id) === 7 && { appId: appId }),
+      ...(Number(id) === 7 && {
+        appId: appId,
+        loginOtpDisabled: loginOtpDisabled,
+      }),
     };
     createUser(userData);
   };
@@ -201,6 +202,10 @@ const NewCreateUser = () => {
                 {
                   name: "shareType",
                   value: "Fixed",
+                },
+                {
+                  name: "loginOtpDisabled",
+                  value: false,
                 },
               ]}>
               <div>
@@ -373,25 +378,54 @@ const NewCreateUser = () => {
                     </Col>
                   )}
                   {Number(id) === 7 && (
-                    <Col lg={12} xs={24}>
-                      <Form.Item
-                        label="App Url"
-                        name="appId"
-                        placeholder="Select App Deatis"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please select your app details!",
-                          },
-                        ]}>
-                        <Select
-                          options={appDeatis?.data?.map((item) => ({
-                            value: item.id,
-                            label: item.appName,
-                          }))}
-                        />
-                      </Form.Item>
-                    </Col>
+                    <>
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label="App Url"
+                          name="appId"
+                          placeholder="Select App Details"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select your app details!",
+                            },
+                          ]}>
+                          <Select
+                            options={appDeatis?.data?.map((item) => ({
+                              value: item.id,
+                              label: item.appName,
+                            }))}
+                          />
+                        </Form.Item>
+                      </Col>
+                      {userDetails?.data?.loginOtpDisabled && (
+                        <Col lg={12} xs={24}>
+                          <Form.Item
+                            label="Login Otp Disabled"
+                            name="loginOtpDisabled"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Please select login OTP status!",
+                              },
+                            ]}>
+                            <Select
+                              defaultValue={false}
+                              options={[
+                                {
+                                  value: true,
+                                  label: "Yes",
+                                },
+                                {
+                                  value: false,
+                                  label: "No",
+                                },
+                              ]}
+                            />
+                          </Form.Item>
+                        </Col>
+                      )}
+                    </>
                   )}
                 </Row>
                 <MatchCommission

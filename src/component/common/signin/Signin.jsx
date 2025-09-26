@@ -32,14 +32,12 @@ const Signin = () => {
     ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
     : hostname;
 
-
-
   const onFinish = async (values) => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
       url,
-      // url: "superadmin.fastbet365.in",
+      // url: "superadmin.antpro365.pro",
     };
 
     if (values?.OTP) {
@@ -55,10 +53,21 @@ const Signin = () => {
       }
     } else {
       const res = await trigger(authPayload).unwrap();
-      if (res.status) {
-        setShowOtp(true);
+      console.log("res", res);
+      if (res?.token) {
+        nav("/dashboard");
+        localStorage.setItem("token", res?.token);
+        localStorage.setItem("rulesStatus", true);
+        localStorage.setItem("userId", res?.userId);
+        localStorage.setItem("userType", res?.userTypeInfo);
+        localStorage.setItem("username", res?.username);
+        localStorage.setItem("ps", res?.ps);
       } else {
-        message.error(res?.message);
+        if (res.status) {
+          setShowOtp(true);
+        } else {
+          message.error(res?.message);
+        }
       }
     }
   };
