@@ -119,24 +119,20 @@ const GameDeatis = () => {
                   />
                 </div>
               )}
-              {hostname?.includes("antpro.co") ? (
+              {/* {hostname?.includes("antpro.co") ? (
                 <Score showFull={showFullScore} />
-              ) : (
-                <div
-                  className="ant-row"
-                  style={{ height: !showFullScore ? 110 : 220 }}>
-                  <iframe
-                    src={
-                      isNsg
-                        ? `https://score.trovetown.co/socket-iframe-8/crickexpo/${id}`
-                        : `https://score.trovetown.co/socket-iframe-1/crickexpo/${id}`
-                    }
-                    title="Score-I-frame"
-                    className=""
-                    style={{ width: "100%", height: "100%", border: "none" }}
-                  />
-                </div>
-              )}
+              ) : ( */}
+              <div
+                className="ant-row"
+                style={{ height: "100px" }}>
+                <iframe
+                  src={`https://scorediamond.247idhub.com/score/${id}`}
+                  title="Score-I-frame"
+                  className=""
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                />
+              </div>
+              {/* )} */}
 
               <Row className="gx-px-0 gx-py-0 main_game_details">
                 <Col md={18} xs={24}>
