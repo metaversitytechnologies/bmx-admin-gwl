@@ -9,10 +9,8 @@ import {
   Menu,
   Pagination,
   Space,
-  Spin,
-  Tag,
 } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
 import {
   SearchOutlined,
@@ -72,16 +70,19 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
   const codeRef = useRef(null);
   const nameRef = useRef(null);
 
-  // API Hooks
+  const { pathname } = useLocation();
 
-  // useEffect(() => {
-  //   if (userType === "1") {
-  //     setPaginationTotal(100);
-  //   } else {
-  //     setPaginationTotal(50);
-  //   }
-  //   setUserToSearch("");
-  // }, [userType]);
+  useEffect(() => {
+    // Reset search value
+    setUserToSearch("");
+
+    // Reset both search forms
+    codeForm.resetFields();
+    nameForm.resetFields();
+
+    setActiveSearch(null);
+    setShowSearchDropdown(false);
+  }, [pathname]);
 
   const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
     useSuperuserListMutation();
@@ -100,7 +101,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       parentId: parentIdFromParams || "",
       noOfRecords: paginationTotal,
       index: indexData,
-      userToSearch: userToSearch || userId,
+      userToSearch: convertCodeReverse(userToSearch) || userId,
     }).unwrap();
     if (res?.status) {
       setActiveSearch(null);
@@ -211,7 +212,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
 
   useEffect(() => {
     fetchData();
-  }, [parentIdFromParams, userType, paginationTotal, indexData]);
+  }, [parentIdFromParams, userType, paginationTotal, indexData, userToSearch]);
 
   useEffect(() => {
     if (userDetailsData) {
@@ -612,6 +613,8 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
                               nav(
                                 `${routeFromUSerType[userType]}/${res?.userId}`
                               );
+                              setIndexData(0);
+                              setPaginationTotal(25);
                             } else if (res?.liability !== 0) {
                               handleExposure(res?.userId);
                             }
