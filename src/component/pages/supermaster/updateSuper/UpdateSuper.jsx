@@ -126,9 +126,7 @@ const UpdateSuper = () => {
             ? resuilt?.data?.casinoPartnership
             : getUserField("CasinoPartnership"),
         share:
-          id === "1"
-            ? resuilt?.data?.partnership
-            : getUserField("Partnership"),
+          id === "1" ? resuilt?.data?.partnership : getUserField("Partnership"),
         match_share: resuilt?.data?.matchShare,
       });
     }
@@ -224,8 +222,7 @@ const UpdateSuper = () => {
               number: resuilt?.data?.contact,
               password: "******",
               comm_type: commType,
-            }}
-          >
+            }}>
             <Row className="super_agent update_agent">
               <Col lg={12} xs={24}>
                 <Form.Item
@@ -239,7 +236,7 @@ const UpdateSuper = () => {
                   label="Name"
                   name="name"
                   rules={[{ required: true }]}>
-                  <Input disabled />
+                  <Input />
                 </Form.Item>
 
                 <Form.Item

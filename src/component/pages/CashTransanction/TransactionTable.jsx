@@ -138,7 +138,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
               data.map((res, idx) => (
                 <tr
                   key={res._id || idx}
-                  className={res?.id ? "gx-bg-yellow" : ""}>
+                  className={res?.paymentType ? "gx-bg-yellow" : ""}>
                   <td>
                     {res?.id && (
                       <Dropdown

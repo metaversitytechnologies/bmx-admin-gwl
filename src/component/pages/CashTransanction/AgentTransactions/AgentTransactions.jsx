@@ -70,7 +70,6 @@ const AgentTransactions = () => {
     getClient({ userType: id });
   }, [id, getClient]);
 
-  // ✅ Only run when transaction creation changes
   useEffect(() => {
     if (createTranstions?.status) {
       openNotification(createTranstions?.message);
@@ -139,8 +138,8 @@ const AgentTransactions = () => {
             wrapperCol={{ span: 16 }}
             onFinish={onFinish}
             initialValues={{
-              collection: "CA1 CASH", // 👈 default here
-              ledger_type: "All", // e.g. another default
+              collection: "CA1 CASH",
+              ledger_type: "All",
             }}
             autoComplete="off">
             <Row>
