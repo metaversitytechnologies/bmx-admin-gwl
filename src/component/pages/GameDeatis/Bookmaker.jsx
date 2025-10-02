@@ -8,7 +8,9 @@ const Bookmaker = ({
   handleOddBook,
   setShowTtlBook,
   showTtlBook,
+  handleBetPlace,
 }) => {
+  const userType = localStorage.getItem("userType");
   return (
     <>
       <div
@@ -158,14 +160,50 @@ const Bookmaker = ({
                             </td>
                             <td
                               className="ant-table-cell matchdtailsYesBackground"
-                              style={{ textAlign: "center" }}>
+                              style={{
+                                textAlign: "center",
+                                cursor:
+                                  runner?.l1 != 0 && userType == 7
+                                    ? "pointer"
+                                    : "default",
+                              }}
+                              onClick={() =>
+                                runner?.b1 != 0 &&
+                                userType == 7 &&
+                                handleBetPlace(
+                                  runner?.b1,
+                                  runner?.sid,
+                                  runner?.nation,
+                                  runner?.mid,
+                                  "Lagai",
+                                  false
+                                )
+                              }>
                               <div className="gx-font-weight-semi-bold">
                                 {runner?.b1}
                               </div>
                             </td>
                             <td
                               className="ant-table-cell matchdtailsNoBackground"
-                              style={{ textAlign: "center" }}>
+                              style={{
+                                textAlign: "center",
+                                cursor:
+                                  runner?.l1 != 0 && userType == 7
+                                    ? "pointer"
+                                    : "default",
+                              }}
+                              onClick={() =>
+                                runner?.l1 != 0 &&
+                                userType == 7 &&
+                                handleBetPlace(
+                                  runner?.l1,
+                                  runner?.sid,
+                                  runner?.nation,
+                                  runner?.mid,
+                                  "Khai",
+                                  false
+                                )
+                              }>
                               <div className="gx-font-weight-semi-bold">
                                 {runner?.l1}
                               </div>

@@ -7,7 +7,8 @@ import {
 } from "../../../store/service/SportDetailServices";
 import { useParams } from "react-router-dom";
 
-const FancyData = ({ data }) => {
+const FancyData = ({ data, handleBetPlace }) => {
+  const userType = localStorage.getItem("userType");
   const { id } = useParams();
   const [openBook, setShowOpenBook] = useState(false);
   const [fancyName, setFancyName] = useState("");
@@ -140,8 +141,25 @@ const FancyData = ({ data }) => {
                                         <>
                                           <td
                                             className="ant-table-cell matchdtailsNoBackground"
-                                            style={{ textAlign: "center" }}>
-                                            <div style={{}}>
+                                            style={{
+                                              textAlign: "center",
+                                              cursor:
+                                                userType == 7
+                                                  ? "pointer"
+                                                  : "default",
+                                            }}
+                                            onClick={() =>
+                                              userType == 7 &&
+                                              handleBetPlace(
+                                                fancy?.l1,
+                                                fancy?.sid,
+                                                fancy?.nation,
+                                                fancy?.sid,
+                                                "No",
+                                                true
+                                              )
+                                            }>
+                                            <div>
                                               <div className="gx-font-weight-semi-bold">
                                                 {fancy?.l1}
                                               </div>
@@ -152,8 +170,25 @@ const FancyData = ({ data }) => {
                                           </td>
                                           <td
                                             className="ant-table-cell matchdtailsYesBackground"
-                                            style={{ textAlign: "center" }}>
-                                            <div style={{}}>
+                                            style={{
+                                              textAlign: "center",
+                                              coursor:
+                                                userType == 7
+                                                  ? "pointer"
+                                                  : "default",
+                                            }}
+                                            onClick={() =>
+                                              userType == 7 &&
+                                              handleBetPlace(
+                                                fancy?.b1,
+                                                fancy?.sid,
+                                                fancy?.nation,
+                                                fancy?.sid,
+                                                "Yes",
+                                                true
+                                              )
+                                            }>
+                                            <div>
                                               <div className="gx-font-weight-semi-bold">
                                                 {fancy?.b1}
                                               </div>

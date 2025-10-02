@@ -13,6 +13,8 @@ import Bookmaker from "./Bookmaker";
 import { useParams } from "react-router-dom";
 import { isNsg } from "../../../store/constant";
 import Score from "../../common/Score/Score";
+import BetPlaceModal from "../../common/BetPlaceModal";
+import moment from "moment";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
@@ -24,19 +26,34 @@ const GameDeatis = () => {
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
   const [showMatchBet, setShowMatchBet] = useState(0);
+  const [opneModal, setOpenModal] = useState(false);
 
-  // useEffect(() => {
-  //   trigger({
-  //     matchId: id ?? "",
-  //     matchCompleted: false,
-  //     userId: "",
-  //   });
-  //   triggerMy({
-  //     matchId: id ?? "",
-  //     matchCompleted: false,
-  //     userId: "",
-  //   });
-  // }, [id]);
+  const dateFormat = "YYYY/MM/DD HH:mm:ss";
+  const initialFormState = {
+    odds: "",
+    sid: "",
+    nation: "",
+    mid: "",
+    mode: "",
+    isFancy: false,
+    amount: 0,
+    userId: "",
+    date: moment(new Date()).format(dateFormat),
+  };
+  const [placeBetData, setPlaceBetData] = useState(initialFormState);
+
+  const handleBetPlace = (odds, sid, nation, mid, mode, isFancy) => {
+    setPlaceBetData((prev) => ({
+      ...prev,
+      odds,
+      sid,
+      nation,
+      mid,
+      mode,
+      isFancy,
+    }));
+    setOpenModal(true);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -149,12 +166,14 @@ const GameDeatis = () => {
                     handleOddBook={handleOddBook}
                     setShowTtlBook={setShowTtlBook}
                     showTtlBook={showTtlBook}
+                    handleBetPlace={handleBetPlace}
                   />
                   <FancyData
                     data={data}
                     setFancyId={setFancyId}
                     fancyId={fancyId}
                     setShowMatchBet={setShowMatchBet}
+                    handleBetPlace={handleBetPlace}
                   />
                 </Col>
               </Row>
@@ -176,6 +195,13 @@ const GameDeatis = () => {
           </Col>
         </Row>
       </Col>
+      <BetPlaceModal
+        setPlaceBetData={setPlaceBetData}
+        opneModal={opneModal}
+        setOpenModal={setOpenModal}
+        placeBetData={placeBetData}
+        initialFormState={initialFormState}
+      />
     </Row>
   );
 };

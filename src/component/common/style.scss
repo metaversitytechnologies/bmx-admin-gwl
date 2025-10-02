@@ -1,0 +1,73 @@
+.betplace_heading {
+  p {
+    font-size: 14px;
+  }
+}
+
+.betplace_modal {
+  .ant-modal-content {
+    padding: 0px !important;
+  }
+  .lay-color-light {
+    background: #faa9babf;
+  }
+  .lay-color {
+    background: #faa9ba;
+  }
+  .back-color-light {
+    background: #72bbefbf;
+  }
+  .back-color {
+    background: #72bbef;
+  }
+
+  .betplace_amount_row {
+    padding: 0px 8px !important;
+  }
+  .form_data .ant-form-item label {
+    color: #000 !important;
+    font-weight: 500;
+    font-size: 14px !important;
+    height: auto;
+  }
+  .number_field,
+  .ant-select {
+    width: 100% !important;
+  }
+  .ant-select-selector {
+    text-align: left !important;
+  }
+
+  .betplace_btn_row {
+    button {
+      width: 100%;
+      border-radius: 4px;
+    }
+  }
+  .transations_date {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .ant-btn-dangerous {
+    background-color: #ff4d4f !important;
+    height: 38px !important;
+    border-radius: unset !important;
+    margin-top: 8px;
+    font-size: 16px;
+  }
+  .ant-btn-primary {
+    height: 38px !important;
+    border-radius: unset !important;
+    margin-top: 8px;
+    font-size: 16px;
+  }
+  .form_data {
+    padding: 0 !important;
+  }
+  .ant-form-item-label {
+    padding-top: 10px;
+    padding-bottom: 2px;
+  }
+}
