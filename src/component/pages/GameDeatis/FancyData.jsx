@@ -152,11 +152,13 @@ const FancyData = ({ data, handleBetPlace }) => {
                                               userType == 7 &&
                                               handleBetPlace(
                                                 fancy?.l1,
-                                                fancy?.sid,
+                                                0,
                                                 fancy?.nation,
                                                 fancy?.sid,
                                                 "No",
-                                                true
+                                                true,
+                                                "Fancy2",
+                                                fancy?.ls1
                                               )
                                             }>
                                             <div>
@@ -181,11 +183,13 @@ const FancyData = ({ data, handleBetPlace }) => {
                                               userType == 7 &&
                                               handleBetPlace(
                                                 fancy?.b1,
-                                                fancy?.sid,
+                                                0,
                                                 fancy?.nation,
                                                 fancy?.sid,
                                                 "Yes",
-                                                true
+                                                true,
+                                                "Fancy2",
+                                                fancy?.bs1
                                               )
                                             }>
                                             <div>

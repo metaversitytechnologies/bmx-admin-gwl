@@ -176,7 +176,9 @@ const Bookmaker = ({
                                   runner?.nation,
                                   runner?.mid,
                                   "Lagai",
-                                  false
+                                  false,
+                                  runner?.t,
+                                  runner?.b1
                                 )
                               }>
                               <div className="gx-font-weight-semi-bold">
@@ -201,7 +203,9 @@ const Bookmaker = ({
                                   runner?.nation,
                                   runner?.mid,
                                   "Khai",
-                                  false
+                                  false,
+                                  runner?.t,
+                                  runner?.b1
                                 )
                               }>
                               <div className="gx-font-weight-semi-bold">

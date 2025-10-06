@@ -4,6 +4,7 @@ import {
   DatePicker,
   Form,
   InputNumber,
+  message,
   Modal,
   Row,
   Select,
@@ -12,6 +13,9 @@ import dayjs from "dayjs";
 import "./style.scss";
 import { useEffect, useState } from "react";
 import { useLazyFilterbyClientQuery } from "../../store/service/supermasteAccountStatementServices";
+import { useGetBetPlaceDataMutation } from "../../store/service/SportDetailServices";
+import { UAParser } from "ua-parser-js";
+import moment from "moment";
 
 const BetPlaceModal = ({
   opneModal,
@@ -19,18 +23,19 @@ const BetPlaceModal = ({
   placeBetData,
   setPlaceBetData,
   initialFormState,
+  ip,
 }) => {
   const dateFormat = "YYYY/MM/DD HH:mm:ss";
   const [getClient, result] = useLazyFilterbyClientQuery();
+  const [trigger, { data: placeValue, isLoading, error }] =
+    useGetBetPlaceDataMutation();
 
   const [submitted, setSubmitted] = useState(false);
 
-  // Load client list
   useEffect(() => {
     getClient({ userType: 1 });
   }, [getClient]);
 
-  // ✅ Reset form whenever modal is closed
   useEffect(() => {
     if (!opneModal) {
       setPlaceBetData(initialFormState);
@@ -38,7 +43,6 @@ const BetPlaceModal = ({
     }
   }, [opneModal]);
 
-  // Handlers
   const onSelectDate = (date, dateString) => {
     setPlaceBetData((prev) => ({ ...prev, date: dateString }));
   };
@@ -47,13 +51,78 @@ const BetPlaceModal = ({
     setPlaceBetData((prev) => ({ ...prev, amount: value }));
   };
 
-  const handleSubmit = () => {
+  const isBack = placeBetData?.isFancy
+    ? placeBetData?.mode === "Yes"
+    : placeBetData?.mode === "Lagai";
+
+  console.log("isBackisBack", isBack);
+
+  const getDeviceInfo = () => {
+    const parser = new UAParser();
+    const result = parser.getResult();
+
+    return {
+      userAgent: navigator.userAgent,
+      browser: result.browser.name || "Unknown",
+      browser_version: result.browser.version || "Unknown",
+      os: result.os.name || "Unknown",
+      os_version: result.os.version || "Unknown",
+      device: result.device.vendor
+        ? `${result.device.vendor} ${result.device.model}`
+        : result.os.name || "Desktop",
+      deviceType: result.device.type || "desktop",
+      orientation:
+        window.innerWidth > window.innerHeight ? "landscape" : "portrait",
+    };
+  };
+  const handleSubmit = async () => {
     setSubmitted(true);
-    if (!placeBetData.amount || !placeBetData.userId || !placeBetData.date) {
-      return; // validation failed
+
+    if (
+      !placeBetData.amount ||
+      !placeBetData.userId ||
+      !placeBetData.date ||
+      !placeBetData.odds
+    ) {
+      return;
     }
-    console.log("Final Bet Data =>", placeBetData);
-    setOpenModal(false);
+
+    try {
+      const deviceInfo = getDeviceInfo();
+
+      const response = await trigger({
+        isFancy: placeBetData?.isFancy,
+        isBack: isBack,
+        odds: placeBetData?.odds,
+        marketName: placeBetData?.marketName,
+        selectionId: placeBetData?.sid,
+        priceValue: placeBetData?.priceValue,
+        marketId: placeBetData?.mid,
+        name: placeBetData?.nation,
+        matchId: placeBetData?.matchId,
+        userIp: ip,
+        mode: placeBetData?.mode,
+        placeTime: moment(placeBetData?.date).format("YYYY-MM-DD HH:mm:ss:SSS"),
+        deviceInfo,
+        stake: placeBetData?.amount,
+        userId: placeBetData?.userId,
+      }).unwrap();
+
+      // ✅ Success message
+      if (response?.message) {
+        message.success(response.message);
+      } else {
+        message.success("Bet placed successfully!");
+      }
+
+      setOpenModal(false);
+    } catch (err) {
+      const errorMsg =
+        err?.data?.message ||
+        err?.error ||
+        "Something went wrong. Please try again.";
+      message.error(errorMsg);
+    }
   };
 
   const getBetClassName = (suffix = "") => {
@@ -67,6 +136,8 @@ const BetPlaceModal = ({
 
     return suffix ? `${baseClass}-${suffix}` : baseClass;
   };
+
+  console.log("placeValueplaceValueplaceValue", placeValue, error);
 
   return (
     <Modal
@@ -83,19 +154,19 @@ const BetPlaceModal = ({
         className={getBetClassName("light")}
         align="middle"
         style={{ height: "100%", padding: "10px 0" }}>
-        <Col xs={8}>
+        <Col xs={12}>
           <div className="text-center betplace_heading">
             <h3>Team</h3>
             <p>{placeBetData?.nation}</p>
           </div>
         </Col>
-        <Col xs={8}>
+        {/* <Col xs={8}>
           <div className="text-center betplace_heading">
             <h3>Rate</h3>
             <p>{placeBetData?.odds}</p>
           </div>
-        </Col>
-        <Col xs={8}>
+        </Col> */}
+        <Col xs={12}>
           <div className="text-center betplace_heading">
             <h3>Mode</h3>
             <p>{placeBetData?.mode}</p>
@@ -112,7 +183,7 @@ const BetPlaceModal = ({
               justify="center"
               className="super_agent betplace_amount_row">
               {/* Amount */}
-              <Col lg={8} xs={24}>
+              <Col lg={6} xs={12}>
                 <Form.Item
                   label="Amount"
                   required
@@ -137,8 +208,33 @@ const BetPlaceModal = ({
                 </Form.Item>
               </Col>
 
+              <Col lg={6} xs={12}>
+                <Form.Item
+                  label="Rate"
+                  required
+                  validateStatus={
+                    submitted && !placeBetData.amount ? "error" : ""
+                  }
+                  help={
+                    submitted && !placeBetData.amount
+                      ? "Please enter amount"
+                      : ""
+                  }>
+                  <InputNumber
+                    className="number_field"
+                    min={0}
+                    type="number"
+                    placeholder="Enter Rate"
+                    value={placeBetData.odds}
+                    onChange={(value) =>
+                      setPlaceBetData((prev) => ({ ...prev, odds: value }))
+                    }
+                  />
+                </Form.Item>
+              </Col>
+
               {/* User Select */}
-              <Col lg={8} xs={24}>
+              <Col lg={6} xs={24}>
                 <Form.Item
                   label="User Name"
                   required
@@ -170,7 +266,7 @@ const BetPlaceModal = ({
               </Col>
 
               {/* Date & Time */}
-              <Col lg={8} xs={24}>
+              <Col lg={6} xs={24}>
                 <Form.Item
                   label="Date & Time"
                   required
@@ -221,7 +317,10 @@ const BetPlaceModal = ({
                 </Button>
               </Col>
               <Col xs={12}>
-                <Button type="primary" onClick={handleSubmit}>
+                <Button
+                  type="primary"
+                  loading={isLoading}
+                  onClick={handleSubmit}>
                   Submit
                 </Button>
               </Col>

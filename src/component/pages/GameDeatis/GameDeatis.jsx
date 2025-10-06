@@ -15,6 +15,7 @@ import { isNsg } from "../../../store/constant";
 import Score from "../../common/Score/Score";
 import BetPlaceModal from "../../common/BetPlaceModal";
 import moment from "moment";
+import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
@@ -28,6 +29,9 @@ const GameDeatis = () => {
   const [showMatchBet, setShowMatchBet] = useState(0);
   const [opneModal, setOpenModal] = useState(false);
 
+  const { data: myIp } = useGetMyIpQuery();
+  // console.log("myIp", myIp?.ip);
+
   const dateFormat = "YYYY/MM/DD HH:mm:ss";
   const initialFormState = {
     odds: "",
@@ -35,14 +39,27 @@ const GameDeatis = () => {
     nation: "",
     mid: "",
     mode: "",
+    marketName: "",
     isFancy: false,
     amount: 0,
     userId: "",
     date: moment(new Date()).format(dateFormat),
+    ip: myIp?.ip,
+    matchId: id,
+    priceValue: 0,
   };
   const [placeBetData, setPlaceBetData] = useState(initialFormState);
 
-  const handleBetPlace = (odds, sid, nation, mid, mode, isFancy) => {
+  const handleBetPlace = (
+    odds,
+    sid,
+    nation,
+    mid,
+    mode,
+    isFancy,
+    marketName,
+    priceValue
+  ) => {
     setPlaceBetData((prev) => ({
       ...prev,
       odds,
@@ -51,6 +68,8 @@ const GameDeatis = () => {
       mid,
       mode,
       isFancy,
+      marketName,
+      priceValue,
     }));
     setOpenModal(true);
   };
@@ -201,6 +220,7 @@ const GameDeatis = () => {
         setOpenModal={setOpenModal}
         placeBetData={placeBetData}
         initialFormState={initialFormState}
+        ip={myIp?.ip}
       />
     </Row>
   );

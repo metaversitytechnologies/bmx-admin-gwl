@@ -70,4 +70,10 @@
     padding-top: 10px;
     padding-bottom: 2px;
   }
+  .ant-form-item-control-input-content {
+    width: 134px !important;
+    @media (max-width: 576px) {
+      width: 100% !important;
+    }
+  }
 }

@@ -383,6 +383,15 @@ export const sportDetailsApi = createApi({
         };
       },
     }),
+    getBetPlaceData: build.mutation({
+      query: (body) => {
+        return {
+          url: `/superadmin/place`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -429,5 +438,6 @@ export const {
   useGetCommissionResetMutation,
   useGetQueryMatchBetsQuery,
   useGetSessionQureyBetQuery,
-  useGetActiveSessionDataQuery
+  useGetActiveSessionDataQuery,
+  useGetBetPlaceDataMutation
 } = sportDetailsApi;
