@@ -18,8 +18,6 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
     nav(`/client/deletedlenden/${clientId}`);
   };
 
-  
-
   const handleDelete = async () => {
     try {
       if (!selectedId) return;
@@ -138,7 +136,9 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
               data.map((res, idx) => (
                 <tr
                   key={res._id || idx}
-                  className={res?.id ? "gx-bg-yellow" : ""}>
+                  className={
+                    res?.collectionName == "CA1 CASH" ? "gx-bg-yellow" : ""
+                  }>
                   <td>
                     {res?.id && (
                       <Dropdown

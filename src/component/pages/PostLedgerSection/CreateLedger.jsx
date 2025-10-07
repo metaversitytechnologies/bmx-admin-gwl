@@ -15,6 +15,9 @@ const CreateLedger = ({ forPostLedger }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(50);
 
+  // ✅ added state to track which row is loading
+  const [loadingMatchId, setLoadingMatchId] = useState(null);
+
   const { data: sportDetail, refetch } = useGetMatchListLederQuery(
     {
       noOfRecords: pageSize,
@@ -28,22 +31,31 @@ const CreateLedger = ({ forPostLedger }) => {
   const [getRolllback] = useGetRollBackMutation();
 
   const handleCreate = async (item) => {
-    if (forPostLedger) {
-      const res = await getPostLedger({ matchId: item?.matchId }).unwrap();
-      if (res?.status) {
-        message.success(res?.message);
-        refetch();
+    setLoadingMatchId(item.matchId);
+
+    try {
+      if (forPostLedger) {
+        const res = await getPostLedger({ matchId: item.matchId }).unwrap();
+        if (res?.status) {
+          message.success(res?.message);
+          refetch();
+        } else {
+          message.error(res?.message);
+        }
       } else {
-        message.error(res?.message);
+        const res = await getRolllback({ matchId: item.matchId }).unwrap();
+        if (res?.status) {
+          message.success(res?.message);
+          refetch();
+        } else {
+          message.error(res?.message);
+        }
       }
-    } else {
-      const res = await getRolllback({ matchId: item?.matchId }).unwrap();
-      if (res?.status) {
-        message.success(res?.message);
-        refetch();
-      } else {
-        message.error(res?.message);
-      }
+    } catch (error) {
+      message.error("Something went wrong");
+    } finally {
+      // ✅ stop loading after API call
+      setLoadingMatchId(null);
     }
   };
 
@@ -103,7 +115,9 @@ const CreateLedger = ({ forPostLedger }) => {
                     <Button
                       type="primary"
                       onClick={() => handleCreate(res)}
-                      className="in_play_btn">
+                      disabled={loadingMatchId === res.matchId}
+                      className="in_play_btn"
+                      loading={loadingMatchId === res.matchId}>
                       {forPostLedger ? "Create Ledger" : "Rollback"}
                     </Button>
                   </td>

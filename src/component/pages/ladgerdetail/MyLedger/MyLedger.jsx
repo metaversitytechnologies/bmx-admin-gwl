@@ -18,7 +18,7 @@ const columns = [
     title: "Event Name",
     dataIndex: "collectionName",
     key: "collectionName",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+    onCell: () => ({ className: "cell-nowrap-responsive" }),
   },
   {
     title: "Credit",
@@ -61,7 +61,6 @@ const MyLedger = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const timeBefore = moment().subtract(30, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
-  const [dateData, setDateData] = useState([timeBefore, time]);
 
   const {
     data: ledgerData,

@@ -81,3 +81,15 @@ li.ant-pagination-item {
     margin-left: 2%;
   }
 }
+
+.cell-nowrap-responsive {
+  white-space: nowrap;
+  min-width: 130px;
+}
+
+@media (max-width: 768px) {
+  .cell-nowrap-responsive {
+    white-space: normal;
+    word-break: break-word;
+  }
+}
