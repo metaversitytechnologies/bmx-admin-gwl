@@ -36,10 +36,13 @@ const DeleteSessionBets = () => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery({
-    marketId: fancyId ?? "",
-    matchId: id ?? "",
-  });
+  const { data: sportDetail, refetch } = useGetSessionBetDeletedQuery(
+    {
+      marketId: fancyId ?? "",
+      matchId: id ?? "",
+    },
+    { skip: !fancyId }
+  );
   const { data: sessionBets } = useGetSessionHavingBetQuery({
     matchCompleted: false,
     matchId: id ?? "",
@@ -97,8 +100,8 @@ const DeleteSessionBets = () => {
         {/* ✅ Date Range Picker with Time */}
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <DatePicker.RangePicker
-            showTime={{ format: "HH:mm:ss" }} // ✅ enable time picker
-            format="YYYY-MM-DD HH:mm:ss" // ✅ display like 2025-09-26 23:33:10
+            showTime={{ format: "HH:mm:ss" }}
+            format="YYYY-MM-DD HH:mm:ss"
             defaultValue={[
               dayjs(timeBefore, "YYYY-MM-DD HH:mm:ss"),
               dayjs(time, "YYYY-MM-DD HH:mm:ss"),
@@ -160,8 +163,8 @@ const DeleteSessionBets = () => {
           </thead>
           <tbody>
             {sportDetail?.data?.length > 0 ? (
-              sportDetail?.data.map((items, id) => (
-                <tr key={items?.userId || id}>
+              sportDetail?.data.map((items) => (
+                <tr key={items.id}>
                   <td>
                     <input
                       style={{
