@@ -13,11 +13,16 @@ import Bookmaker from "./Bookmaker";
 import { useParams } from "react-router-dom";
 import { isNsg } from "../../../store/constant";
 import Score from "../../common/Score/Score";
+import { useGetTvScoreDataQuery } from "../../../store/service/CasinoServices";
+import { useGetChIdsQuery } from "../../../store/service/tvServices";
+import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
   const [showTtlBook, setShowTtlBook] = useState(true);
   const [showTv, setShowTv] = useState(false);
+  const [tvUrl, setTvUrl] = useState(null);
+  const [loadingTv, setLoadingTv] = useState(false);
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
@@ -76,7 +81,51 @@ const GameDeatis = () => {
     });
   };
 
-  const hostname = window.location.hostname;
+  const { data: tvScoreData } = useGetTvScoreDataQuery({
+    matchId: id ?? "",
+  });
+  const { data: chids } = useGetChIdsQuery({
+    matchId: id ?? "",
+  });
+
+  const { data: userIp } = useGetMyIpQuery();
+
+  const channelId = chids?.data?.channelId;
+
+  const fetchTvStream = async () => {
+    if (!channelId) return;
+    setLoadingTv(true);
+
+    try {
+      const response = await fetch("https://api2.dbm9.com/api/tv-stream", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          channel: channelId,
+          ipv4: userIp?.ip ?? "",
+        }),
+      });
+
+      const result = await response.json();
+      console.log("TV Stream API:", result);
+
+      if (result.status === 1) {
+        setTvUrl(result.data);
+      } else {
+        console.error("Stream not found");
+      }
+    } catch (error) {
+      console.error("TV Stream Error:", error);
+    } finally {
+      setLoadingTv(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showTv) fetchTvStream();
+  }, [showTv, channelId, userIp]);
 
   return (
     <Row justify="center" className="main_details_page">
@@ -105,7 +154,7 @@ const GameDeatis = () => {
               </Row>
 
               <div className="ant-row" />
-              {showTv && (
+              {/* {showTv && (
                 <div className="ant_row_tv_section">
                   <iframe
                     src={
@@ -118,13 +167,47 @@ const GameDeatis = () => {
                     style={{ width: "100%", height: "100%", border: "none" }}
                   />
                 </div>
+              )} */}
+
+              {showTv && (
+                <div
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    background: "#000",
+                  }}>
+                  {loadingTv ? (
+                    <p style={{ color: "#fff", textAlign: "center" }}>
+                      Loading stream...
+                    </p>
+                  ) : tvUrl ? (
+                    tvUrl.includes("<iframe") ? (
+                      // Response is iframe HTML
+                      <div
+                        dangerouslySetInnerHTML={{ __html: tvUrl }}
+                        style={{ width: "100%", height: "100%" }}
+                      />
+                    ) : (
+                      // Response is just a URL
+                      <iframe
+                        src={tvUrl}
+                        title="TV Stream"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          border: "none",
+                        }}
+                        allowFullScreen
+                      />
+                    )
+                  ) : (
+                    <p style={{ color: "#fff", textAlign: "center" }}>
+                      No stream available
+                    </p>
+                  )}
+                </div>
               )}
-              {/* {hostname?.includes("antpro.co") ? (
-                <Score showFull={showFullScore} />
-              ) : ( */}
-              <div
-                className="ant-row"
-                style={{ height: "100px" }}>
+              <div className="ant-row" style={{ height: "100px" }}>
                 <iframe
                   src={`https://scorediamond.247idhub.com/score/${id}`}
                   title="Score-I-frame"

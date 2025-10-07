@@ -38,7 +38,7 @@ a:hover {
   color: red;
 }
 .ant-btn-default {
-  background: var(--btn-bg-color) ;
+  background: var(--btn-bg-color);
   color: #fff;
   border-radius: 2px;
   border: unset;
@@ -1397,5 +1397,20 @@ th.ant-table-cell {
 .fancy_data_main {
   .bookData {
     padding: 10px 0px;
+  }
+}
+
+.ledger_post_modal {
+  .ant-modal-content{
+    padding-bottom: 12px !important;
+  }
+  .ant-modal-footer {
+    text-align: center !important;
+    &::after {
+      bottom: 58px !important;
+    }
+    button {
+      margin-top: 12px !important;
+    }
   }
 }

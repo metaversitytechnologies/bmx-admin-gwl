@@ -104,6 +104,20 @@ export const casinoDetailsApi = createApi({
         body,
       }),
     }),
+    getLedgerPost: build.mutation({
+      query: (body) => ({
+        url: `casino/post-ledger`,
+        method: "POST",
+        body,
+      }),
+    }),
+    getTvScoreData: build.query({
+      query: (body) => ({
+        url: `ant-pro/get-tv-url`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -121,4 +135,6 @@ export const {
   useGetCasinoBetByMarketQuery,
   useGetCasinoPnlByDateQuery,
   useCasinoDayWisePlQuery,
+  useGetLedgerPostMutation,
+  useGetTvScoreDataQuery
 } = casinoDetailsApi;

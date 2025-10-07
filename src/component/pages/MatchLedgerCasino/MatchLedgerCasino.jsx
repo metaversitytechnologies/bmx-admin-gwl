@@ -1,13 +1,30 @@
-import { Button, Card, Col, DatePicker, Row, Space, Tag } from "antd";
+import { Button, Card, Col, DatePicker, Modal, Row, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
-import { useGetLiveCasinoListQuery } from "../../../store/service/CasinoServices";
+import {
+  useGetLedgerPostMutation,
+  useGetLiveCasinoListQuery,
+} from "../../../store/service/CasinoServices";
 import moment from "moment";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import { useState } from "react";
 
 const { RangePicker } = DatePicker;
 
 const MatchLedgerCasino = () => {
+  const [open, setOpen] = useState(false);
+
   const { data, isFetching, isLoading } = useGetLiveCasinoListQuery();
+
+  const [trigger, { isLoading: loading }] = useGetLedgerPostMutation();
+
+  const handleLedgerPost = async () => {
+    const res = await trigger({}).unwrap();
+    if (res?.status) {
+      console.log("Ledger Post Success:", res);
+    } else {
+      console.error("Ledger Post Failed:", res?.message);
+    }
+  };
 
   const renderTableRows = () =>
     data?.data?.map((items, index) => (
@@ -50,6 +67,17 @@ const MatchLedgerCasino = () => {
       </tr>
     ));
 
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = () => {
+    handleLedgerPost();
+    setOpen(false);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="match_slip match_ledger">
       <Card
@@ -58,8 +86,10 @@ const MatchLedgerCasino = () => {
         extra={<button>Back</button>}
         style={{ margin: 0, width: "100%" }}>
         <div className="gx-mt-3">
-          <Row className="date_picker gx-px-5" style={{ gap: 16 }}>
-            <Col>
+          <Row
+            className="date_picker gx-px-5"
+            style={{ gap: 16, marginBottom: "10px" }}>
+            <Col xs={24} md={8}>
               <RangePicker
                 style={{ marginBottom: 10, width: 300 }}
                 bordered={false}
@@ -76,12 +106,21 @@ const MatchLedgerCasino = () => {
                 )}
               />
             </Col>
-            <Col>
+            <Col xs={8}>
               <Button
                 type="primary"
                 className="gx-border-redius0"
-                style={{ height: 36, lineHeight: "32px" }}>
+                style={{ height: 36, lineHeight: "30px" }}>
                 Submit
+              </Button>
+            </Col>
+            <Col xs={6} style={{ textAlign: "left" }}>
+              <Button
+                type="primary"
+                className="gx-border-redius0 "
+                onClick={showModal}
+                style={{ height: 36, lineHeight: "30px" }}>
+                Post Casino Ledger
               </Button>
             </Col>
           </Row>
@@ -100,10 +139,27 @@ const MatchLedgerCasino = () => {
             </thead>
             <tbody>{renderTableRows()}</tbody>
           </table>
-
-          {/* <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> */}
         </div>
       </Card>
+      <Modal
+        title=""
+        open={open}
+        onOk={handleOk}
+        confirmLoading={loading}
+        okButtonProps={{
+          disabled: loading,
+        }}
+        onCancel={handleCancel}
+        className="ledger_post_modal">
+        <p
+          style={{
+            fontSize: "18px",
+            textAlign: "center",
+            marginBottom: "12px",
+          }}>
+          Are you sure you want to post the casino ledger?
+        </p>
+      </Modal>
     </div>
   );
 };
