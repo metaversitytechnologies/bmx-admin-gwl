@@ -50,7 +50,7 @@ const AccountStatement = () => {
               width: "100%",
             }}
             className="sport_detail "
-            title={`List Of All Transactions (${data?.data?.length})`}
+            title={`List Of All Transactions (${data?.data?.length ?? 0})`}
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div className="main_acc_section">
               <div className="datepicker">

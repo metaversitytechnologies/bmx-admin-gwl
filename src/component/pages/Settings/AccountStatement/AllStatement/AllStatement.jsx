@@ -54,7 +54,7 @@ const AllStatement = ({ dateData, isLoading }) => {
       key: "closing",
       render: (text) => {
         return {
-          children: <p>{text}</p>,
+          children: <p>{text?.toFixed(2)}</p>,
         };
       },
     },
