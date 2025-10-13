@@ -25,12 +25,14 @@ const columns = [
     dataIndex: "credit",
     key: "credit",
     align: "right",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
     title: "Debit",
     dataIndex: "debit",
     key: "debit",
     align: "right",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
 
   {
@@ -44,11 +46,13 @@ const columns = [
     title: "Type",
     dataIndex: "ledgerType",
     key: "ledgerType",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
     title: "Remark",
     dataIndex: "description",
     key: "description",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
 ];
 

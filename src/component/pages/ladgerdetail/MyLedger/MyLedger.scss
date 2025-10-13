@@ -81,3 +81,15 @@ li.ant-pagination-item {
     margin-left: 2%;
   }
 }
+
+.ellipsis-text {
+  display: inline-block;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  @media (max-width: 800px) {
+    max-width: 150px;
+  }
+}
