@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useEventDetailQuery } from "../../../store/service/eventDetailServices";
 import FancyData from "./FancyData";
 import {
+  useGetTvUrlQuery,
   useLazyOddsQuPnlMyQuery,
   useLazyOddsQuPnlQuery,
 } from "../../../store/service/OddsPnlServices";
@@ -23,6 +24,7 @@ const GameDeatis = () => {
   const [showTv, setShowTv] = useState(false);
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
+  const { data: tvData } = useGetTvUrlQuery({ matchId: id ?? "" });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
@@ -114,6 +116,8 @@ const GameDeatis = () => {
 
   const hostname = window.location.hostname;
 
+  // console.log(tvData?.data?.tvUrl, "tvDatatvDatatvData")
+
   return (
     <Row justify="center" className="main_details_page">
       <Col xs={24} lg={24}>
@@ -144,11 +148,12 @@ const GameDeatis = () => {
               {showTv && (
                 <div className="ant_row_tv_section">
                   <iframe
-                    src={
-                      isNsg
-                        ? `https://tv.tresting.com/?eventid=${id}`
-                        : `https://mis2.sqmr.xyz/stv.php?eventId=${id}`
-                    }
+                    src={tvData?.data?.tvUrl}
+                    // src={
+                    //   isNsg
+                    //     ? `https://tv.tresting.com/?eventid=${id}`
+                    //     : `https://mis2.sqmr.xyz/stv.php?eventId=${id}`
+                    // }
                     title="Score-I-frame"
                     className=""
                     style={{ width: "100%", height: "100%", border: "none" }}
@@ -162,11 +167,7 @@ const GameDeatis = () => {
                   className="ant-row"
                   style={{ height: !showFullScore ? 110 : 220 }}>
                   <iframe
-                    src={
-                      isNsg
-                        ? `https://score.trovetown.co/socket-iframe-8/crickexpo/${id}`
-                        : `https://score.trovetown.co/socket-iframe-1/crickexpo/${id}`
-                    }
+                    src={`https://scorediamond.247idhub.com/score-1/${id}`}
                     title="Score-I-frame"
                     className=""
                     style={{ width: "100%", height: "100%", border: "none" }}

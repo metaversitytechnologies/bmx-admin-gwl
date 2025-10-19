@@ -41,6 +41,13 @@ export const oddsPnlApi = createApi({
         body,
       }),
     }),
+    getTvUrl: build.query({
+      query: (body) => ({
+        url: `/ant-pro/get-tv-url`,
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -49,4 +56,5 @@ export const {
   useFancyPnlQuery,
   useWinnerPnlMutation,
   useLazyOddsQuPnlMyQuery,
+  useGetTvUrlQuery
 } = oddsPnlApi;
