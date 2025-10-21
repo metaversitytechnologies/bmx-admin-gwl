@@ -5,25 +5,24 @@ import CompletedFancy from "./CompletedFancy";
 import { useEffect, useState } from "react";
 import { useEventDetailQuery } from "../../../store/service/eventDetailServices";
 import FancyData from "./FancyData";
+import MatchOdds from "./MatchOdds";
 import {
   useLazyOddsQuPnlMyQuery,
   useLazyOddsQuPnlQuery,
 } from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
+import { use } from "react";
 import { useParams } from "react-router-dom";
-import { isNsg } from "../../../store/constant";
-import Score from "../../common/Score/Score";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
   const [showTtlBook, setShowTtlBook] = useState(true);
-  const [showTv, setShowTv] = useState(false);
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
-  const [showMatchBet, setShowMatchBet] = useState(0);
+    const [showMatchBet, setShowMatchBet] = useState(0);
 
   // useEffect(() => {
   //   trigger({
@@ -76,8 +75,6 @@ const GameDeatis = () => {
     });
   };
 
-  const hostname = window.location.hostname;
-
   return (
     <Row justify="center" className="main_details_page">
       <Col xs={24} lg={24}>
@@ -88,56 +85,31 @@ const GameDeatis = () => {
                 justify="start"
                 align="middle"
                 className="gx-px-2 gx-py-1"
-                style={{ backgroundColor: "#000" }}>
+                style={{ backgroundColor: "rgb(115, 118, 111)" }}>
                 <span
                   className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2"
-                  onClick={() => setShowFullScore(!showFullScore)}
-                  style={{ cursor: "pointer" }}>
+                  onClick={() => setShowFullScore(!showFullScore)}>
                   FS
                 </span>
                 <img
-                  onClick={() => setShowTv(!showTv)}
                   src="/Images/tv_icon.png"
                   alt="tv.png"
                   className="gx-bg-white gx-py-1 gx-mr-2"
-                  style={{ width: 25, cursor: "pointer" }}
+                  style={{ width: 25 }}
                 />
               </Row>
 
               <div className="ant-row" />
-              {showTv && (
-                <div className="ant_row_tv_section">
-                  <iframe
-                    src={
-                      isNsg
-                        ? `https://tv.tresting.com/?eventid=${id}`
-                        : `https://mis2.sqmr.xyz/stv.php?eventId=${id}`
-                    }
-                    title="Score-I-frame"
-                    className=""
-                    style={{ width: "100%", height: "100%", border: "none" }}
-                  />
-                </div>
-              )}
-              {hostname?.includes("antpro.co") ? (
-                <Score showFull={showFullScore} />
-              ) : (
-                <div
-                  className="ant-row"
-                  style={{ height: !showFullScore ? 110 : 220 }}>
-                  <iframe
-                    src={
-                      isNsg
-                        ? `https://score.trovetown.co/socket-iframe-8/crickexpo/${id}`
-                        : `https://score.trovetown.co/socket-iframe-1/crickexpo/${id}`
-                    }
-                    title="Score-I-frame"
-                    className=""
-                    style={{ width: "100%", height: "100%", border: "none" }}
-                  />
-                </div>
-              )}
-
+              <div
+                className="ant-row"
+                style={{ height: !showFullScore ? 110 : 220 }}>
+                <iframe
+                  src={`https://scorediamond.247idhub.com/score-1/${id}`}
+                  title="Score-I-frame"
+                  className=""
+                  style={{ width: "100%", height: "100%", border: "none" }}
+                />
+              </div>
               <Row className="gx-px-0 gx-py-0 main_game_details">
                 <Col md={18} xs={24}>
                   {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}
@@ -158,20 +130,15 @@ const GameDeatis = () => {
                   />
                 </Col>
               </Row>
-              <FancyBets
-                showMatchBet={showMatchBet}
-                setShowMatchBet={setShowMatchBet}
-                setFancyId={setFancyId}
-                fancyId={fancyId}
-              />
+              <FancyBets showMatchBet={showMatchBet} setShowMatchBet={setShowMatchBet} setFancyId={setFancyId} fancyId={fancyId} />
               <CompletedFancy />
-              {/* <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
+              <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button
                   type="button"
                   className="ant-btn ant-btn-default gx-my-0  gx-bg-grey gx-text-white gx-font-weight-semi-bold ">
                   <span>All Matches</span>
                 </button>
-              </Row> */}
+              </Row>
             </div>
           </Col>
         </Row>
