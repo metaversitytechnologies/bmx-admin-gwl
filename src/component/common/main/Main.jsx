@@ -69,37 +69,83 @@ const Main = () => {
       <Route path="" element={<LayOut />}>
         {/* working path */}
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/user-list/:Listname/:userTyep/:parentId?" element={<ListSuper />} />
+        <Route
+          path="/user-list/:Listname/:userTyep/:parentId?"
+          element={<ListSuper forDeadClient={false} />}
+        />
+        <Route
+          path="/dead-user-list/:Listname/:userTyep/:parentId?"
+          element={<ListSuper forDeadClient={true} />}
+        />
         <Route path="/Events/sports-details" element={<SportsDetails />} />
         <Route path="/create-domain" element={<CreateDomain />} />
         <Route path="/finish-game" element={<FinishedGame />} />
-        <Route path="/client/update-client/:id/:userId?" element={<UpdateSuper />} />
+        <Route
+          path="/client/update-client/:id/:userId?"
+          element={<UpdateSuper />}
+        />
         <Route path="/account-statement/:id?" element={<AccountStatement />} />
         <Route path="/account-operation/:id?" element={<AccountOperations />} />
         <Route path="/client/login-report/:id" element={<LoginReport />} />
         <Route path="/Events/:id/:id1/live-report" element={<GameDeatis />} />
-        <Route path="/plus-minus-report/:id/:inplay?" element={<PlusMinusReport />} />
-        <Route path="/Events/:id/plus-minus-report" element={<PlusMinusDetails />} />
+        <Route
+          path="/plus-minus-report/:id/:inplay?"
+          element={<PlusMinusReport />}
+        />
+        <Route
+          path="/Events/:id/plus-minus-report"
+          element={<PlusMinusDetails />}
+        />
         <Route path="/matchplusminus/:id?/:name?" element={<CompanyReport />} />
-        <Route path="/match-slips/:id/:inplay?" element={<FancySlips type={2} name={"Match Bets"} />} />
+        <Route
+          path="/match-slips/:id/:inplay?"
+          element={<FancySlips type={2} name={"Match Bets"} />}
+        />
         <Route path="/fancy-slips/:id/:inplay?" element={<FancyBets />} />
-        <Route path="/matchsessionbet/:id/:inplay?" element={<MatchSessionBet />} />
-        <Route path="/completed-fancy-slips/:id" element={<CompletedFancySlips />} />
+        <Route
+          path="/matchsessionbet/:id/:inplay?"
+          element={<MatchSessionBet />}
+        />
+        <Route
+          path="/completed-fancy-slips/:id"
+          element={<CompletedFancySlips />}
+        />
         <Route path="/agent-list/:id/:name?" element={<ClientReport />} />
-        <Route path="/rejectedBetsByEvent/:id/:name?" element={<RejectedBetsByEvent />} />
+        <Route
+          path="/rejectedBetsByEvent/:id/:name?"
+          element={<RejectedBetsByEvent />}
+        />
         <Route path="/delete-bet" element={<DeleteBet />} />
         <Route path="/inplay-casino" element={<MatchLedgerCasino />} />
         <Route path="/casino/:id?" element={<CasinoMainPage />} />
-        <Route path="/display-games/:id/:name/:date?" element={<DisplayGames />} />
+        <Route
+          path="/display-games/:id/:name/:date?"
+          element={<DisplayGames />}
+        />
         <Route path="/all-bets/:id" element={<AllBets />} />
-        <Route path="/plusminuscasinodeatils/:date" element={<CasinoPLMinus />} />
-        <Route path="/casino/:id/plus-minus-type" element={<RoulettePlusMinus />} />
-        <Route path="/Casino/AndarBahar/plus-minus-type/:date/:id" element={<AndarBaharPlusMinus />} />
+        <Route
+          path="/plusminuscasinodeatils/:date"
+          element={<CasinoPLMinus />}
+        />
+        <Route
+          path="/casino/:id/plus-minus-type"
+          element={<RoulettePlusMinus />}
+        />
+        <Route
+          path="/Casino/AndarBahar/plus-minus-type/:date/:id"
+          element={<AndarBaharPlusMinus />}
+        />
         <Route path="/casinoprofitandloss" element={<CasinoProfitAndLoss />} />
-        <Route path="/casinoprofitandloss/:id" element={<CasinoProfitAndLossDetails />} />
+        <Route
+          path="/casinoprofitandloss/:id"
+          element={<CasinoProfitAndLossDetails />}
+        />
         <Route path="/Events/matchledger" element={<MatchLedger />} />
         <Route path="/client/my-ledger" element={<MyLedger />} />
-        <Route path="/client/ledger-super/:id?/:name?/:userId?" element={<SuperAgentLedger />} />
+        <Route
+          path="/client/ledger-super/:id?/:name?/:userId?"
+          element={<SuperAgentLedger />}
+        />
         <Route
           path="/create-ledger"
           element={<CreateLedger forPostLedger={true} />}
@@ -115,19 +161,34 @@ const Main = () => {
         <Route path="/delete-session/:id?" element={<DeleteSessionBets />} />
         <Route path="/Events/ladger-details" element={<LadgerDetails />} />
         <Route path="/set-message" element={<SetMessage />} />
-        <Route path="/client/txn-super/:name/:id/:userId?" element={<AgentTransactions />} />
+        <Route
+          path="/client/txn-super/:name/:id/:userId?"
+          element={<AgentTransactions />}
+        />
         <Route path="/commissionLenden" element={<CommissionLenDen />} />
         <Route path="/client/login-report" element={<LoginReport />} />
         <Route path="/client/secure-code" element={<SecureCode />} />
         <Route path="/markets" element={<Settings />} />
         <Route path="/searchUser" element={<UserSearch />} />
-        <Route path="/event-profit-loss/:id/:fancyId" element={<EventProfitLossList />} />
-        <Route path="/client/limitplusminus-super/:id" element={<SuperAgentLimitDetails />} />
+        <Route
+          path="/event-profit-loss/:id/:fancyId"
+          element={<EventProfitLossList />}
+        />
+        <Route
+          path="/client/limitplusminus-super/:id"
+          element={<SuperAgentLimitDetails />}
+        />
         <Route path="/completed-casino" element={<CasinoPandLDetail />} />
         <Route path="/client/create-super/:id?" element={<NewCreateUser />} />
         <Route path="/rules" element={<Rulespage />} />
-        <Route path="/client/update-dealer/:id" element={<UpdateSuper updateName={"Agent"} />} />
-        <Route path="/Events/:id/pl/live-report" element={<EventProfitLoss />} />
+        <Route
+          path="/client/update-dealer/:id"
+          element={<UpdateSuper updateName={"Agent"} />}
+        />
+        <Route
+          path="/Events/:id/pl/live-report"
+          element={<EventProfitLoss />}
+        />
         <Route path="/client/deletedlenden/:id" element={<DeletedLenden />} />
       </Route>
     </Routes>

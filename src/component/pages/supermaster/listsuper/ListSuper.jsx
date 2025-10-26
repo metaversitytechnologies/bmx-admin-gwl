@@ -4,7 +4,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import "./ListSuper.scss";
 import UserListTable from "../../../common/UserListTable";
 
-const ListSuper = () => {
+const ListSuper = ({ forDeadClient }) => {
   const { userTyep, Listname } = useParams();
   const UserId = localStorage.getItem("userId");
   const [parentUserids, setParentUserIds] = useState(UserId);
@@ -24,7 +24,6 @@ const ListSuper = () => {
     nav(`/client/create-super/${Number(userTyep) + 1}`);
   };
 
-
   return (
     <>
       <div className="main_live_section list_supers">
@@ -33,16 +32,17 @@ const ListSuper = () => {
             <div
               style={{ padding: "5px 8px", fontSize: "26px" }}
               className="team_name">
-              {Listname?.replace("-", " ")} Details
+              {forDeadClient ? "Dead" : ""} {Listname?.replace("-", " ")}{" "}
+              Details
             </div>
             <div className="show_btn">
               <button onClick={handleBackClick}>Back</button>
             </div>
           </div>
-          {!id && <div className="table_section "></div>}
+          {!id && !forDeadClient && <div className="table_section "></div>}
         </div>
         <div>
-          {!id && (
+          {!id && !forDeadClient && (
             <div className="create_btn">
               <div onClick={handleCreate}>
                 <p>
@@ -69,6 +69,7 @@ const ListSuper = () => {
               UserId={UserId}
               parentUserids={parentUserids}
               setParentUserIds={setParentUserIds}
+              forDeadClient={forDeadClient}
             />
           </div>
         </div>
