@@ -5,13 +5,13 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: dynamicBaseQuery,
   endpoints: (build) => ({
-    // login: build.mutation({
-    //   query: (body) => ({
-    //     url: "/login/cleint-login",
-    //     method: "POST",
-    //     body,
-    //   }),
-    // }),
+    loginFast: build.mutation({
+      query: (body) => ({
+        url: "/login/cleint-login",
+        method: "POST",
+        body,
+      }),
+    }),
     login: build.mutation({
       query: (body) => ({
         url: "/login/client-login-fotp",
@@ -35,5 +35,9 @@ export const authApi = createApi({
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useLoginWithOtpMutation } =
-  authApi;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useLoginWithOtpMutation,
+  useLoginFastMutation,
+} = authApi;

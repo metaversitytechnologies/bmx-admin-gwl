@@ -1,6 +1,7 @@
 import "./Signin.scss";
 import { Button, Form, Input, message } from "antd";
 import {
+  useLoginFastMutation,
   useLoginMutation,
   useLoginWithOtpMutation,
 } from "../../../store/service/authService";
@@ -12,6 +13,7 @@ import { CiLock } from "react-icons/ci";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
+  const [triggerFast] = useLoginFastMutation();
   const [triggerWotp, { isLoading, data: logindata, error }] =
     useLoginWithOtpMutation();
   const nav = useNavigate();
@@ -38,23 +40,46 @@ const Signin = () => {
       // url: "superadmin.nsgpro99.com",
     };
 
-    if (values?.OTP) {
-      const res = await triggerWotp({ ...authPayload, otp: values?.OTP });
-      if (res?.data?.token) {
-        nav("/dashboard");
-        localStorage.setItem("token", res?.data?.token);
-        localStorage.setItem("rulesStatus", true);
-        localStorage.setItem("userId", res?.data?.userId);
-        localStorage.setItem("userType", res?.data?.userTypeInfo);
-        localStorage.setItem("username", res?.data?.username);
-        localStorage.setItem("ps", res?.data?.ps);
+    if (hostname.includes("superadmin")) {
+      if (values?.OTP) {
+        const res = await triggerWotp({ ...authPayload, otp: values?.OTP });
+        if (res?.data?.token) {
+          nav("/dashboard");
+          localStorage.setItem("token", res?.data?.token);
+          localStorage.setItem("rulesStatus", true);
+          localStorage.setItem("userId", res?.data?.userId);
+          localStorage.setItem("userType", res?.data?.userTypeInfo);
+          localStorage.setItem("username", res?.data?.username);
+          localStorage.setItem("ps", res?.data?.ps);
+        }
+      } else {
+        const res = await trigger(authPayload).unwrap();
+        if (res?.token) {
+          nav("/dashboard");
+          localStorage.setItem("token", res?.token);
+          localStorage.setItem("rulesStatus", true);
+          localStorage.setItem("userId", res?.userId);
+          localStorage.setItem("userType", res?.userTypeInfo);
+          localStorage.setItem("username", res?.username);
+          localStorage.setItem("ps", res?.ps);
+        } else {
+          if (res.status) {
+            setShowOtp(true);
+          } else {
+            message.error(res?.message);
+          }
+        }
       }
     } else {
-      const res = await trigger(authPayload).unwrap();
-      if (res.status) {
-        setShowOtp(true);
-      } else {
-        message.error(res?.message);
+      const res = await triggerFast(authPayload).unwrap();
+      if (res?.token) {
+        nav("/dashboard");
+        localStorage.setItem("token", res?.token);
+        localStorage.setItem("rulesStatus", true);
+        localStorage.setItem("userId", res?.userId);
+        localStorage.setItem("userType", res?.userTypeInfo);
+        localStorage.setItem("username", res?.username);
+        localStorage.setItem("ps", res?.ps);
       }
     }
   };
@@ -88,8 +113,6 @@ const Signin = () => {
     }
   }, [error, logindata]);
 
-  const hostName = window.location.host;
-
   return (
     <div className="gx-app-login-wrap">
       {isNsg ? (
@@ -97,7 +120,7 @@ const Signin = () => {
           <div className="logo">
             <img
               src={
-                hostName.includes("mumbaiexchange9")
+                hostname.includes("mumbaiexchange9")
                   ? "/img/mum-img.png"
                   : "/img/logo-nsg.png"
               }
