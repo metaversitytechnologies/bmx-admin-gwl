@@ -221,7 +221,7 @@ const FancySlips = ({ name }) => {
                       <tr
                         key={id}
                         className={res?.mode === "L" ? "back" : "lay"}>
-                        <td>{Number(res?.odds).toFixed(2)}</td>
+                        <td>{res?.odds}</td>
                         <td>{res?.stake}</td>
                         <td>{res?.mode !== "L" ? "Khai" : "Lagai"}</td>
                         <td>{res?.team}</td>
