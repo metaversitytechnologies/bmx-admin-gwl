@@ -223,7 +223,7 @@ const FancySlips = ({ name }) => {
                         className={res?.mode === "L" ? "back" : "lay"}>
                         <td>{Number(res?.odds).toFixed(2)}</td>
                         <td>{res?.stake}</td>
-                        <td>{res?.mode !== "L" ? "Khai" : "Lagai"}</td>
+                        <td>{res?.mode !== "L" ? "Lagai" : "Khai"}</td>
                         <td>{res?.team}</td>
                         <td>
                           {res?.username} ({res?.userId})

@@ -48,6 +48,18 @@ const SettlementModal = ({
     }
   }, [createTranstions, error, form]);
 
+  // ✅ Added effect to update form values when reportData changes
+  useEffect(() => {
+    if (reportData) {
+      form.setFieldsValue({
+        userId: convertCode(reportData?.userId),
+        closingBalance: reportData?.closinBalane,
+        settledAmount: reportData?.settledAmount,
+        remark: reportData?.remark,
+      });
+    }
+  }, [reportData, form]);
+
   return (
     <>
       <Modal

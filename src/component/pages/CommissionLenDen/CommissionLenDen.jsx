@@ -155,9 +155,9 @@ const CommissionLenDen = () => {
     setOpen(true);
   };
 
-  const handleResetComm = async (userId) => {
+  const handleResetComm = async (userIds) => {
     const res = await getResetComm({
-      userId: userId,
+      userId: userIds,
       fromDate: dateData[0],
       toDate: dateData[1],
     }).unwrap();

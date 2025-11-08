@@ -110,17 +110,19 @@ const SuperAgentLedger = () => {
       align: "center",
       render: (text, record) => (
         <div>
-         {itemName !== "Clear" && !isNsg &&  <Button
-            style={{
-              padding: "3px 5px",
-              fontSize: "12px",
-              height: "30px",
-              display: "block",
-              margin: "auto",
-            }}
-            onClick={() => handleSettelemtData(record, itemName)}>
-            Settlement
-          </Button>}
+          {itemName !== "Clear" && !isNsg && (
+            <Button
+              style={{
+                padding: "3px 5px",
+                fontSize: "12px",
+                height: "30px",
+                display: "block",
+                margin: "auto",
+              }}
+              onClick={() => handleSettelemtData(record, itemName)}>
+              Settlement
+            </Button>
+          )}
           <span
             style={{ cursor: "pointer" }}
             onClick={() =>
