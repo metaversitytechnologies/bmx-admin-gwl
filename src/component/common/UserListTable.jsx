@@ -45,7 +45,20 @@ const routeFromUSerType = {
   2: "/user-list/Client/1",
 };
 
-const UserListTable = ({ userType, Listname, setParentUserIds }) => {
+const routeDeadFromUSerType = {
+  6: "/dead-user-list/mamin/5",
+  5: "/dead-user-list/Master/4",
+  4: "/dead-user-list/Super/3",
+  3: "/dead-user-list/Agent/2",
+  2: "/dead-user-list/Client/1",
+};
+
+const UserListTable = ({
+  userType,
+  Listname,
+  setParentUserIds,
+  forDeadClient,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState("");
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
@@ -102,6 +115,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       noOfRecords: paginationTotal,
       index: indexData,
       userToSearch: convertCodeReverse(userToSearch) || userId,
+      forDeadClient: forDeadClient,
     }).unwrap();
     if (res?.status) {
       setActiveSearch(null);
@@ -212,7 +226,14 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
 
   useEffect(() => {
     fetchData();
-  }, [parentIdFromParams, userType, paginationTotal, indexData, userToSearch]);
+  }, [
+    parentIdFromParams,
+    userType,
+    paginationTotal,
+    indexData,
+    userToSearch,
+    forDeadClient,
+  ]);
 
   useEffect(() => {
     if (userDetailsData) {
@@ -253,6 +274,7 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
       noOfRecords: paginationTotal,
       index: indexData,
       userToSearch: "",
+      forDeadClient: forDeadClient,
     }).unwrap();
     if (res?.status) {
       setActiveSearch(null);
@@ -270,113 +292,120 @@ const UserListTable = ({ userType, Listname, setParentUserIds }) => {
     setUserId(res?.userId);
   };
 
-  const getActionMenuItems = (res) => [
-    {
-      label: (
-        <div onClick={() => handleShowDepositModal(res, true)}>Deposit</div>
-      ),
-      key: "0",
-    },
-    {
-      label: (
-        <div onClick={() => handleShowDepositModal(res, false)}>Withdraw</div>
-      ),
-      key: "1",
-    },
-    {
-      label: (
-        <div onClick={() => handleToggleAccountStatus(res)}>
-          {res?.isActive ? "InActive" : "Active"}
-        </div>
-      ),
-      key: "2",
-    },
-    {
-      label: (
-        <div onClick={() => handleBlockBetting(res)}>
-          {res?.betLock ? "UnBlock Betting" : "Block Betting"}
-        </div>
-      ),
-      key: "3",
-    },
-    {
-      label: (
-        <div onClick={() => handleBlockCasino(res)}>
-          {res?.casinoLock ? "UnBlock Casino" : "Block Casino"}
-        </div>
-      ),
-      key: "4",
-    },
-    {
-      label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`${`/client/update-client/${userType}/${res?.userId}`}`}>
-          Edit
-        </Link>
-      ),
-      key: "5",
-    },
-    {
-      label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`/account-statement/${res?.userId}`}>
-          Statement
-        </Link>
-      ),
-      key: "6",
-    },
-    {
-      label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`/account-operation/${res?.userId}`}>
-          Account Operations
-        </Link>
-      ),
-      key: "7",
-    },
-    {
-      label: (
-        <Link
-          style={{ fontWeight: 700 }}
-          onClick={resetDropdownStates}
-          to={`/client/login-report/${res?.userId}`}>
-          Login Report
-        </Link>
-      ),
-      key: "8",
-    },
-    {
-      label: (
-        <Link
-          onClick={resetDropdownStates}
-          className={userType === "1" ? "d_none" : ""}
-          to={`${routeFromUSerType[userType]}/${res?.userId}`}>
-          Downline
-        </Link>
-      ),
-      key: "9",
-    },
-    {
-      label: (
-        <Link
-          onClick={() => {
-            setOpenResetPassModal(!openResetPassModal);
-            resetDropdownStates();
-            handleResetPass(res);
-          }}
-          to="#">
-          Reset Password
-        </Link>
-      ),
-      key: "10",
-    },
-  ];
+  const getActionMenuItems = (res) => {
+    const isDeadClient = forDeadClient;
+    return [
+      !isDeadClient && {
+        label: (
+          <div onClick={() => handleShowDepositModal(res, true)}>Deposit</div>
+        ),
+        key: "0",
+      },
+      !isDeadClient && {
+        label: (
+          <div onClick={() => handleShowDepositModal(res, false)}>Withdraw</div>
+        ),
+        key: "1",
+      },
+      {
+        label: (
+          <div onClick={() => handleToggleAccountStatus(res)}>
+            {res?.isActive ? "InActive" : "Active"}
+          </div>
+        ),
+        key: "2",
+      },
+      !isDeadClient && {
+        label: (
+          <div onClick={() => handleBlockBetting(res)}>
+            {res?.betLock ? "UnBlock Betting" : "Block Betting"}
+          </div>
+        ),
+        key: "3",
+      },
+      !isDeadClient && {
+        label: (
+          <div onClick={() => handleBlockCasino(res)}>
+            {res?.casinoLock ? "UnBlock Casino" : "Block Casino"}
+          </div>
+        ),
+        key: "4",
+      },
+      !isDeadClient && {
+        label: (
+          <Link
+            style={{ fontWeight: 700 }}
+            onClick={resetDropdownStates}
+            to={`/client/update-client/${userType}/${res?.userId}`}>
+            Edit
+          </Link>
+        ),
+        key: "5",
+      },
+      {
+        label: (
+          <Link
+            style={{ fontWeight: 700 }}
+            onClick={resetDropdownStates}
+            to={`/account-statement/${res?.userId}`}>
+            Statement
+          </Link>
+        ),
+        key: "6",
+      },
+      {
+        label: (
+          <Link
+            style={{ fontWeight: 700 }}
+            onClick={resetDropdownStates}
+            to={`/account-operation/${res?.userId}`}>
+            Account Operations
+          </Link>
+        ),
+        key: "7",
+      },
+      {
+        label: (
+          <Link
+            style={{ fontWeight: 700 }}
+            onClick={resetDropdownStates}
+            to={`/client/login-report/${res?.userId}`}>
+            Login Report
+          </Link>
+        ),
+        key: "8",
+      },
+      {
+        label: (
+          <Link
+            onClick={resetDropdownStates}
+            className={userType === "1" ? "d_none" : ""}
+            to={`${
+              forDeadClient
+                ? routeDeadFromUSerType?.[userType]
+                : routeFromUSerType[userType]
+            }/${res?.userId}`}>
+            Downline
+          </Link>
+        ),
+        key: "9",
+      },
+      !isDeadClient && {
+        label: (
+          <Link
+            onClick={() => {
+              setOpenResetPassModal(!openResetPassModal);
+              resetDropdownStates();
+              handleResetPass(res);
+            }}
+            to="#">
+            Reset Password
+          </Link>
+        ),
+        key: "10",
+      },
+    ].filter(Boolean);
+  };
 
   const nav = useNavigate();
 

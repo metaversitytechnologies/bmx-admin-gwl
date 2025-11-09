@@ -139,7 +139,11 @@ const Main = () => {
         />
         <Route
           path="/user-list/:Listname/:userTyep/:parentId?"
-          element={<ListSuper />}
+          element={<ListSuper forDeadClient={false} />}
+        />
+        <Route
+          path="/dead-user-list/:Listname/:userTyep/:parentId?"
+          element={<ListSuper forDeadClient={true} />}
         />
         <Route
           path="/client/update-dealer/:id"
