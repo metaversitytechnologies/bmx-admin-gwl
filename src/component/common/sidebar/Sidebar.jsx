@@ -572,6 +572,85 @@ const Sidebar = (props) => {
                 </Link>
               ),
             },
+
+            {
+              key: "200",
+              icon: (
+                <HoverIcon
+                  id="200"
+                  hoveredItem={hoveredItem}
+                  setHoveredItem={setHoveredItem}
+                  defaultSrc="/Images/adminbar.png"
+                  hoverSrc="/Images/admin-bar-hover.png"
+                  width={22}
+                  hoverWidth={22}
+                />
+              ),
+              label: (
+                <div
+                  onMouseEnter={() => setHoveredItem("200")}
+                  onMouseLeave={() => setHoveredItem(null)}>
+                  {uType == 6
+                    ? "Dead Admin Details"
+                    : uType == 5
+                    ? "Dead Mini Admin Master"
+                    : uType == 4
+                    ? "Dead Master Master"
+                    : uType == 3
+                    ? "Dead Super Agent Master"
+                    : userType == 7
+                    ? "Dead SuperAdmin"
+                    : userType == 2
+                    ? "Dead Agent Master"
+                    : ""}
+                </div>
+              ),
+              children: [
+                {
+                  className: `${userType != "7" ? "d-none" : ""}`,
+                  label: <Link to="/dead-user-list/Admin/6">Dead Admin</Link>,
+                },
+                {
+                  className: hasRole(["7", "6"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/dead-user-list/Mini-Admin/5">
+                      Dead Mini Admin Master
+                    </Link>
+                  ),
+                },
+                {
+                  className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/dead-user-list/Master-Master/4">
+                      Dead Master Master
+                    </Link>
+                  ),
+                },
+                {
+                  className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/dead-user-list/Super-Master/3">
+                      Dead Super Master
+                    </Link>
+                  ),
+                },
+                {
+                  className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/dead-user-list/Agent-Master/2">
+                      Dead Agent Master
+                    </Link>
+                  ),
+                },
+                {
+                  label: (
+                    <Link to="/dead-user-list/Client-Master/1">
+                      Dead Client Master
+                    </Link>
+                  ),
+                },
+              ],
+            },
           ]}
         />
       </Sider>
@@ -1223,6 +1302,102 @@ const Sidebar = (props) => {
                     Setting
                   </Link>
                 ),
+              },
+              {
+                key: "200",
+                icon: (
+                  <HoverIcon
+                    id="200"
+                    hoveredItem={hoveredItem}
+                    setHoveredItem={setHoveredItem}
+                    defaultSrc="/Images/adminbar.png"
+                    hoverSrc="/Images/admin-bar-hover.png"
+                    width={22}
+                    hoverWidth={22}
+                  />
+                ),
+                label: (
+                  <div
+                    onMouseEnter={() => setHoveredItem("200")}
+                    onMouseLeave={() => setHoveredItem(null)}>
+                    {uType == 6
+                      ? "Dead Admin Details"
+                      : uType == 5
+                      ? "Dead Mini Admin Master"
+                      : uType == 4
+                      ? "Dead Master Master"
+                      : uType == 3
+                      ? "Dead Super Agent Master"
+                      : userType == 7
+                      ? "Dead SuperAdmin"
+                      : userType == 2
+                      ? "Dead Agent Master"
+                      : ""}
+                  </div>
+                ),
+                children: [
+                  {
+                    className: `${userType != "7" ? "d-none" : ""}`,
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/dead-user-list/Admin/6">
+                        Dead Admin
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: hasRole(["7", "6"]) ? "" : "d-none",
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/dead-user-list/Mini-Admin/5">
+                        Dead Mini Admin Master
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/dead-user-list/Master-Master/4">
+                        Dead Master Master
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/dead-user-list/Super-Master/3">
+                        Dead Super Master
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: hasRole(["7", "6", "5", "4", "3"])
+                      ? ""
+                      : "d-none",
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/dead-user-list/Agent-Master/2">
+                        Dead Agent Master
+                      </Link>
+                    ),
+                  },
+                  {
+                    label: (
+                      <Link
+                        onClick={() => props?.action()}
+                        to="/dead-user-list/Client-Master/1">
+                        Dead Client Master
+                      </Link>
+                    ),
+                  },
+                ],
               },
             ]}
           />
