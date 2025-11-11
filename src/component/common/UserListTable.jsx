@@ -40,7 +40,7 @@ import CustomLoading from "./CustomLoading/CustomLoading";
 import { convertCode, convertCodeReverse, isNsg } from "../../store/constant";
 
 const routeFromUSerType = {
-  6: "/user-list/mamin/5",
+  6: "/user-list/Mini-Admin/5",
   5: "/user-list/Master/4",
   4: "/user-list/Super/3",
   3: "/user-list/Agent/2",
@@ -48,7 +48,7 @@ const routeFromUSerType = {
 };
 
 const routeDeadFromUSerType = {
-  6: "/dead-user-list/mamin/5",
+  6: "/dead-user-list/Mini-Admin/5",
   5: "/dead-user-list/Master/4",
   4: "/dead-user-list/Super/3",
   3: "/dead-user-list/Agent/2",
