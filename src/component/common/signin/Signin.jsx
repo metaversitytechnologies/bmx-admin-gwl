@@ -26,7 +26,7 @@ const Signin = () => {
 
   const hostname = window.location.hostname;
 
-  const { data: userIp } = useGetMyIpQuery();
+  // const { data: userIp } = useGetMyIpQuery();
 
   const url = hostname.includes("madmin")
     ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
