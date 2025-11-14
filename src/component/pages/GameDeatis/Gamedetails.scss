@@ -507,3 +507,13 @@ a.gx-bg-white:hover {
 .nowrape {
   white-space: nowrap;
 }
+
+.height_short {
+  height: 148px;
+  @media screen and (max-width: 800px) {
+    width: 132px;
+  }
+}
+.height_full {
+  height: 220px;
+}

@@ -208,8 +208,9 @@ const GameDeatis = () => {
                 </div>
               )}
               <div
-                className="ant-row"
-                style={{ height: !showFullScore ? 110 : 220 }}>
+                className={`ant-row ${
+                  showFullScore ? "height_full" : "height_short"
+                }`}>
                 <iframe
                   // src={`https://scorediamond.247idhub.com/score/${id}`}
                   src={tvScoreData?.data?.scoreUrl}

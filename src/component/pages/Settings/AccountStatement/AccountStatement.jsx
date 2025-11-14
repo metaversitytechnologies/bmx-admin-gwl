@@ -11,7 +11,7 @@ import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 const { RangePicker } = DatePicker;
 
 const AccountStatement = () => {
-  const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
+  const timeBefore = moment().startOf("year").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
   const [clientId, setClientId] = useState("");
