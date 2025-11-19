@@ -39,6 +39,10 @@ const FancySlips = ({ name }) => {
     }, 500); // simulate loading
   };
 
+  const teamDetails =
+    oddsType === "Bookmaker"
+      ? matchBets?.data?.bookmaker
+      : matchBets?.data?.toss ?? {};
   const bookmakerData =
     oddsType === "Bookmaker"
       ? matchBets?.data?.bookmaker?.betList
@@ -62,32 +66,33 @@ const FancySlips = ({ name }) => {
 
       const newSummary = [
         {
-          team: matchBets?.data?.team1,
-          selectionId: matchBets?.data?.selectionId1,
+          team: teamDetails?.team1,
+          selectionId: teamDetails?.selectionId1,
           pnl: pnl1,
         },
         {
-          team: matchBets?.data?.team2,
-          selectionId: matchBets?.data?.selectionId2,
+          team: teamDetails?.team2,
+          selectionId: teamDetails?.selectionId2,
           pnl: pnl2,
         },
       ];
 
       if (matchBets?.data?.team3) {
         newSummary.push({
-          team: matchBets?.data?.team3,
-          selectionId: matchBets?.data?.selectionId3,
+          team: teamDetails?.team3,
+          selectionId: teamDetails?.selectionId3,
           pnl: pnl3,
         });
       }
 
       setSummaryData(newSummary);
     }
-  }, [matchBets, bookmakerData]);
+  }, [matchBets, bookmakerData, teamDetails]);
 
   useEffect(() => {
     userTrigger({ userId: "", userType: 1 });
   }, []);
+
 
   return (
     <>
