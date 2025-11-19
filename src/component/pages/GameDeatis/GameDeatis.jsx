@@ -22,7 +22,7 @@ const GameDeatis = () => {
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
   const [triggerMy, { data: oddsPnlMy }] = useLazyOddsQuPnlMyQuery();
   const [fancyId, setFancyId] = useState("");
-    const [showMatchBet, setShowMatchBet] = useState(0);
+  const [showMatchBet, setShowMatchBet] = useState(0);
 
   // useEffect(() => {
   //   trigger({
@@ -121,6 +121,17 @@ const GameDeatis = () => {
                     handleOddBook={handleOddBook}
                     setShowTtlBook={setShowTtlBook}
                     showTtlBook={showTtlBook}
+                    marketName="Bookmaker"
+                  />
+                  <Bookmaker
+                    data={data}
+                    pnl={oddsPnl?.data}
+                    oddsPnlMy={oddsPnlMy?.data}
+                    handleTtlBook={handleTtlBook}
+                    handleOddBook={handleOddBook}
+                    setShowTtlBook={setShowTtlBook}
+                    showTtlBook={showTtlBook}
+                    marketName="TOSS"
                   />
                   <FancyData
                     data={data}
@@ -130,7 +141,12 @@ const GameDeatis = () => {
                   />
                 </Col>
               </Row>
-              <FancyBets showMatchBet={showMatchBet} setShowMatchBet={setShowMatchBet} setFancyId={setFancyId} fancyId={fancyId} />
+              <FancyBets
+                showMatchBet={showMatchBet}
+                setShowMatchBet={setShowMatchBet}
+                setFancyId={setFancyId}
+                fancyId={fancyId}
+              />
               <CompletedFancy />
               <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
                 <button

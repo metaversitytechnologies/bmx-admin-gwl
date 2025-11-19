@@ -29,11 +29,13 @@ const CompanyReport = () => {
       acc.myShare += curr?.myShare || 0;
       acc.mapp += curr?.mapp || 0;
       acc.netAmount += curr?.netAmount || 0;
+      acc.tossAmount += curr?.tossAmount || 0;
       return acc;
     },
     {
       matchAmount: 0,
       sessionAmount: 0,
+      tossAmount: 0,
       total: 0,
       matchComm: 0,
       sessionComm: 0,
@@ -66,6 +68,7 @@ const CompanyReport = () => {
                 <th>Code</th>
                 <th>Name</th>
                 <th>Match Amt</th>
+                <th>Toss Amt</th>
                 <th>Session Amt</th>
                 <th>Total</th>
                 <th>Match Comm+</th>
@@ -92,6 +95,13 @@ const CompanyReport = () => {
                         fontWeight: 600,
                       }}>
                       {res?.matchAmount?.toFixed(2)}
+                    </td>
+                    <td
+                      style={{
+                        color: res?.tossAmount > 0 ? "green" : "red",
+                        fontWeight: 600,
+                      }}>
+                      {res?.tossAmount?.toFixed(2)}
                     </td>
                     <td
                       style={{
@@ -170,6 +180,13 @@ const CompanyReport = () => {
                       fontWeight: 600,
                     }}>
                     {totalValues?.matchAmount?.toFixed(2)}
+                  </td>
+                  <td
+                    style={{
+                      color: getColor(totalValues?.tossAmount),
+                      fontWeight: 600,
+                    }}>
+                    {totalValues?.tossAmount?.toFixed(2)}
                   </td>
                   <td
                     style={{

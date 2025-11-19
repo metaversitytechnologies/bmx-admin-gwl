@@ -13,7 +13,7 @@ const LedgerdataAgent = ({ ledgerData }) => {
             <table className="plus-table plus_minus_sec">
               <thead>
                 <tr>
-                  <th colSpan={7} className="text-center">
+                  <th colSpan={8} className="text-center">
                     Client PlusMinus{" "}
                   </th>
                   <th colSpan={7} className="text-center">
@@ -25,6 +25,7 @@ const LedgerdataAgent = ({ ledgerData }) => {
                 <tr>
                   <th>CLIENT</th>
                   <th>M AMT</th>
+                  <th>Toss AMT</th>
                   <th>S AMT</th>
                   <th>C COM</th>
                   <th>NET AMT</th>
@@ -46,6 +47,7 @@ const LedgerdataAgent = ({ ledgerData }) => {
                       {agent.userId} {agent.username}
                     </td>
                     <td>{agent.matchAmount?.toFixed(2)}</td>
+                    <td>{agent?.tossAmount?.toFixed(2)}</td>
                     <td>{agent.sessionAmount?.toFixed(2)}</td>
                     <td>{agent.clientCommission?.toFixed(2)}</td>
                     <td>{agent.clientNetAmount?.toFixed(2)}</td>
@@ -65,6 +67,7 @@ const LedgerdataAgent = ({ ledgerData }) => {
                 <tr>
                   <th>TOTAL</th>
                   <th>{ledgerData?.data?.matchAmount?.toFixed(2)}</th>
+                  <th>{ledgerData?.data?.tossAmount?.toFixed(2)}</th>
                   <th>{ledgerData?.data?.sessionAmount?.toFixed(2)}</th>
                   <th>{ledgerData?.data?.clientCommission?.toFixed(2)}</th>
                   <th>{ledgerData?.data?.clientNetAmount?.toFixed(2)}</th>

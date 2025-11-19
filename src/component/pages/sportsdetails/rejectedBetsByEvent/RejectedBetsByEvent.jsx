@@ -40,11 +40,11 @@ const RejectedBetsByEvent = () => {
       dataIndex: "userId",
       key: "userId",
     },
-    {
-      title: "Agent",
-      dataIndex: "parentId",
-      key: "parentId",
-    },
+    // {
+    //   title: "Agent",
+    //   dataIndex: "parentId",
+    //   key: "parentId",
+    // },
     {
       title: "Date",
       dataIndex: "time",
@@ -56,6 +56,11 @@ const RejectedBetsByEvent = () => {
       dataIndex: "bet_status",
       key: "bet_status",
       render: () => <span>Deleted</span>,
+    },
+    {
+      title: "Market Type",
+      dataIndex: "marketName",
+      key: "bet_status",
     },
     {
       title: "Remark",
