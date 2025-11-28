@@ -75,6 +75,10 @@ const GameDeatis = () => {
     });
   };
 
+  const tossOdds = data?.Bookmaker?.filter(
+    (item) => item?.t?.toLowerCase() === "toss"
+  );
+
   return (
     <Row justify="center" className="main_details_page">
       <Col xs={24} lg={24}>
@@ -123,16 +127,20 @@ const GameDeatis = () => {
                     showTtlBook={showTtlBook}
                     marketName="Bookmaker"
                   />
-                  <Bookmaker
-                    data={data}
-                    pnl={oddsPnl?.data}
-                    oddsPnlMy={oddsPnlMy?.data}
-                    handleTtlBook={handleTtlBook}
-                    handleOddBook={handleOddBook}
-                    setShowTtlBook={setShowTtlBook}
-                    showTtlBook={showTtlBook}
-                    marketName="TOSS"
-                  />
+                  {tossOdds &&
+                    tossOdds.length > 0 &&
+                    tossOdds?.[0]?.gstatus !== "SUSPENDED" && (
+                      <Bookmaker
+                        data={data}
+                        pnl={oddsPnl?.data}
+                        oddsPnlMy={oddsPnlMy?.data}
+                        handleTtlBook={handleTtlBook}
+                        handleOddBook={handleOddBook}
+                        setShowTtlBook={setShowTtlBook}
+                        showTtlBook={showTtlBook}
+                        marketName="TOSS"
+                      />
+                    )}
                   <FancyData
                     data={data}
                     setFancyId={setFancyId}
