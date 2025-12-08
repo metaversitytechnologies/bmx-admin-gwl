@@ -91,11 +91,11 @@ const DeleteMatchBets = () => {
             onChange={onChange}
           />
         </Col>
-        <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+        {/* <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
           <Button type="primary" onClick={handleDeletedBetbyTime}>
             Delete Bet By Time
           </Button>
-        </Col>
+        </Col> */}
         <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
           <Button
             type="ghost"
