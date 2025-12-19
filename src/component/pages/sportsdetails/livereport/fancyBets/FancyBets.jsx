@@ -47,7 +47,10 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   );
 
   const filteredAllOdds =
-    matchBets?.data?.betList?.filter(
+    (oddsType === "Bookmaker"
+      ? matchBets?.data?.bookmaker?.betList
+      : matchBets?.data?.toss?.betList
+    )?.filter(
       (item) =>
         item?.username?.toLowerCase().includes(searchTermOdds.toLowerCase()) ||
         item?.userId?.toString().includes(searchTermOdds)
@@ -87,7 +90,11 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
             }}>
-            Match Bet ({matchBets?.data?.betList?.length || 0})
+            Match Bet (
+            {oddsType === "Bookmaker"
+              ? matchBets?.data?.bookmaker?.betList?.length
+              : matchBets?.data?.toss?.betList?.length || 0}
+            )
           </div>
           <div
             onClick={() => {
@@ -202,6 +209,10 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                         value: "Bookmaker",
                         label: "Bookmaker",
                       },
+                      {
+                        value: "TOSS",
+                        label: "Toss",
+                      },
                     ]}
                   />
                 </div>
@@ -252,6 +263,10 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                         value: "Bookmaker",
                         label: "Bookmaker",
                       },
+                      {
+                        value: "TOSS",
+                        label: "Toss",
+                      },
                     ]}
                   />
                 </div>
@@ -286,7 +301,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           <tr
                             key={index}
                             className={
-                              item?.mode === "K"
+                              item?.mode === "L"
                                 ? "matchdtailsYesBackground"
                                 : "matchdtailsNoBack"
                             }>
@@ -301,7 +316,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                             </td>
                             <td>{item?.odds}</td>
                             <td>{item?.stake}</td>
-                            <td>{item?.mode === "K" ? "Lagai" : "Khai"}</td>
+                            <td>{item?.mode === "L" ? "Lagai" : "Khai"}</td>
                             <td>{item?.marketType}</td>
                             <td>{item?.team}</td>
 

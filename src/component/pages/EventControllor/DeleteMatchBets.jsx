@@ -7,7 +7,9 @@ import {
   Select,
   Col,
   DatePicker,
+  Form,
 } from "antd";
+
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
@@ -19,8 +21,10 @@ import {
 } from "../../../store/service/userlistService";
 
 const DeleteMatchBets = () => {
+  const { Option } = Select;
   const nav = useNavigate();
   const [fancyIdList, setFancyIdList] = useState([]);
+  const [marketName, setMarketName] = useState("Bookmaker");
   const { id } = useParams();
   const timeBefore = moment()
     .subtract(14, "days")
@@ -32,9 +36,13 @@ const DeleteMatchBets = () => {
     setDateData(dateString.map((d) => moment(d).format("YYYY-MM-DD HH:mm:ss")));
   };
 
-  const { data: sportDetail, refetch } = useGetMatchedBetDeletedQuery({
-    matchId: id,
-  });
+  const { data: sportDetail, refetch } = useGetMatchedBetDeletedQuery(
+    {
+      matchId: id,
+      marketName: marketName,
+    },
+    { refetchOnMountOrArgChange: true }
+  );
 
   const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
   const [getDeletBet] = useGetDeletdBetMutation();
@@ -79,6 +87,10 @@ const DeleteMatchBets = () => {
     );
   };
 
+  const onSelectMarket = (value) => {
+    setMarketName(value);
+  };
+
   return (
     <Card
       className="sport_detail"
@@ -91,11 +103,24 @@ const DeleteMatchBets = () => {
             onChange={onChange}
           />
         </Col>
-        {/* <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+        <Col xl={6} lg={6} md={8} xs={8}>
+          <Form.Item name="maeket" value={marketName}>
+            <Select
+              onSelect={onSelectMarket}
+              placeholder="Select Market"
+              value={marketName}
+              defaultValue={marketName}
+              allowClear>
+              <Option value="Bookmaker">Bookmaker</Option>
+              <Option value="TOSS">Toss</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
           <Button type="primary" onClick={handleDeletedBetbyTime}>
             Delete Bet By Time
           </Button>
-        </Col> */}
+        </Col>
         <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
           <Button
             type="ghost"

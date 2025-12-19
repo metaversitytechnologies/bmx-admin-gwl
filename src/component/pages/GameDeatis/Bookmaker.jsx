@@ -8,6 +8,7 @@ const Bookmaker = ({
   handleOddBook,
   setShowTtlBook,
   showTtlBook,
+  marketName,
 }) => {
   return (
     <>
@@ -29,7 +30,11 @@ const Bookmaker = ({
                       <tr>
                         <th className="ant-table-cell matchdtailsNoYesBackground">
                           <div className="gx-bg-flex gx-justify-content-between gx-align-items-center minMax">
-                            <div style={{ display: "flex" }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignContent: "center",
+                              }}>
                               <div
                                 style={{
                                   padding: "6px 8px",
@@ -87,7 +92,7 @@ const Bookmaker = ({
                     </thead>
                     <tbody className="ant-table-tbody">
                       {data?.Bookmaker?.filter(
-                        (item) => item?.t === "Bookmaker"
+                        (item) => item?.t === marketName
                       )?.map((runner, index) => {
                         const pnlsOdds = pnl?.find(
                           (element) => element?.marketId == runner?.mid

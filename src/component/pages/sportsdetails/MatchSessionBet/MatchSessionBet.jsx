@@ -25,6 +25,9 @@ const MatchSessionBet = () => {
   const totalPnlM = matchBets?.data?.matchBets?.betList?.reduce((acc, item) => {
     return acc + (item.pnl || 0);
   }, 0);
+  const tossBetsM = matchBets?.data?.tossBets?.betList?.reduce((acc, item) => {
+    return acc + (item.pnl || 0);
+  }, 0);
 
   return (
     <div className="match_slip match_bets_session">
@@ -191,6 +194,69 @@ const MatchSessionBet = () => {
                           fontWeight: 700,
                         }}>
                         {totalPnl?.toFixed(2)}
+                      </span>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Col>
+
+          <Col xs={24} md={24} lg={12} xl={12}>
+            <div className="table_section statement_tabs_data active_match_table">
+              <table className="">
+                <thead>
+                  <tr>
+                    <th>Sr</th>
+                    <th>Rate</th>
+                    <th>Mode</th>
+                    <th>Team</th>
+                    <th>Odds Type</th>
+                    <th>Amount</th>
+                    <th>PNL</th>
+                    <th>Date and Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {matchBets?.data?.tossBets?.betList?.length > 0 ? (
+                    matchBets?.data.tossBets?.betList?.map((bet, index) => {
+                      return (
+                        <tr
+                          key={index}
+                          className={bet?.mode === "L" ? "back" : "lay"}>
+                          <td>{index + 1}</td>
+                          <td>{Number(bet?.odds)?.toFixed(2)}</td>
+                          <td>{bet?.mode === "L" ? "Lagai" : "KHAI"}</td>
+                          <td>{bet?.team}</td>
+                          <td>{bet.marketType}</td>
+                          <td>{bet?.stake}</td>
+                          <td>{bet?.pnl}</td>
+                          <td>{bet?.date}</td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={8}>
+                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                      </td>
+                    </tr>
+                  )}
+                  <tr>
+                    <td style={{ fontWeight: 700 }}>Total</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                      <span
+                        style={{
+                          color: tossBetsM > 0 ? "green" : "red",
+                          fontWeight: 700,
+                        }}>
+                        {tossBetsM?.toFixed(2)}
                       </span>
                     </td>
                     <td></td>

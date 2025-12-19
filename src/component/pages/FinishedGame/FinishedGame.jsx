@@ -318,7 +318,7 @@ const FinishedGame = () => {
           style={{ marginBottom: "12px" }}
           className="pagination_main ledger_pagination pagination_main"
           onShowSizeChange={(c, s) => setPaginationTotal(s)}
-          total={data?.data.totalPages * paginationTotal}
+          total={data?.data?.totalPages * paginationTotal}
           defaultPageSize={50}
           pageSizeOptions={[50, 100, 150, 200, 250]}
           onChange={(e) => setIndexData(e - 1)}

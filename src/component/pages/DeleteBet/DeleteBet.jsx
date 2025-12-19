@@ -42,7 +42,6 @@ const DeleteBet = () => {
   const [getDeletedBet, { data: getDelete, isLoading, error }] =
     useGetDeletedBetMutation();
 
-
   const columns = [
     {
       title: "ID",
@@ -107,7 +106,7 @@ const DeleteBet = () => {
       matchId: matchId,
     });
 
-    if (value === "Bookmaker") {
+    if (value === "Bookmaker" || value === "TOSS") {
       setMarketId(value);
       setShowFancyFilter(false);
       getDeletedBets({
@@ -212,6 +211,7 @@ const DeleteBet = () => {
                     allowClear>
                     <Option value="">Select Market</Option>
                     <Option value="Bookmaker">Bookmaker</Option>
+                    <Option value="TOSS">Toss</Option>
                     <Option value="Fancy">Fancy</Option>
                   </Select>
                 </Form.Item>

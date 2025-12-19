@@ -5,24 +5,17 @@ import CompletedFancy from "./CompletedFancy";
 import { useEffect, useState } from "react";
 import { useEventDetailQuery } from "../../../store/service/eventDetailServices";
 import FancyData from "./FancyData";
+import MatchOdds from "./MatchOdds";
 import {
   useLazyOddsQuPnlMyQuery,
   useLazyOddsQuPnlQuery,
 } from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
 import { useParams } from "react-router-dom";
-import { isNsg } from "../../../store/constant";
-import Score from "../../common/Score/Score";
-import { useGetTvScoreDataQuery } from "../../../store/service/CasinoServices";
-import { useGetChIdsQuery } from "../../../store/service/tvServices";
-import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
   const [showTtlBook, setShowTtlBook] = useState(true);
-  const [showTv, setShowTv] = useState(false);
-  const [tvUrl, setTvUrl] = useState(null);
-  const [loadingTv, setLoadingTv] = useState(false);
   const { id } = useParams();
   const { data } = useEventDetailQuery(id ?? "", { pollingInterval: 1000 });
   const [trigger, { data: oddsPnl }] = useLazyOddsQuPnlQuery();
@@ -81,52 +74,6 @@ const GameDeatis = () => {
     });
   };
 
-  const { data: tvScoreData } = useGetTvScoreDataQuery({
-    matchId: id ?? "",
-  });
-  const { data: chids } = useGetChIdsQuery({
-    matchId: id ?? "",
-  });
-
-  const { data: userIp } = useGetMyIpQuery();
-
-  const channelId = chids?.data?.channelId;
-
-  const fetchTvStream = async () => {
-    if (!channelId) return;
-    setLoadingTv(true);
-
-    try {
-      const response = await fetch("https://api2.dbm9.com/api/tv-stream", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          channel: channelId,
-          ipv4: userIp?.ip ?? "",
-        }),
-      });
-
-      const result = await response.json();
-      console.log("TV Stream API:", result);
-
-      if (result.status === 1) {
-        setTvUrl(result.data);
-      } else {
-        console.error("Stream not found");
-      }
-    } catch (error) {
-      console.error("TV Stream Error:", error);
-    } finally {
-      setLoadingTv(false);
-    }
-  };
-
-  useEffect(() => {
-    if (showTv) fetchTvStream();
-  }, [showTv, channelId, userIp]);
-
   return (
     <Row justify="center" className="main_details_page">
       <Col xs={24} lg={24}>
@@ -137,90 +84,31 @@ const GameDeatis = () => {
                 justify="start"
                 align="middle"
                 className="gx-px-2 gx-py-1"
-                style={{ backgroundColor: "#000" }}>
+                style={{ backgroundColor: "rgb(115, 118, 111)" }}>
                 <span
                   className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2"
-                  onClick={() => setShowFullScore(!showFullScore)}
-                  style={{ cursor: "pointer" }}>
+                  onClick={() => setShowFullScore(!showFullScore)}>
                   FS
                 </span>
                 <img
-                  onClick={() => setShowTv(!showTv)}
                   src="/Images/tv_icon.png"
                   alt="tv.png"
                   className="gx-bg-white gx-py-1 gx-mr-2"
-                  style={{ width: 25, cursor: "pointer" }}
+                  style={{ width: 25 }}
                 />
               </Row>
 
               <div className="ant-row" />
-              {/* {showTv && (
-                <div className="ant_row_tv_section">
-                  <iframe
-                    src={
-                      isNsg
-                        ? `https://tv.tresting.com/?eventid=${id}`
-                        : `https://mis2.sqmr.xyz/stv.php?eventId=${id}`
-                    }
-                    title="Score-I-frame"
-                    className=""
-                    style={{ width: "100%", height: "100%", border: "none" }}
-                  />
-                </div>
-              )} */}
-
-              {showTv && (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "400px",
-                    background: "#000",
-                  }}>
-                  {loadingTv ? (
-                    <p style={{ color: "#fff", textAlign: "center" }}>
-                      Loading stream...
-                    </p>
-                  ) : tvUrl ? (
-                    tvUrl.includes("<iframe") ? (
-                      // Response is iframe HTML
-                      <div
-                        dangerouslySetInnerHTML={{ __html: tvUrl }}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-                    ) : (
-                      // Response is just a URL
-                      <iframe
-                        src={tvUrl}
-                        title="TV Stream"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          border: "none",
-                        }}
-                        allowFullScreen
-                      />
-                    )
-                  ) : (
-                    <p style={{ color: "#fff", textAlign: "center" }}>
-                      No stream available
-                    </p>
-                  )}
-                </div>
-              )}
               <div
-                className={`ant-row ${
-                  showFullScore ? "height_full" : "height_short"
-                }`}>
+                className="ant-row"
+                style={{ height: !showFullScore ? 110 : 220 }}>
                 <iframe
-                  // src={`https://scorediamond.247idhub.com/score/${id}`}
-                  src={tvScoreData?.data?.scoreUrl}
+                  src={`https://scorediamond.247idhub.com/score-1/${id}`}
                   title="Score-I-frame"
                   className=""
                   style={{ width: "100%", height: "100%", border: "none" }}
                 />
               </div>
-              {/* )} */}
-
               <Row className="gx-px-0 gx-py-0 main_game_details">
                 <Col md={18} xs={24}>
                   {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}
@@ -232,6 +120,17 @@ const GameDeatis = () => {
                     handleOddBook={handleOddBook}
                     setShowTtlBook={setShowTtlBook}
                     showTtlBook={showTtlBook}
+                    marketName="Bookmaker"
+                  />
+                  <Bookmaker
+                    data={data}
+                    pnl={oddsPnl?.data}
+                    oddsPnlMy={oddsPnlMy?.data}
+                    handleTtlBook={handleTtlBook}
+                    handleOddBook={handleOddBook}
+                    setShowTtlBook={setShowTtlBook}
+                    showTtlBook={showTtlBook}
+                    marketName="TOSS"
                   />
                   <FancyData
                     data={data}

@@ -13,6 +13,7 @@ const AddDetails = ({
   const { id } = useParams();
   const [trigger, { data }] = useGetFancyBetVMutation();
   const [teamTableData, setTeamTableData] = useState([]);
+  const [marketName, setMarketName] = useState("Bookmaker");
   const userType = parseInt(localStorage.getItem("userType")); // Ensure it's a number
 
   const getColumnsByUserType = (userType, sessionType) => {
@@ -352,8 +353,13 @@ const AddDetails = ({
   ];
 
   useEffect(() => {
-    trigger({ userId: clientId, matchId: id, forFancy: sessionType });
-  }, [clientId, id, sessionType, trigger]);
+    trigger({
+      userId: clientId,
+      matchId: id,
+      forFancy: sessionType,
+      marketName: marketName,
+    });
+  }, [clientId, id, sessionType, trigger, marketName]);
   useEffect(() => {
     if (data?.data) {
       const formatted = [
@@ -389,14 +395,33 @@ const AddDetails = ({
       onCancel={() => setOpenResponsive(false)}>
       <div className="new_match_session">
         <div
-          className={`match_session_sec ${!sessionType ? "active" : ""}`}
-          onClick={() => setSessionType(false)}>
+          className={`match_session_sec ${
+            !sessionType && marketName === "Bookmaker" ? "active" : ""
+          }`}
+          onClick={() => {
+            setSessionType(false);
+            setMarketName("Bookmaker");
+          }}>
           Match
         </div>
+
         <div
           className={`match_session_sec ${sessionType ? "active" : ""}`}
-          onClick={() => setSessionType(true)}>
+          onClick={() => {
+            setSessionType(true);
+            setMarketName("");
+          }}>
           Session
+        </div>
+        <div
+          className={`match_session_sec ${
+            !sessionType && marketName === "Toss" ? "active" : ""
+          }`}
+          onClick={() => {
+            setSessionType(false);
+            setMarketName("Toss");
+          }}>
+          Toss
         </div>
       </div>
 

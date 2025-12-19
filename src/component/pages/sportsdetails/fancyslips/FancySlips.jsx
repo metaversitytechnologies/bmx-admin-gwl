@@ -39,13 +39,22 @@ const FancySlips = ({ name }) => {
     }, 500); // simulate loading
   };
 
+  const teamDetails =
+    oddsType === "Bookmaker"
+      ? matchBets?.data?.bookmaker
+      : matchBets?.data?.toss ?? {};
+  const bookmakerData =
+    oddsType === "Bookmaker"
+      ? matchBets?.data?.bookmaker?.betList
+      : matchBets?.data?.toss?.betList ?? [];
+
   useEffect(() => {
-    if (matchBets?.data?.betList) {
+    if (bookmakerData) {
       const {
         pnl1 = 0,
         pnl2 = 0,
         pnl3 = 0,
-      } = matchBets.data.betList.reduce(
+      } = bookmakerData.reduce(
         (acc, bet) => {
           acc.pnl1 += Number(bet.pnl1) || 0;
           acc.pnl2 += Number(bet.pnl2) || 0;
@@ -57,28 +66,28 @@ const FancySlips = ({ name }) => {
 
       const newSummary = [
         {
-          team: matchBets.data.team1,
-          selectionId: matchBets.data.selectionId1,
+          team: teamDetails?.team1,
+          selectionId: teamDetails?.selectionId1,
           pnl: pnl1,
         },
         {
-          team: matchBets.data.team2,
-          selectionId: matchBets.data.selectionId2,
+          team: teamDetails?.team2,
+          selectionId: teamDetails?.selectionId2,
           pnl: pnl2,
         },
       ];
 
-      if (matchBets.data.team3) {
+      if (matchBets?.data?.team3) {
         newSummary.push({
-          team: matchBets.data.team3,
-          selectionId: matchBets.data.selectionId3,
+          team: teamDetails?.team3,
+          selectionId: teamDetails?.selectionId3,
           pnl: pnl3,
         });
       }
 
       setSummaryData(newSummary);
     }
-  }, [matchBets]);
+  }, [matchBets, bookmakerData, teamDetails]);
 
   useEffect(() => {
     userTrigger({ userId: "", userType: 1 });
@@ -87,11 +96,11 @@ const FancySlips = ({ name }) => {
   return (
     <>
       <div className="match_slip match_bets_report">
-        {matchBets?.data?.betList.length > 0 && (
+        {bookmakerData?.length > 0 && (
           <div className="ant-row">
             <div className="gx-bg-flex gx-justify-content-center gx-align-items-center gx-mx-2 gx-bg-grey gx-py-2  gx-w-100">
               <h2 className="gx-text-uppercase gx-text-white gx-mt-1 gx-fs-lg gx-font-weight-bold ">
-                bookmaker
+                {oddsType}
               </h2>
             </div>
             <div className="gx-flex gx-overflow-auto">
@@ -175,6 +184,7 @@ const FancySlips = ({ name }) => {
                   <Select
                     placeholder="Select Market"
                     value={oddsType}
+                    defaultValue={oddsType}
                     options={[
                       // {
                       //   value: "All",
@@ -182,7 +192,11 @@ const FancySlips = ({ name }) => {
                       // },
                       {
                         value: "Bookmaker",
-                        label: "bookmaker",
+                        label: "Bookmaker",
+                      },
+                      {
+                        value: "TOSS",
+                        label: "Toss",
                       },
                     ]}
                     showSearch
@@ -216,27 +230,30 @@ const FancySlips = ({ name }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {matchBets?.data?.betList.length > 0 ? (
-                    matchBets?.data?.betList.map((res, id) => (
-                      <tr
-                        key={id}
-                        className={res?.mode === "L" ? "back" : "lay"}>
-                        <td>{Number(res?.odds).toFixed(2)}</td>
-                        <td>{res?.stake}</td>
-                        <td>{res?.mode !== "L" ? "Lagai" : "Khai"}</td>
-                        <td>{res?.team}</td>
-                        <td>
-                          {res?.username} ({res?.userId})
-                        </td>
-                        <td>{res?.marketType}</td>
-                        <td>
-                          {res?.parentName} ({res?.parentId})
-                        </td>
-                        <td>{res?.date}</td>
-                        <td>{res?.liability}</td>
-                        <td>{res?.pnl}</td>
-                      </tr>
-                    ))
+                  {bookmakerData?.length > 0 ? (
+                    bookmakerData?.map((res, id) => {
+                      console.log(res, "resresres");
+                      return (
+                        <tr
+                          key={id}
+                          className={res?.mode === "L" ? "back" : "lay"}>
+                          <td>{Number(res?.odds).toFixed(2)}</td>
+                          <td>{res?.stake}</td>
+                          <td>{res?.mode !== "L" ? "Khai" : "Lagai"}</td>
+                          <td>{res?.team}</td>
+                          <td>
+                            {res?.username} ({res?.userId})
+                          </td>
+                          <td>{res?.marketType}</td>
+                          <td>
+                            {res?.parentName} ({res?.parentId})
+                          </td>
+                          <td>{res?.date}</td>
+                          <td>{res?.liability}</td>
+                          <td>{res?.pnl}</td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr>
                       <td colSpan={10}>
