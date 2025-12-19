@@ -47,7 +47,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   );
 
   const filteredAllOdds =
-    matchBets?.data?.betList?.filter(
+    matchBets?.data?.bookmaker?.betList?.filter(
       (item) =>
         item?.username?.toLowerCase().includes(searchTermOdds.toLowerCase()) ||
         item?.userId?.toString().includes(searchTermOdds)
@@ -87,7 +87,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
             }}>
-            Match Bet ({matchBets?.data?.betList?.length || 0})
+            Match Bet ({matchBets?.data?.bookmaker?.betList?.length || 0})
           </div>
           <div
             onClick={() => {
