@@ -40,12 +40,12 @@ const FancySlips = ({ name }) => {
   };
 
   useEffect(() => {
-    if (matchBets?.data?.betList) {
+    if (matchBets?.data?.bookmaker?.betList) {
       const {
         pnl1 = 0,
         pnl2 = 0,
         pnl3 = 0,
-      } = matchBets.data.betList.reduce(
+      } = matchBets.data.bookmaker.betList.reduce(
         (acc, bet) => {
           acc.pnl1 += Number(bet.pnl1) || 0;
           acc.pnl2 += Number(bet.pnl2) || 0;
@@ -87,7 +87,7 @@ const FancySlips = ({ name }) => {
   return (
     <>
       <div className="match_slip match_bets_report">
-        {matchBets?.data?.betList.length > 0 && (
+        {matchBets?.data?.bookmaker?.betList?.length > 0 && (
           <div className="ant-row">
             <div className="gx-bg-flex gx-justify-content-center gx-align-items-center gx-mx-2 gx-bg-grey gx-py-2  gx-w-100">
               <h2 className="gx-text-uppercase gx-text-white gx-mt-1 gx-fs-lg gx-font-weight-bold ">
@@ -216,8 +216,8 @@ const FancySlips = ({ name }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {matchBets?.data?.betList.length > 0 ? (
-                    matchBets?.data?.betList.map((res, id) => (
+                  {matchBets?.data?.bookmaker?.betList?.length > 0 ? (
+                    matchBets?.data?.bookmaker?.betList?.map((res, id) => (
                       <tr
                         key={id}
                         className={res?.mode === "L" ? "back" : "lay"}>
