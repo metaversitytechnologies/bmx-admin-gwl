@@ -17,6 +17,7 @@ export function convertCode(name) {
   }
   return name;
 }
+
 export function convertCodeReverse(name) {
   if (name?.startsWith("ADM")) {
     return name?.replace("ADM", "AD");
