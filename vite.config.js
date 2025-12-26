@@ -8,7 +8,7 @@ export default defineConfig({
     host: true,
   },
   build: {
-    outDir: "admin",
+    outDir: "k-admin",
     sourcemap: true,
   },
 });
