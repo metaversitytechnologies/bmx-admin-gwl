@@ -122,7 +122,7 @@ const GameDeatis = () => {
                     showTtlBook={showTtlBook}
                     marketName="Bookmaker"
                   />
-                  <Bookmaker
+                  {/* <Bookmaker
                     data={data}
                     pnl={oddsPnl?.data}
                     oddsPnlMy={oddsPnlMy?.data}
@@ -131,7 +131,7 @@ const GameDeatis = () => {
                     setShowTtlBook={setShowTtlBook}
                     showTtlBook={showTtlBook}
                     marketName="TOSS"
-                  />
+                  /> */}
                   <FancyData
                     data={data}
                     setFancyId={setFancyId}
