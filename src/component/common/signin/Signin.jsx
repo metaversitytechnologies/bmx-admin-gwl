@@ -30,7 +30,7 @@ const Signin = () => {
 
   const url = hostname.includes("madmin")
     ? `sub.antpro.co`
-    : `${hostname?.[0]}.antpro.co`;
+    : `${window.location.hostname.split('.')[0]}.antpro.co`;
 
   const onFinish = async (values) => {
     const authPayload = {

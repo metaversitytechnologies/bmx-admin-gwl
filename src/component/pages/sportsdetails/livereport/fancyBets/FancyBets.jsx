@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import AddDetails from "../../../GameDeatis/AddDetails";
+import { convertCode } from "../../../../../store/constant";
 
 const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   const [oddsType, setOddsType] = useState("Bookmaker");
@@ -301,7 +302,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           <tr
                             key={index}
                             className={
-                              item?.mode === "L"
+                              item?.mode == "K"
                                 ? "matchdtailsYesBackground"
                                 : "matchdtailsNoBack"
                             }>
@@ -316,12 +317,11 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                             </td>
                             <td>{item?.odds}</td>
                             <td>{item?.stake}</td>
-                            <td>{item?.mode === "L" ? "Lagai" : "Khai"}</td>
+                            <td>{item?.mode == "K" ? "Lagai" : "Khai"}</td>
                             <td>{item?.marketType}</td>
                             <td>{item?.team}</td>
-
                             <td>
-                              {item?.parentName} (convertCode({item?.parentId}))
+                              {item?.parentName} ({convertCode(item?.parentId)})
                             </td>
                             <td>{new Date(item?.date).toLocaleString()}</td>
                             <td>{item?.liability}</td>
