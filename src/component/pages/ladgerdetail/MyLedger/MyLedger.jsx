@@ -64,7 +64,7 @@ const MyLedger = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentYear = moment().year();
-  const timeBefore = moment(`${currentYear}-01-01`).format("YYYY-MM-DD");
+  const timeBefore = moment(`2025-01-01`).format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
 
