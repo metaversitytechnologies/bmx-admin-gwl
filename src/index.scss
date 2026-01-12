@@ -1,10 +1,10 @@
 body {
-  font-family: "Arial", sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji' !important;
   color: #545454;
 }
 
 * {
-  font-family: "Arial", sans-serif !important;
+  font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji' !important;
 }
 
 :where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
@@ -47,10 +47,10 @@ body {
 }
 
 :root {
-  --login-bg: #7d5c0e;
-  --bg-color: #7d5c0e;
-  --btn-bg-color: #7d5c0e;
-  --header-bg: #7d5c0e;
+  --login-bg: #b7862f;
+  --bg-color: #b7862f;
+  --btn-bg-color: #b7862f;
+  --header-bg: #b7862f;
   --login-wrap: #8b8f87;
   --fancy-tab: #5a420a;
 }

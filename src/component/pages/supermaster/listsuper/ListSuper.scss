@@ -303,8 +303,9 @@ ul.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-light.menu_item {
     overflow: scroll;
   }
   .ant-modal-content {
-    border-radius: 2px !important;
+    border-radius: 10px !important;
     padding: 24px 10px !important;
+    overflow: hidden;
   }
 }
 
