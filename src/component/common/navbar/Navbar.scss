@@ -36,26 +36,25 @@
 }
 
 .logo_icon {
-  // background: rgb(81 82 78);
-  background: rgba(0, 0, 0, 0.3);
-  // position: absolute;
-  transition: 5s ease-in;
   display: flex;
   align-items: center;
+  justify-content: center;
   left: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   z-index: 2;
   .anticon svg {
     font-size: 20px !important;
   }
   .bm_side_logo {
-    // width: 100px;
-    // height: 104px;
     cursor: pointer;
     img {
       width: 112px;
       margin-top: 6px;
       margin-left: -12px;
     }
+  }
+  .bm_side_logo_hidden {
+    opacity: 0;
   }
   .bm_side_logo_mob {
     width: 100px;
@@ -84,9 +83,15 @@
 }
 .nav {
   width: 100%;
+  display: flex;
+  align-items: center;
   img {
     display: none;
   }
+}
+.nav_drop {
+  margin-left: auto;
+  border-radius: 10px;
 }
 
 @media screen and (min-width: 501px) and (max-width: 3000px) {
@@ -107,6 +112,24 @@
 }
 .sub_open_btn {
   display: none;
+}
+.collapse_btn {
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  width: 56px;
+  border: unset;
+  text-decoration: none;
+  outline: unset;
+  color: #fff;
+  i {
+    font-size: 18px;
+    line-height: 1;
+    display: inline-block;
+  }
+  svg {
+    transform: scaleX(-1);
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -134,6 +157,9 @@
       font-size: 23px;
       color: #fff;
     }
+  }
+  .collapse_btn {
+    display: none;
   }
 
   // .ant-dropdown {
@@ -180,6 +206,16 @@
       padding: 0px 11px !important;
     }
   }
+}
+.ant-dropdown .ant-dropdown-menu,
+.ant-dropdown .ant-dropdown-menu-root {
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+.ant-dropdown .ant-dropdown-menu-item {
+  padding: 4px 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 300 !important;
 }
 .change_pass {
   .ant-modal-footer {
@@ -283,7 +319,24 @@
 }
 
 ul.nav_droupdown {
-  margin: -25px 2px !important;
+  border-radius: 10px;
+  padding: 8px 0;
+  overflow: hidden;
+  li {
+    color: rgba(0, 0, 0, 0.88) !important;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 1.2;
+    cursor: pointer;
+    padding: 4px 12px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
 }
 
 p.ant-dropdown-trigger.user_deatils.droup_nav {
@@ -328,7 +381,6 @@ p.ant-dropdown-trigger.user_deatils.droup_nav {
   display: flex;
   align-items: center;
   justify-content: end;
-  padding: 0px 32px;
   @media (max-width: 1024px) {
     justify-content: space-between;
     padding: 0px;

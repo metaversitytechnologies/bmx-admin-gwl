@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { CiLogin } from "react-icons/ci";
-import { IoMdInformationCircle } from "react-icons/io";
 import { Col, Row } from "antd";
 import "./Dashboard.scss";
 import ActiveMatch from "../../common/ActiveMatch/ActiveMatch";
@@ -12,7 +10,17 @@ import SettingModals from "./SettingModals";
 import MasterDetails from "../masterDetail/MasterDetails";
 import SportModal from "./SportModal";
 import { convertCode } from "../../../store/constant";
-import { BiUserCircle } from "react-icons/bi";
+import {
+  BankOutlined,
+  InfoCircleOutlined,
+  LogoutOutlined,
+  BarChartOutlined,
+  PlayCircleOutlined,
+  SettingOutlined,
+  TeamOutlined,
+  TrophyOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 const Dashboard = () => {
   const [openModal, setOpenModals] = useState(false);
@@ -32,6 +40,8 @@ const Dashboard = () => {
   });
 
   const uType = localStorage.getItem("userType");
+  const toUpper = (value) =>
+    typeof value === "string" ? value.toUpperCase() : value;
 
   return (
     <>
@@ -56,23 +66,27 @@ const Dashboard = () => {
                         <div className="gx-mr-1 gx-mr-xl-3">
                           {/* <i className="icon icon-family gx-fs-2xl" /> */}
                           {/* <img src="/Images/dash.png" height={33} /> */}
-                          <BiUserCircle style={{ font: "35px" }} />
+                          <UserOutlined style={{ fontSize: "18px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            {uType == 7
-                              ? "SuperAdmin Details"
-                              : uType == 6
-                              ? "Admin Detail"
-                              : uType == 5
-                              ? "Mini Admin"
-                              : uType == 4
-                              ? "Master"
-                              : uType == 3
-                              ? "SuperAgent"
-                              : uType == 2
-                              ? "Agent"
-                              : ""}
+                          <h1
+                            className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white"
+                            style={{ fontSize: "12px" }}>
+                            {toUpper(
+                              uType == 7
+                                ? "SuperAdmin Details"
+                                : uType == 6
+                                ? "Admin Detail"
+                                : uType == 5
+                                ? "Mini Admin"
+                                : uType == 4
+                                ? "Master"
+                                : uType == 3
+                                ? "SuperAgent"
+                                : uType == 2
+                                ? "Agent"
+                                : ""
+                            )}
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                           <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
@@ -94,11 +108,13 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <img src="/Images/sheare.png" width={30} />
+                          <BarChartOutlined style={{ fontSize: "16px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className=" gx-text-capitalize gx-fs-lg  gx-font-weight-semi-bold  gx-text-white">
-                            {`Sport's Details`}
+                          <h1
+                            className=" gx-text-capitalize gx-fs-lg  gx-font-weight-semi-bold  gx-text-white"
+                            style={{ fontSize: "12px" }}>
+                            {`Sport's Details`.toUpperCase()}
                           </h1>
                         </div>
                       </div>
@@ -123,11 +139,13 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <BiUserCircle style={{ font: "35px" }} />
+                          <BankOutlined style={{ fontSize: "18px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className=" gx-text-capitalize  gx-fs-lg gx-font-weight-semi-bold  gx-text-white">
-                            Ledger
+                          <h1
+                            className=" gx-text-capitalize  gx-fs-lg gx-font-weight-semi-bold  gx-text-white"
+                            style={{ fontSize: "12px" }}>
+                            LEDGER
                           </h1>
                         </div>
                       </div>
@@ -153,11 +171,13 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <BiUserCircle />
+                          <BankOutlined style={{ fontSize: "18px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Cash Transaction
+                          <h1
+                            className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white"
+                            style={{ fontSize: "12px" }}>
+                            CASH TRANSACTION
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                           <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
@@ -185,11 +205,13 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <img src="/Images/setting.png" width={29} />
+                          <SettingOutlined style={{ fontSize: "16px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Setting
+                          <h1
+                            className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white"
+                            style={{ fontSize: "12px" }}>
+                            SETTING
                           </h1>
                         </div>
                       </div>
@@ -217,15 +239,13 @@ const Dashboard = () => {
                         className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
                         style={{ borderRadius: 20 }}>
                         <div className="gx-mr-1 gx-mr-xl-3">
-                          <CiLogin
-                            style={{
-                              fontSize: "38px",
-                            }}
-                          />
+                          <LogoutOutlined style={{ fontSize: "20px" }} />
                         </div>
                         <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Logout
+                          <h1
+                            className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white"
+                            style={{ fontSize: "12px" }}>
+                            LOGOUT
                           </h1>
                         </div>
                       </div>
@@ -248,8 +268,8 @@ const Dashboard = () => {
             {" "}
             {[
               {
-                icon: <img src="/Images/usernew.png" width={30} />,
-                title: `${convertCode(localStorage.getItem("userId"))}`,
+                icon: <UserOutlined style={{ fontSize: "16px" }} />,
+                title: `${convertCode(localStorage.getItem("userId"))}`.toUpperCase(),
                 desc: `You are ${
                   uType == 7
                     ? "Super Admin"
@@ -264,41 +284,41 @@ const Dashboard = () => {
                     : uType == 2
                     ? "Agent"
                     : "Client"
-                }`,
+                }`.toUpperCase(),
               },
               {
-                icon: <img src="/Images/dia.png" width={30} />,
+                icon: <TrophyOutlined style={{ fontSize: "16px" }} />,
                 title: `${dataDes?.data?.balance?.toFixed(2)}`,
-                desc: "Chips",
+                desc: "COINS",
               },
               {
-                icon: <img src="/Images/member.png" width={30} />,
+                icon: <TeamOutlined style={{ fontSize: "16px" }} />,
                 title: `${dataDes?.data?.members}`,
-                desc: "Members",
+                desc: "MEMBERS",
               },
               {
-                icon: <img src="/Images/sheare.png" width={30} />,
+                icon: <BarChartOutlined style={{ fontSize: "16px" }} />,
                 title: `${dataDes?.data?.myShare}`,
-                desc: "My Share",
+                desc: "MY SHARE",
               },
               {
-                icon: <img src="/Images/sheare.png" width={30} />,
+                icon: <BarChartOutlined style={{ fontSize: "16px" }} />,
                 title: `${dataDes?.data?.companyShare}%`,
-                desc: "Company Share",
+                desc: "COMPANY SHARE",
               },
               {
                 icon: null,
                 title: `${dataDes?.data?.matchCommission}%`,
-                desc: "Match Commission",
+                desc: "MATCH COMMISSION",
               },
               {
                 icon: null,
                 title: `${dataDes?.data?.sessionCommission}%`,
-                desc: "Session Commission",
+                desc: "SESSION COMMISSION",
               },
               {
-                icon: <IoMdInformationCircle />,
-                title: "Rules",
+                icon: <InfoCircleOutlined style={{ fontSize: "16px" }} />,
+                title: "RULES",
                 onClick: handleRules,
               },
               // {
@@ -327,7 +347,7 @@ const Dashboard = () => {
                             {item.icon ? item.icon : <></>}
                           </div>
                           <div className="gx-media-body">
-                            <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white">
+                            <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" style={{fontSize: '12px'}}>
                               {item.title}
                             </h1>
                             {item.desc && (

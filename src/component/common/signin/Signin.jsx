@@ -50,12 +50,22 @@ const Signin = () => {
         const res = await triggerWotp({ ...payload, otp });
         if (res?.data?.token) {
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("rulesStatus", true);
+          localStorage.setItem("userId", res?.data?.userId);
+          localStorage.setItem("userType", res?.data?.userTypeInfo);
+          localStorage.setItem("username", res?.data?.username);
+          localStorage.setItem("ps", res?.data?.ps);
           nav("/dashboard");
         }
       } else {
         const res = await trigger(payload).unwrap();
         if (res?.token) {
           localStorage.setItem("token", res.token);
+          localStorage.setItem("rulesStatus", true);
+          localStorage.setItem("userId", res?.userId);
+          localStorage.setItem("userType", res?.userTypeInfo);
+          localStorage.setItem("username", res?.username);
+          localStorage.setItem("ps", res?.ps);
           nav("/dashboard");
         } else if (res?.status) {
           setShowOtp(true);

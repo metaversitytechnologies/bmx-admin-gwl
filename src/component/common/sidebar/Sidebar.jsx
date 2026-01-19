@@ -2,20 +2,26 @@
 import { useState } from "react";
 import { Drawer, Menu } from "antd";
 import "./Sidebar.scss";
-import { Button } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Link, useNavigate } from "react-router-dom";
-import { HoverIcon } from "./HeroIcon";
+import {
+  BankOutlined,
+  BellOutlined,
+  FileTextOutlined,
+  HomeOutlined,
+  ProfileOutlined,
+  PlayCircleOutlined,
+  SettingOutlined,
+  UserDeleteOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { imgUrl } from "../../../store/constant";
 
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
 
 const Sidebar = (props) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed } = props;
   const [openKeys, setOpenKeys] = useState(["1"]);
-  const [hoveredItem, setHoveredItem] = useState(null);
-
-  props.collll(collapsed);
 
   const nav = useNavigate();
 
@@ -48,30 +54,11 @@ const Sidebar = (props) => {
           background: "var(--bg-color)",
         }}>
         <div className={collapsed ? "logo_icon" : "logo_icon coll_btn"}>
-          <Button
-            type="text"
-            className="clolapsedd"
-            icon={
-              collapsed ? (
-                <i className="gx-icon-btn icon icon-menu-fold gx-text-white" />
-              ) : (
-                <i className="gx-icon-btn icon icon-menu-unfold gx-text-white" />
-              )
-            }
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 81,
-              height: 71,
-              border: "unset",
-              textDecoration: "none",
-              outline: "unset",
-              color: "#fff",
-            }}
-          />
           <div
             onClick={() => nav("/dashboard")}
-            className={`bm_side_logo ${collapsed ? "d-none" : ""}`}>
+            className={`bm_side_logo ${
+              collapsed ? "bm_side_logo_hidden" : ""
+            }`}>
             <img
               alt="example"
               src={
@@ -79,7 +66,7 @@ const Sidebar = (props) => {
                   ? "/img/mum-img.png"
                   : imgUrl
               }
-              height={50}
+              height={72}
             />
           </div>
         </div>
@@ -98,21 +85,9 @@ const Sidebar = (props) => {
           items={[
             {
               key: "1",
-              icon: (
-                <HoverIcon
-                  id="1"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/dashbord.png"
-                  hoverSrc="/Images/dash-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <HomeOutlined />,
               label: (
                 <Link
-                  onMouseEnter={() => setHoveredItem("1")}
-                  onMouseLeave={() => setHoveredItem(null)}
                   to="/dashboard"
                   onClick={() => setOpenKeys([])}>
                   Dashboard
@@ -122,21 +97,9 @@ const Sidebar = (props) => {
             },
             {
               key: "2",
-              icon: (
-                <HoverIcon
-                  id="2"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/adminbar.png"
-                  hoverSrc="/Images/admin-bar-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <UserOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("2")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   {uType == 6
                     ? "Admin Details"
                     : uType == 5
@@ -194,21 +157,9 @@ const Sidebar = (props) => {
             },
             {
               key: "3",
-              icon: (
-                <HoverIcon
-                  id="3"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={24}
-                  hoverWidth={23}
-                />
-              ),
+              icon: <PlayCircleOutlined />,
               label: (
-                <sapn
-                  onMouseEnter={() => setHoveredItem("3")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <sapn>
                   Sports-Betting
                 </sapn>
               ),
@@ -229,21 +180,9 @@ const Sidebar = (props) => {
             },
             {
               key: "13",
-              icon: (
-                <HoverIcon
-                  id="4"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={24}
-                  hoverWidth={23}
-                />
-              ),
+              icon: <PlayCircleOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("4")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   Casino
                 </div>
               ),
@@ -261,21 +200,9 @@ const Sidebar = (props) => {
             },
             {
               key: "4",
-              icon: (
-                <HoverIcon
-                  id="5"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/ledger.png"
-                  hoverSrc="/Images/ledger-hover.png"
-                  width={24}
-                  hoverWidth={24}
-                />
-              ),
+              icon: <PlayCircleOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("5")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   Ledger
                 </div>
               ),
@@ -329,21 +256,9 @@ const Sidebar = (props) => {
             },
             userType === "7" && {
               key: "15",
-              icon: (
-                <HoverIcon
-                  id="16"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/ledger.png"
-                  hoverSrc="/Images/ledger-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <ProfileOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("16")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   Post Ledger
                 </div>
               ),
@@ -359,21 +274,9 @@ const Sidebar = (props) => {
 
             userType === "7" && {
               key: "25",
-              icon: (
-                <HoverIcon
-                  id="26"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <PlayCircleOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("26")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   Event Controller
                 </div>
               ),
@@ -396,21 +299,9 @@ const Sidebar = (props) => {
 
             {
               key: "5",
-              icon: (
-                <HoverIcon
-                  id="6"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/cash.png"
-                  hoverSrc="/Images/cash-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <BankOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("6")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   Cash Transaction
                 </div>
               ),
@@ -475,21 +366,9 @@ const Sidebar = (props) => {
             {
               className: `${userType === "7" ? "" : "d-none"}`,
               key: "28",
-              icon: (
-                <HoverIcon
-                  id="28"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <BellOutlined />,
               label: (
                 <Link
-                  onMouseEnter={() => setHoveredItem("28")}
-                  onMouseLeave={() => setHoveredItem(null)}
                   to="/set-message">
                   Set Message
                 </Link>
@@ -497,21 +376,9 @@ const Sidebar = (props) => {
             },
             {
               key: "8",
-              icon: (
-                <HoverIcon
-                  id="7"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/dashbord.png"
-                  hoverSrc="/Images/dash-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <ProfileOutlined />,
               label: (
                 <Link
-                  onMouseEnter={() => setHoveredItem("7")}
-                  onMouseLeave={() => setHoveredItem(null)}
                   to="/commissionLenden">
                   Comm. Report
                 </Link>
@@ -519,21 +386,9 @@ const Sidebar = (props) => {
             },
             {
               key: "6",
-              icon: (
-                <HoverIcon
-                  id="8"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/report.png"
-                  hoverSrc="/Images/report-hover.png"
-                  width={22}
-                  hoverWidth={25}
-                />
-              ),
+              icon: <FileTextOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("8")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   Reports
                 </div>
               ),
@@ -550,21 +405,9 @@ const Sidebar = (props) => {
             },
             {
               key: "8",
-              icon: (
-                <HoverIcon
-                  id="9"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/dashbord.png"
-                  hoverSrc="/Images/dash-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <SettingOutlined />,
               label: (
                 <Link
-                  onMouseEnter={() => setHoveredItem("9")}
-                  onMouseLeave={() => setHoveredItem(null)}
                   to="/markets">
                   {window?.location.hostname?.split(".")?.[1]?.toUpperCase()}{" "}
                   Setting
@@ -573,21 +416,9 @@ const Sidebar = (props) => {
             },
             {
               key: "200",
-              icon: (
-                <HoverIcon
-                  id="200"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/adminbar.png"
-                  hoverSrc="/Images/admin-bar-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
-              ),
+              icon: <UserDeleteOutlined />,
               label: (
-                <div
-                  onMouseEnter={() => setHoveredItem("200")}
-                  onMouseLeave={() => setHoveredItem(null)}>
+                <div>
                   {uType == 6
                     ? "Dead Admin Details"
                     : uType == 5
@@ -682,21 +513,9 @@ const Sidebar = (props) => {
             items={[
               {
                 key: "1",
-                icon: (
-                  <HoverIcon
-                    id="1"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/dashbord.png"
-                    hoverSrc="/Images/dash-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <HomeOutlined />,
                 label: (
                   <Link
-                    onMouseEnter={() => setHoveredItem("1")}
-                    onMouseLeave={() => setHoveredItem(null)}
                     to="/dashboard"
                     onClick={() => {
                       props?.action();
@@ -708,21 +527,9 @@ const Sidebar = (props) => {
               },
               {
                 key: "2",
-                icon: (
-                  <HoverIcon
-                    id="2"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/adminbar.png"
-                    hoverSrc="/Images/admin-bar-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <UserOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("2")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     {uType == 6
                       ? " Admin Details"
                       : uType == 5
@@ -810,21 +617,9 @@ const Sidebar = (props) => {
               },
               {
                 key: "3",
-                icon: (
-                  <HoverIcon
-                    id="3"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={24}
-                    hoverWidth={23}
-                  />
-                ),
+                icon: <PlayCircleOutlined />,
                 label: (
-                  <sapn
-                    onMouseEnter={() => setHoveredItem("3")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <sapn>
                     Sports-Betting
                   </sapn>
                 ),
@@ -859,21 +654,9 @@ const Sidebar = (props) => {
               },
               {
                 key: "13",
-                icon: (
-                  <HoverIcon
-                    id="4"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={24}
-                    hoverWidth={23}
-                  />
-                ),
+                icon: <PlayCircleOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("4")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     Casino
                   </div>
                 ),
@@ -907,21 +690,9 @@ const Sidebar = (props) => {
               },
               {
                 key: "4",
-                icon: (
-                  <HoverIcon
-                    id="5"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/ledger.png"
-                    hoverSrc="/Images/ledger-hover.png"
-                    width={24}
-                    hoverWidth={24}
-                  />
-                ),
+                icon: <PlayCircleOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("5")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     Ledger
                   </div>
                 ),
@@ -1009,21 +780,9 @@ const Sidebar = (props) => {
               },
               userType === "7" && {
                 key: "15",
-                icon: (
-                  <HoverIcon
-                    id="16"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/ledger.png"
-                    hoverSrc="/Images/ledger-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <ProfileOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("16")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     Post Ledger
                   </div>
                 ),
@@ -1046,21 +805,9 @@ const Sidebar = (props) => {
               },
               userType === "7" && {
                 key: "25",
-                icon: (
-                  <HoverIcon
-                    id="26"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <PlayCircleOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("26")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     Event Controller
                   </div>
                 ),
@@ -1092,21 +839,9 @@ const Sidebar = (props) => {
               },
               {
                 key: "5",
-                icon: (
-                  <HoverIcon
-                    id="6"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/cash.png"
-                    hoverSrc="/Images/cash-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <BankOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("6")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     Cash Transaction
                   </div>
                 ),
@@ -1186,22 +921,10 @@ const Sidebar = (props) => {
               {
                 className: `${userType === "7" ? "" : "d-none"}`,
                 key: "28",
-                icon: (
-                  <HoverIcon
-                    id="28"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <BellOutlined />,
                 label: (
                   <Link
                     onClick={() => props?.action()}
-                    onMouseEnter={() => setHoveredItem("28")}
-                    onMouseLeave={() => setHoveredItem(null)}
                     to="/set-message">
                     Set Message
                   </Link>
@@ -1209,22 +932,10 @@ const Sidebar = (props) => {
               },
               {
                 key: "18",
-                icon: (
-                  <HoverIcon
-                    id="7"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/dashbord.png"
-                    hoverSrc="/Images/dash-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <ProfileOutlined />,
                 label: (
                   <Link
                     onClick={() => props?.action()}
-                    onMouseEnter={() => setHoveredItem("7")}
-                    onMouseLeave={() => setHoveredItem(null)}
                     to="/commissionLenden">
                     Comm. Report
                   </Link>
@@ -1233,21 +944,9 @@ const Sidebar = (props) => {
               {
                 key: "6",
                 className: "data_report_list",
-                icon: (
-                  <HoverIcon
-                    id="8"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/report.png"
-                    hoverSrc="/Images/report-hover.png"
-                    width={22}
-                    hoverWidth={24}
-                  />
-                ),
+                icon: <FileTextOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("8")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     Reports
                   </div>
                 ),
@@ -1276,21 +975,9 @@ const Sidebar = (props) => {
               },
               {
                 key: "7",
-                icon: (
-                  <HoverIcon
-                    id="9"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/dashbord.png"
-                    hoverSrc="/Images/dash-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <SettingOutlined />,
                 label: (
                   <Link
-                    onMouseEnter={() => setHoveredItem("9")}
-                    onMouseLeave={() => setHoveredItem(null)}
                     to="/markets"
                     onClick={() => {
                       props?.action();
@@ -1304,21 +991,9 @@ const Sidebar = (props) => {
 
               {
                 key: "200",
-                icon: (
-                  <HoverIcon
-                    id="200"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/adminbar.png"
-                    hoverSrc="/Images/admin-bar-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
-                ),
+                icon: <UserDeleteOutlined />,
                 label: (
-                  <div
-                    onMouseEnter={() => setHoveredItem("200")}
-                    onMouseLeave={() => setHoveredItem(null)}>
+                  <div>
                     {uType == 6
                       ? "Dead Admin Details"
                       : uType == 5

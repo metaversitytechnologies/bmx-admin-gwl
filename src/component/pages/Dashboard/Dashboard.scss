@@ -95,7 +95,8 @@
 
 .gx-mb-0 {
   font-size: 13px !important;
-  font-weight: 500 !important;
+  font-weight: 300 !important;
+  color: rgba(255, 255, 255, 0.65) !important;
 }
 
 .dash_card {
@@ -169,22 +170,22 @@
     color: #ffffff !important;
   }
   .gx-fs-lg {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1;
 
     @media (max-width: 1024px) {
-      font-size: 14px !important;
+      font-size: 12px !important;
     }
   }
   .gx-text-capitalize {
-    text-transform: capitalize;
+    text-transform: none;
   }
   .gx-font-weight-semi-bold {
-    font-weight: 600;
+    font-weight: 400;
   }
 
   .gx-text-capitalize {
-    text-transform: capitalize;
+    text-transform: none;
   }
   .ant-col {
     padding-left: 15px;
@@ -218,16 +219,26 @@
   .gx-bg-grey {
     background-color: var(--bg-color) !important;
   }
+  .ant-btn,
+  button {
+    text-transform: uppercase;
+  }
 }
 
 .gx-mr-xl-3 {
   margin-right: 10px !important;
   svg {
-    font-size: 35px;
+    font-size: 18px;
   }
 }
 .main_dash_class {
-  padding: 32px 16px 0;
+  padding: 5px 0px;
+  .gx-font-weight-semi-bold {
+    font-weight: 400;
+  }
+  .gx-text-white {
+    text-transform: none;
+  }
   @media screen and (max-width: 575px) {
     padding: 20px 0px 0;
   }
