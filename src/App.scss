@@ -1,42 +1,53 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
 * {
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
   font-family: NoirPro, sans-serif !important;
 }
+
 .d-none {
   display: none !important;
   transition: transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1), height 0s ease 0.3s,
     width 0s ease 0.3s, -webkit-transform 0.3s cubic-bezier(0.7, 0.3, 0.1, 1);
 }
+
 a {
   text-decoration: none;
   color: #fff;
 }
+
 a:hover {
   text-decoration: none;
   outline: 0;
   color: #fff;
 }
+
 .lightback {
   background: #a7d8fd;
 }
+
 .lightlay {
   background: #f9c9d4;
 }
+
 .back {
   background: #a7d8fd !important;
 }
+
 .lay {
   background: #f9c9d4 !important;
 }
+
 .text_success {
   color: green;
 }
+
 .text_danger {
   color: red;
 }
+
 .ant-btn-default {
   background: var(--btn-bg-color);
   color: #fff;
@@ -45,6 +56,7 @@ a:hover {
   outline: unset;
   margin-right: 14px;
 }
+
 .ant-btn-primary {
   background: #038fde !important;
   color: #fff;
@@ -52,6 +64,7 @@ a:hover {
   border: unset;
   outline: unset;
 }
+
 .main_live_section {
   background-color: #fff;
 }
@@ -84,6 +97,7 @@ a:hover {
 
 .dateHiglight {
   background: #d5dc66;
+
   &:hover {
     background: #d5dc66 !important;
   }
@@ -93,15 +107,19 @@ a:hover {
   background: #038fde;
   color: #fff;
 }
+
 .text-center {
   text-align: center !important;
 }
+
 ::-webkit-scrollbar {
   display: none;
 }
+
 .text-right {
   text-align: center;
 }
+
 button {
   cursor: pointer;
 }
@@ -109,12 +127,15 @@ button {
 .bg_green {
   background: green !important;
 }
+
 .ant-picker.ant-picker-range {
   border-radius: 2px !important;
 }
+
 .bg_red {
   background-color: red !important;
 }
+
 .ant-modal-close-x {
   svg {
     color: #fff;
@@ -138,6 +159,7 @@ button {
               border-start-start-radius: 2px !important;
             }
           }
+
           &:last-child {
             *:last-child {
               border-start-end-radius: 2px !important;
@@ -148,6 +170,7 @@ button {
     }
   }
 }
+
 .ant-select-selector {
   border-radius: 2px !important;
   margin-right: 2px;
@@ -163,19 +186,23 @@ li.ant-pagination-options {
     width: 100vw !important;
     overflow: scroll !important;
   }
+
   .ant-picker-dropdown.ant-picker-dropdown-range.ant-picker-dropdown-placement-bottomLeft {
     width: 100%;
     min-width: 90%;
     max-width: 100%;
     overflow: scroll;
   }
+
   .ant-picker-dropdown.ant-picker-dropdown-range.ant-picker-dropdown-placement-bottomLeft {
     left: 0px !important;
   }
+
   .ant-picker-dropdown.ant-picker-dropdown-range.ant-picker-dropdown-placement-bottomRight {
     left: 0px !important;
   }
 }
+
 // .ant-notification.ant-notification-top{
 //   z-index: 999999;
 // }
@@ -197,6 +224,7 @@ div#rc-tabs-0-tab-2 {
 }
 
 @media screen and (max-width: 767px) {
+
   input,
   select,
   textarea {
@@ -219,12 +247,15 @@ div#rc-tabs-0-tab-2 {
 
 .company_report {
   margin: 30px;
+
   @media (max-width: 1024px) {
     margin: 20px 15px;
   }
+
   .ant-card-head .ant-card-head-title {
     font-size: 24px !important;
     font-weight: 600;
+
     @media (max-width: 1024px) {
       font-size: 20px !important;
     }
@@ -233,22 +264,28 @@ div#rc-tabs-0-tab-2 {
 
 .match_bets_session {
   margin: 30px 40px;
+
   @media (max-width: 1024px) {
     margin: 20px 15px;
   }
+
   .ant-card-head .ant-card-head-title {
     font-size: 20px !important;
     font-weight: 600;
+
     @media (max-width: 1024px) {
       font-size: 18px !important;
     }
   }
+
   .fancy_data_sess {
     padding-bottom: 12px;
+
     .ant-form-item-control-input {
       padding: 12px;
     }
   }
+
   .ant-form-item {
     margin: 0;
   }
@@ -256,13 +293,16 @@ div#rc-tabs-0-tab-2 {
 
 .fancy_pl {
   padding: 12px;
+
   .ant-select {
     width: 100% !important;
   }
+
   .total_pl_fancy {
     font-size: 20px;
     font-weight: 600;
     color: #545454;
+
     span {
       color: red;
     }
@@ -271,18 +311,22 @@ div#rc-tabs-0-tab-2 {
 
 .client_report {
   margin: 30px;
+
   @media (max-width: 1024px) {
     margin: 15px 10px;
   }
+
   h1,
   p {
     margin: 0;
   }
+
   h1 {
     font-size: 28px;
     font-weight: 500;
     line-height: 21px;
   }
+
   p {
     font-size: 16px;
     font-weight: 500;
@@ -292,18 +336,23 @@ div#rc-tabs-0-tab-2 {
 .rehected_bet {
   margin: 30px 80px !important;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+
   @media (max-width: 1024px) {
     margin: 15px 10px !important;
   }
+
   .ant-card-head-title {
     font-size: 28px !important;
+
     @media (max-width: 800) {
       font-size: 20px !important;
     }
   }
+
   .fancy_data_sess {
     padding: 12px 18px;
   }
+
   .ant-select-selector {
     height: 36px !important;
     padding: 4px 11px !important;
@@ -314,6 +363,7 @@ div#rc-tabs-0-tab-2 {
   .ant-select {
     width: 100%;
   }
+
   .ant-select-selector {
     width: 100%;
     height: 36px !important;
@@ -323,11 +373,14 @@ div#rc-tabs-0-tab-2 {
 
 .profit_loss_table {
   margin: 30px 70px !important;
+
   @media (max-width: 1024px) {
     margin: 15px 10px;
   }
+
   .ant-card-head-title {
     font-size: 28px !important;
+
     @media (max-width: 1024px) {
       font-size: 20px !important;
     }
@@ -353,6 +406,7 @@ div#rc-tabs-0-tab-2 {
     border: 1px solid #d9d9d9;
     border-radius: 2px;
   }
+
   svg {
     color: #bfbfbf !important;
   }
@@ -367,10 +421,12 @@ div#rc-tabs-0-tab-2 {
     margin-inline: unset !important;
     border-radius: 2px;
   }
+
   .cash_data {
     .ant-select {
       width: 100% !important;
     }
+
     input {
       width: 100% !important;
     }
@@ -410,12 +466,15 @@ div#rc-tabs-0-tab-2 {
 
 .match_ledger {
   margin: 30px 60px;
+
   @media (max-width: 1024px) {
     margin: 0px;
   }
+
   .ant-card-head-title {
     font-size: 28px !important;
     font-weight: 400 !important;
+
     @media (max-width: 1024px) {
       font-size: 20px !important;
     }
@@ -435,18 +494,22 @@ div#rc-tabs-0-tab-2 {
 .gx-px-5 {
   padding-left: 2rem !important;
 }
+
 .gx-border-redius0 {
   border-radius: 0;
 }
 
 .all_casino_games {
   margin: 30px 80px !important;
+
   @media (max-width: 1024px) {
     margin: 20px 10px !important;
   }
+
   .ant-card-head-title {
     font-size: 28px !important;
     font-weight: 400 !important;
+
     @media (max-width: 1024px) {
       font-size: 20px !important;
     }
@@ -455,9 +518,11 @@ div#rc-tabs-0-tab-2 {
 
 .All_bets {
   margin: 30px 60px !important;
+
   @media (max-width: 1024px) {
     margin: 20px 10px !important;
   }
+
   .ant-card-head-title {
     font-size: 20px !important;
     font-weight: 400 !important;
@@ -478,9 +543,11 @@ div#rc-tabs-0-tab-2 {
 .company_resport_casi {
   margin: 15px 65px !important;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+
   @media (max-width: 1024px) {
     margin: 15px 10px;
   }
+
   th.ant-table-cell {
     padding: 5px !important;
     color: #fff !important;
@@ -497,9 +564,11 @@ div#rc-tabs-0-tab-2 {
 .red {
   color: red !important;
 }
+
 .green {
   color: green !important;
 }
+
 .matchdtailsNoBack {
   background-color: #f9c9d4 !important;
 }
@@ -516,12 +585,15 @@ div#rc-tabs-0-tab-2 {
 
 .gx-bg-green-0 {
   background-color: green !important;
+
   td {
     color: #fff !important;
   }
 }
+
 .gx-bg-red {
   background-color: #f5222d;
+
   td {
     color: #fff !important;
   }
@@ -534,6 +606,7 @@ div#rc-tabs-0-tab-2 {
   border: 1px solid #d9d9d9;
   background: #fff;
   color: #545454;
+
   &:hover {
     background: #fff;
     color: #545454 !important;
@@ -544,6 +617,7 @@ div#rc-tabs-0-tab-2 {
   .ant-card-head-title {
     padding: 0px !important;
   }
+
   .ant-table-thead th {
     font-size: 14px !important;
     text-transform: capitalize !important;
@@ -555,12 +629,14 @@ div#rc-tabs-0-tab-2 {
   gap: 5px;
   margin-top: 12px;
 }
+
 .card_shown_on_top_andar_bahar {
   width: 170px;
   background-color: rgba(0, 0, 0, 0.1);
   padding: 0 10px;
   color: white;
 }
+
 .player_name {
   margin: 0px 0px;
   font-weight: 600;
@@ -679,9 +755,11 @@ th.ant-table-cell {
 .casino_diamond_details {
   padding: 32px 90px;
   flex: 1 1;
+
   @media (max-width: 1024px) {
     padding: 20px 30px;
   }
+
   .ant-card-head-title {
     font-size: 20px !important;
   }
@@ -697,37 +775,25 @@ th.ant-table-cell {
   background-color: green;
   color: #fff;
   white-space: nowrap;
+
   &:hover {
     color: #000;
   }
 }
 
 .ant-menu-dark .ant-menu-item-active,
-.ant-menu-dark .ant-menu-item-active > a,
+.ant-menu-dark .ant-menu-item-active>a,
 .ant-menu-dark .ant-menu-item:hover,
-.ant-menu-dark .ant-menu-item:hover > a,
+.ant-menu-dark .ant-menu-item:hover>a,
 .ant-menu-dark .ant-menu-submenu-active,
-.ant-menu-dark .ant-menu-submenu-active > a,
-.ant-menu-dark
-  .ant-menu-submenu-open
-  .ant-menu-submenu-open
-  .ant-menu-item
-  > a:hover,
-.ant-menu-dark
-  .ant-menu-submenu-open
-  .ant-menu-submenu-open
-  .ant-menu-item
-  > a:hover
-  > a,
+.ant-menu-dark .ant-menu-submenu-active>a,
+.ant-menu-dark .ant-menu-submenu-open .ant-menu-submenu-open .ant-menu-item>a:hover,
+.ant-menu-dark .ant-menu-submenu-open .ant-menu-submenu-open .ant-menu-item>a:hover>a,
 .ant-menu-dark .ant-menu-submenu-selected,
-.ant-menu-dark
-  .ant-menu-submenu-selected
-  .ant-menu-submenu-selected
-  .ant-menu-item-selected
-  > a,
-.ant-menu-dark .ant-menu-submenu-selected > a,
+.ant-menu-dark .ant-menu-submenu-selected .ant-menu-submenu-selected .ant-menu-item-selected>a,
+.ant-menu-dark .ant-menu-submenu-selected>a,
 .ant-menu-dark .ant-menu-submenu-title:hover,
-.ant-menu-dark .ant-menu-submenu-title:hover > a {
+.ant-menu-dark .ant-menu-submenu-title:hover>a {
   color: #fa8c15 !important;
 }
 
@@ -739,27 +805,16 @@ th.ant-table-cell {
   background-color: #fadb14 !important;
 }
 
-:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
-  .ant-table-tbody
-  > tr.ant-table-row:hover
-  > th,
-:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
-  .ant-table-tbody
-  > tr.ant-table-row:hover
-  > td,
-:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
-  .ant-table-tbody
-  > tr
-  > th.ant-table-cell-row-hover,
-:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper
-  .ant-table-tbody
-  > tr
-  > td.ant-table-cell-row-hover {
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody>tr.ant-table-row:hover>th,
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody>tr.ant-table-row:hover>td,
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody>tr>th.ant-table-cell-row-hover,
+:where(.css-dev-only-do-not-override-12jzuas).ant-table-wrapper .ant-table-tbody>tr>td.ant-table-cell-row-hover {
   background: transparent !important;
 }
 
 .agent_master tbody tr {
   background: #13bf35;
+
   td {
     color: #000 !important;
   }
@@ -786,23 +841,28 @@ th.ant-table-cell {
 
 .app_urldata {
   margin-top: 12px;
+
   th {
     padding: 4px !important;
   }
+
   .exposure td.ant-table-cell:first-child {
     min-width: unset !important;
   }
 }
 
 .self_allow {
+
   .ant-form-item-control,
   .ant-form-item-label {
     flex: 1 1 0 !important;
     min-width: 0;
   }
+
   .ant-form-item-row {
     width: 100% !important;
   }
+
   .ant-form-item-label {
     text-align: left !important;
   }
@@ -810,22 +870,26 @@ th.ant-table-cell {
 
 .report_download {
   display: flex;
+
   @media screen and (max-width: 1024px) {
     justify-content: space-between;
   }
+
   .download {
     margin-left: 24px;
   }
 }
 
 .main_live_section {
-  margin: -3px 24px;
+  border: 1px solid white;
+
   .sub_live_section {
     padding: 15px 23px;
     background: var(--bg-color);
     color: rgb(255, 255, 255);
     font-size: 20px;
     color: #fff;
+
     .fs {
       background: #fafafa;
       border: 1px solid #d9d9d9;
@@ -833,6 +897,7 @@ th.ant-table-cell {
       padding: 3px 7px;
       font-size: 13px;
     }
+
     .blink_this {
       animation: colorchange 3s infinite alternate;
     }
@@ -854,13 +919,16 @@ th.ant-table-cell {
     .fs_img {
       padding: 3px 7px;
       margin-left: 7px;
+
       img {
         margin-top: -1px;
       }
     }
   }
+
   .match_section {
     margin-top: 0px;
+
     button {
       color: #545454;
       background: #fff;
@@ -871,6 +939,7 @@ th.ant-table-cell {
       margin: 7px 7px;
     }
   }
+
   .back-lay-bg {
     background-image: linear-gradient(to right, #ef839b, #63b7f7);
     color: #222 !important;
@@ -883,14 +952,17 @@ th.ant-table-cell {
     padding: 8px 16px;
   }
 }
+
 .main_live_section1 {
   margin: 30px 30px;
+
   .sub_live_section {
     padding: 12px 15px;
     background: rgb(115, 118, 111);
     color: rgb(255, 255, 255);
     font-size: 14px;
     color: #fff;
+
     .fs {
       background: #fafafa;
       border: 1px solid #d9d9d9;
@@ -898,6 +970,7 @@ th.ant-table-cell {
       padding: 3px 7px;
       font-size: 13px;
     }
+
     .blink_this {
       animation: colorchange 3s infinite alternate;
     }
@@ -919,12 +992,15 @@ th.ant-table-cell {
     .fs_img {
       padding: 3px 7px;
       margin-left: 7px;
+
       img {
         margin-top: -1px;
       }
     }
   }
+
   .match_section {
+
     // margin-top: 120px;
     button {
       color: #545454;
@@ -936,6 +1012,7 @@ th.ant-table-cell {
       margin: 7px 7px;
     }
   }
+
   .back-lay-bg {
     background-image: linear-gradient(to right, #ef839b, #63b7f7);
     color: #222 !important;
@@ -951,13 +1028,16 @@ th.ant-table-cell {
 
 .lagai {
   padding: 10px;
+
   div {
     color: #fff;
     text-align: center;
   }
 }
+
 .khai {
   padding: 10px;
+
   div {
     color: #fff;
     text-align: center;
@@ -975,6 +1055,7 @@ th.ant-table-cell {
     color: #545454;
     font-weight: bold;
   }
+
   .fancy_book_data {
     background-color: rgb(135, 208, 104);
     color: #fff;
@@ -986,10 +1067,12 @@ th.ant-table-cell {
     cursor: pointer;
     bottom: 3px;
   }
+
   .match_title {
     padding: 2px 4px 0px 4px;
   }
 }
+
 .fancy_all_data {
   .match_title {
     border-bottom: 0.5px solid #a8a8a8;
@@ -999,14 +1082,18 @@ th.ant-table-cell {
 
 .completed_fancy {
   margin: 0 !important;
+
   .ant-card-head-title {
     font-size: 20px !important;
   }
 }
+
 .event_section {
   background: #fff;
+
   table {
     width: 100%;
+
     tr {
       &:hover {
         transition: all 0.3s, height 0s;
@@ -1017,16 +1104,20 @@ th.ant-table-cell {
 
   .sportName {
     padding: 0px 8px;
+
     a {
       color: #038fde;
+
       .sport_title {
         padding-top: 8px;
       }
+
       .date_section {
         font-weight: bold;
         display: flex;
         align-items: center;
         margin-bottom: 8px;
+
         svg {
           font-weight: bold;
           font-size: 16px;
@@ -1041,12 +1132,14 @@ th.ant-table-cell {
   justify-content: space-between;
   align-items: center;
   margin-inline: 15px;
+
   .sub_fancy {
     background-color: rgb(45, 183, 245);
     margin-top: 5px;
     color: #fff;
     padding: 3px;
   }
+
   .fancy_icon {
     float: right;
     background: rgb(255, 255, 255);
@@ -1063,6 +1156,7 @@ th.ant-table-cell {
   align-items: center;
   margin-inline: 15px;
   white-space: nowrap;
+
   .sub_fancy {
     background-color: rgb(45, 183, 245);
     margin-top: 5px;
@@ -1071,6 +1165,7 @@ th.ant-table-cell {
     margin-right: 12px;
     white-space: nowrap;
   }
+
   .fancy_icon {
     float: right;
     background: rgb(255, 255, 255);
@@ -1089,26 +1184,31 @@ th.ant-table-cell {
   .main_live_section {
     margin: 20px 8px !important;
     margin-inline: 2%;
+
     .match_section {
       button {
         display: block !important;
       }
+
       .ant-col.ant-col-19 {
         width: 64%;
         min-width: 64%;
         max-width: 64%;
       }
+
       .ant-col.ant-col-5 {
         width: 36%;
         min-width: 36%;
         max-width: 36%;
       }
+
       .lagai {
         div {
           height: 44px;
         }
       }
     }
+
     .scor {
       .ant-col.ant-col-5 {
         min-width: 36%;
@@ -1116,36 +1216,43 @@ th.ant-table-cell {
         width: 36%;
       }
     }
+
     .ant-col.ant-col-20.gutter-row {
       width: 100% !important;
       min-width: 100% !important;
       max-width: 100% !important;
     }
   }
+
   .main_live_section1 {
     margin: 0px;
     width: 96%;
     margin-inline: 2%;
+
     .match_section {
       button {
         display: block !important;
       }
+
       .ant-col.ant-col-19 {
         width: 60%;
         min-width: 60%;
         max-width: 60%;
       }
+
       .ant-col.ant-col-5 {
         width: 40%;
         min-width: 40%;
         max-width: 40%;
       }
+
       .lagai {
         div {
           height: 44px;
         }
       }
     }
+
     .scor {
       .ant-col.ant-col-5 {
         min-width: 36%;
@@ -1153,17 +1260,20 @@ th.ant-table-cell {
         width: 36%;
       }
     }
+
     .ant-col.ant-col-20.gutter-row {
       width: 100% !important;
       min-width: 100% !important;
       max-width: 100% !important;
     }
+
     .tital_sectin {
       width: 64%;
       min-width: 64%;
       max-width: 64%;
     }
   }
+
   .match_title {
     border-bottom: 0.5px solid #a8a8a8;
     border-left: 0.5px solid #a8a8a8;
@@ -1171,9 +1281,11 @@ th.ant-table-cell {
     min-width: 64%;
     max-width: 64%;
   }
+
   .scor .fancy_book_data {
     bottom: 2px;
   }
+
   .fancy_section {
     .fancy_all_data {
       .ant-col.ant-col-5 {
@@ -1182,29 +1294,35 @@ th.ant-table-cell {
         width: 36%;
       }
     }
+
     .ant-col.ant-col-21.gutter-row {
       width: 100%;
       min-width: 100%;
       max-width: 100%;
     }
+
     .ant-col.ant-col-19.back-lay-bg {
       width: 64%;
       min-width: 64%;
       max-width: 64%;
     }
+
     .ant-col.ant-col-5 {
       width: 36%;
       min-width: 36%;
       max-width: 36%;
     }
   }
+
   .yes_no {
     height: 100%;
+
     .ant-col {
       height: 100%;
     }
   }
 }
+
 .b-bottom {
   border-bottom: 1px solid #a8a8a8 !important;
 }
@@ -1237,22 +1355,27 @@ th.ant-table-cell {
   text-align: center;
   margin-top: 15%;
 }
+
 .ant-spin {
   color: #038fde !important;
 }
+
 .ant-spin-spinning {
   position: static;
   display: inline-block !important;
   opacity: 1 !important;
+
   .ant-spin-dot {
     i {
       width: 14px;
       height: 14px;
     }
   }
+
   .ant-spin-dot-item {
     background-color: #038fde;
     border-radius: 100%;
+
     &:first-child {
       top: 0;
       left: 0;
@@ -1266,7 +1389,9 @@ th.ant-table-cell {
     overflow: scroll;
   }
 }
+
 .bookData {
+
   // margin-left: -24px;
   button {
     margin: 2px;
@@ -1278,6 +1403,7 @@ th.ant-table-cell {
   .bookData {
     margin-left: 4px !important;
   }
+
   .sub_fancy {
     width: 54%;
     min-width: 50%;
@@ -1296,19 +1422,23 @@ th.ant-table-cell {
       padding: 4px 2px;
     }
   }
+
   .lagai1 {
     height: 64px;
   }
+
   .ant-col.ant-col-21 {
     width: 100% !important;
     min-width: 100% !important;
     max-width: 100% !important;
   }
+
   .b-bottom {
     width: 36%;
     min-width: 36%;
     max-width: 36%;
   }
+
   .ant-col.back-lay-bg {
     width: 64%;
     min-width: 64%;
@@ -1324,22 +1454,30 @@ th.ant-table-cell {
 .sub_live_section {
   display: flex;
   justify-content: space-between;
+
   .show_btn {
     button {
       border: unset;
-      border-radius: 4px !important;
+      border-radius: 5px !important;
       outline: unset;
-      background: #038fde;
-      color: #fff;
-      font-weight: bold;
+      background: #fff;
+      color: #000;
+      font-weight: 250;
       padding: 10.5px 16px;
       margin-right: 10px;
+
+      &:hover {
+        color: #64b7f7;
+        border: 1px solid #64b7f7;
+        padding: 9.5px 15px;
+      }
     }
   }
 }
 
 .ht {
   height: 47px;
+
   @media screen and (max-width: 1024px) {
     height: 51px;
     min-height: 51px;
@@ -1366,6 +1504,7 @@ th.ant-table-cell {
   border-radius: 50%;
   margin-right: 5px;
 }
+
 .ball {
   display: flex;
   align-items: center;
@@ -1377,6 +1516,7 @@ th.ant-table-cell {
   //   height: 290px;
   // }
 }
+
 .tv-score-container {
   overflow: hidden;
 }
@@ -1384,6 +1524,7 @@ th.ant-table-cell {
 .bets_details {
   .ant-modal-content {
     padding: 0px !important;
+
     .ant-modal-header {
       padding: 17px;
     }
@@ -1404,21 +1545,27 @@ th.ant-table-cell {
   .ant-modal-content {
     padding-bottom: 12px !important;
   }
+
   .ant-modal-footer {
     text-align: center !important;
+
     &::after {
       bottom: 58px !important;
     }
+
     button {
       margin-top: 12px !important;
     }
   }
 }
+
 .profit_apply {
   //   display: flex;
   align-items: center;
+
   .profit_date {
     margin: 18px 15px;
+
     .ant-picker.ant-picker-range {
       width: 100%;
     }
@@ -1427,11 +1574,13 @@ th.ant-table-cell {
   .text-center {
     text-align: center;
   }
+
   .apply_btn {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 15px;
+
     .search_icon {
       margin-right: 5px;
       font-size: 16px;
@@ -1439,6 +1588,7 @@ th.ant-table-cell {
     }
   }
 }
+
 .btn_apply {
   display: flex;
   justify-content: space-around;

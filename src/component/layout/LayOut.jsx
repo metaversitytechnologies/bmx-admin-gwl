@@ -7,11 +7,14 @@ import "./Layout.scss";
 import MarqueeTag from "../common/marquee/MarqueeTag";
 import { Outlet, useNavigate } from "react-router-dom";
 import HomeRules from "../pages/HomeRules";
+import { useSelector } from "react-redux";
+import { selectShowMarquee } from "../../store/global/slice";
 
 const LayOut = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const [open, setOpen] = useState(false);
+  const showMarquee = useSelector(selectShowMarquee);
 
   const toggleDarawer = () => setOpen((prev) => !prev);
   const toggleCollapsed = () => setCollapsed((prev) => !prev);
@@ -66,9 +69,11 @@ const LayOut = () => {
               onToggleCollapse={toggleCollapsed}
             />
           </Header>
-          <div className="marqu_tag">
-            <MarqueeTag />
-          </div>
+          {showMarquee && (
+            <div className="marqu_tag">
+              <MarqueeTag />
+            </div>
+          )}
           <Content
             // style={{ margin: "2px 1px", padding: "21px 19px 0" }}
             className="main_section">

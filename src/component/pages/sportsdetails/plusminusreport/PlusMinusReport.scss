@@ -1,7 +1,6 @@
 .live_report {
   display: flex;
   justify-content: space-between;
-  margin-top: 35px;
   button {
     border: unset;
     border-radius: unset;
@@ -155,6 +154,8 @@
   display: inline-block;
   flex: 1 1;
   overflow: hidden;
+  text-transform: uppercase;
+  font-size: 16px !important;
   // white-space: nowrap;
 }
 .back_show {

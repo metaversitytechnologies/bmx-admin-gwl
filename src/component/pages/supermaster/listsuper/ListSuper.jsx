@@ -3,15 +3,25 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
 import "./ListSuper.scss";
 import UserListTable from "../../../common/UserListTable";
+import { useDispatch } from "react-redux";
+import { setShowMarquee } from "../../../../store/global/slice";
 
 const ListSuper = ({ forDeadClient }) => {
   const { userTyep, Listname } = useParams();
   const UserId = localStorage.getItem("userId");
   const [parentUserids, setParentUserIds] = useState(UserId);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setParentUserIds(UserId);
   }, [UserId]);
+
+  useEffect(() => {
+    dispatch(setShowMarquee(false));
+    return () => {
+      dispatch(setShowMarquee(true));
+    };
+  }, [dispatch]);
 
   const { id } = useParams();
 
@@ -56,7 +66,8 @@ const ListSuper = ({ forDeadClient }) => {
               <div>
                 <p>
                   <Link to={`/client/limitplusminus-super/${userTyep}`}>
-                    Update Limit
+                    <AiOutlinePlus />
+                    Update
                   </Link>
                 </p>
               </div>

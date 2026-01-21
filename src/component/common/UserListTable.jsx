@@ -16,8 +16,8 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
 import {
   SearchOutlined,
-  CaretDownOutlined,
-  PlusOutlined,
+  ShareAltOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
@@ -477,9 +477,9 @@ const UserListTable = ({
             <table className={`live_table ${forDeadClient ? "mt-0" : ""}`}>
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th></th>
-                  <th>
+                  <th rowSpan={2}>#</th>
+                  <th rowSpan={2}></th>
+                  <th rowSpan={2}>
                     <div
                       className="main_search_droup"
                       style={{ position: "relative" }}
@@ -536,7 +536,7 @@ const UserListTable = ({
                       </p>
                     </div>
                   </th>
-                  <th>
+                  <th rowSpan={2}>
                     <div
                       className="main_search_droup"
                       style={{ position: "relative" }}
@@ -593,7 +593,7 @@ const UserListTable = ({
                       </p>
                     </div>
                   </th>
-                  <th>
+                  <th rowSpan={2}>
                     {userType == 7
                       ? "SuperAdmin"
                       : userType == 6
@@ -608,18 +608,26 @@ const UserListTable = ({
                       ? "Super"
                       : "Agent"}
                   </th>
-                  <th>Contact</th>
-                  <th>D.O.J </th>
-                  <th>Share%</th>
-                  <th>PWD</th>
+                  <th rowSpan={2}>D.O.J </th>
+                  <th rowSpan={2}>PASSWORD</th>
+                  <th rowSpan={2}>Share%</th>
                   {userType == 1 && (
-                    <th style={{ textAlign: "right" }}>Exposure</th>
+                    <th rowSpan={2} style={{ textAlign: "right" }}>
+                      Exposure
+                    </th>
                   )}
                   <th colSpan={3} className="text-center">
                     {Listname} Comm %
                   </th>
-                  <th className="text-right">C.Chips</th>
-                  <th>Status</th>
+                  <th rowSpan={2} className="text-right">
+                    Chips
+                  </th>
+                  <th rowSpan={2}>Status</th>
+                </tr>
+                <tr>
+                  <th>Type</th>
+                  <th>Match</th>
+                  <th>Session</th>
                 </tr>
               </thead>
               <tbody>
@@ -630,9 +638,8 @@ const UserListTable = ({
                         <div
                           onClick={() =>
                             handleShowPartnershipModal(res?.userId)
-                          }
-                          className="plus_btn">
-                          <PlusOutlined />
+                          }>
+                          <ShareAltOutlined className="icon-share" />
                         </div>
                       </td>
                       <td
@@ -652,10 +659,10 @@ const UserListTable = ({
                           trigger={["click", "contextMenu"]}>
                           <div
                             className="droup_link"
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: "pointer" , padding: "0 10px 0px 22px"}}
                             onClick={() => handleEditUserData(res?.userid)}>
                             <Space>
-                              <CaretDownOutlined />
+                              <DownOutlined className="icon-down" />
                             </Space>
                           </div>
                         </Dropdown>
@@ -685,10 +692,9 @@ const UserListTable = ({
                       <td>
                         {res?.parentName} ({convertCode(res?.parentId)})
                       </td>
-                      <td>{res?.contact}</td>
-                      <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
-                      <td>{res?.partnerShip}</td>
+                      <td>{moment(res?.createdOn).format("DD-MMM-YYYY")}</td>
                       <td>{isNsg ? "*******" : res?.password}</td>
+                      <td>{res?.partnerShip}</td>
                       {userType == 1 && (
                         <td style={{ textAlign: "right" }}>
                           <span
@@ -730,7 +736,14 @@ const UserListTable = ({
                               Number(res?.balance) + Number(res?.balanceWithPnl)
                             )?.toFixed()}
                       </td>
-                      <td>{res?.isActive ? "Active" : "InActive"}</td>
+                      <td>
+                        <span
+                          className={`status_badge ${
+                            res?.isActive ? "status_active" : "status_inactive"
+                          }`}>
+                          {res?.isActive ? "Active" : "InActive"}
+                        </span>
+                      </td>
                     </tr>
                   ))
                 ) : (

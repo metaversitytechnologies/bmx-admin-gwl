@@ -1,29 +1,108 @@
 .active_match_name {
   .ant-card-head-title {
     font-size: 20px !important;
+    font-weight: 600;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+  .ant-card-head {
+    background: #b7852f;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  .ant-card-head,
+  .ant-card-head-wrapper {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  .ant-card,
+  &.ant-card {
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ant-card-head {
+    overflow: hidden;
   }
 }
-.inplay {
-  background-color: rgb(16, 142, 233);
-  outline: unset;
-  border: unset;
-  color: #fff;
-  font-size: 12px;
-  // border-radius: 6px;
-  padding: 8px 11px;
+.inplay_badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #5f5f5f;
+  background: #f6f6f6;
+  gap: 10px;
+}
+.inplay_dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0f7a3a;
+  animation: inplayPulse 1s ease-in-out infinite;
+}
+.inplay_active {
+  color: #3a3a3a;
+  border-color: #cfcfcf;
+}
+@keyframes inplayPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+}
+.details_btn {
+  padding: 0 10px !important;
+  height: 24px !important;
+  font-size: 12px !important;
+  font-weight: 600;
 }
 .loading_active {
   margin-top: 5%;
 }
 
 .active_slip.login_report {
-  margin: 0px 11px;
+  margin: 0;
 }
 
 .active_match_table {
   height: 100%;
   overflow-x: scroll;
   overflow-y: unset !important;
+}
+.active_match_table_grid {
+  width: 100%;
+  border-collapse: collapse;
+  th,
+  td {
+    border: 1px solid #e0e0e0;
+    padding: 8px 10px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  th {
+    background: #b7852f;
+    color: #fff;
+    text-align: left;
+    border-radius: 0;
+  }
+  td {
+    background: #fff;
+    color: #000000e0 !important;
+    text-transform: uppercase !important;
+  }
 }
 
 .active_sport_list {

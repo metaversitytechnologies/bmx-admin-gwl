@@ -1,4 +1,5 @@
-import { Card, Empty, Spin } from "antd";
+import { Card, Empty, Spin, Button } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import { useActiveMatchQuery } from "../../../store/service/ActiveMatcheService";
 import "./ActiveMatch.scss";
 import { useNavigate } from "react-router-dom";
@@ -23,46 +24,47 @@ const ActiveMatch = () => {
           width: "100%",
         }}
         className="sport_detail active_match_name"
-        title="Active Matches">
+        title="ACTIVE MATCHES">
         {isLoading || isFetching ? (
           <Spin className="loading_active" tip="Loading..." size="large">
             <div className="content" />
           </Spin>
         ) : (
           <div className="table_section statement_tabs_data active_match_table">
-            <table className="">
+            <table className="active_match_table_grid">
               <tr>
-                <th>S/N</th>
-                <th>Name</th>
-                <th>Open Date</th>
-
-                <th>Inplay</th>
-                <th>Details</th>
+                <th>NAME</th>
+                <th>OPEN DATE</th>
+                <th>COMPETITION</th>
+                <th>INPLAY</th>
+                <th>DETAILS</th>
               </tr>
               {data?.data?.map((res, id) => {
                 return (
                   <tr key={id} style={{ cursor: "pointer" }}>
-                    <td>{id + 1}</td>
                     <td>{res?.matchName}</td>
                     <td>
-                      {moment(res?.openDate).format("DD-MM-YYYY  HH:mm:ss")}
+                      {moment(res?.openDate).format("MM/DD/YYYY hh:mm A")}
                     </td>
-                    {/* <td>??</td> */}
+                    <td>{res?.league}</td>
                     <td>
-                      {res?.inPlay && (
-                        <button className="inplay">INPLAY</button>
-                      )}
+                      <span
+                        className={`inplay_badge ${
+                          res?.inPlay ? "inplay_active" : ""
+                        }`}>
+                        {res?.inPlay && <span className="inplay_dot" />}
+                        INPLAY
+                      </span>
                     </td>
                     <td>
-                      <p
-                        style={{
-                          cursor: "pointer",
-                          color: "#038fde",
-                          fontWeight: 600,
-                        }}
+                      <Button
+                        type="primary"
+                        size="small"
+                        className="details_btn"
+                        icon={<EyeOutlined />}
                         onClick={() => handleDetails(res?.matchId)}>
-                        Details
-                      </p>
+                        View
+                      </Button>
                     </td>
                   </tr>
                 );
