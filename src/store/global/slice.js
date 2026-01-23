@@ -4,7 +4,7 @@ const globalSlice = createSlice({
     name:"global",
     initialState:{
         data:null,
-        showMarquee:true,
+        showMarquee:false,
     },
     reducers:{
         setData:(state,action)=>{

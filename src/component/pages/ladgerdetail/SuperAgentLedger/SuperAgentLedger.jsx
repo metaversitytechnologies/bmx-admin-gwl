@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Card, Col, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./SuperAgentLedger.scss";
-import { Money } from "./moneySvg";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, BarChartOutlined } from "@ant-design/icons";
 import { useGetLedgerAllQuery } from "../../../../store/service/SportDetailServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import { convertCode, isNsg } from "../../../../store/constant";
@@ -90,6 +89,7 @@ const SuperAgentLedger = () => {
       title: "User Name",
       dataIndex: "fullName",
       key: "fullName",
+      width: "50%",
       render: (text, record) => (
         <span
           style={{ color: "#038fde", cursor: "pointer" }}
@@ -99,14 +99,17 @@ const SuperAgentLedger = () => {
       ),
     },
     {
-      title: "Balance",
+      title: "AMOUNT",
       dataIndex: "closinBalane",
       key: "closinBalane",
+      width: "35%",
+      align: "right",
       render: (text, record) => <span>{Math.abs(record?.closinBalane)}</span>,
     },
     {
-      title: <Money textColor="#FFF" />,
+      title: '',
       key: "settlement",
+      width: "15%",
       align: "center",
       render: (text, record) => (
         <div>
@@ -128,7 +131,16 @@ const SuperAgentLedger = () => {
             onClick={() =>
               nav(`/client/txn-super/${Listname}/${userTyep}/${record?.userId}`)
             }>
-            <Money textColor="#038fde" />
+            <BarChartOutlined
+              style={{
+                color: "#000",
+                backgroundColor: "#ff0",
+                padding: "4px",
+                borderRadius: "4px",
+                border: "1px solid #ddd",
+                margin: "4px",
+              }}
+            />
           </span>
         </div>
       ),
@@ -138,10 +150,10 @@ const SuperAgentLedger = () => {
   return (
     <>
       <Card
-        className="sport_detail ledger_data led_super"
+        className="sport_detail ledger_data"
         title={`${Listname?.replace("-", " ")} Ledger`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
-        <Row className="main_super_super_ledger" gutter={[24]}>
+        <Row className="main_super_super_ledger" gutter={[24]} style={{ padding: "16px 0px" }}>
           {["Lena", "Dena", "Clear"].map((itemName, index) => (
             <Col key={index} xs={24} lg={8} md={24}>
               <div

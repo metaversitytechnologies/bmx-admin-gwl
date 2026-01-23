@@ -1,13 +1,14 @@
 import "./SportsDetails.scss";
-import { Button, Card, Col, DatePicker, Empty, Row } from "antd";
+import { Card, Col, DatePicker, Empty, Input, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { CaretDownOutlined } from "@ant-design/icons";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import dayjs from "dayjs";
 import { useActiveMatchQuery } from "../../../store/service/ActiveMatcheService";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import LiveReportButton from "../../common/LiveReportButton";
+import TablePagination from "../../common/TablePagination";
 
 const { RangePicker } = DatePicker;
 
@@ -18,6 +19,9 @@ const SportsDetails = () => {
   const [dataNameee, setDataNameee] = useState("");
   const [dropdownStates, setDropdownStates] = useState([]);
   const [activeTabData, setActtiveTabData] = useState(4);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   const nav = useNavigate();
 
@@ -40,10 +44,33 @@ const SportsDetails = () => {
     setDateData(dateString);
   };
 
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+  const filteredData =
+    sportDetail?.data?.filter((item) => {
+      if (!normalizedSearchTerm) {
+        return true;
+      }
+      const matchName = item?.matchName?.toLowerCase() || "";
+      const competitionName = item?.league?.toLowerCase() || "";
+      return (
+        matchName.includes(normalizedSearchTerm) ||
+        competitionName.includes(normalizedSearchTerm)
+      );
+    }) || [];
+
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
   useEffect(() => {
-    const initialStates = new Array(sportDetail?.data?.length || 0).fill(false);
+    setCurrentPage(1);
+  }, [normalizedSearchTerm, filteredData.length]);
+
+  useEffect(() => {
+    const initialStates = new Array(paginatedData.length).fill(false);
     setDropdownStates(initialStates);
-  }, [sportDetail]);
+  }, [paginatedData.length, currentPage]);
 
   const toggleDropdown = (index) => {
     const updatedDropdownStates = [...dropdownStates].map((_, i) =>
@@ -55,198 +82,216 @@ const SportsDetails = () => {
   return (
     <Card
       className="sport_detail"
-      title="Sports Detail"
-      extra={<button onClick={handleBackbtn}>Back</button>}>
-      <Row className="date_picker" justify="center">
-        <Col
-          xl={6}
-          lg={6}
-          md={24}
-          xs={24}
-          className="datepicker_sport"
-          style={{ padding: "6px 10px 0px" }}>
-          <RangePicker
-            style={{ marginBottom: "10px" }}
-            defaultValue={[dayjs(timeBefore), dayjs(time)]}
-            onChange={onChange}
-            bordered={false}
-          />
-        </Col>
-      </Row>
+      title="ACTIVE GAMES"
+    >
+      <div style={{ padding: "20px" }}>
+        <Row className="date_picker" gutter={[16, 16]}>
+          <Col
+            xl={8}
+            lg={8}
+            md={24}
+            xs={24}
+            className="datepicker_sport">
+            <RangePicker
+              style={{ marginBottom: "10px", width: "100%", borderRadius: "20px" }}
+              onChange={onChange}
+            />
+          </Col>
+          <Col
+            xl={8}
+            lg={8}
+            md={24}
+            xs={24}
+            className="datepicker_sport">
+            <Input
+              placeholder="Search by name or competition"
+              prefix={<SearchOutlined />}
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              allowClear
+              style={{ marginBottom: "10px", width: "100%", borderRadius: "20px" }}
+            />
+          </Col>
+        </Row>
 
-      <div className="table_section">
-        {(isFetching || isLoading) && <CustomLoading />}
-        <table className="ant-spin-nested-loading">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Code</th>
-              <th>Name</th>
-              <th>Setting</th>
-              <th>Time</th>
-              <th>Status</th>
-              <th>Declare</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sportDetail?.data?.length > 0 ? (
-              sportDetail.data.map((res, id) => {
-                return (
-                  <tr key={res.key || id}>
-                    <td style={{ cursor: "pointer", width: "3%" }}>
-                      <Dropdown
-                        className="table_dropdown sport_droupdown"
-                        open={dropdownStates[id]}
-                        onOpenChange={() => toggleDropdown(id)}
-                        menu={{
-                          items: [
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  to={`/Events/${res.matchId}/4/live-report`}
-                                  className="title_section">
-                                  Match and Session Position
-                                </Link>
-                              ),
-                              key: "0",
-                            },
-                            {
-                              label: (
-                                <p
-                                  className="title_section"
-                                  onClick={() => handlePlusMinus(res.matchId)}>
-                                  Match and Session Plus Minus
-                                </p>
-                              ),
-                              key: "1",
-                            },
-                            {
-                              label: (
-                                <p
-                                  className="title_section"
-                                  onClick={() =>
-                                    nav(
-                                      `/matchplusminus/${res?.matchId}/${res?.matchName}`
-                                    )
-                                  }>
-                                  Match and Session Plus Minus 2
-                                </p>
-                              ),
-                              key: "2",
-                            },
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  className="title_section"
-                                  to={`/match-slips/${res.matchId}/1`}>
-                                  Display Match Bets
-                                </Link>
-                              ),
-                              key: "3",
-                            },
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  className="title_section"
-                                  to={`/fancy-slips/${res.matchId}/1`}>
-                                  Display Session Bets
-                                </Link>
-                              ),
-                              key: "4",
-                            },
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  className="title_section"
-                                  to={`/matchsessionbet/${res.matchId}/1`}>
-                                  Match And Session Bet
-                                </Link>
-                              ),
-                              key: "5",
-                            },
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  className="title_section"
-                                  to={`/completed-fancy-slips/${res.matchId}`}>
-                                  Completed Fancies
-                                </Link>
-                              ),
-                              key: "6",
-                            },
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  className="title_section"
-                                  to={`/agent-list/${res.matchId}/${res.matchName}`}>
-                                  Agent Plus Minus
-                                </Link>
-                              ),
-                              key: "7",
-                            },
-                            {
-                              label: (
-                                <Link
-                                  onClick={() => setDropdownStates(false)}
-                                  className="title_section"
-                                  to={`/rejectedBetsByEvent/${res.matchId}/${res?.matchName}`}>
-                                  Rejected Bet
-                                </Link>
-                              ),
-                              key: "8",
-                            },
-                          ],
-                          className: "sport_list",
-                        }}
-                        trigger={["click", "contextMenu"]}>
-                        <p
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setDataNameee(res.matchName);
-                          }}>
-                          <Space>
-                            <CaretDownOutlined />
-                          </Space>
-                        </p>
-                      </Dropdown>
-                    </td>
-                    <td>{id + 1}</td>
-                    <td>
-                      <Link
-                        to={`/Events/${res.matchId}/4/live-report`}
-                        style={{ color: "#038fde", cursor: "pointer" }}>
-                        {res.matchName}
-                      </Link>
-                    </td>
-                    <td>No Change</td>
-                    <td>
-                      {moment(res.openDate).format("DD-MM-YYYY HH:mm:ss")}
-                    </td>
-                    <td>
-                      <Button type="primary" className="in_play_btn">
-                        Inplay
-                      </Button>
-                    </td>
-                    <td>No</td>
-                  </tr>
-                );
-              })
-            ) : (
+        <div className="table_section">
+          {(isFetching || isLoading) && <CustomLoading />}
+          <table className="ant-spin-nested-loading">
+            <thead>
               <tr>
-                <td colSpan={9}>
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                </td>
+                <th>#</th>
+                <th>Name</th>
+                <th>DATE & TIME</th>
+                <th>COMPETITION NAME</th>
+                <th>DETAILS</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {paginatedData.length > 0 ? (
+                paginatedData.map((res, id) => {
+                  return (
+                    <tr key={res.key || id}>
+                      <td style={{ cursor: "pointer", width: "3%" }}>
+                        <Dropdown
+                          className="table_dropdown sport_droupdown"
+                          open={dropdownStates[id]}
+                          onOpenChange={() => toggleDropdown(id)}
+                          menu={{
+                            items: [
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    to={`/Events/${res.matchId}/4/live-report`}
+                                    className="title_section">
+                                    Match and Session Position
+                                  </Link>
+                                ),
+                                key: "0",
+                              },
+                              {
+                                label: (
+                                  <span
+                                    className="title_section"
+                                    onClick={() => handlePlusMinus(res.matchId)}>
+                                    Match and Session Plus Minus
+                                  </span>
+                                ),
+                                key: "1",
+                              },
+                              {
+                                label: (
+                                  <span
+                                    className="title_section"
+                                    onClick={() =>
+                                      nav(
+                                        `/matchplusminus/${res?.matchId}/${res?.matchName}`
+                                      )
+                                    }>
+                                    Match and Session Plus Minus 2
+                                  </span>
+                                ),
+                                key: "2",
+                              },
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    className="title_section"
+                                    to={`/match-slips/${res.matchId}/1`}>
+                                    Display Match Bets
+                                  </Link>
+                                ),
+                                key: "3",
+                              },
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    className="title_section"
+                                    to={`/fancy-slips/${res.matchId}/1`}>
+                                    Display Session Bets
+                                  </Link>
+                                ),
+                                key: "4",
+                              },
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    className="title_section"
+                                    to={`/matchsessionbet/${res.matchId}/1`}>
+                                    Match And Session Bet
+                                  </Link>
+                                ),
+                                key: "5",
+                              },
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    className="title_section"
+                                    to={`/completed-fancy-slips/${res.matchId}`}>
+                                    Completed Fancies
+                                  </Link>
+                                ),
+                                key: "6",
+                              },
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    className="title_section"
+                                    to={`/agent-list/${res.matchId}/${res.matchName}`}>
+                                    Agent Plus Minus
+                                  </Link>
+                                ),
+                                key: "7",
+                              },
+                              {
+                                label: (
+                                  <Link
+                                    onClick={() => setDropdownStates(false)}
+                                    className="title_section"
+                                    to={`/rejectedBetsByEvent/${res.matchId}/${res?.matchName}`}>
+                                    Rejected Bet
+                                  </Link>
+                                ),
+                                key: "8",
+                              },
+                            ],
+                            className: "sport_list",
+                          }}
+                          trigger={["click", "contextMenu"]}>
+                          <span
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setDataNameee(res.matchName);
+                            }}>
+                            <Space>
+                              <DownOutlined />
+                            </Space>
+                          </span>
+                        </Dropdown>
+                      </td>
+                      <td>
+                        <Link
+                          to={`/Events/${res.matchId}/4/live-report`}
+                          style={{ color: "#000", cursor: "pointer" }}>
+                          {res.matchName}
+                        </Link>
+                      </td>
+                      <td>
+                        {moment(res.openDate).format("MM/DD/YYYY hh:mm A")}
+                      </td>
+                      <td>{res?.league}</td>
+                      <td>
+                        <LiveReportButton matchId={res.matchId} />
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={9}>
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div className="pagination_wrapper">
+            <TablePagination
+              total={filteredData.length}
+              pageSize={pageSize}
+              current={currentPage}
+              onChange={setCurrentPage}
+              className="pagination_main"
+            />
+          </div>
+        </div>
       </div>
+
     </Card>
   );
 };

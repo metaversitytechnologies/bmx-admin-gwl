@@ -15,7 +15,9 @@
       color: #ffffff !important;
       background-color: #038fde !important;
       border-color: #038fde !important;
-      padding: 10px 12px;
+      padding: 6px 10px;
+      font-size: 13px;
+      line-height: 1;
       display: flex;
       align-items: center;
       border-radius: 4px;
@@ -52,18 +54,18 @@
       background: #fff;
       width: 22px;
       height: 22px;
-      border: 1px solid #bcd9ff;
       border-radius: 4px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 12px;
+      cursor: pointer;
     }
     .droup_link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 22px;
+      width: 28px;
       height: 22px;
       background: #038fde;
       border-radius: 4px;
@@ -76,21 +78,24 @@
       th {
         background: #b7862b;
         color: #fff;
-        padding: 10px 12px !important;
+        padding: 7px 10px !important;
         font-weight: 600;
         letter-spacing: 0.3px;
         text-transform: uppercase !important;
         border-right: 1px solid #caa35a;
         border-bottom: 1px solid #caa35a;
         white-space: nowrap;
+        line-height: 1.1;
       }
     }
     tbody {
       td {
-        padding: 10px 12px;
+        padding: 7px 10px;
+        font-weight: 600;
         border-right: 1px solid #e2d6c2;
         border-bottom: 1px solid #e2d6c2;
         background: #fff;
+        line-height: 1.2;
       }
       tr {
         &:hover {
@@ -228,31 +233,6 @@
   }
   .ant-modal-header {
     margin-top: -14px;
-  }
-}
-
-ul.menu_data {
-  padding: 0 !important;
-  margin: 0;
-
-  .ant-dropdown-menu-item-only-child {
-    padding: 2px 12px !important;
-    &:hover {
-      color: #fff !important;
-      background: #038fde !important;
-      border-radius: unset;
-      // padding: 1px 12px;
-    }
-  }
-
-  span.ant-dropdown-menu-title-content {
-    div {
-      font-weight: 500;
-    }
-    a {
-      color: var(--bg-color);
-      font-weight: 500;
-    }
   }
 }
 

@@ -1,17 +1,17 @@
-import { Button, Card, Col, DatePicker, Modal, Row, Space, Tag } from "antd";
-import { Link } from "react-router-dom";
+import { Card, Modal } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Link, useNavigate } from "react-router-dom";
 import {
   useGetLedgerPostMutation,
   useGetLiveCasinoListQuery,
 } from "../../../store/service/CasinoServices";
-import moment from "moment";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import { useState } from "react";
-
-const { RangePicker } = DatePicker;
+import LinkButton from "../../common/LinkButton";
 
 const MatchLedgerCasino = () => {
   const [open, setOpen] = useState(false);
+  const nav = useNavigate();
 
   const { data, isFetching, isLoading } = useGetLiveCasinoListQuery();
 
@@ -31,37 +31,19 @@ const MatchLedgerCasino = () => {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>
-          <Link
-            to={`/casino/${items?.tableId}`}
-            className="gx-text-blue"
-            style={{ fontWeight: 400 }}>
             {items?.name}
-          </Link>
-        </td>
-        <td>
-          <sapn style={{ fontWeight: 400 }}>
-            {moment().format("YYYY-MM-DD hh:mm:ss A")}
-          </sapn>
         </td>
         <td>
           <div
-            className="gx-justify-content-end"
+            className="gx-justify-content-start"
             style={{ display: "flex", alignItems: "center" }}>
-            <Button
-              type="primary"
-              style={{
-                height: "36px",
-                padding: "0px 15px",
-                borderRadius: "5px",
-                marginRight: "15px",
-              }}>
-              <Link to={`/casino/${items?.tableId}`}>View</Link>
-            </Button>
-            <Button type="link" className="Display_Games">
-              <Link to={`/display-games/${items?.tableId}/${items?.name}`}>
-                Display Games
-              </Link>
-            </Button>
+            <LinkButton to={`/casino/${items?.tableId}`} label="View" />
+            <LinkButton
+              to={`/display-games/${items?.tableId}/${items?.name}`}
+              label="Display Games"
+              icon={<EyeOutlined />}
+              className="Display_Games"
+            />
           </div>
         </td>
       </tr>
@@ -79,62 +61,20 @@ const MatchLedgerCasino = () => {
   };
 
   return (
-    <div className="match_slip match_ledger">
+    <div className="match_slip inplay_casino">
       <Card
         className="sport_detail team_name"
-        title="Match Ledger"
-        extra={<button>Back</button>}
+        title="ACTIVE GAMES"
+        extra={<button className="inplay_back_btn" onClick={() => nav(-1)}>Back</button>}
         style={{ margin: 0, width: "100%" }}>
-        <div className="gx-mt-3">
-          <Row
-            className="date_picker gx-px-5"
-            style={{ gap: 16, marginBottom: "10px" }}>
-            <Col xs={24} md={8}>
-              <RangePicker
-                style={{ marginBottom: 10, width: 300 }}
-                bordered={false}
-                showSecond
-                renderExtraFooter={() => (
-                  <Space style={{ padding: 10 }}>
-                    <Tag color="blue">Today</Tag>
-                    <Tag color="blue">Yesterday</Tag>
-                    <Tag color="blue">This Week</Tag>
-                    <Tag color="blue">Last Week</Tag>
-                    <Tag color="blue">This Month</Tag>
-                    <Tag color="blue">Last Month</Tag>
-                  </Space>
-                )}
-              />
-            </Col>
-            <Col xs={8}>
-              <Button
-                type="primary"
-                className="gx-border-redius0"
-                style={{ height: 36, lineHeight: "30px" }}>
-                Submit
-              </Button>
-            </Col>
-            <Col xs={6} style={{ textAlign: "left" }}>
-              <Button
-                type="primary"
-                className="gx-border-redius0 "
-                onClick={showModal}
-                style={{ height: 36, lineHeight: "30px" }}>
-                Post Casino Ledger
-              </Button>
-            </Col>
-          </Row>
-        </div>
-
-        <div className="table_section statement_tabs_data ant-spin-nested-loading">
+        <div className="table_section statement_tabs_data ant-spin-nested-loading" style={{ padding: "20px" }}>
           {(isFetching || isLoading) && <CustomLoading />}
           <table className="live_table login_data_table">
             <thead>
               <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Date & Time</th>
-                <th>Action</th>
+                <th style={{ width: "10%" }}>#</th>
+                <th style={{ width: "45%" }}>Name</th>
+                <th style={{ width: "45%" }}>Details</th>
               </tr>
             </thead>
             <tbody>{renderTableRows()}</tbody>

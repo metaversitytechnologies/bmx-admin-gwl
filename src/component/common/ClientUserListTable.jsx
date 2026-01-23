@@ -8,7 +8,6 @@ import {
   Input,
   Menu,
   Modal,
-  Pagination,
   Space,
   Spin,
 } from "antd";
@@ -24,6 +23,7 @@ import moment from "moment";
 import Deposit from "./Deposit";
 import Withdraw from "./Withdraw";
 import BetlockModal from "./BetlockModal";
+import TablePagination from "./TablePagination";
 import {
   useSuperuserListMutation,
   useUserBetLockMutation,
@@ -46,7 +46,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
   const [balance, setBalance] = useState();
   const [parentUserId, setParentUserId] = useState();
   const [dataVal, setDataVal] = useState();
-  const [paginationTotal, setPaginationTotal] = useState(50);
+  const pageSize = 50;
   const [indexData, setIndexData] = useState(0);
   const [partnershipDetails, setPartnershipDetails] = useState({});
   const [userIds, setUserIds] = useState("");
@@ -106,7 +106,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
     getData({
       userType: userType,
       parentUserId: id || null,
-      noOfRecords: paginationTotal,
+      noOfRecords: pageSize,
       index: indexData,
       userId: values?.username,
     });
@@ -133,11 +133,11 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
     getData({
       userType: userType,
       parentUserId: id || null,
-      noOfRecords: paginationTotal,
+      noOfRecords: pageSize,
       index: indexData,
       userId: "",
     });
-  }, [id, userType, paginationTotal, indexData,]);
+  }, [id, userType, indexData]);
 
   const [userIdData, setUserIdData] = useState("");
 
@@ -447,7 +447,7 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
                           className="droup_menu"
                           open={dropdownStates[id]}
                           onOpenChange={() => toggleDropdown(id)}
-                          menu={{ items, className: "menu_data" }}
+                          menu={{ items, className: "app_dropdown_menu" }}
                           trigger={["click", "contextMenu"]}>
                           <div
                             className="droup_link"
@@ -505,15 +505,11 @@ const ClientUserListTable = ({ userType, Listname, UserId }) => {
           <>
             <Divider />
             <div className="pagination_cus">
-              <Pagination
+              <TablePagination
                 className="pagination_main ledger_pagination"
-                onShowSizeChange={(c, s) => setPaginationTotal(s)}
-                total={
-                  results?.data?.totalPages &&
-                  results?.data?.totalPages * paginationTotal
-                }
-                defaultPageSize={50}
-                pageSizeOptions={[50, 100, 150, 200, 250]}
+                total={results?.data?.totalPages * pageSize}
+                pageSize={pageSize}
+                current={indexData + 1}
                 onChange={(e) => setIndexData(e - 1)}
               />
             </div>

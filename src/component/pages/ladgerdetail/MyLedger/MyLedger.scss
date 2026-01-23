@@ -1,22 +1,80 @@
 .ledger_data {
+  .ant-card-head {
+    background: #b7872a;
+    border-bottom: 0;
+    padding: 8px 16px;
+  }
   .ant-card-head-title {
-    font-size: 28px !important;
-    font-weight: 400 !important;
+    color: #ffffff;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
     @media (max-width: 1024px) {
       font-size: 20px;
     }
   }
-  .my_ledger {
-    display: flex;
-    flex: 1 1;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    align-items: center;
-    h3 {
-      font-size: 18px;
-      font-family: Arial !important;
-      font-weight: 500;
+  .ant-card-extra {
+    button {
+      background: #ffffff;
+      border: 1px solid #d6d6d6;
+      border-radius: 6px;
+      color: #222222;
+      padding: 4px 12px;
     }
+  }
+  .my_ledger {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    padding: 8px 4px 2px;
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+  .ledger_summary {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .summary_label {
+    color: #8f8f8f;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+  .summary_value {
+    align-items: center;
+    display: inline-flex;
+    font-size: 22px;
+    font-weight: 700;
+    gap: 8px;
+  }
+  .summary_icon {
+    font-size: 18px;
+  }
+  .lena .summary_value {
+    color: #2f9a3c;
+  }
+  .dena .summary_value {
+    color: #e63946;
+  }
+  .balance .summary_value {
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+  .ant-table-thead > tr > th {
+    background: #b7872a !important;
+    color: #ffffff !important;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .ant-table-tbody > tr > td {
+    font-size: 13px;
+  }
+  .ant-pagination {
+    margin: 12px 0;
   }
 }
 .ledger_pagination {
@@ -28,7 +86,7 @@
     border-radius: 3px;
     a {
       padding: 0px !important;
-      color: var(--bg-color) !important;
+        color: #038fde !important;
     }
   }
   li.ant-pagination-item {
@@ -43,13 +101,13 @@
   margin-right: 11px;
   span.anticon.anticon-left {
     svg {
-      color: var(--bg-color) !important;
+        color: #038fde !important;
       font-size: 12px !important;
     }
   }
   span.anticon.anticon-right {
     svg {
-      color: var(--bg-color) !important;
+        color: #038fde !important;
       font-size: 12px !important;
     }
   }
@@ -58,11 +116,11 @@
 .ant-pagination-item-active {
   font-weight: 500;
   background-color: #ffffff !important;
-  border-color: var(--bg-color) !important;
+        color: #038fde !important;
 }
 .ant-pagination-item-active {
   a {
-    color: var(--bg-color) !important;
+        color: #038fde !important;
   }
 }
 

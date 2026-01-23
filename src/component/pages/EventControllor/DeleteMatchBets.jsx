@@ -87,6 +87,11 @@ const DeleteMatchBets = () => {
       <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <DatePicker.RangePicker
+            style={{
+              marginBottom: "10px",
+              width: "100%",
+              borderRadius: "20px",
+            }}
             defaultValue={[dayjs(timeBefore), dayjs(time)]}
             onChange={onChange}
           />

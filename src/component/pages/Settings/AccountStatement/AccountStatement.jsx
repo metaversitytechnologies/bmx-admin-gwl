@@ -63,7 +63,11 @@ const AccountStatement = () => {
                     <Col xs={24} lg={6}>
                       <RangePicker
                         defaultValue={[dayjs(timeBefore), dayjs(time)]}
-                        style={{ marginBottom: "12px", width: "100%" }}
+                        style={{
+                          marginBottom: "10px",
+                          width: "100%",
+                          borderRadius: "20px",
+                        }}
                         onChange={onChange}
                       />
                     </Col>

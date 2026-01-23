@@ -90,7 +90,11 @@ const AccountOperations = () => {
               <Row>
                 <Col xs={24} md={24} lg={8} xl={8}>
                   <RangePicker
-                    style={{ margin: 0 }}
+                    style={{
+                      marginBottom: "10px",
+                      width: "100%",
+                      borderRadius: "20px",
+                    }}
                     className="acc_datepicker"
                     defaultValue={[dayjs(timeBefore), dayjs(time)]}
                     onChange={onChange}

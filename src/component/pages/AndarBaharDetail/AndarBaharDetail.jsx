@@ -82,7 +82,13 @@ const AndarBaharDetail = () => {
           </>
         }>
         <div className="date_picker m-12">
-          <RangePicker bordered={false} />
+          <RangePicker
+            style={{
+              marginBottom: "10px",
+              width: "100%",
+              borderRadius: "20px",
+            }}
+          />
         </div>
         <div className="table_section">
           {/* <Table columns={columns} dataSource={data} /> */}

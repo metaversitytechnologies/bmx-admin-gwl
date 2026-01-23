@@ -19,7 +19,7 @@ const CasinoMainPage = () => {
   const { odds } = useOdds(tableIdtoUrl[id]);
 
   return (
-    <div className="match_slip match_ledger casino_oddsss">
+    <div className="match_slip casino_oddsss">
       <Card
         className="sport_detail team_name"
         title={titleById[id]}

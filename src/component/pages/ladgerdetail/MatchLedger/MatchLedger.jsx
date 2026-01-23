@@ -6,38 +6,48 @@ import dayjs from "dayjs";
 import { useGetLedgerProfitLossQuery } from "../../../../store/service/SportDetailServices";
 import { useNavigate } from "react-router-dom";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import ActionButton from "../../../common/ActionButton";
+import TablePagination from "../../../common/TablePagination";
 
 const MatchLedger = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
+  const [appliedDateData, setAppliedDateData] = useState([
+    timeBefore,
+    time,
+  ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 50;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const nav = useNavigate();
 
   const columns = [
     {
-      title: "Date",
+      title: "DATE",
       dataIndex: "date",
       key: "date",
-      render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
+      render: (text) => <span>{moment(text).format("DD MMM YYYY")}</span>,
       width: "20%",
     },
     {
-      title: "Event Name",
+      title: "EVENT NAME",
       dataIndex: "eventName",
       key: "eventName",
       width: "60%",
     },
-
     {
-      title: "Debit",
-      dataIndex: "debit",
-      align: "right",
-      key: "debit",
-      render: (text) => <span className="text_danger">{text?.toFixed(2)}</span>,
+      title: "WINNER",
+      key: "winner",
+      render: (_, record) => {
+        const winnerValue =
+          record?.credit > record?.debit ? -1 : record?.debit > record?.credit ? 1 : 0;
+
+        return <span>{winnerValue}</span>;
+      },
     },
     {
-      title: "Credit",
+      title: "CR",
       dataIndex: "credit",
       key: "credit",
       align: "right",
@@ -45,10 +55,25 @@ const MatchLedger = () => {
         <span className="text_success">{text?.toFixed(2)}</span>
       ),
     },
+    {
+      title: "DR",
+      dataIndex: "debit",
+      align: "right",
+      key: "debit",
+      render: (text) => <span className="text_danger">{text?.toFixed(2)}</span>,
+    },
   ];
 
-  const onChange = (date, dateString) => {
-    setDateData(dateString);
+  const handleStartDateChange = (_, dateString) => {
+    setDateData((prev) => [dateString || prev[0], prev[1]]);
+  };
+
+  const handleEndDateChange = (_, dateString) => {
+    setDateData((prev) => [prev[0], dateString || prev[1]]);
+  };
+
+  const handleSearch = () => {
+    setAppliedDateData([...dateData]);
   };
 
   const {
@@ -57,14 +82,18 @@ const MatchLedger = () => {
     isFetching,
   } = useGetLedgerProfitLossQuery(
     {
-      startDate: dateData[0],
-      endDate: dateData[1],
+      startDate: appliedDateData[0],
+      endDate: appliedDateData[1],
     },
     { refetchOnMountOrArgChange: true }
   );
 
   const totalCreadit =
     ledgerData?.data?.reduce((acc, item) => acc + item.credit, 0) || 0;
+  const paginatedData = ledgerData?.data?.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <>
@@ -73,19 +102,39 @@ const MatchLedger = () => {
       )}
 
       <Card
-        className="sport_detail my_ledger main_match_ledger profit_loss_table"
-        title="Profit Loss"
+        className="sport_detail my_ledger main_match_ledger"
+        title="MATCH LEDGER"
         extra={<button onClick={() => nav(-1)}>Back</button>}>
         <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
-          <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
-            <DatePicker.RangePicker
-              defaultValue={[dayjs(timeBefore), dayjs(time)]}
-              onChange={onChange}
+          <Col lg={6} xs={24} className="match_ladger profit_loss_ledger">
+            <DatePicker
+              style={{
+                marginBottom: "10px",
+                width: "100%",
+                borderRadius: "20px",
+              }}
+              onChange={handleStartDateChange}
+              placeholder="Start date"
             />
           </Col>
-          <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
+          <Col lg={6} xs={24} className="match_ladger profit_loss_ledger">
+            <DatePicker
+              style={{
+                marginBottom: "10px",
+                width: "100%",
+                borderRadius: "20px",
+              }}
+              onChange={handleEndDateChange}
+              placeholder="End date"
+            />
+          </Col>
+          <Col lg={6} xs={24} className="match_ladger profit_loss_ledger">
             <Select
-              style={{ width: "100%" }}
+              style={{
+                marginBottom: "10px",
+                width: "100%",
+                borderRadius: "20px",
+              }}
               placeholder="Select Game Type"
               options={[
                 {
@@ -109,7 +158,19 @@ const MatchLedger = () => {
               allowClear
             />
           </Col>
-          <Col lg={6} xs={8}>
+          <Col lg={6} xs={24} className="match_ladger profit_loss_ledger">
+            <ActionButton
+              style={{
+                marginBottom: "10px",
+              }}
+              onClick={handleSearch}
+              loading={isLoading || isFetching}>
+              Search
+            </ActionButton>
+          </Col>
+        </Row>
+        <Row className="" gutter={[16, 16]} style={{ padding: "0 4px 12px" }}>
+          <Col lg={6} xs={24}>
             <div className="matchladger_total">
               <p style={{ fontSize: "20px" }}>
                 Total:{" "}
@@ -133,8 +194,17 @@ const MatchLedger = () => {
                 spinning: isLoading || isFetching,
                 indicator: <CustomLoading />,
               }}
-              dataSource={ledgerData?.data}
+              dataSource={paginatedData}
               pagination={false}
+            />
+          </div>
+          <div className="pagination_cus" style={{ margin: "12px 0" }}>
+            <TablePagination
+              className="pagination_main ledger_pagination"
+              total={ledgerData?.data?.length}
+              pageSize={pageSize}
+              current={currentPage}
+              onChange={setCurrentPage}
             />
           </div>
         </div>

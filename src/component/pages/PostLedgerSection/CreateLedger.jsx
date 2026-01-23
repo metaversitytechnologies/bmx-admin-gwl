@@ -1,4 +1,4 @@
-import { Button, Card, Empty, message, Row, Pagination } from "antd";
+import { Button, Card, Empty, message, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
@@ -7,13 +7,14 @@ import {
   useGetPostLederMutation,
   useGetRollBackMutation,
 } from "../../../store/service/userlistService";
+import TablePagination from "../../common/TablePagination";
 
 const CreateLedger = ({ forPostLedger }) => {
   const nav = useNavigate();
 
   // state for pagination
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(50);
+  const pageSize = 50;
 
   const { data: sportDetail, refetch } = useGetMatchListLederQuery(
     {
@@ -47,9 +48,8 @@ const CreateLedger = ({ forPostLedger }) => {
     }
   };
 
-  const handlePageChange = (page, size) => {
+  const handlePageChange = (page) => {
     setPageIndex(page - 1); // antd starts from 1, API from 0
-    setPageSize(size); // update dynamic page size
   };
 
   const getFormattedDate = (dateString) => {
@@ -124,13 +124,11 @@ const CreateLedger = ({ forPostLedger }) => {
       {/* Pagination Section */}
       {sportDetail?.data?.matchList?.length > 0 && (
         <Row justify="end" style={{ marginTop: 20 }}>
-          <Pagination
+          <TablePagination
             current={pageIndex + 1} // antd current page (1-based)
             pageSize={pageSize}
             total={sportDetail?.data?.totalPages * pageSize}
             onChange={handlePageChange}
-            showSizeChanger
-            pageSizeOptions={["20", "50", "100", "150", "200", "250"]}
           />
         </Row>
       )}

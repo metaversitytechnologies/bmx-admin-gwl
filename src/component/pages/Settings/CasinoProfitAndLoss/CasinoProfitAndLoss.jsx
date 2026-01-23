@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Card, Col, DatePicker, Divider, Empty, Pagination, Row } from "antd";
+import { Card, Col, DatePicker, Divider, Empty, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useGetCasinoPnlByDateQuery } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import TablePagination from "../../../common/TablePagination";
 
 const { RangePicker } = DatePicker;
 
@@ -50,7 +51,14 @@ const CasinoProfitAndLoss = () => {
         <Row className="profit_apply">
           <Col xs={12} xl={6} lg={6} md={12}>
             <div className="profit_date">
-              <RangePicker onChange={handleRangeChange} />
+              <RangePicker
+                style={{
+                  marginBottom: "10px",
+                  width: "100%",
+                  borderRadius: "20px",
+                }}
+                onChange={handleRangeChange}
+              />
             </div>
           </Col>
           <Col xs={8} xl={4} lg={4} md={8} className="btn_apply">
@@ -120,9 +128,8 @@ const CasinoProfitAndLoss = () => {
             <>
               <Divider />
               <div className="pagination_cus">
-                <Pagination
+                <TablePagination
                   className="pagination_main ledger_pagination"
-                  defaultCurrent={1}
                   total={5}
                 />
               </div>

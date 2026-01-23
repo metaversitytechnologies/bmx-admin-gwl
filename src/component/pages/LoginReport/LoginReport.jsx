@@ -1,15 +1,16 @@
-import { Card, Divider, Empty, Pagination, Spin, Tooltip } from "antd";
+import { Card, Divider, Empty, Spin, Tooltip } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
 import { useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import TablePagination from "../../common/TablePagination";
 
 const LoginReport = () => {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [paginationTotal, setPaginationTotal] = useState(50);
+  const pageSize = 50;
   const [indexData, setIndexData] = useState(0);
   const userId = localStorage.getItem("userId");
 
@@ -79,15 +80,11 @@ const LoginReport = () => {
               <>
                 <Divider />
                 <div className="pagination_cus">
-                  <Pagination
+                  <TablePagination
                     className="pagination_main ledger_pagination"
-                    onShowSizeChange={(c, s) => setPaginationTotal(s)}
-                    total={
-                      data?.data?.totalPages &&
-                      data?.data?.totalPages * paginationTotal
-                    }
-                    defaultPageSize={50}
-                    pageSizeOptions={[50, 100, 150, 200, 250]}
+                    total={data?.data?.totalPages * pageSize}
+                    pageSize={pageSize}
+                    current={indexData + 1}
                     onChange={(e) => setIndexData(e - 1)}
                   />
                 </div>

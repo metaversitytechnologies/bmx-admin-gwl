@@ -5,7 +5,6 @@ import {
   Divider,
   Empty,
   Input,
-  Pagination,
   Row,
   Spin,
 } from "antd";
@@ -21,8 +20,6 @@ const SecureCode = () => {
   const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientId, setClientId] = useState(userId);
-  const [paginationTotal, setPaginationTotal] = useState(50);
-  const [indexData, setIndexData] = useState(0);
 
   const nav = useNavigate();
   const handleBackClick = () => {

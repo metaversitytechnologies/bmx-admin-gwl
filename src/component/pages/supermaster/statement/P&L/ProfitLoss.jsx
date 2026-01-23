@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import TablePagination from "../../../common/TablePagination";
 
 const data = [
   {
@@ -68,7 +68,7 @@ const ProfitLoss = () => {
           })}
         </table>
         <div className="pagination_cus">
-          <Pagination className="pagination_main ledger_pagination" defaultCurrent={1} total={5} />
+          <TablePagination className="pagination_main ledger_pagination" total={5} />
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import TablePagination from "../../../common/TablePagination";
 import { useAccountstatementQuery } from "../../../../../store/service/supermasteAccountStatementServices";
 import React,{ useEffect } from "react";
 import moment from "moment";
@@ -48,7 +48,7 @@ const AllData = ({dateData}) => {
           })}
         </table>
         <div className="pagination_cus">
-          <Pagination className="pagination_main ledger_pagination"  defaultCurrent={1} total={5} />
+        <TablePagination className="pagination_main ledger_pagination" total={5} />
         </div>
       </div>
     </>

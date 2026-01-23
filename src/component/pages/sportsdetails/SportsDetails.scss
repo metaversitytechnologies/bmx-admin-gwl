@@ -1,6 +1,5 @@
 .sport_detail {
   background-color: #fff !important;
-  margin: 30px 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,9 +52,18 @@
     // align-items: center;
     .ant-picker {
       border: 1px solid #ddd !important;
-      border-radius: 2px !important;
+      border-radius: 12px !important;
       height: 36px;
       // padding-left: 51px !important;
+    }
+    .ant-input-affix-wrapper {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      height: 36px;
+      padding: 0 11px;
+    }
+    .ant-input-affix-wrapper .ant-input {
+      height: 34px;
     }
   }
   .table_section {
@@ -74,6 +82,10 @@
         text-align: left;
         padding: 8px;
         text-transform: uppercase !important;
+      }
+      td {
+        color: #000;
+        font-weight: 700;
       }
       th {
         background-color: var(--bg-color);
@@ -102,8 +114,6 @@
           position: static;
         }
         .ant-space-item {
-          background: #038fde;
-          color: #fff;
           padding: 0px 3px !important;
           height: 18px !important;
           line-height: 18px;
@@ -117,6 +127,12 @@
               margin-top: -12px;
             }
           }
+        }
+        .sport_droupdown .ant-space-item {
+          padding: 0 !important;
+          width: 24px;
+          height: 24px !important;
+          line-height: 24px !important;
         }
         .text-right {
           text-align: right;
@@ -165,19 +181,37 @@
 }
 
 .title_section {
-  font-weight: 600 !important;
   color: #545454 !important;
 }
 
 .pagination_main {
   float: right;
-  font-size: 13px;
-  color: #545454 !important;
+  font-size: 15px;
+  color: #038fde !important;
+  .ant-pagination-item,
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    border-radius: 6px !important;
+  }
+  .ant-pagination-item a,
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link {
+    color: #038fde !important;
+  }
   .ant-pagination-item-active {
     font-weight: 500;
     background-color: #ffffff !important;
     border-color: #038fde !important;
     color: #038fde !important;
+  }
+}
+
+.pagination_wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  .pagination_main {
+    float: none;
   }
 }
 
@@ -216,27 +250,41 @@
 
 .sport_droupdown {
   .ant-space-item {
-    background: #038fde;
-    color: #fff;
-    padding: 1px 6px !important;
-    border-radius: 3px;
+    background: #fff;
+    color: #000;
+    padding: 0 !important;
+    border-radius: 3px !important;
+    border: 1px solid #e4dada;
+    font-weight: 400;
+    width: 24px;
+    height: 24px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 24px !important;
     // margin-left: -12px;
-  }
-}
-
-.sport_list {
-  padding: 0px !important;
-
-  .ant-dropdown-menu-item {
-    padding: 2px 11px !important;
-    border-radius: unset !important;
-    &:hover {
-      color: #fff !important;
-      background: #038fde !important;
-      border-radius: unset !important;
+    .anticon {
+      font-size: 10px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0 !important;
+    }
+    svg {
+      width: 10px;
+      height: 10px;
+      display: block;
+      margin-top: 0 !important;
     }
   }
 }
+
+.sport_detail .sport_droupdown .ant-space-item {
+  height: 24px !important;
+  line-height: 24px !important;
+}
+
 .sport_select {
   padding: 10px;
   width: 100%;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row } from "antd";
 import "./Dashboard.scss";
 import ActiveMatch from "../../common/ActiveMatch/ActiveMatch";
@@ -10,6 +10,8 @@ import SettingModals from "./SettingModals";
 import MasterDetails from "../masterDetail/MasterDetails";
 import SportModal from "./SportModal";
 import { convertCode } from "../../../store/constant";
+import { useDispatch } from "react-redux";
+import { setShowMarquee } from "../../../store/global/slice";
 import {
   BankOutlined,
   InfoCircleOutlined,
@@ -30,6 +32,7 @@ const Dashboard = () => {
   const [openSportModals, setSportModals] = useState(false);
 
   const nav = useNavigate();
+  const dispatch = useDispatch();
 
   const handleRules = () => {
     nav("/rules");
@@ -42,6 +45,13 @@ const Dashboard = () => {
   const uType = localStorage.getItem("userType");
   const toUpper = (value) =>
     typeof value === "string" ? value.toUpperCase() : value;
+
+  useEffect(() => {
+    dispatch(setShowMarquee(true));
+    return () => {
+      dispatch(setShowMarquee(false));
+    };
+  }, [dispatch]);
 
   return (
     <>

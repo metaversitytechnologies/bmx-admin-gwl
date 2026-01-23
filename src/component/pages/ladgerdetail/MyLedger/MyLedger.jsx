@@ -5,54 +5,62 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGetMyLedgerQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import TablePagination from "../../../common/TablePagination";
 
 const columns = [
   {
     title: "Date",
     dataIndex: "date",
     key: "date",
-    render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
+    render: (text) => <span>{moment(text).format("YYYY-MM-DD HH:mm:ss")}</span>,
     onCell: () => ({ style: { whiteSpace: "nowrap" } }),
   },
   {
-    title: "Event Name",
-    dataIndex: "collectionName",
-    key: "collectionName",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-  {
-    title: "Credit",
-    dataIndex: "credit",
-    key: "credit",
-    align: "right",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-  {
-    title: "Debit",
+    title: "DR",
     dataIndex: "debit",
     key: "debit",
     align: "right",
     onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+    render: (text) => <span className="text_danger">{text}</span>,
   },
-
+  {
+    title: "CR",
+    dataIndex: "credit",
+    key: "credit",
+    align: "right",
+    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+    render: (text) => <span className="text_success">{text}</span>,
+  },
   {
     title: "Balance",
     dataIndex: "balance",
     key: "balance",
     align: "right",
-    render: (text, record) => <span>{record?.balance?.toFixed(2)}</span>,
+    render: (text, record) => {
+      const amount = Number(record?.balance || 0);
+      const label = amount >= 0 ? "LENA" : "DENA";
+
+      return (
+        <span>
+          {Math.abs(amount).toFixed(2)} {label}
+        </span>
+      );
+    },
   },
   {
-    title: "Type",
-    dataIndex: "ledgerType",
-    key: "ledgerType",
+    title: "Payment Type",
+    dataIndex: "collectionName",
+    key: "collectionName",
     onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+    render: (text) => <span>{text?.toString().toUpperCase()}</span>,
   },
   {
     title: "Remark",
     dataIndex: "description",
     key: "description",
     onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+    render: (text) => <span>{text?.toString().toUpperCase()}</span>,
   },
 ];
 
@@ -63,6 +71,8 @@ const MyLedger = () => {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 50;
   const currentYear = moment().year();
   const timeBefore = moment(`2025-01-01`).format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
@@ -90,6 +100,12 @@ const MyLedger = () => {
 
   // const totalBalance = totalCreadit - totalDebit;
   const totalBalance = totalDebit - totalCreadit;
+  const balanceLabel = totalBalance > 0 ? "LENA" : "DENA";
+  const balanceValue = Math.abs(totalBalance?.toFixed(2));
+  const paginatedData = ledgerData?.data?.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
     <>
@@ -98,31 +114,28 @@ const MyLedger = () => {
       )}
       <Card
         className="sport_detail ledger_data"
-        title="My Ledger"
+        title="MY LEDGER"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="my_ledger">
-          <div>
-            <h3 style={{ padding: "5px", color: "green", fontSize: "20px" }}>
-              Lena :{totalDebit?.toFixed(2)}
-            </h3>
+          <div className="ledger_summary lena">
+            <span className="summary_label">LENA</span>
+            <span className="summary_value">
+              <ArrowUpOutlined className="summary_icon" />
+              {totalDebit?.toFixed(2)}
+            </span>
           </div>
-          <div>
-            <h3
-              style={{
-                padding: "5px",
-                color: "rgb(214, 75, 75)",
-                fontSize: "20px",
-              }}>
-              Dena : {totalCreadit?.toFixed(2)}
-            </h3>
+          <div className="ledger_summary dena">
+            <span className="summary_label">DENA</span>
+            <span className="summary_value">
+              <ArrowDownOutlined className="summary_icon" />
+              {totalCreadit?.toFixed(2)}
+            </span>
           </div>
-          <div>
-            <h3
-              style={{ fontSize: "20px" }}
-              className={totalBalance < 0 ? "text_danger" : "text_success"}>
-              Balance: {Math.abs(totalBalance?.toFixed(2))}{" "}
-              {totalBalance > 0 ? "( Lena )" : "( Dena )"}
-            </h3>
+          <div className={`ledger_summary balance ${totalBalance < 0 ? "dena" : "lena"}`}>
+            <span className="summary_label">BALANCE</span>
+            <span className="summary_value">
+              {balanceValue} {balanceLabel}
+            </span>
           </div>
         </div>
         <div className="table_section">
@@ -134,12 +147,18 @@ const MyLedger = () => {
               spinning: isLoading || isFetching,
               indicator: <CustomLoading />,
             }}
-            pagination={{
-              defaultPageSize: 50,
-              pageSizeOptions: [50, 100, 150, 200, 250],
-            }}
-            dataSource={ledgerData?.data}
+            pagination={false}
+            dataSource={paginatedData}
           />
+          <div className="pagination_cus" style={{ margin: "12px 0" }}>
+            <TablePagination
+              className="pagination_main ledger_pagination"
+              total={ledgerData?.data?.length}
+              pageSize={pageSize}
+              current={currentPage}
+              onChange={setCurrentPage}
+            />
+          </div>
         </div>
       </Card>
     </>

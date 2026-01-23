@@ -56,6 +56,10 @@ import DeletedBets from "../../pages/EventControllor/DeletedBets";
 import DeleteSessionBets from "../../pages/EventControllor/DeleteSessionBets";
 import DeleteMatchBets from "../../pages/EventControllor/DeleteMatchBets";
 import SetMessage from "../../pages/SetMessage/SetMessage";
+import InplayMatka from "../../pages/Matka/InplayMatka";
+import CompletedMatka from "../../pages/Matka/CompletedMatka";
+import InplayMatkaDetail from "../../pages/Matka/InplayMatkaDetail";
+import AllBetsMatka from "../../pages/Matka/AllBetsMatka";
 
 const Main = () => {
   let appUrl = window.location.hostname.split(".");
@@ -80,6 +84,13 @@ const Main = () => {
         <Route path="/Events/sports-details" element={<SportsDetails />} />
         <Route path="/create-domain" element={<CreateDomain />} />
         <Route path="/finish-game" element={<FinishedGame />} />
+        <Route path="/matka/inplay" element={<InplayMatka />} />
+        <Route
+          path="/matka/inplay/:eventId/:name"
+          element={<InplayMatkaDetail />}
+        />
+        <Route path="/matka/completed" element={<CompletedMatka />} />
+        <Route path="/matka/all-bets/:eventId" element={<AllBetsMatka />} />
         <Route
           path="/client/update-client/:id/:userId?"
           element={<UpdateSuper />}

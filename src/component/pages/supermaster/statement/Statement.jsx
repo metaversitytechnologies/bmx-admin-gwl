@@ -69,7 +69,14 @@ const Statement = () => {
             title="List Of All Transactions ( 9 )"
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div className="">
-              <RangePicker onChange={onChange}/>
+              <RangePicker
+                style={{
+                  marginBottom: "10px",
+                  width: "100%",
+                  borderRadius: "20px",
+                }}
+                onChange={onChange}
+              />
             </div>
             <div className="tab_section">
               <Tabs onChange={onChange}  type="card" items={items} />

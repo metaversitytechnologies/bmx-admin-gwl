@@ -1,4 +1,4 @@
-import { Button, Card, Empty, message, Row, Pagination } from "antd";
+import { Button, Card, Empty, message, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
@@ -6,13 +6,14 @@ import {
   useGetEventActiveDeactiveMutation,
   useGetEventLockListQuery,
 } from "../../../store/service/userlistService";
+import TablePagination from "../../common/TablePagination";
 
 const EventControllor = () => {
   const nav = useNavigate();
 
   // ✅ Local states for PF-side pagination
   const [pageIndex, setPageIndex] = useState(0); // 0-based
-  const [pageSize, setPageSize] = useState(50); // ✅ Default show 50
+  const pageSize = 50; // ✅ Default show 50
 
   const { data: sportDetail, refetch } = useGetEventLockListQuery({});
   const [getActiveDeactive] = useGetEventActiveDeactiveMutation();
@@ -31,9 +32,8 @@ const EventControllor = () => {
   };
 
   // ✅ Handle page change
-  const handlePageChange = (page, size) => {
+  const handlePageChange = (page) => {
     setPageIndex(page - 1); // antd gives 1-based, convert to 0-based
-    setPageSize(size);
   };
 
   // ✅ Slice data on PF side
@@ -98,13 +98,11 @@ const EventControllor = () => {
       {/* ✅ PF-Side Pagination Section */}
       {data.length > 0 && (
         <Row justify="end" style={{ marginTop: 20 }}>
-          <Pagination
+          <TablePagination
             current={pageIndex + 1} // antd is 1-based
             pageSize={pageSize}
             total={data.length}
             onChange={handlePageChange}
-            showSizeChanger
-            pageSizeOptions={["20", "50", "100", "150", "200", "250"]}
           />
         </Row>
       )}

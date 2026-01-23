@@ -61,7 +61,7 @@ const DisplayGames = () => {
     },
   ];
   return (
-    <div className="match_slip match_ledger">
+    <div className="match_slip">
       <Card
         className="sport_detail team_name"
         title={`${name} ${date ? date : ""}`}

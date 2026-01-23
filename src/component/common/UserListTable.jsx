@@ -7,10 +7,10 @@ import {
   Form,
   Input,
   Menu,
-  Pagination,
   Space,
   Spin,
   Tag,
+  Tooltip,
 } from "antd";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
@@ -37,6 +37,7 @@ import { openNotification, openNotificationError } from "../../App";
 import { SlEye } from "react-icons/sl";
 import Exposure from "./Exposure";
 import CustomLoading from "./CustomLoading/CustomLoading";
+import TablePagination from "./TablePagination";
 import { convertCode, convertCodeReverse, isNsg } from "../../store/constant";
 
 const routeFromUSerType = {
@@ -66,7 +67,7 @@ const UserListTable = ({
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [selectedUserIdForActions, setSelectedUserIdForActions] =
     useState(null);
-  const [paginationTotal, setPaginationTotal] = useState(25);
+  const pageSize = 25;
   const [indexData, setIndexData] = useState(0);
   const [partnershipDetails, setPartnershipDetails] = useState({});
   const [userIdForPartnership, setUserIdForPartnership] = useState("");
@@ -114,7 +115,7 @@ const UserListTable = ({
     const res = await getSuperuserList({
       userType: userType,
       parentId: parentIdFromParams || "",
-      noOfRecords: paginationTotal,
+      noOfRecords: pageSize,
       index: indexData,
       userToSearch: convertCodeReverse(userToSearch) || userId,
       forDeadClient: forDeadClient,
@@ -231,7 +232,6 @@ const UserListTable = ({
   }, [
     parentIdFromParams,
     userType,
-    paginationTotal,
     indexData,
     userToSearch,
     forDeadClient,
@@ -273,7 +273,7 @@ const UserListTable = ({
     const res = await getSuperuserList({
       userType: userType,
       parentId: parentIdFromParams || "",
-      noOfRecords: paginationTotal,
+      noOfRecords: pageSize,
       index: indexData,
       userToSearch: "",
       forDeadClient: forDeadClient,
@@ -301,7 +301,11 @@ const UserListTable = ({
       // Deposit
       !isDeadClient && {
         label: (
-          <div onClick={() => handleShowDepositModal(res, true)}>Deposit</div>
+          <div
+            className="menu_item_emphasis"
+            onClick={() => handleShowDepositModal(res, true)}>
+            Deposit
+          </div>
         ),
         key: "0",
       },
@@ -309,7 +313,11 @@ const UserListTable = ({
       // Withdraw
       !isDeadClient && {
         label: (
-          <div onClick={() => handleShowDepositModal(res, false)}>Withdraw</div>
+          <div
+            className="menu_item_emphasis"
+            onClick={() => handleShowDepositModal(res, false)}>
+            Withdraw
+          </div>
         ),
         key: "1",
       },
@@ -348,7 +356,6 @@ const UserListTable = ({
       !isDeadClient && {
         label: (
           <Link
-            style={{ fontWeight: 700 }}
             onClick={resetDropdownStates}
             to={`/client/update-client/${userType}/${res?.userId}`}>
             Edit
@@ -361,7 +368,6 @@ const UserListTable = ({
       {
         label: (
           <Link
-            style={{ fontWeight: 700 }}
             onClick={resetDropdownStates}
             to={`/account-statement/${res?.userId}`}>
             Statement
@@ -374,7 +380,6 @@ const UserListTable = ({
       {
         label: (
           <Link
-            style={{ fontWeight: 700 }}
             onClick={resetDropdownStates}
             to={`/account-operation/${res?.userId}`}>
             Account Operations
@@ -387,7 +392,6 @@ const UserListTable = ({
       {
         label: (
           <Link
-            style={{ fontWeight: 700 }}
             onClick={resetDropdownStates}
             to={`/client/login-report/${res?.userId}`}>
             Login Report
@@ -635,12 +639,14 @@ const UserListTable = ({
                   userDetailsData?.map((res, id) => (
                     <tr key={id}>
                       <td>
-                        <div
-                          onClick={() =>
-                            handleShowPartnershipModal(res?.userId)
-                          }>
-                          <ShareAltOutlined className="icon-share" />
-                        </div>
+                        <Tooltip title="Share info">
+                          <div
+                            onClick={() =>
+                              handleShowPartnershipModal(res?.userId)
+                            }>
+                            <ShareAltOutlined className="icon-share" />
+                          </div>
+                        </Tooltip>
                       </td>
                       <td
                         onClick={() =>
@@ -654,12 +660,12 @@ const UserListTable = ({
                           }}
                           menu={{
                             items: getActionMenuItems(res),
-                            className: "menu_data",
+                            className: "app_dropdown_menu",
                           }}
                           trigger={["click", "contextMenu"]}>
                           <div
                             className="droup_link"
-                            style={{ cursor: "pointer" , padding: "0 10px 0px 22px"}}
+                            style={{ cursor: "pointer", width: "35px" }}
                             onClick={() => handleEditUserData(res?.userid)}>
                             <Space>
                               <DownOutlined className="icon-down" />
@@ -680,7 +686,6 @@ const UserListTable = ({
                                 }/${res?.userId}`
                               );
                               setIndexData(0);
-                              setPaginationTotal(25);
                             } else if (res?.liability !== 0) {
                               handleExposure(res?.userId);
                             }
@@ -759,17 +764,12 @@ const UserListTable = ({
 
           <Divider />
           <div className="pagination_cus" style={{ textAlign: "right" }}>
-            <Pagination
+            <TablePagination
               current={currentPage + 1}
-              total={totalPages * paginationTotal}
-              pageSize={paginationTotal}
+              total={totalPages * pageSize}
+              pageSize={pageSize}
               onChange={(page) => setIndexData(page - 1)}
-              showSizeChanger
-              pageSizeOptions={["25", "50", "100", "150", "200", "250"]}
-              onShowSizeChange={(current, size) => {
-                setPaginationTotal(size);
-                setIndexData(0);
-              }}
+              className="pagination_main"
             />
           </div>
 

@@ -124,7 +124,13 @@ const CasinoDetail = () => {
 
               <Col lg={9} xs={24} xl={9} md={24}>
                 <Form.Item>
-                  <RangePicker bordered={false} />
+                  <RangePicker
+                    style={{
+                      marginBottom: "10px",
+                      width: "100%",
+                      borderRadius: "20px",
+                    }}
+                  />
                 </Form.Item>
               </Col>
               <Col lg={6} xs={24} xl={6} md={24}>

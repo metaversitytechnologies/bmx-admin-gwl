@@ -129,10 +129,13 @@ const RouletteDetail = ({ isAura, Id }) => {
     >
       <div className="date_picker m-12">
         <RangePicker
-          style={{ marginBottom: "10px" }}
+          style={{
+            marginBottom: "10px",
+            width: "100%",
+            borderRadius: "20px",
+          }}
           defaultValue={[dayjs(timeBefore), dayjs(time)]}
           onChange={onChange}
-          bordered={false}
         />
       </div>
 

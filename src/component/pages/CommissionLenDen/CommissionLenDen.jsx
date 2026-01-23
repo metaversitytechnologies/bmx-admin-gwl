@@ -192,10 +192,13 @@ const CommissionLenDen = () => {
             style={{ padding: "8px" }}>
             <Col xl={7} lg={7} md={24} xs={24} className="datepicker_sport">
               <RangePicker
-                style={{ marginBottom: "10px", width: "300px" }}
+                style={{
+                  marginBottom: "10px",
+                  width: "100%",
+                  borderRadius: "20px",
+                }}
                 defaultValue={[dayjs(dateData[0]), dayjs(dateData[1])]}
                 onChange={handleDateChange}
-                bordered={false}
                 showSecond
                 renderExtraFooter={() => (
                   <Space style={{ padding: "10px" }}>

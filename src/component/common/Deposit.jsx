@@ -3,6 +3,7 @@ import { Button, Form, InputNumber, Modal, Spin } from "antd";
 import "./Deposit.scss";
 import { openNotification, openNotificationError } from "../../App";
 import { useLazyDepositAndWithdrawQuery } from "../../store/service/supermasteAccountStatementServices";
+import { convertCode } from "../../store/constant";
 
 const Deposit = ({
   data: datadeposit,
@@ -49,7 +50,10 @@ const Deposit = ({
         destroyOnClose
         title={
           <h1>
-            <span>{datadeposit?.isDeposit ? "Deposit" : "Withdraw"}</span>
+            <span>
+              {datadeposit?.isDeposit ? "Deposit" : "Withdraw"} to{" "}
+              {convertCode(datadeposit?.userId || "")}
+            </span>
           </h1>
         }
         open={isDepositeModalOpen}
@@ -66,8 +70,8 @@ const Deposit = ({
           )}
 
           <div>
-            <p style={{ fontSize: "28px" }}>
-              Curr Coins :{" "}
+            <p className="deposit_balance">
+              Current Coins:{" "}
               <span
                 className={
                   datadeposit?.balance < 0 ? "text_danger" : "text_success"
@@ -100,7 +104,7 @@ const Deposit = ({
                   type="number"
                   className="number_field"
                   style={{ width: "100%", background: "#fff" }}
-                  placeholder="Enter Coins"
+                  placeholder="0"
                   min={0}
                   step={1}
                 />
@@ -109,15 +113,15 @@ const Deposit = ({
               <div className="deposit_btn">
                 <Form.Item>
                   <Button
-                    className="gx-bg-grey"
+                    className="deposit_cancel"
                     onClick={() => handleClose()}
-                    type="primary">
-                    Return
+                    type="default">
+                    Cancel
                   </Button>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Submit
+                  <Button className="deposit_submit" type="primary" htmlType="submit">
+                    {datadeposit?.isDeposit ? "Deposit" : "Withdraw"}
                   </Button>
                 </Form.Item>
               </div>

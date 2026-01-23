@@ -7,14 +7,14 @@ import { Link } from "react-router-dom";
 const SportModal = ({ setOpenModals, openModal }) => {
   const data = [
     {
-      name: "Active Games",
+      name: "INPLAY Games",
       path: "/Events/sports-details",
       size: "20",
       id: 0,
       userType: 0,
     },
     {
-      name: "Finished Games",
+      name: "COMPLETED GAMES",
       path: `/finish-game`,
       size: "20",
       userType: 1,

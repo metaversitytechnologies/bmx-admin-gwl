@@ -4,20 +4,18 @@ import {
   DatePicker,
   Divider,
   Empty,
-  Pagination,
+  Input,
   Row,
-  Select,
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { CaretDownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, SearchOutlined } from "@ant-design/icons";
 import { Dropdown, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 import moment from "moment";
-import dayjs from "dayjs";
 import { useGetCompletedSportQuery } from "../../../store/service/SportDetailServices";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
-
-const { RangePicker } = DatePicker;
+import SummaryStrip from "./SummaryStrip";
+import TablePagination from "../../common/TablePagination";
 
 const FinishedGame = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
@@ -25,12 +23,13 @@ const FinishedGame = () => {
   const [dateData, setDateData] = useState([timeBefore, time]);
   const [matchId, setMatchId] = useState(0);
   const [InPlay, setInPlay] = useState();
-  const [paginationTotal, setPaginationTotal] = useState(50);
+  const pageSize = 50;
   const [indexData, setIndexData] = useState(0);
   const [dataNameee, setDataNameee] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [dropdownStates, setDropdownStates] = useState([]);
   const [activeTabData, setActtiveTabData] = useState(4);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const nav = useNavigate();
 
@@ -38,6 +37,7 @@ const FinishedGame = () => {
     index: indexData,
     noOfRecords: 100,
   });
+  const totalRecords = (data?.data?.totalPages || 0) * pageSize;
 
   const getMatchId = (matchId, inPlay, sportName, statusStraVal) => {
     console.log(matchId, "matchIdmatchIdmatchId");
@@ -54,20 +54,20 @@ const FinishedGame = () => {
   const items = [
     {
       label: (
-        <p className="title_section" onClick={() => handlePlusMinus(matchId)}>
+        <span className="title_section" onClick={() => handlePlusMinus(matchId)}>
           Match and Session Plus Minus
-        </p>
+        </span>
       ),
       key: "1",
     },
     {
       label: (
-        <p
+        <span
           className="title_section"
           // onClick={() => nav("/matchplusminus/1212")}
           onClick={() => nav(`/matchplusminus/${matchId}/${dataNameee}`)}>
           Match and Session Plus Minus 2
-        </p>
+        </span>
       ),
       key: "1",
     },
@@ -143,8 +143,12 @@ const FinishedGame = () => {
     nav(-1);
   };
 
-  const onChange = (data, dateString) => {
-    setDateData(dateString);
+  const handleStartDateChange = (_, dateString) => {
+    setDateData(([_, endDate]) => [dateString, endDate]);
+  };
+
+  const handleEndDateChange = (_, dateString) => {
+    setDateData(([startDate, _]) => [startDate, dateString]);
   };
 
   // const sportData = [
@@ -223,47 +227,65 @@ const FinishedGame = () => {
     <>
       <Card
         className="sport_detail finished_game"
-        title="Completed Games Detail"
+        title="COMPLETED GAMES"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <Row
           className="date_picker"
           align="middle"
           justify="start"
+          gutter={[16, 16]}
           style={{ padding: "6px 10px 0px" }}>
-          <Col xl={6} lg={6} md={12} xs={12} className="datepicker_sport">
-            <RangePicker
-              style={{ marginBottom: "10px" }}
-              defaultValue={[dayjs(timeBefore), dayjs(time)]}
-              onChange={onChange}
-              bordered={false}
+          <Col xl={8} lg={8} md={24} xs={24} className="datepicker_sport">
+            <DatePicker
+              style={{
+                marginBottom: "10px",
+                width: "100%",
+                borderRadius: "20px",
+              }}
+              onChange={handleStartDateChange}
+              placeholder="Start date"
             />
           </Col>
-          <Col xl={6} lg={6} md={12} xs={12}>
-            <Select
-              placeholder="Select Game Type"
-              options={[]}
-              showSearch
+          <Col xl={8} lg={8} md={24} xs={24} className="datepicker_sport">
+            <DatePicker
+              style={{
+                marginBottom: "10px",
+                width: "100%",
+                borderRadius: "20px",
+              }}
+              onChange={handleEndDateChange}
+              placeholder="End date"
+            />
+          </Col>
+          <Col xl={8} lg={8} md={24} xs={24} className="datepicker_sport">
+            <Input
+              placeholder="Search by event name or winner"
+              prefix={<SearchOutlined />}
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
               allowClear
+              style={{ marginBottom: "10px", width: "100%", borderRadius: "20px" }}
             />
           </Col>
         </Row>
+        <SummaryStrip />
         <div ref={myElementRef} className="table_section">
           {(isFetching || isLoading) && <CustomLoading />}
           <table className="ant-spin-nested-loading">
             <thead>
               <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Time</th>
-                <th>Declared Date</th>
-                <th>Competition</th>
+                <th>#</th>
+                <th>Date</th>
+                <th>Event Name</th>
                 <th>Won By</th>
+                <th>Comm +</th>
+                <th>Comm -</th>
                 <th>P/L</th>
               </tr>
             </thead>
             <tbody>
               {data?.data?.completedMatchList.map((res, id) => (
-                <tr key={res.key}>
+                <tr key={res.id}>
                   <td style={{ cursor: "pointer", width: "3%" }}>
                     <Dropdown
                       className="table_dropdown sport_droupdown"
@@ -274,7 +296,7 @@ const FinishedGame = () => {
                         className: "sport_list",
                       }}
                       trigger={["click", "contextMenu"]}>
-                      <p
+                      <span
                         onClick={(e) => {
                           e.preventDefault();
                           getMatchId(
@@ -287,17 +309,16 @@ const FinishedGame = () => {
                         <Space>
                           <CaretDownOutlined />
                         </Space>
-                      </p>
+                      </span>
                     </Dropdown>
                   </td>
-                  <td>{res.eventName}</td>
                   <td>
-                    {moment(res.createdOn).format("DD-MM-YYYY, HH:mm:ss")}
+                    {moment(res.createdOn).format("MM/DD/YYYY hh:mm A")}
                   </td>
-                  <td>{moment(res.createdOn).format("DD-MM-YYYY, h:mm A")}</td>
-                  <td>T20</td>
-
+                  <td>{res.eventName}</td>
                   <td>{res?.winner}</td>
+                  <td></td>
+                  <td></td>
                   <td style={{ color: res?.pnl > 0 ? "green" : "red" }}>
                     {res?.pnl}
                   </td>
@@ -314,13 +335,12 @@ const FinishedGame = () => {
           </table>
         </div>
         <Divider />
-        <Pagination
+        <TablePagination
           style={{ marginBottom: "12px" }}
           className="pagination_main ledger_pagination pagination_main"
-          onShowSizeChange={(c, s) => setPaginationTotal(s)}
-          total={data?.data.totalPages * paginationTotal}
-          defaultPageSize={50}
-          pageSizeOptions={[50, 100, 150, 200, 250]}
+          total={totalRecords}
+          pageSize={pageSize}
+          current={indexData + 1}
           onChange={(e) => setIndexData(e - 1)}
         />
       </Card>

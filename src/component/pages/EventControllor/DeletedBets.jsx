@@ -3,7 +3,6 @@ import {
   Empty,
   message,
   Row,
-  Pagination,
   Dropdown,
   Space,
 } from "antd";
@@ -15,12 +14,13 @@ import {
   useGetDeletedMatchesQuery,
   useGetEventActiveDeactiveMutation,
 } from "../../../store/service/userlistService";
+import TablePagination from "../../common/TablePagination";
 
 const DeletedBets = () => {
   const nav = useNavigate();
 
   const [pageIndex, setPageIndex] = useState(0); // 0-based
-  const [pageSize, setPageSize] = useState(50); // default show 50
+  const pageSize = 50; // default show 50
 
   const { data: sportDetail, refetch } = useGetDeletedMatchesQuery({});
   const [getActiveDeactive] = useGetEventActiveDeactiveMutation();
@@ -39,9 +39,8 @@ const DeletedBets = () => {
   };
 
   // ✅ Handle page change
-  const handlePageChange = (page, size) => {
+  const handlePageChange = (page) => {
     setPageIndex(page - 1); // antd gives 1-based, convert to 0-based
-    setPageSize(size);
   };
 
   // ✅ Slice data on PF side
@@ -98,7 +97,7 @@ const DeletedBets = () => {
                       className="droup_menu"
                       menu={{
                         items: getActionMenuItems(res),
-                        className: "menu_data",
+                        className: "app_dropdown_menu",
                       }}
                       trigger={["click", "contextMenu"]}
                     >
@@ -131,13 +130,11 @@ const DeletedBets = () => {
       {/* ✅ PF-Side Pagination Section */}
       {data.length > 0 && (
         <Row justify="end" style={{ marginTop: 20 }}>
-          <Pagination
+          <TablePagination
             current={pageIndex + 1} // antd is 1-based
             pageSize={pageSize}
             total={data.length}
             onChange={handlePageChange}
-            showSizeChanger
-            pageSizeOptions={["20", "50", "100", "150", "200", "250"]}
           />
         </Row>
       )}

@@ -42,6 +42,17 @@ const Sidebar = (props) => {
 
   const hostName = window.location.hostname;
 
+  const normalizeMenuItems = (items, prefix = "menu") =>
+    items
+      .filter(Boolean)
+      .map((item, index) => {
+        const key = item.key ?? `${prefix}-${index}`;
+        const children = item.children
+          ? normalizeMenuItems(item.children, key)
+          : undefined;
+        return { ...item, key, children };
+      });
+
   return (
     <>
       <Sider
@@ -82,7 +93,7 @@ const Sidebar = (props) => {
           openKeys={openKeys}
           onOpenChange={onOpenChange}
           defaultSelectedKeys={openKeys}
-          items={[
+          items={normalizeMenuItems([
             {
               key: "1",
               icon: <HomeOutlined />,
@@ -158,17 +169,13 @@ const Sidebar = (props) => {
             {
               key: "3",
               icon: <PlayCircleOutlined />,
-              label: (
-                <sapn>
-                  Sports-Betting
-                </sapn>
-              ),
+              label: <div>Sports Betting</div>,
               children: [
                 {
-                  label: <Link to="/Events/sports-details">Active Games</Link>,
+                  label: <Link to="/Events/sports-details">Inplay Games</Link>,
                 },
                 {
-                  label: <Link to="/finish-game">Finished Games</Link>,
+                  label: <Link to="/finish-game">COMPLETED GAMES</Link>,
                 },
                 {
                   className: `${
@@ -199,6 +206,19 @@ const Sidebar = (props) => {
               ],
             },
             {
+              key: "14",
+              icon: <PlayCircleOutlined />,
+              label: <div>Matka</div>,
+              children: [
+                {
+                  label: <Link to="/matka/inplay">INPLAY MATKA</Link>,
+                },
+                {
+                  label: <Link to="/matka/completed">COMPLETED MATKA</Link>,
+                },
+              ],
+            },
+            {
               key: "4",
               icon: <PlayCircleOutlined />,
               label: (
@@ -211,45 +231,45 @@ const Sidebar = (props) => {
                   label: <Link to="/Events/matchledger">Profit/Loss</Link>,
                 },
                 {
-                  label: <Link to="/client/my-ledger">My Leger</Link>,
+                  label: <Link to="/client/my-ledger">My LEDGER</Link>,
                 },
                 {
                   className: `${userType != "7" ? "d-none" : ""}`,
                   label: (
-                    <Link to="/client/ledger-super/6/Admin">Admin Leger</Link>
+                    <Link to="/client/ledger-super/6/Admin">Admin LEDGER</Link>
                   ),
                 },
                 {
                   className: hasRole(["7", "6"]) ? "" : "d-none",
                   label: (
                     <Link to="/client/ledger-super/5/Mini-Admin">
-                      Mini Admin Leger
+                      Mini Admin LEDGER
                     </Link>
                   ),
                 },
                 {
                   className: hasRole(["7", "6", "5"]) ? "" : "d-none",
                   label: (
-                    <Link to="/client/ledger-super/4/Master">Master Leger</Link>
+                    <Link to="/client/ledger-super/4/Master">Master LEDGER</Link>
                   ),
                 },
                 {
                   className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
                   label: (
                     <Link to="/client/ledger-super/3/Super">
-                      Super agent Leger
+                      Super agent LEDGER
                     </Link>
                   ),
                 },
                 {
                   className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
                   label: (
-                    <Link to="/client/ledger-super/2/Agent">Agent Leger</Link>
+                    <Link to="/client/ledger-super/2/Agent">Agent LEDGER</Link>
                   ),
                 },
                 {
                   label: (
-                    <Link to="/client/ledger-super/1/Client">Client Leger</Link>
+                    <Link to="/client/ledger-super/1/Client">Client LEDGER</Link>
                   ),
                 },
               ],
@@ -404,7 +424,7 @@ const Sidebar = (props) => {
               ],
             },
             {
-              key: "8",
+              key: "18",
               icon: <SettingOutlined />,
               label: (
                 <Link
@@ -480,7 +500,7 @@ const Sidebar = (props) => {
                 },
               ],
             },
-          ]}
+          ])}
         />
       </Sider>
 
@@ -510,7 +530,7 @@ const Sidebar = (props) => {
             openKeys={openKeys}
             onOpenChange={onOpenChange}
             defaultSelectedKeys={openKeys}
-            items={[
+            items={normalizeMenuItems([
               {
                 key: "1",
                 icon: <HomeOutlined />,
@@ -618,25 +638,21 @@ const Sidebar = (props) => {
               {
                 key: "3",
                 icon: <PlayCircleOutlined />,
-                label: (
-                  <sapn>
-                    Sports-Betting
-                  </sapn>
-                ),
+                label: <div>Sports Betting</div>,
                 children: [
                   {
                     label: (
                       <Link
                         to="/Events/sports-details"
                         onClick={() => props?.action()}>
-                        Active Games
+                        INPLAY Games
                       </Link>
                     ),
                   },
                   {
                     label: (
                       <Link to="/finish-game" onClick={() => props?.action()}>
-                        Finished Games
+                        COMPLETED GAMES
                       </Link>
                     ),
                   },
@@ -689,6 +705,27 @@ const Sidebar = (props) => {
                 ],
               },
               {
+                key: "14",
+                icon: <PlayCircleOutlined />,
+                label: <div>Matka</div>,
+                children: [
+                  {
+                    label: (
+                      <Link to="/matka/inplay" onClick={() => props?.action()}>
+                        INPLAY MATKA
+                      </Link>
+                    ),
+                  },
+                  {
+                    label: (
+                      <Link to="/matka/completed" onClick={() => props?.action()}>
+                        COMPLETED MATKA
+                      </Link>
+                    ),
+                  },
+                ],
+              },
+              {
                 key: "4",
                 icon: <PlayCircleOutlined />,
                 label: (
@@ -721,7 +758,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/6/Admin">
-                        Admin Leger
+                        Admin LEDGER
                       </Link>
                     ),
                   },
@@ -731,7 +768,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/5/Mini-Admin">
-                        Mini Admin Leger
+                        Mini Admin LEDGER
                       </Link>
                     ),
                   },
@@ -741,7 +778,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/4/Master">
-                        Master Leger
+                        Master LEDGER
                       </Link>
                     ),
                   },
@@ -751,7 +788,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/3/Super-Agent">
-                        Super agent Leger
+                        Super agent LEDGER
                       </Link>
                     ),
                   },
@@ -763,7 +800,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/2/Agent">
-                        Agent Leger
+                        Agent LEDGER
                       </Link>
                     ),
                   },
@@ -772,7 +809,7 @@ const Sidebar = (props) => {
                       <Link
                         onClick={() => props?.action()}
                         to="/client/ledger-super/1/Client">
-                        Client Leger
+                        Client LEDGER
                       </Link>
                     ),
                   },
@@ -952,7 +989,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
-                    key: "14",
+                    key: "6-1",
                     label: (
                       <Link
                         to="/client/login-report"
@@ -962,7 +999,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
-                    key: "14",
+                    key: "6-2",
                     label: (
                       <Link
                         to="/client/secure-code"
@@ -1073,7 +1110,7 @@ const Sidebar = (props) => {
                   },
                 ],
               },
-            ]}
+            ])}
           />
         </Drawer>
       </div>

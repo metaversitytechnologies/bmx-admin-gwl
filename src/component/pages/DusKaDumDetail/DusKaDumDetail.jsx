@@ -1,5 +1,5 @@
 import "./DusKaDumDetail.scss";
-import { Card, DatePicker, Divider, Empty, Modal, Pagination } from "antd";
+import { Card, DatePicker, Divider, Empty, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { CaretDownOutlined } from "@ant-design/icons";
@@ -40,7 +40,13 @@ const DusKaDumDetail = () => {
         title="Dus Ka Dum Detail"
         extra={<button onClick={handleBackbtn}>Back</button>}>
         <div className="date_picker m-12">
-          <RangePicker bordered={false} />
+          <RangePicker
+            style={{
+              marginBottom: "10px",
+              width: "100%",
+              borderRadius: "20px",
+            }}
+          />
         </div>
         <div className="table_section" style={{marginBottom:"12px"}}>
           <table className="">

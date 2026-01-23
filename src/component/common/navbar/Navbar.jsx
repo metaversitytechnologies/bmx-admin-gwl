@@ -43,7 +43,7 @@ const Navbar = ({ action, collapsed, onToggleCollapse }) => {
     },
 
     {
-      label: <p onClick={handleLogout}>Logout</p>,
+      label: <span onClick={handleLogout}>Logout</span>,
       key: "1",
     },
   ];
@@ -110,20 +110,20 @@ const Navbar = ({ action, collapsed, onToggleCollapse }) => {
               style={{ zIndex: "999999" }}
               className="droup_nav"
               menu={{
-                className: "nav_droupdown",
+                className: "app_dropdown_menu",
                 items,
                 onClick: handleModal,
               }}
               trigger={["hover"]}>
-              <p
+              <span
                 className="user_deatils"
                 style={{ cursor: "pointer", marginRight: "42px" }}
                 onClick={(e) => e.preventDefault()}>
-                <p style={{ fontSize: "20px" }}>
+                <span style={{ fontSize: "20px" }}>
                   {userData}{" "}
                   <DownOutlined style={{ fontSize: "14px" }} />
-                </p>
-              </p>
+                </span>
+              </span>
             </Dropdown>
           </div>
         </div>

@@ -120,7 +120,14 @@ const CasinoProfitAndLossDetails = () => {
         <Row className="profit_apply">
           <Col xs={12} xl={6} lg={6} md={12}>
             <div className="profit_date">
-              <RangePicker onChange={handleRangeChange} />
+              <RangePicker
+                style={{
+                  marginBottom: "10px",
+                  width: "100%",
+                  borderRadius: "20px",
+                }}
+                onChange={handleRangeChange}
+              />
             </div>
           </Col>
           <Col xs={12} xl={8} lg={8} md={12}>

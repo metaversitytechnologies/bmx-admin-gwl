@@ -1,32 +1,19 @@
-import { useState } from "react";
-import { Button, Card, Col, DatePicker, Row, Space, Table, Tag } from "antd";
+import { Button, Card, Table } from "antd";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
 import { useGetCompletdCasinoQuery } from "../../../store/service/SportDetailServices";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
-
-const { RangePicker } = DatePicker;
+import LinkButton from "../../common/LinkButton";
 
 const CasinoPandLDetail = () => {
-  const [dateRange, setDateRange] = useState([
-    dayjs().subtract(7, "day"),
-    dayjs(),
-  ]);
-
-  const fromDate = dateRange[0].format("YYYY-MM-DD");
-  const toDate = dateRange[1].format("YYYY-MM-DD");
+  const fromDate = dayjs().subtract(7, "day").format("YYYY-MM-DD");
+  const toDate = dayjs().format("YYYY-MM-DD");
 
   const { data, isLoading, isFetching } = useGetCompletdCasinoQuery({
     fromDate,
     toDate,
   });
-
-  const handleDateChange = (dates) => {
-    if (dates) {
-      setDateRange(dates);
-    }
-  };
 
   const totalPnl =
     data?.data?.reduce(
@@ -36,19 +23,27 @@ const CasinoPandLDetail = () => {
 
   const columns = [
     {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      render: (value) => (value ? dayjs(value).format("DD MMM YYYY") : ""),
+    },
+    {
       title: "Event Name",
       dataIndex: "eventName",
       key: "eventName",
-      render: (text, record) => (
-        <Link className="gx-text-blue">
-          {text} {record?.casinoId && `(${record?.date})`}
-        </Link>
-      ),
-    },
-    {
-      title: "Date & Time",
-      dataIndex: "date",
-      key: "date",
+      render: (text, record) => {
+        const formattedDate = record?.date
+          ? dayjs(record.date).format("DD-MM-YYYY")
+          : "";
+
+        return (
+          <>
+            {record?.casinoId && `${formattedDate} `}
+            {text}
+          </>
+        );
+      },
     },
     {
       title: "P/L",
@@ -61,56 +56,28 @@ const CasinoPandLDetail = () => {
       ),
     },
     {
-      title: "Action",
+      title: "Actions",
       key: "action",
       render: (_, record) => {
         return (
-          <div className="gx-bg-flex gx-justify-content-end">
+          <div className="">
             {!record?.isTotal ? (
               record.casinoId ? (
                 <>
-                  <Button
-                    style={{
-                      height: "36px",
-                      padding: "0px 15px",
-                      borderRadius: "5px",
-                      marginRight: "15px",
-                    }}
-                    type="primary">
-                    <Link
-                      to={`/Casino/AndarBahar/plus-minus-type/${record?.date}/${record?.casinoId}`}>
-                      plusminus
-                    </Link>
-                  </Button>
-                  <Button
-                    type="link"
-                    style={{
-                      height: "36px",
-                      padding: "0px 15px",
-                      borderRadius: "5px",
-                      border: "1px solid #d9d9d9",
-                      background: "#fff",
-                      color: "#545454",
-                    }}>
-                    <Link
-                      to={`/display-games/${record.casinoId}/${record.eventName}/${record.date}`}>
-                      Display Games
-                    </Link>
-                  </Button>
+                  <LinkButton
+                    to={`/display-games/${record.casinoId}/${record.eventName}/${record.date}`}
+                    label="Show Games"
+                  />
+                  <LinkButton
+                    to={`/Casino/AndarBahar/plus-minus-type/${record?.date}/${record?.casinoId}`}
+                    label="PL"
+                  />
                 </>
               ) : (
-                <Button
-                  style={{
-                    height: "36px",
-                    padding: "0px 15px",
-                    borderRadius: "5px",
-                    marginRight: "15px",
-                  }}
-                  type="primary">
-                  <Link to={`/plusminuscasinodeatils/${record.date}`}>
-                    plusminus2
-                  </Link>
-                </Button>
+                <LinkButton
+                  to={`/plusminuscasinodeatils/${record.date}`}
+                  label="PL"
+                />
               )
             ) : (
               ""
@@ -122,7 +89,7 @@ const CasinoPandLDetail = () => {
   ];
 
   return (
-    <div className="match_slip match_ledger">
+    <div className="match_slip">
       <Card
         style={{
           margin: "0px",
@@ -131,61 +98,69 @@ const CasinoPandLDetail = () => {
         className="sport_detail team_name"
         title="Casino PandL Detail"
         extra={<button>Back</button>}>
-        <div className="gx-mt-3">
-          <Row
-            className="date_picker gx-px-5"
-            style={{
-              gap: "16px",
-            }}>
-            <Col>
-              <RangePicker
-                value={dateRange}
-                onChange={handleDateChange}
-                style={{ marginBottom: "10px", width: "300px" }}
-                bordered={false}
-                showSecond
-                renderExtraFooter={() => (
-                  <Space style={{ padding: "10px" }}>
-                    <Tag color="blue">Today</Tag>
-                    <Tag color="blue">Yesterday</Tag>
-                    <Tag color="blue">This Week</Tag>
-                    <Tag color="blue">Last Week</Tag>
-                    <Tag color="blue">This Month</Tag>
-                    <Tag color="blue">Last Month</Tag>
-                  </Space>
-                )}
-              />
-            </Col>
-            <Col>
-              <Button
-                type="primary"
-                className="gx-border-redius0"
-                style={{ height: "36px", lineHeight: "32px" }}>
-                Submit
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        <div
+          style={{
+            padding: "20px",
+          }}>
 
-        <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Table
-            columns={columns}
-            dataSource={[
-              {
-                eventName: "Total",
-                date: "",
-                pnl: totalPnl,
-                isTotal: true,
-              },
-              ...(data?.data ? [...data.data].reverse() : []),
-            ]}
-            rowKey={(record, index) => index}
-            loading={{
-              spinning: isLoading || isFetching,
-              indicator: <CustomLoading />,
-            }}
-            pagination={{ pageSize: 20 }}
-          />
+          <div
+            className="summary_strip"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
+              gap: "0",
+              marginBottom: "20px",
+              padding: "14px 16px",
+              background: "#f1f3f5",
+              borderRadius: "8px",
+              boxSizing: "border-box",
+            }}>
+            <div
+              className="summary_item"
+              style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <span
+                className="summary_label"
+                style={{
+                  fontSize: "12px",
+                  color: "#8a8a8a",
+                  fontWeight: 600,
+                  letterSpacing: "0.4px",
+                  textTransform: "uppercase",
+                }}>
+                P/L
+              </span>
+              <span
+                className={`summary_value ${totalPnl > 0 ? "positive" : "negative"
+                  }`}
+                style={{
+                  fontSize: "22px",
+                  fontWeight: 600,
+                  color: totalPnl > 0 ? "#2fb344" : "#f03e3e",
+                }}>
+                {totalPnl?.toFixed(2)}
+              </span>
+            </div>
+          </div>
+          <div className="table_section statement_tabs_data ant-spin-nested-loading">
+            <Table
+              columns={columns}
+              dataSource={[
+                {
+                  eventName: "Total",
+                  date: "",
+                  pnl: totalPnl,
+                  isTotal: true,
+                },
+                ...(data?.data ? [...data.data].reverse() : []),
+              ]}
+              rowKey={(record, index) => index}
+              loading={{
+                spinning: isLoading || isFetching,
+                indicator: <CustomLoading />,
+              }}
+              pagination={{ pageSize: 20 }}
+            />
+          </div>
         </div>
       </Card>
     </div>

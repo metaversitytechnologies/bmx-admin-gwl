@@ -18,9 +18,6 @@ const ListSuper = ({ forDeadClient }) => {
 
   useEffect(() => {
     dispatch(setShowMarquee(false));
-    return () => {
-      dispatch(setShowMarquee(true));
-    };
   }, [dispatch]);
 
   const { id } = useParams();

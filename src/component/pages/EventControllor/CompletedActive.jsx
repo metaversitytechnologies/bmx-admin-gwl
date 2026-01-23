@@ -1,15 +1,10 @@
-import { Button, Card, Empty, message, Row, Pagination } from "antd";
+import { Button, Card, Empty, message, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { useState } from "react";
 import { useGetCompletdMatchesQuery } from "../../../store/service/userlistService";
 
 const CompletedActive = () => {
   const nav = useNavigate();
-
-  // ✅ Local states for PF-side pagination
-  const [pageIndex, setPageIndex] = useState(0); // 0-based
-  const [pageSize, setPageSize] = useState(50); // ✅ Default show 50
 
   const { data: sportDetail, refetch } = useGetCompletdMatchesQuery({});
 

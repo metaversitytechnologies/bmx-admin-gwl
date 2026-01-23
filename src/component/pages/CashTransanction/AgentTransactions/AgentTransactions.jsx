@@ -122,29 +122,28 @@ const AgentTransactions = () => {
   }, [result, userId, trigger, form]);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="agent_transactions" style={{ position: "relative" }}>
       {isPolling && <CustomLoading />}
       {contextHolder}
       <Card
         className="sport_detail ledger_data cash_data"
         title={`${name?.replace("-", " ")} Transactions`}
         extra={<button onClick={handleBackbtn}>Back</button>}>
-        <div className="my_ledger">
+        <div className="" style={{ padding: "12px"}}>
           <Form
             className="form_data mt-16 cash_data"
             name="basic"
             form={form}
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            layout="vertical"
             onFinish={onFinish}
             initialValues={{
               collection: "CA1 CASH",
               ledger_type: "All",
             }}
             autoComplete="off">
-            <Row>
+            <Row gutter={[16, 16]}>
               {/* Client */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item
                   label="client"
                   name="client"
@@ -173,7 +172,7 @@ const AgentTransactions = () => {
               </Col>
 
               {/* Collection */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item
                   label="Collection"
                   name="collection"
@@ -188,7 +187,7 @@ const AgentTransactions = () => {
               </Col>
 
               {/* Date */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item label="Date" name="Date">
                   <DatePicker
                     required
@@ -201,7 +200,7 @@ const AgentTransactions = () => {
               </Col>
 
               {/* Amount */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item
                   label="Amount"
                   name="amount"
@@ -211,7 +210,7 @@ const AgentTransactions = () => {
               </Col>
 
               {/* Payment Type */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item
                   label="Payment Type"
                   name="payment_type"
@@ -224,7 +223,7 @@ const AgentTransactions = () => {
               </Col>
 
               {/* Remark */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item
                   label="Remark"
                   name="remark"
@@ -234,7 +233,7 @@ const AgentTransactions = () => {
               </Col>
 
               {/* Ledger Type */}
-              <Col xl={8} lg={8} md={24} xs={24}>
+              <Col xl={8} lg={8} md={8} sm={12} xs={24}>
                 <Form.Item
                   label="Ledger Type"
                   name="ledger_type"
@@ -259,6 +258,10 @@ const AgentTransactions = () => {
         </div>
       </Card>
 
+      <div
+        aria-hidden="true"
+        style={{ height: 24, backgroundColor: "#eeeeef" }}
+      />
       <Card className="sport_detail ledger_data">
         {ledgerDetails && (
           <TransactionTable

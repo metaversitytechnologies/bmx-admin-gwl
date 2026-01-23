@@ -5,7 +5,6 @@ import {
   Input,
   Menu,
   notification,
-  Pagination,
   Space,
 } from "antd";
 import { useEffect, useRef, useState } from "react";
@@ -17,6 +16,7 @@ import {
 } from "../../../../store/service/supermasteAccountStatementServices";
 import { convertCode, convertCodeReverse } from "../../../../store/constant";
 import { openNotification, openNotificationError } from "../../../../App";
+import TablePagination from "../../../common/TablePagination";
 
 const AddSuperLimites = () => {
   const [codeForm] = Form.useForm();
@@ -28,7 +28,7 @@ const AddSuperLimites = () => {
 
   const [userToSearch, setUserToSearch] = useState("");
   const [inputValues, setInputValues] = useState({});
-  const [paginationTotal, setPaginationTotal] = useState(50);
+  const pageSize = 50;
   const [indexData, setIndexData] = useState(0);
   const [getSuperuserList] = useSuperuserListMutation();
   const [triggerDeposit] = useLazyDepositAndWithdrawQuery();
@@ -46,7 +46,7 @@ const AddSuperLimites = () => {
     const res = await getSuperuserList({
       userType: id,
       parentId: "",
-      noOfRecords: paginationTotal,
+      noOfRecords: pageSize,
       index: indexData,
       userToSearch: convertCodeReverse(searchValue) || "",
     }).unwrap();
@@ -63,7 +63,7 @@ const AddSuperLimites = () => {
 
   useEffect(() => {
     fetchData();
-  }, [id, indexData, paginationTotal, userToSearch]);
+  }, [id, indexData, userToSearch]);
 
   // 🔹 close dropdown on outside click
   useEffect(() => {
@@ -312,17 +312,11 @@ const AddSuperLimites = () => {
           </table>
 
           <div style={{ marginTop: 20, textAlign: "right" }}>
-            <Pagination
+            <TablePagination
               current={paginationInfo.currentPage + 1}
-              total={paginationInfo.totalPages * paginationTotal}
-              pageSize={paginationTotal}
-              showSizeChanger
-              pageSizeOptions={["25", "50", "100", "200", "300", "500"]}
+              total={paginationInfo.totalPages * pageSize}
+              pageSize={pageSize}
               onChange={(page) => setIndexData(page - 1)}
-              onShowSizeChange={(current, size) => {
-                setPaginationTotal(size);
-                setIndexData(0);
-              }}
             />
           </div>
         </div>
