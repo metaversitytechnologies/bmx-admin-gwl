@@ -1,13 +1,5 @@
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Empty,
-  Input,
-  Row,
-  Spin,
-} from "antd";
+import { ReloadOutlined } from "@ant-design/icons";
+import { Button, Card, Empty, Input } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./LoginReport.scss";
 import { useState } from "react";
@@ -26,7 +18,7 @@ const SecureCode = () => {
     nav(-1);
   };
 
-  const [trigger, { data: secureData, isLoading, isFetching, isError }] =
+  const [trigger, { data: secureData, isLoading, isFetching }] =
     useLazyGetSecureCodeQuery();
 
   const handleShow = () => {
@@ -44,62 +36,81 @@ const SecureCode = () => {
           onClick={() => setIsModalOpen(false)}
           className="report_overlay"></div>
       )}
-      <div
-        className="match_slip"
-        style={{
-          margin: "30px 15px",
-        }}>
+      <div className="match_slip secure_code_report">
         <Card
           style={{
             margin: "0px",
             width: "100%",
           }}
           className="sport_detail  team_name"
-          title="Secure Code"
+          title="Secure Code REPORT"
           extra={<button onClick={handleBackClick}>Back</button>}>
-          <Row
-            gutter={[16]}
-            style={{
-              padding: "12px 20px",
-            }}>
-            <Col xs={18} md={18} lg={7} xl={7}>
-              <Input
-                style={{ height: "36px", borderRadius: "0px" }}
-                placeholder="Enter"
-                onChange={(e) => setClientId(convertCodeReverse(e.target.value))}
-              />
-            </Col>
-            <Col xs={6} md={6} lg={7} xl={7}>
-              <Button
-                type="primary"
-                style={{ height: "36px" }}
-                onClick={handleShow}>
-                Show
-              </Button>
-            </Col>
-          </Row>
-          <div className="table_section statement_tabs_data ant-spin-nested-loading">
+          <div className="secure_code_filters">
+            <Input
+              className="secure_code_input"
+              placeholder="Search Code"
+              onChange={(e) => setClientId(convertCodeReverse(e.target.value))}
+            />
+            <Button
+              style={{ borderRadius: "8px" }}
+              type="primary"
+              className="secure_code_button"
+              onClick={handleShow}>
+              Search
+            </Button>
+          </div>
+          <div className="table_section secure_code_filters statement_tabs_data ant-spin-nested-loading">
             <table className="live_table login_data_table">
-              <tr>
-                <th>Code</th>
-                <th>OTP</th>
-                <th>CREATED ON</th>
-              </tr>
-              {isLoading || isFetching ? <CustomLoading /> : ""}
-              {!isError &&
-                secureData?.data?.map((res, id) => {
-                  return (
-                    <tr key={id}>
-                      <td>{convertCode(res?.userId)}</td>
-                      <td>{res?.secureCode}</td>
-                      <td>{res?.createdOn}</td>
-                    </tr>
-                  );
-                })}
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>OTP</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {isLoading || isFetching ? (
+                  <tr>
+                    <td colSpan="10" style={{ textAlign: "center" }}>
+                      <CustomLoading />
+                    </td>
+                  </tr>
+                ) : (
+                  Array.isArray(secureData?.data) &&
+                  secureData.data.length > 0 &&
+                  secureData.data.map((res, id) => {
+                    return (
+                      <tr key={id}>
+                        <td>{convertCode(res?.userId)}</td>
+                        <td>{res?.secureCode}</td>
+                        <td>
+                          <Button
+                            type="primary"
+                            className="reset_otp_button"
+                            icon={<ReloadOutlined />}>
+                            Reset OTP
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
             </table>
-
-            {secureData?.data === undefined ||
-              (isError && <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)}
+            {!isLoading &&
+              !isFetching &&
+              (!Array.isArray(secureData?.data) ||
+                secureData.data.length === 0) && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                  }}>
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                </div>
+              )}
           </div>
         </Card>
       </div>

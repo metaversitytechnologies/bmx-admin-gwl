@@ -1,6 +1,6 @@
 import { Card, Col, Empty, Modal, Row } from "antd";
 import "./Settings.scss";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ChangePassword from "../../common/ChangePassword/ChangePassword";
 import moment from "moment";
@@ -11,6 +11,7 @@ const data = [];
 
 const Settings = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -19,40 +20,50 @@ const Settings = () => {
     <Card className="setting_main">
       <div>
         <Row gutter={[8]}>
-          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
-            <div className="setting_data1">
-              <Link to="/searchUser">Search User</Link>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+            <div
+              className="setting_data"
+              onClick={() => navigate("/account-statement")}>
+              <span>STATEMENT</span>
             </div>
           </Col>
-          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
-            <div className="setting_data1">
-              <Link to="/account-statement">Statements</Link>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+            <div
+              className="setting_data"
+              onClick={() => navigate("/account-operation")}>
+              <span>A/C OPERATIONS</span>
             </div>
           </Col>
-          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
-            <div className="setting_data mob_setting">
-              <Link to="/account-operation">A/c operations</Link>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+            <div
+              className="setting_data"
+              onClick={() => navigate("/Events/matchledger")}>
+              <span>PROFIT & LOSS</span>
             </div>
           </Col>
-          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
-            <div className="setting_data">
-              <Link to="/Events/matchledger">Profit & Loss</Link>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+            <div
+              className="setting_data"
+              onClick={() => navigate("/casinoprofitandloss")}>
+              <span>CASINO PROFIT & LOSS</span>
             </div>
           </Col>
-          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
-            <div className="setting_data mob_setting">
-              <Link to="/casinoprofitandloss">Casino Profit & Loss</Link>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+            <div
+              className="setting_data"
+              onClick={() => navigate("/searchUser")}>
+              <span>SEARCH USER</span>
             </div>
           </Col>
-          <Col xs={12} sm={12} md={12} lg={4} xl={4}>
+          {/* <Col xs={12} sm={12} md={12} lg={4} xl={4}>
             <div className="setting_data" onClick={() => setIsModalOpen(true)}>
               <p>Change Password</p>
             </div>
-          </Col>
+          </Col> */}
         </Row>
 
         {/* <Card className=""> */}
-        <SettingTable />
+        {/* <SettingTable /> */}
         {/* </Card> */}
       </div>
 

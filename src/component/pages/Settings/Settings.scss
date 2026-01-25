@@ -1,4 +1,9 @@
 .setting_main {
+  .setting_data1,
+  .setting_data {
+    height: 72px;
+    padding: 0 10px;
+  }
   .setting_data1 {
     background: var(--bg-color);
     margin-right: 13px;
@@ -8,7 +13,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 21px 0px;
     border-radius: 10px;
     A {
       font-size: 16px;
@@ -19,9 +23,7 @@
     margin: 12px 13px;
     margin-bottom: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 21px 0px;
     border-radius: 10px;
     cursor: pointer;
 
@@ -31,9 +33,11 @@
       cursor: pointer;
       font-size: 16px;
     }
-    a {
+    span {
+      color: #fff;
       text-align: center;
       font-size: 16px;
+      padding: 0px 10px;
     }
   }
   .setting_detail {
@@ -74,6 +78,11 @@
 
 @media screen and (max-width: 990px) {
   .setting_main {
+    .setting_data1,
+    .setting_data {
+      height: 68px;
+      padding: 0 10px;
+    }
     .setting_detail {
       margin-left: 0px;
     }
@@ -86,7 +95,6 @@
     }
     .setting_data {
       margin: 12px 13px 12px 0px;
-      padding: 16px 9px;
       a,
       p {
         font-family: Arial;

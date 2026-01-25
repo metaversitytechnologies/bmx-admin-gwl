@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Dropdown, Popconfirm, Space, notification } from "antd";
+import { Button, Dropdown, Form, Popconfirm, Select, Space, notification } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -10,6 +10,7 @@ import { openNotification, openNotificationError } from "../../../App";
 const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   const [api, contextHolder] = notification.useNotification();
   const nav = useNavigate();
+  const { Option } = Select;
 
   const [trigger, { error }] = useGetDeletedTranstionMutation();
   const [selectedId, setSelectedId] = useState(null); // store clicked transaction ID
@@ -18,7 +19,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
     nav(`/client/deletedlenden/${clientId}`);
   };
 
-  
+
 
   const handleDelete = async () => {
     try {
@@ -65,7 +66,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
               e.preventDefault();
               setSelectedId(id); // store the clicked transaction ID
             }}>
-            Delete
+            DELETE
           </p>
         </Popconfirm>
       ),
@@ -76,27 +77,51 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   return (
     <>
       {contextHolder}
-      <div className="my_ledger" style={{ padding: "12px 0px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "12px",
+           padding: "12px 15px", margin: "0 0 24px 0"
+        }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <label style={{ fontWeight: 600 }}>
+            PAYMENT TYPE <span style={{ color: "red" }}>*</span>
+          </label>
+          <Select defaultValue="All" style={{ width: "220px" }}>
+            <Option value="All">All</Option>
+            <Option value="payment - dena">PAYMENT - DIYA</Option>
+            <Option value="payment - lena">PAYMENT - LIYA</Option>
+          </Select>
+        </div>
+        <div className="deleted_sec">
+          <Button style={{
+            border: 'none',
+            backgroundColor: 'transparent',
+            color: '#1677FF',
+            fontWeight: '500',
+          }} onClick={fetchDeletedTran}>DELETED</Button>
+        </div>
+      </div>
+      <div className="my_ledger" style={{ padding: "12px 15px", margin: "24px 0" }}>
         <div>
-          <h3 style={{ padding: "5px", color: "red" }}>
+          <h3 style={{ color: "red" }}>
             Dena : {totalCreadit?.toFixed(2)}
           </h3>
         </div>
         <div>
-          <h3 style={{ padding: "5px", color: "rgb(51, 181, 28)" }}>
+          <h3 style={{ color: "rgb(51, 181, 28)" }}>
             Lena : {totalDebit?.toFixed(2)}
           </h3>
         </div>
         <div>
           <h3
-            style={{ padding: "5px" }}
-            className={totalBalance < 0 ? "text_danger" : "text_success"}>
+            style={{  }}
+            className={totalBalance < 0 ? "text_success" : "text_danger"}>
             Balance: {(-1 * totalBalance)?.toFixed(2)}{" "}
-            {totalBalance > 0 ? "(Lena)" : "(Dena)"}
+            {totalBalance > 0 ? "(Dena)" : "(Lena)"}
           </h3>
-        </div>
-        <div className="deleted_sec">
-          <Button onClick={fetchDeletedTran}>Deleted</Button>
         </div>
       </div>
       <div className="table_section" style={{ paddingBottom: "20px" }}>
@@ -104,23 +129,21 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
           <thead>
             <tr>
               <th
-                style={{ whiteSpace: "nowrap", padding: "5px" }}
+                style={{ whiteSpace: "nowrap", padding: "10px" }}
                 className="text-right">
-                #
+                
               </th>
               <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Date</th>
-              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
-                Collection Name
+              <th>DESCRIPTION</th>
+              <th
+                style={{ whiteSpace: "nowrap", padding: "5px" }}
+                className="text-right">
+                DR
               </th>
               <th
                 style={{ whiteSpace: "nowrap", padding: "5px" }}
                 className="text-right">
-                Debit
-              </th>
-              <th
-                style={{ whiteSpace: "nowrap", padding: "5px" }}
-                className="text-right">
-                Credit
+                CR
               </th>
               <th
                 style={{ whiteSpace: "nowrap", padding: "5px" }}
@@ -128,7 +151,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                 Balance
               </th>
               <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
-                Payment Type
+                REMARK
               </th>
               <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Done By</th>
             </tr>
@@ -154,10 +177,10 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                     )}
                   </td>
                   <td style={{ whiteSpace: "nowrap" }}>
-                    {moment(res?.date).format("DD MMM HH:mm:ss A ")}
+                    {moment(res?.date).format("YYYY-MM-DD HH:mm:ss")}
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }}>
-                    {res?.collectionName}
+                  <td>
+                    {res?.ledgerType}
                   </td>
                   <td style={{ whiteSpace: "nowrap" }} className="text-right">
                     {res?.debit}
@@ -169,8 +192,8 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                     {(-1 * res?.balance)?.toFixed(2)} (
                     {res?.balance > 0 ? "Lena" : "Dena"})
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }}>{res?.paymentType}</td>
                   <td style={{ whiteSpace: "nowrap" }}>{res?.remark}</td>
+                  <td>SYSTEM</td>
                 </tr>
               ))
             ) : (

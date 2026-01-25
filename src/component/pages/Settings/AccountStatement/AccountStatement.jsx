@@ -38,19 +38,30 @@ const AccountStatement = () => {
     setDateData(dateString);
   };
 
+  const activeFilterStyle = {
+    backgroundColor: "#0b79d0",
+    border: "1px solid #0b79d0",
+    color: "#fff",
+  };
+  const inactiveFilterStyle = {
+    backgroundColor: "#fff",
+    border: "1px solid #d9d9d9",
+    color: "#000",
+  };
+
   const pName = window.location.pathname;
 
   return (
     <>
       <div className={pName == "/markets" ? "" : "match_slip"}>
-        <div className="account_match_slip">
+        <div className="">
           <Card
             style={{
               margin: "0px",
               width: "100%",
             }}
             className="sport_detail "
-            title={`List Of All Transactions (${data?.data?.length ?? 0})`}
+            title={`STATEMENT`}
             extra={<button onClick={handleBackClick}>Back</button>}>
             <div className="main_acc_section">
               <div className="datepicker">
@@ -59,8 +70,8 @@ const AccountStatement = () => {
                   name="basic"
                   // onFinish={onFinish}
                 >
-                  <Row>
-                    <Col xs={24} lg={6}>
+                  <Row justify="end">
+                    {/* <Col xs={24} lg={6}>
                       <RangePicker
                         defaultValue={[dayjs(timeBefore), dayjs(time)]}
                         style={{
@@ -70,34 +81,43 @@ const AccountStatement = () => {
                         }}
                         onChange={onChange}
                       />
-                    </Col>
-                    <Col xs={24} md={24} lg={12} xl={12}>
-                      <div style={{ marginTop: "12px" }}>
-                        <div className="gx-bg-flex1 gx-justify-content-center gx-flex-nowrap gx-px-1 ">
+                    </Col> */}
+                    <Col xs={24} md={24} lg={12} xl={12} className="statement_filters">
+                      <div style={{ padding: "12px" }}>
+                        <div className="statement_filter_group">
                           <div
-                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
-                              detailType === "ALL"
-                                ? "gx-bg-dark"
-                                : "gx-bg-primary"
+                            className={`statement_filter_btn ${
+                              detailType === "ALL" ? "is-active" : ""
                             }`}
+                            style={
+                              detailType === "ALL"
+                                ? activeFilterStyle
+                                : inactiveFilterStyle
+                            }
                             onClick={() => setDetailsType("ALL")}>
                             All
                           </div>
                           <div
-                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
-                              detailType === "PNL"
-                                ? "gx-bg-dark"
-                                : "gx-bg-primary"
+                            className={`statement_filter_btn ${
+                              detailType === "PNL" ? "is-active" : ""
                             }`}
+                            style={
+                              detailType === "PNL"
+                                ? activeFilterStyle
+                                : inactiveFilterStyle
+                            }
                             onClick={() => setDetailsType("PNL")}>
                             P&amp;L
                           </div>
                           <div
-                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
-                              detailType === "ACCOUNT"
-                                ? "gx-bg-dark"
-                                : "gx-bg-primary"
+                            className={`statement_filter_btn ${
+                              detailType === "ACCOUNT" ? "is-active" : ""
                             }`}
+                            style={
+                              detailType === "ACCOUNT"
+                                ? activeFilterStyle
+                                : inactiveFilterStyle
+                            }
                             onClick={() => setDetailsType("ACCOUNT")}>
                             Account
                           </div>

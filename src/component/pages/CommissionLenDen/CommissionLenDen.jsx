@@ -175,7 +175,7 @@ const CommissionLenDen = () => {
 
   return (
     <>
-      <div className="match_slip login_report" style={{ position: "relative" }}>
+      <div className="match_slip" style={{ position: "relative" }}>
         {isLoading && <CustomLoading />}
 
         <Card
@@ -197,7 +197,6 @@ const CommissionLenDen = () => {
                   width: "100%",
                   borderRadius: "20px",
                 }}
-                defaultValue={[dayjs(dateData[0]), dayjs(dateData[1])]}
                 onChange={handleDateChange}
                 showSecond
                 renderExtraFooter={() => (
@@ -243,8 +242,12 @@ const CommissionLenDen = () => {
                 style={{
                   backgroundColor: "rgb(170, 74, 68)",
                   color: "#fff",
-                  borderRadius: "unset",
-                  height: "36px",
+                  borderRadius: "8px",
+                  height: "25px",
+                  width: "150px",
+                  textAlign: "center",
+                  justifyContent: "center",
+                  fontWeight: "200",
                 }}
                 onClick={handleApply}>
                 Apply

@@ -1,11 +1,13 @@
 .custom-modal-text {
   padding: 0 10px;
 }
-.ant-modal-footer{
-  display: none!important;
-}
-.ant-modal-content{
-  overflow: hidden;
+.modals_rule {
+  .ant-modal-footer {
+    display: none !important;
+  }
+  .ant-modal-content {
+    overflow: hidden;
+  }
 }
 
 /* =====================

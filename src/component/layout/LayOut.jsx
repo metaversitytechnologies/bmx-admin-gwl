@@ -55,14 +55,7 @@ const LayOut = () => {
         <Sidebar collapsed={collapsed} open={open} action={toggleDarawer} />
         <Layout>
           <Header
-            className="header_com"
-            style={{
-              padding: 0,
-              display: "flex",
-              alignItems: "center",
-              height: "72px",
-              zIndex: "3",
-            }}>
+            className="header_com">
             <Navbar
               open={open}
               action={toggleDarawer}

@@ -1,7 +1,7 @@
 import React from "react";
 import CardItem from "../../common/carditem/CardItem";
 import { BiUserCircle } from "react-icons/bi";
-import { Card, Col, Modal, Row } from "antd";
+import { Button, Card, Col, Modal, Row } from "antd";
 import { Link } from "react-router-dom";
 
 const MasterDetails = ({ setOpenModals, openModal }) => {
@@ -24,7 +24,7 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
     },
     {
       image: <BiUserCircle />,
-      name: "madmin",
+      name: "Mini Master",
       path: "/user-list/madmin/5",
       size: "20",
       id: 0,
@@ -73,15 +73,26 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
   return (
     <>
       <Modal
+        title="SUPER ADMIN DETAILS"
         onCancel={() => setOpenModals(!openModal)}
         footer={
-          <button
-            onClick={() => setOpenModals(!openModal)}
-            className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
-            Close
-          </button>
+          <>
+            <Button
+              type="default"
+              style={{
+                backgroundColor: "transparent",
+                border: "1px solid #b9b9b9",
+                color: "#000",
+              }}
+              onClick={() => setOpenModals(!openModal)}>
+              Cancel
+            </Button>
+            <Button type="primary" onClick={() => setOpenModals(!openModal)}>
+              OK
+            </Button>
+          </>
         }
-        className="antd_dsh_madals"
+        className="antd_dsh_madals antd_dsh_madals--master"
         closable={{ "aria-label": "Custom Close Button" }}
         open={openModal}>
         <Row className="modal_opne_dash">
@@ -108,7 +119,6 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
                                 </h1>
                                 <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                                 <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                                <p className="gx-mb-0">Master</p>
                               </div>
                             </div>
                           </div>

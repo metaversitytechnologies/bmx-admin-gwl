@@ -128,7 +128,7 @@ const GameDeatis = () => {
   }, [showTv, channelId, userIp]);
 
   return (
-    <Row justify="center" className="main_details_page">
+    <Row justify="center" className="">
       <Col xs={24} lg={24}>
         <Row justify="center">
           <Col xs={24} lg={24}>
@@ -222,7 +222,7 @@ const GameDeatis = () => {
               {/* )} */}
 
               <Row className="gx-px-0 gx-py-0 main_game_details">
-                <Col md={18} xs={24}>
+                <Col xs={24}>
                   {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}
                   <Bookmaker
                     data={data}

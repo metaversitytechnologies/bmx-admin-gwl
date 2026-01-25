@@ -32,7 +32,7 @@ const RecursiveCard = ({ data, depth }) => {
                         <th colSpan={6}>Agent PlusMinus </th>
                         <th colSpan={6}>Super Agent PlusMinus </th>
                         <th colSpan={6}>Master Agent PlusMinus </th>
-                        <th colSpan={6}>madmin PlusMinus</th>
+                        <th colSpan={6}>Mini Master PlusMinus</th>
                         <th colSpan={6}>Admin PlusMinus</th>
                       </tr>
                     </thead>
@@ -226,7 +226,7 @@ const RecursiveCard = ({ data, depth }) => {
   );
 };
 
-const depthLabels = ["madmin", "MasterAgent", "SuperAgent", "Agent"];
+const depthLabels = ["Mini Master", "MasterAgent", "SuperAgent", "Agent"];
 const depthColors = ["purple", "primary", "success", "purple"];
 const depthKeys = [
   "subAdminName",

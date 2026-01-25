@@ -605,7 +605,7 @@ const UserListTable = ({
                       : userType == 5
                       ? "Admin"
                       : userType == 4
-                      ? "madmin"
+                      ? "Mini Master"
                       : userType == 3
                       ? "Master"
                       : userType == 2

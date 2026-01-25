@@ -13,7 +13,7 @@ const data = [
   },
   {
     image: <BiUserCircle />,
-    head: "madmin",
+    head: "Mini Master",
     name: "Dr/Cr Entry Super",
     path: "/client/txn-super/madmin/5",
     size: "14",

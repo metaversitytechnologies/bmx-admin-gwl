@@ -1,6 +1,30 @@
 .main_acc_section {
   background: #fff;
   padding: 15px 0px;
+  .statement_filters {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .statement_filter_group {
+    display: inline-flex;
+    gap: 8px;
+  }
+  .statement_filter_btn {
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    color: #000;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 8px 14px;
+    user-select: none;
+  }
+  .statement_filter_btn.is-active {
+    background: #0b79d0;
+    border-color: #0b79d0;
+    color: #fff;
+  }
   // .ant-picker{
   //     width: 40% !important;
   // }

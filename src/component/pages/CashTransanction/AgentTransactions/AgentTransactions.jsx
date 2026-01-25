@@ -250,7 +250,7 @@ const AgentTransactions = () => {
             </Row>
 
             <Form.Item wrapperCol={{ span: 24 }}>
-              <Button loading={isLoading} type="primary" htmlType="submit">
+              <Button loading={isLoading} type="primary" htmlType="submit" style={{ borderRadius: "8px"}}>
                 Submit
               </Button>
             </Form.Item>

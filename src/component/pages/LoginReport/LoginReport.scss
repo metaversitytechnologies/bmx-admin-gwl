@@ -69,3 +69,89 @@
     }
   }
 }
+
+.secure_code_report {
+  .ant-card-head {
+    background: #b7862b;
+    border-bottom: 1px solid #caa35a;
+    padding: 0 18px;
+  }
+
+  .ant-card-head-title {
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ant-card-extra {
+    button {
+      background: #038fde;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+  }
+
+  .secure_code_filters {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 20px 4px;
+  }
+
+  .secure_code_input {
+    width: 320px;
+    max-width: 100%;
+    height: 36px;
+    border-radius: 4px;
+  }
+
+  .secure_code_button {
+    height: 34px;
+    padding: 0 18px;
+  }
+
+  .login_data_table {
+    margin-top: 12px;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #d1c1a1;
+
+    tr {
+      th {
+        background: #b7862b;
+        color: #fff;
+        padding: 7px 10px !important;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        text-transform: uppercase !important;
+        border-right: 1px solid #caa35a;
+        border-bottom: 1px solid #caa35a;
+        white-space: nowrap;
+      }
+
+      td {
+        padding: 7px 10px;
+        font-weight: 600;
+        border-right: 1px solid #e2d6c2;
+        border-bottom: 1px solid #e2d6c2;
+        background: #fff;
+      }
+    }
+  }
+
+  .reset_otp_button {
+    height: 28px;
+    padding: 0 12px;
+    font-weight: 600;
+    border-radius: 8px;
+
+    svg {
+      transform: rotate(90deg);
+    }
+  }
+}

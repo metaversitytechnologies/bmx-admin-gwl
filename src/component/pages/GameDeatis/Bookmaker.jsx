@@ -12,7 +12,7 @@ const Bookmaker = ({
   return (
     <>
       <div
-        className="ant-table-wrapper gx-w-100 gx-mx-0 gx-my-0"
+        className="ant-table-wrapper gx-w-100 gx-mx-0 gx-my-0 bookmaker-table"
         style={{ marginTop: 16 }}>
         <div className="ant-spin-nested-loading">
           <div className="ant-spin-container">
@@ -29,58 +29,40 @@ const Bookmaker = ({
                       <tr>
                         <th className="ant-table-cell matchdtailsNoYesBackground">
                           <div className="gx-bg-flex gx-justify-content-between gx-align-items-center minMax">
-                            <div style={{ display: "flex" }}>
-                              <div
-                                style={{
-                                  padding: "6px 8px",
-                                  cursor: "pointer",
-                                  backgroundColor: !showTtlBook
-                                    ? "rgb(235, 109, 136)"
-                                    : "white",
-                                  color: !showTtlBook ? "white" : "black",
-                                  fontWeight: 500,
-                                }}
-                                onClick={() => {
-                                  setShowTtlBook(false);
-                                  handleTtlBook();
-                                }}>
-                                Ttl Book
-                              </div>
-                              <div
-                                style={{
-                                  padding: "6px 8px",
-                                  cursor: "pointer",
-                                  backgroundColor: showTtlBook
-                                    ? "rgb(235, 109, 136)"
-                                    : "white",
-                                  color: showTtlBook ? "white" : "black",
-                                  fontWeight: 500,
-                                }}
+                            <div className="bookmaker-tabs">
+                              <button
+                                type="button"
+                                className={`bookmaker-tab ${
+                                  showTtlBook ? "is-active" : ""
+                                }`}
                                 onClick={() => {
                                   setShowTtlBook(true);
                                   handleOddBook();
                                 }}>
                                 My Book
-                              </div>
+                              </button>
+                              <button
+                                type="button"
+                                className={`bookmaker-tab ${
+                                  !showTtlBook ? "is-active" : ""
+                                }`}
+                                onClick={() => {
+                                  setShowTtlBook(false);
+                                  handleTtlBook();
+                                }}>
+                                Ttl Book
+                              </button>
                             </div>
                           </div>
                         </th>
                         <th
                           className="ant-table-cell matchdtailsYesBackground"
-                          style={{
-                            backgroundColor: "rgb(99, 183, 247)",
-                            textAlign: "center",
-                            fontWeight: 500,
-                          }}>
+                          style={{ textAlign: "center", fontWeight: 500 }}>
                           Lagai
                         </th>
                         <th
                           className="ant-table-cell matchdtailsNoBackground"
-                          style={{
-                            backgroundColor: "rgb(239, 131, 155)",
-                            textAlign: "center",
-                            fontWeight: 500,
-                          }}>
+                          style={{ textAlign: "center", fontWeight: 500 }}>
                           Khai
                         </th>
                       </tr>

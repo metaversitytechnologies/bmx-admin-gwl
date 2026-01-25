@@ -6,9 +6,9 @@ const getColumnClass = (role, uType) => {
     7: [], // show all
     6: ["SuperAdmin"],
     5: ["SuperAdmin", "Admin"],
-    4: ["SuperAdmin", "Admin", "madmin"],
-    3: ["SuperAdmin", "Admin", "madmin", "Master"],
-    2: ["SuperAdmin", "Admin", "madmin", "Master", "SuperAgent"],
+    4: ["SuperAdmin", "Admin", "Mini Master"],
+    3: ["SuperAdmin", "Admin", "Mini Master", "Master"],
+    2: ["SuperAdmin", "Admin", "Mini Master", "Master", "SuperAgent"],
   };
 
   const hiddenRoles = hiddenRolesByType[uType] || [];
@@ -62,7 +62,7 @@ const ModalsData = ({
       dataKeys: [
         { label: "SuperAdmin", key: "uplinepartnership" },
         { label: "Admin", key: "adminpartnership" },
-        { label: "madmin", key: "subadminpartnership" },
+        { label: "Mini Master", key: "subadminpartnership" },
         { label: "Master", key: "supermasterpartnership" },
         { label: "SuperAgent", key: "masterpartnership" },
         { label: "Agent", key: "dealerpartnership" },
@@ -73,7 +73,7 @@ const ModalsData = ({
       title: "Match Commission",
       dataKeys: [
         { label: "Admin", key: "adminoddsloss" },
-        { label: "madmin", key: "subadminoddsloss" },
+        { label: "Mini Master", key: "subadminoddsloss" },
         { label: "Master", key: "supermasteroddsloss" },
         { label: "SuperAgent", key: "masteroddsloss" },
         { label: "Agent", key: "dealeroddsloss" },
@@ -84,7 +84,7 @@ const ModalsData = ({
       title: "Session Commission",
       dataKeys: [
         { label: "Admin", key: "adminfancyloss" },
-        { label: "madmin", key: "subadminfancyloss" },
+        { label: "Mini Master", key: "subadminfancyloss" },
         { label: "Master", key: "supermasterfancyloss" },
         { label: "SuperAgent", key: "masterfancyloss" },
         { label: "Agent", key: "dealerfancyloss" },
@@ -96,7 +96,7 @@ const ModalsData = ({
       dataKeys: [
         { label: "SuperAdmin", key: "uplinecasinopartnership" },
         { label: "Admin", key: "admincasinopartnership" },
-        { label: "madmin", key: "subadmincasinopartnership" },
+        { label: "Mini Master", key: "subadmincasinopartnership" },
         { label: "Master", key: "supermastercasinopartnership" },
         { label: "SuperAgent", key: "mastercasinopartnership" },
         { label: "Agent", key: "dealercasinopartnership" },
@@ -107,7 +107,7 @@ const ModalsData = ({
       title: "Casino Commission",
       dataKeys: [
         { label: "Admin", key: "admincasinocommssion" },
-        { label: "madmin", key: "subadmincasinocommssion" },
+        { label: "Mini Master", key: "subadmincasinocommssion" },
         { label: "Master", key: "supermastercasinocommssion" },
         { label: "SuperAgent", key: "mastercasinocommssion" },
         { label: "Agent", key: "dealercasinocommssion" },

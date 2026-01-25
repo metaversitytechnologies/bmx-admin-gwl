@@ -326,10 +326,51 @@ const Sidebar = (props) => {
                 </div>
               ),
               children: [
+                                {
+                  className: `${userType === "7" ? "" : "d-none"}`,
+                  label: (
+                    <Link to="/client/txn-super/Admin/6">
+                      ADMIN MASTER
+                    </Link>
+                  ),
+                },
+                {
+                  className: hasRole(["7", "6"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/client/txn-super/Mini-Admin/5">
+                      MINI MASTER
+                    </Link>
+                  ),
+                },
+
+                {
+                  className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/client/txn-super/Master-Master/4">
+                      MASTER MASTER
+                    </Link>
+                  ),
+                },
+                {
+                  className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/client/txn-super/Super-Master/3">
+                      SUPER MASTER
+                    </Link>
+                  ),
+                },
+                {
+                  className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
+                  label: (
+                    <Link to="/client/txn-super/Agent-Master/2">
+                      AGENT MASTER
+                    </Link>
+                  ),
+                },
                 {
                   label: (
                     <Link to="/client/txn-super/Client-Master/1">
-                      (C) Debit/Credit Entry
+                      CLIENT MASTER
                     </Link>
                   ),
                 },
@@ -341,46 +382,8 @@ const Sidebar = (props) => {
                 //     </Link>
                 //   ),
                 // },
-                {
-                  className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
-                  label: (
-                    <Link to="/client/txn-super/Agent-Master/2">
-                      (A) Debit/Credit Entry
-                    </Link>
-                  ),
-                },
-                {
-                  className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
-                  label: (
-                    <Link to="/client/txn-super/Super-Master/3">
-                      (SA) Debit/Credit Entry
-                    </Link>
-                  ),
-                },
-                {
-                  className: hasRole(["7", "6", "5"]) ? "" : "d-none",
-                  label: (
-                    <Link to="/client/txn-super/Master-Master/4">
-                      (MA) Debit/Credit Entry
-                    </Link>
-                  ),
-                },
-                {
-                  className: hasRole(["7", "6"]) ? "" : "d-none",
-                  label: (
-                    <Link to="/client/txn-super/Mini-Admin/5">
-                      (AD) Debit/Credit Entry
-                    </Link>
-                  ),
-                },
-                {
-                  className: `${userType === "7" ? "" : "d-none"}`,
-                  label: (
-                    <Link to="/client/txn-super/Admin/6">
-                      (ADM) Debit/Credit Entry
-                    </Link>
-                  ),
-                },
+
+
               ],
             },
             {
@@ -884,51 +887,13 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
+                    className: `${userType === "7" ? "" : "d-none"}`,
+
                     label: (
                       <Link
-                        to="/client/txn-super/Client-Master/1"
+                        to="/client/txn-super/Admin/6"
                         onClick={() => props?.action()}>
-                        (C) Debit/Credit Entry
-                      </Link>
-                    ),
-                  },
-                  // {
-                  //   // className: `${userType == "5" ? "" : "d-none"}`,
-                  //   label: (
-                  //     <Link to="/client/txn-super/Master/4">
-                  //       (M) Debit/Credit Entry
-                  //     </Link>
-                  //   ),
-                  // },
-                  {
-                    className: hasRole(["7", "6", "5", "4", "3"])
-                      ? ""
-                      : "d-none",
-                    label: (
-                      <Link
-                        to="/client/txn-super/Agent-Master/2"
-                        onClick={() => props?.action()}>
-                        (A) Debit/Credit Entry
-                      </Link>
-                    ),
-                  },
-                  {
-                    className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
-                    label: (
-                      <Link
-                        to="/client/txn-super/Super-Master/3"
-                        onClick={() => props?.action()}>
-                        (SA) Debit/Credit Entry
-                      </Link>
-                    ),
-                  },
-                  {
-                    className: hasRole(["7", "6", "5"]) ? "" : "d-none",
-                    label: (
-                      <Link
-                        to="/client/txn-super/Master-Master/4"
-                        onClick={() => props?.action()}>
-                        (MA) Debit/Credit Entry
+                        (ADM) Debit/Credit Entry
                       </Link>
                     ),
                   },
@@ -943,13 +908,43 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
-                    className: `${userType === "7" ? "" : "d-none"}`,
-
+                    className: hasRole(["7", "6", "5"]) ? "" : "d-none",
                     label: (
                       <Link
-                        to="/client/txn-super/Admin/6"
+                        to="/client/txn-super/Master-Master/4"
                         onClick={() => props?.action()}>
-                        (ADM) Debit/Credit Entry
+                        (MA) Debit/Credit Entry
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                    label: (
+                      <Link
+                        to="/client/txn-super/Super-Master/3"
+                        onClick={() => props?.action()}>
+                        (SA) Debit/Credit Entry
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: hasRole(["7", "6", "5", "4", "3"])
+                      ? ""
+                      : "d-none",
+                    label: (
+                      <Link
+                        to="/client/txn-super/Agent-Master/2"
+                        onClick={() => props?.action()}>
+                        (A) Debit/Credit Entry
+                      </Link>
+                    ),
+                  },
+                  {
+                    label: (
+                      <Link
+                        to="/client/txn-super/Client-Master/1"
+                        onClick={() => props?.action()}>
+                        (C) Debit/Credit Entry
                       </Link>
                     ),
                   },

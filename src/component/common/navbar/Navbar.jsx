@@ -9,7 +9,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
-import { MdMenu } from "react-icons/md";
 import SelfDeposit from "../DepositModal/SelfDeposit";
 import { imgUrl } from "../../../store/constant";
 
@@ -77,7 +76,7 @@ const Navbar = ({ action, collapsed, onToggleCollapse }) => {
   return (
     <>
       <div className="nav">
-        <div>
+        <div style={{display: "flex", alignItems: "center"}}>
           <Button
             type="text"
             className="collapse_btn"
@@ -92,7 +91,7 @@ const Navbar = ({ action, collapsed, onToggleCollapse }) => {
           />
           <Space className="open_btn">
             <Button type="" className="sub_open_btn" onClick={action}>
-              <MdMenu />
+              <MenuUnfoldOutlined />
             </Button>
           </Space>
 
