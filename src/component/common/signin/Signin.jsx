@@ -28,9 +28,12 @@ const Signin = () => {
 
   // const { data: userIp } = useGetMyIpQuery();
 
+  // const url = hostname.includes("madmin")
+  //   ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
+  //   : hostname;
   const url = hostname.includes("madmin")
-    ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
-    : hostname;
+    ? `sub.antpro.co`
+    : `${hostname.split(".")[0]}.antpro.co`;
 
   const onFinish = async (values) => {
     const authPayload = {
