@@ -30,7 +30,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
       matchCompleted: false,
       marketType: oddsType,
     },
-    { pollingInterval: 1000 }
+    { pollingInterval: 1000 },
   );
 
   const { data: sessionBets } = useGetSessionHavingBetQuery({
@@ -44,20 +44,20 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
       marketId: fancyId,
       matchCompleted: false,
     },
-    { pollingInterval: 1000 }
+    { pollingInterval: 1000 },
   );
 
   const filteredAllOdds =
-    matchBets?.data?.betList?.filter(
+    matchBets?.data?.bookmaker?.betList?.filter(
       (item) =>
         item?.username?.toLowerCase().includes(searchTermOdds.toLowerCase()) ||
-        item?.userId?.toString().includes(searchTermOdds)
+        item?.userId?.toString().includes(searchTermOdds),
     ) || [];
   const filteredAllfancy =
     sessionData?.data?.filter(
       (item) =>
         item?.username?.toLowerCase().includes(searchTermfancy.toLowerCase()) ||
-        item?.userId?.toString().includes(searchTermfancy)
+        item?.userId?.toString().includes(searchTermfancy),
     ) || [];
 
   return (
@@ -88,7 +88,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
               borderTopLeftRadius: "8px",
               borderTopRightRadius: "8px",
             }}>
-            Match Bet ({matchBets?.data?.betList?.length || 0})
+            Match Bet ({matchBets?.data?.bookmaker?.betList?.length || 0})
           </div>
           <div
             onClick={() => {
@@ -322,19 +322,19 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                           </td>
                         </tr>
                       )}
-                      {matchBets?.data?.betList?.length > 0 && (
+                      {matchBets?.data?.bookmaker?.betList?.length > 0 && (
                         <tr>
                           <td colSpan={8}>Total</td>
                           <td>
-                            {matchBets?.data?.betList?.reduce(
+                            {matchBets?.data?.bookmaker?.betList?.reduce(
                               (acc, item) => acc + item.liability,
-                              0
+                              0,
                             ) || 0}
                           </td>
                           <td>
-                            {matchBets?.data?.betList?.reduce(
+                            {matchBets?.data?.bookmaker?.betList?.reduce(
                               (acc, item) => acc + item.pnl,
-                              0
+                              0,
                             ) || 0}
                           </td>
                         </tr>
