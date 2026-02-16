@@ -140,16 +140,16 @@ const Sidebar = (props) => {
                   {uType == 6
                     ? "Admin Details"
                     : uType == 5
-                    ? "Mini Admin Master"
-                    : uType == 4
-                    ? "Master Master"
-                    : uType == 3
-                    ? "Super Agent Master"
-                    : userType == 7
-                    ? "SuperAdmin"
-                    : userType == 2
-                    ? "Agent Master"
-                    : ""}
+                      ? "Mini Admin Master"
+                      : uType == 4
+                        ? "Master Master"
+                        : uType == 3
+                          ? "Super Agent Master"
+                          : userType == 7
+                            ? "SuperAdmin"
+                            : userType == 2
+                              ? "Agent Master"
+                              : ""}
                 </div>
               ),
               children: [
@@ -220,9 +220,7 @@ const Sidebar = (props) => {
                   label: <Link to="/finish-game">Finished Games</Link>,
                 },
                 {
-                  className: `${
-                    userType === "7" || ps == "dtl" ? "" : "d-none"
-                  }`,
+                  className: `${userType === "7" ? "" : "d-none"}`,
                   label: <Link to="/delete-bet">Reject Bets</Link>,
                 },
               ],
@@ -357,7 +355,7 @@ const Sidebar = (props) => {
               ],
             },
 
-            userType === "7" && {
+            (userType === "7" || ps == "dtl") && {
               key: "25",
               icon: (
                 <HoverIcon
@@ -379,9 +377,11 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
+                  className: userType === "7" ? "" : "d-none",
                   label: <Link to="/event-lock">Event Lock</Link>,
                 },
                 {
+                  className: userType === "7" ? "" : "d-none",
                   label: (
                     <Link to="/completd-actibe-bet">
                       Complete Match Active Bet
@@ -591,16 +591,16 @@ const Sidebar = (props) => {
                   {uType == 6
                     ? "Dead Admin Details"
                     : uType == 5
-                    ? "Dead Mini Admin Master"
-                    : uType == 4
-                    ? "Dead Master Master"
-                    : uType == 3
-                    ? "Dead Super Agent Master"
-                    : userType == 7
-                    ? "Dead SuperAdmin"
-                    : userType == 2
-                    ? "Dead Agent Master"
-                    : ""}
+                      ? "Dead Mini Admin Master"
+                      : uType == 4
+                        ? "Dead Master Master"
+                        : uType == 3
+                          ? "Dead Super Agent Master"
+                          : userType == 7
+                            ? "Dead SuperAdmin"
+                            : userType == 2
+                              ? "Dead Agent Master"
+                              : ""}
                 </div>
               ),
               children: [
@@ -726,14 +726,14 @@ const Sidebar = (props) => {
                     {uType == 6
                       ? " Admin Details"
                       : uType == 5
-                      ? "Sub Detail"
-                      : uType == 4
-                      ? "Master Detail"
-                      : uType == 3
-                      ? "Super Detail"
-                      : userType == 7
-                      ? "Super Admin"
-                      : "Agent Detail"}
+                        ? "Sub Detail"
+                        : uType == 4
+                          ? "Master Detail"
+                          : uType == 3
+                            ? "Super Detail"
+                            : userType == 7
+                              ? "Super Admin"
+                              : "Agent Detail"}
                   </div>
                 ),
                 children: [
@@ -1322,16 +1322,16 @@ const Sidebar = (props) => {
                     {uType == 6
                       ? "Dead Admin Details"
                       : uType == 5
-                      ? "Dead Mini Admin Master"
-                      : uType == 4
-                      ? "Dead Master Master"
-                      : uType == 3
-                      ? "Dead Super Agent Master"
-                      : userType == 7
-                      ? "Dead SuperAdmin"
-                      : userType == 2
-                      ? "Dead Agent Master"
-                      : ""}
+                        ? "Dead Mini Admin Master"
+                        : uType == 4
+                          ? "Dead Master Master"
+                          : uType == 3
+                            ? "Dead Super Agent Master"
+                            : userType == 7
+                              ? "Dead SuperAdmin"
+                              : userType == 2
+                                ? "Dead Agent Master"
+                                : ""}
                   </div>
                 ),
                 children: [

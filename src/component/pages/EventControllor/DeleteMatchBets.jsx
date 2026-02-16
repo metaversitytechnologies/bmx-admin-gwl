@@ -14,11 +14,11 @@ import moment from "moment";
 import { useState } from "react";
 import {
   useGetDeletdBetMutation,
-  useGetDeletedBetByTimeMutation,
   useGetMatchedBetDeletedQuery,
 } from "../../../store/service/userlistService";
 
 const DeleteMatchBets = () => {
+  const [selectedMkt, setSelectedMkt] = useState("BOOKMAKER");
   const nav = useNavigate();
   const [fancyIdList, setFancyIdList] = useState([]);
   const { id } = useParams();
@@ -34,25 +34,26 @@ const DeleteMatchBets = () => {
 
   const { data: sportDetail, refetch } = useGetMatchedBetDeletedQuery({
     matchId: id,
+    marketName: selectedMkt,
   });
 
-  const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
-  const [getDeletBet] = useGetDeletdBetMutation();
+  // const [getDeletedBetByTime] = useGetDeletedBetByTimeMutation();
+  const [getDeletBet, { isLoading }] = useGetDeletdBetMutation();
   // const [getActiveDeactive] = useGetEventActiveDeactiveMutation();
 
-  const handleDeletedBetbyTime = async () => {
-    const res = await getDeletedBetByTime({
-      marketId: "",
-      fromDateTime: dateData[0],
-      toDateTime: dateData[1],
-    }).unwrap();
-    if (res?.status) {
-      message.success(res?.message);
-      refetch();
-    } else {
-      message.error(res?.message);
-    }
-  };
+  // const handleDeletedBetbyTime = async () => {
+  //   const res = await getDeletedBetByTime({
+  //     marketId: "",
+  //     fromDateTime: dateData[0],
+  //     toDateTime: dateData[1],
+  //   }).unwrap();
+  //   if (res?.status) {
+  //     message.success(res?.message);
+  //     refetch();
+  //   } else {
+  //     message.error(res?.message);
+  //   }
+  // };
 
   const handleDeletedBet = async () => {
     if (fancyIdList?.length === 0) {
@@ -71,13 +72,27 @@ const DeleteMatchBets = () => {
     }
   };
 
+  const handleDeletedSigleBet = async (id) => {
+    const res = await getDeletBet({
+      id: [id],
+    }).unwrap();
+    if (res?.status) {
+      message.success(res?.message);
+      refetch();
+    } else {
+      message.error(res?.message);
+    }
+  };
+
   const handleSessionChange = (id) => {
     setFancyIdList((prevFancyIdList) =>
       prevFancyIdList.includes(id)
         ? prevFancyIdList.filter((fancyId) => fancyId !== id)
-        : [...prevFancyIdList, id]
+        : [...prevFancyIdList, id],
     );
   };
+
+  const userType = localStorage.getItem("userType");
 
   return (
     <Card
@@ -91,26 +106,44 @@ const DeleteMatchBets = () => {
             onChange={onChange}
           />
         </Col>
-        {/* <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
-          <Button type="primary" onClick={handleDeletedBetbyTime}>
-            Delete Bet By Time
-          </Button>
-        </Col> */}
         <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
-          <Button
-            type="ghost"
-            onClick={handleDeletedBet}
-            style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
-            Delete Bet
-          </Button>
+          <Select
+            placeholder="Select Match"
+            showSearch
+            allowClear
+            value={selectedMkt}
+            onChange={(value, option) => {
+              setSelectedMkt(option?.value || "");
+            }}
+            filterOption={false}
+            options={
+              ["BOOKMAKER", "TOSS"]?.map((item) => ({
+                label: item,
+                value: item,
+              })) || []
+            }
+            style={{ width: "100%" }}
+          />
         </Col>
+        {userType == "7" && (
+          <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+            <Button
+              type="ghost"
+              onClick={handleDeletedBet}
+              loading={isLoading}
+              disabled={isLoading}
+              style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
+              Delete Bet
+            </Button>
+          </Col>
+        )}
       </Row>
 
       <div className="table_section">
         <table className="ant-spin-nested-loading">
           <thead>
             <tr>
-              <th>#</th>
+              {userType == "7" && <th>#</th>}
               <th>Client</th>
               <th>Session Name</th>
               <th>Amount</th>
@@ -118,26 +151,29 @@ const DeleteMatchBets = () => {
               <th>Mode</th>
               <th>Run</th>
               <th>Date</th>
+              {userType == "6" && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
             {sportDetail?.data?.length > 0 ? (
               sportDetail?.data.map((items, id) => (
                 <tr key={items?.userId || id}>
-                  <td>
-                    <input
-                      style={{
-                        width: "15px",
-                        height: "15px",
-                        borderColor: "#0d6efd",
-                      }}
-                      className="form-check-input"
-                      type="checkbox"
-                      id="flexCheckDefault"
-                      checked={items.checked}
-                      onChange={() => handleSessionChange(items.id)}
-                    />
-                  </td>
+                  {userType == "7" && (
+                    <td>
+                      <input
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          borderColor: "#0d6efd",
+                        }}
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexCheckDefault"
+                        checked={items.checked}
+                        onChange={() => handleSessionChange(items.id)}
+                      />
+                    </td>
+                  )}
                   <td>
                     {items?.userId} ({items?.username})
                   </td>
@@ -147,6 +183,16 @@ const DeleteMatchBets = () => {
                   <td>{items?.mode}</td>
                   <td>{items?.run}</td>
                   <td>{items?.time}</td>
+                  {userType == "6" && (
+                    <td>
+                      <Button
+                        loading={isLoading}
+                        disabled={isLoading}
+                        onClick={() => handleDeletedSigleBet(items.id)}>
+                        Delete
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ))
             ) : (

@@ -41,30 +41,30 @@ const DeleteSessionBets = () => {
       marketId: fancyId ?? "",
       matchId: id ?? "",
     },
-    { skip: !fancyId }
+    { skip: !fancyId },
   );
   const { data: sessionBets } = useGetSessionHavingBetQuery({
     matchCompleted: false,
     matchId: id ?? "",
   });
 
-  const [getDeletedBetByTime, { isLoading: loading }] =
-    useGetDeletedBetByTimeMutation();
+  // const [getDeletedBetByTime, { isLoading: loading }] =
+  //   useGetDeletedBetByTimeMutation();
   const [getDeletBet, { isLoading }] = useGetDeletdBetMutation();
 
-  const handleDeletedBetbyTime = async () => {
-    const res = await getDeletedBetByTime({
-      marketId: fancyId ?? "",
-      fromDateTime: dateData[0],
-      toDateTime: dateData[1],
-    }).unwrap();
-    if (res?.status) {
-      message.success(res?.message);
-      refetch();
-    } else {
-      message.error(res?.message);
-    }
-  };
+  // const handleDeletedBetbyTime = async () => {
+  //   const res = await getDeletedBetByTime({
+  //     marketId: fancyId ?? "",
+  //     fromDateTime: dateData[0],
+  //     toDateTime: dateData[1],
+  //   }).unwrap();
+  //   if (res?.status) {
+  //     message.success(res?.message);
+  //     refetch();
+  //   } else {
+  //     message.error(res?.message);
+  //   }
+  // };
 
   const handleDeletedBet = async () => {
     if (fancyIdList?.length === 0) {
@@ -82,14 +82,27 @@ const DeleteSessionBets = () => {
       message.error(res?.message);
     }
   };
+  const handleDeletedBetSign = async (id) => {
+    const res = await getDeletBet({
+      id: [id],
+    }).unwrap();
+    if (res?.status) {
+      message.success(res?.message);
+      refetch();
+    } else {
+      message.error(res?.message);
+    }
+  };
 
   const handleSessionChange = (id) => {
     setFancyIdList((prevFancyIdList) =>
       prevFancyIdList.includes(id)
         ? prevFancyIdList.filter((fancyId) => fancyId !== id)
-        : [...prevFancyIdList, id]
+        : [...prevFancyIdList, id],
     );
   };
+
+  const userType = localStorage.getItem("userType");
 
   return (
     <Card
@@ -127,23 +140,26 @@ const DeleteSessionBets = () => {
         </Col>
 
         {/* Action Buttons */}
-        <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+        {/* <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
           <Button
             type="primary"
             isLoading={loading}
             onClick={handleDeletedBetbyTime}>
             Delete Bet By Time
           </Button>
-        </Col>
-        <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
-          <Button
-            type="ghost"
-            onClick={handleDeletedBet}
-            isLoading={isLoading}
-            style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
-            Delete Bet
-          </Button>
-        </Col>
+        </Col> */}
+        {userType == "7" && (
+          <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+            <Button
+              type="ghost"
+              onClick={handleDeletedBet}
+              loading={isLoading}
+              disabled={isLoading}
+              style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
+              Delete Bet
+            </Button>
+          </Col>
+        )}
       </Row>
 
       {/* Table Section */}
@@ -165,20 +181,22 @@ const DeleteSessionBets = () => {
             {sportDetail?.data?.length > 0 ? (
               sportDetail?.data.map((items) => (
                 <tr key={items.id}>
-                  <td>
-                    <input
-                      style={{
-                        width: "15px",
-                        height: "15px",
-                        borderColor: "#0d6efd",
-                      }}
-                      className="form-check-input"
-                      type="checkbox"
-                      id="flexCheckDefault"
-                      checked={items.checked}
-                      onChange={() => handleSessionChange(items.id)}
-                    />
-                  </td>
+                  {userType == "7" && (
+                    <td>
+                      <input
+                        style={{
+                          width: "15px",
+                          height: "15px",
+                          borderColor: "#0d6efd",
+                        }}
+                        className="form-check-input"
+                        type="checkbox"
+                        id="flexCheckDefault"
+                        checked={items.checked}
+                        onChange={() => handleSessionChange(items.id)}
+                      />
+                    </td>
+                  )}
                   <td>
                     {items?.userId} ({items?.username})
                   </td>
@@ -188,6 +206,16 @@ const DeleteSessionBets = () => {
                   <td>{items?.mode}</td>
                   <td>{items?.run}</td>
                   <td>{items?.time}</td>
+                  {userType == "6" && (
+                    <td>
+                      <Button
+                        loading={isLoading}
+                        disabled={isLoading}
+                        onClick={() => handleDeletedBetSign(items.id)}>
+                        Delete
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ))
             ) : (
