@@ -1044,7 +1044,8 @@ const Sidebar = (props) => {
                   },
                 ],
               },
-              userType === "7" && {
+
+              (userType === "7" || ps == "dtl") && {
                 key: "25",
                 icon: (
                   <HoverIcon
@@ -1066,6 +1067,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
+                    className: userType === "7" ? "" : "d-none",
                     label: (
                       <Link onClick={() => props?.action()} to="/event-lock">
                         Event Lock
@@ -1073,6 +1075,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    className: userType === "7" ? "" : "d-none",
                     label: (
                       <Link
                         onClick={() => props?.action()}
