@@ -39,9 +39,9 @@ const MatchLedgerCasino = () => {
           </Link>
         </td>
         <td>
-          <sapn style={{ fontWeight: 400 }}>
+          <span style={{ fontWeight: 400 }}>
             {moment().format("YYYY-MM-DD hh:mm:ss A")}
-          </sapn>
+          </span>
         </td>
         <td>
           <div

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Drawer, Menu } from "antd";
 import "./Sidebar.scss";
 import { Button } from "antd";
@@ -15,7 +15,9 @@ const Sidebar = (props) => {
   const [openKeys, setOpenKeys] = useState(["1"]);
   const [hoveredItem, setHoveredItem] = useState(null);
 
-  props.collll(collapsed);
+  useEffect(() => {
+    props.collll(collapsed);
+  }, [collapsed, props]);
 
   const nav = useNavigate();
 
@@ -206,21 +208,24 @@ const Sidebar = (props) => {
                 />
               ),
               label: (
-                <sapn
+                <span
                   onMouseEnter={() => setHoveredItem("3")}
                   onMouseLeave={() => setHoveredItem(null)}>
                   Sports-Betting
-                </sapn>
+                </span>
               ),
               children: [
                 {
+                  key: "3-active-games",
                   label: <Link to="/Events/sports-details">Active Games</Link>,
                 },
                 {
+                  key: "3-finished-games",
                   label: <Link to="/finish-game">Finished Games</Link>,
                 },
                 {
                   className: `${userType === "7" ? "" : "d-none"}`,
+                  key: "3-reject-bets",
                   label: <Link to="/delete-bet">Reject Bets</Link>,
                 },
               ],
@@ -247,12 +252,15 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
+                  key: "13-inplay",
                   label: <Link to="/inplay-casino">Inplay Casino</Link>,
                 },
                 {
+                  key: "13-completed",
                   label: <Link to="/completed-casino">Completed Casino</Link>,
                 },
                 {
+                  key: "13-details",
                   label: <Link to="/casinoprofitandloss">Casino Details</Link>,
                 },
               ],
@@ -279,19 +287,23 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
+                  key: "4-profit-loss",
                   label: <Link to="/Events/matchledger">Profit/Loss</Link>,
                 },
                 {
+                  key: "4-my-ledger",
                   label: <Link to="/client/my-ledger">My Leger</Link>,
                 },
                 {
                   className: `${userType != "7" ? "d-none" : ""}`,
+                  key: "4-admin-ledger",
                   label: (
                     <Link to="/client/ledger-super/6/Admin">Admin Leger</Link>
                   ),
                 },
                 {
                   className: hasRole(["7", "6"]) ? "" : "d-none",
+                  key: "4-mini-admin-ledger",
                   label: (
                     <Link to="/client/ledger-super/5/Mini-Admin">
                       Mini Admin Leger
@@ -300,12 +312,14 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                  key: "4-master-ledger",
                   label: (
                     <Link to="/client/ledger-super/4/Master">Master Leger</Link>
                   ),
                 },
                 {
                   className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                  key: "4-super-ledger",
                   label: (
                     <Link to="/client/ledger-super/3/Super">
                       Super agent Leger
@@ -314,11 +328,13 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
+                  key: "4-agent-ledger",
                   label: (
                     <Link to="/client/ledger-super/2/Agent">Agent Leger</Link>
                   ),
                 },
                 {
+                  key: "4-client-ledger",
                   label: (
                     <Link to="/client/ledger-super/1/Client">Client Leger</Link>
                   ),
@@ -347,9 +363,11 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
+                  key: "15-create-ledger",
                   label: <Link to="/create-ledger">Create Ledger</Link>,
                 },
                 {
+                  key: "15-rollback",
                   label: <Link to="/rollback">Rollback</Link>,
                 },
               ],
@@ -378,10 +396,12 @@ const Sidebar = (props) => {
               children: [
                 {
                   className: userType === "7" ? "" : "d-none",
+                  key: "25-event-lock",
                   label: <Link to="/event-lock">Event Lock</Link>,
                 },
                 {
                   className: userType === "7" ? "" : "d-none",
+                  key: "25-complete-match-active-bet",
                   label: (
                     <Link to="/completd-actibe-bet">
                       Complete Match Active Bet
@@ -389,6 +409,7 @@ const Sidebar = (props) => {
                   ),
                 },
                 {
+                  key: "25-delete-bet",
                   label: <Link to="/delete-bets">Delete Bet</Link>,
                 },
               ],
@@ -416,6 +437,7 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
+                  key: "5-client-debit-credit",
                   label: (
                     <Link to="/client/txn-super/Client-Master/1">
                       (C) Debit/Credit Entry
@@ -432,6 +454,7 @@ const Sidebar = (props) => {
                 // },
                 {
                   className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
+                  key: "5-agent-debit-credit",
                   label: (
                     <Link to="/client/txn-super/Agent-Master/2">
                       (A) Debit/Credit Entry
@@ -440,6 +463,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                  key: "5-super-agent-debit-credit",
                   label: (
                     <Link to="/client/txn-super/Super-Master/3">
                       (SA) Debit/Credit Entry
@@ -448,6 +472,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                  key: "5-master-debit-credit",
                   label: (
                     <Link to="/client/txn-super/Master-Master/4">
                       (MA) Debit/Credit Entry
@@ -456,6 +481,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6"]) ? "" : "d-none",
+                  key: "5-mini-admin-debit-credit",
                   label: (
                     <Link to="/client/txn-super/Mini-Admin/5">
                       (AD) Debit/Credit Entry
@@ -464,6 +490,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: `${userType === "7" ? "" : "d-none"}`,
+                  key: "5-admin-debit-credit",
                   label: (
                     <Link to="/client/txn-super/Admin/6">
                       (ADM) Debit/Credit Entry
@@ -496,7 +523,7 @@ const Sidebar = (props) => {
               ),
             },
             {
-              key: "8",
+              key: "8-commission",
               icon: (
                 <HoverIcon
                   id="7"
@@ -539,9 +566,11 @@ const Sidebar = (props) => {
               ),
               children: [
                 {
+                  key: "6-login-report",
                   label: <Link to="/client/login-report">Login Report</Link>,
                 },
                 {
+                  key: "6-secure-code-report",
                   label: (
                     <Link to="/client/secure-code">Secure Code Report</Link>
                   ),
@@ -549,7 +578,7 @@ const Sidebar = (props) => {
               ],
             },
             {
-              key: "8",
+              key: "9-setting",
               icon: (
                 <HoverIcon
                   id="9"
@@ -606,10 +635,12 @@ const Sidebar = (props) => {
               children: [
                 {
                   className: `${userType != "7" ? "d-none" : ""}`,
+                  key: "200-dead-admin",
                   label: <Link to="/dead-user-list/Admin/6">Dead Admin</Link>,
                 },
                 {
                   className: hasRole(["7", "6"]) ? "" : "d-none",
+                  key: "200-dead-mini-admin",
                   label: (
                     <Link to="/dead-user-list/Mini-Admin/5">
                       Dead Mini Admin Master
@@ -618,6 +649,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                  key: "200-dead-master",
                   label: (
                     <Link to="/dead-user-list/Master-Master/4">
                       Dead Master Master
@@ -626,6 +658,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                  key: "200-dead-super-master",
                   label: (
                     <Link to="/dead-user-list/Super-Master/3">
                       Dead Super Master
@@ -634,6 +667,7 @@ const Sidebar = (props) => {
                 },
                 {
                   className: hasRole(["7", "6", "5", "4", "3"]) ? "" : "d-none",
+                  key: "200-dead-agent-master",
                   label: (
                     <Link to="/dead-user-list/Agent-Master/2">
                       Dead Agent Master
@@ -641,6 +675,7 @@ const Sidebar = (props) => {
                   ),
                 },
                 {
+                  key: "200-dead-client-master",
                   label: (
                     <Link to="/dead-user-list/Client-Master/1">
                       Dead Client Master
@@ -822,14 +857,15 @@ const Sidebar = (props) => {
                   />
                 ),
                 label: (
-                  <sapn
+                  <span
                     onMouseEnter={() => setHoveredItem("3")}
                     onMouseLeave={() => setHoveredItem(null)}>
                     Sports-Betting
-                  </sapn>
+                  </span>
                 ),
                 children: [
                   {
+                    key: "3-active-games",
                     label: (
                       <Link
                         to="/Events/sports-details"
@@ -839,6 +875,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "3-finished-games",
                     label: (
                       <Link to="/finish-game" onClick={() => props?.action()}>
                         Finished Games
@@ -849,6 +886,7 @@ const Sidebar = (props) => {
                     className: `${
                       userType === "7" || ps == "dtl" ? "" : "d-none"
                     }`,
+                    key: "3-reject-bets",
                     label: (
                       <Link to="/delete-bet" onClick={() => props?.action()}>
                         Reject Bets
@@ -879,6 +917,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
+                    key: "13-inplay",
                     label: (
                       <Link to="/inplay-casino" onClick={() => props?.action()}>
                         Inplay Casino
@@ -886,6 +925,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "13-completed",
                     label: (
                       <Link
                         to="/completed-casino"
@@ -895,6 +935,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "13-details",
                     label: (
                       <Link
                         to="/casinoprofitandloss"
@@ -927,6 +968,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
+                    key: "4-profit-loss",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -936,6 +978,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "4-my-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -946,6 +989,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${userType != "7" ? "d-none" : ""}`,
+                    key: "4-admin-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -956,6 +1000,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6"]) ? "" : "d-none",
+                    key: "4-mini-admin-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -966,6 +1011,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                    key: "4-master-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -976,6 +1022,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                    key: "4-super-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -988,6 +1035,7 @@ const Sidebar = (props) => {
                     className: hasRole(["7", "6", "5", "4", "3"])
                       ? ""
                       : "d-none",
+                    key: "4-agent-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -997,6 +1045,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "4-client-ledger",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1029,6 +1078,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
+                    key: "15-create-ledger",
                     label: (
                       <Link onClick={() => props?.action()} to="/create-ledger">
                         Create Ledger
@@ -1036,6 +1086,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "15-rollback",
                     label: (
                       <Link onClick={() => props?.action()} to="/rollback">
                         Rollback
@@ -1068,6 +1119,7 @@ const Sidebar = (props) => {
                 children: [
                   {
                     className: userType === "7" ? "" : "d-none",
+                    key: "25-event-lock",
                     label: (
                       <Link onClick={() => props?.action()} to="/event-lock">
                         Event Lock
@@ -1076,6 +1128,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: userType === "7" ? "" : "d-none",
+                    key: "25-complete-match-active-bet",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1085,6 +1138,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "25-delete-bet",
                     label: (
                       <Link onClick={() => props?.action()} to="/delete-bets">
                         Delete Bet
@@ -1115,6 +1169,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
+                    key: "5-client-debit-credit",
                     label: (
                       <Link
                         to="/client/txn-super/Client-Master/1"
@@ -1135,6 +1190,7 @@ const Sidebar = (props) => {
                     className: hasRole(["7", "6", "5", "4", "3"])
                       ? ""
                       : "d-none",
+                    key: "5-agent-debit-credit",
                     label: (
                       <Link
                         to="/client/txn-super/Agent-Master/2"
@@ -1145,6 +1201,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                    key: "5-super-agent-debit-credit",
                     label: (
                       <Link
                         to="/client/txn-super/Super-Master/3"
@@ -1155,6 +1212,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                    key: "5-master-debit-credit",
                     label: (
                       <Link
                         to="/client/txn-super/Master-Master/4"
@@ -1165,6 +1223,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6"]) ? "" : "d-none",
+                    key: "5-mini-admin-debit-credit",
                     label: (
                       <Link
                         to="/client/txn-super/Mini-Admin/5"
@@ -1175,6 +1234,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: `${userType === "7" ? "" : "d-none"}`,
+                    key: "5-admin-debit-credit",
 
                     label: (
                       <Link
@@ -1256,7 +1316,7 @@ const Sidebar = (props) => {
                 ),
                 children: [
                   {
-                    key: "14",
+                    key: "6-login-report",
                     label: (
                       <Link
                         to="/client/login-report"
@@ -1266,7 +1326,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
-                    key: "14",
+                    key: "6-secure-code-report",
                     label: (
                       <Link
                         to="/client/secure-code"
@@ -1340,6 +1400,7 @@ const Sidebar = (props) => {
                 children: [
                   {
                     className: `${userType != "7" ? "d-none" : ""}`,
+                    key: "200-dead-admin",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1350,6 +1411,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6"]) ? "" : "d-none",
+                    key: "200-dead-mini-admin",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1360,6 +1422,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6", "5"]) ? "" : "d-none",
+                    key: "200-dead-master",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1370,6 +1433,7 @@ const Sidebar = (props) => {
                   },
                   {
                     className: hasRole(["7", "6", "5", "4"]) ? "" : "d-none",
+                    key: "200-dead-super-master",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1382,6 +1446,7 @@ const Sidebar = (props) => {
                     className: hasRole(["7", "6", "5", "4", "3"])
                       ? ""
                       : "d-none",
+                    key: "200-dead-agent-master",
                     label: (
                       <Link
                         onClick={() => props?.action()}
@@ -1391,6 +1456,7 @@ const Sidebar = (props) => {
                     ),
                   },
                   {
+                    key: "200-dead-client-master",
                     label: (
                       <Link
                         onClick={() => props?.action()}

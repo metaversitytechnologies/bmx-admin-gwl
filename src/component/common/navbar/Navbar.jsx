@@ -108,17 +108,17 @@ const Navbar = ({ action, logo }) => {
                 onClick: handleModal,
               }}
               trigger={["click"]}>
-              <p
+              <div
                 className="user_deatils"
                 style={{ cursor: "pointer", marginRight: "42px" }}
                 onClick={(e) => e.preventDefault()}>
-                <p style={{ fontWeight: 500, fontSize: "20px" }}>
+                <span style={{ fontWeight: 500, fontSize: "20px" }}>
                   {userData}{" "}
                   <CaretDownOutlined
                     style={{ fontSize: "20px", marginLeft: "-3px" }}
                   />
-                </p>
-              </p>
+                </span>
+              </div>
             </Dropdown>
             <svg
               stroke="currentColor"

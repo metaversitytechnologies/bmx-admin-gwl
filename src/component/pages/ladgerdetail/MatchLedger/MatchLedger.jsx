@@ -1,6 +1,6 @@
 import { Card, Col, DatePicker, Row, Select, Table } from "antd";
 import "./MatchLedger.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
 import { useGetLedgerProfitLossQuery } from "../../../../store/service/SportDetailServices";
@@ -63,8 +63,22 @@ const MatchLedger = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const totalCreadit =
-    ledgerData?.data?.reduce((acc, item) => acc + item.credit, 0) || 0;
+  const totalCredit =
+    ledgerData?.data?.reduce(
+      (acc, item) => acc + (item.credit || 0) + (item.debit || 0),
+      0
+    ) || 0;
+
+  const totalCreditSum =
+    ledgerData?.data?.reduce((acc, item) => acc + (item.credit || 0), 0) || 0;
+
+  const totalDebitSum =
+    ledgerData?.data?.reduce((acc, item) => acc + (item.debit || 0), 0) || 0;
+
+  useEffect(() => {
+    console.log("Total credit:", totalCreditSum);
+    console.log("Total debit:", totalDebitSum);
+  }, [totalCreditSum, totalDebitSum]);
 
   return (
     <>
@@ -114,8 +128,8 @@ const MatchLedger = () => {
               <p style={{ fontSize: "20px" }}>
                 Total:{" "}
                 <span
-                  className={totalCreadit > 0 ? "text_success" : "text_danger"}>
-                  {totalCreadit?.toFixed(2)}
+                  className={totalCredit > 0 ? "text_success" : "text_danger"}>
+                  {totalCredit?.toFixed(2)}
                 </span>
               </p>
             </div>
@@ -128,6 +142,16 @@ const MatchLedger = () => {
               className="live_table acc_tabel limit_update"
               bordered
               columns={columns}
+              rowKey={(record) =>
+                record.id ??
+                record._id ??
+                record.key ??
+                record.eventId ??
+                record.matchId ??
+                `${record.date}-${record.eventName}-${record.credit ?? 0}-${
+                  record.debit ?? 0
+                }`
+              }
               rowClassName={() => "no-wrap"}
               loading={{
                 spinning: isLoading || isFetching,

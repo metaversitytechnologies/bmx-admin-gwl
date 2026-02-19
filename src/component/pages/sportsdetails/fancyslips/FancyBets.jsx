@@ -127,6 +127,7 @@ const FancyBets = () => {
                     <th>Date</th>
                     <th>Loss</th>
                     <th>Profit</th>
+                    <th>Result</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -150,6 +151,7 @@ const FancyBets = () => {
                         <td>{res?.time}</td>
                         <td>{res?.liability}</td>
                         <td>{res?.pnl}</td>
+                        <td>{res?.declared}</td>
                       </tr>
                     ))
                   ) : (
