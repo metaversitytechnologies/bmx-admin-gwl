@@ -39,7 +39,7 @@ const createName = {
 const NewCreateUser = () => {
   const [userData, setUserData] = useState({});
   const [commiType, setCommiType] = useState("nocomm");
-  const [contextHolder] = notification.useNotification();
+  const [, contextHolder] = notification.useNotification();
   const [parentId, setParentId] = useState(null);
   const [form] = Form.useForm();
 
