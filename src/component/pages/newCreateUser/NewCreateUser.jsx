@@ -21,10 +21,7 @@ import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
 import SelectUpline from "./SelectUpline";
 import { convertCodeReverse } from "../../../store/constant";
-import {
-  useAppDetailsAllowedForChangeQuery,
-  useAppDetailsQuery,
-} from "../../../store/service/userlistService";
+import { useAppDetailsQuery } from "../../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../../App";
 
 const createName = {
@@ -42,12 +39,16 @@ const NewCreateUser = () => {
   const [, contextHolder] = notification.useNotification();
   const [parentId, setParentId] = useState(null);
   const [form] = Form.useForm();
+  const { id } = useParams();
+  const userId = localStorage.getItem("userId");
+  const userType = localStorage.getItem("userType");
+  const isSuperAdminCreatingAdmin =
+    Number(userType) === 7 && Number(id) === 7;
 
   const commissionType = (value) => {
     setCommiType(value);
   };
 
-  const { id } = useParams();
   const handleChange = (value) => {};
   const handleSelect = (value) => {
     setParentId(value);
@@ -56,15 +57,8 @@ const NewCreateUser = () => {
   var mobileNum = /^[6-9][0-9]{9}$/;
 
   const { data: appDeatis } = useAppDetailsQuery(undefined, {
-    skip: Number(id) !== 7,
+    skip: !isSuperAdminCreatingAdmin,
   });
-  const { data: appDetailsAllowedForChange } =
-    useAppDetailsAllowedForChangeQuery(undefined, {
-      skip: ![6, 5].includes(Number(id)),
-    });
-
-  const userId = localStorage.getItem("userId");
-  const userType = localStorage.getItem("userType");
   const { data: userDetails } = useGetUserDetailsQuery({
     userId: parentId ? convertCodeReverse(parentId) : userId,
   });
@@ -72,10 +66,7 @@ const NewCreateUser = () => {
 
   const [createUser, { data: UserList, error, isLoading }] =
     useGetCreateUserMutation();
-  const appOptions =
-    Number(id) === 7
-      ? appDeatis?.data
-      : appDetailsAllowedForChange?.data;
+  const appOptions = appDeatis?.data;
 
   const onFinish = (values) => {
     const {
@@ -93,9 +84,6 @@ const NewCreateUser = () => {
       appIdChangeAllowed,
       loginOtpDisabled,
     } = values;
-    const appIdChangeAllowedByUpline = Boolean(
-      userDetails?.data?.appIdChangeAllowed
-    );
     const userData = {
       username: Name,
       reference: reference,
@@ -114,13 +102,7 @@ const NewCreateUser = () => {
       parentIdForUserCreation: convertCodeReverse(parentId),
       ...(Number(id) === 7 && { loginOtpDisabled: loginOtpDisabled }),
     };
-    if (Number(id) === 7 && !appIdChangeAllowedByUpline) {
-      userData.appId = appId;
-    }
-    if (
-      [7, 6, 5].includes(Number(id)) &&
-      appIdChangeAllowedByUpline
-    ) {
+    if (isSuperAdminCreatingAdmin) {
       userData.appId = appId;
       userData.appIdChangeAllowed = appIdChangeAllowed;
     }
@@ -403,9 +385,7 @@ const NewCreateUser = () => {
                       </Form.Item>
                     </Col>
                   )}
-                  {(Number(id) === 7 ||
-                    ([6, 5].includes(Number(id)) &&
-                      userDetails?.data?.appIdChangeAllowed)) && (
+                  {isSuperAdminCreatingAdmin && (
                     <>
                       <Col lg={12} xs={24}>
                         <Form.Item
@@ -426,35 +406,32 @@ const NewCreateUser = () => {
                           />
                         </Form.Item>
                       </Col>
-                      {userDetails?.data?.appIdChangeAllowed &&
-                        Number(id) === 7 && (
-                        <Col lg={12} xs={24}>
-                          <Form.Item
-                            label="App Id Change Allowed"
-                            name="appIdChangeAllowed"
-                            rules={[
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label="App Id Change Allowed"
+                          name="appIdChangeAllowed"
+                          rules={[
+                            {
+                              required: true,
+                              message:
+                                "Please select app id change allow status!",
+                            },
+                          ]}>
+                          <Select
+                            defaultValue={false}
+                            options={[
                               {
-                                required: true,
-                                message:
-                                  "Please select app id change allow status!",
+                                value: true,
+                                label: "Yes",
                               },
-                            ]}>
-                            <Select
-                              defaultValue={false}
-                              options={[
-                                {
-                                  value: true,
-                                  label: "Yes",
-                                },
-                                {
-                                  value: false,
-                                  label: "No",
-                                },
-                              ]}
-                            />
-                          </Form.Item>
-                        </Col>
-                        )}
+                              {
+                                value: false,
+                                label: "No",
+                              },
+                            ]}
+                          />
+                        </Form.Item>
+                      </Col>
                       {userDetails?.data?.loginOtpDisabled && (
                         <Col lg={12} xs={24}>
                           <Form.Item

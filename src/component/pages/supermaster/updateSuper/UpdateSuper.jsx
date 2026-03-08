@@ -14,8 +14,6 @@ import {
 import "./UpdateSuper.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  useAppDetailsAllowedForChangeQuery,
-  useAppDetailsQuery,
   useGetUserQuery,
   useUpdateUserMutation,
 } from "../../../../store/service/userlistService";
@@ -68,24 +66,6 @@ const UpdateSuper = () => {
     { userId },
     { refetchOnMountOrArgChange: true }
   );
-  const isAdminTarget = Number(id) === 6;
-  const isMiniAdminOrMasterTarget = [5, 4].includes(Number(id));
-  const appIdChangeAllowedByUpline = Boolean(
-    resuilt?.data?.appIdChangeAllowed
-  );
-  const { data: appDetails } = useAppDetailsQuery(undefined, {
-    skip: !isAdminTarget,
-  });
-  const { data: appDetailsAllowedForChange } =
-    useAppDetailsAllowedForChangeQuery(undefined, {
-      skip: !isMiniAdminOrMasterTarget,
-    });
-  const appOptions = isAdminTarget
-    ? appDetails?.data
-    : appDetailsAllowedForChange?.data;
-  const showAppUrl =
-    isAdminTarget || (isMiniAdminOrMasterTarget && appIdChangeAllowedByUpline);
-
   const getUserField = (fieldSuffix) =>
     resuilt?.data?.[Responsedata?.[id] + fieldSuffix] || 0;
   const getUserUpper = (fieldSuffix) =>
@@ -173,16 +153,6 @@ const UpdateSuper = () => {
       sessionCommission: isNoComm ? 0 : values?.super_sess_comm,
       casinoCommission: isNoComm ? 0 : values?.sess_comm,
     };
-    if (isAdminTarget && !appIdChangeAllowedByUpline) {
-      userData.appId = values?.appId;
-    }
-    if (
-      [6, 5, 4].includes(Number(id)) &&
-      appIdChangeAllowedByUpline
-    ) {
-      userData.appId = values?.appId;
-      userData.appIdChangeAllowed = values?.appIdChangeAllowed;
-    }
     trigger(userData);
   };
 
@@ -276,49 +246,6 @@ const UpdateSuper = () => {
                   rules={[{ required: true }]}>
                   <Input placeholder="Enter Reference" />
                 </Form.Item>
-                {showAppUrl && (
-                  <Form.Item
-                    label="App Url"
-                    name="appId"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select your app details!",
-                      },
-                    ]}>
-                    <Select
-                      options={appOptions?.map((item) => ({
-                        value: item.id ?? item.appId,
-                        label: item.appName,
-                      }))}
-                    />
-                  </Form.Item>
-                )}
-                {appIdChangeAllowedByUpline && Number(id) === 6 && (
-                  <Form.Item
-                    label="App Id Change Allowed"
-                    name="appIdChangeAllowed"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please select app id change allow status!",
-                      },
-                    ]}>
-                    <Select
-                      options={[
-                        {
-                          value: true,
-                          label: "Yes",
-                        },
-                        {
-                          value: false,
-                          label: "No",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-                )}
-
                 <Form.Item label="Contact No." name="number">
                   <InputNumber
                     className="number_field"
