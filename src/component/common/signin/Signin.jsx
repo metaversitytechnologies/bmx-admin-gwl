@@ -24,24 +24,14 @@ const Signin = () => {
     OTP: "",
   });
 
-  const hostname = window.location.hostname;
-
   // const { data: userIp } = useGetMyIpQuery();
-
-  // const url = hostname.includes("madmin")
-  //   ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
-  //   : hostname;
-  const url = hostname.includes("madmin")
-    ? `sub.antpro.co`
-    : `${hostname.split(".")[0]}.antpro.co`;
+  const LOGIN_URL = "superadmin.antpro.co";
 
   const onFinish = async (values) => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      // url,
-      // url: "admin.antpro.co",
-      url: "superadmin.antpro.co",
+      url: LOGIN_URL,
     };
 
     if (values?.OTP) {
