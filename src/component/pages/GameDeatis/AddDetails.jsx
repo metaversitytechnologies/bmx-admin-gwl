@@ -352,7 +352,12 @@ const AddDetails = ({
   ];
 
   useEffect(() => {
-    trigger({ userId: clientId, matchId: id, forFancy: sessionType });
+    trigger({
+      userId: clientId,
+      matchId: id,
+      forFancy: sessionType,
+      ...(!sessionType ? { marketName: "BOOKMAKER" } : {}),
+    });
   }, [clientId, id, sessionType, trigger]);
   useEffect(() => {
     if (data?.data) {

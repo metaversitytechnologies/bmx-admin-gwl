@@ -266,6 +266,42 @@ const Sidebar = (props) => {
               ],
             },
             {
+              key: "14",
+              icon: (
+                <HoverIcon
+                  id="14"
+                  hoveredItem={hoveredItem}
+                  setHoveredItem={setHoveredItem}
+                  defaultSrc="/Images/casino.png"
+                  hoverSrc="/Images/casino-hover.png"
+                  width={24}
+                  hoverWidth={23}
+                />
+              ),
+              label: (
+                <div
+                  onMouseEnter={() => setHoveredItem("14")}
+                  onMouseLeave={() => setHoveredItem(null)}>
+                  Matka
+                </div>
+              ),
+              children: [
+                {
+                  key: "14-inplay",
+                  label: <Link to="/matka/inplay">INPLAY MATKA</Link>,
+                },
+                {
+                  key: "14-completed",
+                  label: <Link to="/matka/completed">COMPLETED MATKA</Link>,
+                },
+                {
+                  className: `${userType != "7" ? "d-none" : ""}`,
+                  key: "14-set-result",
+                  label: <Link to="/matka/set-result">SET MATKA RESULT</Link>,
+                },
+              ],
+            },
+            {
               key: "4",
               icon: (
                 <HoverIcon
@@ -941,6 +977,58 @@ const Sidebar = (props) => {
                         to="/casinoprofitandloss"
                         onClick={() => props?.action()}>
                         Casino Details
+                      </Link>
+                    ),
+                  },
+                ],
+              },
+              {
+                key: "14",
+                icon: (
+                  <HoverIcon
+                    id="14"
+                    hoveredItem={hoveredItem}
+                    setHoveredItem={setHoveredItem}
+                    defaultSrc="/Images/casino.png"
+                    hoverSrc="/Images/casino-hover.png"
+                    width={24}
+                    hoverWidth={23}
+                  />
+                ),
+                label: (
+                  <div
+                    onMouseEnter={() => setHoveredItem("14")}
+                    onMouseLeave={() => setHoveredItem(null)}>
+                    Matka
+                  </div>
+                ),
+                children: [
+                  {
+                    key: "14-inplay",
+                    label: (
+                      <Link to="/matka/inplay" onClick={() => props?.action()}>
+                        INPLAY MATKA
+                      </Link>
+                    ),
+                  },
+                  {
+                    key: "14-completed",
+                    label: (
+                      <Link
+                        to="/matka/completed"
+                        onClick={() => props?.action()}>
+                        COMPLETED MATKA
+                      </Link>
+                    ),
+                  },
+                  {
+                    className: `${userType != "7" ? "d-none" : ""}`,
+                    key: "14-set-result",
+                    label: (
+                      <Link
+                        to="/matka/set-result"
+                        onClick={() => props?.action()}>
+                        SET MATKA RESULT
                       </Link>
                     ),
                   },
