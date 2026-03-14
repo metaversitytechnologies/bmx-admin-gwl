@@ -15,6 +15,7 @@ import { useLazyTtlBookQuery } from "../../../../store/service/supermasteAccount
 import BookMakerData from "./BookMakerData/BookMakerData";
 import { useLazySessionFancyBetDetailQuery } from "../../../../store/service/SportDetailServices";
 import BetModals from "./BetModals/BetModals";
+import { ODDS_PNL_FULL_POLL_MS } from "../../../../store/pollingIntervals";
 
 const LiveReport = () => {
   const [oddsData, setOddsData] = useState([]);
@@ -44,6 +45,23 @@ const LiveReport = () => {
     useLazySessionFancyBetDetailQuery();
 
   useEffect(() => {
+    if (!id) return undefined;
+
+    const fetchOddsPnl = () => {
+      trigger({
+        matchId: Number(id),
+        matchCompleted: false,
+      });
+    };
+
+    fetchOddsPnl();
+
+    const intervalId = setInterval(fetchOddsPnl, ODDS_PNL_FULL_POLL_MS);
+
+    return () => clearInterval(intervalId);
+  }, [id, trigger]);
+
+  useEffect(() => {
     marketId &&
       id &&
       getData({
@@ -51,15 +69,10 @@ const LiveReport = () => {
         marketid: marketId,
         subadminid: localStorage.getItem("userId"),
       });
-    const oddsPnl = {
-      matchId: Number(id),
-      matchCompleted: false,
-    };
-    trigger(oddsPnl);
     winnerPnl({
       marketId,
     });
-  }, [marketId]);
+  }, [getData, id, marketId, winnerPnl]);
 
   const handleCancel = () => {
     setOpen(false);
@@ -307,6 +320,7 @@ const LiveReport = () => {
             keyData={"Bookmaker"}
             handleBets={handleBets}
             data={data?.Bookmaker}
+            pnlOddsData={PnlOdds?.data}
           />
           {data &&
             Object.keys(data).map(
@@ -318,6 +332,7 @@ const LiveReport = () => {
                     handleBets={handleBets}
                     data={data[key]}
                     keyData={key}
+                    pnlOddsData={PnlOdds?.data}
                   />
                 )
             )}

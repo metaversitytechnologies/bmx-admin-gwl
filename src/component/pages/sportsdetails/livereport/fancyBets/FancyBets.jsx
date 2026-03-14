@@ -11,6 +11,10 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import AddDetails from "../../../GameDeatis/AddDetails";
 import { convertCode } from "../../../../../store/constant";
+import {
+  MATCH_BETS_POLL_MS,
+  SESSION_BETS_POLL_MS,
+} from "../../../../../store/pollingIntervals";
 
 const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   const [oddsType, setOddsType] = useState("Bookmaker");
@@ -30,7 +34,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
       matchCompleted: false,
       marketType: oddsType,
     },
-    { pollingInterval: 1000 },
+    { pollingInterval: MATCH_BETS_POLL_MS },
   );
 
   const { data: sessionBets } = useGetSessionHavingBetQuery({
@@ -44,7 +48,7 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
       marketId: fancyId,
       matchCompleted: false,
     },
-    { pollingInterval: 1000 },
+    { pollingInterval: SESSION_BETS_POLL_MS },
   );
 
   const filteredAllOdds =

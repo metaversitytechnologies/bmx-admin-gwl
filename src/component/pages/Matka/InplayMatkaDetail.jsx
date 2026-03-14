@@ -1,9 +1,11 @@
-import { Card, Empty, Tabs } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Card, Empty, Modal, Tabs } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import MatkaBetsTable from "./components/MatkaBetsTable";
 import {
+  useGetMatkaBetBySidMutation,
   useGetMatkaBetsQuery,
   useGetMatkaLiabilityQuery,
   useGetMatkaMarketQuery,
@@ -16,6 +18,9 @@ const InplayMatkaDetail = () => {
   const searchParams = new URLSearchParams(location.search);
   const activeTabParam = searchParams.get("tab") || "";
   const [selectedTab, setSelectedTab] = useState("");
+  const [isBetDetailsOpen, setIsBetDetailsOpen] = useState(false);
+  const [selectedRunnerName, setSelectedRunnerName] = useState("");
+  const [betDetails, setBetDetails] = useState([]);
 
   const matchIdRaw = eventId;
   const matchIdNumber = Number(matchIdRaw);
@@ -40,6 +45,8 @@ const InplayMatkaDetail = () => {
     { matchId: matchId },
     { skip: !matchId }
   );
+  const [getMatkaBetBySid, { isLoading: isBetDetailsLoading }] =
+    useGetMatkaBetBySidMutation();
 
   const matchInfo = marketData?.data
     ? {
@@ -47,10 +54,14 @@ const InplayMatkaDetail = () => {
         time: marketData.data.time,
       }
     : null;
-  const markets = Array.isArray(marketData?.data?.matkaMarket)
-    ? marketData.data.matkaMarket
-    : [];
-  const bets = Array.isArray(betsData?.data) ? betsData.data : [];
+  const markets = useMemo(
+    () => (Array.isArray(marketData?.data?.matkaMarket) ? marketData.data.matkaMarket : []),
+    [marketData]
+  );
+  const bets = useMemo(
+    () => (Array.isArray(betsData?.data) ? betsData.data : []),
+    [betsData]
+  );
 
   const normalizedTabParam = (activeTabParam || "").toUpperCase();
   const isHarupMarket = (marketName = "") =>
@@ -236,6 +247,70 @@ const InplayMatkaDetail = () => {
     });
   }, [bets, selectedTab, selectedSingleMarket, selectedSingleMarketName]);
 
+  const getMarketSuffix = (marketName = "") => {
+    const upperName = marketName.toUpperCase();
+
+    if (upperName.includes("JODI")) return "_JODI";
+    if (upperName.includes("ANDAR")) return "_HARUP_ANDAR";
+    if (upperName.includes("BAHAR")) return "_HARUP_BAHAR";
+
+    return "";
+  };
+
+  const buildBetDetailsMarketId = (baseName = "", marketName = "") => {
+    const suffix = getMarketSuffix(marketName);
+
+    if (!baseName || !suffix) return baseName;
+
+    const firstDashIndex = baseName.indexOf("-");
+    if (firstDashIndex === -1) {
+      return `${baseName}${suffix}`;
+    }
+
+    return `${baseName.slice(0, firstDashIndex)}${suffix}${baseName.slice(firstDashIndex)}`;
+  };
+
+  const handleRunnerBetDetails = async (runner, market) => {
+    if (!matchId) return;
+
+    const selectionId = Number(runner?.selectionId);
+    if (Number.isNaN(selectionId)) return;
+
+    const matkaName = marketData?.data?.matkaName || name || "";
+    const marketId = buildBetDetailsMarketId(matkaName, market?.marketName || "");
+
+    setSelectedRunnerName(runner?.selectionName || String(runner?.selectionId || ""));
+    setBetDetails([]);
+    setIsBetDetailsOpen(true);
+
+    try {
+      const response = await getMatkaBetBySid({
+        matkaId: matchId,
+        marketId,
+        selectionId,
+      }).unwrap();
+
+      setBetDetails(Array.isArray(response?.data) ? response.data : []);
+    } catch {
+      setBetDetails([]);
+    }
+  };
+
+  const betDetailsTableCellStyle = {
+    padding: "10px 12px",
+    whiteSpace: "nowrap",
+    borderBottom: "1px solid #f0f0f0",
+    fontSize: "13px",
+  };
+
+  const betDetailsTableHeadStyle = {
+    ...betDetailsTableCellStyle,
+    background: "var(--bg-color)",
+    color: "#fff",
+    fontWeight: 600,
+    borderBottom: "none",
+  };
+
   const renderRunnerGrid = (market, liabilitiesMap) => {
     const runners = market?.data || [];
     return (
@@ -261,12 +336,43 @@ const InplayMatkaDetail = () => {
                 borderRadius: "6px",
                 border: "1px solid #d9d9d9",
                 background: "#f2f2f2",
-                padding: "6px 8px",
-                textAlign: "center",
-                fontSize: "13px",
-                color: "#2f2f2f",
+                padding: "8px",
               }}>
-              {runner.selectionName}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "8px",
+                }}>
+                <span
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    fontSize: "13px",
+                    color: "#2f2f2f",
+                    fontWeight: 600,
+                  }}>
+                  {runner.selectionName}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleRunnerBetDetails(runner, market)}
+                  aria-label={`View bets for ${runner.selectionName}`}
+                  style={{
+                    border: "none",
+                    background: "transparent",
+                    color: "var(--bg-color)",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 0,
+                    fontSize: "15px",
+                  }}>
+                  <EyeOutlined />
+                </button>
+              </div>
             </div>
             <div
               style={{
@@ -399,6 +505,83 @@ const InplayMatkaDetail = () => {
           <MatkaBetsTable bets={filteredBets} matchName={matchInfo?.name || ""} />
         </div>
       </Card>
+
+      <Modal
+        open={isBetDetailsOpen}
+        onCancel={() => {
+          setIsBetDetailsOpen(false);
+          setBetDetails([]);
+          setSelectedRunnerName("");
+        }}
+        footer={null}
+        width={1000}
+        title={`Bet Details${selectedRunnerName ? ` - ${selectedRunnerName}` : ""}`}>
+        {isBetDetailsLoading ? (
+          <div style={{ padding: "30px 0", position: "relative" }}>
+            <CustomLoading />
+          </div>
+        ) : (
+          <div
+            style={{
+              overflowX: "auto",
+              background: "#fff",
+              border: "1px solid #f0f0f0",
+              borderRadius: "8px",
+            }}>
+            <table
+              style={{
+                width: "100%",
+                minWidth: "860px",
+                borderCollapse: "collapse",
+              }}>
+              <thead>
+                <tr>
+                  <th style={betDetailsTableHeadStyle}>ID</th>
+                  <th style={betDetailsTableHeadStyle}>CLIENT NAME</th>
+                  <th style={betDetailsTableHeadStyle}>GAME</th>
+                  <th style={betDetailsTableHeadStyle}>RATE</th>
+                  <th style={betDetailsTableHeadStyle}>BET NUM</th>
+                  <th style={betDetailsTableHeadStyle}>STACK</th>
+                  <th style={betDetailsTableHeadStyle}>P&amp;L</th>
+                  <th style={betDetailsTableHeadStyle}>RESULT</th>
+                  <th style={betDetailsTableHeadStyle}>CREATED AT</th>
+                </tr>
+              </thead>
+              <tbody>
+                {betDetails.length > 0 ? (
+                  betDetails.map((bet, index) => (
+                    <tr key={`${bet?.betId || bet?.id || bet?.userId || index}-${index}`}>
+                      <td style={betDetailsTableCellStyle}>
+                        {bet?.betId || bet?.id || index + 1}
+                      </td>
+                      <td style={betDetailsTableCellStyle}>{bet?.userId || "-"}</td>
+                      <td style={betDetailsTableCellStyle}>{bet?.matkaName || "-"}</td>
+                      <td style={betDetailsTableCellStyle}>{bet?.rate ?? "-"}</td>
+                      <td style={betDetailsTableCellStyle}>{bet?.nation ?? "-"}</td>
+                      <td style={betDetailsTableCellStyle}>{bet?.amount ?? "-"}</td>
+                      <td style={betDetailsTableCellStyle}>
+                        <span className={bet?.pnl >= 0 ? "text_success" : "text_danger"}>
+                          {Number(bet?.pnl || 0).toFixed(2)}
+                        </span>
+                      </td>
+                      <td style={betDetailsTableCellStyle}>
+                        {bet?.declared === "null" || !bet?.declared ? "-" : bet.declared}
+                      </td>
+                      <td style={betDetailsTableCellStyle}>{bet?.date || bet?.betTime || "-"}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={9} style={{ padding: "24px 12px" }}>
+                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

@@ -2,13 +2,10 @@ import { Col, Modal, Row } from "antd";
 import { useEffect, useState } from "react";
 import FancyBookModals from "../FancyBookModals/FancyBookModals";
 import { useParams } from "react-router-dom";
-import {
-  useFancyPnlQuery,
-  useLazyOddsQuPnlQuery,
-} from "../../../../../store/service/OddsPnlServices";
+import { useFancyPnlQuery } from "../../../../../store/service/OddsPnlServices";
 import { useLazyTtlBookQuery } from "../../../../../store/service/supermasteAccountStatementServices";
 
-const FancyData = ({ data, keyData, handleBets }) => {
+const FancyData = ({ data, keyData, handleBets, pnlOddsData = [] }) => {
   const [FancyId, setFancyID] = useState("");
   const [open, setOpen] = useState(false);
   const [matchid, setMatchID] = useState("");
@@ -33,9 +30,6 @@ const FancyData = ({ data, keyData, handleBets }) => {
       setMatchID(res?.mid);
     });
   }, [data]);
-
-  const [trigger, { data: PnlOdds }] = useLazyOddsQuPnlQuery();
-
   const { data: fancyPnl } = useFancyPnlQuery({
     matchId: id,
   });
@@ -43,10 +37,6 @@ const FancyData = ({ data, keyData, handleBets }) => {
     setActiveBook(1);
     e.preventDefault();
     setShowMyBook(2);
-    const oddsPnl = {
-      matchId: Number(id),
-    };
-    trigger(oddsPnl);
   };
 
   useEffect(() => {
@@ -56,11 +46,7 @@ const FancyData = ({ data, keyData, handleBets }) => {
         matchid: Number(id),
         marketid: matchid,
       });
-    const oddsPnl = {
-      matchId: Number(id),
-    };
-    trigger(oddsPnl);
-  }, [matchid]);
+  }, [getData, id, matchid]);
 
   const ttl = results?.data?.[0]
     ? {
@@ -139,7 +125,7 @@ const FancyData = ({ data, keyData, handleBets }) => {
                               {ttl[res.sid] || "0.0"}
                             </span>
                           )}
-                          {PnlOdds?.data?.map((res, id) => {
+                          {pnlOddsData?.map((res, id) => {
                             if (!res?.marketId?.includes("BM")) return <></>;
                             return (
                               <>

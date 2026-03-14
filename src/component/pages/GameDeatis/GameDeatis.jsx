@@ -16,6 +16,7 @@ import Score from "../../common/Score/Score";
 import { useGetTvScoreDataQuery } from "../../../store/service/CasinoServices";
 import { useGetChIdsQuery } from "../../../store/service/tvServices";
 import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
+import { ODDS_PNL_FULL_POLL_MS } from "../../../store/pollingIntervals";
 
 const GameDeatis = () => {
   const [showFullScore, setShowFullScore] = useState();
@@ -58,10 +59,10 @@ const GameDeatis = () => {
           userId: "",
         });
       }
-    }, 1000); // 1000ms = 1 second
+    }, ODDS_PNL_FULL_POLL_MS);
 
     return () => clearInterval(interval);
-  }, [id, showTtlBook]);
+  }, [id, showTtlBook, trigger, triggerMy]);
 
   const handleTtlBook = () => {
     setShowTtlBook(true);

@@ -1,13 +1,10 @@
 import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  useFancyPnlQuery,
-  useLazyOddsQuPnlQuery,
-} from "../../../../../store/service/OddsPnlServices";
+import { useFancyPnlQuery } from "../../../../../store/service/OddsPnlServices";
 import { useLazyTtlBookQuery } from "../../../../../store/service/supermasteAccountStatementServices";
 
-const BookMakerData = ({ data, keyData, handleBets }) => {
+const BookMakerData = ({ data, keyData, handleBets, pnlOddsData = [] }) => {
   const [matchid, setMatchID] = useState("");
   const [showMyBook, setShowMyBook] = useState(2);
   const [activeBook, setActiveBook] = useState(1);
@@ -23,9 +20,6 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
       setMatchID(res?.mid);
     });
   }, [data]);
-
-  const [trigger, { data: PnlOdds }] = useLazyOddsQuPnlQuery();
-
   const { data: fancyPnl } = useFancyPnlQuery({
     matchId: id,
   });
@@ -33,20 +27,10 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
     setActiveBook(1);
     e.preventDefault();
     setShowMyBook(2);
-    const oddsPnl = {
-      matchId: Number(id),
-      matchCompleted: false,
-    };
-    trigger(oddsPnl);
   };
   const handleMyBook1 = (e) => {
     setActiveBook1(1);
     setShowMyBook1(2);
-    const oddsPnl = {
-      matchId: Number(id),
-      matchCompleted: false,
-    };
-    trigger(oddsPnl);
   };
 
   useEffect(() => {
@@ -56,12 +40,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
         matchid: Number(id),
         marketid: matchid,
       });
-    const oddsPnl = {
-      matchId: Number(id),
-      matchCompleted: false,
-    };
-    trigger(oddsPnl);
-  }, [matchid]);
+  }, [getData, id, matchid]);
 
   const handleTtlBook = (e) => {
     setActiveBook(2);
@@ -185,7 +164,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
                             {ttl[res.sid] || "0.0"}
                           </span>
                         )}
-                        {PnlOdds?.data?.map((item, id) => {
+                        {pnlOddsData?.map((item, id) => {
                           if (!item?.marketId?.includes("BM")) return <></>;
                           const bookPnl = {
                             [item?.selection1]: item?.pnl1,
@@ -314,7 +293,7 @@ const BookMakerData = ({ data, keyData, handleBets }) => {
                               {ttl[res.sid] || "0.0"}
                             </span>
                           )}
-                          {PnlOdds?.data?.map((item, id) => {
+                          {pnlOddsData?.map((item, id) => {
                             if (!item?.marketId?.includes("BM")) return <></>;
                             const bookPnl = {
                               [item?.selection1]: item?.pnl1,

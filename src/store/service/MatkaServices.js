@@ -26,6 +26,13 @@ export const matkaApi = createApi({
         body,
       }),
     }),
+    getMatkaBetBySid: build.mutation({
+      query: (body) => ({
+        url: "matka/get-mtk-bet-by-sid",
+        method: "POST",
+        body,
+      }),
+    }),
     getMatkaLiability: build.query({
       query: (body) => ({
         url: "matka/get-matka-liability",
@@ -47,6 +54,7 @@ export const {
   useGetMatkaListQuery,
   useGetMatkaMarketQuery,
   useGetMatkaBetsQuery,
+  useGetMatkaBetBySidMutation,
   useGetMatkaLiabilityQuery,
   useSetMatkaResultMutation,
 } = matkaApi;
