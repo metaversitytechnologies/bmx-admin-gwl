@@ -167,7 +167,8 @@ const GameDeatis = () => {
                   className="ant-row"
                   style={{ height: !showFullScore ? 110 : 220 }}>
                   <iframe
-                    src={`https://scorediamond.247idhub.com/score-1/${id}`}
+                    // src={`https://scorediamond.247idhub.com/score-1/${id}`}
+                    src={`https://score.tresting.com/socket-iframe-5/crickexpo/${id}`}
                     title="Score-I-frame"
                     className=""
                     style={{ width: "100%", height: "100%", border: "none" }}

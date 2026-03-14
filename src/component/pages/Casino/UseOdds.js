@@ -11,9 +11,7 @@ export const useOdds = (value) => {
     const timer = setInterval(() => {
       if (value) {
         fetch(
-          `${
-            import.meta.env.VITE_ODDS_API
-          }/betfair_api/casino/data/meta-${value}`
+          `https://casino.rolex247.net/betfair_api/casino/data/meta-${value}`,
         )
           .then((res) => res.json())
           .then((res) => {
@@ -35,8 +33,8 @@ export const useOdds = (value) => {
                   Number(item.gstatus) === 1
                     ? true
                     : Number(item.gstatus) === 0
-                    ? false
-                    : item.gstatus;
+                      ? false
+                      : item.gstatus;
                 item.pnl = pnl[item.sid] || 0;
                 res.t2BySid[item.sid] = item;
               });

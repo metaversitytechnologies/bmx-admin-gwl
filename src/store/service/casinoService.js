@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const casinoData = createApi({
   reducerPath: "casinoData",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_ODDS_API,
+    baseUrl: "https://casino.rolex247.net",
     prepareHeaders: (headers) => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -28,7 +28,5 @@ export const casinoData = createApi({
   }),
 });
 
-export const {
-  useCasinoResultQuery,
-  useGetCasinoResyltByRoundIdMutation,
-} = casinoData;
+export const { useCasinoResultQuery, useGetCasinoResyltByRoundIdMutation } =
+  casinoData;
