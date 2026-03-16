@@ -59,7 +59,6 @@ const UpdateSuper = () => {
   const [commType, setCommType] = useState("");
   const [form] = Form.useForm();
   const nav = useNavigate();
-  const [data, setData] = useState();
 
   const [trigger, { data: updateData, isLoading }] = useUpdateUserMutation();
   const { data: resuilt } = useGetUserQuery(
@@ -74,15 +73,16 @@ const UpdateSuper = () => {
 
   useEffect(() => {
     if (resuilt?.status) {
-      setData(resuilt?.data);
       const userCom =
         resuilt?.data?.matchCommission > 0 ||
-        resuilt?.data?.sessionCommision > 0
+        resuilt?.data?.sessionCommision > 0 ||
+        resuilt?.data?.matkaCommission > 0
           ? "bbb"
           : "no-comm";
       const otherCom =
         getUserUpper("SessionCommision") > 0 ||
-        getUserUpper("MatchCommission") > 0
+        getUserUpper("MatchCommission") > 0 ||
+        getUserUpper("MatkaCommission") > 0
           ? "bbb"
           : "no-comm";
       const isComm = id == "1" ? userCom : otherCom;
@@ -98,7 +98,8 @@ const UpdateSuper = () => {
         comm_type: isComm,
         commType:
           getUserUpper("SessionCommision") > 0 ||
-          getUserUpper("MatchCommission") > 0
+          getUserUpper("MatchCommission") > 0 ||
+          getUserUpper("MatkaCommission") > 0
             ? "Bet by Bet"
             : "No Comm",
         matchcomm: getUserUpper("MatchCommission"),
@@ -111,6 +112,11 @@ const UpdateSuper = () => {
           id === "1"
             ? resuilt?.data?.sessionCommision
             : getUserField("SessionCommision"),
+        matkacomm: getUserUpper("MatkaCommission"),
+        super_matka_comm:
+          id === "1"
+            ? resuilt?.data?.matkaCommission
+            : getUserField("MatkaCommission"),
         sess_comm:
           id === "1"
             ? resuilt?.data?.casinoCommission
@@ -134,6 +140,8 @@ const UpdateSuper = () => {
 
   const onFinish = (values) => {
     const isNoComm = values?.comm_type === "no-comm";
+    const matkaPartnership =
+      id === "1" ? resuilt?.data?.partnership : values?.share;
 
     const userData = {
       userId: userId,
@@ -146,11 +154,13 @@ const UpdateSuper = () => {
       mobileAppCharge: getUserField("MobileAppCharge"),
       commissionType: isNoComm ? 1 : 2,
       partnership: values?.share,
+      matkaPartnership: matkaPartnership,
       casinoPartnership: values?.supercasinocomm,
       internationalCasinoPartnership: getUserField("IntlCasinoPartnership"),
       matchCommission: isNoComm ? 0 : values?.super_match_comm,
       sessionCommission: isNoComm ? 0 : values?.super_sess_comm,
       casinoCommission: isNoComm ? 0 : values?.sess_comm,
+      matkaCommission: isNoComm ? 0 : values?.super_matka_comm,
     };
     trigger(userData);
   };
@@ -359,6 +369,28 @@ const UpdateSuper = () => {
                         {
                           required: true,
                           message: "Please enter session comm",
+                        },
+                      ]}>
+                      <Input />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label={`${updateNameDetails?.[id]} Matka Comm (%)`}
+                      name="matkacomm">
+                      <Input type="number" disabled />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Matka Comm (%)"
+                      name="super_matka_comm"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter matka comm",
                         },
                       ]}>
                       <Input />

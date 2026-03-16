@@ -1,9 +1,9 @@
 import { Col, Form, Input, InputNumber, Row, Select } from "antd";
-import React from "react";
 import { useParams } from "react-router-dom";
 
 const MatchCommission = ({ commissionType, commiType, data, createName }) => {
   const { id } = useParams();
+  const { Option } = Select;
 
   return (
     <>
@@ -148,6 +148,31 @@ const MatchCommission = ({ commissionType, commiType, data, createName }) => {
                   },
                 ]}>
                 <Input placeholder="master Session Commission" />
+              </Form.Item>
+            </Col>
+
+            <Col lg={12} xs={24}>
+              <Form.Item name="My_matka_comm" label="My Matka comm(%)">
+                <InputNumber
+                  className="number_field"
+                  min={0}
+                  step="0.1"
+                  disabled
+                />
+              </Form.Item>
+            </Col>
+            <Col lg={12} xs={24}>
+              <Form.Item
+                name="matkaCommission"
+                required
+                label="Matka comm(%)"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Matka Commission!",
+                  },
+                ]}>
+                <Input placeholder="master Matka Commission" />
               </Form.Item>
             </Col>
           </>

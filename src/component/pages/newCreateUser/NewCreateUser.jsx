@@ -34,9 +34,8 @@ const createName = {
 };
 
 const NewCreateUser = () => {
-  const [userData, setUserData] = useState({});
   const [commiType, setCommiType] = useState("nocomm");
-  const [api, contextHolder] = notification.useNotification();
+  const [, contextHolder] = notification.useNotification();
   const [parentId, setParentId] = useState(null);
   const [form] = Form.useForm();
 
@@ -45,7 +44,7 @@ const NewCreateUser = () => {
   };
 
   const { id } = useParams();
-  const handleChange = (value) => {};
+  const handleChange = () => {};
   const handleSelect = (value) => {
     setParentId(value);
   };
@@ -75,6 +74,7 @@ const NewCreateUser = () => {
       cassino_Comm,
       sess_comm,
       Match_comm,
+      matkaCommission,
       Coins,
       appId,
       loginOtpDisabled,
@@ -93,6 +93,9 @@ const NewCreateUser = () => {
       matchCommission: commiType === "bbb" ? Match_comm : 0,
       sessionCommission: commiType === "bbb" ? sess_comm : 0,
       casinoCommission: commiType === "bbb" ? cassino_Comm : 0,
+      matkaCommission: commiType === "bbb" ? matkaCommission : 0,
+      matkaPartnership:
+        id === "2" ? userDetails?.data?.myPartnership : matchShare,
       limit: Coins,
       parentIdForUserCreation: convertCodeReverse(parentId),
       ...(Number(id) === 7 && {
@@ -194,6 +197,12 @@ const NewCreateUser = () => {
                 {
                   name: "My_sess_comm",
                   value: userDetails?.data?.mySessionCommision,
+                },
+                {
+                  name: "My_matka_comm",
+                  value:
+                    userDetails?.data?.myMatkaCommision ??
+                    userDetails?.data?.myMatkaCommission,
                 },
                 {
                   name: "cassino_Comm",
@@ -433,7 +442,6 @@ const NewCreateUser = () => {
                   commissionType={commissionType}
                   commiType={commiType}
                   data={userDetails?.data}
-                  userData={userData}
                 />
                 <CasinoCommission
                   createName={createName[id]}
