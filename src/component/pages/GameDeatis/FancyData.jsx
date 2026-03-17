@@ -6,6 +6,10 @@ import {
   useGetSessionBetMutation,
 } from "../../../store/service/SportDetailServices";
 import { useParams } from "react-router-dom";
+import Marquee from "react-fast-marquee";
+
+const getDisplayMessage = (message) =>
+  message && message !== "null" ? message : "";
 
 const FancyData = ({ data }) => {
   const { id } = useParams();
@@ -51,6 +55,15 @@ const FancyData = ({ data }) => {
             //   activeFancyIds.has(fancy?.sid)
             // );
             const filteredValues = values;
+            const displayMessage = Array.from(
+              new Set(
+                (filteredValues || []).map((fancy) =>
+                  getDisplayMessage(fancy?.display_message)
+                )
+              )
+            )
+              .filter(Boolean)
+              .join(" | ");
 
             // if (!filteredValues?.length) return null;
 
@@ -189,6 +202,17 @@ const FancyData = ({ data }) => {
                                     </tr>
                                   );
                                 })}
+                                {displayMessage && (
+                                  <tr>
+                                    <td
+                                      colSpan={3}
+                                      className="market-display-message">
+                                      <Marquee speed={50} pauseOnHover>
+                                        {displayMessage}
+                                      </Marquee>
+                                    </td>
+                                  </tr>
+                                )}
                               </tbody>
                             </table>
                           </div>

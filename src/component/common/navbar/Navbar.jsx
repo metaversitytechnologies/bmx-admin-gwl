@@ -10,14 +10,14 @@ import { MdMenu } from "react-icons/md";
 import SelfDeposit from "../DepositModal/SelfDeposit";
 import { imgUrl } from "../../../store/constant";
 
-const Navbar = ({ action, logo }) => {
+const Navbar = ({ action }) => {
   const userData = localStorage.getItem("username");
   const userType = localStorage.getItem("userType");
+  const usernameLabel = userData || "User";
 
   const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState();
   const nav = useNavigate();
 
   const handleLogout = () => {
@@ -77,12 +77,7 @@ const Navbar = ({ action, logo }) => {
   return (
     <>
       <div className="nav">
-        <div
-          style={{
-            marginTop: "0px",
-            display: "flex",
-            alignItems: "center",
-          }}>
+        <div className="nav_left">
           <Space className="open_btn">
             <Button type="" className="sub_open_btn" onClick={action}>
               <MdMenu />
@@ -100,27 +95,24 @@ const Navbar = ({ action, logo }) => {
         <div className="nav_drop">
           <div className="sub_menu_nav">
             <Dropdown
-              style={{ zIndex: "999999" }}
-              className="droup_nav"
+              placement="bottomRight"
               menu={{
                 className: "nav_droupdown",
                 items,
                 onClick: handleModal,
               }}
               trigger={["click"]}>
-              <div
+              <button
+                type="button"
                 className="user_deatils"
-                style={{ cursor: "pointer", marginRight: "42px" }}
+                title={usernameLabel}
                 onClick={(e) => e.preventDefault()}>
-                <span style={{ fontWeight: 500, fontSize: "20px" }}>
-                  {userData}{" "}
-                  <CaretDownOutlined
-                    style={{ fontSize: "20px", marginLeft: "-3px" }}
-                  />
-                </span>
-              </div>
+                <span className="user_name_text">{usernameLabel}</span>
+                <CaretDownOutlined className="user_dropdown_icon" />
+              </button>
             </Dropdown>
             <svg
+              className="nav_status_icon"
               stroke="currentColor"
               fill="currentColor"
               strokeWidth="0"

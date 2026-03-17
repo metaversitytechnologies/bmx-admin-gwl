@@ -283,23 +283,10 @@
 }
 
 ul.nav_droupdown {
-  margin: -25px 2px !important;
-}
-
-p.ant-dropdown-trigger.user_deatils.droup_nav {
-  display: flex;
-  justify-content: end;
-  align-items: baseline;
-  p {
-    margin: 2px;
-  }
+  margin: 6px 0 0 !important;
 }
 
 @media screen and (max-width: 1024px) {
-  p.user_deatils {
-    margin-right: 6px !important;
-  }
-
   .mob_side {
     button.ant-btn {
       // svg{
@@ -320,17 +307,105 @@ p.ant-dropdown-trigger.user_deatils.droup_nav {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 12px;
   margin: 0;
   padding: 0;
+  min-width: 0;
 }
 .nav {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   padding: 0px 32px;
+  gap: 16px;
   @media (max-width: 1024px) {
     justify-content: space-between;
     padding: 0px;
+    gap: 8px;
+  }
+}
+.nav_left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.nav_drop {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+  margin-left: auto;
+  flex: 1 1 auto;
+}
+.user_deatils {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 0;
+  max-width: min(34vw, 320px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+.user_name_text {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.user_dropdown_icon {
+  flex-shrink: 0;
+  font-size: 18px;
+}
+.nav_status_icon {
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .nav {
+    img {
+      max-width: 112px;
+      height: auto;
+    }
+  }
+  .nav_drop {
+    min-width: 0;
+  }
+  .sub_menu_nav {
+    gap: 8px;
+  }
+  .user_deatils {
+    max-width: calc(100vw - 150px);
+  }
+  .user_name_text {
+    font-size: 15px;
+  }
+  .user_dropdown_icon {
+    font-size: 14px;
+  }
+  .nav_status_icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .nav {
+    img {
+      max-width: 96px;
+    }
+  }
+  .user_deatils {
+    max-width: calc(100vw - 120px);
+  }
+  .user_name_text {
+    font-size: 14px;
   }
 }

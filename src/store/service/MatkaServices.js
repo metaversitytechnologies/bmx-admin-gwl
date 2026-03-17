@@ -5,6 +5,20 @@ export const matkaApi = createApi({
   reducerPath: "matkaApi",
   baseQuery: dynamicBaseQuery,
   endpoints: (build) => ({
+    getMatkaPnl: build.mutation({
+      query: (body) => ({
+        url: "/matka/matka-pnl",
+        method: "POST",
+        body,
+      }),
+    }),
+    getMatkaBetDetails: build.mutation({
+      query: (body) => ({
+        url: "/matka/get-mtk-bet-by-nameanddate",
+        method: "POST",
+        body,
+      }),
+    }),
     getMatkaList: build.query({
       query: (body) => ({
         url: "matka/list",
@@ -51,6 +65,8 @@ export const matkaApi = createApi({
 });
 
 export const {
+  useGetMatkaPnlMutation,
+  useGetMatkaBetDetailsMutation,
   useGetMatkaListQuery,
   useGetMatkaMarketQuery,
   useGetMatkaBetsQuery,

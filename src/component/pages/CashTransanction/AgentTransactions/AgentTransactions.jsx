@@ -23,6 +23,7 @@ import {
 import { convertCode, convertCodeReverse } from "../../../../store/constant";
 import { openNotification, openNotificationError } from "../../../../App";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import { getTransactionTargetLabel } from "../../../../utils/userTypeLabels";
 
 const dateFormat = "YYYY/MM/DD";
 const { Option } = Select;
@@ -31,6 +32,7 @@ const AgentTransactions = () => {
   const { name, id, userId } = useParams();
   const { pathname } = useLocation();
   const nav = useNavigate();
+  const targetLabel = getTransactionTargetLabel(id);
 
   const [api, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
@@ -146,11 +148,16 @@ const AgentTransactions = () => {
               {/* Client */}
               <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
-                  label="client"
+                  label={targetLabel}
                   name="client"
-                  rules={[{ required: true, message: "Please select Client" }]}>
+                  rules={[
+                    {
+                      required: true,
+                      message: `Please select ${targetLabel}`,
+                    },
+                  ]}>
                   <Select
-                    placeholder="Select Client"
+                    placeholder={`Select ${targetLabel}`}
                     showSearch
                     value={clientId}
                     allowClear
