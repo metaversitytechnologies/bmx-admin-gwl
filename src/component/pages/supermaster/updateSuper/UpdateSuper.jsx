@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -19,57 +19,100 @@ import {
 } from "../../../../store/service/userlistService";
 import { convertCode } from "../../../../store/constant";
 
-const updateNameDetails = {
-  6: "Super Admin",
-  5: "Admin",
-  4: "Mini Admin",
-  3: "Master",
-  2: "Super",
-  1: "Agent",
-};
 const updateName = {
-  6: "Admin",
-  5: "Mini Admin",
-  4: "Master",
-  3: "Super",
-  2: "Agent",
-  1: "Client",
+  admin: "Admin",
+  subAdmin: "Mini Admin",
+  superMaster: "Master",
+  master: "Super",
+  dealer: "Agent",
+  client: "Client",
+  my: "My",
 };
 
-const Responsedata = {
-  1: "",
-  2: "dealer",
-  3: "master",
-  4: "superMaster",
-  5: "subAdmin",
-  6: "admin",
+const getRoleKeyFromUserId = (value = "") => {
+  const userId = value.toUpperCase();
+
+  if (userId.includes("AD")) return "admin";
+  if (userId.includes("SUB")) return "subAdmin";
+  if (userId.includes("M")) return "superMaster";
+  if (userId.includes("SA")) return "master";
+  if (userId.includes("A")) return "dealer";
+
+  return "client";
 };
-const ResponsedataUpper = {
-  2: "dealer",
-  3: "master",
-  4: "superMaster",
-  5: "subAdmin",
-  6: "admin",
-  7: "my",
+
+const getUpperRoleKey = (roleKey) => {
+  switch (roleKey) {
+    case "client":
+      return "dealer";
+    case "dealer":
+      return "master";
+    case "master":
+      return "superMaster";
+    case "superMaster":
+      return "subAdmin";
+    case "subAdmin":
+      return "admin";
+    case "admin":
+      return "my";
+    default:
+      return "my";
+  }
+};
+
+const getFieldValue = (data, roleKey, suffix, fallback = 0) => {
+  if (!data) return fallback;
+
+  if (!roleKey || roleKey === "client") {
+    const baseKey = `${suffix.charAt(0).toLowerCase()}${suffix.slice(1)}`;
+    return data?.[baseKey] ?? fallback;
+  }
+
+  return data?.[`${roleKey}${suffix}`] ?? fallback;
 };
 
 const UpdateSuper = () => {
-  const { id, userId } = useParams();
+  const { id: routeId, userId: routeUserId } = useParams();
   const [api, contextHolder] = notification.useNotification();
   const [commType, setCommType] = useState("");
   const [form] = Form.useForm();
   const nav = useNavigate();
+  const targetUserId = routeUserId || routeId || "";
+  const currentUserId = localStorage.getItem("userId") || "";
+  const currentUserRoleKey = getRoleKeyFromUserId(currentUserId);
 
   const [trigger, { data: updateData, isLoading }] = useUpdateUserMutation();
   const { data: resuilt } = useGetUserQuery(
-    { userId },
+    { userId: targetUserId },
     { refetchOnMountOrArgChange: true }
   );
 
-  const getUserField = (fieldSuffix) =>
-    resuilt?.data?.[Responsedata?.[id] + fieldSuffix] || 0;
-  const getUserUpper = (fieldSuffix) =>
-    resuilt?.data?.[ResponsedataUpper?.[Number(id) + 1] + fieldSuffix] || 0;
+  const editUserId = resuilt?.data?.userId || targetUserId;
+  const roleKey = getRoleKeyFromUserId(editUserId);
+  const upperRoleKey = getUpperRoleKey(roleKey);
+  const isClient = roleKey === "client";
+  const isDirectChild = currentUserRoleKey === upperRoleKey;
+  const parentLabel = updateName?.[upperRoleKey] || "Parent";
+  const userTypeLabel = updateName?.[roleKey] || "User";
+
+  const getUserField = useCallback(
+    (fieldSuffix) => getFieldValue(resuilt?.data, roleKey, fieldSuffix, 0),
+    [resuilt?.data, roleKey]
+  );
+  const getUserUpper = useCallback(
+    (fieldSuffix) => getFieldValue(resuilt?.data, upperRoleKey, fieldSuffix, 0),
+    [resuilt?.data, upperRoleKey]
+  );
+  const getMyField = useCallback(
+    (fieldSuffix, myKey, fallbackKey) => {
+      const myValue =
+        resuilt?.data?.[myKey] ??
+        (fallbackKey ? resuilt?.data?.[fallbackKey] : undefined);
+
+      return isDirectChild ? (myValue ?? 0) : getUserUpper(fieldSuffix);
+    },
+    [getUserUpper, isDirectChild, resuilt?.data]
+  );
 
   useEffect(() => {
     if (resuilt?.status) {
@@ -85,66 +128,76 @@ const UpdateSuper = () => {
         getUserUpper("MatkaCommission") > 0
           ? "bbb"
           : "no-comm";
-      const isComm = id == "1" ? userCom : otherCom;
-      setCommType(isComm);
+      const parentCom =
+        getMyField("SessionCommision", "mySessionCommision") > 0 ||
+        getMyField("MatchCommission", "myMatchCommission") > 0 ||
+        getMyField("MatkaCommission", "myMatkaCommission", "myMatkaCommision") >
+          0
+          ? "bbb"
+          : "no-comm";
+      const editableCommType = isClient ? userCom : otherCom;
 
-      // ✅ Set form values after API data load
+      setCommType(editableCommType);
+
       form.setFieldsValue({
         userId: convertCode(resuilt?.data?.userId),
         name: resuilt?.data?.userName,
         reference: resuilt?.data?.reference,
         number: resuilt?.data?.contact,
         password: "******",
-        comm_type: isComm,
-        commType:
-          getUserUpper("SessionCommision") > 0 ||
-          getUserUpper("MatchCommission") > 0 ||
-          getUserUpper("MatkaCommission") > 0
-            ? "Bet by Bet"
-            : "No Comm",
-        matchcomm: getUserUpper("MatchCommission"),
-        super_match_comm:
-          id === "1"
-            ? resuilt?.data?.matchCommission
-            : getUserField("MatchCommission"),
-        sesscomm: getUserUpper("SessionCommision"),
-        super_sess_comm:
-          id === "1"
-            ? resuilt?.data?.sessionCommision
-            : getUserField("SessionCommision"),
-        matkacomm: getUserUpper("MatkaCommission"),
-        super_matka_comm:
-          id === "1"
-            ? resuilt?.data?.matkaCommission
-            : getUserField("MatkaCommission"),
-        sess_comm:
-          id === "1"
-            ? resuilt?.data?.casinoCommission
-            : getUserField("CasinoCommission"),
-        super_casino_share: getUserUpper("CasinoPartnership"),
-        matchShare: getUserUpper("Partnership"),
-        super_casino_comm:
-          id === "1"
-            ? resuilt?.data?.casinoCommission
-            : getUserField("CasinoCommission"),
-        supercasinocomm:
-          id === "1"
-            ? resuilt?.data?.casinoPartnership
-            : getUserField("CasinoPartnership"),
-        share:
-          id === "1" ? resuilt?.data?.partnership : getUserField("Partnership"),
+        comm_type: editableCommType,
+        commType: parentCom === "bbb" ? "Bet by Bet" : "No Comm",
+        matchcomm: getMyField("MatchCommission", "myMatchCommission"),
+        super_match_comm: getUserField("MatchCommission"),
+        sesscomm: getMyField("SessionCommision", "mySessionCommision"),
+        super_sess_comm: getUserField("SessionCommision"),
+        matkacomm: getMyField(
+          "MatkaCommission",
+          "myMatkaCommission",
+          "myMatkaCommision"
+        ),
+        super_matka_comm: getUserField("MatkaCommission"),
+        sess_comm: getUserField("CasinoCommission"),
+        super_casino_share: getMyField(
+          "CasinoPartnership",
+          "myCasinoPartnership"
+        ),
+        matchShare: getMyField("Partnership", "myPartnership"),
+        super_casino_comm: getMyField(
+          "CasinoCommission",
+          "myCasinoCommission"
+        ),
+        supercasinocomm: getUserField("CasinoPartnership"),
+        share: getUserField("Partnership"),
         match_share: resuilt?.data?.matchShare,
       });
     }
-  }, [resuilt?.data]);
+  }, [
+    form,
+    getMyField,
+    getUserField,
+    getUserUpper,
+    isClient,
+    resuilt?.data,
+    resuilt?.status,
+  ]);
 
   const onFinish = (values) => {
     const isNoComm = values?.comm_type === "no-comm";
-    const matkaPartnership =
-      id === "1" ? resuilt?.data?.partnership : values?.share;
+    const updatedShare = values?.share ?? getUserField("Partnership");
+    const updatedCasinoShare =
+      values?.supercasinocomm ?? getUserField("CasinoPartnership");
+    const updatedMatchComm =
+      values?.super_match_comm ?? getUserField("MatchCommission");
+    const updatedSessionComm =
+      values?.super_sess_comm ?? getUserField("SessionCommision");
+    const updatedCasinoComm =
+      values?.sess_comm ?? getUserField("CasinoCommission");
+    const updatedMatkaComm =
+      values?.super_matka_comm ?? getUserField("MatkaCommission");
 
     const userData = {
-      userId: userId,
+      userId: editUserId,
       userName: values?.name,
       reference: values?.reference,
       password: resuilt?.data?.password,
@@ -153,14 +206,16 @@ const UpdateSuper = () => {
       casinoPlay: true,
       mobileAppCharge: getUserField("MobileAppCharge"),
       commissionType: isNoComm ? 1 : 2,
-      partnership: values?.share,
-      matkaPartnership: matkaPartnership,
-      casinoPartnership: values?.supercasinocomm,
+      partnership: updatedShare,
+      matkaPartnership: isClient ? getUserField("Partnership") : updatedShare,
+      casinoPartnership: isClient
+        ? getUserField("CasinoPartnership")
+        : updatedCasinoShare,
       internationalCasinoPartnership: getUserField("IntlCasinoPartnership"),
-      matchCommission: isNoComm ? 0 : values?.super_match_comm,
-      sessionCommission: isNoComm ? 0 : values?.super_sess_comm,
-      casinoCommission: isNoComm ? 0 : values?.sess_comm,
-      matkaCommission: isNoComm ? 0 : values?.super_matka_comm,
+      matchCommission: isNoComm ? 0 : updatedMatchComm,
+      sessionCommission: isNoComm ? 0 : updatedSessionComm,
+      casinoCommission: isNoComm ? 0 : updatedCasinoComm,
+      matkaCommission: isNoComm ? 0 : updatedMatkaComm,
     };
     trigger(userData);
   };
@@ -185,11 +240,19 @@ const UpdateSuper = () => {
         closeIcon: false,
       });
     }
-  }, [updateData]);
+  }, [api, nav, updateData]);
 
   const onCommissionType = (value) => {
-    console.log(value, "valuevalue");
     setCommType(value);
+
+    if (value === "no-comm") {
+      form.setFieldsValue({
+        super_match_comm: 0,
+        super_sess_comm: 0,
+        sess_comm: 0,
+        super_matka_comm: 0,
+      });
+    }
   };
 
   const { Option } = Select;
@@ -203,7 +266,7 @@ const UpdateSuper = () => {
             <div
               style={{ padding: "5px 8px", fontSize: "25px" }}
               className="team_name">
-              Update {updateName?.[id]}
+              Update {userTypeLabel}
             </div>
             <div className="show_btn">
               <button onClick={() => nav(-1)}>Back</button>
@@ -290,11 +353,11 @@ const UpdateSuper = () => {
             <h2 className="update_agent_text">Match Share and Comm</h2>
 
             <Row className="super_agent update_agent">
-              {id !== "1" && (
+              {!isClient && (
                 <>
                   <Col lg={12} xs={24}>
                     <Form.Item
-                      label={`${updateNameDetails?.[id]} Match Share (%)`}
+                      label={`${parentLabel} Match Share (%)`}
                       name="matchShare">
                       <Input type="number" disabled />
                     </Form.Item>
@@ -314,7 +377,7 @@ const UpdateSuper = () => {
 
               <Col lg={12} xs={24}>
                 <Form.Item
-                  label={`${updateNameDetails?.[id]} Comm Type`}
+                  label={`${parentLabel} Comm Type`}
                   name="commType"
                   rules={[{ required: true }]}>
                   <Input disabled />
@@ -336,7 +399,7 @@ const UpdateSuper = () => {
                 <>
                   <Col lg={12} xs={24}>
                     <Form.Item
-                      label={`${updateNameDetails?.[id]} Match Comm (%)`}
+                      label={`${parentLabel} Match Comm (%)`}
                       name="matchcomm">
                       <Input type="number" disabled />
                     </Form.Item>
@@ -355,7 +418,7 @@ const UpdateSuper = () => {
 
                   <Col lg={12} xs={24}>
                     <Form.Item
-                      label={`${updateNameDetails?.[id]} Sess Comm (%)`}
+                      label={`${parentLabel} Sess Comm (%)`}
                       name="sesscomm">
                       <Input type="number" disabled />
                     </Form.Item>
@@ -377,7 +440,7 @@ const UpdateSuper = () => {
 
                   <Col lg={12} xs={24}>
                     <Form.Item
-                      label={`${updateNameDetails?.[id]} Matka Comm (%)`}
+                      label={`${parentLabel} Matka Comm (%)`}
                       name="matkacomm">
                       <Input type="number" disabled />
                     </Form.Item>
@@ -411,7 +474,7 @@ const UpdateSuper = () => {
             <Row className="super_agent update_agent">
               <Col lg={12} xs={24}>
                 <Form.Item
-                  label={`${updateNameDetails?.[id]} Casino Share (%)`}
+                  label={`${parentLabel} Casino Share (%)`}
                   name="super_casino_share">
                   <Input type="number" disabled />
                 </Form.Item>
@@ -424,13 +487,13 @@ const UpdateSuper = () => {
                   rules={[
                     { required: true, message: "Please enter casino share" },
                   ]}>
-                  <Input disabled={id === "1"} />
+                  <Input disabled={isClient} />
                 </Form.Item>
               </Col>
 
               <Col lg={12} xs={24}>
                 <Form.Item
-                  label={`${updateNameDetails?.[id]} Casino Comm (%)`}
+                  label={`${parentLabel} Casino Comm (%)`}
                   name="super_casino_comm">
                   <Input type="number" disabled />
                 </Form.Item>
