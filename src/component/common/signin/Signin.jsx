@@ -25,15 +25,21 @@ const Signin = () => {
   });
 
   const hostname = window.location.hostname;
+  const isLocalEnvironment =
+    import.meta.env.DEV ||
+    hostname === "localhost" ||
+    hostname === "127.0.0.1";
 
   // const { data: userIp } = useGetMyIpQuery();
 
   // const url = hostname.includes("madmin")
   //   ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
   //   : hostname;
-  const url = hostname.includes("madmin")
-    ? `sub.antpro.co`
-    : `${hostname.split(".")[0]}.antpro.co`;
+  const url = isLocalEnvironment
+    ? "superadmin.antpro.co"
+    : hostname.includes("madmin")
+      ? "sub.antpro.co"
+      : `${hostname.split(".")[0]}.antpro.co`;
 
   const onFinish = async (values) => {
     const authPayload = {

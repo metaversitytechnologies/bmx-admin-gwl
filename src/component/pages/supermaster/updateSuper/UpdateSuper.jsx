@@ -46,8 +46,8 @@ const Responsedata = {
 };
 const ResponsedataUpper = {
   2: "dealer",
-  3: "superMaster",
-  4: "master",
+  3: "master",
+  4: "superMaster",
   5: "subAdmin",
   6: "admin",
   7: "my",
