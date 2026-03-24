@@ -5,6 +5,7 @@ import { Dropdown, Space, Modal, Button } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/service/authService";
+import { useDashboardQuery } from "../../../store/service/userlistService";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import { MdMenu } from "react-icons/md";
 import SelfDeposit from "../DepositModal/SelfDeposit";
@@ -14,6 +15,14 @@ const Navbar = ({ action }) => {
   const userData = localStorage.getItem("username");
   const userType = localStorage.getItem("userType");
   const usernameLabel = userData || "User";
+  const { data: dashboardData } = useDashboardQuery(undefined, {
+    pollingInterval: 3000,
+    refetchOnMountOrArgChange: true,
+  });
+  const balanceValue = Number(dashboardData?.data?.balance);
+  const balanceLabel = Number.isFinite(balanceValue)
+    ? balanceValue.toFixed(2)
+    : "--";
 
   const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -107,7 +116,10 @@ const Navbar = ({ action }) => {
                 className="user_deatils"
                 title={usernameLabel}
                 onClick={(e) => e.preventDefault()}>
-                <span className="user_name_text">{usernameLabel}</span>
+                <span className="user_text_group">
+                  <span className="user_name_text">{usernameLabel}</span>
+                  <span className="user_balance_text">Bal: {balanceLabel}</span>
+                </span>
                 <CaretDownOutlined className="user_dropdown_icon" />
               </button>
             </Dropdown>

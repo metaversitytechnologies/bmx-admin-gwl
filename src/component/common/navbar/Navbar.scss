@@ -350,6 +350,12 @@ ul.nav_droupdown {
   color: #fff;
   cursor: pointer;
 }
+.user_text_group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 0;
+}
 .user_name_text {
   display: block;
   min-width: 0;
@@ -359,6 +365,15 @@ ul.nav_droupdown {
   font-size: 20px;
   font-weight: 500;
   line-height: 1.2;
+}
+.user_balance_text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 1.2;
+  opacity: 0.9;
 }
 .user_dropdown_icon {
   flex-shrink: 0;
@@ -387,6 +402,9 @@ ul.nav_droupdown {
   .user_name_text {
     font-size: 15px;
   }
+  .user_balance_text {
+    font-size: 11px;
+  }
   .user_dropdown_icon {
     font-size: 14px;
   }
@@ -407,5 +425,8 @@ ul.nav_droupdown {
   }
   .user_name_text {
     font-size: 14px;
+  }
+  .user_balance_text {
+    font-size: 10px;
   }
 }
