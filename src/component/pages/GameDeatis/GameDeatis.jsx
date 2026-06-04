@@ -115,6 +115,12 @@ const GameDeatis = () => {
   };
 
   const hostname = window.location.hostname;
+  const tvUrl = tvData?.data?.tvUrl;
+  const scoreUrl =
+    tvData?.data?.scoreUrl ||
+    tvData?.data?.scoreURL ||
+    tvData?.data?.score_url ||
+    `https://score.tresting.com/socket-iframe-5/crickexpo/${id}`;
 
   // console.log(tvData?.data?.tvUrl, "tvDatatvDatatvData")
 
@@ -148,7 +154,7 @@ const GameDeatis = () => {
               {showTv && (
                 <div className="ant_row_tv_section">
                   <iframe
-                    src={tvData?.data?.tvUrl}
+                    src={tvUrl}
                     // src={
                     //   isNsg
                     //     ? `https://tv.tresting.com/?eventid=${id}`
@@ -168,7 +174,7 @@ const GameDeatis = () => {
                   style={{ height: !showFullScore ? 110 : 220 }}>
                   <iframe
                     // src={`https://scorediamond.247idhub.com/score-1/${id}`}
-                    src={`https://score.tresting.com/socket-iframe-5/crickexpo/${id}`}
+                    src={scoreUrl}
                     title="Score-I-frame"
                     className=""
                     style={{ width: "100%", height: "100%", border: "none" }}

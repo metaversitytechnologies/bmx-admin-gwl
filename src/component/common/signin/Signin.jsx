@@ -35,9 +35,9 @@ const Signin = () => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      url,
+      // url,
       // url: "superadmin.fastbet365.in",
-      // url: "superadmin.nsgpro99.com",
+      url: "superadmin.nsgpro99.com",
     };
 
     if (hostname.includes("superadmin")) {
