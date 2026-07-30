@@ -7,7 +7,7 @@ const ADM58490_MESSAGE =
 
 const MarqueeTag = () => {
   const domain = window.location.hostname.split(".").slice(-2).join(".");
-  const isADM58490 = localStorage.getItem("username") === "ADM58490";
+  const isADM58490 = localStorage.getItem("userId") === "AD58490";
   const { data } = useGetMessageQuery(undefined, { skip: isADM58490 });
   const message = isADM58490 ? ADM58490_MESSAGE : data?.data;
 
