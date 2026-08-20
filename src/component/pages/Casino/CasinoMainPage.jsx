@@ -1,16 +1,18 @@
+import { Suspense, lazy } from "react";
 import { Card, Col, Row } from "antd";
 import VideoSection from "./VideoSection";
 import LastResult from "./LastResult";
 import { useOdds } from "./UseOdds";
 import { tableIdtoUrl, titleById } from "./Constant";
 import { useNavigate, useParams } from "react-router-dom";
-import TeenPatti from "./TeenPatti";
-import AAA from "./AAA";
-import DT20 from "./DT20";
-import Lucky7B from "./Lucky7B";
-import TeenPattiOneDay from "./TeenPattiOneDay";
 import NonDeclare from "./NonDeclare";
 import Result from "./Result";
+
+const TeenPatti = lazy(() => import("./TeenPatti"));
+const AAA = lazy(() => import("./AAA"));
+const DT20 = lazy(() => import("./DT20"));
+const Lucky7B = lazy(() => import("./Lucky7B"));
+const TeenPattiOneDay = lazy(() => import("./TeenPattiOneDay"));
 
 const CasinoMainPage = () => {
   const nav = useNavigate();
@@ -49,12 +51,14 @@ const CasinoMainPage = () => {
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} xl={10}>
               <div className="gx-table-responsive">
-                {id === "51" && <TeenPatti odds={odds?.t2} id="51" />}
-                {id === "57" && <TeenPatti odds={odds?.t1} id="57" />}
-                {id === "56" && <AAA odds={odds?.t2} />}
-                {id === "52" || (id === "62" && <DT20 odds={odds?.t2} />)}
-                {id === "53" && <Lucky7B odds={odds?.t2} />}
-                {id === "61" && <TeenPattiOneDay odds={odds} />}
+                <Suspense fallback={null}>
+                  {id === "51" && <TeenPatti odds={odds?.t2} id="51" />}
+                  {id === "57" && <TeenPatti odds={odds?.t1} id="57" />}
+                  {id === "56" && <AAA odds={odds?.t2} />}
+                  {id === "52" || (id === "62" && <DT20 odds={odds?.t2} />)}
+                  {id === "53" && <Lucky7B odds={odds?.t2} />}
+                  {id === "61" && <TeenPattiOneDay odds={odds} />}
+                </Suspense>
               </div>
             </Col>
           </Row>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button, Card, Col, DatePicker, Row, Space, Table, Tag } from "antd";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -28,47 +28,81 @@ const CasinoPandLDetail = () => {
     }
   };
 
-  const totalPnl =
-    data?.data?.reduce(
-      (acc, item) => (item?.casinoId === null ? acc + item.pnl : acc),
-      0
-    ) || 0;
+  const totalPnl = useMemo(
+    () =>
+      data?.data?.reduce(
+        (acc, item) => (item?.casinoId === null ? acc + item.pnl : acc),
+        0
+      ) || 0,
+    [data?.data]
+  );
 
-  const columns = [
-    {
-      title: "Event Name",
-      dataIndex: "eventName",
-      key: "eventName",
-      render: (text, record) => (
-        <Link className="gx-text-blue">
-          {text} {record?.casinoId && `(${record?.date})`}
-        </Link>
-      ),
-    },
-    {
-      title: "Date & Time",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "P/L",
-      dataIndex: "pnl",
-      key: "pnl",
-      render: (value) => (
-        <span style={{ color: value > 0 ? "green" : "red" }}>
-          {value?.toFixed(2)}
-        </span>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => {
-        return (
-          <div className="gx-bg-flex gx-justify-content-end">
-            {!record?.isTotal ? (
-              record.casinoId ? (
-                <>
+  const columns = useMemo(
+    () => [
+      {
+        title: "Event Name",
+        dataIndex: "eventName",
+        key: "eventName",
+        render: (text, record) => (
+          <Link className="gx-text-blue">
+            {text} {record?.casinoId && `(${record?.date})`}
+          </Link>
+        ),
+      },
+      {
+        title: "Date & Time",
+        dataIndex: "date",
+        key: "date",
+      },
+      {
+        title: "P/L",
+        dataIndex: "pnl",
+        key: "pnl",
+        render: (value) => (
+          <span style={{ color: value > 0 ? "green" : "red" }}>
+            {value?.toFixed(2)}
+          </span>
+        ),
+      },
+      {
+        title: "Action",
+        key: "action",
+        render: (_, record) => {
+          return (
+            <div className="gx-bg-flex gx-justify-content-end">
+              {!record?.isTotal ? (
+                record.casinoId ? (
+                  <>
+                    <Button
+                      style={{
+                        height: "36px",
+                        padding: "0px 15px",
+                        borderRadius: "5px",
+                        marginRight: "15px",
+                      }}
+                      type="primary">
+                      <Link
+                        to={`/Casino/AndarBahar/plus-minus-type/${record?.date}/${record?.casinoId}`}>
+                        plusminus
+                      </Link>
+                    </Button>
+                    <Button
+                      type="link"
+                      style={{
+                        height: "36px",
+                        padding: "0px 15px",
+                        borderRadius: "5px",
+                        border: "1px solid #d9d9d9",
+                        background: "#fff",
+                        color: "#545454",
+                      }}>
+                      <Link
+                        to={`/display-games/${record.casinoId}/${record.eventName}/${record.date}`}>
+                        Display Games
+                      </Link>
+                    </Button>
+                  </>
+                ) : (
                   <Button
                     style={{
                       height: "36px",
@@ -77,49 +111,34 @@ const CasinoPandLDetail = () => {
                       marginRight: "15px",
                     }}
                     type="primary">
-                    <Link
-                      to={`/Casino/AndarBahar/plus-minus-type/${record?.date}/${record?.casinoId}`}>
-                      plusminus
+                    <Link to={`/plusminuscasinodeatils/${record.date}`}>
+                      plusminus2
                     </Link>
                   </Button>
-                  <Button
-                    type="link"
-                    style={{
-                      height: "36px",
-                      padding: "0px 15px",
-                      borderRadius: "5px",
-                      border: "1px solid #d9d9d9",
-                      background: "#fff",
-                      color: "#545454",
-                    }}>
-                    <Link
-                      to={`/display-games/${record.casinoId}/${record.eventName}/${record.date}`}>
-                      Display Games
-                    </Link>
-                  </Button>
-                </>
+                )
               ) : (
-                <Button
-                  style={{
-                    height: "36px",
-                    padding: "0px 15px",
-                    borderRadius: "5px",
-                    marginRight: "15px",
-                  }}
-                  type="primary">
-                  <Link to={`/plusminuscasinodeatils/${record.date}`}>
-                    plusminus2
-                  </Link>
-                </Button>
-              )
-            ) : (
-              ""
-            )}
-          </div>
-        );
+                ""
+              )}
+            </div>
+          );
+        },
       },
-    },
-  ];
+    ],
+    []
+  );
+
+  const tableData = useMemo(
+    () => [
+      {
+        eventName: "Total",
+        date: "",
+        pnl: totalPnl,
+        isTotal: true,
+      },
+      ...(data?.data ? [...data.data].reverse() : []),
+    ],
+    [data?.data, totalPnl]
+  );
 
   return (
     <div className="match_slip match_ledger">
@@ -170,15 +189,7 @@ const CasinoPandLDetail = () => {
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
           <Table
             columns={columns}
-            dataSource={[
-              {
-                eventName: "Total",
-                date: "",
-                pnl: totalPnl,
-                isTotal: true,
-              },
-              ...(data?.data ? [...data.data].reverse() : []),
-            ]}
+            dataSource={tableData}
             rowKey={(record, index) => index}
             loading={{
               spinning: isLoading || isFetching,

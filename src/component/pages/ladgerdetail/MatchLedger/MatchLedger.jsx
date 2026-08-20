@@ -1,5 +1,5 @@
 import { Card, Col, DatePicker, Row, Select, Table } from "antd";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
 import { useGetLedgerProfitLossQuery } from "../../../../store/service/SportDetailServices";
@@ -13,38 +13,43 @@ const MatchLedger = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const nav = useNavigate();
 
-  const columns = [
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
-      width: "20%",
-    },
-    {
-      title: "Event Name",
-      dataIndex: "eventName",
-      key: "eventName",
-      width: "60%",
-    },
+  const columns = useMemo(
+    () => [
+      {
+        title: "Date",
+        dataIndex: "date",
+        key: "date",
+        render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
+        width: "20%",
+      },
+      {
+        title: "Event Name",
+        dataIndex: "eventName",
+        key: "eventName",
+        width: "60%",
+      },
 
-    {
-      title: "Debit",
-      dataIndex: "debit",
-      align: "right",
-      key: "debit",
-      render: (text) => <span className="text_danger">{text?.toFixed(2)}</span>,
-    },
-    {
-      title: "Credit",
-      dataIndex: "credit",
-      key: "credit",
-      align: "right",
-      render: (text) => (
-        <span className="text_success">{text?.toFixed(2)}</span>
-      ),
-    },
-  ];
+      {
+        title: "Debit",
+        dataIndex: "debit",
+        align: "right",
+        key: "debit",
+        render: (text) => (
+          <span className="text_danger">{text?.toFixed(2)}</span>
+        ),
+      },
+      {
+        title: "Credit",
+        dataIndex: "credit",
+        key: "credit",
+        align: "right",
+        render: (text) => (
+          <span className="text_success">{text?.toFixed(2)}</span>
+        ),
+      },
+    ],
+    [],
+  );
 
   const onChange = (date, dateString) => {
     setDateData(dateString);
@@ -62,22 +67,14 @@ const MatchLedger = () => {
     { refetchOnMountOrArgChange: true },
   );
 
-  const totalCredit =
-    ledgerData?.data?.reduce(
-      (acc, item) => acc + (item.credit || 0) + (item.debit || 0),
-      0,
-    ) || 0;
-
-  const totalCreditSum =
-    ledgerData?.data?.reduce((acc, item) => acc + (item.credit || 0), 0) || 0;
-
-  const totalDebitSum =
-    ledgerData?.data?.reduce((acc, item) => acc + (item.debit || 0), 0) || 0;
-
-  useEffect(() => {
-    console.log("Total credit:", totalCreditSum);
-    console.log("Total debit:", totalDebitSum);
-  }, [totalCreditSum, totalDebitSum]);
+  const totalCredit = useMemo(
+    () =>
+      ledgerData?.data?.reduce(
+        (acc, item) => acc + (item.credit || 0) + (item.debit || 0),
+        0,
+      ) || 0,
+    [ledgerData?.data],
+  );
 
   return (
     <>

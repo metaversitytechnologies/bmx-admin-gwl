@@ -1,4 +1,5 @@
 import { Card, Table } from "antd";
+import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCasinoBetListByTableQuery } from "../../../store/service/CasinoServices";
 import moment from "moment";
@@ -12,54 +13,61 @@ const DisplayGames = () => {
     isActive: true,
   });
 
-  const totalPnl = data?.data?.reduce((acc, item) => {
-    return acc + (item.pnl || 0);
-  }, 0);
-  const columns = [
-    {
-      title: "S no.",
-      dataIndex: "roundId",
-      key: "roundId",
-    },
-    {
-      title: "Game ID",
-      dataIndex: "roundId",
-      key: "roundId",
-    },
-    {
-      title: "Started AT",
-      dataIndex: "date",
-      key: "date",
-      render: () => <span>{moment().format("YYYY-MM-DD HH:mm:ss A")}</span>,
-    },
-    {
-      title: "Plus/Minus",
-      dataIndex: "pnl",
-      key: "pnl",
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      render: (text, record) => (
-        <button
-          onClick={() => nav(`/all-bets/${record.roundId}`)}
-          type="button"
-          className="ant-btn  ant-btn-sm gx-text-white gx-border-redius0"
-          style={{
-            backgroundColor: "rgb(16, 142, 233)",
-            padding: "0px 8px",
-            height: "24px",
-            lineHeight: "23px",
-            border: "unset",
-            outline: "unset",
-            fontWeight: 400,
-          }}>
-          <span>Show Bets</span>
-        </button>
-      ),
-    },
-  ];
+  const totalPnl = useMemo(
+    () =>
+      data?.data?.reduce((acc, item) => {
+        return acc + (item.pnl || 0);
+      }, 0),
+    [data?.data]
+  );
+  const columns = useMemo(
+    () => [
+      {
+        title: "S no.",
+        dataIndex: "roundId",
+        key: "roundId",
+      },
+      {
+        title: "Game ID",
+        dataIndex: "roundId",
+        key: "roundId",
+      },
+      {
+        title: "Started AT",
+        dataIndex: "date",
+        key: "date",
+        render: () => <span>{moment().format("YYYY-MM-DD HH:mm:ss A")}</span>,
+      },
+      {
+        title: "Plus/Minus",
+        dataIndex: "pnl",
+        key: "pnl",
+      },
+      {
+        title: "Action",
+        dataIndex: "action",
+        key: "action",
+        render: (text, record) => (
+          <button
+            onClick={() => nav(`/all-bets/${record.roundId}`)}
+            type="button"
+            className="ant-btn  ant-btn-sm gx-text-white gx-border-redius0"
+            style={{
+              backgroundColor: "rgb(16, 142, 233)",
+              padding: "0px 8px",
+              height: "24px",
+              lineHeight: "23px",
+              border: "unset",
+              outline: "unset",
+              fontWeight: 400,
+            }}>
+            <span>Show Bets</span>
+          </button>
+        ),
+      },
+    ],
+    [nav]
+  );
   return (
     <div className="match_slip match_ledger">
       <Card

@@ -10,13 +10,14 @@ import { imgUrl } from "../../../store/constant";
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
 
 const Sidebar = (props) => {
+  const { collll } = props;
   const [collapsed, setCollapsed] = useState(false);
   const [openKeys, setOpenKeys] = useState(["1"]);
   const [hoveredItem, setHoveredItem] = useState(null);
 
   useEffect(() => {
-    props.collll(collapsed);
-  }, [collapsed, props]);
+    collll(collapsed);
+  }, [collapsed, collll]);
 
   const nav = useNavigate();
 

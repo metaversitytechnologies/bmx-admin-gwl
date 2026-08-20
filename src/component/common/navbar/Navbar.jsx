@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 // import { AiOutlineDown } from "react-icons/ai";
 import { Dropdown, Space, Modal, Button } from "antd";
 import { CaretDownOutlined, MenuOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/service/authService";
-import ChangePassword from "../ChangePassword/ChangePassword";
-import SelfDeposit from "../DepositModal/SelfDeposit";
 import { imgUrl } from "../../../store/constant";
+
+const ChangePassword = lazy(() => import("../ChangePassword/ChangePassword"));
+const SelfDeposit = lazy(() => import("../DepositModal/SelfDeposit"));
 
 const Navbar = ({ action }) => {
   const userData = localStorage.getItem("username");
@@ -139,13 +140,21 @@ const Navbar = ({ action }) => {
         destroyOnClose
         footer={false}>
         <div className="ch_pass">
-          <ChangePassword setIsModalOpen={setIsModalOpen} />
+          {isModalOpen && (
+            <Suspense fallback={null}>
+              <ChangePassword setIsModalOpen={setIsModalOpen} />
+            </Suspense>
+          )}
         </div>
       </Modal>
-      <SelfDeposit
-        isDepositeModalOpen={isDepositeModalOpen}
-        setIsDepositeModalOpen={setIsDepositeModalOpen}
-      />
+      {isDepositeModalOpen && (
+        <Suspense fallback={null}>
+          <SelfDeposit
+            isDepositeModalOpen={isDepositeModalOpen}
+            setIsDepositeModalOpen={setIsDepositeModalOpen}
+          />
+        </Suspense>
+      )}
     </>
   );
 };

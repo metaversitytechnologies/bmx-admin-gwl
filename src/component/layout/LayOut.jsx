@@ -1,23 +1,24 @@
 import { Button, Layout, Modal } from "antd";
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import Sidebar from "../common/sidebar/Sidebar";
 const { Header, Content } = Layout;
 import Navbar from "../common/navbar/Navbar";
 
 import MarqueeTag from "../common/marquee/MarqueeTag";
 import { Outlet, useNavigate } from "react-router-dom";
-import HomeRules from "../pages/HomeRules";
+
+const HomeRules = lazy(() => import("../pages/HomeRules"));
 
 const LayOut = () => {
   const [collapsed, setCollapsed] = useState();
   const [openRules, setOpenRules] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const collll = (val) => {
+  const collll = useCallback((val) => {
     setCollapsed(val);
-  };
+  }, []);
 
-  const toggleDarawer = () => setOpen((prev) => !prev);
+  const toggleDarawer = useCallback(() => setOpen((prev) => !prev), []);
 
   const openDrawer = (val) => {
     setOpen(val);
@@ -91,7 +92,11 @@ const LayOut = () => {
             Close
           </Button>,
         ]}>
-        <HomeRules />
+        {openRules && (
+          <Suspense fallback={null}>
+            <HomeRules />
+          </Suspense>
+        )}
       </Modal>
     </>
   );
