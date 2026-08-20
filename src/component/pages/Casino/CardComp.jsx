@@ -1,4 +1,3 @@
-import "./card.scss";
 const CardComp = ({ shown, card }) => {
   return (
     <>
@@ -14,10 +13,10 @@ const CardComp = ({ shown, card }) => {
                 card?.includes("HH")
                   ? card?.replace(/HH/, "SS")
                   : card?.includes("SS")
-                  ? card?.replace(/SS/, "DD")
-                  : card?.includes("DD")
-                  ? card?.replace(/DD/, "HH")
-                  : card
+                    ? card?.replace(/SS/, "DD")
+                    : card?.includes("DD")
+                      ? card?.replace(/DD/, "HH")
+                      : card
               }.jpg`}
               alt=""
             />

@@ -1,6 +1,5 @@
 import { Card, Col, DatePicker, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import "./AccountOperations.scss";
 import moment from "moment";
 import { useState } from "react";
 import dayjs from "dayjs";

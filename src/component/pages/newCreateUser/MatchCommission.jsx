@@ -1,5 +1,4 @@
 import { Col, Form, Input, InputNumber, Row, Select } from "antd";
-import React from "react";
 import { useParams } from "react-router-dom";
 
 const MatchCommission = ({ commissionType, commiType, data, createName }) => {
@@ -49,8 +48,8 @@ const MatchCommission = ({ commissionType, commiType, data, createName }) => {
                           new Error(
                             "Match share can not be more than" +
                               " " +
-                              `${data?.data?.myShare}`
-                          )
+                              `${data?.data?.myShare}`,
+                          ),
                         );
                       }
                     },

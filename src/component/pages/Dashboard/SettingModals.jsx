@@ -1,5 +1,4 @@
 import { Card, Col, Modal, Row } from "antd";
-import { HiUser } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 const SettingModals = ({ setOpenModals, openModal }) => {

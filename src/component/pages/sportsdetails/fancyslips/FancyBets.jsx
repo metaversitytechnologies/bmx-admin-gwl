@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Select, Row, Col, Form, Spin, Empty } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import "./FancySlips.scss";
 import {
   useGetSessionBetMutation,
   useGetSessionHavingBetQuery,

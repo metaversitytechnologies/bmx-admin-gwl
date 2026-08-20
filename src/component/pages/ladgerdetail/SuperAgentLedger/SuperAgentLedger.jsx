@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Card, Col, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import "./SuperAgentLedger.scss";
 import { Money } from "./moneySvg";
 import { EyeOutlined } from "@ant-design/icons";
 import { useGetLedgerAllQuery } from "../../../../store/service/SportDetailServices";

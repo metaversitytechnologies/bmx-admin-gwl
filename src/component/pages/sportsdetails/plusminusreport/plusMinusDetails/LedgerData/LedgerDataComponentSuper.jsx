@@ -1,5 +1,4 @@
 import { convertCode } from "../../../../../../store/constant";
-import "./style.scss";
 
 const RecursiveCard = ({ data, depth }) => {
   if (!data || !data.length) return null;

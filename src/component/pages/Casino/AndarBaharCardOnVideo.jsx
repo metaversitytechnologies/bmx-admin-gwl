@@ -38,7 +38,6 @@ const AndarBaharCardOnVideo = ({ t3 }) => {
               onSwiper={setAallSwiper} // Capture the Swiper instance
               spaceBetween={2}
               slidesPerView={3}
-              onSlideChange={() => console.log("slide change")}
               navigation={true}
               modules={[Navigation]}
               // autoplay={{
@@ -59,7 +58,6 @@ const AndarBaharCardOnVideo = ({ t3 }) => {
               onSwiper={setBallSwiper}
               spaceBetween={2} // Capture the Swiper instance
               slidesPerView={3}
-              onSlideChange={() => console.log("slide change")}
               navigation={true}
               modules={[Navigation]}
               // autoplay={{

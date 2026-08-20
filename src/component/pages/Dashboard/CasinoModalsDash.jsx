@@ -1,10 +1,9 @@
-import { Form, Switch } from 'antd';
-import React from 'react'
+import { Form, Switch } from "antd";
 
-const CasinoModalsDash = ({data}) => {
+const CasinoModalsDash = ({ data }) => {
   return (
     <>
-    <Form autoComplete="off">
+      <Form autoComplete="off">
         {data?.map((item, id) => {
           return (
             <Form.Item
@@ -13,18 +12,14 @@ const CasinoModalsDash = ({data}) => {
               label={item?.name}
               style={{ marginTop: "12px" }}
               // name="casinoId"
-              >
-              <Switch
-                defaultChecked={item?.active}
-                disabled
-              />
+            >
+              <Switch defaultChecked={item?.active} disabled />
             </Form.Item>
           );
         })}
-        
       </Form>
     </>
-  )
-}
+  );
+};
 
-export default CasinoModalsDash
+export default CasinoModalsDash;

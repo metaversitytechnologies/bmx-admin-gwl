@@ -10,7 +10,6 @@ const TeenPatti = ({ odds, id }) => {
       dataIndex: "nation",
       key: "nation",
       render: (text, record) => {
-        console.log(record, "recordrecord");
         return (
           <div>
             <p>{record?.nation}</p>

@@ -1,5 +1,4 @@
 import { Card, Col, DatePicker, Row, Select, Table } from "antd";
-import "./MatchLedger.scss";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
@@ -60,13 +59,13 @@ const MatchLedger = () => {
       startDate: dateData[0],
       endDate: dateData[1],
     },
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true },
   );
 
   const totalCredit =
     ledgerData?.data?.reduce(
       (acc, item) => acc + (item.credit || 0) + (item.debit || 0),
-      0
+      0,
     ) || 0;
 
   const totalCreditSum =

@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+
 import { Button, Form, InputNumber, Modal, Spin } from "antd";
-import "./Deposit.scss";
+
 import { openNotification, openNotificationError } from "../../App";
 import { useLazyDepositAndWithdrawQuery } from "../../store/service/supermasteAccountStatementServices";
 

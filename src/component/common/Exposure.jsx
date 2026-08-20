@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Form, Modal, Table } from "antd";
-import "./Deposit.scss";
 
 import { useLazyGetUserLabilatyQuery } from "../../store/service/SportDetailServices";
 import { render } from "react-dom";

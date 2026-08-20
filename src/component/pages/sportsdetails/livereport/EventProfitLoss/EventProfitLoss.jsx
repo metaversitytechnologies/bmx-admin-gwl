@@ -1,8 +1,7 @@
-import React from "react";
 import { Col, Empty, Row, Spin } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SuperAgentProfitLoss from "./SuperAgentProfitLoss/SuperAgentProfitLoss";
-import "./EventProfitLoss.scss";
+
 import MasterProfitLoss from "./SuperAgentProfitLoss/MasterProfitLoss";
 import DealerProfitLoss from "./SuperAgentProfitLoss/DealerProfitLoss";
 import ClientProfitLoss from "./SuperAgentProfitLoss/ClientProfitLoss";
@@ -72,13 +71,28 @@ const EventProfitLoss = () => {
   return (
     <>
       <Row>
-        <Col className={`${userType !== "5" ? "d-none" : ""}`} xs={24} md={24} xl={7} lg={7}>
+        <Col
+          className={`${userType !== "5" ? "d-none" : ""}`}
+          xs={24}
+          md={24}
+          xl={7}
+          lg={7}>
           <SuperAgentProfitLoss data={profitLoss.data.showBetsdata} />
         </Col>
-        <Col className={`${userType === "0" || userType === "5" ? "" : "d-none"}`} xs={24} md={24} xl={7} lg={7}>
+        <Col
+          className={`${userType === "0" || userType === "5" ? "" : "d-none"}`}
+          xs={24}
+          md={24}
+          xl={7}
+          lg={7}>
           <MasterProfitLoss data={profitLoss.data.showBetsdata} />
         </Col>
-        <Col className={`${["0", "1", "5"].includes(userType) ? "" : "d-none"}`} xs={24} md={24} xl={7} lg={7}>
+        <Col
+          className={`${["0", "1", "5"].includes(userType) ? "" : "d-none"}`}
+          xs={24}
+          md={24}
+          xl={7}
+          lg={7}>
           <DealerProfitLoss data={profitLoss.data.showBetsdata} />
         </Col>
         <Col xs={24} md={24} xl={7} lg={7}>
@@ -88,8 +102,12 @@ const EventProfitLoss = () => {
 
       <div className="main_live_section">
         <div className="_match">
-          <div className="sub_live_section live_report" style={{ borderRadius: "2px 2px 0 0", fontSize: "16px" }}>
-            <div style={{ padding: "9px 8px" }} className="team_name">Event Profit and Loss</div>
+          <div
+            className="sub_live_section live_report"
+            style={{ borderRadius: "2px 2px 0 0", fontSize: "16px" }}>
+            <div style={{ padding: "9px 8px" }} className="team_name">
+              Event Profit and Loss
+            </div>
             <div className="show_btn">
               <button onClick={handleBackClick}>Back</button>
             </div>
@@ -97,7 +115,9 @@ const EventProfitLoss = () => {
         </div>
 
         <div>
-          <div className="sport_detail my_ledger main_match_ledger" style={{ padding: "0px", margin: "0px", width: "100%" }}>
+          <div
+            className="sport_detail my_ledger main_match_ledger"
+            style={{ padding: "0px", margin: "0px", width: "100%" }}>
             <div className="table_section statement_tabs_data ant-spin-nested-loading">
               <table className="live_table" style={{ marginBottom: "8px" }}>
                 <thead>
@@ -134,7 +154,12 @@ const EventProfitLoss = () => {
                         <td>{res.value}</td>
                         <td>{res.volume}</td>
                         <td>{res.stake}</td>
-                        <td className={res.pnl > 0 ? "text_success" : "text_danger"}>{res.pnl}</td>
+                        <td
+                          className={
+                            res.pnl > 0 ? "text_success" : "text_danger"
+                          }>
+                          {res.pnl}
+                        </td>
                       </tr>
                     ))
                   )}

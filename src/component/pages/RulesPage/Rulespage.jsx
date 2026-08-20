@@ -1,5 +1,3 @@
-import React from "react";
-import "./Rulespage.scss";
 import { useNavigate } from "react-router-dom";
 import { Card } from "antd";
 
@@ -13,7 +11,7 @@ const Rulespage = () => {
         extra={<button onClick={() => nav(-1)}>Back</button>}>
         <div>
           <div className="term-and-condition">
-            <h1 style={{ textAlign: "center", marginTop:"12px" }}>
+            <h1 style={{ textAlign: "center", marginTop: "12px" }}>
               <span style={{ fontSize: "20px" }}>
                 <em style={{ boxSizing: "border-box" }}>
                   <strong>
@@ -170,7 +168,7 @@ const Rulespage = () => {
               </li>
             </ul>
 
-            <h2 style={{marginTop:"14px"}}>
+            <h2 style={{ marginTop: "14px" }}>
               <span>
                 <strong>
                   <em>FANCY RULES</em>
@@ -541,7 +539,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <em>
                       <strong>5 अन्य एडवांस फैंसी&nbsp; (TEST):-</strong>
@@ -626,7 +624,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>वनडे बल्लेबाज रन </strong>:-
                   </span>
@@ -689,7 +687,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>Extra Sessions :-</strong>
                   </span>
@@ -709,7 +707,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>T20 SESSION-</strong>
                   </span>
@@ -766,7 +764,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>टी20 बल्लेबाज रन :-</strong>
                   </span>
@@ -845,7 +843,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <em>
                       <strong>EXTRA FANCY&nbsp;</strong>:-
@@ -975,7 +973,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <em>
                       <strong>टेस्ट में कनकशन</strong>:
@@ -1017,7 +1015,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>
                       <em>Total Match- Events (test):-</em>
@@ -1038,7 +1036,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>Limited over events-Test:</strong>
                     <em>
@@ -1472,7 +1470,7 @@ const Rulespage = () => {
             </ul>
             <ul>
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <em>
                       <strong>Fancy</strong>
@@ -1676,7 +1674,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <em>Test</em>
                   </span>
@@ -1987,7 +1985,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>Other fancy:-</strong>
                   </span>
@@ -2007,7 +2005,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>T20 Session:--</strong>
                   </span>
@@ -2059,7 +2057,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>T20 batsman runs:-</strong>
                   </span>
@@ -2146,7 +2144,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>Other fancy:-</strong>
                   </span>
@@ -2266,7 +2264,7 @@ const Rulespage = () => {
               </li>
 
               <li>
-                <h2 >
+                <h2>
                   <span>
                     <strong>Concussion in Test:-</strong>
                   </span>

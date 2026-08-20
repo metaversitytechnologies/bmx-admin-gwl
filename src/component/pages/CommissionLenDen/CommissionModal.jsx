@@ -1,8 +1,6 @@
-import { Button, Card, Modal, Row, Table } from "antd";
+import { Button, Card, Modal,  Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
-import { render } from "react-dom";
-import moment from "moment";
 
 const CommissionModal = ({
   openModal,

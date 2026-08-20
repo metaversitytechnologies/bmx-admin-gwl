@@ -11,7 +11,6 @@ import {
   Switch,
   notification,
 } from "antd";
-import "./UpdateSuper.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetUserQuery,

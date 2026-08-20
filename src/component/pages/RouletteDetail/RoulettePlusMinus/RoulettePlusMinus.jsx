@@ -1,7 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./RoulettePlusMinus.scss";
-import { useEffect, useState } from "react";
-import { Spin } from "antd";
 import { useGetCasinoLedgerQuery } from "../../../../store/service/SportDetailServices";
 import LedgerDataAdminCasino from "./LedgerDataCasino/LedgerDataAdminCasino";
 import LedgerdataSubAdminCasino from "./LedgerDataCasino/LedgerdataSubAdminCasino";

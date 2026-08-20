@@ -1,4 +1,3 @@
-import "./SportsDetails.scss";
 import { Button, Card, Col, DatePicker, Empty, Row } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { CaretDownOutlined } from "@ant-design/icons";

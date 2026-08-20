@@ -1,5 +1,4 @@
 import { Card, Table } from "antd";
-import "./MyLedger.scss";
 import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

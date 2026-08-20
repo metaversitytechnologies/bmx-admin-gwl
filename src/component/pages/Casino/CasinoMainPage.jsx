@@ -1,7 +1,6 @@
 import { Card, Col, Row } from "antd";
 import VideoSection from "./VideoSection";
 import LastResult from "./LastResult";
-import "./style.scss";
 import { useOdds } from "./UseOdds";
 import { tableIdtoUrl, titleById } from "./Constant";
 import { useNavigate, useParams } from "react-router-dom";

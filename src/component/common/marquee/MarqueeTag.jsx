@@ -1,9 +1,8 @@
 import Marquee from "react-fast-marquee";
-import "./MarqueeTag.scss";
+
 import { useGetMessageQuery } from "../../../store/service/userlistService";
 
 const MarqueeTag = () => {
-  const domain = window.location.hostname.split(".").slice(-2).join(".");
   const { data } = useGetMessageQuery();
   return (
     <>

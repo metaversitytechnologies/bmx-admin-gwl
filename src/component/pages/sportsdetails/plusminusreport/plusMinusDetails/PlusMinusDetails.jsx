@@ -1,14 +1,11 @@
-import  React from "react";
-import "./PlusMinusDetails.scss";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { globalSelector } from "../../../../../store/global/slice";
 import PlusMinusTable from "./PlusMinusTable";
 
 const PlusMinusDetails = () => {
-  const { state } = useLocation()
-  const sportName = useSelector(globalSelector);
-  const nav = useNavigate()
+  const { state } = useLocation();
+  const nav = useNavigate();
 
   return (
     <>
@@ -21,7 +18,7 @@ const PlusMinusDetails = () => {
               {state?.state?.dataNameee}
             </div>
             <div className="show_btn">
-              <button onClick={()=>nav(-1)}>Back</button>
+              <button onClick={() => nav(-1)}>Back</button>
             </div>
           </div>
           <div className="main_table_section">

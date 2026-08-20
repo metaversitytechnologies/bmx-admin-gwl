@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import "./CreateSuperAgent.scss";
 import {
   Button,
   Col,
@@ -35,7 +34,6 @@ const CreateSuperAgent = ({ createName }) => {
     setLuPassword(e.target.value);
   };
 
-
   const userId = localStorage.getItem("userId");
   const [state, setState] = useState({
     isAuraAllowed: "",
@@ -68,10 +66,10 @@ const CreateSuperAgent = ({ createName }) => {
       userId: hostname.includes("create-super")
         ? "S" + createUserId?.trim()
         : hostname.includes("create-agent")
-        ? "M" + createUserId?.trim()
-        : hostname.includes("create-dealer")
-        ? "A" + createUserId?.trim()
-        : "C" + createUserId?.trim(),
+          ? "M" + createUserId?.trim()
+          : hostname.includes("create-dealer")
+            ? "A" + createUserId?.trim()
+            : "C" + createUserId?.trim(),
       username: values?.Name,
       mobile: values?.mobile,
       city: "",
@@ -283,7 +281,7 @@ const CreateSuperAgent = ({ createName }) => {
                             names != null
                           ) {
                             return Promise.reject(
-                              new Error("Please Enter Valid Mobile Number")
+                              new Error("Please Enter Valid Mobile Number"),
                             );
                           }
                         },
@@ -329,7 +327,7 @@ const CreateSuperAgent = ({ createName }) => {
                             values != null
                           ) {
                             return Promise.reject(
-                              new Error("Please enter valid Coins")
+                              new Error("Please enter valid Coins"),
                             );
                           }
                         },
@@ -367,8 +365,8 @@ const CreateSuperAgent = ({ createName }) => {
                           ) {
                             return Promise.reject(
                               new Error(
-                                "Minimun 6 character, must contain letters and numbers"
-                              )
+                                "Minimun 6 character, must contain letters and numbers",
+                              ),
                             );
                           }
                         },
@@ -423,8 +421,8 @@ const CreateSuperAgent = ({ createName }) => {
                                   new Error(
                                     "Match share can not be more than" +
                                       " " +
-                                      `${data?.data?.myShare}`
-                                  )
+                                      `${data?.data?.myShare}`,
+                                  ),
                                 );
                               }
                             },

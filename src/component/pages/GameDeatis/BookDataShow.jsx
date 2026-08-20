@@ -69,10 +69,6 @@ const BookDataShow = ({
   sessionData,
   fancyName,
 }) => {
-  const onChange = (key) => {
-    console.log("Active Tab:", key);
-  };
-
   return (
     <Modal
       centered
@@ -89,7 +85,6 @@ const BookDataShow = ({
       footer={null}
       style={{ marginBottom: "40px" }}>
       <Tabs
-        onChange={onChange}
         type="card"
         defaultActiveKey="book"
         items={[

@@ -1,7 +1,10 @@
 import { Button, Form, Input, notification } from "antd";
-import React, { useEffect, useState } from "react";
-import { useLazyUpDateLimitesQuery, useMinusLimitMutation, useWithdrawMutation } from "../../../../store/service/userlistService";
-import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  useLazyUpDateLimitesQuery,
+  useMinusLimitMutation,
+} from "../../../../store/service/userlistService";
+import { useParams } from "react-router-dom";
 import { openNotification, openNotificationError } from "../../../../App";
 
 const MinusLimit = (props) => {
@@ -9,28 +12,30 @@ const MinusLimit = (props) => {
   const [chipsValue, setChipsValue] = useState();
   const [passWord, setPassword] = useState("");
   const [api, contextHolder] = notification.useNotification();
-  const [form]= Form.useForm();
-  const {id} = useParams();
+  const [form] = Form.useForm();
+  const { id } = useParams();
 
   const handelAddLimit = (e) => {
     setChipsValue(e.target.value);
-    setAddTotal(Number(updateLimite?.data?.childAmount) - Number(e.target.value));
+    setAddTotal(
+      Number(updateLimite?.data?.childAmount) - Number(e.target.value),
+    );
   };
 
   const handelPassword = (e) => {
     setPassword(e.target.value);
   };
 
-  const [trigger, { data: addData, error,isLoading }] = useMinusLimitMutation();
-  const [updateLimitsData, {data: updateLimite}] = useLazyUpDateLimitesQuery()
+  const [trigger, { data: addData, error, isLoading }] =
+    useMinusLimitMutation();
+  const [updateLimitsData, { data: updateLimite }] =
+    useLazyUpDateLimitesQuery();
 
-  useEffect(()=>{
+  useEffect(() => {
     updateLimitsData({
-      userId:id
-    })
-  }, [id])
-
- 
+      userId: id,
+    });
+  }, [id]);
 
   const onFinish = (values) => {
     const addList = {
@@ -44,7 +49,7 @@ const MinusLimit = (props) => {
   useEffect(() => {
     if (addData?.status === true) {
       updateLimitsData({
-        userId:id,
+        userId: id,
       });
       setAddTotal(0);
       openNotification(addData?.message);
@@ -54,17 +59,14 @@ const MinusLimit = (props) => {
     }
   }, [addData?.data, error]);
 
-
-
   return (
     <>
       {contextHolder}
-      <div className="table_section mwt sport_detail" style={{paddingBottom:"12px"}}>
+      <div
+        className="table_section mwt sport_detail"
+        style={{ paddingBottom: "12px" }}>
         <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Form
-            onFinish={onFinish}
-            form={form}
-            autoComplete="off">
+          <Form onFinish={onFinish} form={form} autoComplete="off">
             <table className="live_table  limit_update">
               <tr>
                 <th width="10%">Code</th>
@@ -77,7 +79,7 @@ const MinusLimit = (props) => {
               </tr>
 
               <tr>
-              <td>{updateLimite?.data?.childId}</td>
+                <td>{updateLimite?.data?.childId}</td>
                 <td>{updateLimite?.data?.childName}</td>
                 <td>{updateLimite?.data?.childAmount}</td>
                 <td>
@@ -113,7 +115,6 @@ const MinusLimit = (props) => {
                         onChange={(e) => handelPassword(e)}
                         type="password"
                         autoComplete="off"
-
                         placeholder="Enter Transaction Password"
                       />
                     </Form.Item>

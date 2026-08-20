@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
-import "./Navbar.scss";
 // import { AiOutlineDown } from "react-icons/ai";
 import { Dropdown, Space, Modal, Button } from "antd";
-import { CaretDownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, MenuOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../../store/service/authService";
 import ChangePassword from "../ChangePassword/ChangePassword";
-import { MdMenu } from "react-icons/md";
 import SelfDeposit from "../DepositModal/SelfDeposit";
 import { imgUrl } from "../../../store/constant";
 
-const Navbar = ({ action, logo }) => {
+const Navbar = ({ action }) => {
   const userData = localStorage.getItem("username");
   const userType = localStorage.getItem("userType");
 
   const [trigger] = useLogoutMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState();
   const nav = useNavigate();
 
   const handleLogout = () => {
@@ -50,8 +47,6 @@ const Navbar = ({ action, logo }) => {
       setIsModalOpen(true);
     } else if (e.key == 2) {
       setIsDepositeModalOpen(true);
-    } else {
-      console.log("logout");
     }
   };
 
@@ -85,7 +80,7 @@ const Navbar = ({ action, logo }) => {
           }}>
           <Space className="open_btn">
             <Button type="" className="sub_open_btn" onClick={action}>
-              <MdMenu />
+              <MenuOutlined />
             </Button>
           </Space>
 

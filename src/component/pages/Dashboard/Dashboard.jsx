@@ -2,7 +2,6 @@ import { useState } from "react";
 import { CiLogin } from "react-icons/ci";
 import { IoMdInformationCircle } from "react-icons/io";
 import { Col, Row } from "antd";
-import "./Dashboard.scss";
 import ActiveMatch from "../../common/ActiveMatch/ActiveMatch";
 import { useNavigate } from "react-router-dom";
 import { useDashboardQuery } from "../../../store/service/userlistService";
@@ -63,16 +62,16 @@ const Dashboard = () => {
                             {uType == 7
                               ? "SuperAdmin Details"
                               : uType == 6
-                              ? "Admin Detail"
-                              : uType == 5
-                              ? "Mini Admin"
-                              : uType == 4
-                              ? "Master"
-                              : uType == 3
-                              ? "SuperAgent"
-                              : uType == 2
-                              ? "Agent"
-                              : ""}
+                                ? "Admin Detail"
+                                : uType == 5
+                                  ? "Mini Admin"
+                                  : uType == 4
+                                    ? "Master"
+                                    : uType == 3
+                                      ? "SuperAgent"
+                                      : uType == 2
+                                        ? "Agent"
+                                        : ""}
                           </h1>
                           <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
                           <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
@@ -254,16 +253,16 @@ const Dashboard = () => {
                   uType == 7
                     ? "Super Admin"
                     : uType == 6
-                    ? "Admin"
-                    : uType == 5
-                    ? "Mini Admin"
-                    : uType == 4
-                    ? "Masetr"
-                    : uType == 3
-                    ? "Super Master"
-                    : uType == 2
-                    ? "Agent"
-                    : "Client"
+                      ? "Admin"
+                      : uType == 5
+                        ? "Mini Admin"
+                        : uType == 4
+                          ? "Masetr"
+                          : uType == 3
+                            ? "Super Master"
+                            : uType == 2
+                              ? "Agent"
+                              : "Client"
                 }`,
               },
               {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Checkbox, Col, notification, Row, Table } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import "./PlusMinusReport.scss";
 import { useGetSessionPlusMinusQuery } from "../../../../store/service/SportDetailServices";
 import { render } from "react-dom";
 import { convertCode } from "../../../../store/constant";
@@ -24,9 +23,7 @@ const clintColumns = [
     title: "Child",
     dataIndex: "userId",
     key: 1,
-    render:(text)=>(
-      <span>{convertCode(text)}</span>
-    )
+    render: (text) => <span>{convertCode(text)}</span>,
   },
 ];
 
@@ -94,7 +91,7 @@ const PlusMinusReport = () => {
   }, [data]);
 
   const filteredMarkets = data?.data?.sessionDetail.filter(
-    (i) => !["match odds", "bookmaker"].includes(i.sessionName?.toLowerCase())
+    (i) => !["match odds", "bookmaker"].includes(i.sessionName?.toLowerCase()),
   );
 
   return (

@@ -1,16 +1,13 @@
-import { Button, Card, Col, DatePicker, Divider, Form, Input, Pagination, Row, Select } from "antd";
-import "./SuperAgentTransactions.scss";
-import dayjs from 'dayjs';
+import { Button, Card, Col, DatePicker, Form, Input, Row, Select } from "antd";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-const dateFormat = 'YYYY/MM/DD';
-
+const dateFormat = "YYYY/MM/DD";
 
 const SuperAgentTransactions = () => {
-
-const nav = useNavigate()
+  const nav = useNavigate();
 
   const handleBackbtn = () => {
-    nav(-1)
+    nav(-1);
   };
 
   const onFinish = (values) => {
@@ -75,8 +72,7 @@ const nav = useNavigate()
                     // onChange={onGenderChange}
                     defaultValue="Cash A/C"
                     allowClear>
-                    <Option value="cashac" >Cash A/C</Option>
-                   
+                    <Option value="cashac">Cash A/C</Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -91,10 +87,11 @@ const nav = useNavigate()
                       message: "Please select date",
                     },
                   ]}>
-                  <DatePicker 
-                  className="transations_date" 
-                  defaultValue={dayjs('2015/01/01', dateFormat)} 
-                  format={dateFormat} />
+                  <DatePicker
+                    className="transations_date"
+                    defaultValue={dayjs("2015/01/01", dateFormat)}
+                    format={dateFormat}
+                  />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -125,11 +122,10 @@ const nav = useNavigate()
                   <Select
                     placeholder="Payment Type"
                     // onChange={onGenderChange}
-                   
+
                     allowClear>
-                    <Option value="payment_diya" >PAYMENT - DIYA</Option>
-                    <Option value="payment_liya" >PAYMENT - LIYA</Option>
-                   
+                    <Option value="payment_diya">PAYMENT - DIYA</Option>
+                    <Option value="payment_liya">PAYMENT - LIYA</Option>
                   </Select>
                 </Form.Item>
               </Col>

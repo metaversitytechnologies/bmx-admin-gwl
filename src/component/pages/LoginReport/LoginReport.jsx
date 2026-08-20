@@ -1,9 +1,7 @@
-import { Card, Divider, Empty, Pagination, Spin, Tooltip } from "antd";
+import { Card, Divider, Empty, Pagination } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
-import "./LoginReport.scss";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
 import { useEffect, useState } from "react";
-import { AiFillEye } from "react-icons/ai";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const LoginReport = () => {
@@ -58,19 +56,21 @@ const LoginReport = () => {
               </tr>
               {isLoading || isFetching ? <CustomLoading /> : ""}
               {!isError &&
-                data?.data?.map((res, id) => {
-                  return (
-                    <tr key={id}>
-                      <td>{res?.country}</td>
-                      <td>
-                        {res?.city} - {res?.region}
-                      </td>
-                      <td>{res?.isp}</td>
-                      <td>{res?.ipAddress}</td>
-                      <td>{res?.loginDate} </td>
-                    </tr>
-                  );
-                }).reverse()}
+                data?.data
+                  ?.map((res, id) => {
+                    return (
+                      <tr key={id}>
+                        <td>{res?.country}</td>
+                        <td>
+                          {res?.city} - {res?.region}
+                        </td>
+                        <td>{res?.isp}</td>
+                        <td>{res?.ipAddress}</td>
+                        <td>{res?.loginDate} </td>
+                      </tr>
+                    );
+                  })
+                  .reverse()}
             </table>
 
             {data?.data?.list === undefined || isError ? (

@@ -1,5 +1,4 @@
 import { Modal, Spin } from "antd";
-import "./ModalsData.scss";
 
 const getColumnClass = (role, uType) => {
   const hiddenRolesByType = {

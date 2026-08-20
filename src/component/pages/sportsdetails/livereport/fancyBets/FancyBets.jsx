@@ -1,5 +1,4 @@
 import { Card, Empty, Input, Row, Select } from "antd";
-import "./style.scss";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import { LuRefreshCw } from "react-icons/lu";
 import {

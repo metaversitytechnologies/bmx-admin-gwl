@@ -1,17 +1,14 @@
-import { Button, Card, Empty, message, Row, Pagination } from "antd";
+import {  Card, Empty, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { useState } from "react";
 import { useGetCompletdMatchesQuery } from "../../../store/service/userlistService";
 
 const CompletedActive = () => {
   const nav = useNavigate();
 
   // ✅ Local states for PF-side pagination
-  const [pageIndex, setPageIndex] = useState(0); // 0-based
-  const [pageSize, setPageSize] = useState(50); // ✅ Default show 50
 
-  const { data: sportDetail, refetch } = useGetCompletdMatchesQuery({});
+  const { data: sportDetail } = useGetCompletdMatchesQuery({});
 
   return (
     <Card
@@ -40,7 +37,7 @@ const CompletedActive = () => {
                   <td>
                     {" "}
                     {moment(res.date, "ddd MMM DD HH:mm:ss [IST] YYYY").format(
-                      "DD-MM-YYYY hh:mm:ss A"
+                      "DD-MM-YYYY hh:mm:ss A",
                     )}
                   </td>
                   <td>{res?.matchName}</td>

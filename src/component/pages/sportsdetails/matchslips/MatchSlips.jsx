@@ -1,7 +1,6 @@
 import MatchSlipCard from "./matchslipcard/MatchSlipCard";
 import { LuBarChart4 } from "react-icons/lu";
 import { Card, Space, Select, Row, Col, Table } from "antd";
-import "./MatchSlips.scss";
 import { useNavigate } from "react-router-dom";
 
 const handleChange = (value) => {

@@ -44,7 +44,7 @@ const UserSearch = () => {
             className="sport_detail acc_name"
             title={`User Search`}
             extra={<button onClick={() => nav(-1)}>Back</button>}>
-            <div className="user_section">
+            <div className="user_section" style={{ backgroundColor: "#fff" }}>
               <Row>
                 <Col xs={24} md={24} lg={1} xl={1}></Col>
                 <Col xs={18} md={18} lg={8} xl={8}>

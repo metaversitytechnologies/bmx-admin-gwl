@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Drawer, Menu } from "antd";
-import "./Sidebar.scss";
-import { Button } from "antd";
+import { Button, Drawer, Menu } from "antd";
+
 import Sider from "antd/es/layout/Sider";
 import { Link, useNavigate } from "react-router-dom";
 import { HoverIcon } from "./HeroIcon";

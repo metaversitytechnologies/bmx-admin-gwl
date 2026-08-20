@@ -1,16 +1,5 @@
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Empty,
-  Input,
-  Pagination,
-  Row,
-  Spin,
-} from "antd";
-import { useNavigate, useParams } from "react-router-dom";
-import "./LoginReport.scss";
+import { Button, Card, Col, Empty, Input, Row } from "antd";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useLazyGetSecureCodeQuery } from "../../../store/service/SportDetailServices";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
@@ -18,11 +7,8 @@ import { convertCode, convertCodeReverse } from "../../../store/constant";
 
 const SecureCode = () => {
   const userId = localStorage.getItem("userId");
-  const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientId, setClientId] = useState(userId);
-  const [paginationTotal, setPaginationTotal] = useState(50);
-  const [indexData, setIndexData] = useState(0);
 
   const nav = useNavigate();
   const handleBackClick = () => {
@@ -37,8 +23,6 @@ const SecureCode = () => {
       userId: clientId,
     });
   };
-
-  console.log(secureData, "secureDatasecureDatasecureData");
 
   return (
     <>
@@ -69,7 +53,9 @@ const SecureCode = () => {
               <Input
                 style={{ height: "36px", borderRadius: "0px" }}
                 placeholder="Enter"
-                onChange={(e) => setClientId(convertCodeReverse(e.target.value))}
+                onChange={(e) =>
+                  setClientId(convertCodeReverse(e.target.value))
+                }
               />
             </Col>
             <Col xs={6} md={6} lg={7} xl={7}>

@@ -1,5 +1,4 @@
 import { Col, Row } from "antd";
-import "./Gamedetails.scss";
 import FancyBets from "../sportsdetails/livereport/fancyBets/FancyBets";
 import CompletedFancy from "./CompletedFancy";
 import { useEffect, useState } from "react";
@@ -11,8 +10,6 @@ import {
 } from "../../../store/service/OddsPnlServices";
 import Bookmaker from "./Bookmaker";
 import { useParams } from "react-router-dom";
-import { isNsg } from "../../../store/constant";
-import Score from "../../common/Score/Score";
 import { useGetTvScoreDataQuery } from "../../../store/service/CasinoServices";
 import { useGetChIdsQuery } from "../../../store/service/tvServices";
 import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
@@ -110,7 +107,6 @@ const GameDeatis = () => {
       });
 
       const result = await response.json();
-      console.log("TV Stream API:", result);
 
       if (result.status === 1) {
         setTvUrl(result.data);

@@ -1,4 +1,3 @@
-import "./LiveReport.scss";
 import { Col, Modal, Row, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import MoreEvent from "./MoreEvent/MoreEvent";
@@ -83,7 +82,7 @@ const LiveReport = () => {
     setActiveBookData(1);
     const oddsPnl = {
       matchId: Number(id),
-      matchCompleted: false
+      matchCompleted: false,
     };
     trigger(oddsPnl);
   };
@@ -283,7 +282,7 @@ const LiveReport = () => {
                                         </div>
                                       </Col>
                                     );
-                                  }
+                                  },
                                 )}
                                 {item?.ex?.availableToLay?.map(
                                   (layData, index) => {
@@ -303,7 +302,7 @@ const LiveReport = () => {
                                         </div>
                                       </Col>
                                     );
-                                  }
+                                  },
                                 )}
                               </Row>
                             </Col>
@@ -334,7 +333,7 @@ const LiveReport = () => {
                     keyData={key}
                     pnlOddsData={PnlOdds?.data}
                   />
-                )
+                ),
             )}
           <CompeleteFancy />
           <MoreEvent id1={id1} />

@@ -1,5 +1,3 @@
-import "./HomeRules.scss";
-
 const HomeRules = () => {
   const host = window.location.hostname;
 
@@ -29,8 +27,8 @@ const HomeRules = () => {
         <h2>Dear Client,</h2>
         <p>
           {" "}
-          We don't have any duplicate site , You are requested to login with our
-          official site {" '"}
+          We don&lsquo;t have any duplicate site , You are requested to login
+          with our official site {" '"}
           <span
             style={{
               textTransform: "uppercase",

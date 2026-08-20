@@ -1,5 +1,3 @@
-import React from "react";
-import CardItem from "../../common/carditem/CardItem";
 import { BiUserCircle } from "react-icons/bi";
 import { Card, Col, Modal, Row } from "antd";
 import { Link } from "react-router-dom";

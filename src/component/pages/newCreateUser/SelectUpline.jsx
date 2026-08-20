@@ -1,11 +1,7 @@
-import { Col, Form, Input, Row, Select } from "antd";
-import { useNavigate } from "react-router-dom";
-import "./SelectUpline.scss";
+import { Form, Select } from "antd";
 import { convertCode } from "../../../store/constant";
 
 const SelectUpline = ({ data, handleChange, handleSelect }) => {
-  const nav = useNavigate();
-
   return (
     <>
       <div

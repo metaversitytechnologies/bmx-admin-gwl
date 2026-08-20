@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
-import "./ListSuper.scss";
 import UserListTable from "../../../common/UserListTable";
 
 const ListSuper = ({ forDeadClient }) => {

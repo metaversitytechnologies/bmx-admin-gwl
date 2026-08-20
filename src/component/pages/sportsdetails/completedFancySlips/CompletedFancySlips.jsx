@@ -1,16 +1,13 @@
-import { useNavigate } from 'react-router-dom';
-import "./CompletedFancySlips.scss";
-import CompeleteFancy from '../livereport/compeleteFancy/CompeleteFancy';
-
+import CompeleteFancy from "../livereport/compeleteFancy/CompeleteFancy";
 
 const CompletedFancySlips = () => {
   return (
     <>
       <div className="match_slip completed_fancy_slip">
-       <CompeleteFancy/>
+        <CompeleteFancy />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CompletedFancySlips
+export default CompletedFancySlips;

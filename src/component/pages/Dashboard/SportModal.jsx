@@ -1,6 +1,3 @@
-import React from "react";
-import CardItem from "../../common/carditem/CardItem";
-import { BiUserCircle } from "react-icons/bi";
 import { Card, Col, Modal, Row } from "antd";
 import { Link } from "react-router-dom";
 
@@ -20,13 +17,7 @@ const SportModal = ({ setOpenModals, openModal }) => {
       userType: 1,
     },
   ];
-  const uType = localStorage.getItem("userType");
-  const userTypeMatch = {
-    0: [1, 2, 3],
-    1: [2, 3],
-    2: [3],
-    5: [0, 1, 2, 3],
-  };
+  
   return (
     <>
       <Modal

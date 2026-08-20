@@ -11,7 +11,6 @@ import {
   notification,
 } from "antd";
 import { useEffect, useState } from "react";
-
 import {
   useGetCreateUserMutation,
   useGetUserDetailsQuery,

@@ -1,13 +1,8 @@
-import { Card, Col, Empty, Modal, Row } from "antd";
-import "./Settings.scss";
+import { Card, Col, Modal, Row } from "antd";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import ChangePassword from "../../common/ChangePassword/ChangePassword";
-import moment from "moment";
-import AccountStatement from "./AccountStatement/AccountStatement";
 import SettingTable from "./SettingTable";
-
-const data = [];
 
 const Settings = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
