@@ -1,8 +1,45 @@
 import { Card, Col, Modal, Row } from "antd";
+import {
+  ChartNoAxesColumnIncreasing,
+  ChevronRight,
+  FileChartColumn,
+  FileText,
+  Settings,
+  Settings2,
+  X,
+} from "lucide-react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const SettingModals = ({ setOpenModals, openModal }) => {
   const userId = localStorage.getItem("userId");
+  const data = [
+    {
+      icon: FileText,
+      name: "Statements",
+      desc: "Review account statements",
+      path: "/account-statement",
+    },
+    {
+      icon: Settings2,
+      name: "A/c Operations",
+      desc: "Manage account operations",
+      path: `/account-operation/${userId}`,
+    },
+    {
+      icon: ChartNoAxesColumnIncreasing,
+      name: "Profit and Loss",
+      desc: "Open match P/L records",
+      path: "/Events/matchledger",
+    },
+    {
+      icon: FileChartColumn,
+      name: "Casino Profit & Loss",
+      desc: "Open casino P/L records",
+      path: "/casinoprofitandloss",
+    },
+  ];
+
   return (
     <>
       <Modal
@@ -10,130 +47,60 @@ const SettingModals = ({ setOpenModals, openModal }) => {
         footer={
           <button
             onClick={() => setOpenModals(!openModal)}
-            className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
+            className="ant-btn approved-modal-secondary master-details-footer-close">
             Close
           </button>
         }
-        className="antd_dsh_madals"
+        title={
+          <div className="approved-modal-header master-details-header">
+            <span className="approved-modal-header-icon master-details-header-icon">
+              <Settings size={18} strokeWidth={1.8} />
+            </span>
+            <span>
+              <h2>Settings</h2>
+              <p>Choose a report or account action</p>
+            </span>
+          </div>
+        }
+        closeIcon={<X size={17} strokeWidth={1.8} />}
+        className="antd_dsh_madals approved-dash-modal master-details-modal"
         closable={{ "aria-label": "Custom Close Button" }}
         open={openModal}>
-        <Row className="modal_opne_dash">
-          <Col md={12} xs={24}>
-            <Card bordered={false}>
-              <Link to="/account-statement">
-                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
-                  <div className="ant-card-body">
-                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
-                      <div
-                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
-                        style={{ borderRadius: 20 }}>
-                        <div className="gx-mr-1 gx-mr-xl-3">
-                          <img src="/Images/user.png" height={33} />
-                        </div>
-                        <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Statements
-                          </h1>
-                          <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
-                          <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                          {/* <p className="gx-mb-0">{items?.name}</p> */}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Card>
-          </Col>
-          <Col md={12} xs={24}>
-            <Card bordered={false}>
-              {/* /client/account-operations/${dataVal} */}
-              <Link to={`/account-operation/${userId}`}>
-                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
-                  <div className="ant-card-body">
-                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
-                      <div
-                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
-                        style={{ borderRadius: 20 }}>
-                        <div className="gx-mr-1 gx-mr-xl-3">
-                          {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                          {/* <HiUser /> */}
-                        </div>
-                        <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            A/c Operations
-                          </h1>
-                          <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
-                          <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                          {/* <p className="gx-mb-0">{items?.name}</p> */}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Card>
-          </Col>
-          <Col md={12} xs={24}>
-            <Card bordered={false}>
-              <Link to="/Events/matchledger">
-                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
-                  <div className="ant-card-body">
-                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
-                      <div
-                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
-                        style={{ borderRadius: 20 }}>
-                        <div className="gx-mr-1 gx-mr-xl-3">
-                          {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                          {/* <HiUser /> */}
-                        </div>
-                        <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Profit and Loss
-                          </h1>
-                          <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
-                          <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                          {/* <p className="gx-mb-0">{items?.name}</p> */}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Card>
-          </Col>
-          <Col md={12} xs={24}>
-            <Card bordered={false}>
-              <Link to="/casinoprofitandloss">
-                <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
-                  <div className="ant-card-body">
-                    <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
-                      <div
-                        className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
-                        style={{ borderRadius: 20 }}>
-                        <div className="gx-mr-1 gx-mr-xl-3">
-                          {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                          {/* <HiUser /> */}
-                        </div>
-                        <div className="gx-media-body">
-                          <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                            Casino Profit&Loss
-                          </h1>
-                          <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
-                          <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                          {/* <p className="gx-mb-0">{items?.name}</p> */}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </Card>
-          </Col>
+        <Row className="modal_opne_dash approved-modal-grid master-details-body">
+          {data?.map((items) => {
+            const Icon = items.icon;
+            return (
+              <Col md={12} xs={24} key={items?.path}>
+                <Card bordered={false} className="approved-modal-card-shell">
+                  <Link
+                    to={items?.path}
+                    className="approved-action-card master-detail-card">
+                    <span className="approved-action-icon master-detail-card-icon">
+                      <Icon size={19} strokeWidth={1.8} />
+                    </span>
+                    <span className="approved-action-content master-detail-card-content">
+                      <strong>{items?.name}</strong>
+                      <small>{items?.desc}</small>
+                    </span>
+                    <ChevronRight
+                      className="approved-action-arrow master-detail-chevron"
+                      size={16}
+                      strokeWidth={2}
+                    />
+                  </Link>
+                </Card>
+              </Col>
+            );
+          })}
         </Row>
       </Modal>
     </>
   );
+};
+
+SettingModals.propTypes = {
+  setOpenModals: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
 };
 
 export default SettingModals;

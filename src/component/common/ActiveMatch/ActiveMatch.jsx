@@ -3,6 +3,7 @@ import { useActiveMatchQuery } from "../../../store/service/ActiveMatcheService"
 import "./ActiveMatch.scss";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { Trophy } from "lucide-react";
 
 const ActiveMatch = () => {
   const nav = useNavigate();
@@ -16,14 +17,21 @@ const ActiveMatch = () => {
   });
 
   return (
-    <div className="active_slip login_report" style={{ marginBottom: "12px" }}>
+    <div
+      className="active_slip login_report modern-active-match"
+      style={{ marginBottom: "12px" }}>
       <Card
         style={{
           margin: "0px",
           width: "100%",
         }}
         className="sport_detail active_match_name"
-        title="Active Matches">
+        title={
+          <span className="active-match-heading">
+            <Trophy size={20} strokeWidth={1.8} />
+            Active Matches
+          </span>
+        }>
         {isLoading || isFetching ? (
           <Spin className="loading_active" tip="Loading..." size="large">
             <div className="content" />
@@ -55,11 +63,7 @@ const ActiveMatch = () => {
                     </td>
                     <td>
                       <p
-                        style={{
-                          cursor: "pointer",
-                          color: "#038fde",
-                          fontWeight: 600,
-                        }}
+                        className="active-match-details"
                         onClick={() => handleDetails(res?.matchId)}>
                         Details
                       </p>

@@ -48,7 +48,7 @@ body {
 
 :root {
   --login-bg: #7d5c0e;
-  --bg-color: #7d5c0e;
+  --bg-color: linear-gradient(90deg, #5b50f5 0%, #6545f2 50%, #5745e8 100%);
   --btn-bg-color: #7d5c0e;
   --header-bg: #7d5c0e;
   --login-wrap: #8b8f87;
@@ -74,8 +74,6 @@ body {
 
 .ant-layout-sider-children {
   ul.ant-menu.ant-menu-root {
-    // margin-top: 80px !important;
-    margin-left: 11px;
     color: #fff;
     .ant-menu-submenu-title:hover {
       color: #fa8c15;
@@ -170,7 +168,6 @@ body {
     top: 3px;
     right: 31px;
     .ant-space-align-center {
-      color: #fff;
       font-size: 16px;
       font-weight: 600;
     }
@@ -473,7 +470,6 @@ p.ant-dropdown-trigger.user_deatils.droup_nav {
       }
       .ant-drawer-body {
         ul {
-          margin-top: -30px;
           margin-left: -12px;
           color: #fff;
           .ant-menu-item,
@@ -504,9 +500,8 @@ p.ant-dropdown-trigger.user_deatils.droup_nav {
   }
   .ant-drawer {
     .ant-drawer-body {
-      margin: 24px -18px !important;
+      margin: 2px -9px !important;
       ul {
-        margin-top: -30px;
         margin-left: 0px !important;
         color: #fff;
       }
@@ -575,7 +570,6 @@ p.ant-dropdown-trigger.user_deatils.droup_nav {
 .modal_deposit {
   .ant-modal-content {
     border-radius: 2px !important;
-    padding: 0px 30px !important;
   }
 }
 

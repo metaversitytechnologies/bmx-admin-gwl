@@ -4,22 +4,47 @@ import { Button, Drawer, Menu } from "antd";
 
 import Sider from "antd/es/layout/Sider";
 import { Link, useNavigate } from "react-router-dom";
-import { HoverIcon } from "./HeroIcon";
 import { imgUrl } from "../../../store/constant";
+import {
+  Banknote,
+  CalendarDays,
+  ClipboardList,
+  Dices,
+  FileChartColumn,
+  Landmark,
+  LayoutDashboard,
+  LogOut,
+  MessageSquareText,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Settings,
+  Trophy,
+  UserRoundX,
+  UsersRound,
+  WalletCards,
+} from "lucide-react";
+import { useAdminLogout } from "../useAdminLogout";
 
 const rootSubmenuKeys = ["1", "2", "3", "4", "5", "6", "7"];
+
+const SidebarIcon = ({ icon: Icon }) => (
+  <span className="sidebar-item__icon">
+    <Icon className="sidebar-lucide-icon" size={19} strokeWidth={1.8} />
+  </span>
+);
 
 const Sidebar = (props) => {
   const { collll } = props;
   const [collapsed, setCollapsed] = useState(false);
   const [openKeys, setOpenKeys] = useState(["1"]);
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [, setHoveredItem] = useState(null);
 
   useEffect(() => {
     collll(collapsed);
   }, [collapsed, collll]);
 
   const nav = useNavigate();
+  const handleLogout = useAdminLogout();
 
   const userType = localStorage.getItem("userType");
   const ps = localStorage.getItem("ps");
@@ -37,34 +62,62 @@ const Sidebar = (props) => {
   const hasRole = (roles) => roles.includes(userType);
 
   const hostName = window.location.hostname;
+  const hostBrand = window?.location.hostname?.split(".")?.[1]?.toUpperCase();
+  const adminMenuTitle =
+    uType == 6
+      ? "Admin Details"
+      : uType == 5
+        ? "Mini Admin Master"
+        : uType == 4
+          ? "Master Master"
+          : uType == 3
+            ? "Super Agent Master"
+            : userType == 7
+              ? "SuperAdmin"
+              : userType == 2
+                ? "Agent Master"
+                : "";
+  const deadAdminMenuTitle =
+    uType == 6
+      ? "Dead Admin Details"
+      : uType == 5
+        ? "Dead Mini Admin Master"
+        : uType == 4
+          ? "Dead Master Master"
+          : uType == 3
+            ? "Dead Super Agent Master"
+            : userType == 7
+              ? "Dead SuperAdmin"
+              : userType == 2
+                ? "Dead Agent Master"
+                : "";
+  const settingMenuTitle = `${hostBrand} Setting`;
 
   return (
     <>
       <Sider
         trigger={null}
-        width="280"
+        width="250"
+        collapsedWidth="76"
         collapsible
         collapsed={collapsed}
-        className={`side_bar coll desk_side`}
-        style={{
-          background: "var(--bg-color)",
-        }}>
+        className={`side_bar coll desk_side ${collapsed ? "is-collapsed" : ""}`}>
         <div className={collapsed ? "logo_icon" : "logo_icon coll_btn"}>
           <Button
             type="text"
             className="clolapsedd"
             icon={
               collapsed ? (
-                <i className="gx-icon-btn icon icon-menu-fold gx-text-white" />
+                <PanelLeftOpen size={21} strokeWidth={1.8} />
               ) : (
-                <i className="gx-icon-btn icon icon-menu-unfold gx-text-white" />
+                <PanelLeftClose size={21} strokeWidth={1.8} />
               )
             }
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",
-              width: 81,
-              height: 71,
+              width: 56,
+              height: 72,
               border: "unset",
               textDecoration: "none",
               outline: "unset",
@@ -85,31 +138,20 @@ const Sidebar = (props) => {
             />
           </div>
         </div>
-        <Menu
-          style={{
-            height: "calc(100vh - 70px)",
-            minHeight: "calc(100vh - 70px)",
-            maxHeight: "calc(100vh - 70px)",
-            overflowY: "auto",
-          }}
-          theme=""
-          mode="inline"
-          openKeys={openKeys}
-          onOpenChange={onOpenChange}
-          defaultSelectedKeys={openKeys}
-          items={[
+        <div className="sidebar-navigation">
+          <Menu
+            theme=""
+            mode="inline"
+            inlineCollapsed={collapsed}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            defaultSelectedKeys={openKeys}
+            items={[
             {
               key: "1",
+              title: "Dashboard",
               icon: (
-                <HoverIcon
-                  id="1"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/dashbord.png"
-                  hoverSrc="/Images/dash-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={LayoutDashboard} />
               ),
               label: (
                 <Link
@@ -124,16 +166,9 @@ const Sidebar = (props) => {
             },
             {
               key: "2",
+              title: adminMenuTitle,
               icon: (
-                <HoverIcon
-                  id="2"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/adminbar.png"
-                  hoverSrc="/Images/admin-bar-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={UsersRound} />
               ),
               label: (
                 <div
@@ -196,16 +231,9 @@ const Sidebar = (props) => {
             },
             {
               key: "3",
+              title: "Sports-Betting",
               icon: (
-                <HoverIcon
-                  id="3"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={24}
-                  hoverWidth={23}
-                />
+                <SidebarIcon icon={Trophy} />
               ),
               label: (
                 <span
@@ -232,16 +260,9 @@ const Sidebar = (props) => {
             },
             {
               key: "13",
+              title: "Casino",
               icon: (
-                <HoverIcon
-                  id="4"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={24}
-                  hoverWidth={23}
-                />
+                <SidebarIcon icon={Dices} />
               ),
               label: (
                 <div
@@ -267,16 +288,9 @@ const Sidebar = (props) => {
             },
             {
               key: "14",
+              title: "Matka",
               icon: (
-                <HoverIcon
-                  id="14"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={24}
-                  hoverWidth={23}
-                />
+                <SidebarIcon icon={Dices} />
               ),
               label: (
                 <div
@@ -303,16 +317,9 @@ const Sidebar = (props) => {
             },
             {
               key: "4",
+              title: "Ledger",
               icon: (
-                <HoverIcon
-                  id="5"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/ledger.png"
-                  hoverSrc="/Images/ledger-hover.png"
-                  width={24}
-                  hoverWidth={24}
-                />
+                <SidebarIcon icon={WalletCards} />
               ),
               label: (
                 <div
@@ -379,16 +386,9 @@ const Sidebar = (props) => {
             },
             userType === "7" && {
               key: "15",
+              title: "Post Ledger",
               icon: (
-                <HoverIcon
-                  id="16"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/ledger.png"
-                  hoverSrc="/Images/ledger-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={Landmark} />
               ),
               label: (
                 <div
@@ -411,16 +411,9 @@ const Sidebar = (props) => {
 
             (userType === "7" || ps == "dtl") && {
               key: "25",
+              title: "Event Controller",
               icon: (
-                <HoverIcon
-                  id="26"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={CalendarDays} />
               ),
               label: (
                 <div
@@ -453,16 +446,9 @@ const Sidebar = (props) => {
 
             {
               key: "5",
+              title: "Cash Transaction",
               icon: (
-                <HoverIcon
-                  id="6"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/cash.png"
-                  hoverSrc="/Images/cash-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={Banknote} />
               ),
               label: (
                 <div
@@ -538,16 +524,9 @@ const Sidebar = (props) => {
             {
               className: `${userType === "7" ? "" : "d-none"}`,
               key: "28",
+              title: "Set Message",
               icon: (
-                <HoverIcon
-                  id="28"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/casino.png"
-                  hoverSrc="/Images/casino-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={MessageSquareText} />
               ),
               label: (
                 <Link
@@ -560,16 +539,9 @@ const Sidebar = (props) => {
             },
             {
               key: "8-commission",
+              title: "Comm. Report",
               icon: (
-                <HoverIcon
-                  id="7"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/dashbord.png"
-                  hoverSrc="/Images/dash-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={ClipboardList} />
               ),
               label: (
                 <Link
@@ -582,16 +554,9 @@ const Sidebar = (props) => {
             },
             {
               key: "6",
+              title: "Reports",
               icon: (
-                <HoverIcon
-                  id="8"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/report.png"
-                  hoverSrc="/Images/report-hover.png"
-                  width={22}
-                  hoverWidth={25}
-                />
+                <SidebarIcon icon={FileChartColumn} />
               ),
               label: (
                 <div
@@ -615,16 +580,9 @@ const Sidebar = (props) => {
             },
             {
               key: "9-setting",
+              title: settingMenuTitle,
               icon: (
-                <HoverIcon
-                  id="9"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/dashbord.png"
-                  hoverSrc="/Images/dash-hover.png"
-                  width={23}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={Settings} />
               ),
               label: (
                 <Link
@@ -638,16 +596,9 @@ const Sidebar = (props) => {
             },
             {
               key: "200",
+              title: deadAdminMenuTitle,
               icon: (
-                <HoverIcon
-                  id="200"
-                  hoveredItem={hoveredItem}
-                  setHoveredItem={setHoveredItem}
-                  defaultSrc="/Images/adminbar.png"
-                  hoverSrc="/Images/admin-bar-hover.png"
-                  width={22}
-                  hoverWidth={22}
-                />
+                <SidebarIcon icon={UserRoundX} />
               ),
               label: (
                 <div
@@ -720,8 +671,21 @@ const Sidebar = (props) => {
                 },
               ],
             },
-          ]}
-        />
+            ]}
+          />
+        </div>
+        <div className="sidebar-footer">
+          <button
+            type="button"
+            className="sidebar-logout"
+            title="Logout"
+            onClick={handleLogout}>
+            <span className="sidebar-item__icon">
+              <LogOut className="sidebar-lucide-icon" size={19} strokeWidth={1.9} />
+            </span>
+            <span className="sidebar-item__label">Logout</span>
+          </button>
+        </div>
       </Sider>
 
       <div className="mob_side">
@@ -736,15 +700,17 @@ const Sidebar = (props) => {
               }
             />
           }
-          className="drawer_main"
+          className="drawer_main mobile-sidebar"
+          rootClassName="mobile-sidebar-drawer"
           placement="left"
           closable={false}
           onClose={props.action}
           open={props.open}
-          width="275"
+          width="min(82vw, 300px)"
           // key={placement}
         >
-          <Menu
+          <div className="sidebar-navigation">
+            <Menu
             theme=""
             mode="inline"
             openKeys={openKeys}
@@ -754,15 +720,7 @@ const Sidebar = (props) => {
               {
                 key: "1",
                 icon: (
-                  <HoverIcon
-                    id="1"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/dashbord.png"
-                    hoverSrc="/Images/dash-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={LayoutDashboard} />
                 ),
                 label: (
                   <Link
@@ -780,15 +738,7 @@ const Sidebar = (props) => {
               {
                 key: "2",
                 icon: (
-                  <HoverIcon
-                    id="2"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/adminbar.png"
-                    hoverSrc="/Images/admin-bar-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={UsersRound} />
                 ),
                 label: (
                   <div
@@ -882,15 +832,7 @@ const Sidebar = (props) => {
               {
                 key: "3",
                 icon: (
-                  <HoverIcon
-                    id="3"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={24}
-                    hoverWidth={23}
-                  />
+                  <SidebarIcon icon={Trophy} />
                 ),
                 label: (
                   <span
@@ -934,15 +876,7 @@ const Sidebar = (props) => {
               {
                 key: "13",
                 icon: (
-                  <HoverIcon
-                    id="4"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={24}
-                    hoverWidth={23}
-                  />
+                  <SidebarIcon icon={Dices} />
                 ),
                 label: (
                   <div
@@ -985,15 +919,7 @@ const Sidebar = (props) => {
               {
                 key: "14",
                 icon: (
-                  <HoverIcon
-                    id="14"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={24}
-                    hoverWidth={23}
-                  />
+                  <SidebarIcon icon={Dices} />
                 ),
                 label: (
                   <div
@@ -1037,15 +963,7 @@ const Sidebar = (props) => {
               {
                 key: "4",
                 icon: (
-                  <HoverIcon
-                    id="5"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/ledger.png"
-                    hoverSrc="/Images/ledger-hover.png"
-                    width={24}
-                    hoverWidth={24}
-                  />
+                  <SidebarIcon icon={WalletCards} />
                 ),
                 label: (
                   <div
@@ -1147,15 +1065,7 @@ const Sidebar = (props) => {
               userType === "7" && {
                 key: "15",
                 icon: (
-                  <HoverIcon
-                    id="16"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/ledger.png"
-                    hoverSrc="/Images/ledger-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={Landmark} />
                 ),
                 label: (
                   <div
@@ -1187,15 +1097,7 @@ const Sidebar = (props) => {
               (userType === "7" || ps == "dtl") && {
                 key: "25",
                 icon: (
-                  <HoverIcon
-                    id="26"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={CalendarDays} />
                 ),
                 label: (
                   <div
@@ -1238,15 +1140,7 @@ const Sidebar = (props) => {
               {
                 key: "5",
                 icon: (
-                  <HoverIcon
-                    id="6"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/cash.png"
-                    hoverSrc="/Images/cash-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={Banknote} />
                 ),
                 label: (
                   <div
@@ -1338,15 +1232,7 @@ const Sidebar = (props) => {
                 className: `${userType === "7" ? "" : "d-none"}`,
                 key: "28",
                 icon: (
-                  <HoverIcon
-                    id="28"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/casino.png"
-                    hoverSrc="/Images/casino-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={MessageSquareText} />
                 ),
                 label: (
                   <Link
@@ -1361,15 +1247,7 @@ const Sidebar = (props) => {
               {
                 key: "18",
                 icon: (
-                  <HoverIcon
-                    id="7"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/dashbord.png"
-                    hoverSrc="/Images/dash-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={ClipboardList} />
                 ),
                 label: (
                   <Link
@@ -1385,15 +1263,7 @@ const Sidebar = (props) => {
                 key: "6",
                 className: "data_report_list",
                 icon: (
-                  <HoverIcon
-                    id="8"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/report.png"
-                    hoverSrc="/Images/report-hover.png"
-                    width={22}
-                    hoverWidth={24}
-                  />
+                  <SidebarIcon icon={FileChartColumn} />
                 ),
                 label: (
                   <div
@@ -1428,15 +1298,7 @@ const Sidebar = (props) => {
               {
                 key: "7",
                 icon: (
-                  <HoverIcon
-                    id="9"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/dashbord.png"
-                    hoverSrc="/Images/dash-hover.png"
-                    width={23}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={Settings} />
                 ),
                 label: (
                   <Link
@@ -1456,15 +1318,7 @@ const Sidebar = (props) => {
               {
                 key: "200",
                 icon: (
-                  <HoverIcon
-                    id="200"
-                    hoveredItem={hoveredItem}
-                    setHoveredItem={setHoveredItem}
-                    defaultSrc="/Images/adminbar.png"
-                    hoverSrc="/Images/admin-bar-hover.png"
-                    width={22}
-                    hoverWidth={22}
-                  />
+                  <SidebarIcon icon={UserRoundX} />
                 ),
                 label: (
                   <div
@@ -1555,8 +1409,27 @@ const Sidebar = (props) => {
                   },
                 ],
               },
-            ]}
-          />
+              ]}
+            />
+          </div>
+          <div className="sidebar-footer">
+            <button
+              type="button"
+              className="sidebar-logout"
+              onClick={() => {
+                props?.action();
+                handleLogout();
+              }}>
+              <span className="sidebar-item__icon">
+                <LogOut
+                  className="sidebar-lucide-icon"
+                  size={19}
+                  strokeWidth={1.9}
+                />
+              </span>
+              <span className="sidebar-item__label">Logout</span>
+            </button>
+          </div>
         </Drawer>
       </div>
     </>

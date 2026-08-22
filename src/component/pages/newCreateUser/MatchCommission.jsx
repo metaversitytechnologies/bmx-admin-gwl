@@ -1,15 +1,24 @@
 import { Col, Form, Input, InputNumber, Row, Select } from "antd";
+import { BadgePercent } from "lucide-react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
 const MatchCommission = ({ commissionType, commiType, data, createName }) => {
   const { id } = useParams();
+  const { Option } = Select;
 
   return (
-    <>
-      <div>
-        <h2 className="match_share">{createName} Match Share and Commission</h2>
+    <section className="create-admin-card create-admin-commission-card">
+      <div className="create-admin-section-heading">
+        <span className="create-admin-section-icon">
+          <BadgePercent size={16} strokeWidth={1.9} />
+        </span>
+        <div>
+          <h2>{createName} Match Share and Commission</h2>
+          <p>Configure match sharing and commission rules</p>
+        </div>
       </div>
-      <Row className="super_agent sub_super">
+      <Row className="super_agent sub_super create-admin-grid">
         {id === "2" ? (
           <></>
         ) : (
@@ -221,8 +230,20 @@ const MatchCommission = ({ commissionType, commiType, data, createName }) => {
         )}
       </Row>
       </div> */}
-    </>
+    </section>
   );
+};
+
+MatchCommission.propTypes = {
+  commissionType: PropTypes.func.isRequired,
+  commiType: PropTypes.string,
+  data: PropTypes.shape({
+    myPartnership: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    data: PropTypes.shape({
+      myShare: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    }),
+  }),
+  createName: PropTypes.string,
 };
 
 export default MatchCommission;

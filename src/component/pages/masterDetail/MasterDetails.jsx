@@ -1,11 +1,12 @@
-import { BiUserCircle } from "react-icons/bi";
 import { Card, Col, Modal, Row } from "antd";
+import { ChevronRight, UserRound, UsersRound, X } from "lucide-react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const MasterDetails = ({ setOpenModals, openModal }) => {
   const data = [
     {
-      image: <BiUserCircle />,
+      icon: UsersRound,
       name: "Super Admin",
       path: "/user-list/Admin/6",
       size: "20",
@@ -13,7 +14,7 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
       userType: 7,
     },
     {
-      image: <BiUserCircle />,
+      icon: UserRound,
       name: "Admin",
       path: "/user-list/Admin/6",
       size: "20",
@@ -21,7 +22,7 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
       userType: 6,
     },
     {
-      image: <BiUserCircle />,
+      icon: UserRound,
       name: "madmin",
       path: "/user-list/madmin/5",
       size: "20",
@@ -29,7 +30,7 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
       userType: 5,
     },
     {
-      image: <BiUserCircle />,
+      icon: UserRound,
       name: "Master",
       path: "/user-list/Master/4",
       size: "20",
@@ -37,21 +38,21 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
       userType: 4,
     },
     {
-      image: <BiUserCircle />,
+      icon: UserRound,
       name: "Super",
       path: `/user-list/Super/3`,
       size: "20",
       userType: 3,
     },
     {
-      image: <BiUserCircle />,
+      icon: UserRound,
       name: "Agent",
       path: `/user-list/Agent/2`,
       size: "20",
       userType: 2,
     },
     {
-      image: <BiUserCircle />,
+      icon: UserRound,
       name: "Client",
       path: "/user-list/Client/1",
       size: "20",
@@ -75,43 +76,42 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
         footer={
           <button
             onClick={() => setOpenModals(!openModal)}
-            className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
+            className="ant-btn approved-modal-secondary master-details-footer-close">
             Close
           </button>
         }
-        className="antd_dsh_madals"
+        title={
+          <div className="approved-modal-header master-details-header">
+            <span className="approved-modal-header-icon master-details-header-icon">
+              <UsersRound size={18} strokeWidth={1.8} />
+            </span>
+            <span>
+              <h2>Master Details</h2>
+              <p>Select a user hierarchy to inspect</p>
+            </span>
+          </div>
+        }
+        closeIcon={<X size={17} strokeWidth={1.8} />}
+        className="antd_dsh_madals approved-dash-modal master-details-modal"
         closable={{ "aria-label": "Custom Close Button" }}
         open={openModal}>
-        <Row className="modal_opne_dash">
+        <Row className="modal_opne_dash approved-modal-grid master-details-body">
           {data
             ?.filter((res) => userTypeMatch[uType]?.includes(res?.userType))
             ?.map((items) => {
+              const Icon = items.icon;
               return (
-                <Col md={12} xs={24} key={items?.id}>
-                  <Card bordered={false}>
-                    <Link to={items?.path}>
-                      <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
-                        <div className="ant-card-body">
-                          <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
-                            <div
-                              className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
-                              style={{ borderRadius: 20 }}>
-                              <div className="gx-mr-1 gx-mr-xl-3">
-                                {/* <i className="icon icon-family gx-fs-2xl" /> */}
-                                {items?.image}
-                              </div>
-                              <div className="gx-media-body">
-                                <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                                  {items?.name}
-                                </h1>
-                                <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
-                                <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                                <p className="gx-mb-0">Master</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                <Col md={12} xs={24} key={items?.path}>
+                  <Card bordered={false} className="approved-modal-card-shell">
+                    <Link to={items?.path} className="approved-action-card master-detail-card">
+                      <span className="approved-action-icon master-detail-card-icon">
+                        <Icon size={19} strokeWidth={1.8} />
+                      </span>
+                      <span className="approved-action-content master-detail-card-content">
+                        <strong>{items?.name}</strong>
+                        <small>View user list</small>
+                      </span>
+                      <ChevronRight className="approved-action-arrow master-detail-chevron" size={16} strokeWidth={2} />
                     </Link>
                   </Card>
                 </Col>
@@ -121,6 +121,11 @@ const MasterDetails = ({ setOpenModals, openModal }) => {
       </Modal>
     </>
   );
+};
+
+MasterDetails.propTypes = {
+  setOpenModals: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
 };
 
 export default MasterDetails;

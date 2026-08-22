@@ -16,6 +16,7 @@ import {
   useGetUserDetailsQuery,
   useUserIdForSearchQuery,
 } from "../../../store/service/supermasteAccountStatementServices";
+import { ArrowLeft, Send, UserPlus, UsersRound } from "lucide-react";
 import MatchCommission from "./MatchCommission";
 import CasinoCommission from "./CasinoCommission";
 import SelectUpline from "./SelectUpline";
@@ -33,9 +34,9 @@ const createName = {
 };
 
 const NewCreateUser = () => {
-  const [userData, setUserData] = useState({});
+  const [userData] = useState({});
   const [commiType, setCommiType] = useState("nocomm");
-  const [api, contextHolder] = notification.useNotification();
+  const [, contextHolder] = notification.useNotification();
   const [parentId, setParentId] = useState(null);
   const [form] = Form.useForm();
 
@@ -44,7 +45,7 @@ const NewCreateUser = () => {
   };
 
   const { id } = useParams();
-  const handleChange = (value) => {};
+  const handleChange = () => {};
   const handleSelect = (value) => {
     setParentId(value);
   };
@@ -102,6 +103,8 @@ const NewCreateUser = () => {
     createUser(userData);
   };
 
+  const nav = useNavigate();
+
   useEffect(() => {
     if (UserList?.status) {
       openNotification(UserList?.message);
@@ -110,9 +113,7 @@ const NewCreateUser = () => {
     } else if (UserList?.status === false || error?.data?.message) {
       openNotificationError(UserList?.message || error?.data?.message);
     }
-  }, [UserList, error]);
-
-  const nav = useNavigate();
+  }, [UserList, error, form, nav]);
 
   console.log("appDeatis", appDeatis?.data);
 
@@ -127,20 +128,29 @@ const NewCreateUser = () => {
         />
       )}
       {(parentId?.length > 0 || Number(userType) == Number(id)) && (
-        <div className="main_live_section">
-          <div className="_match">
-            <div className="sub_live_section live_report">
-              <div
-                style={{ padding: "5px 8px", fontSize: "22px" }}
-                className="team_name">
-                Create {createName?.[id] ?? "User"}
-              </div>
-              <div className="show_btn">
-                <button onClick={() => nav(-1)}>Back</button>
+        <div className="main_live_section create-admin-panel">
+          <div className="admin-details-header create-admin-header">
+            <div className="admin-details-title-wrap">
+              <span className="admin-details-icon create-admin-header-icon">
+                <UserPlus size={20} strokeWidth={1.9} />
+              </span>
+              <div>
+                <div className="admin-details-title create-admin-title">
+                  Create {createName?.[id] ?? "User"}
+                </div>
+                <p className="admin-details-subtitle create-admin-subtitle">
+                  Create a new admin account and configure access
+                </p>
               </div>
             </div>
+            <div className="show_btn">
+              <button className="admin-details-back" onClick={() => nav(-1)}>
+                <ArrowLeft size={15} strokeWidth={1.8} />
+                Back
+              </button>
+            </div>
           </div>
-          <div className="ant-spin-nested-loading">
+          <div className="ant-spin-nested-loading create-admin-body">
             {isLoading ? (
               <div className="spin_icon">
                 <Spin size="large" />
@@ -208,225 +218,236 @@ const NewCreateUser = () => {
                 },
               ]}>
               <div>
-                <Row className="super_agent">
-                  <Col xl={12} lg={12} md={24} xs={24}>
-                    <Form.Item
-                      label="Name"
-                      name="Name"
-                      required
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your name!",
-                        },
-                      ]}>
-                      <Input
-                        type="text"
-                        placeholder="Enter full name"
-                        onKeyDown={(e) => {
-                          if (
-                            !e.key.match(/^[a-zA-Z ]$/) &&
-                            e.key.length === 1
-                          ) {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col xl={12} lg={12} md={24} xs={24}>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your reference!",
-                        },
-                      ]}
-                      label="Reference"
-                      name="reference">
-                      <Input type="text" placeholder="Enter Reference" />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your reference!",
-                        },
-                      ]}
-                      label="My Coins"
-                      name="My Coins">
-                      <Input type="number" disabled />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Coins"
-                      name="Coins"
-                      required
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your coins!",
-                        },
-                        {
-                          validator: async (_, values) => {
-                            if (
-                              userDetails?.data?.balance < values &&
-                              values != "" &&
-                              values != null
-                            ) {
-                              return Promise.reject(
-                                new Error(
-                                  `Coins must be less than ${userDetails?.data?.balance}`
-                                )
-                              );
-                            }
-                          },
-                        },
-                      ]}>
-                      <InputNumber
-                        className="number_field"
-                        min={0}
-                        type="number"
-                        placeholder="Enter Coins"
-                        onKeyDown={(e) => {
-                          if (e.key == ".") {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Contact No."
-                      name="mobile"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your Contact Number",
-                        },
-                        {
-                          validator: async (_, names) => {
-                            if (
-                              !mobileNum.test(names) &&
-                              names != "" &&
-                              names != null
-                            ) {
-                              return Promise.reject(
-                                new Error("Please Enter Valid Mobile Number")
-                              );
-                            }
-                          },
-                        },
-                      ]}>
-                      <InputNumber
-                        className="number_field"
-                        min={0}
-                        type="number"
-                        onKeyDown={(e) => {
-                          if (!e.key.match(/^[0-9]$/) && e.key.length === 1) {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    </Form.Item>
-                  </Col>
-
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Password"
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input your Password",
-                        },
-                      ]}>
-                      <Input type="password" placeholder="Password" />
-                    </Form.Item>
-                  </Col>
-                  {id !== "2" && (
-                    <Col lg={12} xs={24}>
+                <section className="create-admin-card create-admin-account-card">
+                  <div className="create-admin-section-heading">
+                    <span className="create-admin-section-icon">
+                      <UsersRound size={16} strokeWidth={1.9} />
+                    </span>
+                    <div>
+                      <h2>Account Details</h2>
+                      <p>Enter admin profile, access and account settings</p>
+                    </div>
+                  </div>
+                  <Row className="super_agent create-admin-grid">
+                    <Col xl={12} lg={12} md={24} xs={24}>
                       <Form.Item
-                        label="Share Type"
-                        name="shareType"
-                        placeholder="Select share type"
+                        label="Name"
+                        name="Name"
+                        required
                         rules={[
                           {
                             required: true,
-                            message: "Please select your share type!",
+                            message: "Please input your name!",
                           },
                         ]}>
-                        <Select
-                          defaultValue={"Fixed"}
-                          options={[
-                            {
-                              value: "Fixed",
-                              label: "Fixed",
-                            },
-                            {
-                              value: "Change",
-                              label: "Change",
-                            },
-                          ]}
+                        <Input
+                          type="text"
+                          placeholder="Enter full name"
+                          onKeyDown={(e) => {
+                            if (
+                              !e.key.match(/^[a-zA-Z ]$/) &&
+                              e.key.length === 1
+                            ) {
+                              e.preventDefault();
+                            }
+                          }}
                         />
                       </Form.Item>
                     </Col>
-                  )}
-                  {Number(id) === 7 && (
-                    <>
+                    <Col xl={12} lg={12} md={24} xs={24}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your reference!",
+                          },
+                        ]}
+                        label="Reference"
+                        name="reference">
+                        <Input type="text" placeholder="Enter Reference" />
+                      </Form.Item>
+                    </Col>
+                    <Col lg={12} xs={24}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your reference!",
+                          },
+                        ]}
+                        label="My Coins"
+                        name="My Coins">
+                        <Input type="number" disabled />
+                      </Form.Item>
+                    </Col>
+                    <Col lg={12} xs={24}>
+                      <Form.Item
+                        label="Coins"
+                        name="Coins"
+                        required
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your coins!",
+                          },
+                          {
+                            validator: async (_, values) => {
+                              if (
+                                userDetails?.data?.balance < values &&
+                                values != "" &&
+                                values != null
+                              ) {
+                                return Promise.reject(
+                                  new Error(
+                                    `Coins must be less than ${userDetails?.data?.balance}`,
+                                  ),
+                                );
+                              }
+                            },
+                          },
+                        ]}>
+                        <InputNumber
+                          className="number_field"
+                          min={0}
+                          type="number"
+                          placeholder="Enter Coins"
+                          onKeyDown={(e) => {
+                            if (e.key == ".") {
+                              e.preventDefault();
+                            }
+                          }}
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col lg={12} xs={24}>
+                      <Form.Item
+                        label="Contact No."
+                        name="mobile"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your Contact Number",
+                          },
+                          {
+                            validator: async (_, names) => {
+                              if (
+                                !mobileNum.test(names) &&
+                                names != "" &&
+                                names != null
+                              ) {
+                                return Promise.reject(
+                                  new Error("Please Enter Valid Mobile Number"),
+                                );
+                              }
+                            },
+                          },
+                        ]}>
+                        <InputNumber
+                          className="number_field"
+                          min={0}
+                          type="number"
+                          onKeyDown={(e) => {
+                            if (!e.key.match(/^[0-9]$/) && e.key.length === 1) {
+                              e.preventDefault();
+                            }
+                          }}
+                        />
+                      </Form.Item>
+                    </Col>
+
+                    <Col lg={12} xs={24}>
+                      <Form.Item
+                        label="Password"
+                        name="password"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your Password",
+                          },
+                        ]}>
+                        <Input type="password" placeholder="Password" />
+                      </Form.Item>
+                    </Col>
+                    {id !== "2" && (
                       <Col lg={12} xs={24}>
                         <Form.Item
-                          label="App Url"
-                          name="appId"
-                          placeholder="Select App Details"
+                          label="Share Type"
+                          name="shareType"
+                          placeholder="Select share type"
                           rules={[
                             {
                               required: true,
-                              message: "Please select your app details!",
+                              message: "Please select your share type!",
                             },
                           ]}>
                           <Select
-                            options={appDeatis?.data?.map((item) => ({
-                              value: item.id,
-                              label: item.appName,
-                            }))}
+                            defaultValue={"Fixed"}
+                            options={[
+                              {
+                                value: "Fixed",
+                                label: "Fixed",
+                              },
+                              {
+                                value: "Change",
+                                label: "Change",
+                              },
+                            ]}
                           />
                         </Form.Item>
                       </Col>
-                      {userDetails?.data?.loginOtpDisabled && (
+                    )}
+                    {Number(id) === 7 && (
+                      <>
                         <Col lg={12} xs={24}>
                           <Form.Item
-                            label="Login Otp Disabled"
-                            name="loginOtpDisabled"
+                            label="App Url"
+                            name="appId"
+                            placeholder="Select App Details"
                             rules={[
                               {
                                 required: true,
-                                message: "Please select login OTP status!",
+                                message: "Please select your app details!",
                               },
                             ]}>
                             <Select
-                              defaultValue={false}
-                              options={[
-                                {
-                                  value: true,
-                                  label: "Yes",
-                                },
-                                {
-                                  value: false,
-                                  label: "No",
-                                },
-                              ]}
+                              options={appDeatis?.data?.map((item) => ({
+                                value: item.id,
+                                label: item.appName,
+                              }))}
                             />
                           </Form.Item>
                         </Col>
-                      )}
-                    </>
-                  )}
-                </Row>
+                        {userDetails?.data?.loginOtpDisabled && (
+                          <Col lg={12} xs={24}>
+                            <Form.Item
+                              label="Login Otp Disabled"
+                              name="loginOtpDisabled"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "Please select login OTP status!",
+                                },
+                              ]}>
+                              <Select
+                                defaultValue={false}
+                                options={[
+                                  {
+                                    value: true,
+                                    label: "Yes",
+                                  },
+                                  {
+                                    value: false,
+                                    label: "No",
+                                  },
+                                ]}
+                              />
+                            </Form.Item>
+                          </Col>
+                        )}
+                      </>
+                    )}
+                  </Row>
+                </section>
                 <MatchCommission
                   createName={createName[id]}
                   commissionType={commissionType}
@@ -439,16 +460,15 @@ const NewCreateUser = () => {
                   commiType={commiType}
                 />
 
-                <Row className="super_agent sub_super">
-                  <Col lg={12} xs={24}></Col>
-                  <Col lg={12} xs={24}>
-                    <Form.Item wrapperCol={{ offset: 19, span: 24 }}>
-                      <Button type="primary" htmlType="submit">
-                        Submit
-                      </Button>
-                    </Form.Item>
-                  </Col>
-                </Row>
+                <div className="create-admin-submit-row">
+                  <Button
+                    className="create-admin-submit"
+                    type="primary"
+                    htmlType="submit">
+                    <Send size={15} strokeWidth={1.9} />
+                    Submit
+                  </Button>
+                </div>
               </div>
             </Form>
           </div>

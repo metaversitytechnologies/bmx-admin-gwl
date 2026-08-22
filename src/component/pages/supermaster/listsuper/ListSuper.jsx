@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AiOutlinePlus } from "react-icons/ai";
+import { ArrowLeft, Plus, SlidersHorizontal, UsersRound } from "lucide-react";
+import PropTypes from "prop-types";
 import UserListTable from "../../../common/UserListTable";
 
 const ListSuper = ({ forDeadClient }) => {
@@ -25,43 +26,34 @@ const ListSuper = ({ forDeadClient }) => {
 
   return (
     <>
-      <div className="main_live_section list_supers">
+      <div className="main_live_section list_supers admin-details-panel">
         <div className="_match">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "26px" }}
-              className="team_name">
-              {forDeadClient ? "Dead" : ""} {Listname?.replace("-", " ")}{" "}
-              Details
+          <div className="sub_live_section live_report admin-details-header">
+            <div className="admin-details-title-wrap">
+              <span className="admin-details-icon">
+                <UsersRound size={20} strokeWidth={1.8} />
+              </span>
+              <div>
+                <div className="team_name admin-details-title">
+                  {forDeadClient ? "Dead" : ""} {Listname?.replace("-", " ")}{" "}
+                  Details
+                </div>
+                <p className="admin-details-subtitle">
+                  Manage admin hierarchy and account access
+                </p>
+              </div>
             </div>
             <div className="show_btn">
-              <button onClick={handleBackClick}>Back</button>
+              <button className="admin-details-back" onClick={handleBackClick}>
+                <ArrowLeft size={15} strokeWidth={1.8} />
+                Back
+              </button>
             </div>
           </div>
           {!id && !forDeadClient && <div className="table_section "></div>}
         </div>
         <div>
-          {!id && !forDeadClient && (
-            <div className="create_btn">
-              <div onClick={handleCreate}>
-                <p>
-                  <Link to="#">
-                    <AiOutlinePlus />
-                    {""}
-                    Create
-                  </Link>
-                </p>
-              </div>
-              <div>
-                <p>
-                  <Link to={`/client/limitplusminus-super/${userTyep}`}>
-                    Update Limit
-                  </Link>
-                </p>
-              </div>
-            </div>
-          )}
-          <div className="table_section sport_detail m-0">
+          <div className="table_section sport_detail m-0 admin-details-table-shell">
             <UserListTable
               Listname={Listname}
               userType={userTyep}
@@ -69,12 +61,40 @@ const ListSuper = ({ forDeadClient }) => {
               parentUserids={parentUserids}
               setParentUserIds={setParentUserIds}
               forDeadClient={forDeadClient}
+              actionSlot={
+                !id && !forDeadClient ? (
+                  <div className="create_btn admin-details-actions">
+                    <div onClick={handleCreate}>
+                      <p>
+                        <Link to="#" className="admin-details-primary-action">
+                          <Plus size={14} strokeWidth={1.9} />
+                          Create
+                        </Link>
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <Link
+                          className="admin-details-secondary-action"
+                          to={`/client/limitplusminus-super/${userTyep}`}>
+                          <SlidersHorizontal size={14} strokeWidth={1.9} />
+                          Update Limit
+                        </Link>
+                      </p>
+                    </div>
+                  </div>
+                ) : null
+              }
             />
           </div>
         </div>
       </div>
     </>
   );
+};
+
+ListSuper.propTypes = {
+  forDeadClient: PropTypes.bool,
 };
 
 export default ListSuper;

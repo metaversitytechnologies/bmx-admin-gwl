@@ -1,10 +1,11 @@
-import { BiUserCircle } from "react-icons/bi";
 import { Card, Col, Modal, Row } from "antd";
+import { Banknote, ChevronRight, UserRound, X } from "lucide-react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const data = [
   {
-    image: <BiUserCircle />,
+    icon: UserRound,
     head: "Admin",
     name: "Dr/Cr Entry Admin",
     path: "/client/txn-super/Admin/6",
@@ -12,7 +13,7 @@ const data = [
     userType: 6,
   },
   {
-    image: <BiUserCircle />,
+    icon: UserRound,
     head: "madmin",
     name: "Dr/Cr Entry Super",
     path: "/client/txn-super/madmin/5",
@@ -20,7 +21,7 @@ const data = [
     userType: 5,
   },
   {
-    image: <BiUserCircle />,
+    icon: UserRound,
     head: "Master",
     name: "Dr/Cr Entry Super",
     path: "/client/txn-super/Master/4",
@@ -28,7 +29,7 @@ const data = [
     userType: 4,
   },
   {
-    image: <BiUserCircle />,
+    icon: UserRound,
     head: "Superagent",
     name: "Dr/Cr Entry Master",
     path: "/client/txn-super/Super/3",
@@ -36,7 +37,7 @@ const data = [
     userType: 3,
   },
   {
-    image: <BiUserCircle />,
+    icon: UserRound,
     head: "Agent",
     name: "Dr/Cr Entry Agent",
     path: "/client/txn-super/Agent/2",
@@ -44,7 +45,7 @@ const data = [
     userType: 2,
   },
   {
-    image: <BiUserCircle />,
+    icon: UserRound,
     head: "Client",
     name: "Dr/Cr Entry Client",
     path: "/client/txn-super/Client/1",
@@ -70,42 +71,48 @@ const CashTransanction = ({ setOpenModals, openModal }) => {
         footer={
           <button
             onClick={() => setOpenModals(!openModal)}
-            className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
+            className="ant-btn approved-modal-secondary master-details-footer-close">
             Close
           </button>
         }
-        className="antd_dsh_madals"
+        title={
+          <div className="approved-modal-header master-details-header">
+            <span className="approved-modal-header-icon master-details-header-icon">
+              <Banknote size={18} strokeWidth={1.8} />
+            </span>
+            <span>
+              <h2>Cash Transaction</h2>
+              <p>Choose a role for debit or credit entry</p>
+            </span>
+          </div>
+        }
+        closeIcon={<X size={17} strokeWidth={1.8} />}
+        className="antd_dsh_madals approved-dash-modal master-details-modal"
         closable={{ "aria-label": "Custom Close Button" }}
         open={openModal}>
-        <Row className="modal_opne_dash">
+        <Row className="modal_opne_dash approved-modal-grid master-details-body">
           {data
-            .filter((res) => userTypeMatch[uType]?.includes(res?.userType))
-            ?.map((items, id) => {
+            ?.filter((res) => userTypeMatch[uType]?.includes(res?.userType))
+            ?.map((items) => {
+              const Icon = items.icon;
               return (
-                <Col md={12} xs={24} key={id}>
-                  <Card bordered={false}>
-                    <Link to={items?.path}>
-                      <div className="ant-card ant-card-bordered gx-card-widget gx-card-full gx-bg-transparent">
-                        <div className="ant-card-body">
-                          <div className="gx-fillchart   gx-overlay-fillchart gx-bg-transparent">
-                            <div
-                              className="gx-media gx-align-items-center gx-pointer  gx-flex-nowrap gx-fillchart-content "
-                              style={{ borderRadius: 20 }}>
-                              <div className="gx-mr-1 gx-mr-xl-3">
-                                <BiUserCircle />
-                              </div>
-                              <div className="gx-media-body">
-                                <h1 className="gx-fs-lg gx-text-capitalize  gx-font-weight-semi-bold  gx-text-white">
-                                  {items?.head}
-                                </h1>
-                                <h1 className="gx-fs-lg gx-text-capitalize gx-font-weight-semi-bold gx-text-white" />
-                                <h1 className="gx-fs-lg  gx-text-capitalize gx-text-white" />
-                                <p className="gx-mb-0">{items?.name}</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                <Col md={12} xs={24} key={items?.path}>
+                  <Card bordered={false} className="approved-modal-card-shell">
+                    <Link
+                      to={items?.path}
+                      className="approved-action-card master-detail-card">
+                      <span className="approved-action-icon master-detail-card-icon">
+                        <Icon size={19} strokeWidth={1.8} />
+                      </span>
+                      <span className="approved-action-content master-detail-card-content">
+                        <strong>{items?.head}</strong>
+                        <small>{items?.name}</small>
+                      </span>
+                      <ChevronRight
+                        className="approved-action-arrow master-detail-chevron"
+                        size={16}
+                        strokeWidth={2}
+                      />
                     </Link>
                   </Card>
                 </Col>
@@ -115,6 +122,11 @@ const CashTransanction = ({ setOpenModals, openModal }) => {
       </Modal>
     </>
   );
+};
+
+CashTransanction.propTypes = {
+  setOpenModals: PropTypes.func.isRequired,
+  openModal: PropTypes.bool.isRequired,
 };
 
 export default CashTransanction;

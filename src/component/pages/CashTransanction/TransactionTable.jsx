@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Popconfirm, Space, notification } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
+import { Banknote, FileText, WalletCards } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import PropTypes from "prop-types";
 import { useGetDeletedTranstionMutation } from "../../../store/service/SportDetailServices";
 import { convertCodeReverse } from "../../../store/constant";
 import { openNotification, openNotificationError } from "../../../App";
 
 const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
-  const [api, contextHolder] = notification.useNotification();
+  const [, contextHolder] = notification.useNotification();
   const nav = useNavigate();
 
   const [trigger, { error }] = useGetDeletedTranstionMutation();
@@ -76,30 +78,39 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   return (
     <>
       {contextHolder}
-      <div className="my_ledger" style={{ padding: "12px 0px" }}>
-        <div>
-          <h3 style={{ padding: "5px", color: "red" }}>
+      <div className="my_ledger approved-transaction-summary">
+        <div className="approved-summary-card approved-summary-card-danger">
+          <span className="approved-summary-icon">
+            <WalletCards size={18} strokeWidth={1.8} />
+          </span>
+          <h3>
             Dena : {totalCreadit?.toFixed(2)}
           </h3>
         </div>
-        <div>
-          <h3 style={{ padding: "5px", color: "rgb(51, 181, 28)" }}>
+        <div className="approved-summary-card approved-summary-card-success">
+          <span className="approved-summary-icon">
+            <Banknote size={18} strokeWidth={1.8} />
+          </span>
+          <h3>
             Lena : {totalDebit?.toFixed(2)}
           </h3>
         </div>
-        <div>
-          <h3
-            style={{ padding: "5px" }}
-            className={totalBalance < 0 ? "text_danger" : "text_success"}>
+        <div className="approved-summary-card">
+          <span className="approved-summary-icon">
+            <FileText size={18} strokeWidth={1.8} />
+          </span>
+          <h3 className={totalBalance < 0 ? "text_danger" : "text_success"}>
             Balance: {(-1 * totalBalance)?.toFixed(2)}{" "}
             {totalBalance > 0 ? "(Lena)" : "(Dena)"}
           </h3>
         </div>
         <div className="deleted_sec">
-          <Button onClick={fetchDeletedTran}>Deleted</Button>
+          <Button className="approved-primary-button" onClick={fetchDeletedTran}>
+            Deleted
+          </Button>
         </div>
       </div>
-      <div className="table_section" style={{ paddingBottom: "20px" }}>
+      <div className="table_section approved-data-table" style={{ paddingBottom: "20px" }}>
         <table>
           <thead>
             <tr>
@@ -185,6 +196,12 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
       </div>
     </>
   );
+};
+
+TransactionTable.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  clientId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  trigger: PropTypes.func.isRequired,
 };
 
 export default TransactionTable;

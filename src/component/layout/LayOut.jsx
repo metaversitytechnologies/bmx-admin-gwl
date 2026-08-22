@@ -4,25 +4,22 @@ import Sidebar from "../common/sidebar/Sidebar";
 const { Header, Content } = Layout;
 import Navbar from "../common/navbar/Navbar";
 
-import MarqueeTag from "../common/marquee/MarqueeTag";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const HomeRules = lazy(() => import("../pages/HomeRules"));
 
 const LayOut = () => {
-  const [collapsed, setCollapsed] = useState();
+  const [, setCollapsed] = useState();
   const [openRules, setOpenRules] = useState(false);
   const [open, setOpen] = useState(false);
+  const pType = localStorage.getItem("passType");
+  const uType = localStorage.getItem("userType");
 
   const collll = useCallback((val) => {
     setCollapsed(val);
   }, []);
 
   const toggleDarawer = useCallback(() => setOpen((prev) => !prev), []);
-
-  const openDrawer = (val) => {
-    setOpen(val);
-  };
 
   const nav = useNavigate();
 
@@ -40,18 +37,12 @@ const LayOut = () => {
     } else {
       setOpenRules(localStorage.getItem("rulesStatus"));
     }
-  }, []);
+  }, [pType, uType]);
 
   const handleCloseBtn = () => {
     localStorage.removeItem("rulesStatus");
     setOpenRules(false);
   };
-
-  const showDrawer = () => {
-    setOpen(true);
-  };
-  const pType = localStorage.getItem("passType");
-  const uType = localStorage.getItem("userType");
 
   return (
     <>
@@ -69,9 +60,6 @@ const LayOut = () => {
             }}>
             <Navbar open={open} action={toggleDarawer} />
           </Header>
-          <div className="marqu_tag">
-            <MarqueeTag />
-          </div>
           <Content
             // style={{ margin: "2px 1px", padding: "21px 19px 0" }}
             className="main_section">

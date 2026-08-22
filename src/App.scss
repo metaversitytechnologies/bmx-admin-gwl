@@ -821,7 +821,6 @@ th.ant-table-cell {
 }
 
 .main_live_section {
-  margin: -3px 24px;
   .sub_live_section {
     padding: 15px 23px;
     background: var(--bg-color);
@@ -1091,7 +1090,7 @@ th.ant-table-cell {
 
 @media screen and (max-width: 1024px) {
   .main_live_section {
-    margin: 20px 8px !important;
+    margin: 0px !important;
     margin-inline: 2%;
     .match_section {
       button {

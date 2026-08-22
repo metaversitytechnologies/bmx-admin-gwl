@@ -1,5 +1,5 @@
 import "./Signin.scss";
-import { Button, Form, Input, message } from "antd";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import {
   useLoginMutation,
   useLoginWithOtpMutation,
@@ -9,7 +9,16 @@ import { useNavigate } from "react-router-dom";
 import { convertCodeReverse, imgUrl, isNsg } from "../../../store/constant";
 import { AiOutlineUser } from "react-icons/ai";
 import { CiLock } from "react-icons/ci";
-import { useGetMyIpQuery } from "../../../store/service/ActiveMatcheService";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Headphones,
+  ShieldCheck,
+  UserRound,
+  Zap,
+  LockKeyhole,
+} from "lucide-react";
 
 const Signin = () => {
   const [trigger] = useLoginMutation();
@@ -23,17 +32,6 @@ const Signin = () => {
     password: "",
     OTP: "",
   });
-
-  const hostname = window.location.hostname;
-
-  // const { data: userIp } = useGetMyIpQuery();
-
-  // const url = hostname.includes("madmin")
-  //   ? `sub.${hostname.split(".")[1]}.${hostname.split(".")[2]}`
-  //   : hostname;
-  const url = hostname.includes("madmin")
-    ? `sub.antpro.co`
-    : `${hostname.split(".")[0]}.antpro.co`;
 
   const onFinish = async (values) => {
     const authPayload = {
@@ -94,7 +92,7 @@ const Signin = () => {
     if (localStorage.getItem("token") !== null) {
       nav("/dashboard");
     }
-  }, []);
+  }, [nav]);
 
   useEffect(() => {
     if (error && !error?.data?.status) {
@@ -170,8 +168,8 @@ const Signin = () => {
           </div>
         </div>
       ) : (
-        <div className="gx-app-login-container">
-          <div className="gx-app-login-main-content">
+        <div className="gx-app-login-container antpro-login">
+          <div className="gx-app-login-main-content antpro-login-card">
             {isLoading && (
               <>
                 <div className="main_loading_section"> </div>
@@ -181,33 +179,73 @@ const Signin = () => {
               </>
             )}
 
-            <div className="gx-app-logo-content">
-              <div className="gx-app-logo-content-bg" />
-              <div className="gx-app-logo-wid">
-                <h1>
-                  <span>Sign In</span>
-                </h1>
+            <div className="gx-app-logo-content antpro-login-brand">
+              <div className="gx-app-logo antpro-login-logo">
+                <img alt="antpro" src={imgUrl} />
+              </div>
+
+              <div className="antpro-login-copy">
+                <h1>Welcome Back! 👋</h1>
                 <p>
-                  <span>
-                    By Signing Up, you can avail full features of our services.
-                  </span>
+                  Sign in to continue to AntPro
+                  <br />
+                  Dashboard.
                 </p>
               </div>
 
-              <div className="gx-app-logo">
-                <img alt="example" src={imgUrl} height={80} />
+              <div className="auth-feature-strip">
+                {[
+                  {
+                    icon: ShieldCheck,
+                    title: "Secure",
+                    desc: "Protected access",
+                  },
+                  {
+                    icon: Zap,
+                    title: "Fast",
+                    desc: "Quick login",
+                  },
+                  {
+                    icon: Headphones,
+                    title: "24/7 Support",
+                    desc: "Always available",
+                  },
+                ].map(({ icon: Icon, title, desc }) => (
+                  <div className="auth-feature-item" key={title}>
+                    <span className="auth-feature-icon">
+                      <Icon size={16} strokeWidth={1.8} />
+                    </span>
+                    <strong>{title}</strong>
+                    <small className="auth-feature-description">{desc}</small>
+                  </div>
+                ))}
+              </div>
+
+              <div className="auth-trust-line">
+                <ShieldCheck size={12} strokeWidth={1.8} />
+                <span>Secure access • Protected session</span>
               </div>
             </div>
-            <div className="gx-app-login-content">
+            <div className="gx-app-login-content antpro-login-form-panel">
+              <div className="antpro-form-heading">
+                <span className="antpro-form-icon">
+                  <UserRound size={28} strokeWidth={1.8} />
+                </span>
+                <div>
+                  <h2>Sign In</h2>
+                  <p>Enter your credentials to access your account</p>
+                </div>
+              </div>
+
               <Form
                 name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600 }}
+                layout="vertical"
+                className="antpro-signin-form"
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}>
                 <Form.Item
+                  label="Username"
                   name="username"
                   rules={[
                     {
@@ -215,41 +253,70 @@ const Signin = () => {
                       message: "The input is not valid user ID!",
                     },
                   ]}>
-                  <Input placeholder="User ID" />
+                  <Input
+                    prefix={<UserRound size={18} strokeWidth={1.8} />}
+                    placeholder="Username"
+                    autoComplete="username"
+                  />
                 </Form.Item>
 
                 <Form.Item
+                  label="Password"
                   name="password"
                   rules={[
                     { required: true, message: "Please input your Password!" },
                   ]}>
-                  <Input type="password" placeholder="Password" />
+                  <Input.Password
+                    prefix={<LockKeyhole size={18} strokeWidth={1.8} />}
+                    placeholder="Password"
+                    autoComplete="current-password"
+                    iconRender={(visible) =>
+                      visible ? (
+                        <Eye size={19} strokeWidth={1.8} />
+                      ) : (
+                        <EyeOff size={19} strokeWidth={1.8} />
+                      )
+                    }
+                  />
                 </Form.Item>
 
                 {showOtp && (
                   <Form.Item
+                    label="OTP"
                     name="OTP"
                     rules={[{ required: true, message: "Please input Otp!" }]}>
-                    <Input type="number" placeholder="OTP" />
+                    <Input
+                      type="number"
+                      prefix={<LockKeyhole size={18} strokeWidth={1.8} />}
+                      placeholder="OTP"
+                    />
                   </Form.Item>
                 )}
 
+                <div className="antpro-form-options">
+                  <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox>Remember me</Checkbox>
+                  </Form.Item>
+                  <span className="antpro-forgot">Forgot Password?</span>
+                </div>
+
                 <Form.Item className="sign_btn">
                   <Button type="primary" htmlType="submit">
-                    {showOtp ? "Verify OTP" : "Sign in"}
+                    <span>{showOtp ? "Verify OTP" : "Sign in"}</span>
+                    <ArrowRight size={24} strokeWidth={1.8} />
                   </Button>
                 </Form.Item>
               </Form>
             </div>
           </div>
 
-          <div className="gx-text-center gx-py-2 gx-font-weight-bold gx-fs-lg gx-text-white">
-            Note- This Website Is Not For Indian Territory
-          </div>
-          <div
-            className="gx-text-red gx-text-center gx-fs-xl gx-font-weight-bold"
-            style={{ marginTop: "12px" }}>
-            18+ Only
+          <div className="antpro-login-notice">
+            <span className="antpro-notice-main">
+              <ShieldCheck size={24} strokeWidth={1.7} />
+              Note: This Website Is Not For Indian Territory
+            </span>
+            <span className="antpro-notice-divider" />
+            <span className="antpro-notice-age">18+ Only</span>
           </div>
         </div>
       )}

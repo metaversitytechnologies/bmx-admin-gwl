@@ -9,16 +9,12 @@ import {
   Menu,
   Pagination,
   Space,
-  Spin,
-  Tag,
 } from "antd";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
-import {
-  SearchOutlined,
-  CaretDownOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
+import { Columns3, Eye, MoreVertical, Plus, Search } from "lucide-react";
+import PropTypes from "prop-types";
 import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
 import moment from "moment";
@@ -34,7 +30,6 @@ import {
   usePartnershipMutation,
 } from "../../store/service/userlistService";
 import { openNotification, openNotificationError } from "../../App";
-import { SlEye } from "react-icons/sl";
 import Exposure from "./Exposure";
 import CustomLoading from "./CustomLoading/CustomLoading";
 import { convertCode, convertCodeReverse, isNsg } from "../../store/constant";
@@ -60,6 +55,7 @@ const UserListTable = ({
   Listname,
   setParentUserIds,
   forDeadClient,
+  actionSlot,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState("");
@@ -80,6 +76,7 @@ const UserListTable = ({
   const [activeSearch, setActiveSearch] = useState(null);
   const [codeForm] = Form.useForm();
   const [nameForm] = Form.useForm();
+  const [toolbarForm] = Form.useForm();
   const { parentId: parentIdFromParams, userTyep } = useParams();
   const myElementRef = useRef(null);
   const codeRef = useRef(null);
@@ -94,10 +91,11 @@ const UserListTable = ({
     // Reset both search forms
     codeForm.resetFields();
     nameForm.resetFields();
+    toolbarForm.resetFields();
 
     setActiveSearch(null);
     setShowSearchDropdown(false);
-  }, [pathname]);
+  }, [pathname, codeForm, nameForm, toolbarForm]);
 
   const [getSuperuserList, { data: superuserListData, isLoading, isFetching }] =
     useSuperuserListMutation();
@@ -260,6 +258,10 @@ const UserListTable = ({
 
   const totalPages = superuserListData?.data?.totalPages || 1;
   const currentPage = superuserListData?.data?.currentPage || 0;
+  const totalAdmins = totalPages * paginationTotal;
+  const visibleAdmins = userDetailsData?.length || 0;
+  const firstEntry = visibleAdmins ? currentPage * paginationTotal + 1 : 0;
+  const lastEntry = currentPage * paginationTotal + visibleAdmins;
 
   const onSearchFinish = (values) => {
     setUserToSearch(values?.username);
@@ -269,6 +271,7 @@ const UserListTable = ({
   const handleResetData = async () => {
     codeForm.resetFields();
     nameForm.resetFields();
+    toolbarForm.resetFields();
     setUserToSearch();
     const res = await getSuperuserList({
       userType: userType,
@@ -467,18 +470,48 @@ const UserListTable = ({
         <div
           className="sport_detail m-0 ant-spin-nested-loading"
           style={{ position: "relative" }}>
+          <div className="admin-details-toolbar">
+            <div className="admin-details-toolbar-left">
+              <Form
+                form={toolbarForm}
+                onFinish={onSearchFinish}
+                className="admin-details-search-form"
+                autoComplete="off">
+                <Form.Item name="username">
+                  <Input
+                    prefix={<Search size={15} strokeWidth={1.8} />}
+                    placeholder="Search by name, code, contact..."
+                    allowClear
+                  />
+                </Form.Item>
+              </Form>
+            </div>
+            <div className="admin-details-toolbar-right">
+              <button
+                type="button"
+                className="admin-details-tool-button"
+                disabled>
+                <Columns3 size={15} strokeWidth={1.8} />
+                Columns
+              </button>
+              {actionSlot}
+            </div>
+          </div>
+
           <div
             ref={myElementRef}
-            className="table_section statement_tabs_data ant-spin-nested-loading"
+            className="table_section statement_tabs_data ant-spin-nested-loading admin-details-table-scroll"
             style={{
               overflow: `${isLoading || isFetching ? "hidden" : "scroll"}`,
             }}>
             {(isLoading || isFetching) && <CustomLoading />}
-            <table className={`live_table ${forDeadClient ? "mt-0" : ""}`}>
+            <table
+              className={`live_table admin-details-table ${
+                forDeadClient ? "mt-0" : ""
+              }`}>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th></th>
                   <th>
                     <div
                       className="main_search_droup"
@@ -528,7 +561,7 @@ const UserListTable = ({
                           <SearchOutlined
                             onClick={() =>
                               setActiveSearch(
-                                activeSearch === "code" ? null : "code"
+                                activeSearch === "code" ? null : "code",
                               )
                             }
                           />
@@ -585,7 +618,7 @@ const UserListTable = ({
                           <SearchOutlined
                             onClick={() =>
                               setActiveSearch(
-                                activeSearch === "name" ? null : "name"
+                                activeSearch === "name" ? null : "name",
                               )
                             }
                           />
@@ -597,16 +630,16 @@ const UserListTable = ({
                     {userType == 7
                       ? "SuperAdmin"
                       : userType == 6
-                      ? "SuperAdmin"
-                      : userType == 5
-                      ? "Admin"
-                      : userType == 4
-                      ? "madmin"
-                      : userType == 3
-                      ? "Master"
-                      : userType == 2
-                      ? "Super"
-                      : "Agent"}
+                        ? "SuperAdmin"
+                        : userType == 5
+                          ? "Admin"
+                          : userType == 4
+                            ? "madmin"
+                            : userType == 3
+                              ? "Master"
+                              : userType == 2
+                                ? "Super"
+                                : "Agent"}
                   </th>
                   <th>Contact</th>
                   <th>D.O.J </th>
@@ -620,6 +653,7 @@ const UserListTable = ({
                   </th>
                   <th className="text-right">C.Chips</th>
                   <th>Status</th>
+                  <th className="admin-details-sticky-action">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -627,40 +661,22 @@ const UserListTable = ({
                   userDetailsData?.map((res, id) => (
                     <tr key={id}>
                       <td>
-                        <div
-                          onClick={() =>
-                            handleShowPartnershipModal(res?.userId)
-                          }
-                          className="plus_btn">
-                          <PlusOutlined />
+                        <div className="admin-details-serial-cell">
+                          <span className="admin-details-row-index">
+                            {firstEntry + id}
+                          </span>
+                          <div
+                            onClick={() =>
+                              handleShowPartnershipModal(res?.userId)
+                            }
+                            className="plus_btn admin-details-row-add">
+                            <Plus size={14} strokeWidth={2} />
+                          </div>
                         </div>
                       </td>
-                      <td
-                        onClick={() =>
-                          handleParentIdChange(res?.userid, res?.parent)
-                        }>
-                        <Dropdown
-                          className="droup_menu"
-                          open={dropdownOpenStates[id]}
-                          onOpenChange={() => {
-                            toggleDropdown(id);
-                          }}
-                          menu={{
-                            items: getActionMenuItems(res),
-                            className: "menu_data",
-                          }}
-                          trigger={["click", "contextMenu"]}>
-                          <div
-                            className="droup_link"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => handleEditUserData(res?.userid)}>
-                            <Space>
-                              <CaretDownOutlined />
-                            </Space>
-                          </div>
-                        </Dropdown>
+                      <td className="admin-details-code">
+                        {convertCode(res?.userId)}
                       </td>
-                      <td>{convertCode(res?.userId)}</td>
                       <td>
                         <span
                           onClick={() => {
@@ -670,7 +686,7 @@ const UserListTable = ({
                                   forDeadClient
                                     ? routeDeadFromUSerType?.[userType]
                                     : routeFromUSerType[userType]
-                                }/${res?.userId}`
+                                }/${res?.userId}`,
                               );
                               setIndexData(0);
                               setPaginationTotal(25);
@@ -678,19 +694,23 @@ const UserListTable = ({
                               handleExposure(res?.userId);
                             }
                           }}
-                          className={`${"gx-text-blue gx-pointer"}  gx-text-nowrap`}>
-                          <SlEye /> {res?.userName}
+                          className={`${"gx-text-blue gx-pointer"} admin-details-name gx-text-nowrap`}>
+                          <Eye size={13} strokeWidth={1.9} /> {res?.userName}
                         </span>
                       </td>
-                      <td>
+                      <td className="admin-details-parent">
                         {res?.parentName} ({convertCode(res?.parentId)})
                       </td>
                       <td>{res?.contact}</td>
                       <td>{moment(res?.createdOn).format("DD-MM-YYYY")}</td>
-                      <td>{res?.partnerShip}</td>
-                      <td>{isNsg ? "*******" : res?.password}</td>
+                      <td className="admin-details-number">
+                        {res?.partnerShip}
+                      </td>
+                      <td className="admin-details-password">
+                        {isNsg ? "*******" : res?.password}
+                      </td>
                       {userType == 1 && (
-                        <td style={{ textAlign: "right" }}>
+                        <td className="admin-details-number text-right">
                           <span
                             onClick={() => {
                               !forDeadClient &&
@@ -717,9 +737,13 @@ const UserListTable = ({
                           ? "NOC"
                           : "BBB"}
                       </td>
-                      <td>{Number(res?.matchCommission)?.toFixed(2)}</td>
-                      <td>{Number(res?.sessionCommission)?.toFixed(2)}</td>
-                      <td className="text-right">
+                      <td className="admin-details-number">
+                        {Number(res?.matchCommission)?.toFixed(2)}
+                      </td>
+                      <td className="admin-details-number">
+                        {Number(res?.sessionCommission)?.toFixed(2)}
+                      </td>
+                      <td className="text-right admin-details-number">
                         {userType == 1
                           ? (
                               Number(res?.balance) +
@@ -730,12 +754,49 @@ const UserListTable = ({
                               Number(res?.balance) + Number(res?.balanceWithPnl)
                             )?.toFixed()}
                       </td>
-                      <td>{res?.isActive ? "Active" : "InActive"}</td>
+                      <td>
+                        <span
+                          className={`admin-details-status ${
+                            res?.isActive
+                              ? "admin-details-status-active"
+                              : "admin-details-status-inactive"
+                          }`}>
+                          <span />
+                          {res?.isActive ? "Active" : "InActive"}
+                        </span>
+                      </td>
+                      <td className="admin-details-sticky-action">
+                        <Dropdown
+                          className="droup_menu"
+                          open={dropdownOpenStates[id]}
+                          onOpenChange={() => {
+                            toggleDropdown(id);
+                          }}
+                          menu={{
+                            items: getActionMenuItems(res),
+                            className: "menu_data",
+                          }}
+                          trigger={["click", "contextMenu"]}>
+                          <button
+                            type="button"
+                            className={`admin-details-more-action ${
+                              dropdownOpenStates[id]
+                                ? "admin-details-more-action-open"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              handleParentIdChange(res?.userid, res?.parent);
+                              handleEditUserData(res?.userid);
+                            }}>
+                            <MoreVertical size={16} strokeWidth={2} />
+                          </button>
+                        </Dropdown>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={15}>
+                    <td colSpan={userType == 1 ? 15 : 14}>
                       <Empty />
                     </td>
                   </tr>
@@ -745,7 +806,10 @@ const UserListTable = ({
           </div>
 
           <Divider />
-          <div className="pagination_cus" style={{ textAlign: "right" }}>
+          <div className="pagination_cus admin-details-pagination">
+            <div className="admin-details-page-info">
+              Showing {firstEntry} to {lastEntry} of {totalAdmins} entries
+            </div>
             <Pagination
               current={currentPage + 1}
               total={totalPages * paginationTotal}
@@ -791,6 +855,15 @@ const UserListTable = ({
       </div>
     </>
   );
+};
+
+UserListTable.propTypes = {
+  userType: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  Listname: PropTypes.string,
+  setParentUserIds: PropTypes.func.isRequired,
+  forDeadClient: PropTypes.bool,
+  actionSlot: PropTypes.node,
 };
 
 export default UserListTable;

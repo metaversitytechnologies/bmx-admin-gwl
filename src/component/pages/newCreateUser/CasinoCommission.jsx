@@ -1,20 +1,25 @@
-import { Col, Form, Input, Row, Select } from "antd";
-import React from "react";
+import { Col, Form, Input, Row } from "antd";
+import { Dices } from "lucide-react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
 const CasinoCommission = ({ createName, commiType }) => {
   const { id } = useParams();
   return (
-    <>
-      <div>
-        <h2 className="match_share">
-          {createName} Casino Share And Commission
-        </h2>
+    <section className="create-admin-card create-admin-commission-card">
+      <div className="create-admin-section-heading">
+        <span className="create-admin-section-icon">
+          <Dices size={16} strokeWidth={1.9} />
+        </span>
+        <div>
+          <h2>{createName} Casino Share And Commission</h2>
+          <p>Configure casino sharing and commission rules</p>
+        </div>
       </div>
 
-      <Row className="super_agent sub_super">
+      <Row className="super_agent sub_super create-admin-grid">
         {id !== "2" && (
-          <Col span={12}>
+          <Col lg={12} xs={24}>
             <Form.Item
               label="My Casino Share (%)"
               name="cassinoShare"
@@ -24,7 +29,7 @@ const CasinoCommission = ({ createName, commiType }) => {
           </Col>
         )}
         {id !== "2" && (
-          <Col span={12}>
+          <Col lg={12} xs={24}>
             <Form.Item
               label="Casino Share (%)"
               name="cassino_Share"
@@ -39,7 +44,7 @@ const CasinoCommission = ({ createName, commiType }) => {
             </Form.Item>
           </Col>
         )}
-        <Col span={12}>
+        <Col lg={12} xs={24}>
           <Form.Item
             label="My Casino comm(%)"
             name="cassinoComm"
@@ -47,7 +52,7 @@ const CasinoCommission = ({ createName, commiType }) => {
             <Input type="number" value={2} disabled />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col lg={12} xs={24}>
           <Form.Item
             label="Casino comm(%)"
             name="cassino_Comm"
@@ -65,8 +70,13 @@ const CasinoCommission = ({ createName, commiType }) => {
           </Form.Item>
         </Col>
       </Row>
-    </>
+    </section>
   );
+};
+
+CasinoCommission.propTypes = {
+  createName: PropTypes.string,
+  commiType: PropTypes.string,
 };
 
 export default CasinoCommission;
