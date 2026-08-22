@@ -115,7 +115,6 @@ const NewCreateUser = () => {
     }
   }, [UserList, error, form, nav]);
 
-  console.log("appDeatis", appDeatis?.data);
 
   return (
     <div className="create_user_section">

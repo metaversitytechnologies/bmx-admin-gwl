@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import AddSuperLimites from "./AddSuperLimites";
+import UpdateLimitHeader from "./UpdateLimitHeader";
 
 const SuperAgentLimitDetails = () => {
   const nav = useNavigate();
@@ -10,28 +11,15 @@ const SuperAgentLimitDetails = () => {
   };
 
   return (
-    <>
-      <div className="main_live_section update_limit">
-        <div className="_match">
-          <div
-            className="sub_live_section live_report"
-            style={{ borderRadius: "2px 2px 0 0" }}>
-            <div
-              style={{ padding: "9px 8px", fontSize: "25px" }}
-              className="team_name">
-              Update Limit
-            </div>
-            <div className="show_btn">
-              <button onClick={handleBackClick}>Back</button>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <AddSuperLimites />
-        </div>
+    <div className="main_live_section list_supers admin-details-panel update-limit-panel">
+      <div className="_match">
+        <UpdateLimitHeader onBack={handleBackClick} />
       </div>
-    </>
+
+      <div className="table_section sport_detail m-0 admin-details-table-shell">
+        <AddSuperLimites />
+      </div>
+    </div>
   );
 };
 

@@ -12,6 +12,7 @@ import {
   notification,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, BadgePercent, Dices, Send, UsersRound } from "lucide-react";
 import {
   useGetUserQuery,
   useUpdateUserMutation,
@@ -58,7 +59,6 @@ const UpdateSuper = () => {
   const [commType, setCommType] = useState("");
   const [form] = Form.useForm();
   const nav = useNavigate();
-  const [data, setData] = useState();
 
   const [trigger, { data: updateData, isLoading }] = useUpdateUserMutation();
   const { data: resuilt } = useGetUserQuery(
@@ -73,7 +73,6 @@ const UpdateSuper = () => {
 
   useEffect(() => {
     if (resuilt?.status) {
-      setData(resuilt?.data);
       const userCom =
         resuilt?.data?.matchCommission > 0 ||
         resuilt?.data?.sessionCommision > 0
@@ -177,30 +176,39 @@ const UpdateSuper = () => {
   }, [updateData]);
 
   const onCommissionType = (value) => {
-    console.log(value, "valuevalue");
     setCommType(value);
   };
 
   const { Option } = Select;
 
   return (
-    <>
+    <div className="create_user_section">
       {contextHolder}
-      <div className="main_live_section update_user">
-        <div className="_match">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "25px" }}
-              className="team_name">
-              Update {updateName?.[id]}
+      <div className="main_live_section create-admin-panel">
+        <div className="admin-details-header create-admin-header">
+          <div className="admin-details-title-wrap">
+            <span className="admin-details-icon create-admin-header-icon">
+              <UsersRound size={20} strokeWidth={1.9} />
+            </span>
+            <div>
+              <div className="admin-details-title create-admin-title">
+                Update {updateName?.[id]}
+              </div>
+              <p className="admin-details-subtitle create-admin-subtitle">
+                Update {updateName?.[id]?.toLowerCase()} details and access
+                settings
+              </p>
             </div>
-            <div className="show_btn">
-              <button onClick={() => nav(-1)}>Back</button>
-            </div>
+          </div>
+          <div className="show_btn">
+            <button className="admin-details-back" onClick={() => nav(-1)}>
+              <ArrowLeft size={15} strokeWidth={1.8} />
+              Back
+            </button>
           </div>
         </div>
 
-        <div className="ant-spin-nested-loading">
+        <div className="ant-spin-nested-loading create-admin-body">
           {isLoading && (
             <div className="spin_icon">
               <Spin size="large" />
@@ -209,7 +217,7 @@ const UpdateSuper = () => {
 
           <Form
             form={form}
-            className="form_data"
+            className="form_data create_user_form"
             name="update_super_form"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
@@ -222,214 +230,269 @@ const UpdateSuper = () => {
               password: "******",
               comm_type: commType,
             }}>
-            <Row className="super_agent update_agent">
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label="User ID"
-                  name="userId"
-                  rules={[{ required: true }]}>
-                  <Input disabled />
-                </Form.Item>
+            <div>
+              <section className="create-admin-card create-admin-account-card">
+                <div className="create-admin-section-heading">
+                  <span className="create-admin-section-icon">
+                    <UsersRound size={16} strokeWidth={1.9} />
+                  </span>
+                  <div>
+                    <h2>{updateName?.[id]} Information</h2>
+                    <p>Basic information and account details</p>
+                  </div>
+                </div>
+                <Row className="super_agent create-admin-grid">
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="User ID"
+                      name="userId"
+                      rules={[{ required: true }]}>
+                      <Input disabled />
+                    </Form.Item>
+                  </Col>
 
-                <Form.Item
-                  label="Name"
-                  name="name"
-                  rules={[{ required: true }]}>
-                  <Input />
-                </Form.Item>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Password"
+                      name="password"
+                      rules={[{ required: true }]}>
+                      <Input disabled type="text" placeholder="Password" />
+                    </Form.Item>
+                  </Col>
 
-                <Form.Item
-                  label="Reference"
-                  name="reference"
-                  rules={[{ required: true }]}>
-                  <Input placeholder="Enter Reference" />
-                </Form.Item>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Name"
+                      name="name"
+                      rules={[{ required: true }]}>
+                      <Input />
+                    </Form.Item>
+                  </Col>
 
-                <Form.Item label="Contact No." name="number">
-                  <InputNumber
-                    className="number_field"
-                    placeholder="Enter Contact No."
+                  <Col lg={12} xs={24}>
+                    <Form.Item name="status" label="Status">
+                      <Select value={"active"}>
+                        <Option value="active">Active</Option>
+                        <Option value="inActive">InActive</Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Reference"
+                      name="reference"
+                      rules={[{ required: true }]}>
+                      <Input placeholder="Enter Reference" />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      name="share_change_type"
+                      label="Share Change Type">
+                      <Select defaultValue="Fixed">
+                        <Option value="Fixed">Fixed</Option>
+                        <Option value="Change">Change</Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item label="Contact No." name="number">
+                      <InputNumber
+                        className="number_field"
+                        placeholder="Enter Contact No."
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </section>
+
+              <section className="create-admin-card create-admin-commission-card">
+                <div className="create-admin-section-heading">
+                  <span className="create-admin-section-icon">
+                    <BadgePercent size={16} strokeWidth={1.9} />
+                  </span>
+                  <div>
+                    <h2>Match Share & Commission</h2>
+                    <p>Configure match share and commission settings</p>
+                  </div>
+                </div>
+                <Row className="super_agent sub_super create-admin-grid">
+                  {id !== "1" && (
+                    <>
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label={`${updateNameDetails?.[id]} Match Share (%)`}
+                          name="matchShare">
+                          <Input type="number" disabled />
+                        </Form.Item>
+                      </Col>
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label="Match Share (%)"
+                          name="share"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter match comm",
+                            },
+                          ]}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </>
+                  )}
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label={`${updateNameDetails?.[id]} Comm Type`}
+                      name="commType"
+                      rules={[{ required: true }]}>
+                      <Input disabled />
+                    </Form.Item>
+                  </Col>
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Comm Type"
+                      name="comm_type"
+                      rules={[{ required: true }]}>
+                      <Select onChange={onCommissionType} value={commType}>
+                        <Option value="no-comm">No Comm</Option>
+                        <Option value="bbb">Bet by Bet</Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+
+                  {commType === "bbb" && (
+                    <>
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label={`${updateNameDetails?.[id]} Match Comm (%)`}
+                          name="matchcomm">
+                          <Input type="number" disabled />
+                        </Form.Item>
+                      </Col>
+
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label="Match Comm (%)"
+                          name="super_match_comm"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter match comm",
+                            },
+                          ]}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label={`${updateNameDetails?.[id]} Sess Comm (%)`}
+                          name="sesscomm">
+                          <Input type="number" disabled />
+                        </Form.Item>
+                      </Col>
+
+                      <Col lg={12} xs={24}>
+                        <Form.Item
+                          label="Sess Comm (%)"
+                          name="super_sess_comm"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter session comm",
+                            },
+                          ]}>
+                          <Input />
+                        </Form.Item>
+                      </Col>
+                    </>
+                  )}
+                </Row>
+              </section>
+
+              <section className="create-admin-card create-admin-commission-card">
+                <div className="create-admin-section-heading-row">
+                  <div className="create-admin-section-heading">
+                    <span className="create-admin-section-icon">
+                      <Dices size={16} strokeWidth={1.9} />
+                    </span>
+                    <div>
+                      <h2>Casino Share & Commission</h2>
+                      <p>Configure casino share and commission settings</p>
+                    </div>
+                  </div>
+                  <Switch
+                    checkedChildren="ON"
+                    unCheckedChildren="OFF"
+                    defaultChecked
                   />
-                </Form.Item>
-
-                <Form.Item
-                  label="Password"
-                  name="password"
-                  rules={[{ required: true }]}>
-                  <Input disabled type="text" placeholder="Password" />
-                </Form.Item>
-
-                <Form.Item name="status" label="Status">
-                  <Select value={"active"}>
-                    <Option value="active">Active</Option>
-                    <Option value="inActive">InActive</Option>
-                  </Select>
-                </Form.Item>
-
-                <Form.Item name="share_change_type" label="Share Change Type">
-                  <Select defaultValue="Fixed">
-                    <Option value="Fixed">Fixed</Option>
-                    <Option value="Change">Change</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            {/* Match Share & Commission Section */}
-            <h2 className="update_agent_text">Match Share and Comm</h2>
-
-            <Row className="super_agent update_agent">
-              {id !== "1" && (
-                <>
+                </div>
+                <Row className="super_agent sub_super create-admin-grid">
                   <Col lg={12} xs={24}>
                     <Form.Item
-                      label={`${updateNameDetails?.[id]} Match Share (%)`}
-                      name="matchShare">
-                      <Input type="number" disabled />
-                    </Form.Item>
-                  </Col>{" "}
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Match Share (%)"
-                      name="share"
-                      rules={[
-                        { required: true, message: "Please enter match comm" },
-                      ]}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                </>
-              )}
-
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label={`${updateNameDetails?.[id]} Comm Type`}
-                  name="commType"
-                  rules={[{ required: true }]}>
-                  <Input disabled />
-                </Form.Item>
-              </Col>
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label="Comm Type"
-                  name="comm_type"
-                  rules={[{ required: true }]}>
-                  <Select onChange={onCommissionType} value={commType}>
-                    <Option value="no-comm">No Comm</Option>
-                    <Option value="bbb">Bet by Bet</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-
-              {commType === "bbb" && (
-                <>
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label={`${updateNameDetails?.[id]} Match Comm (%)`}
-                      name="matchcomm">
+                      label={`${updateNameDetails?.[id]} Casino Share (%)`}
+                      name="super_casino_share">
                       <Input type="number" disabled />
                     </Form.Item>
                   </Col>
 
                   <Col lg={12} xs={24}>
                     <Form.Item
-                      label="Match Comm (%)"
-                      name="super_match_comm"
-                      rules={[
-                        { required: true, message: "Please enter match comm" },
-                      ]}>
-                      <Input />
-                    </Form.Item>
-                  </Col>
-
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label={`${updateNameDetails?.[id]} Sess Comm (%)`}
-                      name="sesscomm">
-                      <Input type="number" disabled />
-                    </Form.Item>
-                  </Col>
-
-                  <Col lg={12} xs={24}>
-                    <Form.Item
-                      label="Sess Comm (%)"
-                      name="super_sess_comm"
+                      label="Casino Share (%)"
+                      name="supercasinocomm"
                       rules={[
                         {
                           required: true,
-                          message: "Please enter session comm",
+                          message: "Please enter casino share",
+                        },
+                      ]}>
+                      <Input disabled={id === "1"} />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label={`${updateNameDetails?.[id]} Casino Comm (%)`}
+                      name="super_casino_comm">
+                      <Input type="number" disabled />
+                    </Form.Item>
+                  </Col>
+
+                  <Col lg={12} xs={24}>
+                    <Form.Item
+                      label="Casino Comm (%)"
+                      name="sess_comm"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please enter casino comm",
                         },
                       ]}>
                       <Input />
                     </Form.Item>
                   </Col>
-                </>
-              )}
-            </Row>
+                </Row>
+              </section>
 
-            {/* Casino Section */}
-            <h2 className="update_agent_text">Casino Share and Commission</h2>
-            <Switch
-              checkedChildren="ON"
-              unCheckedChildren="OFF"
-              defaultChecked
-            />
-
-            <Row className="super_agent update_agent">
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label={`${updateNameDetails?.[id]} Casino Share (%)`}
-                  name="super_casino_share">
-                  <Input type="number" disabled />
-                </Form.Item>
-              </Col>
-
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label="Casino Share (%)"
-                  name="supercasinocomm"
-                  rules={[
-                    { required: true, message: "Please enter casino share" },
-                  ]}>
-                  <Input disabled={id === "1"} />
-                </Form.Item>
-              </Col>
-
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label={`${updateNameDetails?.[id]} Casino Comm (%)`}
-                  name="super_casino_comm">
-                  <Input type="number" disabled />
-                </Form.Item>
-              </Col>
-
-              <Col lg={12} xs={24}>
-                <Form.Item
-                  label="Casino Comm (%)"
-                  name="sess_comm"
-                  rules={[
-                    { required: true, message: "Please enter casino comm" },
-                  ]}>
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            {/* Submit */}
-            <Row className="super_agent update_agent">
-              <Col lg={12} xs={24}></Col>
-              <Col lg={12} xs={24}>
-                <Form.Item wrapperCol={{ offset: 19 }}>
-                  <Button type="primary" htmlType="submit">
-                    Submit
-                  </Button>
-                </Form.Item>
-              </Col>
-            </Row>
+              <div className="create-admin-submit-row">
+                <Button
+                  className="create-admin-submit"
+                  type="primary"
+                  htmlType="submit">
+                  <Send size={15} strokeWidth={1.9} />
+                  Update {updateName?.[id]}
+                </Button>
+              </div>
+            </div>
           </Form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
