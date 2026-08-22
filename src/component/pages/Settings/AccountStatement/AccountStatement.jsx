@@ -1,21 +1,22 @@
-import "./AccountStatement.scss";
-import { Card, DatePicker, Form, Row, Col } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import AllStatement from "./AllStatement/AllStatement";
 import moment from "moment";
-import { useState } from "react";
 import dayjs from "dayjs";
 import { useAccountOprationQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-
-const { RangePicker } = DatePicker;
+import AccountStatementHeader from "./AccountStatementHeader";
+import AccountStatementToolbar from "./AccountStatementToolbar";
+import TransactionTable from "./TransactionTable";
+import TransactionMobileList from "./TransactionMobileList";
+import TransactionPagination from "./TransactionPagination";
 
 const AccountStatement = () => {
   const timeBefore = moment().startOf("year").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
-  const [clientId, setClientId] = useState("");
   const [detailType, setDetailsType] = useState("ALL");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
 
   const { id } = useParams();
 
@@ -38,87 +39,48 @@ const AccountStatement = () => {
     setDateData(dateString);
   };
 
-  const pName = window.location.pathname;
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [detailType, dateData]);
+
+  const transactions = data?.data || [];
+  const total = transactions.length;
+  const pagedTransactions = transactions.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   return (
-    <>
-      <div className={pName == "/markets" ? "" : "match_slip"}>
-        <div className="account_match_slip">
-          <Card
-            style={{
-              margin: "0px",
-              width: "100%",
-            }}
-            className="sport_detail "
-            title={`List Of All Transactions (${data?.data?.length ?? 0})`}
-            extra={<button onClick={handleBackClick}>Back</button>}>
-            <div className="main_acc_section">
-              <div className="datepicker">
-                <Form
-                  autoComplete="off"
-                  name="basic"
-                  // onFinish={onFinish}
-                >
-                  <Row>
-                    <Col xs={24} lg={6}>
-                      <RangePicker
-                        defaultValue={[dayjs(timeBefore), dayjs(time)]}
-                        style={{ marginBottom: "12px", width: "100%" }}
-                        onChange={onChange}
-                      />
-                    </Col>
-                    <Col xs={24} md={24} lg={12} xl={12}>
-                      <div style={{ marginTop: "12px" }}>
-                        <div className="gx-bg-flex1 gx-justify-content-center gx-flex-nowrap gx-px-1 ">
-                          <div
-                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
-                              detailType === "ALL"
-                                ? "gx-bg-dark"
-                                : "gx-bg-primary"
-                            }`}
-                            onClick={() => setDetailsType("ALL")}>
-                            All
-                          </div>
-                          <div
-                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
-                              detailType === "PNL"
-                                ? "gx-bg-dark"
-                                : "gx-bg-primary"
-                            }`}
-                            onClick={() => setDetailsType("PNL")}>
-                            P&amp;L
-                          </div>
-                          <div
-                            className={`gx-px-2 gx-py-2 gx-bg-dark ${
-                              detailType === "ACCOUNT"
-                                ? "gx-bg-dark"
-                                : "gx-bg-primary"
-                            }`}
-                            onClick={() => setDetailsType("ACCOUNT")}>
-                            Account
-                          </div>
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Form>
-              </div>
-              <div className="tab_section transtion_tab">
-                <AllStatement
-                  gameType={1}
-                  clientId={clientId}
-                  loading={{
-                    spinning: isLoading || isFetching,
-                    indicator: <CustomLoading />,
-                  }}
-                  dateData={data?.data}
-                />
-              </div>
-            </div>
-          </Card>
-        </div>
+    <div className="main_live_section list_supers admin-details-panel account-statement-panel">
+      <AccountStatementHeader count={total} onBack={handleBackClick} />
+
+      <AccountStatementToolbar
+        defaultDateRange={[dayjs(timeBefore), dayjs(time)]}
+        onDateChange={onChange}
+        detailType={detailType}
+        onDetailTypeChange={setDetailsType}
+        total={total}
+      />
+
+      <div
+        className="account-statement-body"
+        style={{ position: "relative" }}>
+        {(isLoading || isFetching) && <CustomLoading />}
+        <TransactionTable data={pagedTransactions} />
+        <TransactionMobileList data={pagedTransactions} />
       </div>
-    </>
+
+      <TransactionPagination
+        currentPage={currentPage}
+        pageSize={pageSize}
+        total={total}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={(size) => {
+          setPageSize(size);
+          setCurrentPage(1);
+        }}
+      />
+    </div>
   );
 };
 

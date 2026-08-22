@@ -4538,6 +4538,10 @@ table {
   display: none;
 }
 
+.c_pointer {
+  cursor: pointer;
+}
+
 .plus_spin {
   position: absolute;
   top: 50%;
@@ -8199,6 +8203,367 @@ table.live_table.mt-0 {
 
     .update-limit-card-bottom {
       row-gap: 6px;
+    }
+  }
+}
+
+.list_supers.admin-details-panel.account-statement-panel {
+  .account-statement-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .account-statement-count-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 8px;
+    color: #6254ef;
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: 999px;
+    background: #f0edff;
+  }
+
+  .account-statement-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .account-statement-toolbar-left {
+    flex-wrap: wrap;
+  }
+
+  .account-statement-range {
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #dfe3ee !important;
+    border-radius: 8px !important;
+    background: #ffffff;
+    box-shadow: none;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+
+    .ant-picker-input > input {
+      font-size: 12.5px;
+      color: #344054;
+    }
+
+    &:hover,
+    &.ant-picker-focused {
+      border-color: #a79cff !important;
+      box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.08);
+    }
+  }
+
+  .account-statement-segmented {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    height: 40px;
+    padding: 3px;
+    border: 1px solid #e8eaf2;
+    border-radius: 9px;
+    background: #f8f9fc;
+  }
+
+  .account-statement-segmented-option {
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
+    color: #475467;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    cursor: pointer;
+    transition:
+      color 160ms ease,
+      background 160ms ease,
+      box-shadow 160ms ease;
+
+    &:hover:not(.is-active) {
+      color: #10162f;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #7b54ff;
+      outline-offset: 1px;
+    }
+
+    &.is-active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #5864f9 0%, #7b54ff 52%, #bc3bed 100%);
+      box-shadow: 0 6px 14px rgba(123, 84, 255, 0.22);
+    }
+  }
+
+  .account-statement-results {
+    color: #667085;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .account-statement-body {
+    background: #ffffff;
+  }
+
+  .account-statement-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .account-statement-table {
+    width: 100%;
+    min-width: 720px;
+    color: #344054;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    thead tr {
+      background: #f8f9fc;
+    }
+
+    th {
+      height: 40px;
+      padding: 6px 14px !important;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid #e8eaf2;
+      background: #f8f9fc;
+
+      &.text-right {
+        text-align: right;
+      }
+    }
+
+    td {
+      padding: 8px 14px !important;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      vertical-align: middle;
+      border-bottom: 1px solid #edf0f5;
+      background: transparent;
+
+      &.text-right {
+        text-align: right;
+      }
+    }
+
+    tbody tr {
+      height: 56px;
+      transition: background-color 150ms ease;
+
+      &:hover {
+        background: #faf9ff;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .account-statement-date {
+    color: #10162f;
+    font-weight: 600;
+  }
+
+  .account-statement-time {
+    margin-top: 2px;
+    color: #98a2b3;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .account-statement-description {
+    display: -webkit-box;
+    max-width: 560px;
+    overflow: hidden;
+    color: #344054;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .account-statement-amount {
+    color: #98a2b3;
+    font-variant-numeric: tabular-nums;
+
+    &.is-credit {
+      color: #15803d;
+      font-weight: 600;
+    }
+
+    &.is-debit {
+      color: #b42318;
+      font-weight: 600;
+    }
+  }
+
+  .account-statement-balance {
+    color: #10162f;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .account-statement-mobile-list {
+    display: none;
+  }
+
+  .account-statement-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
+    border: 1px solid #e8eaf2;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+  }
+
+  .account-statement-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .account-statement-card-date {
+    color: #10162f;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .account-statement-card-time {
+    margin-top: 2px;
+    color: #98a2b3;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .account-statement-badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: 999px;
+
+    &.is-credit {
+      color: #15803d;
+      background: #ecfdf3;
+    }
+
+    &.is-debit {
+      color: #b42318;
+      background: #fef3f2;
+    }
+
+    &.is-neutral {
+      color: #667085;
+      background: #f8f9fc;
+    }
+  }
+
+  .account-statement-card-description {
+    margin: 0;
+    color: #475467;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.45;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .account-statement-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #667085;
+    font-size: 11.5px;
+    font-weight: 600;
+
+    span:last-child {
+      color: #10162f;
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .list_supers.admin-details-panel.account-statement-panel {
+    .account-statement-table {
+      min-width: 640px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.account-statement-panel {
+    .account-statement-toolbar-left {
+      width: 100%;
+    }
+
+    .account-statement-range {
+      width: 100%;
+    }
+
+    .account-statement-segmented {
+      width: 100%;
+    }
+
+    .account-statement-segmented-option {
+      flex: 1;
+    }
+
+    .account-statement-table-scroll {
+      display: none;
+    }
+
+    .account-statement-mobile-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .list_supers.admin-details-panel.account-statement-panel {
+    .account-statement-back-label {
+      display: none;
+    }
+
+    .admin-details-back {
+      padding: 0 10px;
     }
   }
 }
