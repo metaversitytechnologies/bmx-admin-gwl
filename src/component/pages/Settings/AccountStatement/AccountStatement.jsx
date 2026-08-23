@@ -7,7 +7,7 @@ import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import AccountStatementHeader from "./AccountStatementHeader";
 import AccountStatementToolbar from "./AccountStatementToolbar";
 import TransactionTable from "./TransactionTable";
-import TransactionMobileList from "./TransactionMobileList";
+import MobileTransactionFeed from "./MobileTransactionFeed";
 import TransactionPagination from "./TransactionPagination";
 
 const AccountStatement = () => {
@@ -35,8 +35,14 @@ const AccountStatement = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const onChange = (date, dateString) => {
-    setDateData(dateString);
+  // Reads the raw dayjs values instead of the antd-formatted dateStrings so
+  // that the mobile-friendly display format on the RangePicker never
+  // changes the fromDate/toDate values sent to the API.
+  const onChange = (dates) => {
+    setDateData([
+      dates?.[0] ? dates[0].format("YYYY-MM-DD") : "",
+      dates?.[1] ? dates[1].format("YYYY-MM-DD") : "",
+    ]);
   };
 
   useEffect(() => {
@@ -67,7 +73,7 @@ const AccountStatement = () => {
         style={{ position: "relative" }}>
         {(isLoading || isFetching) && <CustomLoading />}
         <TransactionTable data={pagedTransactions} />
-        <TransactionMobileList data={pagedTransactions} />
+        <MobileTransactionFeed data={pagedTransactions} />
       </div>
 
       <TransactionPagination

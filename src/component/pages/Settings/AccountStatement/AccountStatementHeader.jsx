@@ -7,17 +7,12 @@ const AccountStatementHeader = ({ count, onBack }) => (
       <span className="admin-details-icon">
         <Receipt size={20} strokeWidth={1.8} />
       </span>
-      <div>
-        <div className="account-statement-title-row">
-          <span className="team_name admin-details-title">
-            Transaction History
-          </span>
-          <span className="account-statement-count-badge">
-            {count} {count === 1 ? "Transaction" : "Transactions"}
-          </span>
-        </div>
+      <div className="account-statement-title-block">
+        <span className="team_name admin-details-title">
+          Transaction History
+        </span>
         <p className="admin-details-subtitle">
-          Review credits, debits and account activity
+          Account activity · {count} {count === 1 ? "transaction" : "transactions"}
         </p>
       </div>
     </div>

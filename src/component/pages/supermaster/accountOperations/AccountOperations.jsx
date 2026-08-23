@@ -1,22 +1,25 @@
-import { Card, Col, DatePicker, Row, Table } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
-import { useState } from "react";
 import dayjs from "dayjs";
 import { useAccOprationQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-import { convertCode } from "../../../../store/constant";
-
-const { RangePicker } = DatePicker;
+import AccountOperationsHeader from "./AccountOperationsHeader";
+import AccountOperationsToolbar from "./AccountOperationsToolbar";
+import OperationsTable from "./OperationsTable";
+import MobileActivityFeed from "./MobileActivityFeed";
+import AccountOperationsPagination from "./AccountOperationsPagination";
+import { formatWithCodes, formatOperationLabel } from "./accountOperationsUtils";
 
 const AccountOperations = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [dateData, setDateData] = useState([timeBefore, time]);
-  const onChange = (date, dateString) => {
-    setDateData(dateString);
-  };
+  // Retained for behavioral parity with the previous implementation — this
+  // endpoint has never actually been filtered by the selected date range.
+  const [, setDateData] = useState([timeBefore, time]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
 
   const { id } = useParams();
   const userId = localStorage.getItem("userId");
@@ -33,89 +36,71 @@ const AccountOperations = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const columns = [
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-    },
-    {
-      title: "Operation",
-      dataIndex: "operation",
-      key: "operation",
-    },
-    {
-      title: "Done By",
-      dataIndex: "doneBy",
-      key: "doneBy",
-      render: (text) => {
-        const output = text.replace(/\((.*?)\)/g, (match, code) => {
-          return `(${convertCode(code)})`;
-        });
-        return <span>{output}</span>;
-      },
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => {
-        const output = text.replace(/\((.*?)\)/g, (match, code) => {
-          return `(${convertCode(code)})`;
-        });
-        return <span>{output}</span>;
-      },
-    },
-  ];
+  // Kept for visual/behavioral parity with the previous implementation —
+  // this endpoint has never been filtered by the date range control.
+  const onDateChange = (date, dateString) => {
+    setDateData(dateString);
+  };
+
+  const activities = data?.data || [];
+
+  const filteredActivities = searchTerm.trim()
+    ? activities.filter((activity) => {
+        const haystack = [
+          formatOperationLabel(activity?.operation),
+          formatWithCodes(activity?.doneBy),
+          formatWithCodes(activity?.description),
+        ]
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(searchTerm.trim().toLowerCase());
+      })
+    : activities;
+
+  const total = filteredActivities.length;
+  const pagedActivities = filteredActivities.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   return (
-    <>
-      {isModalOpen && (
-        <div
-          onClick={() => setIsModalOpen(false)}
-          className="report_overlay"></div>
-      )}
-      <div className="match_slip account_match_slip">
-        <div>
-          <Card
-            style={{
-              margin: "0px",
-              width: "100%",
-            }}
-            className="sport_detail acc_name"
-            title={`List Of All Transactions (${data?.data?.length || 0})`}
-            extra={<button onClick={handleBackClick}>Back</button>}>
-            <div className="">
-              <Row>
-                <Col xs={24} md={24} lg={8} xl={8}>
-                  <RangePicker
-                    style={{ margin: 0 }}
-                    className="acc_datepicker"
-                    defaultValue={[dayjs(timeBefore), dayjs(time)]}
-                    onChange={onChange}
-                  />
-                </Col>
-              </Row>
-            </div>
+    <div className="main_live_section list_supers admin-details-panel account-operations-panel">
+      <AccountOperationsHeader
+        count={activities.length}
+        onBack={handleBackClick}
+      />
 
-            <div className="table_section statement_tabs_data">
-              <div className="table_section">
-                <Table
-                  className="live_table agent_master1"
-                  bordered
-                  columns={columns}
-                  dataSource={data?.data || []}
-                  loading={{
-                    spinning: isLoading || isFetching,
-                    indicator: <CustomLoading />,
-                  }}
-                />
-              </div>
-            </div>
-          </Card>
-        </div>
+      <AccountOperationsToolbar
+        defaultDateRange={[dayjs(timeBefore), dayjs(time)]}
+        onDateChange={onDateChange}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        total={total}
+      />
+
+      <div
+        className="account-operations-body"
+        style={{ position: "relative" }}>
+        {(isLoading || isFetching) && <CustomLoading />}
+        <OperationsTable data={pagedActivities} />
+        <MobileActivityFeed data={pagedActivities} />
       </div>
-    </>
+
+      <AccountOperationsPagination
+        currentPage={currentPage}
+        pageSize={pageSize}
+        total={total}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={(size) => {
+          setPageSize(size);
+          setCurrentPage(1);
+        }}
+      />
+    </div>
   );
 };
 

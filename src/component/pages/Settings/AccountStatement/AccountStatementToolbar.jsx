@@ -22,6 +22,7 @@ const AccountStatementToolbar = ({
         className="account-statement-range"
         defaultValue={defaultDateRange}
         onChange={onDateChange}
+        format="DD MMM YYYY"
       />
 
       <div

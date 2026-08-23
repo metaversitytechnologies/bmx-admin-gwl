@@ -2370,7 +2370,7 @@
 
 @media screen and (max-width: 420px) {
   .main_section {
-    padding: 0 10px 16px;
+    padding: 14px 10px 16px;
   }
 
   .dashboard-modern {
@@ -7173,6 +7173,7 @@ table.live_table.mt-0 {
 
     .ant-form-item {
       margin: 0;
+      width: 100%;
     }
 
     .ant-input-affix-wrapper {
@@ -7201,7 +7202,7 @@ table.live_table.mt-0 {
 
     .ant-input {
       color: #10162f;
-      font-size: 12px;
+      font-size: 12px !important;
       font-weight: 500;
 
       &::placeholder {
@@ -8208,25 +8209,8 @@ table.live_table.mt-0 {
 }
 
 .list_supers.admin-details-panel.account-statement-panel {
-  .account-statement-title-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .account-statement-count-badge {
-    display: inline-flex;
-    align-items: center;
-    height: 20px;
-    padding: 0 8px;
-    color: #6254ef;
-    font-size: 10.5px;
-    font-weight: 700;
-    line-height: 1;
-    white-space: nowrap;
-    border-radius: 999px;
-    background: #f0edff;
+  .account-statement-title-block {
+    min-width: 0;
   }
 
   .account-statement-toolbar {
@@ -8238,10 +8222,10 @@ table.live_table.mt-0 {
   }
 
   .account-statement-range {
-    height: 40px;
-    padding: 0 12px;
+    height: 46px;
+    padding: 0 15px;
     border: 1px solid #dfe3ee !important;
-    border-radius: 8px !important;
+    border-radius: 11px !important;
     background: #ffffff;
     box-shadow: none;
     transition:
@@ -8249,8 +8233,14 @@ table.live_table.mt-0 {
       box-shadow 160ms ease;
 
     .ant-picker-input > input {
-      font-size: 12.5px;
+      font-size: 14px;
+      font-weight: 500;
       color: #344054;
+    }
+
+    .ant-picker-suffix {
+      color: #98a2b3;
+      font-size: 18px;
     }
 
     &:hover,
@@ -8264,15 +8254,15 @@ table.live_table.mt-0 {
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    height: 40px;
+    height: 41px;
     padding: 3px;
     border: 1px solid #e8eaf2;
-    border-radius: 9px;
+    border-radius: 10px;
     background: #f8f9fc;
   }
 
   .account-statement-segmented-option {
-    height: 32px;
+    height: 33px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -8302,7 +8292,12 @@ table.live_table.mt-0 {
 
     &.is-active {
       color: #ffffff;
-      background: linear-gradient(135deg, #5864f9 0%, #7b54ff 52%, #bc3bed 100%);
+      background: linear-gradient(
+        135deg,
+        #5864f9 0%,
+        #7b54ff 52%,
+        #bc3bed 100%
+      );
       box-shadow: 0 6px 14px rgba(123, 84, 255, 0.22);
     }
   }
@@ -8337,7 +8332,7 @@ table.live_table.mt-0 {
     }
 
     th {
-      height: 40px;
+      height: 36px;
       padding: 6px 14px !important;
       color: #475467;
       font-size: 12px;
@@ -8354,7 +8349,7 @@ table.live_table.mt-0 {
     }
 
     td {
-      padding: 8px 14px !important;
+      padding: 7px 14px !important;
       color: #344054;
       font-size: 13px;
       font-weight: 500;
@@ -8369,7 +8364,7 @@ table.live_table.mt-0 {
     }
 
     tbody tr {
-      height: 56px;
+      height: 48px;
       transition: background-color 150ms ease;
 
       &:hover {
@@ -8430,71 +8425,51 @@ table.live_table.mt-0 {
     display: none;
   }
 
-  .account-statement-card {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px 14px;
-    border: 1px solid #e8eaf2;
-    border-radius: 12px;
-    background: #ffffff;
-    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.03);
+  .account-statement-date-group {
+    margin-top: 22px;
+
+    &.is-first {
+      margin-top: 15px;
+    }
   }
 
-  .account-statement-card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-  }
-
-  .account-statement-card-date {
-    color: #10162f;
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-  .account-statement-card-time {
-    margin-top: 2px;
-    color: #98a2b3;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  .account-statement-badge {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    height: 22px;
-    padding: 0 8px;
+  .account-statement-date-heading {
+    margin: 0 0 11px;
+    // color: #8a93a6;
+    color: #b140f0;
     font-size: 11.5px;
     font-weight: 700;
-    line-height: 1;
-    white-space: nowrap;
-    border-radius: 999px;
+    letter-spacing: 0.04em;
+  }
 
-    &.is-credit {
-      color: #15803d;
-      background: #ecfdf3;
-    }
+  .account-statement-date-rows {
+    display: flex;
+    flex-direction: column;
+  }
 
-    &.is-debit {
-      color: #b42318;
-      background: #fef3f2;
-    }
+  .account-statement-row {
+    padding: 12px 0;
+    border-bottom: 1px solid #eef0f7;
 
-    &.is-neutral {
-      color: #667085;
-      background: #f8f9fc;
+    &:last-child {
+      border-bottom: 0;
     }
   }
 
-  .account-statement-card-description {
+  .account-statement-row-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    column-gap: 12px;
+  }
+
+  .account-statement-row-description {
     margin: 0;
-    color: #475467;
-    font-size: 12.5px;
-    font-weight: 500;
-    line-height: 1.45;
+    min-width: 0;
+    color: #404a60;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 19px;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
@@ -8502,18 +8477,121 @@ table.live_table.mt-0 {
     line-clamp: 2;
   }
 
-  .account-statement-card-bottom {
+  .account-statement-row-amount-block {
+    flex-shrink: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    color: #667085;
-    font-size: 11.5px;
-    font-weight: 600;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    text-align: right;
+  }
 
-    span:last-child {
-      color: #10162f;
+  .account-statement-row-amount {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+
+    &.is-credit {
+      color: #15803d;
     }
+
+    &.is-debit {
+      color: #b42318;
+    }
+
+    &.is-neutral {
+      color: #98a2b3;
+    }
+  }
+
+  .account-statement-row-type {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1;
+
+    &.is-credit {
+      color: #2f9d5c;
+    }
+
+    &.is-debit {
+      color: #d1453a;
+    }
+  }
+
+  .account-statement-row-bottom {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-top: 6px;
+    min-width: 0;
+  }
+
+  .account-statement-row-meta {
+    min-width: 0;
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #98a2b3;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .account-statement-row-balance {
+    flex: 0 0 auto;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .account-statement-row-balance-label {
+    color: #98a2b3;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .account-statement-row-balance-value {
+    color: #10162f;
+    font-size: 13px;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .account-statement-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 36px 20px;
+    text-align: center;
+  }
+
+  .account-statement-empty-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b54ff;
+    border-radius: 10px;
+    background: #f0edff;
+  }
+
+  .account-statement-empty-title {
+    margin: 0;
+    color: #10162f;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .account-statement-empty-subtitle {
+    margin: 0;
+    color: #98a2b3;
+    font-size: 12.5px;
+    font-weight: 500;
   }
 }
 
@@ -8527,8 +8605,58 @@ table.live_table.mt-0 {
 
 @media (max-width: 767px) {
   .list_supers.admin-details-panel.account-statement-panel {
+    .admin-details-header {
+      align-items: center;
+      flex-wrap: nowrap;
+      padding: 12px 14px;
+      gap: 10px;
+    }
+
+    .admin-details-title-wrap {
+      gap: 9px;
+    }
+
+    .admin-details-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+    }
+
+    .admin-details-title {
+      font-size: 21px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-details-subtitle {
+      font-size: 12.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-details-back {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      padding: 0;
+      justify-content: center;
+      border-radius: 10px;
+    }
+
+    .account-statement-back-label {
+      display: none;
+    }
+
     .account-statement-toolbar-left {
       width: 100%;
+      gap: 8px;
+    }
+
+    .account-statement-toolbar-right {
+      display: none;
     }
 
     .account-statement-range {
@@ -8548,22 +8676,1064 @@ table.live_table.mt-0 {
     }
 
     .account-statement-mobile-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding: 12px;
+      display: block;
+      padding: 16px 16px 12px;
     }
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 375px) {
   .list_supers.admin-details-panel.account-statement-panel {
-    .account-statement-back-label {
-      display: none;
+    .account-statement-mobile-list {
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+  }
+}
+
+.list_supers.admin-details-panel.account-operations-panel {
+  .account-operations-title-block {
+    min-width: 0;
+  }
+
+  .account-operations-toolbar-left {
+    flex-wrap: wrap;
+  }
+
+  .account-operations-range {
+    height: 46px;
+    padding: 0 15px;
+    border: 1px solid #dfe3ee !important;
+    border-radius: 11px !important;
+    background: #ffffff;
+    box-shadow: none;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+
+    .ant-picker-input > input {
+      font-size: 14px;
+      font-weight: 500;
+      color: #344054;
+    }
+
+    .ant-picker-suffix {
+      color: #98a2b3;
+      font-size: 18px;
+    }
+
+    &:hover,
+    &.ant-picker-focused {
+      border-color: #a79cff !important;
+      box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.08);
+    }
+  }
+
+  .account-operations-search-form {
+    width: min(320px, 100%);
+  }
+
+  .account-operations-results {
+    color: #667085;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .account-operations-body {
+    background: #ffffff;
+  }
+
+  .account-operations-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .account-operations-table {
+    width: 100%;
+    min-width: 760px;
+    color: #344054;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    thead tr {
+      background: #f8f9fc;
+    }
+
+    th {
+      height: 42px;
+      padding: 6px 14px !important;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.25;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid #e8eaf2;
+      background: #f8f9fc;
+    }
+
+    td {
+      padding: 13px 14px !important;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+      vertical-align: middle;
+      border-bottom: 1px solid #edf0f5;
+      background: transparent;
+    }
+
+    tbody tr {
+      transition: background-color 150ms ease;
+
+      &:hover {
+        background: #faf9ff;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .account-operations-date {
+    color: #10162f;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .account-operations-time {
+    margin-top: 2px;
+    color: #98a2b3;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .account-operations-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 10px;
+    color: #6254ef;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    border-radius: 8px;
+    background: #f0edff;
+  }
+
+  .account-operations-done-by {
+    color: #10162f;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  .account-operations-description {
+    display: -webkit-box;
+    max-width: 620px;
+    overflow: hidden;
+    color: #344054;
+    font-weight: 500;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .account-operations-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 36px 20px;
+    text-align: center;
+  }
+
+  .account-operations-empty-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b54ff;
+    border-radius: 10px;
+    background: #f0edff;
+  }
+
+  .account-operations-empty-title {
+    margin: 0;
+    color: #10162f;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .account-operations-empty-subtitle {
+    margin: 0;
+    color: #98a2b3;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .account-operations-mobile-list {
+    display: none;
+  }
+
+  .account-operations-date-group {
+    margin-top: 22px;
+
+    &.is-first {
+      margin-top: 15px;
+    }
+  }
+
+  .account-operations-date-heading {
+    margin: 0 0 11px;
+    color: #8a93a6;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .account-operations-date-rows {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .account-operations-row {
+    padding: 12px 0;
+    border-bottom: 1px solid #eef0f7;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .account-operations-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .account-operations-row-operation {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    color: #10162f;
+    font-size: 13px;
+    font-weight: 650;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .account-operations-row-dot {
+    flex: 0 0 auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #5864f9 0%, #7b54ff 52%, #bc3bed 100%);
+  }
+
+  .account-operations-row-time {
+    flex: 0 0 auto;
+    color: #98a2b3;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .account-operations-row-description {
+    margin: 6px 0 0;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .account-operations-row-doneby {
+    margin: 6px 0 0;
+    color: #98a2b3;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 1199px) {
+  .list_supers.admin-details-panel.account-operations-panel {
+    .account-operations-table {
+      min-width: 680px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.account-operations-panel {
+    .admin-details-header {
+      align-items: center;
+      flex-wrap: nowrap;
+      padding: 12px 14px;
+      gap: 10px;
+    }
+
+    .admin-details-title-wrap {
+      gap: 9px;
+    }
+
+    .admin-details-icon {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 10px;
+    }
+
+    .admin-details-title {
+      font-size: 21px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-details-subtitle {
+      font-size: 12.5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .admin-details-back {
-      padding: 0 10px;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      padding: 0;
+      justify-content: center;
+      border-radius: 10px;
+    }
+
+    .account-operations-back-label {
+      display: none;
+    }
+
+    .account-operations-toolbar-left {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .account-operations-toolbar-right {
+      display: none;
+    }
+
+    .account-operations-range {
+      width: 100%;
+    }
+
+    .account-operations-search-form {
+      width: 100%;
+    }
+
+    .account-operations-table-scroll {
+      display: none;
+    }
+
+    .account-operations-mobile-list {
+      display: block;
+      padding: 16px 16px 12px;
+    }
+
+    .account-operations-pagination {
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .list_supers.admin-details-panel.account-operations-panel {
+    .account-operations-mobile-list {
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+  }
+}
+
+.list_supers.admin-details-panel.create-domain-panel {
+  .admin-details-header {
+    padding: 18px 24px;
+    min-height: 108px;
+  }
+
+  .admin-details-icon {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 14px;
+  }
+
+  .admin-details-title {
+    font-size: 26px;
+    font-weight: 720;
+    line-height: 1.15;
+  }
+
+  .admin-details-subtitle {
+    font-size: 13px;
+  }
+
+  .admin-details-back {
+    height: 39px;
+    padding: 0 14px;
+    border-radius: 9px;
+  }
+
+  .create-domain-title-block {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .create-domain-count-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    height: 23px;
+    padding: 0 10px;
+    color: #6254ef;
+    font-size: 11.5px;
+    font-weight: 650;
+    line-height: 1;
+    white-space: nowrap;
+    border-radius: 999px;
+    background: #f0edff;
+  }
+
+  .create-domain-layout {
+    display: grid;
+    grid-template-columns: minmax(350px, 0.85fr) minmax(650px, 1.55fr);
+    align-items: start;
+    gap: 15px;
+    padding: 14px 16px 16px;
+  }
+
+  // ---------- Create New Domain form card ----------
+
+  .create-domain-form-card {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e9ebf4;
+    border-radius: 16px;
+    box-shadow: 0 8px 26px rgba(17, 24, 39, 0.05);
+    padding: 18px;
+  }
+
+  .create-domain-form-decor {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    color: #7b54ff;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+
+  .create-domain-form-heading {
+    position: relative;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0edff;
+  }
+
+  .create-domain-form-title {
+    margin: 0;
+    color: #10162f;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .create-domain-form-subtitle {
+    margin: 4px 0 0;
+    color: #667085;
+    font-size: 12.5px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .create-domain-form {
+    position: relative;
+  }
+
+  .create-domain-field {
+    margin-bottom: 14px;
+
+    .ant-form-item-label > label {
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+  }
+
+  .create-domain-input {
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid #dfe3ee;
+    background: #ffffff;
+    font-size: 13px;
+
+    .ant-input-prefix {
+      margin-right: 8px;
+      color: #98a2b3;
+    }
+
+    input::placeholder {
+      color: #98a2b3;
+    }
+
+    &:hover {
+      border-color: #c3bbff;
+    }
+
+    &.ant-input-affix-wrapper-focused,
+    &:focus,
+    &:focus-within {
+      border-color: #7257f5;
+      box-shadow: 0 0 0 3px rgba(114, 87, 245, 0.08);
+    }
+  }
+
+  .create-domain-permissions {
+    margin-bottom: 16px;
+  }
+
+  .create-domain-permissions-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #344054;
+    font-size: 13.5px;
+    font-weight: 680;
+  }
+
+  .create-domain-permission-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  // Deliberately plain flexbox — the checkbox stays in antd's native DOM
+  // position (first) and the icon+label live inside the single trailing
+  // span antd wraps its children in. A grid + `order` + `display:contents`
+  // version was tried first but lost a cascade fight against antd's
+  // injected CSS-in-JS styles (text collapsed into a ~18px column); this
+  // approach doesn't depend on overriding antd's internal box generation.
+  .create-domain-permission-row.ant-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 58px;
+    margin: 0;
+    padding: 8px 10px;
+    border: 1px solid #e7e9f2;
+    border-radius: 10px;
+    background: #ffffff;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+
+    &:hover {
+      background: #fbfaff;
+      border-color: #d8d2ff;
+    }
+
+    .ant-checkbox {
+      flex: 0 0 auto;
+      top: 0;
+    }
+
+    .ant-checkbox-inner {
+      width: 17px;
+      height: 17px;
+      border: 1.5px solid #cfd5e3;
+      border-radius: 5px;
+      background: #ffffff;
+    }
+
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background: linear-gradient(
+        135deg,
+        #5864f9 0%,
+        #7b54ff 52%,
+        #bc3bed 100%
+      );
+      border-color: transparent;
+    }
+
+    .ant-checkbox-checked::after {
+      border-color: transparent;
+    }
+
+    > span:last-child {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  .create-domain-permission-icon {
+    order: 1;
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f3efff;
+    color: #6d55f7;
+  }
+
+  .create-domain-permission-text {
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+
+  .create-domain-permission-label {
+    color: #10162f;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .create-domain-permission-desc {
+    color: #98a2b3;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .create-domain-submit-item {
+    margin: 0;
+  }
+
+  // Compound `.ant-btn` selector to stay ahead of antd's own injected
+  // primary-button styling regardless of DOM/style insertion order.
+  .create-domain-submit.ant-btn {
+    height: 43px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 9px;
+    border: none;
+    background: linear-gradient(
+      135deg,
+      #5d5ff6 0%,
+      #7954f6 52%,
+      #b53de8 100%
+    ) !important;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 680;
+    box-shadow: none;
+    text-shadow: none;
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease;
+
+    &:hover,
+    &:focus {
+      color: #ffffff;
+      background: linear-gradient(
+        135deg,
+        #5d5ff6 0%,
+        #7954f6 52%,
+        #b53de8 100%
+      );
+      transform: translateY(-1px);
+      box-shadow: 0 7px 16px rgba(112, 74, 245, 0.16);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // ---------- Existing Domains panel ----------
+
+  .create-domain-list-card {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e9ebf4;
+    border-radius: 16px;
+    box-shadow: 0 8px 26px rgba(17, 24, 39, 0.05);
+  }
+
+  .create-domain-list-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 18px 14px;
+  }
+
+  .create-domain-list-title {
+    margin: 0;
+    color: #10162f;
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .create-domain-toolbar {
+    padding: 0 18px 14px;
+  }
+
+  .create-domain-search-form {
+    width: 100%;
+
+    .ant-input-affix-wrapper {
+      height: 41px;
+      border-radius: 9px;
+    }
+  }
+
+  .create-domain-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .create-domain-table {
+    width: 100%;
+    min-width: 560px;
+    color: #344054;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    thead tr {
+      background: #f8f9fc;
+    }
+
+    th {
+      height: 41px;
+      padding: 6px 20px !important;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 680;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid #e8eaf2;
+      background: #f8f9fc;
+    }
+
+    td {
+      padding: 16px 20px !important;
+      font-size: 13px;
+      vertical-align: middle;
+      border-bottom: 1px solid #edf0f6;
+      background: transparent;
+    }
+
+    tbody tr {
+      transition: background-color 150ms ease;
+
+      &:hover {
+        background: #fbfaff;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .create-domain-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .create-domain-row-icon {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f3efff;
+    color: #6d55f7;
+  }
+
+  .create-domain-name-text {
+    color: #10162f;
+    font-weight: 650;
+    font-size: 13px;
+  }
+
+  .create-domain-url-text {
+    color: #667085;
+    font-weight: 500;
+  }
+
+  .create-domain-id-text {
+    color: #10162f;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .create-domain-update-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 33px;
+    padding: 0 10px;
+    color: #6254ef;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid #cec6ff;
+    border-radius: 8px;
+    background: #ffffff;
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease;
+
+    &:hover {
+      background: #f8f6ff;
+      border-color: #7558f5;
+    }
+  }
+
+  .create-domain-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 32px 20px;
+    text-align: center;
+  }
+
+  .create-domain-empty-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #7b54ff;
+    border-radius: 10px;
+    background: #f0edff;
+  }
+
+  .create-domain-empty-title {
+    margin: 0;
+    color: #10162f;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .create-domain-empty-subtitle {
+    margin: 0;
+    color: #98a2b3;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .create-domain-mobile-list {
+    display: none;
+  }
+
+  .create-domain-mobile-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #eef0f7;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  .create-domain-mobile-info {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .create-domain-mobile-name {
+    color: #10162f;
+    font-size: 13px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .create-domain-mobile-url {
+    color: #98a2b3;
+    font-size: 12px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .create-domain-mobile-id {
+    flex: 0 0 auto;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (max-width: 1199px) {
+  .list_supers.admin-details-panel.create-domain-panel {
+    .create-domain-layout {
+      grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.15fr);
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .list_supers.admin-details-panel.create-domain-panel {
+    .create-domain-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.create-domain-panel {
+    .admin-details-header {
+      align-items: center;
+      flex-wrap: nowrap;
+      padding: 12px 14px;
+      gap: 10px;
+    }
+
+    .admin-details-icon {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 11px;
+    }
+
+    .admin-details-title {
+      font-size: 20px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .admin-details-subtitle {
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .create-domain-count-badge {
+      margin-top: 2px;
+    }
+
+    .admin-details-back {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 auto;
+      padding: 0;
+      justify-content: center;
+      border-radius: 10px;
+    }
+
+    .create-domain-back-label {
+      display: none;
+    }
+
+    .create-domain-layout {
+      padding: 12px;
+      gap: 12px;
+    }
+
+    .create-domain-form-card {
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .create-domain-form-decor {
+      display: none;
+    }
+
+    .create-domain-input {
+      height: 42px;
+    }
+
+    .create-domain-permission-row.ant-checkbox-wrapper {
+      min-height: 54px;
+      padding: 8px 9px;
+    }
+
+    .create-domain-submit.ant-btn {
+      height: 42px;
+    }
+
+    .create-domain-list-heading {
+      padding: 14px 12px 10px;
+    }
+
+    .create-domain-toolbar {
+      padding: 0 12px 12px;
+
+      .ant-input-affix-wrapper {
+        height: 40px;
+      }
+    }
+
+    .create-domain-table-scroll {
+      display: none;
+    }
+
+    .create-domain-mobile-list {
+      display: block;
+    }
+
+    .create-domain-mobile-row {
+      min-height: 60px;
+      padding: 10px 8px;
+    }
+
+    .create-domain-pagination {
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
     }
   }
 }

@@ -1,7 +1,7 @@
-import { Empty } from "antd";
 import PropTypes from "prop-types";
 import moment from "moment";
-import { formatDescription } from "./accountStatementUtils";
+import { formatDescription, formatAmount } from "./accountStatementUtils";
+import AccountStatementEmpty from "./AccountStatementEmpty";
 
 const TransactionTable = ({ data }) => (
   <div className="account-statement-table-scroll">
@@ -44,16 +44,19 @@ const TransactionTable = ({ data }) => (
                   className={`text-right account-statement-amount${
                     credit > 0 ? " is-credit" : ""
                   }`}>
-                  {credit > 0 ? `+${txn?.credit}` : txn?.credit}
+                  {credit > 0 ? `+${formatAmount(credit)}` : formatAmount(credit)}
                 </td>
                 <td
                   className={`text-right account-statement-amount${
                     debit > 0 ? " is-debit" : ""
                   }`}>
-                  {debit > 0 ? `-${txn?.debit}` : txn?.debit}
+                  {debit > 0 ? `-${formatAmount(debit)}` : formatAmount(debit)}
                 </td>
                 <td className="text-right account-statement-balance">
-                  {txn?.closing?.toFixed(2)}
+                  {formatAmount(txn?.closing, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </td>
               </tr>
             );
@@ -61,7 +64,7 @@ const TransactionTable = ({ data }) => (
         ) : (
           <tr>
             <td colSpan={5}>
-              <Empty />
+              <AccountStatementEmpty />
             </td>
           </tr>
         )}
