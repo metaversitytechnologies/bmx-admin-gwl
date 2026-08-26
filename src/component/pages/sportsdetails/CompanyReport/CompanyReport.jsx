@@ -1,14 +1,23 @@
-import { Card, Empty } from "antd";
-
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCompletLedgerQuery } from "../../../../store/service/SportDetailServices";
-import { useState } from "react";
 import { convertCode } from "../../../../store/constant";
+import CompanyReportHeader from "./CompanyReportHeader";
+import ReportSummaryCards from "./ReportSummaryCards";
+import ReportToolbar from "./ReportToolbar";
+import CompanyReportTable from "./CompanyReportTable";
+import MobileReportTable from "./MobileReportTable";
+import { REPORT_COLUMNS, buildReportCsv, downloadCsv, sumReport } from "./companyReportUtils";
 
 const CompanyReport = () => {
   const nav = useNavigate();
   const { id, name } = useParams();
   const [userId, setUserId] = useState("");
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [visibleColumns, setVisibleColumns] = useState(
+    REPORT_COLUMNS.map((c) => c.key)
+  );
 
   const { data } = useGetCompletLedgerQuery(
     {
@@ -18,222 +27,69 @@ const CompanyReport = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const totalValues = data?.data?.reduce(
-    (acc, curr) => {
-      acc.matchAmount += curr?.matchAmount || 0;
-      acc.sessionAmount += curr?.sessionAmount || 0;
-      acc.total += curr?.total || 0;
-      acc.matchComm += curr?.matchComm || 0;
-      acc.sessionComm += curr?.sessionComm || 0;
-      acc.totalComm += curr?.totalComm || 0;
-      acc.myShare += curr?.myShare || 0;
-      acc.mapp += curr?.mapp || 0;
-      acc.netAmount += curr?.netAmount || 0;
-      return acc;
-    },
-    {
-      matchAmount: 0,
-      sessionAmount: 0,
-      total: 0,
-      matchComm: 0,
-      sessionComm: 0,
-      totalComm: 0,
-      myShare: 0,
-      mapp: 0,
-      netAmount: 0,
-    }
-  );
+  const rows = useMemo(() => data?.data || [], [data]);
 
-  const getColor = (value) =>
-    value > 0 ? "green" : value < 0 ? "red" : "black";
+  // Presentation-only client-side filter — does not touch the API or the
+  // userId drill-down query above.
+  const filteredRows = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return rows;
+    return rows.filter((row) => {
+      const code = convertCode(row?.userId)?.toString().toLowerCase() || "";
+      const userName = row?.userName?.toString().toLowerCase() || "";
+      return code.includes(term) || userName.includes(term);
+    });
+  }, [rows, searchTerm]);
+
+  // Same reduce formula as before, always over the full fetched set so the
+  // Total row / KPI values keep matching "existing calculations" regardless
+  // of the (new, presentation-only) search filter above.
+  const totalValues = useMemo(() => sumReport(rows), [rows]);
+
+  const handleToggleColumn = (key) => {
+    setVisibleColumns((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    );
+  };
+
+  const handleExport = () => {
+    const csv = buildReportCsv(filteredRows);
+    downloadCsv(csv, `company-report-${id || "match"}.csv`);
+  };
+
+  const toolbarColumns = REPORT_COLUMNS.map((c) => ({
+    ...c,
+    visible: visibleColumns.includes(c.key),
+  }));
 
   return (
-    <div className="match_slip company_report">
-      <Card
-        style={{ margin: "0px", width: "100%" }}
-        className="sport_detail session_bet"
-        title={
-          <div>
-            Company Report
-            <p style={{ fontSize: "16px", marginTop: "-7px" }}>{name}</p>
-          </div>
-        }
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
-        <div className="table_section statement_tabs_data active_match_table">
-          <table className="">
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Match Amt</th>
-                <th>Session Amt</th>
-                <th>Total</th>
-                <th>Match Comm+</th>
-                <th>Session Comm+</th>
-                <th>Total Comm</th>
-                <th>My Share</th>
-                <th>M.App</th>
-                <th>Net Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.data?.length > 0 ? (
-                data?.data?.map((res, id) => (
-                  <tr key={id}>
-                    <td
-                      onClick={() => setUserId(res?.userId)}
-                      style={{ fontWeight: 600 }}>
-                      {convertCode(res?.userId)}
-                    </td>
-                    <td style={{ fontWeight: 600 }}>{res?.userName}</td>
-                    <td
-                      style={{
-                        color: res?.matchAmount > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.matchAmount?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.sessionAmount > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.sessionAmount?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.total > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.total?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.matchComm > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.matchComm?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.sessionComm > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.sessionComm.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.totalComm > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.totalComm.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.myShare > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.myShare?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.mapp > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.mapp?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: res?.netAmount > 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {res?.netAmount?.toFixed(2)}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={10}>
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                  </td>
-                </tr>
-              )}
-            </tbody>
-            <tfoot>
-              {data?.data?.length > 0 && (
-                <tr style={{ background: "rgb(213, 220, 102)" }}>
-                  <td style={{ fontWeight: 600 }}>Total</td>
-                  <td></td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.matchAmount),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.matchAmount?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.sessionAmount),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.sessionAmount?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues.total),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.total?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.matchComm),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.matchComm?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.sessionComm),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.sessionComm?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.totalComm),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues.totalComm.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.myShare),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.myShare?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.mapp),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.mapp?.toFixed(2)}
-                  </td>
-                  <td
-                    style={{
-                      color: getColor(totalValues?.netAmount),
-                      fontWeight: 600,
-                    }}>
-                    {totalValues?.netAmount?.toFixed(2)}
-                  </td>
-                </tr>
-              )}
-            </tfoot>
-          </table>
-        </div>
-        {/* )} */}
-      </Card>
+    <div className="main_live_section list_supers admin-details-panel company-report-panel">
+      <CompanyReportHeader matchName={name} onBack={() => nav(-1)} />
+
+      <div className="cr-content">
+        <ReportSummaryCards totals={totalValues} />
+
+        <ReportToolbar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          columns={toolbarColumns}
+          onToggleColumn={handleToggleColumn}
+          onExport={handleExport}
+        />
+
+        <CompanyReportTable
+          rows={filteredRows}
+          totals={totalValues}
+          visibleColumns={visibleColumns}
+          onSelectUser={setUserId}
+        />
+
+        <MobileReportTable
+          rows={filteredRows}
+          totals={totalValues}
+          onSelectUser={setUserId}
+        />
+      </div>
     </div>
   );
 };

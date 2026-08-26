@@ -1,7 +1,18 @@
 import { Button, Modal, message } from "antd";
+import {
+  BadgeCheck,
+  Globe2,
+  LockKeyhole,
+  RotateCcwKey,
+  ShieldCheck,
+  Undo2,
+  Save,
+  X,
+} from "lucide-react";
+import PropTypes from "prop-types";
 import { useGetUpdatePasswordMutation } from "../../store/service/userlistService";
-import { useParams } from "react-router-dom";
 import { convertCode } from "../../store/constant";
+import CredentialRow from "./CredentialRow";
 
 const ResetPassword = ({
   isDepositeModalOpen,
@@ -22,7 +33,6 @@ const ResetPassword = ({
   };
 
   const [trigger, { isLoading }] = useGetUpdatePasswordMutation();
-  const { userTyep } = useParams(); // Not used, but kept if you need later
 
   const handleDepositeCancel = () => {
     setOpenResetPass(false);
@@ -36,14 +46,45 @@ const ResetPassword = ({
     document.body.appendChild(textarea);
     textarea.focus();
     textarea.select();
+    let succeeded = false;
     try {
       document.execCommand("copy");
-      message.success("Copied using fallback method!");
+      succeeded = true;
     } catch (err) {
-      message.error("Copy not supported on this browser.");
+      succeeded = false;
     }
     document.body.removeChild(textarea);
+    return succeeded;
   };
+
+  const copyText = async (text) => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+      return fallbackCopy(text);
+    } catch (err) {
+      return fallbackCopy(text);
+    }
+  };
+
+  // Presentation-only guard: the link is built from window.location.hostname
+  // exactly as before. When the hostname doesn't have enough dot-separated
+  // segments (e.g. localhost, an IP, or a bare domain), the pieces come back
+  // undefined and used to render literally as "admin.undefined.undefined".
+  // No alternate link field exists anywhere in the API response, so rather
+  // than invent a domain we fall back to a safe message — same underlying
+  // construction, just guarded before use.
+  const rawLink = domainLink[Number(userType)];
+  const linkValue =
+    subdomain && sub && rawLink && !rawLink.includes("undefined")
+      ? rawLink
+      : "";
+  const linkDisplay = linkValue || "Link unavailable";
+
+  const idValue = convertCode(userId);
+  const showOtp = Number(userType) !== 1;
 
   const handleDepositeOk = async () => {
     const payload = {
@@ -53,84 +94,149 @@ const ResetPassword = ({
     };
 
     let passwordText = `New Password
-LINK : ${domainLink[Number(userType)]}
-ID   : ${convertCode(userId)}
+LINK : ${linkDisplay}
+ID   : ${idValue}
 PW   : ${data?.password}`;
 
-    if (Number(userType) !== 1) {
+    if (showOtp) {
       passwordText += `\nOTP  : ${data?.otp}`;
     }
 
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(passwordText);
-      } else {
-        fallbackCopy(passwordText);
-      }
+    const copied = await copyText(passwordText);
+    if (copied) {
       message.success("Copied to clipboard!");
-    } catch (err) {
-      console.error("Clipboard error:", err);
-      fallbackCopy(passwordText);
+    } else {
+      message.error("Copy not supported on this browser.");
     }
 
     // Call API after copy
     try {
       const res = await trigger(payload).unwrap();
       if (res?.status) {
-        // message.success("Password updated!");
         setOpenResetPass(false);
       } else {
         message.error(res?.message || "Failed to update password");
       }
     } catch (err) {
-      console.error("API error:", err);
       message.error("Something went wrong while updating password.");
     }
   };
 
+  const isPending = isDepositeModalOpen && !data;
+
+  const rows = [
+    {
+      key: "link",
+      label: "LINK",
+      value: linkDisplay,
+      icon: Globe2,
+      ariaLabel: "Copy link",
+    },
+    {
+      key: "id",
+      label: "ID",
+      value: idValue || "—",
+      icon: BadgeCheck,
+      ariaLabel: "Copy user ID",
+    },
+    {
+      key: "pw",
+      label: "PW",
+      value: data?.password || "—",
+      icon: LockKeyhole,
+      ariaLabel: "Copy password",
+    },
+  ];
+  if (showOtp) {
+    rows.push({
+      key: "otp",
+      label: "OTP",
+      value: data?.otp || "—",
+      icon: ShieldCheck,
+      ariaLabel: "Copy OTP",
+    });
+  }
+
   return (
     <Modal
-      className="modal_reset_pass"
+      className="approved-deposit-modal approved-reset-modal"
+      width={550}
       destroyOnClose
       title={
-        <h1>
-          <span>Reset Password</span>
-        </h1>
+        <div className="approved-deposit-header">
+          <span className="approved-deposit-header-icon">
+            <RotateCcwKey size={22} strokeWidth={1.8} />
+          </span>
+          <div>
+            <h2>Reset Password</h2>
+            <p>Here are the new credentials for the user</p>
+          </div>
+        </div>
       }
       open={isDepositeModalOpen}
-      onOk={handleDepositeOk}
       onCancel={handleDepositeCancel}
-      confirmLoading={isLoading}
-      footer={[
-        <Button
-          key="ok"
-          className="pri_button"
-          type="primary"
-          onClick={handleDepositeOk}
-          loading={isLoading}>
-          Save & Copy
-        </Button>,
-        <Button
-          key="cancel"
-          className="pri_button gx-bg-grey"
-          onClick={handleDepositeCancel}>
-          Cancel
-        </Button>,
-      ]}>
-      <textarea
-        style={{ width: "100%", fontSize: "14px" }}
-        rows={Number(userType) !== 1 ? 7 : 5}
-        readOnly
-        className="ant-input"
-        value={`New Password
-LINK : ${domainLink[Number(userType)]}
-ID   : ${convertCode(userId)}
-PW   : ${data?.password}${
-          Number(userType) !== 1 ? `\nOTP  : ${data?.otp}` : ""
-        }`}
-      />
+      closeIcon={<X size={19} strokeWidth={1.8} />}
+      footer={null}>
+      <div className="approved-deposit-content approved-reset-content">
+        <div className="approved-credential-panel">
+          <div className="approved-credential-heading">
+            <LockKeyhole size={13} strokeWidth={2} />
+            New Credentials
+          </div>
+
+          <div className="approved-credential-rows">
+            {isPending
+              ? Array.from({ length: showOtp ? 4 : 3 }).map((_, index) => (
+                  <div
+                    className="approved-credential-row is-skeleton"
+                    key={index}>
+                    <span className="approved-credential-skeleton-icon" />
+                    <span className="approved-credential-skeleton-line" />
+                  </div>
+                ))
+              : rows.map((row) => (
+                  <CredentialRow
+                    key={row.key}
+                    icon={row.icon}
+                    label={row.label}
+                    value={row.value}
+                    ariaLabel={row.ariaLabel}
+                    onCopy={copyText}
+                  />
+                ))}
+          </div>
+        </div>
+
+        <div className="deposit_btn">
+          <Button
+            className="gx-bg-grey approved-deposit-return"
+            onClick={handleDepositeCancel}>
+            <Undo2 size={15} strokeWidth={1.8} />
+            Cancel
+          </Button>
+          <Button
+            type="primary"
+            onClick={handleDepositeOk}
+            loading={isLoading}
+            className="approved-deposit-submit">
+            <Save size={15} strokeWidth={1.9} />
+            Save &amp; Copy
+          </Button>
+        </div>
+      </div>
     </Modal>
   );
+};
+
+ResetPassword.propTypes = {
+  isDepositeModalOpen: PropTypes.bool.isRequired,
+  setOpenResetPass: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    password: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    otp: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  userType: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default ResetPassword;

@@ -1,17 +1,24 @@
-import { Card, Select, Row, Col, Form, Empty } from "antd";
-import { useGetMatchAndSessionBetMutation } from "../../../../store/service/SportDetailServices";
+import { useCallback, useEffect, useState } from "react";
+import { Swords, Activity } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useGetMatchAndSessionBetMutation } from "../../../../store/service/SportDetailServices";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
+import MatchSessionBetHeader from "./MatchSessionBetHeader";
+import MatchSessionBetUserFilter from "./MatchSessionBetUserFilter";
+import BetSectionCard from "./BetSectionCard";
+import MatchBetsTable from "./MatchBetsTable";
+import SessionBetsTable from "./SessionBetsTable";
+import MatchSessionBetSummary from "./MatchSessionBetSummary";
 
 const MatchSessionBet = () => {
   const [clientId, setClientId] = useState("");
   const { id, inplay } = useParams();
   const nav = useNavigate();
-  const [trigger, { data: matchBets }] = useGetMatchAndSessionBetMutation();
+  const [trigger, { data: matchBets, isLoading, isError }] =
+    useGetMatchAndSessionBetMutation();
   const [userTrigger, { data: userData }] = useLazyFilterbyClientQuery();
 
-  useEffect(() => {
+  const fetchBets = useCallback(() => {
     trigger({
       matchId: id ?? "",
       userId: clientId,
@@ -19,188 +26,94 @@ const MatchSessionBet = () => {
     });
   }, [clientId, id, inplay]);
 
-  const totalPnl = matchBets?.data?.sessionBets?.reduce((acc, item) => {
-    return acc + (item.netPnl || 0);
-  }, 0);
-  const totalPnlM = matchBets?.data?.matchBets?.betList?.reduce((acc, item) => {
-    return acc + (item.pnl || 0);
-  }, 0);
+  useEffect(() => {
+    fetchBets();
+  }, [fetchBets]);
+
+  const matchRows = matchBets?.data?.matchBets?.betList || [];
+  const sessionRows = matchBets?.data?.sessionBets || [];
+
+  // Same two sums the original screen computed, kept under their original
+  // names: `totalPnl` is the Session Bets PNL sum, `totalPnlM` is the Match
+  // Bets PNL sum.
+  const totalPnl = sessionRows.reduce(
+    (acc, item) => acc + (item.netPnl || 0),
+    0
+  );
+  const totalPnlM = matchRows.reduce((acc, item) => acc + (item.pnl || 0), 0);
+
+  // New (presentation-only) sums — both fields already exist per-row, we're
+  // just totaling them for the new Amount column in the totals footer / the
+  // Summary Information strip.
+  const totalAmountMatch = matchRows.reduce(
+    (acc, item) => acc + (Number(item.stake) || 0),
+    0
+  );
+  const totalAmountSession = sessionRows.reduce(
+    (acc, item) => acc + (Number(item.amount) || 0),
+    0
+  );
+
+  const userOptions =
+    userData?.data?.map((user) => ({
+      label: `${user.userName} (${user.userId})`,
+      value: user.userId,
+    })) || [];
 
   return (
-    <div className="match_slip match_bets_session">
-      <Card
-        style={{ margin: "0px", width: "100%" }}
-        className="sport_detail session_bet"
-        title={`Match & Session Bet Details MatchCode : ${id}`}
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
-        <Form
-          name="basic"
-          autoComplete="off"
-          layout="vertical"
-          className="form_data">
-          <Row className="fancy_data_sess mr">
-            <Col xs={24} md={24} lg={8} xl={8}>
-              <Form.Item
-                name="username"
-                label=""
-                required={false}
-                rules={[{ required: true, message: "Please Select User" }]}>
-                <Select
-                  placeholder="Select User"
-                  showSearch
-                  onSearch={(value) => {
-                    if (value) userTrigger({ userId: value, userType: 1 });
-                  }}
-                  value={clientId}
-                  allowClear
-                  onSelect={(value) => setClientId(value)}
-                  options={
-                    userData?.data?.map((user) => ({
-                      label: `${user.userName} (${user.userId})`,
-                      value: user.userId,
-                    })) || []
-                  }
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
+    <div className="main_live_section list_supers admin-details-panel match-session-bet-panel">
+      <MatchSessionBetHeader matchId={id} onBack={() => nav(-1)} />
 
-        <Row gutter={[16, 16]}>
-          <Col xs={24} md={24} lg={12} xl={12}>
-            <div className="table_section statement_tabs_data active_match_table">
-              <table className="">
-                <thead>
-                  <tr>
-                    <th>Sr</th>
-                    <th>Rate</th>
-                    <th>Mode</th>
-                    <th>Team</th>
-                    <th>Odds Type</th>
-                    <th>Amount</th>
-                    <th>PNL</th>
-                    <th>Date and Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {matchBets?.data?.matchBets?.betList?.length > 0 ? (
-                    matchBets?.data.matchBets?.betList?.map((bet, index) => {
-                      return (
-                        <tr
-                          key={index}
-                          className={bet?.mode === "L" ? "back" : "lay"}>
-                          <td>{index + 1}</td>
-                          <td>{Number(bet?.odds)?.toFixed(2)}</td>
-                          <td>{bet?.mode === "L" ? "Lagai" : "KHAI"}</td>
-                          <td>{bet?.team}</td>
-                          <td>{bet.marketType}</td>
-                          <td>{bet?.stake}</td>
-                          <td>{bet?.pnl}</td>
-                          <td>{bet?.date}</td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={8}>
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                      </td>
-                    </tr>
-                  )}
-                  <tr>
-                    <td style={{ fontWeight: 700 }}>Total</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <span
-                        style={{
-                          color: totalPnl > 0 ? "green" : "red",
-                          fontWeight: 700,
-                        }}>
-                        {totalPnlM?.toFixed(2)}
-                      </span>
-                    </td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Col>
-          <Col xs={24} md={24} lg={12} xl={12}>
-            <div className="table_section statement_tabs_data active_match_table">
-              <table className="">
-                <thead>
-                  <tr>
-                    <th>Sr</th>
-                    <th>Session</th>
-                    <th>Rate</th>
-                    <th>Run</th>
-                    <th>Decision Run</th>
-                    <th>Mode</th>
-                    <th>Amount</th>
-                    <th>PNL</th>
-                    <th>Date and Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {matchBets?.data?.sessionBets?.length > 0 ? (
-                    matchBets?.data?.sessionBets?.map((item, index) => {
-                      return (
-                        <tr
-                          key={index}
-                          className={item?.mode === "YES" ? "back" : "lay"}>
-                          <td>{index + 1}</td>
-                          <td>{item?.selectionName}</td>
-                          <td>{Number(item?.rate)?.toFixed(2)}</td>
-                          <td>{item?.run}</td>
-                          <td>{item?.declared}</td>
-                          <td>{item?.mode}</td>
-                          <td>{item?.amount}</td>
-                          <td
-                            style={{
-                              color: item?.netPnl > 0 ? "green" : "red",
-                            }}>
-                            {item?.netPnl}
-                          </td>
-                          <td>{item?.time}</td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={10}>
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                      </td>
-                    </tr>
-                  )}
-                  <tr>
-                    <td style={{ fontWeight: 700 }}>Total</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <span
-                        style={{
-                          color: totalPnl > 0 ? "green" : "red",
-                          fontWeight: 700,
-                        }}>
-                        {totalPnl?.toFixed(2)}
-                      </span>
-                    </td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Col>
-        </Row>
-      </Card>
+      <div className="msb-content">
+        <MatchSessionBetUserFilter
+          clientId={clientId}
+          onSelectClient={setClientId}
+          onSearchClient={(value) => {
+            if (value) userTrigger({ userId: value, userType: 1 });
+          }}
+          userOptions={userOptions}
+        />
+
+        <div className="msb-cards">
+          <div className="msb-card-col msb-card-col-match">
+            <BetSectionCard
+              icon={<Swords size={15} strokeWidth={1.8} />}
+              title="Match Bets"
+              count={matchRows.length}>
+              <MatchBetsTable
+                rows={matchRows}
+                isLoading={isLoading}
+                isError={isError}
+                onRetry={fetchBets}
+                totalAmount={totalAmountMatch}
+                totalPnl={totalPnlM}
+                totalPnlColorSign={totalPnl}
+              />
+            </BetSectionCard>
+          </div>
+          <div className="msb-card-col msb-card-col-session">
+            <BetSectionCard
+              icon={<Activity size={15} strokeWidth={1.8} />}
+              title="Session Bets"
+              count={sessionRows.length}>
+              <SessionBetsTable
+                rows={sessionRows}
+                isLoading={isLoading}
+                isError={isError}
+                onRetry={fetchBets}
+                totalPnl={totalPnl}
+              />
+            </BetSectionCard>
+          </div>
+        </div>
+
+        <MatchSessionBetSummary
+          totalMatchAmount={totalAmountMatch}
+          totalMatchPnl={totalPnlM}
+          totalSessionAmount={totalAmountSession}
+          totalSessionPnl={totalPnl}
+        />
+      </div>
     </div>
   );
 };
