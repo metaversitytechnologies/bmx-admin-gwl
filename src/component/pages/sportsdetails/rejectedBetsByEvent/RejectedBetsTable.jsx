@@ -4,7 +4,13 @@ import TypeBadge from "./TypeBadge";
 import BetStatusBadge from "./BetStatusBadge";
 import RejectedBetsEmpty from "./RejectedBetsEmpty";
 import RejectedBetsError from "./RejectedBetsError";
-import { formatAgent, formatAmount, formatDateParts } from "./rejectedBetsUtils";
+import RejectedBetsMobileList from "./RejectedBetsMobileList";
+import {
+  formatAgent,
+  formatAmount,
+  formatDateParts,
+  parseRemark,
+} from "./rejectedBetsUtils";
 
 const buildColumns = (teamName) => [
   {
@@ -14,7 +20,9 @@ const buildColumns = (teamName) => [
     width: 80,
     align: "right",
     className: "rb-col-num",
-    render: (text) => Number(text || 0).toFixed(2),
+    render: (text) => (
+      <span className="rb-rate-value">{Number(text || 0).toFixed(2)}</span>
+    ),
   },
   {
     title: "Amount",
@@ -23,13 +31,16 @@ const buildColumns = (teamName) => [
     width: 100,
     align: "right",
     className: "rb-col-num rb-col-amount",
-    render: (value) => formatAmount(value),
+    render: (value) => (
+      <span className="rb-amount-value">{formatAmount(value)}</span>
+    ),
   },
   {
     title: "Type",
     dataIndex: "mode",
     key: "mode",
-    width: 80,
+    width: 90,
+    align: "center",
     render: (mode) => <TypeBadge mode={mode} />,
   },
   {
@@ -46,9 +57,9 @@ const buildColumns = (teamName) => [
     title: "Team",
     dataIndex: "run",
     key: "team",
-    width: 220,
+    width: 240,
     render: () => (
-      <span className="rb-ellipsis-cell" title={teamName}>
+      <span className="rb-team-cell" title={teamName}>
         {teamName}
       </span>
     ),
@@ -66,13 +77,23 @@ const buildColumns = (teamName) => [
     dataIndex: "parentId",
     key: "parentId",
     width: 100,
-    render: (value) => formatAgent(value),
+    render: (value) => {
+      const display = formatAgent(value);
+      return (
+        <span
+          className={`rb-agent-cell${
+            display === "—" ? " rb-agent-placeholder" : ""
+          }`}>
+          {display}
+        </span>
+      );
+    },
   },
   {
     title: "Date",
     dataIndex: "time",
     key: "time",
-    width: 130,
+    width: 140,
     render: (value) => {
       const { date, time } = formatDateParts(value);
       return (
@@ -93,7 +114,7 @@ const buildColumns = (teamName) => [
     title: "Bet Status",
     dataIndex: "bet_status",
     key: "bet_status",
-    width: 120,
+    width: 130,
     render: () => <BetStatusBadge label="Deleted" />,
   },
   {
@@ -101,11 +122,15 @@ const buildColumns = (teamName) => [
     dataIndex: "selectionName",
     key: "selectionName",
     width: 240,
-    render: (text) => (
-      <span className="rb-remark-cell" title={text}>
-        {text}
-      </span>
-    ),
+    render: (text) => {
+      const { main, reason } = parseRemark(text);
+      return (
+        <div className="rb-remark-cell" title={text}>
+          <span className="rb-remark-text">{main}</span>
+          {reason && <span className="rb-reason-badge">{reason}</span>}
+        </div>
+      );
+    },
   },
 ];
 
@@ -120,19 +145,27 @@ const RejectedBetsTable = ({ rows, teamName, isLoading, isError, onRetry }) => {
 
   return (
     <div className="rb-table-card">
-      <Table
-        className="rb-table"
-        columns={buildColumns(teamName)}
-        dataSource={rows}
-        rowKey={(record, index) => index}
-        loading={isLoading}
-        scroll={{ x: 1160 }}
-        locale={{ emptyText: <RejectedBetsEmpty /> }}
-        pagination={{
-          pageSize: 50,
-          showTotal: (total, range) =>
-            `Showing ${range[0]} to ${range[1]} of ${total} entries`,
-        }}
+      <div className="rb-table-desktop">
+        <Table
+          className="rb-table"
+          columns={buildColumns(teamName)}
+          dataSource={rows}
+          rowKey={(record, index) => index}
+          loading={isLoading}
+          scroll={{ x: 1180 }}
+          locale={{ emptyText: <RejectedBetsEmpty /> }}
+          pagination={{
+            pageSize: 50,
+            showTotal: (total, range) =>
+              `Showing ${range[0]} to ${range[1]} of ${total} entries`,
+          }}
+        />
+      </div>
+
+      <RejectedBetsMobileList
+        rows={rows}
+        teamName={teamName}
+        isLoading={isLoading}
       />
     </div>
   );

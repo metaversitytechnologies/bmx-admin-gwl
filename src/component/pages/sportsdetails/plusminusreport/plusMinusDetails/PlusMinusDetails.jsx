@@ -1,7 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { TrendingUp } from "lucide-react";
 import { globalSelector } from "../../../../../store/global/slice";
 import PlusMinusTable from "./PlusMinusTable";
+import AppPageHeader from "../../../../common/AppPageHeader/AppPageHeader";
 
 const PlusMinusDetails = () => {
   const { state } = useLocation();
@@ -9,18 +11,14 @@ const PlusMinusDetails = () => {
 
   return (
     <>
-      <div className="main_live_section">
+      <div className="main_live_section list_supers admin-details-panel plus-minus-details-panel">
         <div className="_match plus_minus_sec">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
-              className="team_name">
-              {state?.state?.dataNameee}
-            </div>
-            <div className="show_btn">
-              <button onClick={() => nav(-1)}>Back</button>
-            </div>
-          </div>
+          <AppPageHeader
+            icon={<TrendingUp size={20} strokeWidth={1.8} />}
+            title={state?.state?.dataNameee}
+            subtitle="Review profit and loss for this match"
+            onBack={() => nav(-1)}
+          />
           <div className="main_table_section">
             <PlusMinusTable />
           </div>

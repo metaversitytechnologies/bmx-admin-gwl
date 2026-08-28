@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button, Card, Col, InputNumber, Modal, Row, Select, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { Flag } from "lucide-react";
 import {
   useGetMatkaListQuery,
   useSetMatkaResultMutation,
 } from "../../../store/service/MatkaServices";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const marketTypes = [
   { value: "JODI", label: "Jodi", min: 0, max: 99 },
@@ -135,12 +137,16 @@ const SetMatkaResult = () => {
   );
 
   return (
-    <div className="match_slip">
+    <div className="match_slip main_live_section list_supers admin-details-panel set-matka-result-panel">
+      <AppPageHeader
+        icon={<Flag size={20} strokeWidth={1.8} />}
+        title="Set Matka Result"
+        subtitle="Declare the result for a Matka match and market"
+        onBack={() => nav(-1)}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail team_name"
-        title="SET MATKA RESULT"
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+        className="sport_detail team_name">
         <div style={{ padding: "16px" }}>
           {errorMessage && (
             <div

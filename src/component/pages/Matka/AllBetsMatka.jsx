@@ -1,6 +1,8 @@
 import { Card } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { ListChecks } from "lucide-react";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 import MatkaBetsTable from "./components/MatkaBetsTable";
 import {
   useGetMatkaBetsQuery,
@@ -44,12 +46,16 @@ const AllBetsMatka = () => {
     marketError?.data?.message;
 
   return (
-    <div className="match_slip">
+    <div className="match_slip main_live_section list_supers admin-details-panel all-bets-matka-panel">
+      <AppPageHeader
+        icon={<ListChecks size={20} strokeWidth={1.8} />}
+        title="All Bets"
+        subtitle="Review every bet placed on this Matka game"
+        onBack={() => nav(-1)}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail team_name"
-        title="ALL BETS"
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+        className="sport_detail team_name">
         <div style={{ padding: "20px" }}>
           {errorMessage && (
             <div

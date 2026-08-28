@@ -3,10 +3,12 @@ import { Button, Card, Col, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { Money } from "./moneySvg";
 import { EyeOutlined } from "@ant-design/icons";
+import { BookText } from "lucide-react";
 import { useGetLedgerAllQuery } from "../../../../store/service/SportDetailServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import { convertCode, isNsg } from "../../../../store/constant";
 import SettlementModal from "./SettlementModal";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const nameData = {
   6: "Mini-Admin",
@@ -136,10 +138,14 @@ const SuperAgentLedger = () => {
 
   return (
     <>
-      <Card
-        className="sport_detail ledger_data led_super"
-        title={`${Listname?.replace("-", " ")} Ledger`}
-        extra={<button onClick={handleBackbtn}>Back</button>}>
+      <div className="main_live_section list_supers admin-details-panel super-agent-ledger-panel">
+        <AppPageHeader
+          icon={<BookText size={20} strokeWidth={1.8} />}
+          title={`${Listname?.replace("-", " ")} Ledger`}
+          subtitle="Review lena/dena balances and settle accounts"
+          onBack={handleBackbtn}
+        />
+      <Card className="sport_detail ledger_data led_super">
         <Row className="main_super_super_ledger" gutter={[24]}>
           {["Lena", "Dena", "Clear"].map((itemName, index) => (
             <Col key={index} xs={24} lg={8} md={24}>
@@ -178,6 +184,7 @@ const SuperAgentLedger = () => {
           ))}
         </Row>
       </Card>
+      </div>
 
       <SettlementModal
         handleClose={() => setIsDepositModalOpen(false)}

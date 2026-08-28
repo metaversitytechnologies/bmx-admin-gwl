@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { FileBarChart2 } from "lucide-react";
 import "./RoulettePlusMinus.scss";
 import { useGetCasinoLedgerQuery } from "../../../../store/service/SportDetailServices";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import LedgerDataAdminCasino from "./LedgerDataCasino/LedgerDataAdminCasino";
 import LedgerdataSubAdminCasino from "./LedgerDataCasino/LedgerdataSubAdminCasino";
 import LedgerdataSuperMasterCasino from "./LedgerDataCasino/LedgerdataSuperMasterCasino";
@@ -24,40 +26,33 @@ const RoulettePlusMinus = () => {
   });
 
 
-  const userType = localStorage.getItem("userType"); 
+  const userType = localStorage.getItem("userType");
+
+  const roleLabel =
+    userType == 7
+      ? "Super Admin"
+      : userType == 6
+      ? "Admin"
+      : userType == 5
+      ? "Mini Admin"
+      : userType == 4
+      ? "Master "
+      : userType == 3
+      ? "Super Agent Master"
+      : userType == 2
+      ? "Agent"
+      : "Client";
 
   return (
     <>
-      <div className="main_live_section list_supers">
+      <div className="main_live_section list_supers admin-details-panel roulette-plus-minus-panel">
         <div className="_match">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
-              className="team_name">
-              <p>
-                {userType == 7
-                  ? "Super Admin"
-                  : userType == 6
-                  ? "Admin"
-                  : userType == 5
-                  ? "Mini Admin"
-                  : userType == 4
-                  ? "Master "
-                  : userType == 3
-                  ? "Super Agent Master"
-                  : userType == 2
-                  ? "Agent"
-                  : "Client"}{" "}
-                Company Report
-              </p>{" "}
-              <p style={{ fontSize: "16px" }}>
-                {state?.isAuraDetails} {state?.rouletteDate}{" "}
-              </p>
-            </div>
-            <div className="show_btn">
-              <button onClick={handleBackClick}>Back</button>
-            </div>
-          </div>
+          <AppPageHeader
+            icon={<FileBarChart2 size={20} strokeWidth={1.8} />}
+            title={`${roleLabel} Company Report`}
+            subtitle={`${state?.isAuraDetails ?? ""} ${state?.rouletteDate ?? ""}`.trim()}
+            onBack={handleBackClick}
+          />
         </div>
         <div>
           {/* <div

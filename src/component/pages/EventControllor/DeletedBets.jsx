@@ -11,10 +11,12 @@ import { CaretDownOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
+import { Trash2 } from "lucide-react";
 import {
   useGetDeletedMatchesQuery,
   useGetEventActiveDeactiveMutation,
 } from "../../../store/service/userlistService";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const DeletedBets = () => {
   const nav = useNavigate();
@@ -70,11 +72,14 @@ const DeletedBets = () => {
   ];
 
   return (
-    <Card
-      className="sport_detail"
-      title="Delete Bets"
-      extra={<button onClick={() => nav(-1)}>Back</button>}
-    >
+    <div className="main_live_section list_supers admin-details-panel deleted-bets-panel">
+      <AppPageHeader
+        icon={<Trash2 size={20} strokeWidth={1.8} />}
+        title="Delete Bets"
+        subtitle="Review deleted matches and manage bet removal"
+        onBack={() => nav(-1)}
+      />
+    <Card className="sport_detail">
       <Row className="date_picker" justify="center"></Row>
 
       <div className="table_section">
@@ -142,6 +147,7 @@ const DeletedBets = () => {
         </Row>
       )}
     </Card>
+    </div>
   );
 };
 

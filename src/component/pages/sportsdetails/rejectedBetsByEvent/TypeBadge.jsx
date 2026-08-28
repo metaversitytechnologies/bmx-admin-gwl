@@ -7,6 +7,7 @@ const TypeBadge = ({ mode }) => {
   const isYes = (mode || "").toUpperCase() === "YES";
   return (
     <span className={`rb-type-badge ${isYes ? "rb-type-yes" : "rb-type-no"}`}>
+      <span className="rb-type-dot" />
       {mode}
     </span>
   );

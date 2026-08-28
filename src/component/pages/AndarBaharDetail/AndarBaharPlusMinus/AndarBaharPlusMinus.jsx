@@ -1,8 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Table } from "antd";
+import { FileBarChart2 } from "lucide-react";
 import { useGetCompletedPlusMinusQuery } from "../../../../store/service/SportDetailServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const AndarBaharPlusMinus = () => {
   const nav = useNavigate();
@@ -106,19 +108,14 @@ const AndarBaharPlusMinus = () => {
 
   return (
     <>
-      <div className="main_live_section list_supers company_resport_casi">
+      <div className="main_live_section list_supers admin-details-panel company_resport_casi andar-bahar-plus-minus-panel">
         <div className="_match">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "22px" }}
-              className="team_name">
-              <p>Company Report</p>
-            </div>
-            <div className="show_btn">
-              {/* <button>Show</button> */}
-              <button onClick={handleBackClick}>Back</button>
-            </div>
-          </div>
+          <AppPageHeader
+            icon={<FileBarChart2 size={20} strokeWidth={1.8} />}
+            title="Company Report"
+            subtitle="Review Andar Bahar profit and loss"
+            onBack={handleBackClick}
+          />
         </div>
         <div className="table_section">
           <Table

@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ShieldX } from "lucide-react";
 import { useGetRejectedBetQuery } from "../../../../store/service/SportDetailServices";
-import RejectedBetsHeader from "./RejectedBetsHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import RejectedBetsFilters from "./RejectedBetsFilters";
 import RejectedBetsTable from "./RejectedBetsTable";
 
@@ -27,7 +28,7 @@ const RejectedBetsByEvent = () => {
         ])
       ).values()
     );
-    return [{ label: "All User", value: "ALL" }, ...uniqueUsers];
+    return [{ label: "All Users", value: "ALL" }, ...uniqueUsers];
   }, [data]);
 
   const filteredData = useMemo(() => {
@@ -41,7 +42,12 @@ const RejectedBetsByEvent = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel rejected-bets-panel">
-      <RejectedBetsHeader onBack={handleBackClick} />
+      <AppPageHeader
+        icon={<ShieldX size={20} strokeWidth={1.8} />}
+        title="Rejected & Cancelled Bets"
+        subtitle="Review rejected, cancelled and deleted betting activity"
+        onBack={handleBackClick}
+      />
 
       <div className="rb-content">
         <RejectedBetsFilters

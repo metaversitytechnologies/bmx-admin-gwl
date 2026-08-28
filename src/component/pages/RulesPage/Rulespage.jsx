@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { Card } from "antd";
+import { ScrollText } from "lucide-react";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const Rulespage = () => {
   const nav = useNavigate();
   return (
-    <>
-      <Card
-        className="sport_detail rules_page ledger_data"
-        title="Rules "
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+    <div className="main_live_section list_supers admin-details-panel rules-panel">
+      <AppPageHeader
+        icon={<ScrollText size={20} strokeWidth={1.8} />}
+        title="Rules"
+        subtitle="Platform, bookmaker, fancy and casino rules"
+        onBack={() => nav(-1)}
+      />
+      <Card className="sport_detail rules_page ledger_data">
         <div>
           <div className="term-and-condition">
             <h1 style={{ textAlign: "center", marginTop: "12px" }}>
@@ -2718,7 +2723,7 @@ const Rulespage = () => {
           </div>
         </div>
       </Card>
-    </>
+    </div>
   );
 };
 

@@ -1,8 +1,10 @@
 import { Card, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { ListChecks } from "lucide-react";
 import { useGetCasinoBetByMarketQuery } from "../../../store/service/CasinoServices";
 import { render } from "react-dom";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const AllBets = () => {
   const { id } = useParams();
@@ -67,16 +69,20 @@ const AllBets = () => {
 
   return (
     <>
-      <div className="match_slip account_match_slip">
+      <div className="match_slip account_match_slip main_live_section list_supers admin-details-panel casino-all-bets-panel">
+        <AppPageHeader
+          icon={<ListChecks size={20} strokeWidth={1.8} />}
+          title={`All Bets: ${id}`}
+          subtitle="Review every bet placed on this casino round"
+          onBack={handleBackClick}
+        />
         <div>
           <Card
             style={{
               margin: "0px",
               width: "100%",
             }}
-            className="sport_detail acc_name"
-            title={`All Bets: ${id}`}
-            extra={<button onClick={handleBackClick}>Back</button>}>
+            className="sport_detail acc_name">
             <div className="table_section statement_tabs_data">
               <div className="table_section">
                 <Table

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import dayjs from "dayjs";
+import { Trophy } from "lucide-react";
 import { useActiveMatchQuery } from "../../../store/service/ActiveMatcheService";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
-import SportsDetailsHeader from "./SportsDetailsHeader";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 import SportsDateFilter from "./SportsDateFilter";
 import SportsDesktopTable from "./SportsDesktopTable";
 import SportsMobileList from "./SportsMobileList";
@@ -71,7 +72,12 @@ const SportsDetails = () => {
   return (
     <div className="main_live_section list_supers admin-details-panel sports-details-panel">
       <div className="_match">
-        <SportsDetailsHeader onBack={handleBackbtn} />
+        <AppPageHeader
+          icon={<Trophy size={20} strokeWidth={1.8} />}
+          title="Sports Detail"
+          subtitle="View and manage sports fixtures and their current settings"
+          onBack={handleBackbtn}
+        />
       </div>
       <div className="table_section sport_detail m-0 admin-details-table-shell sports-details-table-shell">
         <SportsDateFilter

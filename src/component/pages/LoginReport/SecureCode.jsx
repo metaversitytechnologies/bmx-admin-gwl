@@ -1,9 +1,11 @@
 import { Button, Card, Col, Empty, Input, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { KeyRound } from "lucide-react";
 import { useLazyGetSecureCodeQuery } from "../../../store/service/SportDetailServices";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import { convertCode, convertCodeReverse } from "../../../store/constant";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const SecureCode = () => {
   const userId = localStorage.getItem("userId");
@@ -31,19 +33,19 @@ const SecureCode = () => {
           onClick={() => setIsModalOpen(false)}
           className="report_overlay"></div>
       )}
-      <div
-        className="match_slip"
-        style={{
-          margin: "30px 15px",
-        }}>
+      <div className="match_slip main_live_section list_supers admin-details-panel secure-code-panel">
+        <AppPageHeader
+          icon={<KeyRound size={20} strokeWidth={1.8} />}
+          title="Secure Code"
+          subtitle="Look up a client's secure login codes"
+          onBack={handleBackClick}
+        />
         <Card
           style={{
             margin: "0px",
             width: "100%",
           }}
-          className="sport_detail  team_name"
-          title="Secure Code"
-          extra={<button onClick={handleBackClick}>Back</button>}>
+          className="sport_detail  team_name">
           <Row
             gutter={[16]}
             style={{

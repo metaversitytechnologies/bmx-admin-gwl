@@ -4,9 +4,10 @@ import {
   useGetSessionBetMutation,
   useGetSessionHavingBetQuery,
 } from "../../../../store/service/SportDetailServices";
+import { Target } from "lucide-react";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-import FancyBetsHeader from "./FancyBetsHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import FancyBetsSummary from "./FancyBetsSummary";
 import FancyBetsFilters from "./FancyBetsFilters";
 import FancyBetsDesktopTable from "./FancyBetsDesktopTable";
@@ -76,7 +77,12 @@ const FancyBets = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel fancy-bets-panel">
-      <FancyBetsHeader onBack={handleBackClick} />
+      <AppPageHeader
+        icon={<Target size={20} strokeWidth={1.8} />}
+        title="Fancy Bets"
+        subtitle="View fancy and session bets placed on this match"
+        onBack={handleBackClick}
+      />
 
       <div className="fb-content">
         {/* <FancyBetsSummary rows={rows} /> */}

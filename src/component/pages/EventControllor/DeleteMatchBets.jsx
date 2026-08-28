@@ -12,10 +12,12 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
+import { ListChecks } from "lucide-react";
 import {
   useGetDeletdBetMutation,
   useGetMatchedBetDeletedQuery,
 } from "../../../store/service/userlistService";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const DeleteMatchBets = () => {
   const [selectedMkt, setSelectedMkt] = useState("BOOKMAKER");
@@ -95,10 +97,14 @@ const DeleteMatchBets = () => {
   const userType = localStorage.getItem("userType");
 
   return (
-    <Card
-      className="sport_detail"
-      title="Delete Match Bets"
-      extra={<button onClick={() => nav(-1)}>Back</button>}>
+    <div className="main_live_section list_supers admin-details-panel delete-match-bets-panel">
+      <AppPageHeader
+        icon={<ListChecks size={20} strokeWidth={1.8} />}
+        title="Delete Match Bets"
+        subtitle="Review and remove match bets for this match"
+        onBack={() => nav(-1)}
+      />
+    <Card className="sport_detail">
       <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
           <DatePicker.RangePicker
@@ -206,6 +212,7 @@ const DeleteMatchBets = () => {
         </table>
       </div>
     </Card>
+    </div>
   );
 };
 

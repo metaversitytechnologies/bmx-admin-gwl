@@ -2,7 +2,9 @@ import { Card, Empty } from "antd";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
+import { History } from "lucide-react";
 import { useGetTranstionDeatilsQuery } from "../../../../store/service/SportDetailServices";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const DeletedLenden = () => {
   const nav = useNavigate();
@@ -17,11 +19,14 @@ const DeletedLenden = () => {
   });
 
   return (
-    <>
-      <Card
-        className="sport_detail ledger_data rehected_bet"
+    <div className="main_live_section list_supers admin-details-panel deleted-lenden-panel">
+      <AppPageHeader
+        icon={<History size={20} strokeWidth={1.8} />}
         title="Deleted Lena Dena"
-        extra={<button onClick={handleBackbtn}>Back</button>}>
+        subtitle="Review deleted ledger transaction records"
+        onBack={handleBackbtn}
+      />
+      <Card className="sport_detail ledger_data rehected_bet">
         <div className="table_section" style={{ paddingBottom: "20px" }}>
           <table className="">
             <thead>
@@ -65,7 +70,7 @@ const DeletedLenden = () => {
           </table>
         </div>
       </Card>
-    </>
+    </div>
   );
 };
 

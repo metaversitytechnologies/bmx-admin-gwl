@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Card, Col, Row } from "antd";
+import { Spade } from "lucide-react";
 import VideoSection from "./VideoSection";
 import LastResult from "./LastResult";
 import { useOdds } from "./UseOdds";
@@ -7,6 +8,7 @@ import { tableIdtoUrl, titleById } from "./Constant";
 import { useNavigate, useParams } from "react-router-dom";
 import NonDeclare from "./NonDeclare";
 import Result from "./Result";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const TeenPatti = lazy(() => import("./TeenPatti"));
 const AAA = lazy(() => import("./AAA"));
@@ -20,11 +22,15 @@ const CasinoMainPage = () => {
   const { odds } = useOdds(tableIdtoUrl[id]);
 
   return (
-    <div className="match_slip match_ledger casino_oddsss">
+    <div className="match_slip match_ledger casino_oddsss main_live_section list_supers admin-details-panel casino-main-panel">
+      <AppPageHeader
+        icon={<Spade size={20} strokeWidth={1.8} />}
+        title={titleById[id]}
+        subtitle="Live casino table odds and results"
+        onBack={() => nav(-1)}
+      />
       <Card
         className="sport_detail team_name"
-        title={titleById[id]}
-        extra={<button onClick={() => nav(-1)}>Back</button>}
         style={{ margin: 0, width: "100%" }}>
         <Card bordered className="gx-card-widget">
           <Row className="gx-px-4" gutter={[32, 32]}>

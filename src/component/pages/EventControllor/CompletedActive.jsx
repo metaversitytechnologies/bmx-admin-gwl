@@ -1,7 +1,9 @@
 import {  Card, Empty, Row } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { CircleCheckBig } from "lucide-react";
 import { useGetCompletdMatchesQuery } from "../../../store/service/userlistService";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const CompletedActive = () => {
   const nav = useNavigate();
@@ -11,10 +13,14 @@ const CompletedActive = () => {
   const { data: sportDetail } = useGetCompletdMatchesQuery({});
 
   return (
-    <Card
-      className="sport_detail"
-      title="Complete Match Active Bet"
-      extra={<button onClick={() => nav(-1)}>Back</button>}>
+    <div className="main_live_section list_supers admin-details-panel completed-active-panel">
+      <AppPageHeader
+        icon={<CircleCheckBig size={20} strokeWidth={1.8} />}
+        title="Complete Match Active Bet"
+        subtitle="Review active bets for completed matches"
+        onBack={() => nav(-1)}
+      />
+    <Card className="sport_detail">
       <Row className="date_picker" justify="center"></Row>
 
       <div className="table_section">
@@ -57,6 +63,7 @@ const CompletedActive = () => {
         </table>
       </div>
     </Card>
+    </div>
   );
 };
 

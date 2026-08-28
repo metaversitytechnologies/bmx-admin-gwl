@@ -14,6 +14,7 @@ import {
   notification,
 } from "antd";
 
+import { Wallet } from "lucide-react";
 import TransactionTable from "../TransactionTable";
 import {
   useCreateLedgerMutation,
@@ -23,6 +24,7 @@ import {
 import { convertCode, convertCodeReverse } from "../../../../store/constant";
 import { openNotification, openNotificationError } from "../../../../App";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const dateFormat = "YYYY/MM/DD";
 const { Option } = Select;
@@ -122,13 +124,16 @@ const AgentTransactions = () => {
   }, [result, userId, trigger, form]);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="main_live_section list_supers admin-details-panel agent-transactions-panel">
       {isPolling && <CustomLoading />}
       {contextHolder}
-      <Card
-        className="sport_detail ledger_data cash_data"
+      <AppPageHeader
+        icon={<Wallet size={20} strokeWidth={1.8} />}
         title={`${name?.replace("-", " ")} Transactions`}
-        extra={<button onClick={handleBackbtn}>Back</button>}>
+        subtitle="Record and manage agent cash transactions"
+        onBack={handleBackbtn}
+      />
+      <Card className="sport_detail ledger_data cash_data">
         <div className="my_ledger">
           <Form
             className="form_data mt-16 cash_data"

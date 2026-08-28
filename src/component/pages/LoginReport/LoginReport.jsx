@@ -2,7 +2,9 @@ import { Card, Divider, Empty, Pagination } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLazyLoginReportQuery } from "../../../store/service/loginReportServices";
 import { useEffect, useState } from "react";
+import { LogIn } from "lucide-react";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const LoginReport = () => {
   const { id } = useParams();
@@ -32,15 +34,19 @@ const LoginReport = () => {
           onClick={() => setIsModalOpen(false)}
           className="report_overlay"></div>
       )}
-      <div className="match_slip login_report">
+      <div className="match_slip login_report main_live_section list_supers admin-details-panel login-report-panel">
+        <AppPageHeader
+          icon={<LogIn size={20} strokeWidth={1.8} />}
+          title="Login Report"
+          subtitle="Review recent login activity and locations"
+          onBack={handleBackClick}
+        />
         <Card
           style={{
             margin: "0px",
             width: "100%",
           }}
-          className="sport_detail  team_name"
-          title="Login Report"
-          extra={<button onClick={handleBackClick}>Back</button>}>
+          className="sport_detail  team_name">
           <div className="table_section statement_tabs_data ant-spin-nested-loading">
             <table className="live_table login_data_table">
               <tr>

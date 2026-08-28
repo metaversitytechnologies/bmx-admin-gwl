@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import dayjs from "dayjs";
+import { History } from "lucide-react";
 import { useAccOprationQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-import AccountOperationsHeader from "./AccountOperationsHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import AccountOperationsToolbar from "./AccountOperationsToolbar";
 import OperationsTable from "./OperationsTable";
 import MobileActivityFeed from "./MobileActivityFeed";
@@ -69,8 +70,15 @@ const AccountOperations = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel account-operations-panel">
-      <AccountOperationsHeader
-        count={activities.length}
+      <AppPageHeader
+        icon={<History size={20} strokeWidth={1.8} />}
+        title="Activity History"
+        subtitle={
+          <>
+            Review account changes and administrative activity ·{" "}
+            {activities.length} {activities.length === 1 ? "activity" : "activities"}
+          </>
+        }
         onBack={handleBackClick}
       />
 

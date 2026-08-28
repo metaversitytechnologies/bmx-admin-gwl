@@ -1,6 +1,8 @@
 import { Button, Card, Col, DatePicker, Divider, Form, Input, Pagination, Row, Select } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { Wallet } from "lucide-react";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const dateFormat = "YYYY/MM/DD";
 
@@ -22,11 +24,14 @@ const ClientTransactions = () => {
   const { Option } = Select;
 
   return (
-    <Card
-      className="sport_detail ledger_data"
-      title="Client Transactions"
-      extra={<button onClick={handleBackbtn}>Back</button>}
-    >
+    <div className="main_live_section list_supers admin-details-panel client-transactions-panel">
+      <AppPageHeader
+        icon={<Wallet size={20} strokeWidth={1.8} />}
+        title="Client Transactions"
+        subtitle="Record and manage client cash transactions"
+        onBack={handleBackbtn}
+      />
+      <Card className="sport_detail ledger_data">
       <div className="my_ledger">
         <Form
           className="form_data mt-16 cash_data"
@@ -178,7 +183,8 @@ const ClientTransactions = () => {
       </div> */}
       {/* <Divider /> */}
       {/* <Pagination className="pagination_main ledger_pagination" defaultCurrent={1} total={50} /> */}
-    </Card>
+      </Card>
+    </div>
   );
 };
 

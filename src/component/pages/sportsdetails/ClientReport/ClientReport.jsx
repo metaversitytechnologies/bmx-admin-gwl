@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Users } from "lucide-react";
 import { useGetAgentPlusMinusQuery } from "../../../../store/service/SportDetailServices";
-import ClientReportHeader from "./ClientReportHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import ClientReportSummary from "./ClientReportSummary";
 import ClientReportTable from "./ClientReportTable";
 import ClientReportPagination from "./ClientReportPagination";
@@ -49,7 +50,12 @@ const ClientReport = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel client-report2-panel">
-      <ClientReportHeader subtitle={name} onBack={() => nav(-1)} />
+      <AppPageHeader
+        icon={<Users size={20} strokeWidth={1.8} />}
+        title="Client Report"
+        subtitle={name}
+        onBack={() => nav(-1)}
+      />
 
       <div className="cr2-content">
         <ClientReportSummary

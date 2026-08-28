@@ -2,10 +2,12 @@ import { Button, Card, Empty, message, Row, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
+import { Lock } from "lucide-react";
 import {
   useGetEventActiveDeactiveMutation,
   useGetEventLockListQuery,
 } from "../../../store/service/userlistService";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const EventControllor = () => {
   const nav = useNavigate();
@@ -43,11 +45,14 @@ const EventControllor = () => {
   const paginatedData = data.slice(startIndex, endIndex);
 
   return (
-    <Card
-      className="sport_detail"
-      title="Event Lock"
-      extra={<button onClick={() => nav(-1)}>Back</button>}
-    >
+    <div className="main_live_section list_supers admin-details-panel event-controllor-panel">
+      <AppPageHeader
+        icon={<Lock size={20} strokeWidth={1.8} />}
+        title="Event Lock"
+        subtitle="Lock or unlock betting activity for live events"
+        onBack={() => nav(-1)}
+      />
+    <Card className="sport_detail">
       <Row className="date_picker" justify="center"></Row>
 
       <div className="table_section">
@@ -109,6 +114,7 @@ const EventControllor = () => {
         </Row>
       )}
     </Card>
+    </div>
   );
 };
 

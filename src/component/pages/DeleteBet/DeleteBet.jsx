@@ -1,16 +1,15 @@
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  notification,
-  Row,
-  Select,
-  Table,
-} from "antd";
+import { Button, Form, notification, Select, Table } from "antd";
 import dayjs from "dayjs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import {
+  ArrowLeft,
+  Filter,
+  ShieldAlert,
+  Table2,
+  Trash2,
+  SearchX,
+} from "lucide-react";
 
 import {
   useMatchListActiveBetsQuery,
@@ -21,6 +20,18 @@ import {
 import { openNotification, openNotificationError } from "../../../App";
 
 const { Option } = Select;
+
+const DeleteBetEmpty = () => (
+  <div className="db-empty">
+    <span className="db-empty-icon">
+      <SearchX size={20} strokeWidth={1.8} />
+    </span>
+    <p className="db-empty-title">No Data Found</p>
+    <p className="db-empty-subtitle">
+      There are no bets available for the selected match and market.
+    </p>
+  </div>
+);
 
 const DeleteBet = () => {
   const [form] = Form.useForm();
@@ -159,27 +170,62 @@ const DeleteBet = () => {
   return (
     <>
       {contextHolder}
-      <Card
-        className="sport_detail ledger_data cash_data"
-        title="Reject Bets"
-        extra={<button onClick={handleBackbtn}>Back</button>}>
-        <div style={{ padding: "10px 0px" }}>
-          <Form
-            className="form_data mt-16 cash_data"
-            name="delete-bet"
-            form={form}
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            autoComplete="off">
-            <Row gutter={[16, 16]}>
-              <Col xl={8} lg={8} md={24} xs={24}>
+      <div className="main_live_section list_supers admin-details-panel delete-bet-panel">
+        <div className="admin-details-header">
+          <div className="admin-details-title-wrap">
+            <span className="admin-details-icon">
+              <ShieldAlert size={20} strokeWidth={1.8} />
+            </span>
+            <div>
+              <div className="team_name admin-details-title">
+                Reject Bets
+              </div>
+              <p className="admin-details-subtitle">
+                Review and remove selected bets safely
+              </p>
+            </div>
+          </div>
+          <div className="show_btn">
+            <button
+              type="button"
+              className="admin-details-back"
+              onClick={handleBackbtn}>
+              <ArrowLeft size={15} strokeWidth={1.8} />
+              <span className="db-back-label">Back</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="db-body">
+          <div className="db-card db-selection-card">
+            <div className="db-card-heading">
+              <span className="db-card-icon">
+                <Filter size={16} strokeWidth={1.8} />
+              </span>
+              <div>
+                <h3 className="db-card-title">Bet Selection</h3>
+                <p className="db-card-subtitle">
+                  Choose a match and market to review available bets.
+                </p>
+              </div>
+            </div>
+
+            <Form
+              className="db-form"
+              name="delete-bet"
+              form={form}
+              layout="vertical"
+              autoComplete="off">
+              <div className="db-selection-row">
                 <Form.Item
+                  className="db-form-item"
                   label="Match"
                   name="match"
                   rules={[
                     { required: true, message: "Please select a match" },
                   ]}>
                   <Select
+                    className="db-select"
                     placeholder="Select Match"
                     showSearch
                     allowClear
@@ -197,16 +243,16 @@ const DeleteBet = () => {
                     }
                   />
                 </Form.Item>
-              </Col>
 
-              <Col xl={8} lg={8} md={24} xs={24}>
                 <Form.Item
+                  className="db-form-item"
                   label="Market"
                   name="maeket"
                   rules={[
                     { required: true, message: "Please select a market" },
                   ]}>
                   <Select
+                    className="db-select"
                     onSelect={onSelectMarket}
                     placeholder="Select Market"
                     allowClear>
@@ -215,17 +261,17 @@ const DeleteBet = () => {
                     <Option value="Fancy">Fancy</Option>
                   </Select>
                 </Form.Item>
-              </Col>
 
-              {showFancyFilter && (
-                <Col xl={8} lg={8} md={24} xs={24}>
+                {showFancyFilter && (
                   <Form.Item
+                    className="db-form-item"
                     label="Bet List"
                     name="betlist"
                     rules={[
                       { required: true, message: "Please select a market" },
                     ]}>
                     <Select
+                      className="db-select"
                       placeholder="Select Fancy"
                       showSearch
                       allowClear
@@ -241,37 +287,55 @@ const DeleteBet = () => {
                       }
                     />
                   </Form.Item>
-                </Col>
-              )}
-            </Row>
+                )}
 
-            <Form.Item wrapperCol={{ span: 24 }}>
-              <Button
-                isLoading={isLoading}
-                type="primary"
-                onClick={handleDeletedBet}>
-                Delete
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      </Card>
+                <Form.Item className="db-form-item db-delete-item">
+                  <Button
+                    isLoading={isLoading}
+                    type="primary"
+                    onClick={handleDeletedBet}
+                    className="db-delete-btn"
+                    icon={<Trash2 size={14} strokeWidth={2} />}>
+                    Delete
+                  </Button>
+                </Form.Item>
+              </div>
+            </Form>
+          </div>
 
-      <Card className="sport_detail ledger_data">
-        <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Table
-            className="live_table"
-            rowSelection={rowSelection}
-            columns={columns}
-            dataSource={deletedbetLsit?.data || []}
-            rowKey="id"
-            pagination={{
-              defaultPageSize: 50,
-              pageSizeOptions: [50, 100, 150, 200, 250],
-            }}
-          />
+          <div className="db-card db-table-card">
+            <div className="db-card-heading">
+              <span className="db-card-icon">
+                <Table2 size={16} strokeWidth={1.8} />
+              </span>
+              <div>
+                <h3 className="db-card-title">Available Bets</h3>
+                <p className="db-card-subtitle">
+                  Select one or more bets to remove.
+                </p>
+              </div>
+            </div>
+
+            <div className="db-table-scroll">
+              <Table
+                className="db-table"
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={deletedbetLsit?.data || []}
+                rowKey="id"
+                scroll={{ x: 1020 }}
+                locale={{ emptyText: <DeleteBetEmpty /> }}
+                pagination={{
+                  defaultPageSize: 50,
+                  pageSizeOptions: [50, 100, 150, 200, 250],
+                  showTotal: (total, range) =>
+                    `Showing ${range[0]} to ${range[1]} of ${total} entries`,
+                }}
+              />
+            </div>
+          </div>
         </div>
-      </Card>
+      </div>
     </>
   );
 };

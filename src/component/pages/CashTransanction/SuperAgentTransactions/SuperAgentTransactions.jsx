@@ -1,6 +1,8 @@
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select } from "antd";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { Wallet } from "lucide-react";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 const dateFormat = "YYYY/MM/DD";
 
 const SuperAgentTransactions = () => {
@@ -19,11 +21,14 @@ const SuperAgentTransactions = () => {
 
   const { Option } = Select;
   return (
-    <>
-      <Card
-        className="sport_detail ledger_data"
+    <div className="main_live_section list_supers admin-details-panel super-agent-transactions-panel">
+      <AppPageHeader
+        icon={<Wallet size={20} strokeWidth={1.8} />}
         title="Super Agent Transactions"
-        extra={<button onClick={handleBackbtn}>Back</button>}>
+        subtitle="Record and manage super agent cash transactions"
+        onBack={handleBackbtn}
+      />
+      <Card className="sport_detail ledger_data">
         <div className="my_ledger">
           <Form
             className="form_data mt-16 cash_data"
@@ -184,7 +189,7 @@ const SuperAgentTransactions = () => {
 
         {/* <Pagination className="pagination_main ledger_pagination" defaultCurrent={1} total={50} /> */}
       </Card>
-    </>
+    </div>
   );
 };
 

@@ -11,10 +11,12 @@ import {
   Table,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { BarChart3 } from "lucide-react";
 import { useGetCasinoBetByMarketQuery } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const { RangePicker } = DatePicker;
 
@@ -111,12 +113,16 @@ const CasinoProfitAndLossDetails = () => {
 
 
   return (
-    <div className="match_slip casino_diamond_details">
+    <div className="match_slip casino_diamond_details main_live_section list_supers admin-details-panel casino-pnl-details-panel">
+      <AppPageHeader
+        icon={<BarChart3 size={20} strokeWidth={1.8} />}
+        title="Diamond Casino Details"
+        subtitle="Review bet-level profit and loss for this casino round"
+        onBack={handleBackClick}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail"
-        title="Diamond Casino Details"
-        extra={<button onClick={handleBackClick}>Back</button>}>
+        className="sport_detail">
         <Row className="profit_apply">
           <Col xs={12} xl={6} lg={6} md={12}>
             <div className="profit_date">

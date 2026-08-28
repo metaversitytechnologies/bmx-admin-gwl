@@ -1,11 +1,13 @@
 import { Button, Card, Row, Col, message as AntMessage } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Megaphone } from "lucide-react";
 import {
   useGetMessageQuery,
   useSetMessageMutation,
 } from "../../../store/service/userlistService";
 import TextArea from "antd/es/input/TextArea";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const SetMessage = () => {
   const nav = useNavigate();
@@ -32,10 +34,14 @@ const SetMessage = () => {
   };
 
   return (
-    <Card
-      className="sport_detail"
-      title="Set Message"
-      extra={<button onClick={() => nav(-1)}>Back</button>}>
+    <div className="main_live_section list_supers admin-details-panel set-message-panel">
+      <AppPageHeader
+        icon={<Megaphone size={20} strokeWidth={1.8} />}
+        title="Set Message"
+        subtitle="Update the broadcast message shown to users"
+        onBack={() => nav(-1)}
+      />
+    <Card className="sport_detail">
       <Row style={{ padding: "10px 12px" }}>
         <Col lg={12} xs={24}>
           <div
@@ -59,6 +65,7 @@ const SetMessage = () => {
         </Col>
       </Row>
     </Card>
+    </div>
   );
 };
 

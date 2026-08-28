@@ -1,9 +1,11 @@
 import { Card, Table } from "antd";
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { LayoutGrid } from "lucide-react";
 import { useGetCasinoBetListByTableQuery } from "../../../store/service/CasinoServices";
 import moment from "moment";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const DisplayGames = () => {
   const nav = useNavigate();
@@ -69,16 +71,20 @@ const DisplayGames = () => {
     [nav]
   );
   return (
-    <div className="match_slip match_ledger">
+    <div className="match_slip match_ledger main_live_section list_supers admin-details-panel display-games-panel">
+      <AppPageHeader
+        icon={<LayoutGrid size={20} strokeWidth={1.8} />}
+        title={`${name} ${date ? date : ""}`}
+        subtitle="Review completed game rounds for this table"
+        onBack={() => nav(-1)}
+      />
       <Card
         className="sport_detail team_name"
-        title={`${name} ${date ? date : ""}`}
         style={{
           margin: 0,
           width: "100%",
           boxShadow: "0 0 5px 5px rgba(0, 0, 0, .03)",
-        }}
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+        }}>
         <div className="matchladger_total">
           <p>
             Total :{" "}

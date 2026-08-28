@@ -2,9 +2,11 @@ import { Card, Col, DatePicker, Row, Select, Table } from "antd";
 import { useMemo, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
+import { TrendingUp } from "lucide-react";
 import { useGetLedgerProfitLossQuery } from "../../../../store/service/SportDetailServices";
 import { useNavigate } from "react-router-dom";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const MatchLedger = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
@@ -82,10 +84,14 @@ const MatchLedger = () => {
         <div onClick={() => setIsModalOpen(false)} className="report_overlay" />
       )}
 
-      <Card
-        className="sport_detail my_ledger main_match_ledger profit_loss_table"
-        title="Profit Loss"
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+      <div className="main_live_section list_supers admin-details-panel profit-loss-panel">
+        <AppPageHeader
+          icon={<TrendingUp size={20} strokeWidth={1.8} />}
+          title="Profit Loss"
+          subtitle="Review match-wise profit and loss by date range"
+          onBack={() => nav(-1)}
+        />
+      <Card className="sport_detail my_ledger main_match_ledger profit_loss_table">
         <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
           <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
             <DatePicker.RangePicker
@@ -159,6 +165,7 @@ const MatchLedger = () => {
           </div>
         </div>
       </Card>
+      </div>
     </>
   );
 };

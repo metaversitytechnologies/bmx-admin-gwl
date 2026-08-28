@@ -1,9 +1,11 @@
 import { Button, Card, Col, Input, Row } from "antd";
 import { HiOutlineUserCircle } from "react-icons/hi";
+import { Search } from "lucide-react";
 import { useGetUserSeacrhMutation } from "../../../../store/service/SportDetailServices";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { convertCode } from "../../../../store/constant";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const userType = {
   6: "Admin",
@@ -34,16 +36,20 @@ const UserSearch = () => {
 
   return (
     <>
-      <div className="match_slip user_search">
+      <div className="match_slip user_search main_live_section list_supers admin-details-panel user-search-panel">
+        <AppPageHeader
+          icon={<Search size={20} strokeWidth={1.8} />}
+          title="User Search"
+          subtitle="Find a user by ID across all account types"
+          onBack={() => nav(-1)}
+        />
         <div>
           <Card
             style={{
               margin: "0px",
               width: "100%",
             }}
-            className="sport_detail acc_name"
-            title={`User Search`}
-            extra={<button onClick={() => nav(-1)}>Back</button>}>
+            className="sport_detail acc_name">
             <div className="user_section" style={{ backgroundColor: "#fff" }}>
               <Row>
                 <Col xs={24} md={24} lg={1} xl={1}></Col>

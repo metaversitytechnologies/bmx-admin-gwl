@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { LineChart } from "lucide-react";
 import { useGetCompletedFancyMutation } from "../../../../../store/service/SportDetailServices";
 import { useLazyFilterbyClientQuery } from "../../../../../store/service/supermasteAccountStatementServices";
-import FancyPLHeader from "./FancyPLHeader";
+import AppPageHeader from "../../../../common/AppPageHeader/AppPageHeader";
 import FancyPLFilters from "./FancyPLFilters";
 import PLSummaryCard from "./PLSummaryCard";
 import FancyPLTable from "./FancyPLTable";
@@ -70,7 +71,10 @@ const CompeleteFancy = () => {
 
   return (
     <div className="list_supers admin-details-panel fancy-pl-panel">
-      <FancyPLHeader
+      <AppPageHeader
+        icon={<LineChart size={20} strokeWidth={1.8} />}
+        title="Fancy Profit and Loss"
+        subtitle="Track fancy market performance and settlements"
         showBack={pathname?.includes("completed-fancy-slips")}
         onBack={() => nav(-1)}
       />

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Col, notification, Row, Table } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
+import { BarChart3 } from "lucide-react";
 import { useCasiniPlayerListQuery } from "../../../../store/service/SportDetailServices";
 import { convertCode } from "../../../../store/constant";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const column = [
   {
@@ -64,20 +66,15 @@ const CasinoPLMinus = () => {
   return (
     <>
       {contextHolder} {/* ✅ Render notification context holder */}
-      <div className="main_live_section mr-10">
+      <div className="main_live_section mr-10 list_supers admin-details-panel casino-pl-minus-panel">
         <div className="_match">
-          <div className="sub_live_section live_report">
-            <div
-              style={{ padding: "5px 8px", fontSize: "18px" }}
-              className="team_name"
-            >
-              Casino PandL Detail: {date}
-            </div>
-            <div className="show_btn back_show">
-              <button onClick={handleShowBtn}>Show</button>
-              <button onClick={handleBackClick}>Back</button>
-            </div>
-          </div>
+          <AppPageHeader
+            icon={<BarChart3 size={20} strokeWidth={1.8} />}
+            title={`Casino PandL Detail: ${date}`}
+            subtitle="Select users and game sessions to view profit and loss"
+            actions={<button onClick={handleShowBtn}>Show</button>}
+            onBack={handleBackClick}
+          />
 
           <div className="table_section plus_minus_page">
             <Row className="de_table" gutter={[32]}>

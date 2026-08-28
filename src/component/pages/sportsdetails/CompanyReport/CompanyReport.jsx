@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { FileBarChart2 } from "lucide-react";
 import { useGetCompletLedgerQuery } from "../../../../store/service/SportDetailServices";
 import { convertCode } from "../../../../store/constant";
-import CompanyReportHeader from "./CompanyReportHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import ReportSummaryCards from "./ReportSummaryCards";
 import ReportToolbar from "./ReportToolbar";
 import CompanyReportTable from "./CompanyReportTable";
@@ -64,7 +65,12 @@ const CompanyReport = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel company-report-panel">
-      <CompanyReportHeader matchName={name} onBack={() => nav(-1)} />
+      <AppPageHeader
+        icon={<FileBarChart2 size={20} strokeWidth={1.8} />}
+        title="Company Report"
+        subtitle={name}
+        onBack={() => nav(-1)}
+      />
 
       <div className="cr-content">
         <ReportSummaryCards totals={totalValues} />

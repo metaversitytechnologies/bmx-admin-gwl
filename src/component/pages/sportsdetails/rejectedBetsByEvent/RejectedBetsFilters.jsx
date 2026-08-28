@@ -16,15 +16,20 @@ const RejectedBetsFilters = ({
   recordCount,
 }) => (
   <div className="rb-toolbar">
-    <Select
-      className="rb-filter-select"
-      placeholder="Select User"
-      showSearch
-      suffixIcon={<User size={14} strokeWidth={1.8} />}
-      value={selectedUser}
-      onChange={onSelectUser}
-      options={userOptions}
-    />
+    <div className="rb-filter-group">
+      <span className="rb-filter-icon" aria-hidden="true">
+        <User size={14} strokeWidth={1.8} />
+      </span>
+      <Select
+        className="rb-filter-select"
+        aria-label="Filter by user"
+        placeholder="Select User"
+        showSearch
+        value={selectedUser}
+        onChange={onSelectUser}
+        options={userOptions}
+      />
+    </div>
     <span className="rb-record-count">
       {recordCount} {recordCount === 1 ? "record" : "records"}
     </span>

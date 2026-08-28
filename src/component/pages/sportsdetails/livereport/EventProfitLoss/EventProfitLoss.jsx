@@ -1,10 +1,12 @@
 import { Col, Empty, Row, Spin } from "antd";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { TrendingUp } from "lucide-react";
 import SuperAgentProfitLoss from "./SuperAgentProfitLoss/SuperAgentProfitLoss";
 
 import MasterProfitLoss from "./SuperAgentProfitLoss/MasterProfitLoss";
 import DealerProfitLoss from "./SuperAgentProfitLoss/DealerProfitLoss";
 import ClientProfitLoss from "./SuperAgentProfitLoss/ClientProfitLoss";
+import AppPageHeader from "../../../../common/AppPageHeader/AppPageHeader";
 
 // Mock static data
 const profitLoss = {
@@ -100,18 +102,14 @@ const EventProfitLoss = () => {
         </Col>
       </Row>
 
-      <div className="main_live_section">
+      <div className="main_live_section list_supers admin-details-panel event-profit-loss-panel">
         <div className="_match">
-          <div
-            className="sub_live_section live_report"
-            style={{ borderRadius: "2px 2px 0 0", fontSize: "16px" }}>
-            <div style={{ padding: "9px 8px" }} className="team_name">
-              Event Profit and Loss
-            </div>
-            <div className="show_btn">
-              <button onClick={handleBackClick}>Back</button>
-            </div>
-          </div>
+          <AppPageHeader
+            icon={<TrendingUp size={20} strokeWidth={1.8} />}
+            title="Event Profit and Loss"
+            subtitle="Review profit and loss for this event"
+            onBack={handleBackClick}
+          />
         </div>
 
         <div>

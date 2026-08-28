@@ -1,4 +1,4 @@
-import { Button, Card, Col, DatePicker, Modal, Row, Space, Tag } from "antd";
+import { Button, DatePicker, Modal, Space, Tag } from "antd";
 import { Link } from "react-router-dom";
 import {
   useGetLedgerPostMutation,
@@ -7,6 +7,16 @@ import {
 import moment from "moment";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import { useState } from "react";
+import {
+  ArrowLeft,
+  Calendar,
+  Eye,
+  Filter,
+  Gamepad2,
+  LayoutGrid,
+  Receipt,
+  Spade,
+} from "lucide-react";
 
 const { RangePicker } = DatePicker;
 
@@ -27,45 +37,45 @@ const MatchLedgerCasino = () => {
   };
 
   const renderTableRows = () =>
-    data?.data?.map((items, index) => (
-      <tr key={index}>
-        <td>{index + 1}</td>
-        <td>
-          <Link
-            to={`/casino/${items?.tableId}`}
-            className="gx-text-blue"
-            style={{ fontWeight: 400 }}>
-            {items?.name}
-          </Link>
-        </td>
-        <td>
-          <span style={{ fontWeight: 400 }}>
-            {moment().format("YYYY-MM-DD hh:mm:ss A")}
-          </span>
-        </td>
-        <td>
-          <div
-            className="gx-justify-content-end"
-            style={{ display: "flex", alignItems: "center" }}>
-            <Button
-              type="primary"
-              style={{
-                height: "36px",
-                padding: "0px 15px",
-                borderRadius: "5px",
-                marginRight: "15px",
-              }}>
-              <Link to={`/casino/${items?.tableId}`}>View</Link>
-            </Button>
-            <Button type="link" className="Display_Games">
-              <Link to={`/display-games/${items?.tableId}/${items?.name}`}>
-                Display Games
-              </Link>
-            </Button>
-          </div>
-        </td>
-      </tr>
-    ));
+    data?.data?.map((items, index) => {
+      const now = moment();
+      return (
+        <tr key={index}>
+          <td>
+            <span className="ml-code-badge">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </td>
+          <td>
+            <Link to={`/casino/${items?.tableId}`} className="ml-name-link">
+              {items?.name}
+            </Link>
+          </td>
+          <td>
+            <div className="ml-date-cell">
+              <span>{now.format("DD MMM YYYY")}</span>
+              <span className="ml-date-time">{now.format("hh:mm:ss A")}</span>
+            </div>
+          </td>
+          <td>
+            <div className="ml-action-group">
+              <Button type="primary" className="ml-view-btn">
+                <Link to={`/casino/${items?.tableId}`}>
+                  <Eye size={13} strokeWidth={2} />
+                  View
+                </Link>
+              </Button>
+              <Button type="default" className="ml-display-btn">
+                <Link to={`/display-games/${items?.tableId}/${items?.name}`}>
+                  <LayoutGrid size={13} strokeWidth={2} />
+                  Display Games
+                </Link>
+              </Button>
+            </div>
+          </td>
+        </tr>
+      );
+    });
 
   const showModal = () => {
     setOpen(true);
@@ -78,24 +88,49 @@ const MatchLedgerCasino = () => {
     setOpen(false);
   };
 
+  const matchCount = data?.data?.length ?? 0;
+
   return (
-    <div className="match_slip match_ledger">
-      <Card
-        className="sport_detail team_name"
-        title="Match Ledger"
-        extra={<button>Back</button>}
-        style={{ margin: 0, width: "100%" }}>
-        <div className="gx-mt-3">
-          <Row
-            className="date_picker gx-px-5"
-            style={{ gap: 16, marginBottom: "10px" }}>
-            <Col xs={24} md={8}>
+    <div className="match_slip match_ledger main_live_section list_supers admin-details-panel match-ledger-panel">
+      <div className="admin-details-header">
+        <div className="admin-details-title-wrap">
+          <span className="admin-details-icon">
+            <Spade size={20} strokeWidth={1.8} />
+          </span>
+          <div>
+            <div className="team_name admin-details-title">Match Ledger</div>
+            <p className="admin-details-subtitle">
+              Review casino matches and manage ledger activity
+            </p>
+          </div>
+        </div>
+        <div className="show_btn">
+          <button type="button" className="admin-details-back">
+            <ArrowLeft size={15} strokeWidth={1.8} />
+            <span className="ml-back-label">Back</span>
+          </button>
+        </div>
+      </div>
+
+      <div className="ml-body">
+        <div className="ml-card ml-toolbar-card">
+          <div className="ml-card-heading">
+            <span className="ml-card-icon">
+              <Filter size={16} strokeWidth={1.8} />
+            </span>
+            <h3 className="ml-card-title">Filter Matches</h3>
+          </div>
+
+          <div className="ml-toolbar-row">
+            <div className="ml-date-field">
+              <span className="ml-date-icon" aria-hidden="true">
+                <Calendar size={14} strokeWidth={1.8} />
+              </span>
               <RangePicker
-                style={{ marginBottom: 10, width: 300 }}
-                bordered={false}
+                className="ml-range-picker"
                 showSecond
                 renderExtraFooter={() => (
-                  <Space style={{ padding: 10 }}>
+                  <Space style={{ padding: 10 }} wrap>
                     <Tag color="blue">Today</Tag>
                     <Tag color="blue">Yesterday</Tag>
                     <Tag color="blue">This Week</Tag>
@@ -105,42 +140,54 @@ const MatchLedgerCasino = () => {
                   </Space>
                 )}
               />
-            </Col>
-            <Col xs={8}>
-              <Button
-                type="primary"
-                className="gx-border-redius0"
-                style={{ height: 36, lineHeight: "30px" }}>
-                Submit
-              </Button>
-            </Col>
-            <Col xs={6} style={{ textAlign: "left" }}>
-              <Button
-                type="primary"
-                className="gx-border-redius0 "
-                onClick={showModal}
-                style={{ height: 36, lineHeight: "30px" }}>
-                Post Casino Ledger
-              </Button>
-            </Col>
-          </Row>
+            </div>
+
+            <Button type="primary" className="ml-apply-btn">
+              Apply Filter
+            </Button>
+
+            <Button
+              type="default"
+              className="ml-post-btn"
+              onClick={showModal}>
+              <Receipt size={14} strokeWidth={2} />
+              Post Casino Ledger
+            </Button>
+          </div>
         </div>
 
-        <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          {(isFetching || isLoading) && <CustomLoading />}
-          <table className="live_table login_data_table">
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Date & Time</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>{renderTableRows()}</tbody>
-          </table>
+        <div className="ml-card ml-table-card">
+          <div className="ml-card-heading ml-table-heading">
+            <span className="ml-card-icon">
+              <Gamepad2 size={16} strokeWidth={1.8} />
+            </span>
+            <div>
+              <h3 className="ml-card-title">Casino Matches</h3>
+              <p className="ml-card-subtitle">
+                {matchCount} {matchCount === 1 ? "match" : "matches"} found
+              </p>
+            </div>
+          </div>
+
+          <p className="ml-swipe-hint">← Swipe to view all columns →</p>
+
+          <div className="ml-table-scroll">
+            {(isFetching || isLoading) && <CustomLoading />}
+            <table className="ml-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Casino / Game</th>
+                  <th>Date &amp; Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{renderTableRows()}</tbody>
+            </table>
+          </div>
         </div>
-      </Card>
+      </div>
+
       <Modal
         title=""
         open={open}
@@ -150,13 +197,8 @@ const MatchLedgerCasino = () => {
           disabled: loading,
         }}
         onCancel={handleCancel}
-        className="ledger_post_modal">
-        <p
-          style={{
-            fontSize: "18px",
-            textAlign: "center",
-            marginBottom: "12px",
-          }}>
+        className="ledger_post_modal ml-ledger-modal">
+        <p className="ml-modal-text">
           Are you sure you want to post the casino ledger?
         </p>
       </Modal>

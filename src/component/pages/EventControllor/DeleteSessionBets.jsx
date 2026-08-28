@@ -12,12 +12,14 @@ import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
+import { ListChecks } from "lucide-react";
 import {
   useGetDeletdBetMutation,
   useGetDeletedBetByTimeMutation,
   useGetSessionBetDeletedQuery,
 } from "../../../store/service/userlistService";
 import { useGetSessionHavingBetQuery } from "../../../store/service/SportDetailServices";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const DeleteSessionBets = () => {
   const nav = useNavigate();
@@ -105,10 +107,14 @@ const DeleteSessionBets = () => {
   const userType = localStorage.getItem("userType");
 
   return (
-    <Card
-      className="sport_detail"
-      title="Delete Session Bets"
-      extra={<button onClick={() => nav(-1)}>Back</button>}>
+    <div className="main_live_section list_supers admin-details-panel delete-session-bets-panel">
+      <AppPageHeader
+        icon={<ListChecks size={20} strokeWidth={1.8} />}
+        title="Delete Session Bets"
+        subtitle="Review and remove session bets for this match"
+        onBack={() => nav(-1)}
+      />
+    <Card className="sport_detail">
       <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
         {/* ✅ Date Range Picker with Time */}
         <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
@@ -229,6 +235,7 @@ const DeleteSessionBets = () => {
         </table>
       </div>
     </Card>
+    </div>
   );
 };
 

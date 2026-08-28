@@ -2,7 +2,9 @@ import { EyeOutlined } from "@ant-design/icons";
 import { Card, Empty, Modal, Tabs } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Dice5 } from "lucide-react";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 import MatkaBetsTable from "./components/MatkaBetsTable";
 import {
   useGetMatkaBetBySidMutation,
@@ -397,12 +399,16 @@ const InplayMatkaDetail = () => {
   };
 
   return (
-    <div className="match_slip">
+    <div className="match_slip main_live_section list_supers admin-details-panel inplay-matka-detail-panel">
+      <AppPageHeader
+        icon={<Dice5 size={20} strokeWidth={1.8} />}
+        title={`${(name || matchInfo?.name || "").toUpperCase()}`}
+        subtitle="View Matka runners, liabilities and bets for this game"
+        onBack={() => nav("/matka/inplay")}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail team_name"
-        title={`${(name || matchInfo?.name || "").toUpperCase()}`}
-        extra={<button onClick={() => nav("/matka/inplay")}>Back</button>}>
+        className="sport_detail team_name">
         <div style={{ padding: "20px" }}>
           <Tabs
             activeKey={selectedTab || (tabItems[0]?.key || "")}

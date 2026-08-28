@@ -3,8 +3,10 @@ import { Button, Card, Col, DatePicker, Row, Space, Table, Tag } from "antd";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
+import { BarChart3 } from "lucide-react";
 import { useGetCompletdCasinoQuery } from "../../../store/service/SportDetailServices";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const { RangePicker } = DatePicker;
 
@@ -141,15 +143,18 @@ const CasinoPandLDetail = () => {
   );
 
   return (
-    <div className="match_slip match_ledger">
+    <div className="match_slip match_ledger main_live_section list_supers admin-details-panel casino-pandl-panel">
+      <AppPageHeader
+        icon={<BarChart3 size={20} strokeWidth={1.8} />}
+        title="Casino P&L Detail"
+        subtitle="Review casino profit and loss by event"
+      />
       <Card
         style={{
           margin: "0px",
           width: "100%",
         }}
-        className="sport_detail team_name"
-        title="Casino PandL Detail"
-        extra={<button>Back</button>}>
+        className="sport_detail team_name">
         <div className="gx-mt-3">
           <Row
             className="date_picker gx-px-5"

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Card, Col, DatePicker, Divider, Empty, Pagination, Row } from "antd";
 import { useNavigate } from "react-router-dom";
+import { BarChart3 } from "lucide-react";
 import { useGetCasinoPnlByDateQuery } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const { RangePicker } = DatePicker;
 
@@ -41,12 +43,16 @@ const CasinoProfitAndLoss = () => {
   };
 
   return (
-    <div className="match_slip casino_diamond">
+    <div className="match_slip casino_diamond main_live_section list_supers admin-details-panel casino-pnl-panel">
+      <AppPageHeader
+        icon={<BarChart3 size={20} strokeWidth={1.8} />}
+        title="Diamond Casino Details"
+        subtitle="Review casino profit and loss by date range"
+        onBack={handleBackClick}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail"
-        title="Diamond Casino Details"
-        extra={<button onClick={handleBackClick}>Back</button>}>
+        className="sport_detail">
         <Row className="profit_apply">
           <Col xs={12} xl={6} lg={6} md={12}>
             <div className="profit_date">

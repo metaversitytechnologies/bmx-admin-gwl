@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { Swords, Activity } from "lucide-react";
+import { Swords, Activity, ClipboardList } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetMatchAndSessionBetMutation } from "../../../../store/service/SportDetailServices";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
-import MatchSessionBetHeader from "./MatchSessionBetHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import MatchSessionBetUserFilter from "./MatchSessionBetUserFilter";
 import BetSectionCard from "./BetSectionCard";
 import MatchBetsTable from "./MatchBetsTable";
@@ -62,7 +62,12 @@ const MatchSessionBet = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel match-session-bet-panel">
-      <MatchSessionBetHeader matchId={id} onBack={() => nav(-1)} />
+      <AppPageHeader
+        icon={<ClipboardList size={20} strokeWidth={1.8} />}
+        title="Match & Session Bet Details"
+        subtitle={<>MatchCode : {id}</>}
+        onBack={() => nav(-1)}
+      />
 
       <div className="msb-content">
         <MatchSessionBetUserFilter

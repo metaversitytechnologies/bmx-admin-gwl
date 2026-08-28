@@ -2,7 +2,9 @@ import { Card, Empty } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { TrendingUp } from "lucide-react";
 import { useGetSessionBetMutation } from "../../../store/service/SportDetailServices";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const EventProfitLossList = () => {
   const [marketId, setMarketId] = useState("");
@@ -28,21 +30,19 @@ const EventProfitLossList = () => {
 
   return (
     <>
-      <div>
+      <div className="main_live_section list_supers admin-details-panel game-event-profit-loss-panel">
+        <AppPageHeader
+          icon={<TrendingUp size={20} strokeWidth={1.8} />}
+          title="Event Profit and Loss"
+          subtitle="Review session bet profit and loss for this event"
+          onBack={() => nav(-1)}
+        />
         <Card
           style={{
             margin: "12px",
             width: "100%",
           }}
-          className="sport_detail ledger_data led_super"
-          title="Event Profit and Loss"
-          extra={
-            <div>
-              <button style={{ marginLeft: "10px" }} onClick={() => nav(-1)}>
-                Back
-              </button>
-            </div>
-          }>
+          className="sport_detail ledger_data led_super">
           <div className="table_section ant-spin-nested-loading">
             <table>
               <thead>

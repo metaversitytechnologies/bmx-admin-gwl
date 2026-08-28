@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
+import { Receipt } from "lucide-react";
 import { useGetMatchBetsMutation } from "../../../../store/service/SportDetailServices";
 import { useLazyFilterbyClientQuery } from "../../../../store/service/supermasteAccountStatementServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-import MatchBetsHeader from "./MatchBetsHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import BookmakerOverview from "./BookmakerOverview";
 import MatchBetsFilters from "./MatchBetsFilters";
 import MatchBetsDesktopTable from "./MatchBetsDesktopTable";
@@ -115,7 +116,11 @@ const FancySlips = ({ name }) => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel match-bets-panel">
-      <MatchBetsHeader title={name} onBack={handleBackClick} />
+      <AppPageHeader
+        icon={<Receipt size={20} strokeWidth={1.8} />}
+        title={name}
+        onBack={handleBackClick}
+      />
 
       <div className="mb-content">
         {/* <BookmakerOverview summary={summaryData} /> */}

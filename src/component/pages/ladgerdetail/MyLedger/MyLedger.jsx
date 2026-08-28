@@ -2,8 +2,10 @@ import { Card, Table } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BookText } from "lucide-react";
 import { useGetMyLedgerQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const columns = [
   {
@@ -95,10 +97,14 @@ const MyLedger = () => {
       {isModalOpen && (
         <div onClick={() => setIsModalOpen(false)} className="report_overlay" />
       )}
-      <Card
-        className="sport_detail ledger_data"
-        title="My Ledger"
-        extra={<button onClick={handleBackbtn}>Back</button>}>
+      <div className="main_live_section list_supers admin-details-panel my-ledger-panel">
+        <AppPageHeader
+          icon={<BookText size={20} strokeWidth={1.8} />}
+          title="My Ledger"
+          subtitle="Review your personal ledger and balances"
+          onBack={handleBackbtn}
+        />
+      <Card className="sport_detail ledger_data">
         <div className="my_ledger">
           <div>
             <h3 style={{ padding: "5px", color: "green", fontSize: "20px" }}>
@@ -141,6 +147,7 @@ const MyLedger = () => {
           />
         </div>
       </Card>
+      </div>
     </>
   );
 };

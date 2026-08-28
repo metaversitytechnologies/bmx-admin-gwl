@@ -2,8 +2,10 @@ import { Button, Card, Empty, Pagination } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Dice5 } from "lucide-react";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import { useGetMatkaListQuery } from "../../../store/service/MatkaServices";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const InplayMatka = () => {
   const nav = useNavigate();
@@ -31,12 +33,16 @@ const InplayMatka = () => {
     match?.name || match?.eventName || match?.title || "";
 
   return (
-    <div className="match_slip inplay_casino">
+    <div className="match_slip inplay_casino main_live_section list_supers admin-details-panel inplay-matka-panel">
+      <AppPageHeader
+        icon={<Dice5 size={20} strokeWidth={1.8} />}
+        title="Matka Games"
+        subtitle="View in-play Matka games and manage bets"
+        onBack={() => nav(-1)}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail team_name"
-        title="MATKA GAMES"
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+        className="sport_detail team_name">
         <div className="table_section statement_tabs_data" style={{ padding: "20px" }}>
           {errorMessage && (
             <div

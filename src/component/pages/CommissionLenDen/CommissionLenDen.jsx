@@ -19,10 +19,12 @@ import {
   useGetCommitionReportHostopryMutation,
   useGetCommitionReportMutation,
 } from "../../../store/service/SportDetailServices";
+import { HandCoins } from "lucide-react";
 import CommissionModal from "./CommissionModal";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import UserCommissionModal from "./UserCommissionModal";
 import { openNotification, openNotificationError } from "../../../App";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const { RangePicker } = DatePicker;
 
@@ -175,14 +177,18 @@ const CommissionLenDen = () => {
 
   return (
     <>
-      <div className="match_slip login_report" style={{ position: "relative" }}>
+      <div className="match_slip login_report main_live_section list_supers admin-details-panel commission-len-den-panel">
         {isLoading && <CustomLoading />}
+
+        <AppPageHeader
+          icon={<HandCoins size={20} strokeWidth={1.8} />}
+          title="Commission Len Den"
+          subtitle="Track commission dena/mila activity across clients"
+        />
 
         <Card
           style={{ margin: "0px", width: "100%" }}
-          className="sport_detail team_name"
-          title="Commission Len Den"
-          extra={<button>Back</button>}>
+          className="sport_detail team_name">
           {/* Date & User Selection */}
           <Row
             gutter={[16, 8]}

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import dayjs from "dayjs";
+import { Trophy } from "lucide-react";
 import { useGetCompletedSportQuery } from "../../../store/service/SportDetailServices";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
-import FinishedGameHeader from "./FinishedGameHeader";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 import FinishedGameFilters from "./FinishedGameFilters";
 import FinishedGameDesktopTable from "./FinishedGameDesktopTable";
 import FinishedGameMobileList from "./FinishedGameMobileList";
@@ -72,7 +73,12 @@ const FinishedGame = () => {
   return (
     <div className="main_live_section list_supers admin-details-panel finished-game-panel">
       <div className="_match">
-        <FinishedGameHeader onBack={handleBackbtn} />
+        <AppPageHeader
+          icon={<Trophy size={20} strokeWidth={1.8} />}
+          title="Completed Games Detail"
+          subtitle="Review completed fixtures, results and profit/loss"
+          onBack={handleBackbtn}
+        />
       </div>
       <div className="table_section sport_detail m-0 admin-details-table-shell finished-game-table-shell">
         <FinishedGameFilters

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import dayjs from "dayjs";
+import { Receipt } from "lucide-react";
 import { useAccountOprationQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
-import AccountStatementHeader from "./AccountStatementHeader";
+import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 import AccountStatementToolbar from "./AccountStatementToolbar";
 import TransactionTable from "./TransactionTable";
 import MobileTransactionFeed from "./MobileTransactionFeed";
@@ -58,7 +59,16 @@ const AccountStatement = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel account-statement-panel">
-      <AccountStatementHeader count={total} onBack={handleBackClick} />
+      <AppPageHeader
+        icon={<Receipt size={20} strokeWidth={1.8} />}
+        title="Transaction History"
+        subtitle={
+          <>
+            Account activity · {total} {total === 1 ? "transaction" : "transactions"}
+          </>
+        }
+        onBack={handleBackClick}
+      />
 
       <AccountStatementToolbar
         defaultDateRange={[dayjs(timeBefore), dayjs(time)]}

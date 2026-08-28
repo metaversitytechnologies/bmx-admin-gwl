@@ -1,5 +1,7 @@
 import { Card, Table } from "antd";
 import { useNavigate } from "react-router-dom";
+import { CircleCheckBig } from "lucide-react";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const CompletedMatka = () => {
   const nav = useNavigate();
@@ -39,12 +41,16 @@ const CompletedMatka = () => {
   ];
 
   return (
-    <div className="match_slip">
+    <div className="match_slip main_live_section list_supers admin-details-panel completed-matka-panel">
+      <AppPageHeader
+        icon={<CircleCheckBig size={20} strokeWidth={1.8} />}
+        title="Completed Matka"
+        subtitle="Review completed Matka results and profit/loss"
+        onBack={() => nav(-1)}
+      />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail"
-        title="COMPLETED MATKA"
-        extra={<button onClick={() => nav(-1)}>Back</button>}>
+        className="sport_detail">
         <div style={{ padding: "20px" }}>
           <div
             className="summary_strip"

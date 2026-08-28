@@ -7323,7 +7323,7 @@ table.live_table.mt-0 {
     min-width: 1180px;
     width: 100%;
     margin-top: 0 !important;
-    color: #344054 ;
+    color: #344054;
     border-collapse: separate;
     border-spacing: 0;
     table-layout: auto;
@@ -7349,7 +7349,7 @@ table.live_table.mt-0 {
       text-transform: none !important;
       white-space: nowrap;
       border-right: 0 !important;
-      border-bottom: 1px solid #edf0f5;
+      border-bottom: unset;
       background: #f7f6ff !important;
 
       &:first-child {
@@ -7395,14 +7395,14 @@ table.live_table.mt-0 {
     td {
       height: 42px;
       padding: 6px 8px !important;
-      color: #344054 ;
+      color: #344054;
       font-size: 13px;
       font-weight: 500;
       line-height: 1.35;
       text-transform: none !important;
       white-space: nowrap;
       border-right: 0 !important;
-      border-bottom: 1px solid #edf0f5;
+      border-bottom: unset;
       background: transparent;
 
       &:first-child {
@@ -15014,8 +15014,6 @@ table.live_table.mt-0 {
   .finished-game-table {
     min-width: 1040px;
 
-   
-
     tbody tr {
       height: 54px;
     }
@@ -15467,4 +15465,1840 @@ table.live_table.mt-0 {
       padding: 12px;
     }
   }
+}
+
+// ============================================================
+// Rejected & Cancelled Bets — table area only (RejectedBetsByEvent).
+// Header/icon/title/subtitle/back button all keep the shared
+// .admin-details-* rules above; nothing here touches those selectors.
+// ============================================================
+
+.rb-content {
+  margin: 16px;
+  overflow: hidden;
+  border: 1px solid #e8eaf2;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+// ---- Toolbar: user filter + record count ----
+
+.rb-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 50px;
+  padding: 10px 18px;
+  border-bottom: 1px solid #eceef4;
+  background: #fbfaff;
+}
+
+.rb-filter-group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.rb-filter-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  z-index: 2;
+  display: inline-flex;
+  color: #7b54ff;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.rb-filter-select.ant-select {
+  width: 200px;
+  max-width: 100%;
+
+  .ant-select-selector {
+    height: 36px !important;
+    padding: 0 11px 0 32px !important;
+    border: 1px solid #e2e5ef !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .ant-select-selection-search-input,
+  .ant-select-selection-placeholder,
+  .ant-select-selection-item {
+    line-height: 34px !important;
+    color: #262b3d;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+
+  .ant-select-arrow {
+    color: #98a2b5;
+  }
+
+  &:hover .ant-select-selector {
+    border-color: #c8bfff !important;
+  }
+
+  &.ant-select-focused .ant-select-selector {
+    border-color: #a79cff !important;
+    box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.1) !important;
+  }
+}
+
+.rb-record-count {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: #5b4cf6;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  background: #f3f0ff;
+}
+
+// ---- Table shell (desktop) ----
+
+.rb-table-card {
+  background: #ffffff;
+}
+
+.rb-table-desktop {
+  display: block;
+}
+
+.rb-table.ant-table-wrapper {
+  .ant-table {
+    background: transparent;
+  }
+
+  .ant-table-content {
+    max-height: 640px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d9d4ff transparent;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: #d9d4ff;
+    }
+  }
+
+  .ant-table-thead > tr > th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 50px;
+    padding: 8px 16px !important;
+    color: #475467 !important;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: none !important;
+    white-space: nowrap;
+    border-bottom: 1px solid #edf0f5;
+    background: #f7f6ff !important;
+
+    &::before {
+      display: none !important;
+    }
+  }
+
+  .ant-table-tbody > tr > td {
+    height: 68px;
+    padding: 10px 16px !important;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: nowrap;
+    border-bottom: 1px solid #f0f1f6;
+    background: #ffffff;
+    transition: background-color 180ms ease;
+  }
+
+  .ant-table-tbody > tr {
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease;
+
+    &:hover > td {
+      background: #f8f6ff;
+    }
+
+    &:hover {
+      box-shadow: inset 3px 0 0 0 #8b6bff;
+    }
+
+    &:last-child > td {
+      border-bottom: 0;
+    }
+  }
+
+  .ant-table-placeholder:hover > td {
+    background: transparent !important;
+    box-shadow: none;
+  }
+
+  .ant-pagination {
+    padding: 12px 16px;
+    margin: 0 !important;
+  }
+
+  .ant-pagination-item,
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    min-width: 30px;
+    height: 30px;
+    line-height: 28px;
+    border-radius: 7px;
+    border-color: #dfe3ee;
+  }
+
+  .ant-pagination-item a {
+    color: #344054;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ant-pagination-item-active {
+    border-color: #6558f5;
+    background: #6558f5;
+
+    a {
+      color: #ffffff;
+    }
+  }
+
+  .ant-pagination-total-text {
+    color: #667085;
+    font-size: 11.5px;
+  }
+}
+
+// ---- Numeric / typography cells ----
+
+.rb-col-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.rb-rate-value {
+  color: #10162f;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.rb-amount-value {
+  color: #10162f;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+// ---- Team cell ----
+
+.rb-team-cell {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 240px;
+  color: #171b2e;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: normal;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+// ---- Client chip ----
+
+.rb-client-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  border: 1px solid #e4defc;
+  border-radius: 7px;
+  background: #f5f3ff;
+  color: #4b3fae;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+// ---- Agent cell ----
+
+.rb-agent-cell {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.rb-agent-placeholder {
+  color: #b0b6c6;
+  font-weight: 400;
+}
+
+// ---- Date cell ----
+
+.rb-date-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  color: #171b2e;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.rb-date-time {
+  color: #98a2b5;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+// ---- Type badge (YES / NO) ----
+
+.rb-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rb-type-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.rb-type-yes {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.rb-type-no {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+// ---- Bet status badge (Deleted / Rejected / Cancelled) ----
+
+.rb-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 25px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.rb-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.rb-status-deleted {
+  background: #fef2f2;
+  color: #b91c3c;
+}
+
+.rb-status-rejected {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.rb-status-cancelled {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+// ---- Remark cell ----
+
+.rb-remark-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 240px;
+  white-space: normal;
+}
+
+.rb-remark-text {
+  overflow: hidden;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.rb-reason-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  height: 19px;
+  padding: 0 7px;
+  border-radius: 6px;
+  background: #fff7ed;
+  color: #c2410c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+// ---- Empty / error states ----
+
+.rb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.rb-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f0edff;
+  color: #7b54ff;
+}
+
+.rb-empty-title {
+  margin: 0;
+  color: #10162f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.rb-empty-subtitle {
+  margin: 0;
+  color: #98a2b5;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.rb-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.rb-error-icon {
+  display: inline-flex;
+  color: #dc2626;
+}
+
+.rb-error-text {
+  color: #b42318;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.rb-error-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid #dfe3ee;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #5b4cf6;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+
+  &:hover {
+    border-color: #cfc7ff;
+    background: #f7f6ff;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #a79cff;
+    outline-offset: 2px;
+  }
+}
+
+// ---- Mobile card list ----
+
+.rb-mobile-list {
+  display: none;
+}
+
+.rb-mobile-loading {
+  padding: 32px 16px;
+  color: #667085;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.rb-card {
+  padding: 14px;
+  border: 1px solid #e8eaf2;
+  border-radius: 13px;
+  background: #ffffff;
+}
+
+.rb-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.rb-card-team {
+  overflow: hidden;
+  margin-bottom: 10px;
+  color: #171b2e;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+}
+
+.rb-card-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 10px 0;
+  border-top: 1px dashed #edf0f5;
+  border-bottom: 1px dashed #edf0f5;
+}
+
+.rb-card-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rb-card-metric-label {
+  color: #98a2b5;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.rb-card-metric-value {
+  color: #10162f;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.rb-card-metric-amount {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.rb-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  color: #667085;
+  font-size: 11.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.rb-card-meta-dot {
+  color: #c6cbda;
+}
+
+.rb-card-remark {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.rb-card-remark-text {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+@media (max-width: 1199px) {
+  .rb-content {
+    margin: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .rb-content {
+    margin: 10px;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .rb-toolbar {
+    padding: 12px 14px;
+  }
+
+  .rb-filter-select.ant-select {
+    width: 168px;
+  }
+
+  .rb-table-desktop {
+    display: none;
+  }
+
+  .rb-table-card {
+    background: transparent;
+  }
+
+  .rb-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .rb-mobile-loading {
+    padding: 24px 12px;
+  }
+}
+
+// ============================================================
+// Reject Bets (DeleteBet) — full visual redesign. All data/handlers
+// untouched in the component; only markup/classes changed here.
+// ============================================================
+
+// Header/icon/title/subtitle/back reuse the shared .admin-details-* rules
+// (same ones Update Limit uses) — nothing redefined here.
+
+.db-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+// ---- Bet Selection / Available Bets cards ----
+
+.db-card {
+  padding: 20px 24px;
+  border: 1px solid #e8eaf2;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(31, 38, 135, 0.06);
+}
+
+.db-card-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.db-card-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  color: #6254ef;
+  background: #f0edff;
+}
+
+.db-card-title {
+  margin: 0;
+  color: #10162f;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.db-card-subtitle {
+  margin: 3px 0 0;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+// ---- Bet Selection form ----
+
+.db-form .ant-form-item {
+  margin-bottom: 0;
+}
+
+.db-selection-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.db-form-item {
+  flex: 1 1 220px;
+  min-width: 0;
+
+  .ant-form-item-label {
+    padding-bottom: 6px;
+
+    > label {
+      height: auto;
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 650;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+.db-select.ant-select {
+  width: 100%;
+
+  .ant-select-selector {
+    display: flex;
+    align-items: center;
+    height: 46px !important;
+    padding: 0 14px !important;
+    border: 1px solid #e2e5ef !important;
+    border-radius: 11px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .ant-select-selection-search-input,
+  .ant-select-selection-placeholder,
+  .ant-select-selection-item {
+    line-height: 44px !important;
+    color: #262b3d;
+    font-size: 13px;
+  }
+
+  .ant-select-selection-placeholder {
+    color: #98a2b5;
+  }
+
+  &:hover .ant-select-selector {
+    border-color: #c8bfff !important;
+  }
+
+  &.ant-select-focused .ant-select-selector {
+    border-color: #8b6bff !important;
+    box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.12) !important;
+  }
+}
+
+.db-delete-item {
+  flex: 0 0 auto;
+}
+
+.db-delete-btn.ant-btn {
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 700;
+  border: 0 !important;
+  border-radius: 11px;
+  background: linear-gradient(
+    135deg,
+    #5864f9 0%,
+    #7b54ff 52%,
+    #bc3bed 100%
+  ) !important;
+  box-shadow: 0 8px 18px rgba(123, 84, 255, 0.22);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(123, 84, 255, 0.28);
+    filter: brightness(1.03);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #8b6bff;
+    outline-offset: 2px;
+  }
+}
+
+// ---- Available Bets table ----
+
+.db-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.db-table.ant-table-wrapper {
+  .ant-table {
+    background: transparent;
+  }
+
+  .ant-table-content {
+    max-height: 620px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d9d4ff transparent;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background: #d9d4ff;
+    }
+  }
+
+  .ant-table-thead > tr > th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 48px;
+    padding: 8px 14px !important;
+    color: #475467 !important;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: none !important;
+    white-space: nowrap;
+    border-bottom: 1px solid #edf0f5;
+    background: #f7f6ff !important;
+
+    &::before {
+      display: none !important;
+    }
+  }
+
+  .ant-table-tbody > tr > td {
+    height: 50px;
+    padding: 8px 14px !important;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: nowrap;
+    border-bottom: 1px solid #f0f1f6;
+    background: #ffffff;
+    font-variant-numeric: tabular-nums;
+    transition: background-color 180ms ease;
+  }
+
+  .ant-table-tbody > tr {
+    transition: background-color 180ms ease;
+
+    &:hover > td {
+      background: #f8f6ff;
+    }
+
+    &.ant-table-row-selected > td {
+      background: #f4f1ff !important;
+    }
+
+    &:last-child > td {
+      border-bottom: 0;
+    }
+  }
+
+  .ant-table-placeholder:hover > td {
+    background: transparent !important;
+  }
+
+  .ant-checkbox .ant-checkbox-inner {
+    border-radius: 5px;
+    border-color: #c8bfff;
+  }
+
+  .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: #6558f5 !important;
+    border-color: #6558f5 !important;
+  }
+
+  .ant-checkbox-indeterminate .ant-checkbox-inner {
+    background-color: #6558f5 !important;
+    border-color: #6558f5 !important;
+
+    &::after {
+      background-color: #ffffff;
+    }
+  }
+
+  .ant-checkbox-input:focus-visible + .ant-checkbox-inner {
+    outline: 2px solid #a79cff;
+    outline-offset: 1px;
+  }
+
+  .ant-pagination {
+    flex-wrap: wrap;
+    padding: 14px 4px 4px;
+    margin: 0 !important;
+  }
+
+  .ant-pagination-item,
+  .ant-pagination-prev,
+  .ant-pagination-next {
+    min-width: 30px;
+    height: 30px;
+    line-height: 28px;
+    border-radius: 7px;
+    border-color: #dfe3ee;
+  }
+
+  .ant-pagination-item a {
+    color: #344054;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ant-pagination-item-active {
+    border-color: #6558f5;
+    background: #6558f5;
+
+    a {
+      color: #ffffff;
+    }
+  }
+
+  .ant-pagination-total-text {
+    color: #667085;
+    font-size: 11.5px;
+  }
+
+  .ant-pagination-options .ant-select-selector {
+    height: 30px !important;
+    border-radius: 7px !important;
+  }
+}
+
+// ---- Empty state ----
+
+.db-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.db-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f0edff;
+  color: #7b54ff;
+}
+
+.db-empty-title {
+  margin: 0;
+  color: #10162f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.db-empty-subtitle {
+  margin: 0;
+  color: #98a2b5;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+@media (max-width: 1199px) {
+  .list_supers.admin-details-panel.delete-bet-panel {
+    margin: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.delete-bet-panel {
+    margin: 10px;
+    border-radius: 14px;
+  }
+
+  .db-body {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .db-card {
+    padding: 16px;
+  }
+
+  .db-selection-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .db-form-item {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .db-delete-item {
+    width: 100%;
+  }
+
+  .db-delete-btn.ant-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// ============================================================
+// Match Ledger (MatchLedgerCasino) — full visual redesign. All
+// data/handlers untouched in the component; only markup/classes
+// changed here. Header reuses the shared .admin-details-* rules,
+// same as Update Limit / Reject Bets.
+// ============================================================
+
+.ml-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+// ---- Cards (Filter Matches / Casino Matches) ----
+
+.ml-card {
+  padding: 18px 20px;
+  border: 1px solid #e8eaf2;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(31, 38, 135, 0.06);
+}
+
+.ml-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ml-table-heading {
+  margin-bottom: 6px;
+}
+
+.ml-card-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  color: #6254ef;
+  background: #f0edff;
+}
+
+.ml-card-title {
+  margin: 0;
+  color: #10162f;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ml-card-subtitle {
+  margin: 3px 0 0;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+// ---- Filter toolbar ----
+
+.ml-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.ml-date-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 1 1 300px;
+  min-width: 0;
+  max-width: 380px;
+}
+
+.ml-date-icon {
+  position: absolute;
+  left: 12px;
+  z-index: 2;
+  display: inline-flex;
+  color: #7b54ff;
+  pointer-events: none;
+}
+
+.ml-range-picker.ant-picker {
+  width: 100%;
+  height: 46px;
+  padding: 0 12px 0 34px;
+  border: 1px solid #e2e5ef !important;
+  border-radius: 11px !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+
+  .ant-picker-input input {
+    font-size: 12.5px;
+    color: #262b3d;
+
+    &::placeholder {
+      color: #98a2b5;
+    }
+  }
+
+  .ant-picker-separator,
+  .ant-picker-suffix {
+    color: #98a2b5;
+  }
+
+  &:hover {
+    border-color: #c8bfff !important;
+  }
+
+  &.ant-picker-focused {
+    border-color: #8b6bff !important;
+    box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.12) !important;
+  }
+}
+
+.ml-apply-btn.ant-btn {
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 700;
+  border: 0 !important;
+  border-radius: 11px;
+  background: linear-gradient(
+    135deg,
+    #5864f9 0%,
+    #7b54ff 52%,
+    #bc3bed 100%
+  ) !important;
+  box-shadow: 0 8px 18px rgba(123, 84, 255, 0.22);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(123, 84, 255, 0.28);
+  }
+}
+
+.ml-post-btn.ant-btn {
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  color: #6254ef !important;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #d2ccff !important;
+  border-radius: 11px;
+  background: #f5f3ff !important;
+  box-shadow: none;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+
+  &:hover {
+    color: #4f43d8 !important;
+    border-color: #a79cff !important;
+    background: #efeaff !important;
+    transform: translateY(-1px);
+  }
+}
+
+// ---- Table card ----
+
+.ml-swipe-hint {
+  display: none;
+  margin: 0 0 10px;
+  color: #98a2b5;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.ml-table-scroll {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #d9d4ff transparent;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: #d9d4ff;
+  }
+}
+
+.ml-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+
+  thead tr {
+    background: #f7f6ff;
+  }
+
+  th {
+    height: 44px;
+    padding: 8px 16px;
+    color: #475467;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: left;
+    white-space: nowrap;
+    border: 0;
+    border-bottom: 1px solid #edf0f5;
+    background: #f7f6ff;
+
+    &:last-child {
+      text-align: left;
+    }
+  }
+
+  td {
+    height: 52px;
+    padding: 8px 16px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+    white-space: nowrap;
+    border: 0;
+    border-bottom: 1px solid #f0f1f6;
+    background: #ffffff;
+  }
+
+  tbody tr {
+    transition: background-color 180ms ease;
+
+    &:hover td {
+      background: #f8f6ff;
+    }
+
+    &:last-child td {
+      border-bottom: 0;
+    }
+  }
+}
+
+.ml-code-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 7px;
+  background: #f5f3ff;
+  color: #4b3fae;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ml-name-link {
+  color: #10162f !important;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    color: #6254ef !important;
+    text-decoration: underline;
+  }
+}
+
+.ml-date-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  color: #171b2e;
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.ml-date-time {
+  color: #98a2b5;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.ml-action-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ml-view-btn.ant-btn,
+.ml-display-btn.ant-btn {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 650;
+  box-shadow: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    padding: 0 12px;
+    color: inherit;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.ml-view-btn.ant-btn {
+  color: #ffffff !important;
+  border: 0 !important;
+  background: linear-gradient(
+    135deg,
+    #5864f9 0%,
+    #7b54ff 52%,
+    #bc3bed 100%
+  ) !important;
+
+  &:hover {
+    box-shadow: 0 8px 16px rgba(123, 84, 255, 0.26);
+  }
+}
+
+.ml-display-btn.ant-btn {
+  color: #6254ef !important;
+  border: 1px solid #d2ccff !important;
+  background: #f5f3ff !important;
+
+  &:hover {
+    color: #4f43d8 !important;
+    border-color: #a79cff !important;
+    background: #efeaff !important;
+  }
+}
+
+// ---- Post-ledger confirmation modal ----
+
+.ml-ledger-modal {
+  .ant-modal-content {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .ant-modal-header {
+    display: none;
+  }
+
+  .ant-modal-body {
+    padding: 28px 24px 8px;
+  }
+
+  .ml-modal-text {
+    margin: 0 0 12px;
+    color: #10162f;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .ant-modal-footer {
+    padding: 16px 24px 20px;
+    text-align: center;
+    border-top: 0;
+
+    .ant-btn {
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 9px;
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .ant-btn-primary {
+      border: 0;
+      background: linear-gradient(
+        135deg,
+        #5864f9 0%,
+        #7b54ff 52%,
+        #bc3bed 100%
+      );
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .list_supers.admin-details-panel.match-ledger-panel {
+    margin: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.match-ledger-panel {
+    margin: 10px;
+    border-radius: 14px;
+  }
+
+  .ml-body {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .ml-card {
+    padding: 16px;
+  }
+
+  .ml-toolbar-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ml-date-field {
+    flex: 0 0 auto;
+    max-width: none;
+  }
+
+  .ml-apply-btn.ant-btn,
+  .ml-post-btn.ant-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ml-swipe-hint {
+    display: block;
+  }
+
+  .ml-action-group {
+    flex-wrap: nowrap;
+  }
+}
+
+// ============================================================
+// Shared <AppPageHeader/> — the one page-header design (source of
+// truth: Update Limit). Every page rendering it already gets the
+// approved look via the existing .admin-details-* rules above; this
+// only covers the new optional multi-item actions/back row.
+// ============================================================
+
+.app-page-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-page-header-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.app-page-header-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  height: 23px;
+  padding: 0 10px;
+  color: #6254ef;
+  font-size: 11.5px;
+  font-weight: 650;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 999px;
+  background: #f0edff;
+}
+
+// ============================================================
+// Global table system — generic fallback styling (header bg,
+// row height, borders, hover) for pages that were only migrated
+// to the shared header in this pass and don't yet have a bespoke
+// table treatment of their own. Scoped explicitly to each of
+// those pages' own panel modifier class, so it can never win
+// against (or conflict with) an already-bespoke table like
+// .rb-table / .db-table / .ml-table / .finished-game-table.
+// Data/columns/pagination/sort logic is untouched — CSS only.
+// ============================================================
+
+$app-generic-table-panels: (
+  client-transactions-panel,
+  super-agent-transactions-panel,
+  deleted-lenden-panel,
+  agent-transactions-panel,
+  commission-len-den-panel,
+  casino-pandl-panel,
+  event-controllor-panel,
+  completed-active-panel,
+  deleted-bets-panel,
+  delete-session-bets-panel,
+  delete-match-bets-panel,
+  login-report-panel,
+  secure-code-panel,
+  inplay-matka-panel,
+  completed-matka-panel,
+  inplay-matka-detail-panel,
+  all-bets-matka-panel,
+  set-matka-result-panel,
+  rules-panel,
+  set-message-panel,
+  user-search-panel,
+  casino-pnl-panel,
+  casino-pnl-details-panel,
+  profit-loss-panel,
+  my-ledger-panel,
+  super-agent-ledger-panel,
+  casino-main-panel,
+  display-games-panel,
+  casino-all-bets-panel,
+  create-ledger-panel,
+  plus-minus-details-panel,
+  andar-bahar-plus-minus-panel,
+  roulette-plus-minus-panel,
+  casino-pl-minus-panel,
+  event-profit-loss-panel,
+  game-event-profit-loss-panel
+);
+
+@each $panel in $app-generic-table-panels {
+  .list_supers.admin-details-panel.#{$panel} {
+    table:not(.ant-table) {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: separate;
+      border-spacing: 0;
+
+      thead tr {
+        background: #f7f6ff;
+      }
+
+      th {
+        height: 46px;
+        padding: 8px 14px;
+        color: #475467;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-align: left;
+        white-space: nowrap;
+        border: 0;
+        border-bottom: 1px solid #edf0f5;
+        background: #f7f6ff;
+      }
+
+      td {
+        height: 50px;
+        padding: 8px 14px;
+        color: #344054;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.35;
+        border: 0;
+        border-bottom: 1px solid #f0f1f6;
+        background: #ffffff;
+      }
+
+      tbody tr {
+        transition: background-color 180ms ease;
+
+        &:hover td {
+          background: #f8f6ff;
+        }
+
+        &:last-child td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .table_section {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    // ---- Generic empty-state polish ----
+
+    .ant-empty {
+      padding: 32px 16px;
+
+      .ant-empty-image svg {
+        opacity: 0.55;
+      }
+
+      .ant-empty-description {
+        color: #98a2b5;
+        font-size: 12.5px;
+        font-weight: 500;
+      }
+    }
+
+    .ant-table-wrapper {
+      .ant-table {
+        background: transparent;
+      }
+
+      .ant-table-thead > tr > th {
+        height: 46px;
+        padding: 8px 14px !important;
+        color: #475467 !important;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: none !important;
+        white-space: nowrap;
+        border-bottom: 1px solid #edf0f5;
+        background: #f7f6ff !important;
+
+        &::before {
+          display: none !important;
+        }
+      }
+
+      .ant-table-tbody > tr > td {
+        padding: 8px 14px !important;
+        color: #344054;
+        font-size: 13px;
+        font-weight: 500;
+        border-bottom: 1px solid #f0f1f6;
+        background: #ffffff;
+      }
+
+      .ant-table-tbody > tr:hover > td {
+        background: #f8f6ff !important;
+      }
+
+      .ant-pagination-item,
+      .ant-pagination-prev,
+      .ant-pagination-next {
+        border-radius: 7px;
+      }
+
+      .ant-pagination-item-active {
+        border-color: #6558f5;
+        background: #6558f5;
+
+        a {
+          color: #ffffff;
+        }
+      }
+    }
+
+    // The legacy .sport_detail Card carried a large standalone margin
+    // (meant for when it had no shared page header above it) — now that
+    // it sits directly under AppPageHeader inside one panel, collapse
+    // that back down to the standard compact section gap.
+    .sport_detail {
+      margin: 16px !important;
+      border: 0;
+      box-shadow: none;
+    }
+
+    @media (max-width: 767px) {
+      .sport_detail {
+        margin: 12px !important;
+      }
+    }
+
+    // ---- Generic filter/form control polish ----
+    // Compact height, rounded corners, subtle border, purple focus ring —
+    // same values used across the bespoke-redesigned pages. Only visual
+    // props touched; value/onChange/options are whatever the page already
+    // wires up.
+
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker,
+    .ant-input,
+    .ant-input-affix-wrapper,
+    input.ant-input-number-input {
+      min-height: 40px;
+      border-radius: 9px !important;
+      border-color: #dfe3ee !important;
+      box-shadow: none !important;
+      transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+    }
+
+    .ant-select-selector {
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-select:hover .ant-select-selector,
+    .ant-picker:hover,
+    .ant-input:hover,
+    .ant-input-affix-wrapper:hover {
+      border-color: #c8bfff !important;
+    }
+
+    .ant-select-focused .ant-select-selector,
+    .ant-picker-focused,
+    .ant-input:focus,
+    .ant-input-affix-wrapper-focused {
+      border-color: #8b6bff !important;
+      box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.12) !important;
+    }
+
+    // ---- Generic button polish ----
+
+    .ant-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 9px;
+      font-weight: 650;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+
+    .ant-btn-primary:not(.ant-btn-dangerous) {
+      border: 0 !important;
+      background: linear-gradient(
+        135deg,
+        #5864f9 0%,
+        #7b54ff 52%,
+        #bc3bed 100%
+      ) !important;
+      box-shadow: 0 8px 18px rgba(123, 84, 255, 0.2);
+    }
+
+    // ---- Generic modal polish (shared across the app) ----
+
+    .ant-modal-content {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+  }
+}
+
+// Modal corner-rounding applies globally since antd renders modals via a
+// portal outside any panel wrapper — a plain radius is safe as a light,
+// additive default and can't conflict with existing content styling.
+// Button recoloring stays scoped per-panel above (not global) since a
+// blanket rule could repaint an unaudited destructive/danger confirm
+// button purple elsewhere in the app.
+.ant-modal-content {
+  border-radius: 16px;
 }

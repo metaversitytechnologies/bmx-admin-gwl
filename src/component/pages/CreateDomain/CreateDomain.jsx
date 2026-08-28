@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, message } from "antd";
+import { Globe2 } from "lucide-react";
 import UpdateDomian from "./UpdateDomian";
 import {
   useAppDetailsQuery,
   useGetCreateAppMutation,
 } from "../../../store/service/userlistService";
-import CreateDomainHeader from "./CreateDomainHeader";
+import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 import CreateDomainForm from "./CreateDomainForm";
 import ExistingDomains from "./ExistingDomains";
 
@@ -108,7 +109,19 @@ const CreateDomain = () => {
 
   return (
     <div className="main_live_section list_supers admin-details-panel create-domain-panel">
-      <CreateDomainHeader count={domains.length} onBack={handleBackClick} />
+      <AppPageHeader
+        icon={<Globe2 size={20} strokeWidth={1.8} />}
+        title="Create Domain"
+        subtitle="Add new domain and manage existing domains"
+        badge={
+          typeof domains.length === "number" && (
+            <>
+              {domains.length} {domains.length === 1 ? "Domain" : "Domains"}
+            </>
+          )
+        }
+        onBack={handleBackClick}
+      />
 
       <div className="create-domain-layout">
         <CreateDomainForm
