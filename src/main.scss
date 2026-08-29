@@ -15762,6 +15762,802 @@ table.live_table.mt-0 {
   font-size: 12px;
 }
 
+// ============================================================
+// Casino P&L Detail — AntPro Financial Control Center
+// ============================================================
+
+.list_supers.admin-details-panel.casino-pandl-panel {
+  overflow: hidden;
+  margin: 16px;
+  background: #ffffff;
+  border: 1px solid #e8eaf2;
+  border-radius: 16px;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+
+  .cpd-command-center {
+    border-bottom: 1px solid #eceef4;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(250, 249, 255, 0.96)),
+      radial-gradient(circle at 86% -24%, rgba(123, 84, 255, 0.12), transparent 30%);
+  }
+
+  .cpd-command-top {
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid #eceef4;
+  }
+
+  .admin-details-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .admin-details-title {
+    padding: 0 !important;
+    color: #10162f;
+    font-size: 20px !important;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .admin-details-subtitle {
+    margin: 4px 0 0;
+    color: #667085;
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .admin-details-back {
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 14px;
+    color: #5e50ef;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #d2ccff;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: none;
+    cursor: pointer;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease;
+
+    &:hover {
+      color: #4f43d8;
+      border-color: #a79cff;
+      background: #f7f5ff;
+    }
+  }
+
+  .cpd-header-icon {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4f46e5 0%, #6d4df7 52%, #9f32d8 100%);
+    box-shadow: 0 10px 22px rgba(91, 76, 246, 0.22);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      pointer-events: none;
+    }
+  }
+
+  .cpd-period-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 20px 14px;
+  }
+
+  .cpd-period-main {
+    min-width: 0;
+  }
+
+  .cpd-kicker {
+    display: block;
+    margin-bottom: 7px;
+    color: #5b4cf6;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .cpd-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .cpd-range-picker {
+    width: 324px;
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid #dfe3ee;
+    border-radius: 9px;
+    background: #ffffff;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.035);
+
+    .ant-picker-input > input {
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .ant-picker-suffix,
+    .ant-picker-separator {
+      color: #667085;
+    }
+
+    &.ant-picker-focused {
+      border-color: #7b54ff;
+      box-shadow: 0 0 0 3px rgba(123, 84, 255, 0.12);
+    }
+  }
+
+  .cpd-apply-btn.ant-btn {
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 18px;
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 750;
+    border: 0;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #4f46f8 0%, #7b3ff2 58%, #b930d8 100%);
+    box-shadow: 0 10px 20px rgba(99, 72, 238, 0.2);
+
+    &:hover,
+    &:focus {
+      color: #ffffff;
+      background: linear-gradient(135deg, #473ff0 0%, #7037ea 58%, #aa28cc 100%);
+    }
+  }
+
+  .cpd-window-pill {
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px;
+    color: #667085;
+    font-size: 11.5px;
+    font-weight: 650;
+    white-space: nowrap;
+    border: 1px solid #e8eaf2;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.82);
+
+    svg {
+      color: #7b54ff;
+    }
+  }
+
+  .cpd-portfolio-strip {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.8fr) minmax(0, 2fr);
+    gap: 18px;
+    min-height: 116px;
+    margin: 14px 20px;
+    padding: 16px 18px;
+    border: 1px solid #e8eaf2;
+    border-radius: 14px;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(252, 251, 255, 0.98)),
+      linear-gradient(90deg, rgba(123, 84, 255, 0.05), transparent 38%);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055);
+  }
+
+  .cpd-portfolio-primary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .cpd-portfolio-value {
+    display: block;
+    font-size: clamp(24px, 2.3vw, 34px);
+    font-weight: 850;
+    line-height: 1.05;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cpd-net-pill {
+    width: fit-content;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    padding: 0 9px;
+    font-size: 11px;
+    font-weight: 750;
+    border-radius: 7px;
+  }
+
+  .cpd-net-pill-positive {
+    color: #15803d;
+    background: #dcfce7;
+  }
+
+  .cpd-net-pill-negative {
+    color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .cpd-net-pill-neutral {
+    color: #667085;
+    background: #f1f2f6;
+  }
+
+  .cpd-loss-rail {
+    width: min(260px, 100%);
+    height: 7px;
+    display: block;
+    margin-top: 11px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #f0f1f5;
+
+    span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #dc2626, #f59ca0);
+    }
+  }
+
+  .cpd-portfolio-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .cpd-metric,
+  .cpd-period-summary {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 18px;
+    border-left: 1px solid #edf0f5;
+  }
+
+  .cpd-metric-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #5b4cf6;
+    border-radius: 10px;
+    background: #f0edff;
+  }
+
+  .cpd-metric-loss {
+    color: #dc2626;
+    background: #feecec;
+  }
+
+  .cpd-metric-average {
+    color: #d97706;
+    background: #fff4dc;
+  }
+
+  .cpd-metric strong {
+    display: block;
+    color: #10162f;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .cpd-metric span:not(.cpd-metric-icon) {
+    display: block;
+    margin-top: 4px;
+    color: #667085;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .cpd-period-summary {
+    color: #15803d;
+
+    span {
+      display: flex;
+      flex-direction: column;
+      color: #10162f;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.28;
+      white-space: nowrap;
+    }
+
+    small {
+      color: #667085;
+      font-size: 10px;
+      font-weight: 650;
+      text-transform: lowercase;
+    }
+  }
+
+  .cpd-pnl-positive {
+    color: #15803d !important;
+  }
+
+  .cpd-pnl-negative {
+    color: #dc2626 !important;
+  }
+
+  .cpd-pnl-neutral {
+    color: #667085 !important;
+  }
+
+  .cpd-event-section {
+    margin: 0 20px 18px;
+    overflow: hidden;
+    border: 1px solid #e8eaf2;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+  }
+
+  .cpd-section-header {
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eceef4;
+    background: #ffffff;
+
+    h2 {
+      margin: 0;
+      color: #5b4cf6;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 5px 0 0;
+      color: #667085;
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+  }
+
+  .cpd-section-tool {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #5b4cf6;
+    border: 1px solid #dcd8ff;
+    border-radius: 8px;
+    background: #ffffff;
+  }
+
+  .cpd-table-shell {
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  .cpd-ledger-table {
+    .ant-table {
+      background: #ffffff;
+    }
+
+    .ant-table-container {
+      border: 0;
+    }
+
+    .ant-table-thead > tr > th {
+      height: 48px;
+      padding: 9px 18px !important;
+      color: #344054;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eceef4 !important;
+      background: #f7f6ff !important;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    .ant-table-tbody > tr > td {
+      height: 54px;
+      padding: 8px 18px !important;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 600;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eef0f5 !important;
+      background: #ffffff;
+      vertical-align: middle;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: #fbfaff !important;
+    }
+
+    .ant-table-tbody > tr.cpd-row-total > td {
+      height: 58px;
+      background: #fafaff !important;
+      border-bottom-color: #eceef4 !important;
+
+      &:first-child {
+        border-left: 3px solid #6d4df7;
+      }
+    }
+
+    .ant-table-tbody > tr.cpd-row-date > td {
+      height: 52px;
+      background: #f8f6ff !important;
+      border-bottom-color: #ede9ff !important;
+    }
+  }
+
+  .cpd-event-cell,
+  .cpd-casino-cell,
+  .cpd-pnl-cell,
+  .cpd-action-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .cpd-event-cell {
+    gap: 10px;
+    min-width: 0;
+    color: #10162f;
+    font-weight: 750;
+  }
+
+  .cpd-row-icon {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #5b4cf6;
+    border-radius: 9px;
+    background: #f0edff;
+  }
+
+  .cpd-total-icon {
+    color: #6d4df7;
+    background: #f3f0ff;
+  }
+
+  .cpd-event-code {
+    min-width: 44px;
+    max-width: 60px;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 9px;
+    color: #6d4df7;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 8px;
+    background: #f0edff;
+  }
+
+  .cpd-casino-cell .gx-text-blue {
+    overflow: hidden;
+    color: #5b4cf6 !important;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cpd-date-value {
+    color: #344054;
+    font-size: 12.5px;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cpd-summary-label,
+  .cpd-muted {
+    color: #98a2b3;
+    font-size: 12px;
+    font-weight: 650;
+  }
+
+  .cpd-pnl-cell {
+    gap: 12px;
+  }
+
+  .cpd-pnl-value {
+    min-width: 94px;
+    font-size: 13.5px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cpd-pnl-badge {
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 10.5px;
+    font-weight: 800;
+    line-height: 1;
+    border-radius: 7px;
+    text-transform: uppercase;
+  }
+
+  .cpd-pnl-badge-positive {
+    color: #15803d;
+    background: #dcfce7;
+  }
+
+  .cpd-pnl-badge-negative {
+    color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .cpd-pnl-badge-neutral {
+    color: #667085;
+    background: #f1f2f6;
+  }
+
+  .cpd-action-group {
+    justify-content: flex-end;
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  .cpd-action-btn.ant-btn {
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 750;
+    border-radius: 8px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      color: inherit;
+    }
+  }
+
+  .cpd-action-primary.ant-btn,
+  .cpd-action-outline.ant-btn {
+    color: #ffffff;
+    border-color: transparent;
+    background: linear-gradient(135deg, #4f46f8 0%, #6f3ff0 100%);
+    box-shadow: 0 8px 15px rgba(91, 76, 246, 0.18);
+  }
+
+  .cpd-action-secondary.ant-btn {
+    color: #344054;
+    border: 1px solid #dfe3ee;
+    background: #ffffff;
+    box-shadow: none;
+  }
+
+  .ant-pagination {
+    margin: 14px 16px !important;
+  }
+}
+
+@media (max-width: 1180px) {
+  .list_supers.admin-details-panel.casino-pandl-panel {
+    .cpd-portfolio-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .cpd-portfolio-metrics {
+      border-top: 1px solid #edf0f5;
+    }
+
+    .cpd-metric:first-child {
+      border-left: 0;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.casino-pandl-panel {
+    margin: 10px;
+    border-radius: 14px;
+
+    .cpd-command-top,
+    .cpd-period-row {
+      padding: 14px;
+    }
+
+    .cpd-command-top {
+      align-items: flex-start;
+    }
+
+    .cpd-header-icon {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+    }
+
+    .admin-details-title {
+      font-size: 17px !important;
+    }
+
+    .admin-details-subtitle {
+      font-size: 11px;
+    }
+
+    .admin-details-back {
+      height: 34px;
+      padding: 0 10px;
+    }
+
+    .cpd-period-row,
+    .cpd-filter-row {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .cpd-range-picker {
+      width: 100%;
+    }
+
+    .cpd-apply-btn.ant-btn,
+    .cpd-window-pill {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cpd-portfolio-strip,
+    .cpd-event-section {
+      margin-right: 12px;
+      margin-left: 12px;
+    }
+
+    .cpd-portfolio-strip {
+      padding: 14px;
+    }
+
+    .cpd-portfolio-metrics {
+      grid-template-columns: 1fr;
+    }
+
+    .cpd-metric,
+    .cpd-period-summary {
+      min-height: 58px;
+      padding: 10px 0;
+      border-left: 0;
+      border-top: 1px solid #edf0f5;
+    }
+
+    .cpd-table-shell {
+      overflow: visible;
+    }
+
+    .cpd-ledger-table {
+      .ant-table,
+      .ant-table-container,
+      .ant-table-content,
+      table,
+      tbody {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      .ant-table-tbody > tr {
+        display: block;
+        padding: 12px;
+        border-bottom: 1px solid #eceef4;
+        background: #ffffff;
+
+        > td {
+          width: 100% !important;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 7px 0 !important;
+          border-bottom: 0 !important;
+          background: transparent !important;
+
+          &::before {
+            content: attr(data-label);
+            color: #667085;
+            font-size: 11px;
+            font-weight: 750;
+            text-transform: uppercase;
+          }
+
+          &:first-child {
+            justify-content: flex-start;
+
+            &::before {
+              display: none;
+            }
+          }
+        }
+      }
+
+      .ant-table-tbody > tr.cpd-row-total {
+        border-left: 3px solid #6d4df7;
+        background: #fafaff;
+
+        > td:first-child {
+          border-left: 0;
+        }
+      }
+
+      .ant-table-tbody > tr.cpd-row-date {
+        background: #f8f6ff;
+      }
+    }
+
+    .cpd-casino-cell .gx-text-blue {
+      white-space: normal;
+    }
+
+    .cpd-pnl-cell,
+    .cpd-action-group {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .cpd-action-btn.ant-btn {
+      flex: 1 1 auto;
+      min-width: 116px;
+    }
+  }
+}
+
 .ab-error {
   display: flex;
   flex-direction: column;
@@ -15936,6 +16732,1949 @@ table.live_table.mt-0 {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 8px;
+}
+
+// ============================================================
+// Diamond Casino Details — content redesign below approved header
+// ============================================================
+
+.list_supers.admin-details-panel.casino-pnl-panel {
+  .cpnl-content {
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  .cpnl-command-toolbar {
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    border: 1px solid #e7e9f2;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffffff 0%, #fcfbff 100%);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.035);
+  }
+
+  .cpnl-kicker {
+    display: block;
+    margin-bottom: 9px;
+    color: #5b4cf6;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .cpnl-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .cpnl-command-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cpnl-range-picker {
+    width: min(360px, 100%);
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid #e7e9f2;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: none;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+
+    .ant-picker-input > input {
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .ant-picker-suffix,
+    .ant-picker-separator {
+      color: #667085;
+    }
+
+    &.ant-picker-focused {
+      border-color: #a79cff;
+      box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.1);
+    }
+  }
+
+  .cpnl-apply-btn,
+  .cpnl-today-btn,
+  .cpnl-view-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin: 0;
+    font-family: inherit;
+    border-radius: 8px;
+    cursor: pointer;
+    transition:
+      transform 160ms ease,
+      background 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .cpnl-apply-btn,
+  .cpnl-view-btn {
+    color: #ffffff !important;
+    border: 0 !important;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.18);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(123, 84, 255, 0.22);
+    }
+  }
+
+  .cpnl-apply-btn,
+  .cpnl-today-btn {
+    height: 42px;
+    padding: 0 16px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .cpnl-today-btn {
+    color: #6254ef !important;
+    border: 1px solid #d2ccff !important;
+    background: #ffffff !important;
+    box-shadow: none;
+
+    &:hover {
+      color: #4f43d8 !important;
+      border-color: #a79cff !important;
+      background: #f7f5ff !important;
+    }
+  }
+
+  .cpnl-table-card {
+    overflow: hidden;
+    border: 1px solid #e7e9f2;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .cpnl-table-header {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eceef4;
+    background: #ffffff;
+
+    h2 {
+      margin: 0;
+      color: #10162f;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 4px 0 0;
+      color: #667085;
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+  }
+
+  .cpnl-record-pill {
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px;
+    color: #6254ef;
+    font-size: 11.5px;
+    font-weight: 750;
+    white-space: nowrap;
+    border-radius: 999px;
+    background: #f0edff;
+  }
+
+  .cpnl-table-section {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+  }
+
+  .cpnl-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(2px);
+  }
+
+  .cpnl-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cpnl-table {
+    width: 100%;
+    min-width: 920px;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    .cpnl-col-game {
+      width: 13%;
+    }
+
+    .cpnl-col-type {
+      width: 27%;
+    }
+
+    .cpnl-col-exposure {
+      width: 15%;
+    }
+
+    .cpnl-col-pl {
+      width: 14%;
+    }
+
+    .cpnl-col-client {
+      width: 16%;
+    }
+
+    .cpnl-col-action {
+      width: 15%;
+    }
+
+    thead tr {
+      background: #f7f6ff;
+    }
+
+    th {
+      height: 46px;
+      padding: 9px 16px !important;
+      color: #475467 !important;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      text-align: left;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eceef4 !important;
+      background: #f7f6ff !important;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      svg {
+        color: #8b7cf8;
+      }
+    }
+
+    th:nth-child(3),
+    th:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(3),
+    td:nth-child(4),
+    td:nth-child(5) {
+      text-align: right;
+    }
+
+    th:last-child,
+    td:last-child {
+      text-align: right;
+    }
+
+    td {
+      height: 54px;
+      padding: 8px 16px !important;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.35;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eef0f5 !important;
+      background: #ffffff;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background-color 170ms ease;
+
+      &:hover td {
+        background: #fafaff;
+      }
+
+      &:last-child td {
+        border-bottom: 0 !important;
+      }
+    }
+  }
+
+  .cpnl-game-badge {
+    min-width: 34px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    color: #6254ef;
+    font-size: 12px;
+    font-weight: 800;
+    border: 1px solid #e1dcff;
+    border-radius: 8px;
+    background: #f3f0ff;
+  }
+
+  .cpnl-game-type {
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    color: #10162f;
+    font-size: 13.5px;
+    font-weight: 650;
+
+    svg {
+      flex: 0 0 auto;
+      color: #8b7cf8;
+    }
+  }
+
+  .cpnl-number-cell {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cpnl-amount {
+    font-size: 13.5px;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cpnl-amount-positive {
+    color: #15803d;
+  }
+
+  .cpnl-amount-negative {
+    color: #dc2626;
+  }
+
+  .cpnl-amount-neutral {
+    color: #667085;
+  }
+
+  .cpnl-view-btn {
+    height: 33px;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 750;
+    white-space: nowrap;
+  }
+
+  .cpnl-table-footer {
+    min-height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    border-top: 1px solid #eceef4;
+    background: #ffffff;
+  }
+
+  .cpnl-showing-text {
+    color: #667085;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .cpnl-pagination {
+    margin: 0 !important;
+
+    .ant-pagination-item {
+      border-color: #dfe3ee;
+      border-radius: 8px;
+
+      a {
+        color: #344054;
+        font-size: 12px;
+        font-weight: 700;
+      }
+    }
+
+    .ant-pagination-item-active {
+      border-color: #7b54ff;
+      background: linear-gradient(135deg, #5864f9 0%, #7b54ff 100%);
+      box-shadow: 0 8px 16px rgba(123, 84, 255, 0.18);
+
+      a {
+        color: #ffffff;
+      }
+    }
+
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+      border-color: #dfe3ee;
+      border-radius: 8px;
+      color: #344054;
+    }
+  }
+}
+
+// ============================================================
+// Diamond Casino Details — bet-level financial ledger
+// ============================================================
+
+.list_supers.admin-details-panel.casino-pnl-details-panel {
+  .cpnld-content {
+    padding: 16px;
+    background: #ffffff;
+  }
+
+  .cpnld-command-bar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px;
+    margin-bottom: 14px;
+    border: 1px solid #e7e9f2;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #fcfbff 100%);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.035);
+  }
+
+  .cpnld-command-main {
+    flex: 1;
+    min-width: 0;
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1;
+    }
+  }
+
+  .cpnld-filter-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) minmax(190px, 240px);
+    gap: 12px;
+    align-items: center;
+  }
+
+  .cpnld-range-picker,
+  .cpnld-client-select .ant-select-selector {
+    height: 42px !important;
+    border: 1px solid #e1e5ee !important;
+    border-radius: 10px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .cpnld-range-picker {
+    width: 100%;
+    padding: 0 12px;
+
+    .ant-picker-input > input {
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    .ant-picker-suffix,
+    .ant-picker-separator {
+      color: #667085;
+    }
+
+    &.ant-picker-focused {
+      border-color: #a79cff !important;
+      box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.1) !important;
+    }
+  }
+
+  .cpnld-client-select {
+    width: 100%;
+
+    .ant-select-selector {
+      display: flex;
+      align-items: center;
+      padding: 0 12px !important;
+    }
+
+    .ant-select-selection-item,
+    .ant-select-selection-placeholder {
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    &.ant-select-focused .ant-select-selector {
+      border-color: #a79cff !important;
+      box-shadow: 0 0 0 3px rgba(101, 88, 245, 0.1) !important;
+    }
+  }
+
+  .cpnld-command-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cpnld-primary-btn,
+  .cpnld-secondary-btn {
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 108px;
+    padding: 0 16px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 750;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      transform 160ms ease,
+      background 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .cpnld-primary-btn {
+    color: #ffffff !important;
+    border: 0 !important;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.18);
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(123, 84, 255, 0.22);
+    }
+  }
+
+  .cpnld-secondary-btn {
+    color: #6254ef !important;
+    border: 1px solid #d2ccff !important;
+    background: #ffffff !important;
+    box-shadow: none;
+
+    &:hover {
+      color: #4f43d8 !important;
+      border-color: #a79cff !important;
+      background: #f7f5ff !important;
+    }
+  }
+
+  .cpnld-summary-strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-height: 96px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    border: 1px solid #e5e2ff;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.035);
+  }
+
+  .cpnld-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-right: 1px solid #edf0f5;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    small {
+      display: block;
+      margin-bottom: 5px;
+      color: #667085;
+      font-size: 11px;
+      font-weight: 650;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    strong {
+      display: block;
+      color: #10162f;
+      font-size: 17px;
+      font-weight: 850;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+  }
+
+  .cpnld-summary-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+
+  .cpnld-purple {
+    color: #6254ef;
+    background: #f0edff;
+  }
+
+  .cpnld-violet {
+    color: #7c3aed;
+    background: #f3e8ff;
+  }
+
+  .cpnld-green {
+    color: #15803d;
+    background: #ecfdf3;
+  }
+
+  .cpnld-red {
+    color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .cpnld-positive {
+    color: #15803d !important;
+  }
+
+  .cpnld-negative {
+    color: #dc2626 !important;
+  }
+
+  .cpnld-neutral {
+    color: #667085 !important;
+  }
+
+  .cpnld-table-card {
+    overflow: hidden;
+    border: 1px solid #e7e9f2;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+
+    .ant-table-wrapper {
+      overflow: hidden;
+    }
+
+    .ant-table {
+      background: #ffffff;
+    }
+
+    .ant-table-container,
+    .ant-table-content {
+      border: 0 !important;
+    }
+
+    .ant-table-thead > tr > th {
+      height: 48px;
+      padding: 9px 14px !important;
+      color: #475467 !important;
+      font-size: 12px;
+      font-weight: 750;
+      line-height: 1.25;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eceef4 !important;
+      background: #f7f6ff !important;
+
+      &::before {
+        display: none;
+      }
+
+      > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      svg {
+        color: #667085;
+      }
+    }
+
+    .ant-table-tbody > tr > td {
+      height: 60px;
+      padding: 9px 14px !important;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.35;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eef0f5 !important;
+      background: #ffffff !important;
+      vertical-align: middle;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: #fafaff !important;
+    }
+
+    .ant-table-tbody > tr:last-child > td {
+      border-bottom: 0 !important;
+    }
+  }
+
+  .cpnld-table {
+    .ant-table-thead > tr > th:nth-child(6),
+    .ant-table-thead > tr > th:nth-child(7),
+    .ant-table-thead > tr > th:nth-child(8),
+    .ant-table-thead > tr > th:nth-child(9),
+    .ant-table-tbody > tr > td:nth-child(6),
+    .ant-table-tbody > tr > td:nth-child(7),
+    .ant-table-tbody > tr > td:nth-child(8),
+    .ant-table-tbody > tr > td:nth-child(9) {
+      text-align: right;
+    }
+  }
+
+  .cpnld-date-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #344054;
+    font-variant-numeric: tabular-nums;
+
+    svg {
+      flex: 0 0 auto;
+      color: #667085;
+    }
+
+    strong,
+    small {
+      display: block;
+      line-height: 1.2;
+    }
+
+    strong {
+      color: #344054;
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    small {
+      margin-top: 3px;
+      color: #667085;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+  }
+
+  .cpnld-client-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 9px;
+    color: #6254ef;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 8px;
+    background: #f3f0ff;
+  }
+
+  .cpnld-round-id,
+  .cpnld-number {
+    color: #344054;
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cpnld-player {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 600;
+
+    span {
+      width: 25px;
+      height: 25px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #667085;
+      border-radius: 50%;
+      background: #f2f4f7;
+    }
+  }
+
+  .cpnld-winner {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 9px;
+    color: #15803d;
+    font-size: 12px;
+    font-weight: 750;
+    border-radius: 8px;
+    background: #ecfdf3;
+  }
+
+  .cpnld-empty {
+    padding: 28px 16px;
+    border-top: 1px solid #eef0f5;
+
+    .ant-empty-description {
+      color: #667085;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+  }
+
+  .cpnld-table-footer {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 650;
+    border-top: 1px solid #eceef4;
+    background: #ffffff;
+  }
+}
+
+// ============================================================
+// Inplay Matka — compact premium games table
+// ============================================================
+
+.list_supers.admin-details-panel.inplay-matka-panel {
+  .matka-games-content.ant-card {
+    margin: 0 !important;
+    background: #ffffff;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+
+    .ant-card-body {
+      padding: 16px;
+    }
+  }
+
+  .matka-info-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-height: 96px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    border: 1px solid #e7e3ff;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.035);
+  }
+
+  .matka-info-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 15px 18px;
+    border-right: 1px solid #edf0f5;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    > span:last-child {
+      min-width: 0;
+    }
+
+    small,
+    strong,
+    em {
+      display: block;
+      font-style: normal;
+      line-height: 1.2;
+    }
+
+    small {
+      color: #667085;
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    strong {
+      margin-top: 5px;
+      color: #10162f;
+      font-size: 19px;
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    em {
+      margin-top: 6px;
+      color: #667085;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+  }
+
+  .matka-info-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+  }
+
+  .matka-info-purple {
+    color: #6254ef;
+    background: #f0edff;
+  }
+
+  .matka-info-violet {
+    color: #6d4df7;
+    background: #f3f0ff;
+  }
+
+  .matka-info-amber {
+    color: #d97706;
+    background: #fff4dc;
+  }
+
+  .matka-info-green {
+    color: #159a68;
+    background: #e9f8f0;
+  }
+
+  .matka-games-table-section {
+    margin: 0;
+    padding: 0 !important;
+    overflow: hidden;
+    border: 1px solid #e7e9f2;
+    border-radius: 16px 16px 0 0;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .matka-error-message {
+    margin: 14px;
+    padding: 10px 12px;
+    color: #cf1322;
+    font-size: 12.5px;
+    font-weight: 600;
+    border: 1px solid #ffa39e;
+    border-radius: 8px;
+    background: #fff1f0;
+  }
+
+  .matka-loading-state {
+    position: relative;
+    min-height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .matka-games-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .matka-games-table {
+    width: 100%;
+    min-width: 760px;
+    margin: 0 !important;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    th {
+      height: 48px;
+      padding: 10px 22px !important;
+      color: #475467 !important;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
+      text-align: left;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eceef4 !important;
+      background: #f7f6ff !important;
+
+      &:first-child {
+        width: 48%;
+      }
+
+      &:last-child {
+        width: 52%;
+      }
+    }
+
+    td {
+      height: 74px;
+      padding: 12px 22px !important;
+      color: #344054;
+      font-size: 13px;
+      font-weight: 500;
+      border-right: 0 !important;
+      border-bottom: 1px solid #eef0f5 !important;
+      background: #ffffff;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      transition: background-color 170ms ease;
+
+      &:hover td {
+        background: #fafaff;
+      }
+
+      &:last-child td {
+        border-bottom: 0 !important;
+      }
+    }
+  }
+
+  .matka-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .matka-row-index {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6254ef;
+    font-size: 13px;
+    font-weight: 800;
+    border: 1px solid #e2dcff;
+    border-radius: 11px;
+    background: #f3f0ff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .matka-name-stack {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .matka-title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+
+    strong {
+      color: #171b2e;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      white-space: normal;
+    }
+
+    em {
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      color: #159a68;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 750;
+      border-radius: 999px;
+      background: #ecfdf3;
+    }
+  }
+
+  .matka-name-stack small {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+
+    svg {
+      color: #667085;
+    }
+  }
+
+  .matka-details-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .matka-action-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .matka-view-btn.ant-btn,
+  .matka-all-bets-btn.ant-btn {
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 16px;
+    font-size: 12.5px;
+    font-weight: 750;
+    border-radius: 9px;
+    box-shadow: none;
+    transition:
+      transform 160ms ease,
+      background 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease;
+
+    .ant-btn-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .matka-view-btn.ant-btn {
+    color: #ffffff !important;
+    border: 0 !important;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.18);
+
+    &:hover {
+      color: #ffffff !important;
+      box-shadow: 0 10px 22px rgba(123, 84, 255, 0.22);
+    }
+  }
+
+  .matka-all-bets-btn.ant-btn {
+    color: #6254ef !important;
+    border: 1px solid #d2ccff !important;
+    background: #ffffff !important;
+
+    &:hover {
+      color: #4f43d8 !important;
+      border-color: #a79cff !important;
+      background: #f7f5ff !important;
+    }
+  }
+
+  .matka-row-chevron {
+    flex: 0 0 auto;
+    color: #667085;
+  }
+
+  .matka-table-footer {
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    border: 1px solid #e7e9f2;
+    border-top: 0;
+    border-radius: 0 0 16px 16px;
+    background: #ffffff;
+  }
+
+  .matka-showing-text {
+    color: #667085;
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .matka-pagination {
+    margin: 0 !important;
+
+    .ant-pagination-item {
+      border-color: #dfe3ee;
+      border-radius: 8px;
+
+      a {
+        color: #344054;
+        font-size: 12px;
+        font-weight: 700;
+      }
+    }
+
+    .ant-pagination-item-active {
+      border-color: #7b54ff;
+      background: linear-gradient(135deg, #5864f9 0%, #7b54ff 100%);
+      box-shadow: 0 8px 16px rgba(123, 84, 255, 0.18);
+
+      a {
+        color: #ffffff;
+      }
+    }
+
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+      border-color: #dfe3ee;
+      border-radius: 8px;
+      color: #344054;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .list_supers.admin-details-panel.inplay-matka-panel {
+    .matka-info-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .matka-info-item {
+      border-bottom: 1px solid #edf0f5;
+
+      &:nth-child(2n) {
+        border-right: 0;
+      }
+
+      &:nth-last-child(-n + 2) {
+        border-bottom: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .list_supers.admin-details-panel.inplay-matka-panel {
+    .matka-games-content.ant-card .ant-card-body {
+      padding: 12px;
+    }
+
+    .matka-info-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      min-height: auto;
+      margin-bottom: 12px;
+    }
+
+    .matka-info-item {
+      min-height: 78px;
+      gap: 10px;
+      padding: 11px;
+    }
+
+    .matka-info-icon {
+      width: 34px;
+      height: 34px;
+      flex-basis: 34px;
+    }
+
+    .matka-info-item strong {
+      font-size: 16px;
+    }
+
+    .matka-info-item small,
+    .matka-info-item em {
+      font-size: 10.5px;
+      white-space: normal;
+    }
+
+    .matka-games-table-section {
+      overflow: visible;
+      border-radius: 14px;
+      border-bottom: 1px solid #e7e9f2;
+    }
+
+    .matka-games-table-scroll {
+      overflow: visible;
+    }
+
+    .matka-games-table {
+      min-width: 0;
+
+      thead {
+        display: none;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        padding: 12px;
+        border-bottom: 1px solid #eef0f5;
+        background: #ffffff;
+      }
+
+      td {
+        height: auto;
+        padding: 0 !important;
+        border-bottom: 0 !important;
+        background: transparent !important;
+
+        &::before {
+          display: none;
+        }
+
+        + td {
+          margin-top: 12px;
+        }
+      }
+    }
+
+    .matka-name-cell {
+      align-items: flex-start;
+      gap: 11px;
+    }
+
+    .matka-row-index {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
+    }
+
+    .matka-title-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .matka-details-cell {
+      align-items: stretch;
+    }
+
+    .matka-action-group {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      flex: 1;
+    }
+
+    .matka-action-group a,
+    .matka-view-btn.ant-btn,
+    .matka-all-bets-btn.ant-btn {
+      width: 100%;
+    }
+
+    .matka-row-chevron {
+      display: none;
+    }
+
+    .matka-table-footer {
+      align-items: flex-start;
+      flex-direction: column;
+      min-height: auto;
+      padding: 12px;
+      border-radius: 0;
+      border-top: 1px solid #e7e9f2;
+    }
+  }
+}
+
+@media (max-width: 340px) {
+  .list_supers.admin-details-panel.inplay-matka-panel {
+    .matka-action-group {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Final mobile repair for recently redesigned financial/table pages.
+// These rules intentionally sit after the page blocks so mobile cards win
+// over older inherited table min-width and Ant table layout styles.
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.casino-pnl-panel {
+    .cpnl-table-scroll {
+      overflow: visible !important;
+    }
+
+    .cpnl-table {
+      width: 100% !important;
+      min-width: 0 !important;
+
+      thead,
+      colgroup {
+        display: none !important;
+      }
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+      }
+
+      tr {
+        padding: 12px 14px;
+        border-bottom: 1px solid #eef0f5;
+      }
+
+      td {
+        min-height: 34px;
+        display: grid !important;
+        grid-template-columns: minmax(92px, 36%) minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        padding: 7px 0 !important;
+        text-align: right !important;
+        border: 0 !important;
+        background: transparent !important;
+
+        &::before {
+          content: attr(data-label);
+          color: #667085;
+          font-size: 11px;
+          font-weight: 800;
+          line-height: 1.2;
+          text-align: left;
+          text-transform: uppercase;
+        }
+      }
+
+      .cpnl-game-type {
+        justify-content: flex-end;
+        text-align: right;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+
+      .cpnl-view-btn {
+        justify-self: end;
+      }
+    }
+  }
+
+  .list_supers.admin-details-panel.casino-pandl-panel {
+    .cpd-table-shell {
+      overflow: visible !important;
+    }
+
+    .cpd-ledger-table {
+      .ant-table,
+      .ant-table-container,
+      .ant-table-content,
+      table,
+      tbody {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      colgroup,
+      thead {
+        display: none !important;
+      }
+
+      .ant-table-tbody > tr {
+        display: block !important;
+        width: 100% !important;
+        padding: 12px 14px;
+        border-bottom: 1px solid #eef0f5;
+      }
+
+      .ant-table-tbody > tr > td {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        min-height: 34px;
+        display: grid !important;
+        grid-template-columns: minmax(104px, 38%) minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        padding: 7px 0 !important;
+        text-align: right !important;
+        border: 0 !important;
+        background: transparent !important;
+
+        &::before {
+          content: attr(data-label);
+          color: #667085;
+          font-size: 11px;
+          font-weight: 800;
+          line-height: 1.2;
+          text-align: left;
+          text-transform: uppercase;
+        }
+
+        &:first-child {
+          grid-template-columns: 1fr;
+          text-align: left !important;
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .cpd-event-cell {
+      justify-content: flex-start;
+      width: 100%;
+    }
+
+    .cpd-casino-cell .gx-text-blue,
+    .cpd-date-value,
+    .cpd-summary-label {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .cpd-pnl-cell,
+    .cpd-action-group {
+      justify-content: flex-end;
+    }
+  }
+
+  .list_supers.admin-details-panel.casino-pnl-details-panel {
+    .cpnld-table-card {
+      .ant-table,
+      .ant-table-container,
+      .ant-table-content,
+      table,
+      tbody {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      colgroup,
+      thead {
+        display: none !important;
+      }
+
+      .ant-table-tbody > tr {
+        display: block !important;
+        width: 100% !important;
+        padding: 12px 14px;
+        border-bottom: 1px solid #eef0f5;
+      }
+
+      .ant-table-tbody > tr > td {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        min-height: 34px;
+        display: grid !important;
+        grid-template-columns: minmax(88px, 34%) minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        padding: 7px 0 !important;
+        text-align: right !important;
+        border: 0 !important;
+        background: transparent !important;
+
+        &::before {
+          content: attr(data-label);
+          color: #667085;
+          font-size: 10.5px;
+          font-weight: 800;
+          line-height: 1.2;
+          text-align: left;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    .cpnld-date-cell,
+    .cpnld-player,
+    .cpnld-winner {
+      justify-self: end;
+      text-align: right;
+    }
+
+    .cpnld-round-id {
+      overflow-wrap: anywhere;
+    }
+  }
+
+  .list_supers.admin-details-panel.inplay-matka-panel {
+    .matka-games-table-scroll,
+    .matka-games-table {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow: visible !important;
+    }
+
+    .matka-games-table {
+      min-width: 0 !important;
+
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+      }
+
+      tr {
+        padding: 12px !important;
+      }
+
+      td {
+        padding: 0 !important;
+        border: 0 !important;
+      }
+    }
+
+    .matka-title-row strong {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .matka-name-stack small {
+      white-space: normal;
+    }
+
+    .matka-details-cell {
+      width: 100%;
+      min-width: 0;
+      display: block;
+    }
+
+    .matka-action-group {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .matka-action-group a,
+    .matka-view-btn.ant-btn,
+    .matka-all-bets-btn.ant-btn {
+      width: 100% !important;
+      min-width: 0;
+    }
+
+    .matka-view-btn.ant-btn,
+    .matka-all-bets-btn.ant-btn {
+      justify-content: center;
+      padding: 0 10px !important;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .list_supers.admin-details-panel.inplay-matka-panel {
+    .matka-action-group {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 1100px) {
+  .list_supers.admin-details-panel.casino-pnl-details-panel {
+    .cpnld-command-bar {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .cpnld-command-actions {
+      justify-content: flex-end;
+    }
+
+    .cpnld-summary-strip {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .cpnld-summary-item:nth-child(3) {
+      border-right: 0;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .list_supers.admin-details-panel.casino-pnl-details-panel {
+    .cpnld-content {
+      padding: 12px;
+    }
+
+    .cpnld-command-bar {
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .cpnld-filter-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cpnld-command-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .cpnld-primary-btn,
+    .cpnld-secondary-btn {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .cpnld-summary-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      min-height: auto;
+    }
+
+    .cpnld-summary-item {
+      min-height: 74px;
+      padding: 12px;
+      border-right: 1px solid #edf0f5;
+      border-bottom: 1px solid #edf0f5;
+
+      &:nth-child(2n) {
+        border-right: 0;
+      }
+
+      &:last-child {
+        grid-column: 1 / -1;
+        border-right: 0;
+        border-bottom: 0;
+      }
+    }
+
+    .cpnld-table-card {
+      border-radius: 14px;
+
+      .ant-table,
+      .ant-table-container,
+      .ant-table-content,
+      table,
+      tbody {
+        display: block;
+      }
+
+      colgroup,
+      thead {
+        display: none;
+      }
+
+      .ant-table-tbody > tr {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 9px 10px;
+        padding: 12px;
+        border-bottom: 1px solid #eef0f5;
+        background: #ffffff;
+      }
+
+      .ant-table-tbody > tr > td {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        padding: 0 !important;
+        text-align: left !important;
+        border-bottom: 0 !important;
+        background: transparent !important;
+
+        &::before {
+          content: attr(data-label);
+          color: #667085;
+          font-size: 10.5px;
+          font-weight: 750;
+          line-height: 1;
+          text-transform: uppercase;
+        }
+
+        &:nth-child(1),
+        &:nth-child(3) {
+          grid-column: span 2;
+        }
+
+        &:nth-child(2),
+        &:nth-child(9) {
+          align-items: flex-end;
+          text-align: right !important;
+        }
+
+        &:nth-child(4),
+        &:nth-child(5) {
+          grid-column: span 1;
+        }
+      }
+    }
+
+    .cpnld-date-cell {
+      align-items: flex-start;
+    }
+
+    .cpnld-table-footer {
+      min-height: 48px;
+      padding: 11px 12px;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .list_supers.admin-details-panel.casino-pnl-details-panel {
+    .cpnld-command-actions,
+    .cpnld-summary-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .cpnld-summary-item {
+      border-right: 0;
+    }
+
+    .cpnld-table-card .ant-table-tbody > tr {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.casino-pnl-panel {
+    .cpnl-content {
+      padding: 12px;
+    }
+
+    .cpnl-command-toolbar {
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .cpnl-filter-row,
+    .cpnl-command-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .cpnl-range-picker,
+    .cpnl-apply-btn,
+    .cpnl-today-btn {
+      width: 100%;
+    }
+
+    .cpnl-table-header,
+    .cpnl-table-footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .cpnl-table-scroll {
+      overflow: visible;
+    }
+
+    .cpnl-table {
+      min-width: 0;
+
+      colgroup,
+      thead {
+        display: none;
+      }
+
+      table,
+      tbody,
+      tr,
+      td {
+        display: block;
+        width: 100%;
+      }
+
+      tr {
+        padding: 12px;
+        border-bottom: 1px solid #eef0f5;
+        background: #ffffff;
+
+        &:hover td {
+          background: transparent;
+        }
+      }
+
+      td {
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 7px 0 !important;
+        text-align: right !important;
+        border-bottom: 0 !important;
+
+        &::before {
+          content: attr(data-label);
+          color: #667085;
+          font-size: 11px;
+          font-weight: 750;
+          text-align: left;
+          text-transform: uppercase;
+        }
+      }
+
+      td:nth-child(2) {
+        align-items: flex-start;
+
+        .cpnl-game-type {
+          justify-content: flex-end;
+          text-align: right;
+        }
+      }
+    }
+
+    .cpnl-view-btn {
+      min-width: 118px;
+    }
+  }
 }
 
 .fg-mobile-name {
@@ -17912,4 +20651,140 @@ $app-generic-table-panels: (
 // button purple elsewhere in the app.
 .ant-modal-content {
   border-radius: 16px;
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.casino-pnl-panel .cpnl-table,
+  .list_supers.admin-details-panel.casino-pandl-panel .cpd-ledger-table,
+  .list_supers.admin-details-panel.casino-pnl-details-panel .cpnld-table {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .list_supers.admin-details-panel.casino-pnl-panel .cpnl-table {
+    tbody,
+    tr,
+    td {
+      display: block;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+    }
+
+    tr {
+      padding: 12px 14px;
+      border-bottom: 1px solid #eef0f5;
+    }
+
+    td {
+      min-height: 34px;
+      display: grid !important;
+      grid-template-columns: minmax(92px, 36%) minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 7px 0 !important;
+      text-align: right !important;
+      border: 0 !important;
+      background: transparent !important;
+    }
+  }
+
+  .list_supers.admin-details-panel.casino-pandl-panel
+    .cpd-ledger-table
+    .ant-table-tbody
+    > tr
+    > td,
+  .list_supers.admin-details-panel.casino-pnl-details-panel
+    .cpnld-table
+    .ant-table-tbody
+    > tr
+    > td {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 34px;
+    display: grid !important;
+    grid-template-columns: minmax(98px, 36%) minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 7px 0 !important;
+    text-align: right !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .list_supers.admin-details-panel.casino-pandl-panel
+    .cpd-ledger-table
+    .ant-table-tbody
+    > tr
+    > td:first-child {
+    grid-template-columns: 1fr;
+    text-align: left !important;
+  }
+
+  .list_supers.admin-details-panel.casino-pandl-panel
+    .cpd-ledger-table
+    .ant-table-tbody
+    > tr
+    > td:first-child::before {
+    display: none;
+  }
+
+  .list_supers.admin-details-panel.inplay-matka-panel {
+    .matka-games-table,
+    .matka-games-table tbody,
+    .matka-games-table tr,
+    .matka-games-table td {
+      display: block;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+    }
+
+    .matka-games-table {
+      min-width: 0 !important;
+    }
+
+    .matka-games-table tr {
+      padding: 12px !important;
+      overflow: hidden;
+    }
+
+    .matka-details-cell {
+      display: block !important;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .matka-action-group {
+      width: 100%;
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .matka-action-group a,
+    .matka-view-btn.ant-btn,
+    .matka-all-bets-btn.ant-btn {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .matka-view-btn.ant-btn,
+    .matka-all-bets-btn.ant-btn {
+      justify-content: center;
+      padding: 0 10px !important;
+    }
+
+    .matka-row-chevron {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .list_supers.admin-details-panel.inplay-matka-panel .matka-action-group {
+    grid-template-columns: 1fr;
+  }
 }

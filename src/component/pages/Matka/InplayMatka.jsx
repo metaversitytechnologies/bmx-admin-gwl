@@ -1,8 +1,15 @@
 import { Button, Card, Empty, Pagination } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Dice5 } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronRight,
+  CircleDot,
+  Dice5,
+  Eye,
+  Layers3,
+  ReceiptText,
+} from "lucide-react";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import { useGetMatkaListQuery } from "../../../store/service/MatkaServices";
 import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
@@ -31,6 +38,40 @@ const InplayMatka = () => {
     match?.eventId || match?.id || match?.matchId || match?.event_id || fallback;
   const getMatchName = (match) =>
     match?.name || match?.eventName || match?.title || "";
+  const getMatchDate = (match, matchName) => {
+    const rawDate =
+      match?.date || match?.openDate || match?.eventDate || match?.createdAt;
+
+    if (rawDate) {
+      const parsed = new Date(rawDate);
+      return Number.isNaN(parsed.getTime())
+        ? String(rawDate)
+        : parsed.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+    }
+
+    const trailingDate = String(matchName || "").match(
+      /(?:^|-)(\d{2})-(\d{2})-(\d{4})$/
+    );
+
+    if (!trailingDate) return "";
+
+    const [, day, month, year] = trailingDate;
+    const parsed = new Date(`${year}-${month}-${day}T00:00:00`);
+
+    return Number.isNaN(parsed.getTime())
+      ? ""
+      : parsed.toLocaleDateString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+  };
+  const startEntry = matkaMatches.length ? (currentPage - 1) * pageSize + 1 : 0;
+  const endEntry = Math.min(currentPage * pageSize, matkaMatches.length);
 
   return (
     <div className="match_slip inplay_casino main_live_section list_supers admin-details-panel inplay-matka-panel">
@@ -42,91 +83,166 @@ const InplayMatka = () => {
       />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail team_name">
-        <div className="table_section statement_tabs_data" style={{ padding: "20px" }}>
+        className="sport_detail team_name matka-games-content">
+        <section className="matka-info-strip">
+          <div className="matka-info-item">
+            <span className="matka-info-icon matka-info-purple">
+              <Layers3 size={17} strokeWidth={1.8} />
+            </span>
+            <span>
+              <small>Total Games</small>
+              <strong>{matkaMatches.length}</strong>
+              <em>Active Matka Games</em>
+            </span>
+          </div>
+          <div className="matka-info-item">
+            <span className="matka-info-icon matka-info-violet">
+              <CalendarDays size={17} strokeWidth={1.8} />
+            </span>
+            <span>
+              <small>In-Play Games</small>
+              <strong>{matkaMatches.length}</strong>
+              <em>Running Now</em>
+            </span>
+          </div>
+          <div className="matka-info-item">
+            <span className="matka-info-icon matka-info-amber">
+              <ReceiptText size={17} strokeWidth={1.8} />
+            </span>
+            <span>
+              <small>Visible Rows</small>
+              <strong>{paginatedData.length}</strong>
+              <em>Current Page</em>
+            </span>
+          </div>
+          <div className="matka-info-item">
+            <span className="matka-info-icon matka-info-green">
+              <CircleDot size={17} strokeWidth={1.8} />
+            </span>
+            <span>
+              <small>Page Size</small>
+              <strong>{pageSize}</strong>
+              <em>Rows Per Page</em>
+            </span>
+          </div>
+        </section>
+
+        <div className="table_section statement_tabs_data matka-games-table-section">
           {errorMessage && (
-            <div
-              style={{
-                marginBottom: "12px",
-                padding: "10px 12px",
-                background: "#fff1f0",
-                color: "#cf1322",
-                border: "1px solid #ffa39e",
-                borderRadius: "6px",
-              }}>
+            <div className="matka-error-message">
               {errorMessage}
             </div>
           )}
 
           {isBusy ? (
-            <div style={{ padding: "30px 0", position: "relative" }}>
+            <div className="matka-loading-state">
               <CustomLoading />
             </div>
           ) : (
             <>
-
-            <table className="live_table login_data_table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "40%" }}>NAME</th>
-                    <th style={{ width: "60%" }}>DETAILS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedData.map((item, index) => {
-                    const matchId = getMatchId(item, index);
-                    const matchName = getMatchName(item);
-                    return (
-                      <tr key={matchId}>
-                        <td>{matchName || "Match"}</td>
-                        <td>
-                          <div
-                            className="gx-justify-content-start"
-                            style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                            <Link
-                              to={`/matka/inplay/${matchId}/${String(
-                                matchName
-                              ).toLowerCase()}`}
-                            >
-                              <Button size="small" icon={<EyeOutlined />}>
-                                View
-                              </Button>
-                            </Link>
-                            <Link
-                              to={`/matka/all-bets/${matchId}`}
-                            >
-                              <Button
-                                size="small"
-                                icon={<EyeOutlined />}
-                                className="Display_Games">
-                                All Bets
-                              </Button>
-                            </Link>
-                          </div>
+              <div className="matka-games-table-scroll">
+                <table className="live_table login_data_table matka-games-table">
+                  <thead>
+                    <tr>
+                      <th>NAME</th>
+                      <th>DETAILS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {paginatedData.map((item, index) => {
+                      const matchId = getMatchId(item, index);
+                      const matchName = getMatchName(item);
+                      const matchDate = getMatchDate(item, matchName);
+                      const rowNumber = String(
+                        (currentPage - 1) * pageSize + index + 1
+                      ).padStart(2, "0");
+                      return (
+                        <tr key={matchId}>
+                          <td data-label="Name">
+                            <div className="matka-name-cell">
+                              <span className="matka-row-index">
+                                {rowNumber}
+                              </span>
+                              <span className="matka-name-stack">
+                                <span className="matka-title-row">
+                                  <strong>{matchName || "Match"}</strong>
+                                  <em>In-Play</em>
+                                </span>
+                                {matchDate && (
+                                  <small>
+                                    <CalendarDays
+                                      size={13}
+                                      strokeWidth={1.8}
+                                    />
+                                    {matchDate}
+                                  </small>
+                                )}
+                              </span>
+                            </div>
+                          </td>
+                          <td data-label="Details">
+                            <div className="matka-details-cell">
+                              <div className="matka-action-group">
+                                <Link
+                                  to={`/matka/inplay/${matchId}/${String(
+                                    matchName
+                                  ).toLowerCase()}`}>
+                                  <Button
+                                    className="matka-view-btn"
+                                    size="small"
+                                    icon={<Eye size={15} strokeWidth={1.9} />}>
+                                    View
+                                  </Button>
+                                </Link>
+                                <Link to={`/matka/all-bets/${matchId}`}>
+                                  <Button
+                                    size="small"
+                                    icon={
+                                      <ReceiptText
+                                        size={15}
+                                        strokeWidth={1.9}
+                                      />
+                                    }
+                                    className="Display_Games matka-all-bets-btn">
+                                    All Bets
+                                  </Button>
+                                </Link>
+                              </div>
+                              <ChevronRight
+                                className="matka-row-chevron"
+                                size={18}
+                                strokeWidth={1.9}
+                              />
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {paginatedData.length === 0 && (
+                      <tr>
+                        <td colSpan={2}>
+                          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                         </td>
                       </tr>
-                    );
-                  })}
-                  {paginatedData.length === 0 && (
-                    <tr>
-                      <td colSpan={2}>
-                        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </>
           )}
         </div>
-        <Pagination
-          style={{ marginBottom: "12px" }}
-          className="pagination_main ledger_pagination"
-          total={matkaMatches.length}
-          pageSize={pageSize}
-          current={currentPage}
-          onChange={setCurrentPage}
-        />
+        <div className="matka-table-footer">
+          <span className="matka-showing-text">
+            Showing {startEntry} to {endEntry} of {matkaMatches.length} entries
+          </span>
+          <Pagination
+            className="pagination_main ledger_pagination matka-pagination"
+            total={matkaMatches.length}
+            pageSize={pageSize}
+            current={currentPage}
+            onChange={setCurrentPage}
+          />
+        </div>
       </Card>
     </div>
   );

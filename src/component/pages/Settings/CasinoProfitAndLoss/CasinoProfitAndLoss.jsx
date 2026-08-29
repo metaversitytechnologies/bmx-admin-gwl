@@ -1,13 +1,32 @@
 import { useState } from "react";
-import { Card, Col, DatePicker, Divider, Empty, Pagination, Row } from "antd";
+import { DatePicker, Empty, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
-import { BarChart3 } from "lucide-react";
+import {
+  BarChart3,
+  CalendarDays,
+  Eye,
+  Gamepad2,
+  Layers3,
+  TrendingUp,
+  UserRound,
+  Wallet,
+} from "lucide-react";
 import { useGetCasinoPnlByDateQuery } from "../../../../store/service/CasinoServices";
 import dayjs from "dayjs";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
 const { RangePicker } = DatePicker;
+
+const getAmountTone = (value) => {
+  const amount = Number(value || 0);
+
+  if (amount > 0) return "positive";
+  if (amount < 0) return "negative";
+  return "neutral";
+};
+
+const formatAmount = (value) => Number(value || 0).toFixed(2);
 
 const CasinoProfitAndLoss = () => {
   const nav = useNavigate();
@@ -42,6 +61,8 @@ const CasinoProfitAndLoss = () => {
     refetch();
   };
 
+  const tableRows = data?.data?.[0]?.dataList ?? [];
+
   return (
     <div className="match_slip casino_diamond main_live_section list_supers admin-details-panel casino-pnl-panel">
       <AppPageHeader
@@ -50,92 +71,167 @@ const CasinoProfitAndLoss = () => {
         subtitle="Review casino profit and loss by date range"
         onBack={handleBackClick}
       />
-      <Card
-        style={{ margin: 0, width: "100%" }}
-        className="sport_detail">
-        <Row className="profit_apply">
-          <Col xs={12} xl={6} lg={6} md={12}>
-            <div className="profit_date">
-              <RangePicker onChange={handleRangeChange} />
+
+      <div className="cpnl-content">
+        <section className="cpnl-command-toolbar">
+          <div className="cpnl-command-copy">
+            <span className="cpnl-kicker">Reporting Period</span>
+            <div className="cpnl-filter-row">
+              <RangePicker
+                className="cpnl-range-picker"
+                onChange={handleRangeChange}
+              />
+              <div className="cpnl-command-actions">
+                <button
+                  className="admin-details-primary-action cpnl-apply-btn"
+                  onClick={() => refetch()}
+                  type="button">
+                  Apply
+                </button>
+                <button
+                  className="admin-details-secondary-action cpnl-today-btn"
+                  onClick={handleTodayClick}
+                  type="button">
+                  Today P/L
+                </button>
+              </div>
             </div>
-          </Col>
-          <Col xs={8} xl={4} lg={4} md={8} className="btn_apply">
-            <button
-              className="ant-btn-danger"
-              onClick={() => refetch()}
-              style={{ whiteSpace: "wrap" }}>
-              Apply
-            </button>
-            <button
-              className="apply_btn1"
-              onClick={handleTodayClick}
-              style={{ whiteSpace: "wrap" }}>
-              Today P/L
-            </button>
-          </Col>
-        </Row>
+          </div>
+        </section>
 
-        <div className="table_section statement_tabs_data">
-          {(isLoading || isFetching) && <CustomLoading />}
-          <table>
-            <thead>
-              <tr>
-                <th>Game Id</th>
-                <th>Type</th>
-                <th>Exposer</th>
-                <th>P/L</th>
-                <th>Client P/L</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.data?.[0]?.dataList?.map((res) => (
-                <tr key={res?.key}>
-                  <td>{res?.tableId}</td>
-                  <td>{res?.eventName}</td>
-                  <td>{res?.exposure?.toFixed(2)}</td>
-                  <td>{res?.clientpnl?.toFixed(2)}</td>
-                  <td>{res?.pnl.toFixed(2)}</td>
-                  <td>
-                    <span
-                      onClick={() =>
-                        nav(`/casinoprofitandloss/${res?.marketId}`)
-                      }
-                      style={{
-                        backgroundColor: "rgb(16, 142, 233)",
-                        borderRadius: "0px",
-                        marginBottom: "8px",
-                        color: "#fff",
-                        margin: "0 8px 0 0",
-                        padding: "4px 7px",
-                        fontSize: "12px",
-                        cursor: "pointer",
-                        whiteSpace: "nowrap",
-                      }}>
-                      Show View
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <section className="cpnl-table-card">
+          <div className="cpnl-table-header">
+            <div>
+              <h2>Casino Financial Ledger</h2>
+              <p>Compact profit and loss view by casino game</p>
+            </div>
+            <span className="cpnl-record-pill">
+              {tableRows.length} entries
+            </span>
+          </div>
 
-          {data?.length === 0 ? (
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          ) : (
-            <>
-              <Divider />
-              <div className="pagination_cus">
+          <div className="table_section statement_tabs_data cpnl-table-section">
+            {(isLoading || isFetching) && (
+              <div className="cpnl-loading">
+                <CustomLoading />
+              </div>
+            )}
+            <div className="cpnl-table-scroll">
+              <table className="cpnl-table">
+                {/* <colgroup>
+                  <col className="cpnl-col-game" />
+                  <col className="cpnl-col-type" />
+                  <col className="cpnl-col-exposure" />
+                  <col className="cpnl-col-pl" />
+                  <col className="cpnl-col-client" />
+                  <col className="cpnl-col-action" />
+                </colgroup> */}
+                <thead>
+                  <tr>
+                    <th>
+                      <span>
+                        <Gamepad2 size={13} strokeWidth={1.8} />
+                        Game Id
+                      </span>
+                    </th>
+                    <th>
+                      <span>
+                        <Layers3 size={13} strokeWidth={1.8} />
+                        Type
+                      </span>
+                    </th>
+                    <th>
+                      <span>
+                        <Wallet size={13} strokeWidth={1.8} />
+                        Exposer
+                      </span>
+                    </th>
+                    <th>
+                      <span>
+                        <TrendingUp size={13} strokeWidth={1.8} />
+                        P/L
+                      </span>
+                    </th>
+                    <th>
+                      <span>
+                        <UserRound size={13} strokeWidth={1.8} />
+                        Client P/L
+                      </span>
+                    </th>
+                    <th>
+                      <span>
+                        <Eye size={13} strokeWidth={1.8} />
+                        Action
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableRows.map((res) => (
+                    <tr key={res?.key}>
+                      <td data-label="Game Id">
+                        <span className="cpnl-game-badge">{res?.tableId}</span>
+                      </td>
+                      <td data-label="Type">
+                        <span className="cpnl-game-type">
+                          <CalendarDays size={14} strokeWidth={1.8} />
+                          {res?.eventName}
+                        </span>
+                      </td>
+                      <td data-label="Exposer" className="cpnl-number-cell">
+                        {formatAmount(res?.exposure)}
+                      </td>
+                      <td data-label="P/L" className="cpnl-number-cell">
+                        <span
+                          className={`cpnl-amount cpnl-amount-${getAmountTone(
+                            res?.clientpnl
+                          )}`}>
+                          {formatAmount(res?.clientpnl)}
+                        </span>
+                      </td>
+                      <td data-label="Client P/L" className="cpnl-number-cell">
+                        <span
+                          className={`cpnl-amount cpnl-amount-${getAmountTone(
+                            res?.pnl
+                          )}`}>
+                          {formatAmount(res?.pnl)}
+                        </span>
+                      </td>
+                      <td data-label="Action">
+                        <button
+                          className="admin-details-primary-action cpnl-view-btn"
+                          onClick={() =>
+                            nav(`/casinoprofitandloss/${res?.marketId}`)
+                          }
+                          type="button">
+                          <Eye size={13} strokeWidth={1.9} />
+                          Show View
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {data?.length === 0 ? (
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            ) : (
+              <div className="cpnl-table-footer">
+                <span className="cpnl-showing-text">
+                  Showing {tableRows.length ? 1 : 0} to {tableRows.length} of{" "}
+                  {tableRows.length} entries
+                </span>
                 <Pagination
-                  className="pagination_main ledger_pagination"
+                  className="pagination_main ledger_pagination cpnl-pagination"
                   defaultCurrent={1}
                   total={5}
                 />
               </div>
-            </>
-          )}
-        </div>
-      </Card>
+            )}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

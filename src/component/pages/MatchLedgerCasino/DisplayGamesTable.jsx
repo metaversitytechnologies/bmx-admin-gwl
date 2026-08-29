@@ -7,13 +7,6 @@ import { getPnlColorClass } from "./displayGamesUtils";
 const DisplayGamesTable = ({ rows, onShowBets }) => (
   <div className="table_section admin-details-table-scroll display-games-table-scroll">
     <table className="admin-details-table display-games-table">
-      <colgroup>
-        <col style={{ width: "90px" }} />
-        <col style={{ width: "300px" }} />
-        <col style={{ width: "320px" }} />
-        <col style={{ width: "160px" }} />
-        <col style={{ width: "170px" }} />
-      </colgroup>
       <thead>
         <tr>
           <th>S No.</th>
@@ -34,7 +27,11 @@ const DisplayGamesTable = ({ rows, onShowBets }) => (
                 {round.roundId}
               </td>
               <td data-label="Started At" className="dg-started-at">
-                <Clock3 size={14} strokeWidth={1.8} className="dg-started-at-icon" />
+                <Clock3
+                  size={14}
+                  strokeWidth={1.8}
+                  className="dg-started-at-icon"
+                />
                 <span>{moment().format("YYYY-MM-DD HH:mm:ss A")}</span>
               </td>
               <td
@@ -70,7 +67,7 @@ DisplayGamesTable.propTypes = {
     PropTypes.shape({
       round: PropTypes.object.isRequired,
       globalIndex: PropTypes.number.isRequired,
-    })
+    }),
   ).isRequired,
   onShowBets: PropTypes.func.isRequired,
 };

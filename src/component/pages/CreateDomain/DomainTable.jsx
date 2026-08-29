@@ -5,12 +5,7 @@ import DomainEmpty from "./DomainEmpty";
 const DomainTable = ({ data, onUpdate }) => (
   <div className="create-domain-table-scroll">
     <table className="create-domain-table">
-      <colgroup>
-        <col style={{ width: "36%" }} />
-        <col style={{ width: "34%" }} />
-        <col style={{ width: "14%" }} />
-        <col style={{ width: "16%" }} />
-      </colgroup>
+     
       <thead>
         <tr>
           <th>App Name</th>

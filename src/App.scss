@@ -673,13 +673,9 @@ div#rc-tabs-0-tab-2 {
   font-size: 14px;
 }
 
-
 .casino_diamond_details {
-  padding: 32px 90px;
   flex: 1 1;
-  @media (max-width: 1024px) {
-    padding: 20px 30px;
-  }
+
   .ant-card-head-title {
     font-size: 20px !important;
   }
