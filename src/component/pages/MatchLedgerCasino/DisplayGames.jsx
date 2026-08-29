@@ -1,11 +1,11 @@
-import { Card, Table } from "antd";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LayoutGrid } from "lucide-react";
 import { useGetCasinoBetListByTableQuery } from "../../../store/service/CasinoServices";
-import moment from "moment";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
+import DisplayGamesTable from "./DisplayGamesTable";
+import DisplayGamesPagination from "./DisplayGamesPagination";
 
 const DisplayGames = () => {
   const nav = useNavigate();
@@ -15,6 +15,13 @@ const DisplayGames = () => {
     isActive: true,
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [id]);
+
   const totalPnl = useMemo(
     () =>
       data?.data?.reduce((acc, item) => {
@@ -22,54 +29,18 @@ const DisplayGames = () => {
       }, 0),
     [data?.data]
   );
-  const columns = useMemo(
-    () => [
-      {
-        title: "S no.",
-        dataIndex: "roundId",
-        key: "roundId",
-      },
-      {
-        title: "Game ID",
-        dataIndex: "roundId",
-        key: "roundId",
-      },
-      {
-        title: "Started AT",
-        dataIndex: "date",
-        key: "date",
-        render: () => <span>{moment().format("YYYY-MM-DD HH:mm:ss A")}</span>,
-      },
-      {
-        title: "Plus/Minus",
-        dataIndex: "pnl",
-        key: "pnl",
-      },
-      {
-        title: "Action",
-        dataIndex: "action",
-        key: "action",
-        render: (text, record) => (
-          <button
-            onClick={() => nav(`/all-bets/${record.roundId}`)}
-            type="button"
-            className="ant-btn  ant-btn-sm gx-text-white gx-border-redius0"
-            style={{
-              backgroundColor: "rgb(16, 142, 233)",
-              padding: "0px 8px",
-              height: "24px",
-              lineHeight: "23px",
-              border: "unset",
-              outline: "unset",
-              fontWeight: 400,
-            }}>
-            <span>Show Bets</span>
-          </button>
-        ),
-      },
-    ],
-    [nav]
-  );
+
+  const rounds = data?.data || [];
+  const total = rounds.length;
+  const rows = rounds
+    .slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    .map((round, localIndex) => ({
+      round,
+      globalIndex: (currentPage - 1) * pageSize + localIndex,
+    }));
+
+  const handleShowBets = (roundId) => nav(`/all-bets/${roundId}`);
+
   return (
     <div className="match_slip match_ledger main_live_section list_supers admin-details-panel display-games-panel">
       <AppPageHeader
@@ -78,34 +49,30 @@ const DisplayGames = () => {
         subtitle="Review completed game rounds for this table"
         onBack={() => nav(-1)}
       />
-      <Card
-        className="sport_detail team_name"
-        style={{
-          margin: 0,
-          width: "100%",
-          boxShadow: "0 0 5px 5px rgba(0, 0, 0, .03)",
-        }}>
-        <div className="matchladger_total">
+      <div className="table_section sport_detail m-0 admin-details-table-shell display-games-table-shell">
+        <div className="dg-total">
           <p>
             Total :{" "}
-            <span style={{ color: totalPnl > 0 ? "green" : "red" }}>
+            <span className={totalPnl > 0 ? "dg-total-positive" : "dg-total-negative"}>
               {totalPnl?.toFixed(2)}
             </span>
           </p>
         </div>
-        <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <Table
-            bordered
-            columns={columns}
-            rowKey={(record, index) => index}
-            loading={{
-              spinning: isLoading || isFetching,
-              indicator: <CustomLoading />,
-            }}
-            dataSource={data?.data || []}
-          />
+        <div style={{ position: "relative" }}>
+          {(isLoading || isFetching) && <CustomLoading />}
+          <DisplayGamesTable rows={rows} onShowBets={handleShowBets} />
         </div>
-      </Card>
+        <DisplayGamesPagination
+          currentPage={currentPage}
+          pageSize={pageSize}
+          total={total}
+          onPageChange={setCurrentPage}
+          onPageSizeChange={(size) => {
+            setPageSize(size);
+            setCurrentPage(1);
+          }}
+        />
+      </div>
     </div>
   );
 };
