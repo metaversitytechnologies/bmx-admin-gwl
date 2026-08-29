@@ -15345,18 +15345,6 @@ table.live_table.mt-0 {
     font-size: 13.5px;
   }
 
-  .dg-is-positive {
-    color: #15803d !important;
-  }
-
-  .dg-is-negative {
-    color: #dc2626 !important;
-  }
-
-  .dg-is-neutral {
-    color: #667085 !important;
-  }
-
   .dg-show-bets-btn {
     display: inline-flex;
     align-items: center;
@@ -15424,6 +15412,429 @@ table.live_table.mt-0 {
   .list_supers.admin-details-panel.display-games-panel {
     .dg-total {
       padding: 12px 14px;
+    }
+  }
+}
+
+// ---- Global P/L color utility (shared across every redesigned page) ----
+
+.pnl-is-positive {
+  color: #15803d !important;
+}
+
+.pnl-is-negative {
+  color: #dc2626 !important;
+}
+
+.pnl-is-neutral {
+  color: #667085 !important;
+}
+
+// ============================================================
+// AllBets (casino round bet detail) — bespoke table
+// ============================================================
+
+.list_supers.admin-details-panel.casino-all-bets-panel {
+  .all-bets-table-shell {
+    margin: 0 !important;
+    padding: 0;
+    background: #ffffff;
+    box-shadow: none;
+  }
+
+  .ab-summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    min-height: 76px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eceef4;
+    background: #ffffff;
+  }
+
+  .ab-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 20px;
+    border-right: 1px solid #eef0f5;
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+
+    &:first-child {
+      padding-left: 4px;
+    }
+
+    &:last-child {
+      border-right: 0;
+      background: transparent;
+    }
+  }
+
+  .ab-summary-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: #f3f0ff;
+    color: #5b4cf6;
+  }
+
+  .ab-summary-icon-pink {
+    background: #fce7f3;
+    color: #db2777;
+  }
+
+  .ab-summary-icon-indigo {
+    background: #e0e7ff;
+    color: #4f46e5;
+  }
+
+  .ab-summary-icon-amber {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .ab-summary-icon-violet {
+    background: #f3f0ff;
+    color: #5b4cf6;
+  }
+
+  .ab-summary-icon-positive {
+    background: #dcfce7;
+    color: #15803d;
+  }
+
+  .ab-summary-icon-negative {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .ab-summary-icon-neutral {
+    background: #f1f2f6;
+    color: #667085;
+  }
+
+  .ab-summary-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .ab-summary-label {
+    color: #667085;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .ab-summary-value {
+    color: #171b2e;
+    font-size: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .ab-summary-value-positive {
+    color: #15803d;
+  }
+
+  .ab-summary-value-negative {
+    color: #dc2626;
+  }
+
+  .ab-summary-value-neutral {
+    color: #667085;
+  }
+
+  .all-bets-table-scroll {
+    border: 0;
+    border-radius: 0;
+  }
+
+  // The shared `.admin-details-table` base rule (main.scss ~7322) hardcodes
+  // its own th nth-child widths for an unrelated 8-column table layout —
+  // those numbers bleed into any table using the shared class with a
+  // different column count/shape. Re-declaring every column's width here
+  // (matching the <colgroup> in AllBetsTable.jsx exactly, with !important)
+  // is what actually keeps header and body cells aligned to the same grid
+  // instead of drifting apart under the inherited rule.
+  .all-bets-table {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 1180px;
+
+    tbody tr {
+      height: 50px;
+    }
+
+    th,
+    td {
+      padding: 8px 16px !important;
+      border-bottom: 1px solid #eef0f5 !important;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0 !important;
+    }
+
+    $ab-col-widths:
+      190px, 120px, 200px, 100px, 90px, 140px, 140px, 100px, 100px;
+    @for $i from 1 through length($ab-col-widths) {
+      th:nth-child(#{$i}),
+      td:nth-child(#{$i}) {
+        text-align: left !important;
+      }
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+      text-align: center !important;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5),
+    th:nth-child(8),
+    td:nth-child(8),
+    th:nth-child(9),
+    td:nth-child(9) {
+      text-align: right !important;
+    }
+  }
+
+  .ab-date,
+  .ab-round-id,
+  .ab-odds,
+  .ab-stake,
+  .ab-pnl,
+  .ab-player,
+  .ab-winner,
+  .ab-client-badge,
+  .ab-type-badge {
+    white-space: nowrap;
+  }
+
+  // `.ab-date` / `.ab-player` / `.ab-winner` are applied to an inner <span>
+  // wrapper (AllBetsTable.jsx), never directly to a <td>. Setting
+  // display:flex on a <td> itself overrides its implicit table-cell
+  // display, which makes the browser merge it with its non-table-cell
+  // sibling into one shared anonymous cell — exactly the "Player/Winner
+  // stack into one column and Stake/PNL shift left" bug this fixes.
+  .ab-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #344054;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ab-date-icon {
+    flex: 0 0 auto;
+    color: #7b6cf6;
+  }
+
+  .ab-client-badge {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 7px;
+    background: #f3f0ff;
+    color: #5b4cf6;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ab-round-id {
+    color: #171b2e;
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ab-type-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 26px;
+    padding: 0 8px;
+    border-radius: 7px;
+    background: #f3f0ff;
+    color: #5b4cf6;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .ab-odds {
+    color: #344054;
+    font-size: 13px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ab-player,
+  .ab-winner {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .ab-player {
+    color: #344054;
+  }
+
+  .ab-player-icon,
+  .ab-winner-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    color: #ffffff;
+  }
+
+  .ab-player-icon {
+    background: #4b5162;
+  }
+
+  .ab-winner {
+    color: #344054;
+    font-weight: 500;
+  }
+
+  .ab-winner-icon {
+    background: #15803d;
+  }
+
+  .ab-stake {
+    color: #171b2e;
+    font-size: 13.5px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ab-pnl {
+    font-size: 13.5px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.ab-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 40px 16px;
+}
+
+.ab-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #f3f0ff;
+  color: #5b4cf6;
+}
+
+.ab-empty-title {
+  margin: 4px 0 0;
+  color: #344054;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.ab-empty-subtitle {
+  margin: 0;
+  color: #98a2b5;
+  font-size: 12px;
+}
+
+.ab-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 36px 20px;
+  text-align: center;
+}
+
+.ab-error-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+.ab-error-text {
+  color: #344054;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ab-error-retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  color: #5e50ef;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #d2ccff;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+
+  &:hover {
+    color: #4f43d8;
+    border-color: #cec9ff;
+    background: #f5f3ff;
+  }
+}
+
+@media (max-width: 767px) {
+  .list_supers.admin-details-panel.casino-all-bets-panel {
+    .ab-summary {
+      padding: 10px 12px;
+      min-height: unset;
+    }
+
+    .ab-summary-item {
+      flex: 1 1 calc(50% - 8px);
+      padding: 8px 10px;
+      border-right: 0;
+      border-bottom: 1px solid #eef0f5;
+      background: transparent;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    .ab-summary-value {
+      font-size: 14px;
     }
   }
 }
