@@ -298,99 +298,36 @@ const InplayMatkaDetail = () => {
     }
   };
 
-  const betDetailsTableCellStyle = {
-    padding: "10px 12px",
-    whiteSpace: "nowrap",
-    borderBottom: "1px solid #f0f0f0",
-    fontSize: "13px",
-  };
-
-  const betDetailsTableHeadStyle = {
-    ...betDetailsTableCellStyle,
-    background: "var(--bg-color)",
-    color: "#fff",
-    fontWeight: 600,
-    borderBottom: "none",
-  };
-
   const renderRunnerGrid = (market, liabilitiesMap) => {
     const runners = market?.data || [];
     return (
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-          gap: "10px",
-          marginBottom: "24px",
-        }}>
+      <div className="imd-runner-grid">
         {runners.map((runner) => (
           <div
             key={runner.selectionId || runner.selectionName}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "6px",
-            }}>
-            <div
-              style={{
-                width: "100%",
-                borderRadius: "6px",
-                border: "1px solid #d9d9d9",
-                background: "#f2f2f2",
-                padding: "8px",
-              }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "8px",
-                }}>
-                <span
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    fontSize: "13px",
-                    color: "#2f2f2f",
-                    fontWeight: 600,
-                  }}>
-                  {runner.selectionName}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleRunnerBetDetails(runner, market)}
-                  aria-label={`View bets for ${runner.selectionName}`}
-                  style={{
-                    border: "none",
-                    background: "transparent",
-                    color: "var(--bg-color)",
-                    cursor: "pointer",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: 0,
-                    fontSize: "15px",
-                  }}>
-                  <EyeOutlined />
-                </button>
-              </div>
+            className="imd-runner-card">
+            <div className="imd-runner-card-top">
+              <span className="imd-runner-name">{runner.selectionName}</span>
+              <button
+                type="button"
+                className="imd-runner-view"
+                onClick={() => handleRunnerBetDetails(runner, market)}
+                aria-label={`View bets for ${runner.selectionName}`}>
+                <EyeOutlined />
+              </button>
             </div>
             <div
-              style={{
-                fontSize: "13px",
-                color:
-                  Number(liabilitiesMap[runner.selectionId] || 0) < 0
-                    ? "#f03e3e"
-                    : "#2fb344",
-                fontWeight: 600,
-              }}>
+              className={
+                Number(liabilitiesMap[runner.selectionId] || 0) < 0
+                  ? "imd-runner-value imd-runner-value-negative"
+                  : "imd-runner-value imd-runner-value-positive"
+              }>
               {Number(liabilitiesMap[runner.selectionId] || 0).toFixed(2)}
             </div>
           </div>
         ))}
         {runners.length === 0 && (
-          <div style={{ gridColumn: "1 / -1" }}>
+          <div className="imd-empty-state">
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
           </div>
         )}
@@ -408,9 +345,10 @@ const InplayMatkaDetail = () => {
       />
       <Card
         style={{ margin: 0, width: "100%" }}
-        className="sport_detail team_name">
-        <div style={{ padding: "20px" }}>
+        className="sport_detail team_name imd-workspace">
+        <div className="imd-body">
           <Tabs
+            className="imd-tabs"
             activeKey={selectedTab || (tabItems[0]?.key || "")}
             onChange={(key) => {
               const params = new URLSearchParams(location.search);
@@ -425,27 +363,18 @@ const InplayMatkaDetail = () => {
                 search: params.toString(),
               });
             }}
-            type="card"
             size="small"
             items={tabItems}
           />
 
           {errorMessage && (
-            <div
-              style={{
-                marginBottom: "12px",
-                padding: "10px 12px",
-                background: "#fff1f0",
-                color: "#cf1322",
-                border: "1px solid #ffa39e",
-                borderRadius: "6px",
-              }}>
+            <div className="imd-error-message">
               {errorMessage}
             </div>
           )}
 
           {isBusy ? (
-            <div style={{ padding: "30px 0", position: "relative" }}>
+            <div className="imd-loading-state">
               <CustomLoading />
             </div>
           ) : (
@@ -454,55 +383,33 @@ const InplayMatkaDetail = () => {
                 renderRunnerGrid(selectedSingleMarket, singleLiabilities)}
 
               {selectedTab === "HARUP" && (
-                <>
-                  <div
-                    style={{
-                      marginBottom: "14px",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                    }}>
-                    <div
-                      style={{
-                        background: "var(--bg-color)",
-                        color: "#fff",
-                        padding: "8px 12px",
-                        fontWeight: 600,
-                        fontSize: "18px",
-                        borderBottom: "1px solid rgba(0,0,0,0.08)",
-                      }}>
-                      ANDAR
+                <div className="imd-harup-stack">
+                  <div className="imd-market-section">
+                    <div className="imd-market-header">
+                      <span className="imd-market-title">ANDAR</span>
+                      <span className="imd-market-count">
+                        {harupAndarMarket?.data?.length || 0} Numbers
+                      </span>
                     </div>
-                    <div style={{ padding: "12px 12px 0 12px" }}>
+                    <div className="imd-market-body">
                       {renderRunnerGrid(harupAndarMarket, harupAndarLiabilities)}
                     </div>
                   </div>
-                  <div
-                    style={{
-                      marginBottom: "14px",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: "8px",
-                      overflow: "hidden",
-                    }}>
-                    <div
-                      style={{
-                        background: "var(--bg-color)",
-                        color: "#fff",
-                        padding: "8px 12px",
-                        fontWeight: 600,
-                        fontSize: "18px",
-                        borderBottom: "1px solid rgba(0,0,0,0.08)",
-                      }}>
-                      BAHAR
+                  <div className="imd-market-section">
+                    <div className="imd-market-header">
+                      <span className="imd-market-title">BAHAR</span>
+                      <span className="imd-market-count">
+                        {harupBaharMarket?.data?.length || 0} Numbers
+                      </span>
                     </div>
-                    <div style={{ padding: "12px 12px 0 12px" }}>
+                    <div className="imd-market-body">
                       {renderRunnerGrid(harupBaharMarket, harupBaharLiabilities)}
                     </div>
                   </div>
-                </>
+                </div>
               )}
               {!selectedTab && (
-                <div style={{ marginBottom: "24px" }}>
+                <div className="imd-empty-state">
                   <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 </div>
               )}
@@ -521,64 +428,54 @@ const InplayMatkaDetail = () => {
         }}
         footer={null}
         width={1000}
+        className="imd-bet-details-modal"
         title={`Bet Details${selectedRunnerName ? ` - ${selectedRunnerName}` : ""}`}>
         {isBetDetailsLoading ? (
-          <div style={{ padding: "30px 0", position: "relative" }}>
+          <div className="imd-loading-state">
             <CustomLoading />
           </div>
         ) : (
-          <div
-            style={{
-              overflowX: "auto",
-              background: "#fff",
-              border: "1px solid #f0f0f0",
-              borderRadius: "8px",
-            }}>
-            <table
-              style={{
-                width: "100%",
-                minWidth: "860px",
-                borderCollapse: "collapse",
-              }}>
+          <div className="imd-modal-table-wrap">
+            <table className="imd-modal-table">
               <thead>
                 <tr>
-                  <th style={betDetailsTableHeadStyle}>ID</th>
-                  <th style={betDetailsTableHeadStyle}>CLIENT NAME</th>
-                  <th style={betDetailsTableHeadStyle}>GAME</th>
-                  <th style={betDetailsTableHeadStyle}>RATE</th>
-                  <th style={betDetailsTableHeadStyle}>BET NUM</th>
-                  <th style={betDetailsTableHeadStyle}>STACK</th>
-                  <th style={betDetailsTableHeadStyle}>P&amp;L</th>
-                  <th style={betDetailsTableHeadStyle}>RESULT</th>
-                  <th style={betDetailsTableHeadStyle}>CREATED AT</th>
+                  <th>ID</th>
+                  <th>CLIENT NAME</th>
+                  <th>GAME</th>
+                  <th>RATE</th>
+                  <th>BET NUM</th>
+                  <th>STACK</th>
+                  <th>P&amp;L</th>
+                  <th>RESULT</th>
+                  <th>CREATED AT</th>
                 </tr>
               </thead>
               <tbody>
                 {betDetails.length > 0 ? (
                   betDetails.map((bet, index) => (
                     <tr key={`${bet?.betId || bet?.id || bet?.userId || index}-${index}`}>
-                      <td style={betDetailsTableCellStyle}>
-                        {bet?.betId || bet?.id || index + 1}
+                      <td data-label="ID">
+                        <span className="imd-id-badge">{bet?.betId || bet?.id || index + 1}</span>
                       </td>
-                      <td style={betDetailsTableCellStyle}>{bet?.userId || "-"}</td>
-                      <td style={betDetailsTableCellStyle}>{bet?.matkaName || "-"}</td>
-                      <td style={betDetailsTableCellStyle}>{bet?.rate ?? "-"}</td>
-                      <td style={betDetailsTableCellStyle}>{bet?.nation ?? "-"}</td>
-                      <td style={betDetailsTableCellStyle}>{bet?.amount ?? "-"}</td>
-                      <td style={betDetailsTableCellStyle}>
+                      <td data-label="Client Name">{bet?.userId || "-"}</td>
+                      <td data-label="Game">{bet?.matkaName || "-"}</td>
+                      <td data-label="Rate">{bet?.rate ?? "-"}</td>
+                      <td data-label="Bet Num">{bet?.nation ?? "-"}</td>
+                      <td data-label="Stack">{bet?.amount ?? "-"}</td>
+                      <td data-label="P&L">
                         <span className={bet?.pnl >= 0 ? "text_success" : "text_danger"}>
                           {Number(bet?.pnl || 0).toFixed(2)}
                         </span>
                       </td>
-                      <td style={betDetailsTableCellStyle}>
+                      <td data-label="Result">
                         {bet?.declared === "null" || !bet?.declared ? "-" : bet.declared}
                       </td>
-                      <td style={betDetailsTableCellStyle}>{bet?.date || bet?.betTime || "-"}</td>
+                      <td data-label="Created At">{bet?.date || bet?.betTime || "-"}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={9} style={{ padding: "24px 12px" }}>
+                    <td colSpan={9}>
                       <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                     </td>
                   </tr>

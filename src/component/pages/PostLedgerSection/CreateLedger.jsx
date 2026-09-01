@@ -1,8 +1,9 @@
-import { Button, Card, Empty, message, Row, Pagination } from "antd";
+import { Button, Card, Empty, Input, message, Row, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
-import { Receipt } from "lucide-react";
+import { Check, Plus, RotateCcw, Search } from "lucide-react";
+import PropTypes from "prop-types";
 import {
   useGetMatchListLederQuery,
   useGetPostLederMutation,
@@ -16,6 +17,7 @@ const CreateLedger = ({ forPostLedger }) => {
   // state for pagination
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(50);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { data: sportDetail, refetch } = useGetMatchListLederQuery(
     {
@@ -75,10 +77,21 @@ const CreateLedger = ({ forPostLedger }) => {
     return "--";
   };
 
+  const matchList = sportDetail?.data?.matchList || [];
+  const filteredMatchList = matchList.filter((match) =>
+    (match?.matchName || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const actionIcon = forPostLedger ? (
+    <Plus size={15} strokeWidth={2.1} />
+  ) : (
+    <RotateCcw size={15} strokeWidth={2.1} />
+  );
+
   return (
     <div className="main_live_section list_supers admin-details-panel create-ledger-panel">
       <AppPageHeader
-        icon={<Receipt size={20} strokeWidth={1.8} />}
+        className="rollback-header-no-icon"
+        icon={null}
         title={`Create ${forPostLedger ? "Ledger" : "Rollback"}`}
         subtitle={
           forPostLedger
@@ -87,14 +100,24 @@ const CreateLedger = ({ forPostLedger }) => {
         }
         onBack={() => nav(-1)}
       />
-    <Card className="sport_detail">
-      <Row className="date_picker" justify="center"></Row>
+    <Card className="sport_detail rollback-table-card">
+      <div className="rollback-toolbar">
+        <Input
+          className="rollback-search"
+          allowClear
+          prefix={<Search size={17} strokeWidth={1.9} />}
+          placeholder="Search match name..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
+      </div>
 
-      <div className="table_section">
-        <table className="ant-spin-nested-loading">
+      <div className="rollback-mobile-hint">← Swipe to view all columns →</div>
+      <div className="table_section rollback-table-viewport">
+        <table className="ant-spin-nested-loading rollback-table">
           <thead>
             <tr>
-              <th>Match Name</th>
+              <th className="rollback-match-column">Match Name</th>
               <th>Status</th>
               <th>Ledger Posted</th>
               <th>Date</th>
@@ -102,19 +125,37 @@ const CreateLedger = ({ forPostLedger }) => {
             </tr>
           </thead>
           <tbody>
-            {sportDetail?.data?.matchList?.length > 0 ? (
-              sportDetail?.data?.matchList?.map((res, id) => (
+            {filteredMatchList?.length > 0 ? (
+              filteredMatchList?.map((res, id) => (
                 <tr key={id}>
-                  <td>{res?.matchName}</td>
-                  <td>In Active</td>
-                  <td>{forPostLedger ? "No" : "Yes"}</td>
-                  <td>{getFormattedDate(res.lederPostDate)}</td>
+                  <td className="rollback-match-column rollback-match-name">
+                    <span title={res?.matchName}>{res?.matchName}</span>
+                  </td>
+                  <td>
+                    <span className="rollback-status-badge">
+                      <span aria-hidden="true" />
+                      In Active
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      className={`rollback-ledger-badge ${
+                        forPostLedger ? "is-no" : "is-yes"
+                      }`}>
+                      {!forPostLedger && <Check size={13} strokeWidth={2.2} />}
+                      {forPostLedger ? "No" : "Yes"}
+                    </span>
+                  </td>
+                  <td className="rollback-date-cell">
+                    {getFormattedDate(res.lederPostDate)}
+                  </td>
                   <td>
                     <Button
                       type="primary"
                       onClick={() => handleCreate(res)}
                       loading={isLoading || loading}
-                      className="in_play_btn">
+                      className="in_play_btn approved-primary-button rollback-action-button">
+                      {actionIcon}
                       {forPostLedger ? "Create Ledger" : "Rollback"}
                     </Button>
                   </td>
@@ -123,7 +164,14 @@ const CreateLedger = ({ forPostLedger }) => {
             ) : (
               <tr>
                 <td colSpan={9}>
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={
+                      forPostLedger
+                        ? "No matches available for ledger posting"
+                        : "No matches available for rollback"
+                    }
+                  />
                 </td>
               </tr>
             )}
@@ -132,8 +180,8 @@ const CreateLedger = ({ forPostLedger }) => {
       </div>
 
       {/* Pagination Section */}
-      {sportDetail?.data?.matchList?.length > 0 && (
-        <Row justify="end" style={{ marginTop: 20 }}>
+      {matchList?.length > 0 && (
+        <Row className="rollback-pagination" justify="end">
           <Pagination
             current={pageIndex + 1} // antd current page (1-based)
             pageSize={pageSize}
@@ -147,6 +195,10 @@ const CreateLedger = ({ forPostLedger }) => {
     </Card>
     </div>
   );
+};
+
+CreateLedger.propTypes = {
+  forPostLedger: PropTypes.bool,
 };
 
 export default CreateLedger;

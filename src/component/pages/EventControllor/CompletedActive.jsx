@@ -1,16 +1,22 @@
-import {  Card, Empty, Row } from "antd";
+import { Card, Empty, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { CircleCheckBig } from "lucide-react";
+import { CircleCheckBig, Search } from "lucide-react";
+import { useState } from "react";
 import { useGetCompletdMatchesQuery } from "../../../store/service/userlistService";
 import AppPageHeader from "../../common/AppPageHeader/AppPageHeader";
 
 const CompletedActive = () => {
   const nav = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   // ✅ Local states for PF-side pagination
 
   const { data: sportDetail } = useGetCompletdMatchesQuery({});
+  const completedRows = sportDetail?.data || [];
+  const filteredRows = completedRows.filter((row) =>
+    (row?.matchName || "").toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="main_live_section list_supers admin-details-panel completed-active-panel">
@@ -20,11 +26,21 @@ const CompletedActive = () => {
         subtitle="Review active bets for completed matches"
         onBack={() => nav(-1)}
       />
-    <Card className="sport_detail">
-      <Row className="date_picker" justify="center"></Row>
+    <Card className="sport_detail rollback-table-card">
+      <div className="rollback-toolbar">
+        <Input
+          className="rollback-search"
+          allowClear
+          prefix={<Search size={17} strokeWidth={1.9} />}
+          placeholder="Search match name..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+        />
+      </div>
 
-      <div className="table_section">
-        <table className="ant-spin-nested-loading">
+      <div className="rollback-mobile-hint">← Swipe to view all columns →</div>
+      <div className="table_section rollback-table-viewport">
+        <table className="ant-spin-nested-loading rollback-table completed-active-table">
           <thead>
             <tr>
               <th>SNo.</th>
@@ -36,26 +52,32 @@ const CompletedActive = () => {
             </tr>
           </thead>
           <tbody>
-            {sportDetail?.data?.length > 0 ? (
-              sportDetail?.data?.map((res, id) => (
+            {filteredRows?.length > 0 ? (
+              filteredRows?.map((res, id) => (
                 <tr key={res.matchId || id}>
-                  <td>{id + 1}</td>
-                  <td>
-                    {" "}
+                  <td className="rollback-index-cell">{id + 1}</td>
+                  <td className="rollback-date-cell">
                     {moment(res.date, "ddd MMM DD HH:mm:ss [IST] YYYY").format(
                       "DD-MM-YYYY hh:mm:ss A",
                     )}
                   </td>
-                  <td>{res?.matchName}</td>
-                  <td>{res?.team}</td>
-                  <td>{res?.odds}</td>
-                  <td>{res.stake}</td>
+                  <td className="rollback-match-column rollback-match-name">
+                    <span title={res?.matchName}>{res?.matchName}</span>
+                  </td>
+                  <td className="rollback-team-cell">
+                    <span title={res?.team}>{res?.team}</span>
+                  </td>
+                  <td className="rollback-number-cell">{res?.odds}</td>
+                  <td className="rollback-number-cell">{res.stake}</td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td colSpan={6}>
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description="No completed active bets available"
+                  />
                 </td>
               </tr>
             )}

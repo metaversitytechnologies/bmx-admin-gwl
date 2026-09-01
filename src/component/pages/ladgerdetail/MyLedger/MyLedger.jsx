@@ -1,61 +1,22 @@
-import { Card, Table } from "antd";
+import { Card, Empty, Table } from "antd";
 import moment from "moment";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookText } from "lucide-react";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  BookText,
+  CalendarDays,
+} from "lucide-react";
 import { useGetMyLedgerQuery } from "../../../../store/service/userlistService";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
 
-const columns = [
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-    render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-  {
-    title: "Event Name",
-    dataIndex: "collectionName",
-    key: "collectionName",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-  {
-    title: "Credit",
-    dataIndex: "credit",
-    key: "credit",
-    align: "right",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-  {
-    title: "Debit",
-    dataIndex: "debit",
-    key: "debit",
-    align: "right",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-
-  {
-    title: "Balance",
-    dataIndex: "balance",
-    key: "balance",
-    align: "right",
-    render: (text, record) => <span>{record?.balance?.toFixed(2)}</span>,
-  },
-  {
-    title: "Type",
-    dataIndex: "ledgerType",
-    key: "ledgerType",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-  {
-    title: "Remark",
-    dataIndex: "description",
-    key: "description",
-    onCell: () => ({ style: { whiteSpace: "nowrap" } }),
-  },
-];
+const formatLedgerAmount = (value = 0) =>
+  new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Number(value || 0));
 
 const MyLedger = () => {
   const nav = useNavigate();
@@ -64,10 +25,10 @@ const MyLedger = () => {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const currentYear = moment().year();
   const timeBefore = moment(`2025-01-01`).format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
-  const [dateData, setDateData] = useState([timeBefore, time]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
 
   const {
     data: ledgerData,
@@ -91,6 +52,102 @@ const MyLedger = () => {
 
   // const totalBalance = totalCreadit - totalDebit;
   const totalBalance = totalDebit - totalCreadit;
+  const balanceType = totalBalance > 0 ? "Lena" : "Dena";
+  const isBalanceLena = totalBalance > 0;
+  const totalEntries = ledgerData?.data?.length || 0;
+  const firstEntry = totalEntries ? (currentPage - 1) * pageSize + 1 : 0;
+  const lastEntry = Math.min(currentPage * pageSize, totalEntries);
+
+  const columns = [
+    {
+      title: "#",
+      key: "serial",
+      width: 64,
+      align: "center",
+      render: (_, __, index) => (
+        <span className="my-ledger-serial">
+          {String((currentPage - 1) * pageSize + index + 1).padStart(2, "0")}
+        </span>
+      ),
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      width: 160,
+      render: (text) => (
+        <span className="my-ledger-date">
+          <CalendarDays size={14} strokeWidth={1.9} />
+          {moment(text).format("DD-MM-YYYY")}
+        </span>
+      ),
+    },
+    {
+      title: "Event Name",
+      dataIndex: "collectionName",
+      key: "collectionName",
+      className: "my-ledger-event-cell",
+      width: 230,
+    },
+    {
+      title: "Credit",
+      dataIndex: "credit",
+      key: "credit",
+      align: "right",
+      width: 130,
+      render: (text) => (
+        <span
+          className={`my-ledger-amount ${
+            Number(text || 0) > 0 ? "is-credit" : "is-zero"
+          }`}>
+          {formatLedgerAmount(text)}
+        </span>
+      ),
+    },
+    {
+      title: "Debit",
+      dataIndex: "debit",
+      key: "debit",
+      align: "right",
+      width: 120,
+      render: (text) => (
+        <span
+          className={`my-ledger-amount ${
+            Number(text || 0) > 0 ? "is-debit" : "is-zero"
+          }`}>
+          {formatLedgerAmount(text)}
+        </span>
+      ),
+    },
+
+    {
+      title: "Balance",
+      dataIndex: "balance",
+      key: "balance",
+      align: "right",
+      width: 150,
+      render: (text, record) => (
+        <span className="my-ledger-amount is-balance">
+          {formatLedgerAmount(record?.balance)}
+        </span>
+      ),
+    },
+    {
+      title: "Type",
+      dataIndex: "ledgerType",
+      key: "ledgerType",
+      align: "center",
+      width: 120,
+      render: (text) => <span className="my-ledger-type-badge">{text}</span>,
+    },
+    {
+      title: "Remark",
+      dataIndex: "description",
+      key: "description",
+      className: "my-ledger-remark-cell",
+      width: 180,
+    },
+  ];
 
   return (
     <>
@@ -104,49 +161,88 @@ const MyLedger = () => {
           subtitle="Review your personal ledger and balances"
           onBack={handleBackbtn}
         />
-      <Card className="sport_detail ledger_data">
-        <div className="my_ledger">
-          <div>
-            <h3 style={{ padding: "5px", color: "green", fontSize: "20px" }}>
-              Lena :{totalDebit?.toFixed(2)}
-            </h3>
+        <Card className="sport_detail ledger_data my-ledger-card">
+          <section className="my-ledger-summary" aria-label="Ledger balance summary">
+            <article className="my-ledger-summary-item is-lena">
+              <span className="my-ledger-summary-icon">
+                <ArrowUpRight size={20} strokeWidth={2.2} />
+              </span>
+              <div>
+                <span>Lena</span>
+                <strong>{formatLedgerAmount(totalDebit)}</strong>
+              </div>
+            </article>
+            <article className="my-ledger-summary-item is-dena">
+              <span className="my-ledger-summary-icon">
+                <ArrowDownRight size={20} strokeWidth={2.2} />
+              </span>
+              <div>
+                <span>Dena</span>
+                <strong>{formatLedgerAmount(totalCreadit)}</strong>
+              </div>
+            </article>
+            <article
+              className={`my-ledger-summary-item ${
+                isBalanceLena ? "is-lena" : "is-dena"
+              }`}>
+              <span className="my-ledger-summary-icon">
+                {isBalanceLena ? (
+                  <ArrowUpRight size={20} strokeWidth={2.2} />
+                ) : (
+                  <ArrowDownRight size={20} strokeWidth={2.2} />
+                )}
+              </span>
+              <div>
+                <span>Balance ( {balanceType} )</span>
+                <strong>{formatLedgerAmount(Math.abs(totalBalance))}</strong>
+              </div>
+            </article>
+          </section>
+
+          <div className="table_section my-ledger-table-section">
+            <div className="my-ledger-mobile-hint">Swipe to view all columns</div>
+            <div className="my-ledger-table-viewport">
+              <Table
+                className="my-ledger-ant-table"
+                columns={columns}
+                loading={{
+                  spinning: isLoading || isFetching,
+                  indicator: <CustomLoading />,
+                }}
+                pagination={{
+                  current: currentPage,
+                  pageSize,
+                  pageSizeOptions: [50, 100, 150, 200, 250],
+                  showSizeChanger: true,
+                  total: totalEntries,
+                  showTotal: () =>
+                    `Showing ${firstEntry} to ${lastEntry} of ${totalEntries} entries`,
+                  onChange: (page, size) => {
+                    setCurrentPage(page);
+                    setPageSize(size);
+                  },
+                }}
+                dataSource={ledgerData?.data}
+                locale={{
+                  emptyText: (
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={
+                        <span>
+                          No ledger entries found
+                          <small>
+                            No transactions are available for the selected
+                            period.
+                          </small>
+                        </span>
+                      }
+                    />
+                  ),
+                }}
+              />
+            </div>
           </div>
-          <div>
-            <h3
-              style={{
-                padding: "5px",
-                color: "rgb(214, 75, 75)",
-                fontSize: "20px",
-              }}>
-              Dena : {totalCreadit?.toFixed(2)}
-            </h3>
-          </div>
-          <div>
-            <h3
-              style={{ fontSize: "20px" }}
-              className={totalBalance < 0 ? "text_danger" : "text_success"}>
-              Balance: {Math.abs(totalBalance?.toFixed(2))}{" "}
-              {totalBalance > 0 ? "( Lena )" : "( Dena )"}
-            </h3>
-          </div>
-        </div>
-        <div className="table_section">
-          <Table
-            className="live_table limit_update"
-            bordered
-            columns={columns}
-            loading={{
-              spinning: isLoading || isFetching,
-              indicator: <CustomLoading />,
-            }}
-            pagination={{
-              defaultPageSize: 50,
-              pageSizeOptions: [50, 100, 150, 200, 250],
-            }}
-            dataSource={ledgerData?.data}
-          />
-        </div>
-      </Card>
+        </Card>
       </div>
     </>
   );

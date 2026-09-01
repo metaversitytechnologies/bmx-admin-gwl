@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Dropdown, Popconfirm, Space, notification } from "antd";
-import { CaretDownOutlined } from "@ant-design/icons";
-import { Banknote, FileText, WalletCards } from "lucide-react";
+import {
+  Banknote,
+  FileText,
+  MoreVertical,
+  Trash2,
+  WalletCards,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -19,8 +24,6 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   const fetchDeletedTran = () => {
     nav(`/client/deletedlenden/${clientId}`);
   };
-
-  
 
   const handleDelete = async () => {
     try {
@@ -53,6 +56,10 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   //   data?.reduce((acc, item) => acc + Number(item.balance || 0), 0) || 0;
   const totalBalance = totalCreadit - totalDebit;
 
+  const formatAmount = (value) => Number(value || 0).toFixed(2);
+  const getBalanceTone = (value) => (Number(value) > 0 ? "is-lena" : "is-dena");
+  const formatPaymentType = (paymentType) => paymentType || "—";
+
   const items = (id) => [
     {
       label: (
@@ -78,70 +85,67 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
   return (
     <>
       {contextHolder}
-      <div className="my_ledger approved-transaction-summary">
-        <div className="approved-summary-card approved-summary-card-danger">
-          <span className="approved-summary-icon">
+      <div className="my_ledger approved-transaction-summary atx-summary-strip">
+        <div className="approved-summary-card approved-summary-card-danger atx-summary-card">
+          <span className="approved-summary-icon atx-summary-icon">
             <WalletCards size={18} strokeWidth={1.8} />
           </span>
-          <h3>
-            Dena : {totalCreadit?.toFixed(2)}
-          </h3>
+          <div>
+            <span>Dena</span>
+            <h3>{formatAmount(totalCreadit)}</h3>
+          </div>
         </div>
-        <div className="approved-summary-card approved-summary-card-success">
-          <span className="approved-summary-icon">
+        <div className="approved-summary-card approved-summary-card-success atx-summary-card">
+          <span className="approved-summary-icon atx-summary-icon">
             <Banknote size={18} strokeWidth={1.8} />
           </span>
-          <h3>
-            Lena : {totalDebit?.toFixed(2)}
-          </h3>
+          <div>
+            <span>Lena</span>
+            <h3>{formatAmount(totalDebit)}</h3>
+          </div>
         </div>
-        <div className="approved-summary-card">
-          <span className="approved-summary-icon">
+        <div className="approved-summary-card atx-summary-card atx-balance-card">
+          <span className="approved-summary-icon atx-summary-icon">
             <FileText size={18} strokeWidth={1.8} />
           </span>
-          <h3 className={totalBalance < 0 ? "text_danger" : "text_success"}>
-            Balance: {(-1 * totalBalance)?.toFixed(2)}{" "}
-            {totalBalance > 0 ? "(Lena)" : "(Dena)"}
-          </h3>
+          <div>
+            <span>Balance</span>
+            <h3 className={totalBalance < 0 ? "text_danger" : "text_success"}>
+              {formatAmount(-1 * totalBalance)}{" "}
+              <small>{totalBalance > 0 ? "(Lena)" : "(Dena)"}</small>
+            </h3>
+          </div>
         </div>
-        <div className="deleted_sec">
+        <div className="deleted_sec atx-deleted-action">
           <Button className="approved-primary-button" onClick={fetchDeletedTran}>
+            <Trash2 size={16} strokeWidth={2} />
             Deleted
           </Button>
         </div>
       </div>
-      <div className="table_section approved-data-table" style={{ paddingBottom: "20px" }}>
+      <div className="atx-mobile-table-hint">← Swipe to view all columns →</div>
+      <div className="table_section approved-data-table atx-table-card">
         <table>
           <thead>
             <tr>
-              <th
-                style={{ whiteSpace: "nowrap", padding: "5px" }}
-                className="text-right">
+              <th className="text-right atx-action-column">
                 #
               </th>
-              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Date</th>
-              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
+              <th>Date</th>
+              <th className="atx-sticky-column">
                 Collection Name
               </th>
-              <th
-                style={{ whiteSpace: "nowrap", padding: "5px" }}
-                className="text-right">
+              <th className="text-right">
                 Debit
               </th>
-              <th
-                style={{ whiteSpace: "nowrap", padding: "5px" }}
-                className="text-right">
+              <th className="text-right">
                 Credit
               </th>
-              <th
-                style={{ whiteSpace: "nowrap", padding: "5px" }}
-                className="text-right">
+              <th className="text-right">
                 Balance
               </th>
-              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>
-                Payment Type
-              </th>
-              <th style={{ whiteSpace: "nowrap", padding: "5px" }}>Done By</th>
+              <th>Payment Type</th>
+              <th>Done By</th>
             </tr>
           </thead>
           <tbody>
@@ -150,38 +154,51 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                 <tr
                   key={res._id || idx}
                   className={res?.paymentType ? "gx-bg-yellow" : ""}>
-                  <td>
+                  <td className="atx-row-action">
                     {res?.id && (
                       <Dropdown
                         className="table_dropdown sport_droupdown"
                         menu={{ items: items(res.id), className: "trans" }}
                         trigger={["click", "contextMenu"]}>
-                        <p onClick={(e) => e.preventDefault()}>
+                        <button
+                          className="atx-table-action-button"
+                          type="button"
+                          onClick={(e) => e.preventDefault()}>
                           <Space>
-                            <CaretDownOutlined />
+                            <MoreVertical size={17} strokeWidth={2.1} />
                           </Space>
-                        </p>
+                        </button>
                       </Dropdown>
                     )}
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }}>
-                    {moment(res?.date).format("DD MMM HH:mm:ss A ")}
+                  <td className="atx-date-cell">
+                    <span>{moment(res?.date).format("DD MMM")}</span>
+                    <small>{moment(res?.date).format("hh:mm:ss A")}</small>
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }}>
-                    {res?.collectionName}
+                  <td className="atx-sticky-column atx-collection-cell" title={res?.collectionName}>
+                    <span>{res?.collectionName}</span>
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }} className="text-right">
-                    {res?.debit}
+                  <td className="text-right atx-money atx-debit">
+                    {formatAmount(res?.debit)}
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }} className="text-right">
-                    {res?.credit}
+                  <td className="text-right atx-money atx-credit">
+                    {formatAmount(res?.credit)}
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }} className="text-right">
-                    {(-1 * res?.balance)?.toFixed(2)} (
-                    {res?.balance > 0 ? "Lena" : "Dena"})
+                  <td
+                    className={`text-right atx-money atx-balance ${getBalanceTone(
+                      res?.balance
+                    )}`}>
+                    {formatAmount(-1 * res?.balance)}{" "}
+                    <small>({res?.balance > 0 ? "Lena" : "Dena"})</small>
                   </td>
-                  <td style={{ whiteSpace: "nowrap" }}>{res?.paymentType}</td>
-                  <td style={{ whiteSpace: "nowrap" }}>{res?.remark}</td>
+                  <td>
+                    <span className="atx-payment-badge">
+                      {formatPaymentType(res?.paymentType)}
+                    </span>
+                  </td>
+                  <td className="atx-done-by-cell" title={res?.remark}>
+                    <span>{res?.remark}</span>
+                  </td>
                 </tr>
               ))
             ) : (

@@ -3,19 +3,16 @@ import {
   Card,
   Empty,
   message,
-  Row,
   Select,
-  Col,
   DatePicker,
 } from "antd";
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
-import { ListChecks } from "lucide-react";
+import { ListChecks, RotateCcw, Trash2 } from "lucide-react";
 import {
   useGetDeletdBetMutation,
-  useGetDeletedBetByTimeMutation,
   useGetSessionBetDeletedQuery,
 } from "../../../store/service/userlistService";
 import { useGetSessionHavingBetQuery } from "../../../store/service/SportDetailServices";
@@ -25,6 +22,7 @@ const DeleteSessionBets = () => {
   const nav = useNavigate();
   const [fancyIdList, setFancyIdList] = useState([]);
   const [fancyId, setFancyId] = useState(null);
+  const [filterResetKey, setFilterResetKey] = useState(0);
   const { id } = useParams();
 
   const timeBefore = moment()
@@ -104,6 +102,13 @@ const DeleteSessionBets = () => {
     );
   };
 
+  const handleResetFilters = () => {
+    setDateData([timeBefore, time]);
+    setFancyId(null);
+    setFancyIdList([]);
+    setFilterResetKey((key) => key + 1);
+  };
+
   const userType = localStorage.getItem("userType");
 
   return (
@@ -114,26 +119,24 @@ const DeleteSessionBets = () => {
         subtitle="Review and remove session bets for this match"
         onBack={() => nav(-1)}
       />
-    <Card className="sport_detail">
-      <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
-        {/* ✅ Date Range Picker with Time */}
-        <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
+    <Card className="sport_detail delete-bet-detail-card">
+      <div className="delete-bet-filter-toolbar">
+        <div className="delete-bet-filter-control is-date-range">
           <DatePicker.RangePicker
+            key={filterResetKey}
             showTime={{ format: "HH:mm:ss" }}
             format="YYYY-MM-DD HH:mm:ss"
             defaultValue={[
-              dayjs(timeBefore, "YYYY-MM-DD HH:mm:ss"),
-              dayjs(time, "YYYY-MM-DD HH:mm:ss"),
+              dayjs(dateData[0], "YYYY-MM-DD HH:mm:ss"),
+              dayjs(dateData[1], "YYYY-MM-DD HH:mm:ss"),
             ]}
             onChange={onChange}
           />
-        </Col>
+        </div>
 
-        {/* Fancy Select */}
-        <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
+        <div className="delete-bet-filter-control is-select">
           <Select
-            style={{ width: "100%" }}
-            placeholder="Please select fancy"
+            placeholder="Select fancy"
             value={fancyId}
             onChange={(value) => setFancyId(value)}
             options={[
@@ -143,34 +146,34 @@ const DeleteSessionBets = () => {
               })),
             ]}
           />
-        </Col>
+        </div>
 
-        {/* Action Buttons */}
-        {/* <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
-          <Button
-            type="primary"
-            isLoading={loading}
-            onClick={handleDeletedBetbyTime}>
-            Delete Bet By Time
-          </Button>
-        </Col> */}
-        {userType == "7" && (
-          <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+        <div className="delete-bet-toolbar-actions">
+          {userType == "7" && (
             <Button
               type="ghost"
               onClick={handleDeletedBet}
               loading={isLoading}
               disabled={isLoading}
-              style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
+              className="delete-bet-danger-button">
+              <Trash2 size={16} strokeWidth={2} />
               Delete Bet
             </Button>
-          </Col>
-        )}
-      </Row>
+          )}
+          <Button
+            type="default"
+            onClick={handleResetFilters}
+            className="delete-bet-reset-button">
+            <RotateCcw size={16} strokeWidth={2} />
+            Reset
+          </Button>
+        </div>
+      </div>
 
       {/* Table Section */}
-      <div className="table_section">
-        <table className="ant-spin-nested-loading">
+      <div className="delete-bet-mobile-hint">← Swipe to view all columns →</div>
+      <div className="table_section delete-bet-table-viewport">
+        <table className="ant-spin-nested-loading delete-bet-detail-table">
           <thead>
             <tr>
               <th>#</th>
@@ -181,43 +184,49 @@ const DeleteSessionBets = () => {
               <th>Mode</th>
               <th>Run</th>
               <th>Date</th>
+              {userType == "6" && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
             {sportDetail?.data?.length > 0 ? (
               sportDetail?.data.map((items) => (
                 <tr key={items.id}>
-                  {userType == "7" && (
-                    <td>
+                  <td className="delete-bet-check-cell">
+                    {userType == "7" ? (
                       <input
-                        style={{
-                          width: "15px",
-                          height: "15px",
-                          borderColor: "#0d6efd",
-                        }}
-                        className="form-check-input"
+                        className="form-check-input delete-bet-checkbox"
                         type="checkbox"
                         id="flexCheckDefault"
                         checked={items.checked}
                         onChange={() => handleSessionChange(items.id)}
                       />
-                    </td>
-                  )}
-                  <td>
-                    {items?.userId} ({items?.username})
+                    ) : (
+                      <span className="delete-bet-muted-marker">—</span>
+                    )}
                   </td>
-                  <td>{items?.selectionName}</td>
-                  <td>{items?.amount}</td>
-                  <td>{items?.rate}</td>
+                  <td className="delete-bet-client-cell">
+                    <span>
+                      {items?.userId} ({items?.username})
+                    </span>
+                  </td>
+                  <td className="delete-bet-session-cell">
+                    <span title={items?.selectionName}>
+                      {items?.selectionName}
+                    </span>
+                  </td>
+                  <td className="delete-bet-number-cell">{items?.amount}</td>
+                  <td className="delete-bet-number-cell">{items?.rate}</td>
                   <td>{items?.mode}</td>
-                  <td>{items?.run}</td>
-                  <td>{items?.time}</td>
+                  <td className="delete-bet-number-cell">{items?.run}</td>
+                  <td className="delete-bet-date-cell">{items?.time}</td>
                   {userType == "6" && (
                     <td>
                       <Button
                         loading={isLoading}
                         disabled={isLoading}
-                        onClick={() => handleDeletedBetSign(items.id)}>
+                        onClick={() => handleDeletedBetSign(items.id)}
+                        className="delete-bet-row-delete">
+                        <Trash2 size={14} strokeWidth={2} />
                         Delete
                       </Button>
                     </td>
@@ -227,7 +236,21 @@ const DeleteSessionBets = () => {
             ) : (
               <tr>
                 <td colSpan={9}>
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  <div className="delete-bet-empty-state">
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={null}
+                    />
+                    <h3>No Data Found</h3>
+                    <p>
+                      There are no session bets available in the selected range.
+                    </p>
+                    <Button
+                      className="delete-bet-clear-button"
+                      onClick={handleResetFilters}>
+                      Clear Filters
+                    </Button>
+                  </div>
                 </td>
               </tr>
             )}

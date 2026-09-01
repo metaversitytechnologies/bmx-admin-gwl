@@ -5,16 +5,23 @@ import moment from "moment";
 import {
   Button,
   Card,
-  Col,
   DatePicker,
   Form,
   Input,
-  Row,
   Select,
   notification,
 } from "antd";
 
-import { Wallet } from "lucide-react";
+import {
+  CalendarDays,
+  CreditCard,
+  IndianRupee,
+  Layers,
+  MessageSquareText,
+  Search,
+  UserRound,
+  Wallet,
+} from "lucide-react";
 import TransactionTable from "../TransactionTable";
 import {
   useCreateLedgerMutation,
@@ -34,7 +41,7 @@ const AgentTransactions = () => {
   const { pathname } = useLocation();
   const nav = useNavigate();
 
-  const [api, contextHolder] = notification.useNotification();
+  const [, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
 
   const [clientId, setClientId] = useState("");
@@ -136,135 +143,183 @@ const AgentTransactions = () => {
       <Card className="sport_detail ledger_data cash_data">
         <div className="my_ledger">
           <Form
-            className="form_data mt-16 cash_data"
+            className="form_data cash_data atx-form"
             name="basic"
             form={form}
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
+            layout="vertical"
             onFinish={onFinish}
             initialValues={{
               collection: "CA1 CASH",
               ledger_type: "All",
             }}
             autoComplete="off">
-            <Row>
-              {/* Client */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="client"
-                  name="client"
-                  rules={[{ required: true, message: "Please select Client" }]}>
-                  <Select
-                    placeholder="Select Client"
-                    showSearch
-                    value={clientId}
-                    allowClear
-                    onSearch={(value) => value && getClient({ userType: id })}
-                    onSelect={(value) => {
-                      setClientId(value);
-                      trigger({
-                        userId: convertCodeReverse(value),
-                        transactiontype: "All",
-                      });
-                    }}
-                    options={
-                      result?.data?.data?.map((user) => ({
-                        label: `${user.userName} (${convertCode(user.userId)})`,
-                        value: convertCode(user.userId),
-                      })) || []
-                    }
-                  />
-                </Form.Item>
-              </Col>
+            <div className="atx-form-grid">
+              <Form.Item
+                label="Client"
+                className="atx-decorated-field"
+                required>
+                <div className="atx-control atx-select-control">
+                  <span className="atx-control-icon" aria-hidden="true">
+                    <UserRound size={18} strokeWidth={1.9} />
+                  </span>
+                  <Form.Item
+                    name="client"
+                    rules={[
+                      { required: true, message: "Please select Client" },
+                    ]}
+                    noStyle>
+                    <Select
+                      placeholder="Select Client"
+                      showSearch
+                      value={clientId}
+                      allowClear
+                      onSearch={(value) => value && getClient({ userType: id })}
+                      onSelect={(value) => {
+                        setClientId(value);
+                        trigger({
+                          userId: convertCodeReverse(value),
+                          transactiontype: "All",
+                        });
+                      }}
+                      options={
+                        result?.data?.data?.map((user) => ({
+                          label: `${user.userName} (${convertCode(
+                            user.userId
+                          )})`,
+                          value: convertCode(user.userId),
+                        })) || []
+                      }
+                    />
+                  </Form.Item>
+                </div>
+              </Form.Item>
 
-              {/* Collection */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="Collection"
-                  name="collection"
-                  initialValue="CA1 CASH"
-                  rules={[
-                    { required: true, message: "Please select Collection" },
-                  ]}>
-                  <Select defaultValue="CA1 CASH" allowClear>
-                    <Option value="CA1 CASH">Cash A/C</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
+              <Form.Item
+                label="Collection"
+                className="atx-decorated-field"
+                required>
+                <div className="atx-control atx-select-control">
+                  <span className="atx-control-icon" aria-hidden="true">
+                    <CreditCard size={18} strokeWidth={1.9} />
+                  </span>
+                  <Form.Item
+                    name="collection"
+                    initialValue="CA1 CASH"
+                    rules={[
+                      { required: true, message: "Please select Collection" },
+                    ]}
+                    noStyle>
+                    <Select defaultValue="CA1 CASH" allowClear>
+                      <Option value="CA1 CASH">Cash A/C</Option>
+                    </Select>
+                  </Form.Item>
+                </div>
+              </Form.Item>
 
-              {/* Date */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item label="Date" name="Date">
-                  <DatePicker
-                    required
-                    onChange={onSelectDate}
-                    className="transations_date"
-                    format={dateFormat}
-                    defaultValue={dayjs(startDate)}
-                  />
-                </Form.Item>
-              </Col>
+              <Form.Item label="Date" className="atx-decorated-field">
+                <div className="atx-control atx-date-control">
+                  <span className="atx-control-icon" aria-hidden="true">
+                    <CalendarDays size={18} strokeWidth={1.9} />
+                  </span>
+                  <Form.Item name="Date" noStyle>
+                    <DatePicker
+                      required
+                      onChange={onSelectDate}
+                      className="transations_date"
+                      format={dateFormat}
+                      defaultValue={dayjs(startDate)}
+                    />
+                  </Form.Item>
+                </div>
+              </Form.Item>
 
-              {/* Amount */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="Amount"
-                  name="amount"
-                  rules={[{ required: true, message: "Enter Amount" }]}>
-                  <Input type="number" placeholder="Enter Amount" />
-                </Form.Item>
-              </Col>
+              <Form.Item
+                label="Amount"
+                name="amount"
+                rules={[{ required: true, message: "Enter Amount" }]}>
+                <Input
+                  className="atx-plain-input"
+                  type="number"
+                  placeholder="Enter Amount"
+                  prefix={<IndianRupee size={17} strokeWidth={1.9} />}
+                />
+              </Form.Item>
 
-              {/* Payment Type */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="Payment Type"
-                  name="payment_type"
-                  rules={[{ required: true, message: "Please Select One" }]}>
-                  <Select placeholder="Payment Type" allowClear>
-                    <Option value="payment - dena">PAYMENT - DIYA</Option>
-                    <Option value="payment - lena">PAYMENT - LIYA</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
+              <Form.Item
+                label="Payment Type"
+                className="atx-decorated-field"
+                required>
+                <div className="atx-control atx-select-control">
+                  <span className="atx-control-icon" aria-hidden="true">
+                    <CreditCard size={18} strokeWidth={1.9} />
+                  </span>
+                  <Form.Item
+                    name="payment_type"
+                    rules={[
+                      { required: true, message: "Please Select One" },
+                    ]}
+                    noStyle>
+                    <Select placeholder="Payment Type" allowClear>
+                      <Option value="payment - dena">PAYMENT - DIYA</Option>
+                      <Option value="payment - lena">PAYMENT - LIYA</Option>
+                    </Select>
+                  </Form.Item>
+                </div>
+              </Form.Item>
 
-              {/* Remark */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="Remark"
-                  name="remark"
-                  rules={[{ required: true, message: "Enter Remark" }]}>
-                  <Input type="text" placeholder="Remarks" />
-                </Form.Item>
-              </Col>
+              <Form.Item
+                label="Remark"
+                name="remark"
+                rules={[{ required: true, message: "Enter Remark" }]}>
+                <Input
+                  className="atx-plain-input"
+                  type="text"
+                  placeholder="Remarks"
+                  prefix={<MessageSquareText size={17} strokeWidth={1.9} />}
+                />
+              </Form.Item>
 
-              {/* Ledger Type */}
-              <Col xl={8} lg={8} md={24} xs={24}>
-                <Form.Item
-                  label="Ledger Type"
-                  name="ledger_type"
-                  rules={[{ required: true, message: "Please Select One" }]}>
-                  <Select placeholder="All" allowClear>
-                    <Option value="All">All</Option>
-                    <Option value="Diamond">Diamond Casino</Option>
-                    <Option value="International">International Casino</Option>
-                    <Option value="Settle">Settle</Option>
-                    <Option value="Cricket">Cricket</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
+              <Form.Item
+                label="Ledger Type"
+                className="atx-decorated-field"
+                required>
+                <div className="atx-control atx-select-control">
+                  <span className="atx-control-icon" aria-hidden="true">
+                    <Layers size={18} strokeWidth={1.9} />
+                  </span>
+                  <Form.Item
+                    name="ledger_type"
+                    rules={[
+                      { required: true, message: "Please Select One" },
+                    ]}
+                    noStyle>
+                    <Select placeholder="All" allowClear>
+                      <Option value="All">All</Option>
+                      <Option value="Diamond">Diamond Casino</Option>
+                      <Option value="International">International Casino</Option>
+                      <Option value="Settle">Settle</Option>
+                      <Option value="Cricket">Cricket</Option>
+                    </Select>
+                  </Form.Item>
+                </div>
+              </Form.Item>
 
-            <Form.Item wrapperCol={{ span: 24 }}>
-              <Button loading={isLoading} type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
+              <Form.Item className="atx-submit-item">
+                <Button
+                  className="approved-primary-button atx-submit-button"
+                  loading={isLoading}
+                  type="primary"
+                  htmlType="submit">
+                  <Search size={17} strokeWidth={2} />
+                  Submit
+                </Button>
+              </Form.Item>
+            </div>
           </Form>
         </div>
       </Card>
 
-      <Card className="sport_detail ledger_data">
+      <div className="sport_detail ledger_data">
         {ledgerDetails && (
           <TransactionTable
             trigger={trigger}
@@ -272,7 +327,7 @@ const AgentTransactions = () => {
             data={ledgerDetails?.data}
           />
         )}
-      </Card>
+      </div>
     </div>
   );
 };

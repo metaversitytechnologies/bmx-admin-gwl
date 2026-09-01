@@ -3,16 +3,14 @@ import {
   Card,
   Empty,
   message,
-  Row,
   Select,
-  Col,
   DatePicker,
 } from "antd";
 import dayjs from "dayjs";
 import { useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { useState } from "react";
-import { ListChecks } from "lucide-react";
+import { ListChecks, RotateCcw, Trash2 } from "lucide-react";
 import {
   useGetDeletdBetMutation,
   useGetMatchedBetDeletedQuery,
@@ -23,6 +21,7 @@ const DeleteMatchBets = () => {
   const [selectedMkt, setSelectedMkt] = useState("BOOKMAKER");
   const nav = useNavigate();
   const [fancyIdList, setFancyIdList] = useState([]);
+  const [filterResetKey, setFilterResetKey] = useState(0);
   const { id } = useParams();
   const timeBefore = moment()
     .subtract(14, "days")
@@ -94,6 +93,13 @@ const DeleteMatchBets = () => {
     );
   };
 
+  const handleResetFilters = () => {
+    setDateData([timeBefore, time]);
+    setSelectedMkt("BOOKMAKER");
+    setFancyIdList([]);
+    setFilterResetKey((key) => key + 1);
+  };
+
   const userType = localStorage.getItem("userType");
 
   return (
@@ -104,15 +110,16 @@ const DeleteMatchBets = () => {
         subtitle="Review and remove match bets for this match"
         onBack={() => nav(-1)}
       />
-    <Card className="sport_detail">
-      <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
-        <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
+    <Card className="sport_detail delete-bet-detail-card">
+      <div className="delete-bet-filter-toolbar">
+        <div className="delete-bet-filter-control is-date-range">
           <DatePicker.RangePicker
-            defaultValue={[dayjs(timeBefore), dayjs(time)]}
+            key={filterResetKey}
+            defaultValue={[dayjs(dateData[0]), dayjs(dateData[1])]}
             onChange={onChange}
           />
-        </Col>
-        <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+        </div>
+        <div className="delete-bet-filter-control is-select">
           <Select
             placeholder="Select Match"
             showSearch
@@ -128,28 +135,36 @@ const DeleteMatchBets = () => {
                 value: item,
               })) || []
             }
-            style={{ width: "100%" }}
           />
-        </Col>
-        {userType == "7" && (
-          <Col lg={4} xs={16} className="match_ladger profit_loss_ledger">
+        </div>
+        <div className="delete-bet-toolbar-actions">
+          {userType == "7" && (
             <Button
               type="ghost"
               onClick={handleDeletedBet}
               loading={isLoading}
               disabled={isLoading}
-              style={{ background: "red", color: "#fff", borderRadius: "2px" }}>
+              className="delete-bet-danger-button">
+              <Trash2 size={16} strokeWidth={2} />
               Delete Bet
             </Button>
-          </Col>
-        )}
-      </Row>
+          )}
+          <Button
+            type="default"
+            onClick={handleResetFilters}
+            className="delete-bet-reset-button">
+            <RotateCcw size={16} strokeWidth={2} />
+            Reset
+          </Button>
+        </div>
+      </div>
 
-      <div className="table_section">
-        <table className="ant-spin-nested-loading">
+      <div className="delete-bet-mobile-hint">← Swipe to view all columns →</div>
+      <div className="table_section delete-bet-table-viewport">
+        <table className="ant-spin-nested-loading delete-bet-detail-table">
           <thead>
             <tr>
-              {userType == "7" && <th>#</th>}
+              <th>#</th>
               <th>Client</th>
               <th>Session Name</th>
               <th>Amount</th>
@@ -164,37 +179,42 @@ const DeleteMatchBets = () => {
             {sportDetail?.data?.length > 0 ? (
               sportDetail?.data.map((items, id) => (
                 <tr key={items?.userId || id}>
-                  {userType == "7" && (
-                    <td>
+                  <td className="delete-bet-check-cell">
+                    {userType == "7" ? (
                       <input
-                        style={{
-                          width: "15px",
-                          height: "15px",
-                          borderColor: "#0d6efd",
-                        }}
-                        className="form-check-input"
+                        className="form-check-input delete-bet-checkbox"
                         type="checkbox"
                         id="flexCheckDefault"
                         checked={items.checked}
                         onChange={() => handleSessionChange(items.id)}
                       />
-                    </td>
-                  )}
-                  <td>
-                    {items?.userId} ({items?.username})
+                    ) : (
+                      <span className="delete-bet-muted-marker">—</span>
+                    )}
                   </td>
-                  <td>{items?.selectionName}</td>
-                  <td>{items?.amount}</td>
-                  <td>{items?.rate}</td>
+                  <td className="delete-bet-client-cell">
+                    <span>
+                      {items?.userId} ({items?.username})
+                    </span>
+                  </td>
+                  <td className="delete-bet-session-cell">
+                    <span title={items?.selectionName}>
+                      {items?.selectionName}
+                    </span>
+                  </td>
+                  <td className="delete-bet-number-cell">{items?.amount}</td>
+                  <td className="delete-bet-number-cell">{items?.rate}</td>
                   <td>{items?.mode}</td>
-                  <td>{items?.run}</td>
-                  <td>{items?.time}</td>
+                  <td className="delete-bet-number-cell">{items?.run}</td>
+                  <td className="delete-bet-date-cell">{items?.time}</td>
                   {userType == "6" && (
                     <td>
                       <Button
                         loading={isLoading}
                         disabled={isLoading}
-                        onClick={() => handleDeletedSigleBet(items.id)}>
+                        onClick={() => handleDeletedSigleBet(items.id)}
+                        className="delete-bet-row-delete">
+                        <Trash2 size={14} strokeWidth={2} />
                         Delete
                       </Button>
                     </td>
@@ -204,7 +224,21 @@ const DeleteMatchBets = () => {
             ) : (
               <tr>
                 <td colSpan={9}>
-                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                  <div className="delete-bet-empty-state">
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={null}
+                    />
+                    <h3>No Data Found</h3>
+                    <p>
+                      There are no match bets available in the selected range.
+                    </p>
+                    <Button
+                      className="delete-bet-clear-button"
+                      onClick={handleResetFilters}>
+                      Clear Filters
+                    </Button>
+                  </div>
                 </td>
               </tr>
             )}

@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
-import { Button, Card, Col, Row, Table } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import { Card, Empty, Table, Tooltip } from "antd";
 import { Money } from "./moneySvg";
-import { EyeOutlined } from "@ant-design/icons";
-import { BookText } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  BookText,
+  HandCoins,
+  RefreshCw,
+  UsersRound,
+} from "lucide-react";
 import { useGetLedgerAllQuery } from "../../../../store/service/SportDetailServices";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import { convertCode, isNsg } from "../../../../store/constant";
@@ -17,6 +23,12 @@ const nameData = {
   3: "Agent",
   2: "Client",
 };
+
+const formatLedgerAmount = (value = 0) =>
+  new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Number(value || 0));
 
 const SuperAgentLedger = () => {
   const { id: userTyep, name: Listname, userId } = useParams();
@@ -74,7 +86,7 @@ const SuperAgentLedger = () => {
 
   const handleDownline = (userId) => {
     nav(
-      `/client/ledger-super/${userTyep - 1}/${nameData?.[userTyep]}/${userId}`
+      `/client/ledger-super/${userTyep - 1}/${nameData?.[userTyep]}/${userId}`,
     );
   };
 
@@ -86,53 +98,106 @@ const SuperAgentLedger = () => {
     });
   };
 
-  const generateColumns = (itemName) => [
-    {
-      title: "User Name",
-      dataIndex: "fullName",
-      key: "fullName",
-      render: (text, record) => (
-        <span
-          style={{ color: "#038fde", cursor: "pointer" }}
-          onClick={() => handleDownline(record?.userId)}>
-          <EyeOutlined /> {record?.fullName} ({convertCode(record?.userId)})
-        </span>
-      ),
-    },
-    {
-      title: "Balance",
-      dataIndex: "closinBalane",
-      key: "closinBalane",
-      render: (text, record) => <span>{Math.abs(record?.closinBalane)}</span>,
-    },
-    {
-      title: <Money textColor="#FFF" />,
-      key: "settlement",
-      align: "center",
-      render: (text, record) => (
-        <div>
-          {itemName !== "Clear" && !isNsg && (
-            <Button
-              style={{
-                padding: "3px 5px",
-                fontSize: "12px",
-                height: "30px",
-                display: "block",
-                margin: "auto",
-              }}
-              onClick={() => handleSettelemtData(record, itemName)}>
-              Settlement
-            </Button>
-          )}
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              nav(`/client/txn-super/${Listname}/${userTyep}/${record?.userId}`)
-            }>
-            <Money textColor="#038fde" />
+  const getSectionTone = (itemName) => itemName.toLowerCase();
+
+  const generateColumns = (itemName) => {
+    const tone = getSectionTone(itemName);
+
+    return [
+      {
+        title: "User Name",
+        dataIndex: "fullName",
+        key: "fullName",
+        width: "48%",
+        render: (text, record) => (
+          <button
+            type="button"
+            className="admin-ledger-user-button"
+            title={`${record?.fullName} (${convertCode(record?.userId)})`}
+            onClick={() => handleDownline(record?.userId)}>
+            <span className="admin-ledger-user-copy">
+              <strong>{record?.fullName}</strong>
+              <small>({convertCode(record?.userId)})</small>
+            </span>
+          </button>
+        ),
+      },
+      {
+        title: "Balance",
+        dataIndex: "closinBalane",
+        key: "closinBalane",
+        align: "right",
+        width: "27%",
+        render: (text, record) => (
+          <span className={`admin-ledger-balance is-${tone}`}>
+            {formatLedgerAmount(Math.abs(record?.closinBalane))}
           </span>
-        </div>
-      ),
+        ),
+      },
+      {
+        title: "Action",
+        key: "settlement",
+        align: "center",
+        width: "25%",
+        render: (text, record) => (
+          // <span
+          //   style={{ cursor: "pointer" }}
+          //   onClick={() =>
+          //     nav(`/client/txn-super/${Listname}/${userTyep}/${record?.userId}`)
+          //   }>
+          //   <Money textColor="#038fde" />
+          // </span>
+          <div className="admin-ledger-actions">
+            <Tooltip title="Statement">
+              <button
+                type="button"
+                className="admin-ledger-action-button"
+                aria-label={`Statement for ${record?.fullName}`}
+                title="Statement"
+                onClick={() => handleSettelemtData(record, itemName)}>
+                <HandCoins size={16} strokeWidth={2} />
+              </button>
+            </Tooltip>
+            {itemName !== "Clear" && (
+              <Tooltip title="Cash transaction">
+                <button
+                  type="button"
+                  className="admin-ledger-action-button"
+                  aria-label={`Cash transaction for ${record?.fullName}`}
+                  title="Cash transaction"
+                  onClick={() =>
+                    nav(
+                      `/client/txn-super/${Listname}/${userTyep}/${record?.userId}`,
+                    )
+                  }>
+                  <Money size={17} strokeWidth={2} />
+                </button>
+              </Tooltip>
+            )}
+          </div>
+        ),
+      },
+    ];
+  };
+
+  const ledgerSections = [
+    {
+      name: "Lena",
+      data: lenaList,
+      total: Math.abs(lenaTotal),
+      icon: <ArrowUpRight size={25} strokeWidth={2.2} />,
+    },
+    {
+      name: "Dena",
+      data: denaList,
+      total: Math.abs(denaTotal),
+      icon: <ArrowDownRight size={25} strokeWidth={2.2} />,
+    },
+    {
+      name: "Clear",
+      data: clearData,
+      total: clearData.length,
+      icon: <RefreshCw size={24} strokeWidth={2.2} />,
     },
   ];
 
@@ -145,45 +210,84 @@ const SuperAgentLedger = () => {
           subtitle="Review lena/dena balances and settle accounts"
           onBack={handleBackbtn}
         />
-      <Card className="sport_detail ledger_data led_super">
-        <Row className="main_super_super_ledger" gutter={[24]}>
-          {["Lena", "Dena", "Clear"].map((itemName, index) => (
-            <Col key={index} xs={24} lg={8} md={24}>
-              <div
-                className={`super_ledger item${index + 1}`}
-                style={{ width: "100%" }}>
-                <div>{itemName}</div>
+        <Card className="sport_detail ledger_data led_super admin-ledger-card">
+          <section className="admin-ledger-summary" aria-label="Ledger summary">
+            {ledgerSections.map((section) => (
+              <article
+                key={section.name}
+                className={`admin-ledger-summary-card is-${getSectionTone(
+                  section.name,
+                )}`}>
+                <span className="admin-ledger-summary-icon">
+                  {section.icon}
+                </span>
                 <div>
-                  {itemName === "Dena"
-                    ? Math.abs(denaTotal)?.toFixed(2)
-                    : itemName === "Clear"
-                    ? clearData.length
-                    : Math.abs(lenaTotal)?.toFixed(2)}
+                  <span>{section.name}</span>
+                  <strong>
+                    {section.name === "Clear"
+                      ? section.total
+                      : formatLedgerAmount(section.total)}
+                  </strong>
                 </div>
-              </div>
-              <div className="table_section" style={{ width: "100%" }}>
-                <Table
-                  className="live_table limit_update"
-                  bordered
-                  pagination={false}
-                  columns={generateColumns(itemName)}
-                  loading={{
-                    spinning: isLoading || isFetching,
-                    indicator: <CustomLoading />,
-                  }}
-                  dataSource={
-                    itemName === "Clear"
-                      ? clearData
-                      : itemName === "Dena"
-                      ? denaList
-                      : lenaList
-                  }
-                />
-              </div>
-            </Col>
-          ))}
-        </Row>
-      </Card>
+              </article>
+            ))}
+          </section>
+
+          <section className="admin-ledger-sections">
+            {ledgerSections.map((section) => (
+              <article
+                className={`admin-ledger-section is-${getSectionTone(
+                  section.name,
+                )}`}
+                key={section.name}>
+                <header className="admin-ledger-section-header">
+                  <div>
+                    <span className="admin-ledger-section-icon">
+                      <UsersRound size={19} strokeWidth={2.1} />
+                    </span>
+                    <strong>{section.name} Users</strong>
+                  </div>
+                  <span>{section.data.length} users</span>
+                </header>
+
+                <div className="admin-ledger-table-scroll">
+                  <div className="admin-ledger-mobile-hint">
+                    Swipe to view all columns
+                  </div>
+                  <Table
+                    className="admin-ledger-table"
+                    pagination={false}
+                    columns={generateColumns(section.name)}
+                    loading={{
+                      spinning: isLoading || isFetching,
+                      indicator: <CustomLoading />,
+                    }}
+                    rowKey={(record) =>
+                      record?.userId ??
+                      `${section.name}-${record?.fullName}-${record?.closinBalane}`
+                    }
+                    locale={{
+                      emptyText: (
+                        <Empty
+                          image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          description={`No ${section.name.toLowerCase()} users found`}
+                        />
+                      ),
+                    }}
+                    dataSource={section.data}
+                  />
+                </div>
+
+                <footer className="admin-ledger-section-footer">
+                  <span>
+                    Showing {section.data.length ? 1 : 0} to{" "}
+                    {section.data.length} of {section.data.length} entries
+                  </span>
+                </footer>
+              </article>
+            ))}
+          </section>
+        </Card>
       </div>
 
       <SettlementModal

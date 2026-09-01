@@ -1,34 +1,58 @@
-import { Card, Col, DatePicker, Row, Select, Table } from "antd";
+import { Card, DatePicker, Empty, Select, Table } from "antd";
 import { useMemo, useState } from "react";
 import moment from "moment";
 import dayjs from "dayjs";
-import { TrendingUp } from "lucide-react";
+import { CalendarDays, TrendingUp } from "lucide-react";
 import { useGetLedgerProfitLossQuery } from "../../../../store/service/SportDetailServices";
 import { useNavigate } from "react-router-dom";
 import CustomLoading from "../../../common/CustomLoading/CustomLoading";
 import AppPageHeader from "../../../common/AppPageHeader/AppPageHeader";
+
+const formatLedgerAmount = (value = 0) =>
+  new Intl.NumberFormat("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
 
 const MatchLedger = () => {
   const timeBefore = moment().subtract(14, "days").format("YYYY-MM-DD");
   const time = moment().format("YYYY-MM-DD");
   const [dateData, setDateData] = useState([timeBefore, time]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const nav = useNavigate();
 
   const columns = useMemo(
     () => [
       {
+        title: "#",
+        key: "serial",
+        width: 68,
+        align: "center",
+        render: (_, __, index) => (
+          <span className="profit-loss-serial">
+            {String((currentPage - 1) * pageSize + index + 1).padStart(2, "0")}
+          </span>
+        ),
+      },
+      {
         title: "Date",
         dataIndex: "date",
         key: "date",
-        render: (text) => <span>{moment(text).format("DD-MM-YYYY")}</span>,
-        width: "20%",
+        render: (text) => (
+          <span className="profit-loss-date">
+            <CalendarDays size={14} strokeWidth={1.9} />
+            {moment(text).format("DD-MM-YYYY")}
+          </span>
+        ),
+        width: 190,
       },
       {
         title: "Event Name",
         dataIndex: "eventName",
         key: "eventName",
-        width: "60%",
+        className: "profit-loss-event-cell",
       },
 
       {
@@ -37,8 +61,11 @@ const MatchLedger = () => {
         align: "right",
         key: "debit",
         render: (text) => (
-          <span className="text_danger">{text?.toFixed(2)}</span>
+          <span className="profit-loss-amount profit-loss-debit">
+            {formatLedgerAmount(text || 0)}
+          </span>
         ),
+        width: 150,
       },
       {
         title: "Credit",
@@ -46,15 +73,19 @@ const MatchLedger = () => {
         key: "credit",
         align: "right",
         render: (text) => (
-          <span className="text_success">{text?.toFixed(2)}</span>
+          <span className="profit-loss-amount profit-loss-credit">
+            {formatLedgerAmount(text || 0)}
+          </span>
         ),
+        width: 150,
       },
     ],
-    [],
+    [currentPage, pageSize],
   );
 
   const onChange = (date, dateString) => {
     setDateData(dateString);
+    setCurrentPage(1);
   };
 
   const {
@@ -78,6 +109,16 @@ const MatchLedger = () => {
     [ledgerData?.data],
   );
 
+  const totalClassName =
+    totalCredit > 0
+      ? "is-positive"
+      : totalCredit < 0
+        ? "is-negative"
+        : "is-zero";
+  const totalEntries = ledgerData?.data?.length || 0;
+  const firstEntry = totalEntries ? (currentPage - 1) * pageSize + 1 : 0;
+  const lastEntry = Math.min(currentPage * pageSize, totalEntries);
+
   return (
     <>
       {isModalOpen && (
@@ -91,80 +132,104 @@ const MatchLedger = () => {
           subtitle="Review match-wise profit and loss by date range"
           onBack={() => nav(-1)}
         />
-      <Card className="sport_detail my_ledger main_match_ledger profit_loss_table">
-        <Row className="" gutter={[16, 16]} style={{ padding: "12px 4px" }}>
-          <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
-            <DatePicker.RangePicker
-              defaultValue={[dayjs(timeBefore), dayjs(time)]}
-              onChange={onChange}
-            />
-          </Col>
-          <Col lg={6} xs={16} className="match_ladger profit_loss_ledger">
-            <Select
-              style={{ width: "100%" }}
-              placeholder="Select Game Type"
-              options={[
-                {
-                  label: "All",
-                  value: "All",
-                },
-                {
-                  label: "Sport",
-                  value: "sport",
-                },
-                {
-                  label: "Int Casino",
-                  value: "intcasino",
-                },
-                {
-                  label: "Diamond Casino",
-                  value: "casino",
-                },
-              ]}
-              showSearch
-              allowClear
-            />
-          </Col>
-          <Col lg={6} xs={8}>
-            <div className="matchladger_total">
-              <p style={{ fontSize: "20px" }}>
-                Total:{" "}
-                <span
-                  className={totalCredit > 0 ? "text_success" : "text_danger"}>
-                  {totalCredit?.toFixed(2)}
-                </span>
-              </p>
+        <Card className="sport_detail my_ledger main_match_ledger profit_loss_table">
+          <div className="profit-loss-toolbar">
+            <div className="profit-loss-filter-group">
+              <div className="profit-loss-control profit-loss-range-control">
+                <DatePicker.RangePicker
+                  defaultValue={[dayjs(timeBefore), dayjs(time)]}
+                  onChange={onChange}
+                  format="YYYY-MM-DD"
+                />
+              </div>
+              <div className="profit-loss-control profit-loss-select-control">
+                <Select
+                  placeholder="Select Game Type"
+                  options={[
+                    {
+                      label: "All",
+                      value: "All",
+                    },
+                    {
+                      label: "Sport",
+                      value: "sport",
+                    },
+                    {
+                      label: "Int Casino",
+                      value: "intcasino",
+                    },
+                    {
+                      label: "Diamond Casino",
+                      value: "casino",
+                    },
+                  ]}
+                  showSearch
+                  allowClear
+                />
+              </div>
             </div>
-          </Col>
-        </Row>
-
-        <div className="table_section statement_tabs_data ant-spin-nested-loading">
-          <div className="table_section">
-            <Table
-              className="live_table acc_tabel limit_update"
-              bordered
-              columns={columns}
-              rowKey={(record) =>
-                record.id ??
-                record._id ??
-                record.key ??
-                record.eventId ??
-                record.matchId ??
-                `${record.date}-${record.eventName}-${record.credit ?? 0}-${
-                  record.debit ?? 0
-                }`
-              }
-              rowClassName={() => "no-wrap"}
-              loading={{
-                spinning: isLoading || isFetching,
-                indicator: <CustomLoading />,
-              }}
-              dataSource={ledgerData?.data}
-              pagination={false}
-            />
+            <div className={`profit-loss-total ${totalClassName}`}>
+              <span>Total:</span>
+              <strong>₹{formatLedgerAmount(totalCredit || 0)}</strong>
+            </div>
           </div>
-        </div>
-      </Card>
+
+          <div className="table_section statement_tabs_data ant-spin-nested-loading">
+            <div className="profit-loss-mobile-hint">
+              Swipe to view all columns
+            </div>
+            <div className="profit-loss-table-viewport">
+              <Table
+                className="profit-loss-ant-table"
+                columns={columns}
+                rowKey={(record) =>
+                  record.id ??
+                  record._id ??
+                  record.key ??
+                  record.eventId ??
+                  record.matchId ??
+                  `${record.date}-${record.eventName}-${record.credit ?? 0}-${
+                    record.debit ?? 0
+                  }`
+                }
+                rowClassName={() => "no-wrap"}
+                loading={{
+                  spinning: isLoading || isFetching,
+                  indicator: <CustomLoading />,
+                }}
+                dataSource={ledgerData?.data}
+                locale={{
+                  emptyText: (
+                    <Empty
+                      image={Empty.PRESENTED_IMAGE_SIMPLE}
+                      description={
+                        <span>
+                          No profit/loss records found
+                          <small>
+                            Try changing the date range or game type.
+                          </small>
+                        </span>
+                      }
+                    />
+                  ),
+                }}
+                pagination={{
+                  current: currentPage,
+                  pageSize,
+                  total: totalEntries,
+                  showSizeChanger: true,
+                  pageSizeOptions: ["10", "25", "50", "100"],
+                  showTotal: () =>
+                    `Showing ${firstEntry} to ${lastEntry} of ${totalEntries} entries`,
+                  onChange: (page, size) => {
+                    setCurrentPage(page);
+                    setPageSize(size);
+                  },
+                }}
+              />
+            </div>
+          </div>
+        </Card>
       </div>
     </>
   );
