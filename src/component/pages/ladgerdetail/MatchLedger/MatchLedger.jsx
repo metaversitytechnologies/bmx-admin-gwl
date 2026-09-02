@@ -175,9 +175,7 @@ const MatchLedger = () => {
           </div>
 
           <div className="table_section statement_tabs_data ant-spin-nested-loading">
-            <div className="profit-loss-mobile-hint">
-              Swipe to view all columns
-            </div>
+            
             <div className="profit-loss-table-viewport">
               <Table
                 className="profit-loss-ant-table"

@@ -1,16 +1,6 @@
-import {
-  Button,
-  Card,
-  Col,
-  DatePicker,
-  Empty,
-  Row,
-  Select,
-  Space,
-  Tag,
-} from "antd";
+import { Button, Card, DatePicker, Empty, Pagination, Select } from "antd";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useLazyFilterbyClientQuery } from "../../../store/service/supermasteAccountStatementServices";
 import {
@@ -19,7 +9,15 @@ import {
   useGetCommitionReportHostopryMutation,
   useGetCommitionReportMutation,
 } from "../../../store/service/SportDetailServices";
-import { HandCoins } from "lucide-react";
+import {
+  CalendarDays,
+  Eye,
+  HandCoins,
+  History,
+  RefreshCcw,
+  RotateCcw,
+  UserRound,
+} from "lucide-react";
 import CommissionModal from "./CommissionModal";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 import UserCommissionModal from "./UserCommissionModal";
@@ -34,10 +32,19 @@ const CommissionLenDen = () => {
   const [openUser, setOpenUser] = useState(false);
   const [clientId, setClientId] = useState("");
   const [userDetails, setUserDetails] = useState(null);
+  const initialDateRange = useMemo(
+    () => [
+      moment().subtract(14, "days").format("YYYY-MM-DD"),
+      moment().format("YYYY-MM-DD"),
+    ],
+    [],
+  );
   const [dateData, setDateData] = useState([
-    moment().subtract(14, "days").format("YYYY-MM-DD"),
-    moment().format("YYYY-MM-DD"),
+    initialDateRange[0],
+    initialDateRange[1],
   ]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const userId = localStorage.getItem("userId");
   const [totals, setTotals] = useState({
     mMatch: 0,
@@ -62,6 +69,16 @@ const CommissionLenDen = () => {
     useGetCommitionReportHostopryMutation();
   const [getResetComm, { isLoading: resetLoading }] =
     useGetCommissionResetMutation();
+  const rows = useMemo(() => data?.data || [], [data]);
+  const totalEntries = rows.length;
+  const firstEntry = totalEntries ? (currentPage - 1) * pageSize + 1 : 0;
+  const lastEntry = Math.min(currentPage * pageSize, totalEntries);
+  const selectedUserLabel =
+    userDetails?.label || (userType == 2 ? `Me (${userId})` : "All Users");
+  const paginatedRows = useMemo(
+    () => rows.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+    [rows, currentPage, pageSize],
+  );
 
   // ----------------- Effects -----------------
   useEffect(() => {
@@ -70,11 +87,11 @@ const CommissionLenDen = () => {
       fromDate: dateData[0],
       toDate: dateData[1],
     });
-  }, [clientId, dateData, userType]);
+  }, [clientId, dateData, trigger, userId, userType]);
 
   useEffect(() => {
     userTrigger({ userType: 2 });
-  }, []);
+  }, [userTrigger]);
 
   useEffect(() => {
     if (data?.data?.length > 0) {
@@ -103,7 +120,7 @@ const CommissionLenDen = () => {
           dCasino: 0,
           dTotal: 0,
           left: 0,
-        }
+        },
       );
       setTotals(calc);
     } else {
@@ -122,6 +139,7 @@ const CommissionLenDen = () => {
   }, [data]);
 
   const handleApply = () => {
+    setCurrentPage(1);
     trigger({
       userId: userType == 2 ? userId : clientId,
       fromDate: dateData[0],
@@ -131,6 +149,19 @@ const CommissionLenDen = () => {
 
   const handleDateChange = (_, dateString) => {
     setDateData(dateString);
+    setCurrentPage(1);
+  };
+
+  const handleResetFilters = () => {
+    setDateData(initialDateRange);
+    setClientId("");
+    setUserDetails(null);
+    setCurrentPage(1);
+    trigger({
+      userId: userType == 2 ? userId : "",
+      fromDate: initialDateRange[0],
+      toDate: initialDateRange[1],
+    });
   };
 
   const handleClientWiseData = (clientId) => {
@@ -188,251 +219,294 @@ const CommissionLenDen = () => {
 
         <Card
           style={{ margin: "0px", width: "100%" }}
-          className="sport_detail team_name">
-          {/* Date & User Selection */}
-          <Row
-            gutter={[16, 8]}
-            className="date_picker"
-            justify="start"
-            align="stretch"
-            style={{ padding: "8px" }}>
-            <Col xl={7} lg={7} md={24} xs={24} className="datepicker_sport">
-              <RangePicker
-                style={{ marginBottom: "10px", width: "300px" }}
-                defaultValue={[dayjs(dateData[0]), dayjs(dateData[1])]}
-                onChange={handleDateChange}
-                bordered={false}
-                showSecond
-                renderExtraFooter={() => (
-                  <Space style={{ padding: "10px" }}>
-                    <Tag color="blue">Today</Tag>
-                    <Tag color="blue">Yesterday</Tag>
-                    <Tag color="blue">This Week</Tag>
-                    <Tag color="blue">Last Week</Tag>
-                    <Tag color="blue">This Month</Tag>
-                    <Tag color="blue">Last Month</Tag>
-                  </Space>
-                )}
-              />
-            </Col>
-
-            {userType != 2 && (
-              <Col xl={7} lg={7} md={15} xs={15}>
-                <Select
-                  placeholder="Select User"
-                  showSearch
-                  value={clientId}
-                  allowClear
-                  onSearch={(value) => {
-                    if (value) userTrigger({ userId: value, userType: 2 });
-                  }}
-                  onSelect={(value, option) => {
-                    setClientId(value);
-                    setUserDetails(option);
-                  }}
-                  options={
-                    userData?.data?.map((user) => ({
-                      label: `${user.userName} (${user.userId})`,
-                      value: user.userId,
-                    })) || []
-                  }
+          className="sport_detail team_name commission-len-den-card">
+          <div className="commission-filter-toolbar">
+            <div className="commission-filter-main">
+              <div className="commission-control commission-date-control">
+                <CalendarDays size={16} strokeWidth={1.9} />
+                <RangePicker
+                  value={[dayjs(dateData[0]), dayjs(dateData[1])]}
+                  onChange={handleDateChange}
+                  bordered={false}
+                  showSecond
+                  allowClear={false}
                 />
-              </Col>
-            )}
+              </div>
 
-            <Col xl={2} lg={2} md={24} xs={24}>
+              {userType != 2 && (
+                <div className="commission-control commission-user-control">
+                  <UserRound size={16} strokeWidth={1.9} />
+                  <Select
+                    placeholder="Select User"
+                    showSearch
+                    value={clientId}
+                    allowClear
+                    onClear={() => {
+                      setClientId("");
+                      setUserDetails(null);
+                    }}
+                    onSearch={(value) => {
+                      if (value) userTrigger({ userId: value, userType: 2 });
+                    }}
+                    onSelect={(value, option) => {
+                      setClientId(value);
+                      setUserDetails(option);
+                    }}
+                    options={
+                      userData?.data?.map((user) => ({
+                        label: `${user.userName} (${user.userId})`,
+                        value: user.userId,
+                      })) || []
+                    }
+                  />
+                </div>
+              )}
+
               <Button
-                type="ghost"
-                style={{
-                  backgroundColor: "rgb(170, 74, 68)",
-                  color: "#fff",
-                  borderRadius: "unset",
-                  height: "36px",
-                }}
+                className="approved-primary-button commission-apply-button"
+                icon={<RefreshCcw size={15} strokeWidth={2} />}
                 onClick={handleApply}>
                 Apply
               </Button>
-            </Col>
-          </Row>
+            </div>
+
+            <Button
+              className="commission-reset-button"
+              icon={<RotateCcw size={15} strokeWidth={2} />}
+              onClick={handleResetFilters}>
+              Reset
+            </Button>
+          </div>
 
           {/* Table Section */}
-          <div className="table_section statement_tabs_data ant-spin-nested-loading">
-            <table className="live_table login_data_table">
-              {/* Table Headers */}
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "center" }} colSpan={6}>
-                    Mila Hai
-                  </th>
-                  <th style={{ textAlign: "center" }} colSpan={4}>
-                    Dena Hai
-                  </th>
-                  <th>Bacha Hai</th>
-                </tr>
-                <tr>
-                  <th>Name</th>
-                  <th>M.Comm.</th>
-                  <th>S.Comm.</th>
-                  <th>C.Comm.</th>
-                  <th>T.Comm.</th>
-                  <th>Action</th>
-                  <th>M.Comm.</th>
-                  <th>S.Comm.</th>
-                  <th>C.Comm.</th>
-                  <th>T.Comm.</th>
-                  <th>Comm.</th>
-                </tr>
-              </thead>
 
-              <tbody>
-                {/* Totals Row (Top Row for Selected Client) */}
-                {data?.data?.length > 0 && (
-                  <tr style={{ background: "#000", color: "#fff" }}>
-                    <td style={{ color: "#fff", fontWeight: 600 }}>
-                      <span className="gx-px-2">{userDetails?.label}</span>
-                    </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mMatch?.toFixed(2)}
-                    </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mSession?.toFixed(2)}
-                    </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {totals.mCasino?.toFixed(2)}
-                    </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
-                      {(
-                        totals.mMatch +
-                        totals.mSession +
-                        totals.mCasino
-                      )?.toFixed(2)}
-                    </td>
-                    <td></td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dMatch?.toFixed(2)}
-                    </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dSession?.toFixed(2)}
-                    </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
-                      {totals.dCasino?.toFixed(2)}
-                    </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
-                      {(
-                        totals.dMatch +
-                        totals.dSession +
-                        totals.dCasino
-                      )?.toFixed(2)}
-                    </td>
-                    <td
-                      style={{
-                        color: totalFull >= 0 ? "green" : "red",
-                        fontWeight: 600,
-                      }}>
-                      {totalFull?.toFixed(2)}
-                    </td>
+          <div className="table_section statement_tabs_data ant-spin-nested-loading commission-table-shell">
+            <div className="commission-table-scroll">
+              <table className="live_table login_data_table commission-table">
+                <colgroup>
+                  <col className="commission-col-name" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-action" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                  <col className="commission-col-value" />
+                </colgroup>
+                {/* Table Headers */}
+                <thead>
+                  <tr className="commission-group-row">
+                    <th className=" commission-group-name"></th>
+                    <th
+                      className="text-center commission-group-label"
+                      colSpan={5}>
+                      Mila Hai
+                    </th>
+                    <th
+                      className="text-center commission-group-label commission-group-dena"
+                      colSpan={4}>
+                      Dena Hai
+                    </th>
+                    <th className="text-center commission-group-label commission-group-bacha">
+                      Bacha Hai
+                    </th>
                   </tr>
-                )}
+                  <tr>
+                    <th className=" commission-name-head">Name</th>
+                    <th className="text-center">M.Comm.</th>
+                    <th className="text-center">S.Comm.</th>
+                    <th className="text-center">C.Comm.</th>
+                    <th className="text-center">T.Comm.</th>
+                    <th className="text-center commission-action-head">
+                      Action
+                    </th>
+                    <th className="text-center">M.Comm.</th>
+                    <th className="text-center">S.Comm.</th>
+                    <th className="text-center">C.Comm.</th>
+                    <th className="text-center">T.Comm.</th>
+                    <th className="text-center">Comm.</th>
+                  </tr>
+                </thead>
 
-                {/* Data Rows */}
-                {data?.data?.length > 0 ? (
-                  data.data.map((items) => {
-                    const isUser = items?.userId?.startsWith("C");
-                    const fullData =
-                      items?.matchCommMila +
-                      items?.sessionCommMila +
-                      items?.casinoCommMila -
-                      (items?.matchCommDena +
-                        items?.sessionCommDena +
-                        items?.casinoCommDena);
-                    return (
-                      <tr key={items?.userId}>
-                        <td style={{ fontWeight: 600 }}>
-                          <span
-                            onClick={() => handleClientWiseData(items)}
-                            className="gx-text-blue gx-text-nowrap"
-                            style={{ cursor: "pointer" }}>
-                            {items?.userName} ({items?.userId})
-                            <i
-                              style={{ marginLeft: "5px" }}
-                              className="icon icon-view-o"></i>
-                          </span>
-                        </td>
-                        {/* Mila */}
-                        <td style={{ color: "green", fontWeight: 600 }}>
-                          {items?.matchCommMila?.toFixed(2)}
-                        </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
-                          {items?.sessionCommMila?.toFixed(2)}
-                        </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
-                          {items?.casinoCommMila?.toFixed(2)}
-                        </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
-                          {(
-                            items?.matchCommMila +
-                            items?.sessionCommMila +
-                            items?.casinoCommMila
-                          )?.toFixed(2)}
-                        </td>
-                        <td>
-                          {isUser && (
-                            <div className="ant-row gx-pl-4">
-                              <div className="ant-col">
+                <tbody>
+                  {/* Totals Row (Top Row for Selected Client) */}
+                  {rows.length > 0 && (
+                    <tr className="commission-total-row">
+                      <td className=" commission-name-cell">
+                        <span className="gx-px-2">{selectedUserLabel}</span>
+                      </td>
+                      <td className="commission-value commission-value-success">
+                        {totals.mMatch?.toFixed(2)}
+                      </td>
+                      <td className="commission-value commission-value-success">
+                        {totals.mSession?.toFixed(2)}
+                      </td>
+                      <td className="commission-value commission-value-success">
+                        {totals.mCasino?.toFixed(2)}
+                      </td>
+                      <td className="commission-value commission-value-success">
+                        {(
+                          totals.mMatch +
+                          totals.mSession +
+                          totals.mCasino
+                        )?.toFixed(2)}
+                      </td>
+                      <td></td>
+                      <td className="commission-value commission-value-danger">
+                        {totals.dMatch?.toFixed(2)}
+                      </td>
+                      <td className="commission-value commission-value-danger">
+                        {totals.dSession?.toFixed(2)}
+                      </td>
+                      <td className="commission-value commission-value-danger">
+                        {totals.dCasino?.toFixed(2)}
+                      </td>
+                      <td className="commission-value commission-value-danger">
+                        {(
+                          totals.dMatch +
+                          totals.dSession +
+                          totals.dCasino
+                        )?.toFixed(2)}
+                      </td>
+                      <td
+                        className={`commission-value ${
+                          totalFull >= 0
+                            ? "commission-value-success"
+                            : "commission-value-danger"
+                        }`}>
+                        {totalFull?.toFixed(2)}
+                      </td>
+                    </tr>
+                  )}
+
+                  {/* Data Rows */}
+                  {paginatedRows.length > 0 ? (
+                    paginatedRows.map((items) => {
+                      const isUser = items?.userId?.startsWith("C");
+                      const fullData =
+                        items?.matchCommMila +
+                        items?.sessionCommMila +
+                        items?.casinoCommMila -
+                        (items?.matchCommDena +
+                          items?.sessionCommDena +
+                          items?.casinoCommDena);
+                      return (
+                        <tr key={items?.userId}>
+                          <td className=" commission-name-cell">
+                            <span
+                              onClick={() => handleClientWiseData(items)}
+                              className="commission-name-link">
+                              {items?.userName} ({items?.userId})
+                              <Eye size={14} strokeWidth={1.9} />
+                            </span>
+                          </td>
+                          {/* Mila */}
+                          <td className="commission-value commission-value-success">
+                            {items?.matchCommMila?.toFixed(2)}
+                          </td>
+                          <td className="commission-value commission-value-success">
+                            {items?.sessionCommMila?.toFixed(2)}
+                          </td>
+                          <td className="commission-value commission-value-success">
+                            {items?.casinoCommMila?.toFixed(2)}
+                          </td>
+                          <td className="commission-value commission-value-success">
+                            {(
+                              items?.matchCommMila +
+                              items?.sessionCommMila +
+                              items?.casinoCommMila
+                            )?.toFixed(2)}
+                          </td>
+                          <td>
+                            {isUser && (
+                              <div className="commission-row-actions">
                                 <Button
-                                  isLoading={resetLoading}
+                                  loading={resetLoading}
                                   onClick={() => handleResetComm(items?.userId)}
-                                  className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
-                                  style={{ marginBottom: "8px" }}>
+                                  className="commission-action commission-action-reset"
+                                  icon={
+                                    <RotateCcw size={14} strokeWidth={2} />
+                                  }>
                                   <span>Reset</span>
                                 </Button>
                                 <Button
-                                  className="ant-btn ant-btn-default gx-bg-grey gx-text-white"
+                                  className="commission-action commission-action-history"
+                                  icon={<History size={14} strokeWidth={2} />}
                                   onClick={() =>
                                     handleOpenHistory(items?.userId)
                                   }>
                                   <span>History</span>
                                 </Button>
                               </div>
-                            </div>
-                          )}
-                        </td>
-                        {/* Dena */}
-                        <td style={{ color: "red", fontWeight: 600 }}>
-                          {items?.matchCommDena?.toFixed(2)}
-                        </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
-                          {items?.sessionCommDena?.toFixed(2)}
-                        </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
-                          {items?.casinoCommDena?.toFixed(2)}
-                        </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
-                          {(
-                            items?.matchCommDena +
-                            items?.sessionCommDena +
-                            items?.casinoCommDena
-                          )?.toFixed(2)}
-                        </td>
-                        <td
-                          style={{
-                            color: fullData >= 0 ? "green" : "red",
-                            fontWeight: 600,
-                          }}>
-                          {fullData?.toFixed(2) || "0.00"}
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={11}>
-                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                            )}
+                          </td>
+                          {/* Dena */}
+                          <td className="commission-value commission-value-danger">
+                            {items?.matchCommDena?.toFixed(2)}
+                          </td>
+                          <td className="commission-value commission-value-danger">
+                            {items?.sessionCommDena?.toFixed(2)}
+                          </td>
+                          <td className="commission-value commission-value-danger">
+                            {items?.casinoCommDena?.toFixed(2)}
+                          </td>
+                          <td className="commission-value commission-value-danger">
+                            {(
+                              items?.matchCommDena +
+                              items?.sessionCommDena +
+                              items?.casinoCommDena
+                            )?.toFixed(2)}
+                          </td>
+                          <td
+                            className={`commission-value ${
+                              fullData >= 0
+                                ? "commission-value-success"
+                                : "commission-value-danger"
+                            }`}>
+                            {fullData?.toFixed(2) || "0.00"}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td className="commission-empty-cell" colSpan={11}>
+                        <Empty
+                          image={Empty.PRESENTED_IMAGE_SIMPLE}
+                          description={
+                            <span>
+                              <strong>No commission records found</strong>
+                              <small>
+                                Try changing the date range or selected user.
+                              </small>
+                            </span>
+                          }
+                        />
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+            <div className="admin-details-pagination commission-pagination">
+              <span className="admin-details-pagination-text">
+                Showing {firstEntry} to {lastEntry} of {totalEntries} entries
+              </span>
+              <Pagination
+                current={currentPage}
+                pageSize={pageSize}
+                total={totalEntries}
+                showSizeChanger
+                pageSizeOptions={["10", "25", "50", "100"]}
+                onChange={(page, size) => {
+                  setCurrentPage(page);
+                  setPageSize(size);
+                }}
+              />
+            </div>
           </div>
         </Card>
       </div>

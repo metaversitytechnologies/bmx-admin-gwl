@@ -290,9 +290,7 @@ body {
     border: unset;
     outline: unset;
   }
-  svg {
-    color: #fff;
-  }
+
   .ant-modal-header {
     &::after {
       content: "";
@@ -315,6 +313,9 @@ body {
     input.ant-input {
       height: 20px;
       border-radius: 0 !important;
+      border: none !important;
+      padding: 0px;
+      margin: 3px;
     }
   }
   .ant-form-item {
@@ -342,7 +343,7 @@ body {
       margin: 12px;
     }
     .return {
-      background: var(--bg-color) !important;
+      // background: var(--bg-color) !important;
       color: #fff;
       border-radius: 2px;
       border: unset;
@@ -420,7 +421,7 @@ p.ant-dropdown-trigger.user_deatils.droup_nav {
     display: block !important;
   }
   header {
-    height: 50px !important;
+    // height: 50px !important;
     display: flex;
     align-items: center;
   }
@@ -593,4 +594,8 @@ textarea.ant-input {
 .ant-card-body {
   background-color: #fff !important;
   box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.03);
+}
+
+table {
+  width: 100% !important;
 }

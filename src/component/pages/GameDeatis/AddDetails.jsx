@@ -1,7 +1,78 @@
-import { Button, Modal, Row, Table } from "antd";
-import { useGetFancyBetVMutation } from "../../../store/service/SportDetailServices";
+import { Empty, Modal, Table, Tooltip } from "antd";
+import { CircleX, Layers3, Trophy } from "lucide-react";
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useGetFancyBetVMutation } from "../../../store/service/SportDetailServices";
+
+const LONG_TEXT_COLUMNS = new Set([
+  "selectionName",
+  "dealerUserId",
+  "masterUserId",
+  "superAdminUserId",
+  "subAdminUserId",
+  "adminUserId",
+]);
+
+const renderHierarchyCell = (value) => {
+  if (value === null || value === undefined || value === "") return "-";
+  return (
+    <Tooltip title={String(value)}>
+      <span className="all-details-truncate">{value}</span>
+    </Tooltip>
+  );
+};
+
+const renderPnl = (value) => {
+  const tone =
+    Number(value || 0) > 0
+      ? "is-positive"
+      : Number(value || 0) < 0
+        ? "is-negative"
+        : "is-neutral";
+
+  return <span className={`all-details-pnl ${tone}`}>{value ?? 0}</span>;
+};
+
+const renderModeValue = (isSession, record, shortLabel = false) => (
+  <span className={`all-details-mode ${record?.isBack ? "is-back" : "is-lay"}`}>
+    {isSession
+      ? record?.isBack
+        ? "YES"
+        : "NOT"
+      : record?.isBack
+        ? shortLabel
+          ? "L"
+          : "LAGAI"
+        : shortLabel
+          ? "K"
+          : "KHAI"}
+  </span>
+);
+
+const enhanceColumn = (column) => {
+  const hierarchyWidth = {
+    selectionName: 170,
+    dealerUserId: 180,
+    masterUserId: 190,
+    superAdminUserId: 190,
+    subAdminUserId: 190,
+    adminUserId: 180,
+  };
+
+  return {
+    ...column,
+    width: hierarchyWidth[column.dataIndex] || column.width || 96,
+    className: LONG_TEXT_COLUMNS.has(column.dataIndex)
+      ? "all-details-long-col"
+      : column.className,
+    render:
+      column.render ||
+      (LONG_TEXT_COLUMNS.has(column.dataIndex)
+        ? renderHierarchyCell
+        : (value) => value ?? "-"),
+  };
+};
 
 const AddDetails = ({
   open,
@@ -11,11 +82,11 @@ const AddDetails = ({
   setSessionType,
 }) => {
   const { id } = useParams();
-  const [trigger, { data }] = useGetFancyBetVMutation();
+  const [trigger, { data, isLoading }] = useGetFancyBetVMutation();
   const [teamTableData, setTeamTableData] = useState([]);
-  const userType = parseInt(localStorage.getItem("userType")); // Ensure it's a number
+  const userType = parseInt(localStorage.getItem("userType"), 10);
 
-  const getColumnsByUserType = (userType, sessionType) => {
+  const getColumnsByUserType = (currentUserType, isSession) => {
     const allColumns = [
       {
         title: "Rate",
@@ -36,17 +107,7 @@ const AddDetails = ({
         title: "Mode",
         dataIndex: "isBack",
         key: "isBack",
-        render: (text, record) => (
-          <span>
-            {sessionType
-              ? record?.isBack
-                ? "YES"
-                : "NOT"
-              : record?.isBack
-              ? "LAGAI"
-              : "KHAI"}
-          </span>
-        ),
+        render: (text, record) => renderModeValue(isSession, record),
       },
       {
         title: "Session",
@@ -116,7 +177,7 @@ const AddDetails = ({
     ];
 
     const hiddenFieldsByUserType = {
-      7: [], // Show all
+      7: [],
       6: ["adminUserId", "adminP"],
       5: ["adminUserId", "adminP", "subAdminUserId", "subAdminP"],
       4: [
@@ -151,21 +212,28 @@ const AddDetails = ({
       ],
     };
 
-    const hiddenFields = hiddenFieldsByUserType[userType] || [];
+    const hiddenFields = hiddenFieldsByUserType[currentUserType] || [];
 
-    return allColumns.filter((col) => !hiddenFields.includes(col.dataIndex));
+    return allColumns
+      .filter((col) => !hiddenFields.includes(col.dataIndex))
+      .map(enhanceColumn);
   };
 
-  const getColumnsByUserMatchType = (userType, sessionType) => {
+  const getColumnsByUserMatchType = (currentUserType, isSession) => {
     const allColumns = [
       {
         title: "User",
         dataIndex: "userId",
         key: "userId",
+        width: 190,
+        fixed: "left",
         render: (text, record) => (
-          <span>
-            {record?.userId} ({record?.userName})
-          </span>
+          <Tooltip
+            title={`${record?.userId || "-"} (${record?.userName || "-"})`}>
+            <span className="all-details-user">
+              {record?.userId} ({record?.userName})
+            </span>
+          </Tooltip>
         ),
       },
       {
@@ -173,7 +241,6 @@ const AddDetails = ({
         dataIndex: "odds",
         key: "odds",
       },
-
       {
         title: "Amount",
         dataIndex: "stake",
@@ -183,24 +250,13 @@ const AddDetails = ({
         title: "Mode",
         dataIndex: "isBack",
         key: "isBack",
-        render: (text, record) => (
-          <span>
-            {sessionType
-              ? record?.isBack
-                ? "YES"
-                : "NOT"
-              : record?.isBack
-              ? "L"
-              : "K"}
-          </span>
-        ),
+        render: (text, record) => renderModeValue(isSession, record, true),
       },
       {
         title: "Team",
         dataIndex: "selectionName",
         key: "selectionName",
       },
-
       {
         title: "Agent",
         dataIndex: "dealerUserId",
@@ -252,43 +308,27 @@ const AddDetails = ({
         key: "adminP",
       },
       {
-        title: "AD%",
-        dataIndex: "adminP",
-        key: "adminP",
-      },
-      {
-        title: "AD%",
-        dataIndex: "adminP",
-        key: "adminP",
-      },
-      {
         title: `${data?.data?.dataList?.[0]?.team1}`,
         dataIndex: "team1Pnl",
         key: "team1Pnl",
-        render: (value) => (
-          <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
-        ),
+        render: renderPnl,
       },
       {
         title: `${data?.data?.dataList?.[0]?.team2}`,
         dataIndex: "team2Pnl",
         key: "team2Pnl",
-        render: (value) => (
-          <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
-        ),
+        render: renderPnl,
       },
       {
         title: `${data?.data?.dataList?.[0]?.team3}`,
         dataIndex: "team3Pnl",
         key: "team3Pnl",
-        render: (value) => (
-          <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
-        ),
+        render: renderPnl,
       },
     ];
 
     const hiddenFieldsByUserType = {
-      7: [], // Show all
+      7: [],
       6: ["adminUserId", "adminP"],
       5: ["adminUserId", "adminP", "subAdminUserId", "subAdminP"],
       4: [
@@ -323,14 +363,16 @@ const AddDetails = ({
       ],
     };
 
-    const hiddenFields = hiddenFieldsByUserType[userType] || [];
+    const hiddenFields = hiddenFieldsByUserType[currentUserType] || [];
 
-    return allColumns.filter(
-      (col) =>
-        !hiddenFields.includes(col.dataIndex) &&
-        col.title &&
-        String(col.title).trim() !== "null"
-    );
+    return allColumns
+      .filter(
+        (col) =>
+          !hiddenFields.includes(col.dataIndex) &&
+          col.title &&
+          String(col.title).trim() !== "null",
+      )
+      .map(enhanceColumn);
   };
 
   const teamColumns = [
@@ -338,16 +380,15 @@ const AddDetails = ({
       title: "Team",
       dataIndex: "team",
       key: "team",
-      align: "center",
+      align: "left",
+      render: renderHierarchyCell,
     },
     {
-      title: "Plus/Minus",
+      title: "Plus / Minus",
       dataIndex: "pnl",
       key: "pnl",
-      align: "center",
-      render: (value) => (
-        <span style={{ color: value >= 0 ? "green" : "red" }}>{value}</span>
-      ),
+      align: "right",
+      render: renderPnl,
     },
   ];
 
@@ -359,6 +400,7 @@ const AddDetails = ({
       ...(!sessionType ? { marketName: "BOOKMAKER" } : {}),
     });
   }, [clientId, id, sessionType, trigger]);
+
   useEffect(() => {
     if (data?.data) {
       const formatted = [
@@ -383,54 +425,114 @@ const AddDetails = ({
     }
   }, [data]);
 
+  const detailColumns = sessionType
+    ? getColumnsByUserType(userType, sessionType)
+    : getColumnsByUserMatchType(userType, sessionType);
+
   return (
     <Modal
-      title="All Details"
       className="main_modal_div all_details_data"
+      rootClassName="all-details-modal-root"
       footer={false}
       open={open}
-      width={900}
+      width="min(94vw, 1380px)"
+      centered
+      closeIcon={<CircleX size={22} strokeWidth={1.8} />}
+      title={
+        <div className="all-details-modal-title">
+          <h2>All Details</h2>
+        </div>
+      }
       onOk={() => setOpenResponsive(false)}
       onCancel={() => setOpenResponsive(false)}>
-      <div className="new_match_session">
-        <div
-          className={`match_session_sec ${!sessionType ? "active" : ""}`}
+      <div
+        className="all-details-tabs"
+        role="tablist"
+        aria-label="Details type">
+        <button
+          className={`all-details-tab ${!sessionType ? "is-active" : ""}`}
+          type="button"
+          role="tab"
+          aria-selected={!sessionType}
           onClick={() => setSessionType(false)}>
+          <Trophy size={18} strokeWidth={1.9} />
           Match
-        </div>
-        <div
-          className={`match_session_sec ${sessionType ? "active" : ""}`}
+        </button>
+        <button
+          className={`all-details-tab ${sessionType ? "is-active" : ""}`}
+          type="button"
+          role="tab"
+          aria-selected={sessionType}
           onClick={() => setSessionType(true)}>
+          <Layers3 size={18} strokeWidth={1.9} />
           Session
-        </div>
+        </button>
       </div>
 
-      {!sessionType && (
-        <Table
-          className="live_table limit_update"
-          bordered
-          columns={teamColumns}
-          dataSource={teamTableData || []}
-          pagination={false}
-        />
-      )}
+      <div className="all-details-body">
+        {!sessionType && (
+          <div className="all-details-table-card all-details-team-card">
+            <Table
+              className="all-details-table all-details-team-table"
+              columns={teamColumns}
+              dataSource={teamTableData || []}
+              loading={isLoading}
+              pagination={false}
+              locale={{
+                emptyText: (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description="No team plus/minus found"
+                  />
+                ),
+              }}
+            />
+          </div>
+        )}
 
-      <div className="table_section">
-        <Table
-          className="live_table limit_update table_v"
-          bordered
-          columns={
-            sessionType
-              ? getColumnsByUserType(userType, sessionType)
-              : getColumnsByUserMatchType(userType, sessionType)
-          }
-          dataSource={data?.data?.dataList || []}
-          rowKey={(record, index) => index}
-          rowClassName={(text, record) => (text?.isBack ? "back" : "lay")}
-        />
+        <div className="all-details-table-card">
+          <Table
+            className="live_table limit_update table_v all-details-table"
+            columns={detailColumns}
+            dataSource={data?.data?.dataList || []}
+            loading={isLoading}
+            rowKey={(record, index) => index}
+            rowClassName={(record) =>
+              record?.isBack
+                ? "all-details-row-back back"
+                : "all-details-row-lay lay"
+            }
+            scroll={{ x: sessionType ? 1120 : 1320 }}
+            locale={{
+              emptyText: (
+                <Empty
+                  image={Empty.PRESENTED_IMAGE_SIMPLE}
+                  description={
+                    sessionType
+                      ? "No session details found"
+                      : "No match details found"
+                  }
+                />
+              ),
+            }}
+            pagination={{
+              showSizeChanger: false,
+              showTotal: (total, range) =>
+                `Showing ${range[0]} to ${range[1]} of ${total} entries`,
+            }}
+          />
+        </div>
       </div>
     </Modal>
   );
+};
+
+AddDetails.propTypes = {
+  open: PropTypes.bool.isRequired,
+  setOpenResponsive: PropTypes.func.isRequired,
+  sessionType: PropTypes.bool.isRequired,
+  clientId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setSessionType: PropTypes.func.isRequired,
 };
 
 export default AddDetails;

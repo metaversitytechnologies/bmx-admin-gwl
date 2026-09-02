@@ -169,7 +169,6 @@ const MatchLedgerCasino = () => {
             </div>
           </div>
 
-          <p className="ml-swipe-hint">← Swipe to view all columns →</p>
 
           <div className="ml-table-scroll">
             {(isFetching || isLoading) && <CustomLoading />}

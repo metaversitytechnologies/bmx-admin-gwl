@@ -251,9 +251,7 @@ const SuperAgentLedger = () => {
                 </header>
 
                 <div className="admin-ledger-table-scroll">
-                  <div className="admin-ledger-mobile-hint">
-                    Swipe to view all columns
-                  </div>
+                  
                   <Table
                     className="admin-ledger-table"
                     pagination={false}

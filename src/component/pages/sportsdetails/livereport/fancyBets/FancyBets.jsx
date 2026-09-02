@@ -1,12 +1,21 @@
-import { Card, Empty, Input, Row, Select } from "antd";
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
-import { LuRefreshCw } from "react-icons/lu";
+import { Button, Card, Empty, Input, Select } from "antd";
+import {
+  ChevronDown,
+  ChevronUp,
+  FileText,
+  RefreshCw,
+  Search,
+  SlidersHorizontal,
+  Ticket,
+  WalletCards,
+} from "lucide-react";
+import PropTypes from "prop-types";
 import {
   useGetQueryMatchBetsQuery,
   useGetSessionHavingBetQuery,
   useGetSessionQureyBetQuery,
 } from "../../../../../store/service/SportDetailServices";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddDetails from "../../../GameDeatis/AddDetails";
 import { convertCode } from "../../../../../store/constant";
@@ -14,6 +23,117 @@ import {
   MATCH_BETS_POLL_MS,
   SESSION_BETS_POLL_MS,
 } from "../../../../../store/pollingIntervals";
+
+const formatDateTime = (value) => {
+  if (!value) return { date: "-", time: "" };
+  const formatted = new Date(value).toLocaleString();
+  const [date, ...timeParts] = formatted.split(",");
+  return { date, time: timeParts.join(",").trim() };
+};
+
+const formatNumber = (value) => Number(value || 0).toLocaleString("en-IN");
+
+const SummaryStrip = ({ rows, isMatchBet }) => {
+  const totals = useMemo(
+    () =>
+      rows.reduce(
+        (acc, item) => {
+          const amount = isMatchBet ? item?.stake : item?.amount;
+          acc.amount += Number(amount || 0);
+          acc.loss += Number(item?.liability || 0);
+          acc.profit += Number(item?.pnl || 0);
+          return acc;
+        },
+        { amount: 0, loss: 0, profit: 0 },
+      ),
+    [rows, isMatchBet],
+  );
+
+  return (
+    <div className="live-bets-summary-strip">
+      <div>
+        <span className="live-bets-summary-icon is-purple">
+          <Ticket size={17} strokeWidth={2} />
+        </span>
+        <p>Total Bets</p>
+        <strong>{formatNumber(rows.length)}</strong>
+      </div>
+      <div>
+        <span className="live-bets-summary-icon is-green">
+          <WalletCards size={17} strokeWidth={2} />
+        </span>
+        <p>Total Amount</p>
+        <strong>{formatNumber(totals.amount)}</strong>
+      </div>
+      <div>
+        <span className="live-bets-summary-icon is-red">
+          <TrendingLossIcon />
+        </span>
+        <p>Total Loss</p>
+        <strong>{formatNumber(totals.loss)}</strong>
+      </div>
+      <div>
+        <span className="live-bets-summary-icon is-green">
+          <TrendingProfitIcon />
+        </span>
+        <p>Total Profit</p>
+        <strong>{formatNumber(totals.profit)}</strong>
+      </div>
+    </div>
+  );
+};
+
+const TrendingLossIcon = () => (
+  <svg
+    width="17"
+    height="17"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true">
+    <path d="m3 7 6 6 4-4 8 8" />
+    <path d="M21 10v7h-7" />
+  </svg>
+);
+
+const TrendingProfitIcon = () => (
+  <svg
+    width="17"
+    height="17"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true">
+    <path d="m3 17 6-6 4 4 8-8" />
+    <path d="M14 7h7v7" />
+  </svg>
+);
+
+const TypePill = ({ children, tone }) => (
+  <span className={`live-bets-type-pill ${tone}`}>{children}</span>
+);
+
+const EmptyRow = ({ colSpan }) => (
+  <tr>
+    <td className="live-bets-empty-cell" colSpan={colSpan}>
+      <Empty
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
+        description={
+          <span>
+            <strong>No bets found</strong>
+            <small>There are no matching bets for the selected filters.</small>
+          </span>
+        }
+      />
+    </td>
+  </tr>
+);
 
 const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   const [oddsType, setOddsType] = useState("Bookmaker");
@@ -26,7 +146,11 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
   const [clientId, setClientId] = useState("");
   const { id } = useParams();
 
-  const { data: matchBets } = useGetQueryMatchBetsQuery(
+  const {
+    data: matchBets,
+    isFetching: isFetchingMatchBets,
+    refetch: refetchMatchBets,
+  } = useGetQueryMatchBetsQuery(
     {
       matchId: id,
       userId: "",
@@ -40,7 +164,11 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
     matchCompleted: false,
     matchId: id ?? "",
   });
-  const { data: sessionData } = useGetSessionQureyBetQuery(
+  const {
+    data: sessionData,
+    isFetching: isFetchingSessionBets,
+    refetch: refetchSessionBets,
+  } = useGetSessionQureyBetQuery(
     {
       matchId: id,
       userId: "",
@@ -50,292 +178,237 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
     { pollingInterval: SESSION_BETS_POLL_MS },
   );
 
-  const filteredAllOdds =
-    matchBets?.data?.bookmaker?.betList?.filter(
-      (item) =>
-        item?.username?.toLowerCase().includes(searchTermOdds.toLowerCase()) ||
-        item?.userId?.toString().includes(searchTermOdds),
-    ) || [];
-  const filteredAllfancy =
-    sessionData?.data?.filter(
-      (item) =>
-        item?.username?.toLowerCase().includes(searchTermfancy.toLowerCase()) ||
-        item?.userId?.toString().includes(searchTermfancy),
-    ) || [];
+  const matchRows = matchBets?.data?.bookmaker?.betList || [];
+  const fancyRows = sessionData?.data || [];
+  const filteredAllOdds = matchRows.filter(
+    (item) =>
+      item?.username?.toLowerCase().includes(searchTermOdds.toLowerCase()) ||
+      item?.userId?.toString().includes(searchTermOdds),
+  );
+  const filteredAllfancy = fancyRows.filter(
+    (item) =>
+      item?.username?.toLowerCase().includes(searchTermfancy.toLowerCase()) ||
+      item?.userId?.toString().includes(searchTermfancy),
+  );
+  const activeRows = showMatchBet === 1 ? filteredAllOdds : filteredAllfancy;
+
+  const handleOpenDetail = (item, isSession) => {
+    setOpenResponsive(true);
+    setSessionType(isSession);
+    setClientId(item.userId);
+  };
+
+  const handleRefresh = () => {
+    if (showMatchBet === 1) {
+      refetchMatchBets();
+    } else {
+      refetchSessionBets();
+    }
+  };
 
   return (
     <>
-      <Row
-        justify="start"
-        align="middle"
-        style={{
-          backgroundColor: "#000",
-          marginTop: "10px",
-          justifyContent: "space-between",
-        }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            onClick={() => {
-              setShowMatchBet(1);
-              setBetsData(true);
-              setFancyId("");
-            }}
-            style={{
-              background:
-                showMatchBet === 1 ? "var(--bg-color)" : "var(--fancy-tab)",
-              color: "#fff",
-              padding: "12px",
-              fontWeight: 600,
-              cursor: "pointer",
-              marginRight: "3px",
-              borderTopLeftRadius: "8px",
-              borderTopRightRadius: "8px",
-            }}>
-            Match Bet ({matchBets?.data?.bookmaker?.betList?.length || 0})
+      <section className="live-bets-workspace">
+        <div className="live-bets-topbar">
+          <div className="live-bets-tabs" role="tablist" aria-label="Bet type">
+            <button
+              className={`live-bets-tab${showMatchBet === 1 ? " is-active" : ""}`}
+              type="button"
+              role="tab"
+              aria-selected={showMatchBet === 1}
+              onClick={() => {
+                setShowMatchBet(1);
+                setBetsData(true);
+                setFancyId("");
+              }}>
+              <Ticket size={17} strokeWidth={2} />
+              <span>Match Bet</span>
+              <b>{matchRows.length || 0}</b>
+            </button>
+            <button
+              className={`live-bets-tab${showMatchBet === 2 ? " is-active" : ""}`}
+              type="button"
+              role="tab"
+              aria-selected={showMatchBet === 2}
+              onClick={() => {
+                setShowMatchBet(2);
+                setBetsData(true);
+                setFancyId("");
+              }}>
+              <WalletCards size={17} strokeWidth={2} />
+              <span>Fancy Bet</span>
+              <b>{fancyRows.length || 0}</b>
+            </button>
           </div>
-          <div
-            onClick={() => {
-              setShowMatchBet(2);
-              setBetsData(true);
-              setFancyId("");
-            }}
-            style={{
-              background:
-                showMatchBet === 2 ? "var(--bg-color)" : "var(--fancy-tab)",
-              color: "#fff",
-              padding: "12px",
-              fontWeight: 600,
-              cursor: "pointer",
-              borderTopLeftRadius: "8px",
-              borderTopRightRadius: "8px",
-            }}>
-            Fancy Bet ({sessionData?.data?.length || 0})
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            marginRight: "3px",
-          }}>
-          <div
-            onClick={() => setBetsData(!betsDataShow)}
-            style={{
-              background: "var(--bg-color)",
-              color: "#fff",
-              fontWeight: 600,
-              cursor: "pointer",
-              fontSize: "24px",
-              padding: "0px 8px",
-              float: "right",
-              lineHeight: "38px",
-              verticalAlign: "moddle",
-            }}>
-            {betsDataShow ? (
-              <TiArrowSortedUp
-                style={{ lineHeight: "10px", verticalAlign: "middle" }}
-              />
-            ) : (
-              <TiArrowSortedDown
-                style={{ lineHeight: "10px", verticalAlign: "middle" }}
-              />
-            )}
-          </div>
-          <div
-            onClick={() => setShowMatchBet(2)}
-            style={{
-              background: "var(--bg-color)",
-              color: "#fff",
-              fontWeight: 600,
-              cursor: "pointer",
-              fontSize: "20px",
-              padding: "0px 8px",
-              float: "right",
-              lineHeight: "38px",
-              verticalAlign: "moddle",
-            }}>
-            <LuRefreshCw
-              style={{
-                lineHeight: "10px",
-                verticalAlign: "middle",
-                margin: "0",
-              }}
+
+          <div className="live-bets-actions">
+            <Button
+              className="live-bets-icon-button"
+              htmlType="button"
+              aria-label={betsDataShow ? "Collapse bets" : "Expand bets"}
+              icon={
+                betsDataShow ? (
+                  <ChevronUp size={17} strokeWidth={2} />
+                ) : (
+                  <ChevronDown size={17} strokeWidth={2} />
+                )
+              }
+              onClick={() => setBetsData(!betsDataShow)}
             />
+            <Button
+              className={`live-bets-icon-button live-bets-refresh${
+                isFetchingMatchBets || isFetchingSessionBets
+                  ? " is-loading"
+                  : ""
+              }`}
+              htmlType="button"
+              aria-label="Refresh bets"
+              icon={<RefreshCw size={17} strokeWidth={2} />}
+              onClick={handleRefresh}
+            />
+            <Button
+              className="approved-primary-button live-bets-pdf-button"
+              htmlType="button"
+              icon={<FileText size={16} strokeWidth={2} />}>
+              PDF
+            </Button>
           </div>
         </div>
-      </Row>
-      {betsDataShow && (
-        <>
-          {showMatchBet === 1 && (
-            <Card
-              style={{
-                margin: "0px",
-                width: "100%",
-              }}
-              className="sport_detail matched_bets">
-              <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-                {/* Match Bets - {filteredAllOdds?.length || 0} */}
 
-                <div
-                  className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}>
-                  <Input
-                    placeholder="Search Client..."
-                    value={searchTermOdds}
-                    onChange={(e) => setSearchTermOdds(e.target.value)}
-                  />
-                  <span className=" gx-font-weight-semi-bold OddsType">
-                    OddsType
-                  </span>
-                  <Select
-                    style={{ width: 150 }}
-                    defaultValue="All OddsType"
-                    value={oddsType}
-                    onChange={(value) => setOddsType(value)}
-                    options={[
-                      // {
-                      //   value: "All",
-                      //   label: "All OddsType",
-                      // },
-                      {
-                        value: "Bookmaker",
-                        label: "Bookmaker",
-                      },
-                    ]}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-                  <span className="ml-1 px-1">PDF</span>
-                </button>
-              </div>
+        {betsDataShow && (
+          <Card
+            style={{
+              margin: "0px",
+              width: "100%",
+            }}
+            className="sport_detail matched_bets live-bets-card">
+            <div className="live-bets-filterbar">
+              <Input
+                className="live-bets-search"
+                prefix={<Search size={17} strokeWidth={1.9} />}
+                placeholder="Search Client..."
+                value={showMatchBet === 1 ? searchTermOdds : searchTermfancy}
+                onChange={(e) =>
+                  showMatchBet === 1
+                    ? setSearchTermOdds(e.target.value)
+                    : setSearchTermfancy(e.target.value)
+                }
+              />
+              <Select
+                className="live-bets-select"
+                suffixIcon={<ChevronDown size={16} strokeWidth={2} />}
+                value={showMatchBet === 1 ? oddsType : fancyId}
+                onChange={(value) =>
+                  showMatchBet === 1 ? setOddsType(value) : setFancyId(value)
+                }
+                options={
+                  showMatchBet === 1
+                    ? [{ value: "Bookmaker", label: "BOOKMAKER" }]
+                    : [
+                        { value: "", label: "All Fancies" },
+                        ...(sessionBets?.data || []).map((item) => ({
+                          value: item.fancyId,
+                          label: item.fancyName,
+                        })),
+                      ]
+                }
+              />
+            </div>
 
-              <div
-                className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white"
-                style={{
-                  gap: "12px",
-                }}>
-                <div>
-                  <div
-                    style={{ textAlign: "center", textTransform: "uppercase" }}>
-                    {/* Match Bets - {filteredAllOdds?.length || 0} */}
-                    &nbsp;
-                  </div>
-                  <div className="  gx-text-white gx-text-uppercase">
-                    <Input
-                      style={{ height: "32px" }}
-                      placeholder="Search Client..."
-                      value={searchTermOdds}
-                      onChange={(e) => setSearchTermOdds(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div
-                    style={{ textAlign: "center", textTransform: "uppercase" }}
-                    className=" gx-font-weight-semi-bold OddsType">
-                    OddsType
-                  </div>
-                  <Select
-                    style={{ width: 150 }}
-                    defaultValue="All OddsType"
-                    value={oddsType}
-                    onChange={(value) => setOddsType(value)}
-                    options={[
-                      // {
-                      //   value: "All",
-                      //   label: "All OddsType",
-                      // },
-                      {
-                        value: "Bookmaker",
-                        label: "Bookmaker",
-                      },
-                    ]}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-                  <span className="ml-1 px-1">PDF</span>
-                </button>
-              </div>
+            {activeRows.length > 0 && (
+              <SummaryStrip rows={activeRows} isMatchBet={showMatchBet === 1} />
+            )}
 
-              <div className="table_section">
-                <div className="table_section">
-                  <table className="">
+            <div className="live-bets-table-card">
+              <div className="live-bets-table-scroll">
+                {showMatchBet === 1 ? (
+                  <table className="live-bets-table">
                     <thead>
                       <tr>
-                        <th>Client</th>
-
-                        <th>Rate</th>
-                        <th>Amount</th>
+                        <th>
+                          <SlidersHorizontal size={15} strokeWidth={2} />
+                          Client
+                        </th>
+                        <th className="text-right">Rate</th>
+                        <th className="text-right">Amount</th>
                         <th>Type</th>
                         <th>Odds Type</th>
                         <th>Team</th>
                         <th>Agent</th>
                         <th>Date</th>
-                        <th>Loss</th>
-                        <th>Profit</th>
+                        <th className="text-right">Loss</th>
+                        <th className="text-right">Profit</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredAllOdds?.length > 0 ? (
-                        filteredAllOdds?.map((item, index) => (
-                          <tr
-                            key={index}
-                            className={
-                              item?.mode == "K"
-                                ? "matchdtailsYesBackground"
-                                : "matchdtailsNoBack"
-                            }>
-                            <td
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                setOpenResponsive(true);
-                                setSessionType(false);
-                                setClientId(item.userId);
-                              }}>
-                              {item?.username} ({item?.userId})
-                            </td>
-                            <td>{item?.odds}</td>
-                            <td>{item?.stake}</td>
-                            <td>{item?.mode == "K" ? "Lagai" : "Khai"}</td>
-                            <td>{item?.marketType}</td>
-                            <td>{item?.team}</td>
-                            <td>
-                              {item?.parentName} ({convertCode(item?.parentId)})
-                            </td>
-                            <td>{new Date(item?.date).toLocaleString()}</td>
-                            <td>{item?.liability}</td>
-                            <td>{item?.pnl}</td>
-                          </tr>
-                        ))
+                      {filteredAllOdds.length > 0 ? (
+                        filteredAllOdds.map((item, index) => {
+                          const dateTime = formatDateTime(item?.date);
+                          const isLagai = item?.mode == "K";
+                          return (
+                            <tr
+                              key={`${item?.userId}-${item?.date}-${index}`}
+                              className={
+                                isLagai
+                                  ? "matchdtailsYesBackground live-bets-row-lagai"
+                                  : "matchdtailsNoBack live-bets-row-khai"
+                              }>
+                              <td
+                                className="live-bets-client-cell"
+                                onClick={() => handleOpenDetail(item, false)}>
+                                {item?.username} <span>({item?.userId})</span>
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.odds}
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.stake}
+                              </td>
+                              <td>
+                                <TypePill
+                                  tone={isLagai ? "is-lagai" : "is-khai"}>
+                                  {isLagai ? "Lagai" : "Khai"}
+                                </TypePill>
+                              </td>
+                              <td>{item?.marketType}</td>
+                              <td className="live-bets-wrap-cell">
+                                {item?.team}
+                              </td>
+                              <td className="live-bets-wrap-cell">
+                                {item?.parentName} (
+                                {convertCode(item?.parentId)})
+                              </td>
+                              <td>
+                                <span className="live-bets-date">
+                                  {dateTime.date}
+                                  {dateTime.time && (
+                                    <small>{dateTime.time}</small>
+                                  )}
+                                </span>
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.liability}
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.pnl}
+                              </td>
+                            </tr>
+                          );
+                        })
                       ) : (
-                        <tr>
-                          <td
-                            colSpan="10"
-                            style={{ textAlign: "center", padding: "2rem" }}>
-                            <Empty description="No Data Available" />
-                          </td>
-                        </tr>
+                        <EmptyRow colSpan={10} />
                       )}
-                      {matchBets?.data?.bookmaker?.betList?.length > 0 && (
-                        <tr>
+                      {matchRows.length > 0 && (
+                        <tr className="live-bets-total-row">
                           <td colSpan={8}>Total</td>
-                          <td>
-                            {matchBets?.data?.bookmaker?.betList?.reduce(
+                          <td className="text-right live-bets-num">
+                            {matchRows.reduce(
                               (acc, item) => acc + item.liability,
                               0,
                             ) || 0}
                           </td>
-                          <td>
-                            {matchBets?.data?.bookmaker?.betList?.reduce(
+                          <td className="text-right live-bets-num">
+                            {matchRows.reduce(
                               (acc, item) => acc + item.pnl,
                               0,
                             ) || 0}
@@ -344,167 +417,87 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                       )}
                     </tbody>
                   </table>
-                </div>
-              </div>
-            </Card>
-          )}
-          {showMatchBet === 2 && (
-            <Card
-              style={{
-                margin: "0px",
-                width: "100%",
-              }}
-              className="sport_detail matched_bets">
-              <div className="deskOpen gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-                <Input
-                  style={{ width: "200px" }}
-                  placeholder="Search Client..."
-                  value={searchTermfancy}
-                  onChange={(e) => setSearchTermfancy(e.target.value)}
-                />
-                <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
-                  <span className=" gx-font-weight-semi-bold OddsType">
-                    OddsType
-                  </span>
-                  <Select
-                    style={{ width: 150 }}
-                    defaultValue="All OddsType"
-                    value={fancyId}
-                    onChange={(value) => setFancyId(value)}
-                    options={[
-                      { value: "", label: "All Fancies" },
-                      ...(sessionBets?.data || []).map((item) => ({
-                        value: item.fancyId,
-                        label: item.fancyName,
-                      })),
-                    ]}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-                  <span className="ml-1 px-1">PDF</span>
-                </button>
-              </div>
-
-              <div className="mobile-open gx-bg-grey gx-w-100 gx-bg-flex gx-align-items-center gx-px-2 gx-py-2  gx-text-white">
-                <div>
-                  <div
-                    style={{ textAlign: "center", textTransform: "uppercase" }}>
-                    {/* Fancy Bets - {filteredAllfancy?.length || 0} */}
-                    &nbsp;
-                  </div>
-
-                  <Input
-                    style={{ width: "150px", height: "33px" }}
-                    placeholder="Search Client..."
-                    value={searchTermfancy}
-                    onChange={(e) => setSearchTermfancy(e.target.value)}
-                  />
-                </div>
-                <div className=" gx-py-2 gx-px-1  gx-text-white gx-text-uppercase">
-                  <div
-                    style={{ textAlign: "center" }}
-                    className=" gx-font-weight-semi-bold OddsType">
-                    OddsType
-                  </div>
-                  <Select
-                    style={{ width: 150 }}
-                    defaultValue="All OddsType"
-                    value={fancyId}
-                    onChange={(value) => setFancyId(value)}
-                    options={[
-                      { value: "", label: "All Fancies" },
-                      ...(sessionBets?.data || []).map((item) => ({
-                        value: item.fancyId,
-                        label: item.fancyName,
-                      })),
-                    ]}
-                  />
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "4px",
-                  }}>
-                  <button
-                    type="button"
-                    className="ant-btn ant-btn-primary gx-border-redius0 gx-bg-flex gx-align-items-center">
-                    <span className="ml-1 px-1">PDF</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="table_section">
-                <div className="table_section">
-                  <table className="">
+                ) : (
+                  <table className="live-bets-table">
                     <thead>
                       <tr>
-                        <th>Client</th>
-                        <th>Rate</th>
-                        <th>Run</th>
-                        <th>Amount</th>
+                        <th>
+                          <SlidersHorizontal size={15} strokeWidth={2} />
+                          Client
+                        </th>
+                        <th className="text-right">Rate</th>
+                        <th className="text-right">Run</th>
+                        <th className="text-right">Amount</th>
                         <th>Type</th>
                         <th>Team</th>
                         <th>Agent</th>
                         <th>Date</th>
-                        <th>Loss</th>
-                        <th>Profit</th>
+                        <th className="text-right">Loss</th>
+                        <th className="text-right">Profit</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {filteredAllfancy?.length > 0 ? (
-                        filteredAllfancy?.map((item, index) => (
-                          <tr
-                            key={index}
-                            className={
-                              item?.mode === "YES"
-                                ? "matchdtailsYesBackground"
-                                : "matchdtailsNoBack"
-                            }>
-                            <td
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                setOpenResponsive(true);
-                                setSessionType(true);
-                                setClientId(item.userId);
-                              }}>
-                              {item?.username} ({item?.userId})
-                            </td>
-                            <td>{item?.rate}</td>
-                            <td>{item?.run}</td>
-                            <td>{item?.amount}</td>
-                            <td>{item?.mode}</td>
-                            <td>{item?.selectionName}</td>
-
-                            <td>
-                              {item?.parentName} ({item?.parentId})
-                            </td>
-                            <td>{item?.time}</td>
-                            <td>{item?.liability}</td>
-                            <td>{item?.pnl}</td>
-                          </tr>
-                        ))
+                      {filteredAllfancy.length > 0 ? (
+                        filteredAllfancy.map((item, index) => {
+                          const isYes = item?.mode === "YES";
+                          return (
+                            <tr
+                              key={`${item?.userId}-${item?.time}-${index}`}
+                              className={
+                                isYes
+                                  ? "matchdtailsYesBackground live-bets-row-lagai"
+                                  : "matchdtailsNoBack live-bets-row-khai"
+                              }>
+                              <td
+                                className="live-bets-client-cell"
+                                onClick={() => handleOpenDetail(item, true)}>
+                                {item?.username} <span>({item?.userId})</span>
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.rate}
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.run}
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.amount}
+                              </td>
+                              <td>
+                                <TypePill tone={isYes ? "is-lagai" : "is-khai"}>
+                                  {item?.mode}
+                                </TypePill>
+                              </td>
+                              <td className="live-bets-wrap-cell">
+                                {item?.selectionName}
+                              </td>
+                              <td className="live-bets-wrap-cell">
+                                {item?.parentName} ({item?.parentId})
+                              </td>
+                              <td>
+                                <span className="live-bets-date">
+                                  {item?.time}
+                                </span>
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.liability}
+                              </td>
+                              <td className="text-right live-bets-num">
+                                {item?.pnl}
+                              </td>
+                            </tr>
+                          );
+                        })
                       ) : (
-                        <tr>
-                          <td
-                            colSpan="10"
-                            style={{ textAlign: "center", padding: "2rem" }}>
-                            <Empty description="No Data Available" />
-                          </td>
-                        </tr>
+                        <EmptyRow colSpan={10} />
                       )}
                     </tbody>
                   </table>
-                </div>
+                )}
               </div>
-            </Card>
-          )}
-        </>
-      )}
+            </div>
+          </Card>
+        )}
+      </section>
       <AddDetails
         clientId={clientId}
         sessionType={sessionType}
@@ -514,6 +507,27 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
       />
     </>
   );
+};
+
+SummaryStrip.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isMatchBet: PropTypes.bool.isRequired,
+};
+
+TypePill.propTypes = {
+  children: PropTypes.node,
+  tone: PropTypes.string.isRequired,
+};
+
+EmptyRow.propTypes = {
+  colSpan: PropTypes.number.isRequired,
+};
+
+FancyBets.propTypes = {
+  setFancyId: PropTypes.func.isRequired,
+  fancyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setShowMatchBet: PropTypes.func.isRequired,
+  showMatchBet: PropTypes.number.isRequired,
 };
 
 export default FancyBets;

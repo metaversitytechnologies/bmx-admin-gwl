@@ -1,5 +1,14 @@
-import { Button, Card, Modal,  Table } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Button, Empty, Modal, Table } from "antd";
+import {
+  CalendarDays,
+  CircleX,
+  History,
+  TrendingDown,
+  TrendingUp,
+  UserRound,
+  X,
+} from "lucide-react";
+import PropTypes from "prop-types";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
 
 const CommissionModal = ({
@@ -8,16 +17,19 @@ const CommissionModal = ({
   commHistory,
   isLoading,
 }) => {
-  const nav = useNavigate();
-
   const columns = [
     {
-      title: "DATE",
+      title: (
+        <span className="commission-modal-head-label">
+          <CalendarDays size={14} strokeWidth={2} />
+          Date & Time
+        </span>
+      ),
       dataIndex: "date",
       key: "date",
-      onCell: () => ({ style: { whiteSpace: "nowrap" } }),
+      className: "commission-modal-date-cell",
       render: (text) => (
-        <span className="ellipsis-text" title={text}>
+        <span className="commission-modal-date" title={text}>
           {text}
         </span>
       ),
@@ -26,57 +38,87 @@ const CommissionModal = ({
       title: "M Comm",
       dataIndex: "matchComm",
       key: "matchComm",
+      align: "center",
+      render: (value) => (
+        <span className="commission-modal-value is-mila">
+          {Number(value || 0).toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "S Comm",
       dataIndex: "sessionComm",
       key: "sessionComm",
+      align: "center",
+      render: (value) => (
+        <span className="commission-modal-value is-neutral">
+          {Number(value || 0).toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "C Comm",
       dataIndex: "casinocomm",
       key: "casinocomm",
+      align: "center",
+      render: (value) => (
+        <span className="commission-modal-value is-bacha">
+          {Number(value || 0).toFixed(2)}
+        </span>
+      ),
     },
     {
       title: "Done By",
       dataIndex: "resettingCommReportUserId",
       key: "resettingCommReportUserId",
+      render: (value) => (
+        <span className="commission-modal-user">
+          <UserRound size={14} strokeWidth={2} />
+          {value || "--"}
+        </span>
+      ),
     },
   ];
-  const handleBackClick = () => {
-    nav(-1);
-  };
+
   return (
     <Modal
-      width={800}
+      width="min(1180px, calc(100vw - 48px))"
       onCancel={() => setOpenModals(false)}
-      className="modal_deposit ant_modal_commfooter"
+      className="modal_deposit commission-modal-shell commission-history-modal"
+      rootClassName="commission-modal-root"
+      maskStyle={{ backdropFilter: "blur(3px)" }}
       title={
-        <h1>
-          <span>Commission Modal</span>
-        </h1>
+        <div className="commission-modal-titlebar">
+          <span className="commission-modal-icon">
+            <History size={24} strokeWidth={2} />
+          </span>
+          <div>
+            <h2>Commission History</h2>
+            <p>Detailed commission lena / dena history</p>
+          </div>
+        </div>
       }
       footer={
-        <Button
-          onClick={() => setOpenModals(false)}
-          className="ant-btn gx-bg-grey ant-modal-footer ant-btn-default">
-          Close
-        </Button>
+        <div className="commission-modal-footer">
+          <span className="commission-modal-note">
+            All amounts are shown in your default currency.
+          </span>
+          <Button
+            onClick={() => setOpenModals(false)}
+            className="approved-primary-button commission-modal-close">
+            <CircleX size={16} strokeWidth={2} />
+            Close
+          </Button>
+        </div>
       }
-      closable={{ "aria-label": "Custom Close Button" }}
+      closeIcon={<X aria-label="Close" size={22} strokeWidth={1.8} />}
       open={openModal}>
-      <div className="match_slip">
-        <Card
-          style={{ margin: 0, width: "100%" }}
-          className="sport_detail"
-          title="Comm Lena Dena History">
-          <div className="table_section comm_dsata_table">
+      <div className="commission-modal-body">
+        <div className="commission-modal-table-card">
+         
+          <div className="commission-modal-table-scroll">
             <Table
-              className="live_table acc_tabel limit_update"
-              bordered
-              rowClassName={(record) =>
-                record?.pnl < 0 ? "red_back" : "green_back"
-              }
+              className="commission-simple-table"
               columns={columns}
               loading={{
                 spinning: isLoading,
@@ -84,12 +126,50 @@ const CommissionModal = ({
               }}
               dataSource={commHistory || []}
               pagination={false}
+              rowKey={(record, index) =>
+                `${record?.date || "commission"}-${index}`
+              }
+              locale={{
+                emptyText: (
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={
+                      <span className="commission-modal-empty-copy">
+                        <strong>No commission history found</strong>
+                        <small>
+                          There are no commission transactions available for
+                          this selection.
+                        </small>
+                      </span>
+                    }
+                  />
+                ),
+              }}
             />
           </div>
-        </Card>
+          {(commHistory || []).length > 0 && (
+            <div className="commission-modal-legend">
+              <span>
+                <TrendingUp size={14} strokeWidth={2} />
+                Mila values
+              </span>
+              <span>
+                <TrendingDown size={14} strokeWidth={2} />
+                Dena values
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </Modal>
   );
+};
+
+CommissionModal.propTypes = {
+  openModal: PropTypes.bool,
+  setOpenModals: PropTypes.func.isRequired,
+  commHistory: PropTypes.array,
+  isLoading: PropTypes.bool,
 };
 
 export default CommissionModal;

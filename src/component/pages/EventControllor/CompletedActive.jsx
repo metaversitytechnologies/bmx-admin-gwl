@@ -38,7 +38,6 @@ const CompletedActive = () => {
         />
       </div>
 
-      <div className="rollback-mobile-hint">← Swipe to view all columns →</div>
       <div className="table_section rollback-table-viewport">
         <table className="ant-spin-nested-loading rollback-table completed-active-table">
           <thead>

@@ -123,7 +123,6 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
           </Button>
         </div>
       </div>
-      <div className="atx-mobile-table-hint">← Swipe to view all columns →</div>
       <div className="table_section approved-data-table atx-table-card">
         <table>
           <thead>

@@ -245,13 +245,6 @@ const GameDeatis = () => {
                 fancyId={fancyId}
               />
               <CompletedFancy />
-              {/* <Row justify="center" className="gx-px-0 gx-py-0 gx-my-1">
-                <button
-                  type="button"
-                  className="ant-btn ant-btn-default gx-my-0  gx-bg-grey gx-text-white gx-font-weight-semi-bold ">
-                  <span>All Matches</span>
-                </button>
-              </Row> */}
             </div>
           </Col>
         </Row>

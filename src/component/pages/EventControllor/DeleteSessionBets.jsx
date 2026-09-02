@@ -171,7 +171,7 @@ const DeleteSessionBets = () => {
       </div>
 
       {/* Table Section */}
-      <div className="delete-bet-mobile-hint">← Swipe to view all columns →</div>
+      
       <div className="table_section delete-bet-table-viewport">
         <table className="ant-spin-nested-loading delete-bet-detail-table">
           <thead>

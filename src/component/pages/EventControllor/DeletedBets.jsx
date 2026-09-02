@@ -80,9 +80,7 @@ const DeletedBets = () => {
         />
       </div>
 
-      <div className="deleted-bets-mobile-hint">
-        ← Swipe to view all columns →
-      </div>
+      
       <div className="table_section deleted-bets-table-viewport">
         <table className="ant-spin-nested-loading deleted-bets-table">
           <thead>

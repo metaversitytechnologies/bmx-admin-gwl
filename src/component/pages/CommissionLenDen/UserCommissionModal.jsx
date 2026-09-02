@@ -1,7 +1,28 @@
-import { Button, Card, Empty, Modal } from "antd";
+import { Button, Empty, Modal } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import {
+  CircleX,
+  HandCoins,
+  PieChart,
+  TrendingDown,
+  TrendingUp,
+  X,
+} from "lucide-react";
+import PropTypes from "prop-types";
 import CustomLoading from "../../common/CustomLoading/CustomLoading";
+
+const INITIAL_TOTALS = {
+  mMatch: 0,
+  mSession: 0,
+  mCasino: 0,
+  mTotal: 0,
+  dMatch: 0,
+  dSession: 0,
+  dCasino: 0,
+  dTotal: 0,
+  left: 0,
+};
 
 const UserCommissionModal = ({
   openModal,
@@ -9,19 +30,7 @@ const UserCommissionModal = ({
   commissionDate,
   loading,
 }) => {
-  const initialTotals = {
-    mMatch: 0,
-    mSession: 0,
-    mCasino: 0,
-    mTotal: 0,
-    dMatch: 0,
-    dSession: 0,
-    dCasino: 0,
-    dTotal: 0,
-    left: 0,
-  };
-
-  const [totals, setTotals] = useState(initialTotals);
+  const [totals, setTotals] = useState(INITIAL_TOTALS);
 
   useEffect(() => {
     if (commissionDate?.length > 0) {
@@ -40,109 +49,161 @@ const UserCommissionModal = ({
           acc.left += cur.leftCommission || 0;
           return acc;
         },
-        { ...initialTotals }
+        { ...INITIAL_TOTALS },
       );
       setTotals(calc);
     } else {
-      setTotals(initialTotals);
+      setTotals(INITIAL_TOTALS);
     }
   }, [commissionDate]);
 
   const mTotalData = totals.mMatch + totals.mSession + totals.mCasino;
   const dTotalData = totals.dMatch + totals.dSession + totals.dCasino;
+  const balanceTotal = mTotalData - dTotalData;
 
   return (
     <Modal
-      width={800}
+      width="min(1180px, calc(100vw - 48px))"
       open={openModal}
       onCancel={() => setOpenModals(false)}
-      className="modal_deposit"
+      className="modal_deposit commission-modal-shell commission-detail-modal"
+      rootClassName="commission-modal-root"
+      maskStyle={{ backdropFilter: "blur(3px)" }}
       title={
-        <h1>
-          <span>Commission Modal</span>
-        </h1>
+        <div className="commission-modal-titlebar">
+          <span className="commission-modal-icon">
+            <HandCoins size={24} strokeWidth={2} />
+          </span>
+          <div>
+            <h2>Commission Details</h2>
+            <p>Review commission lena / dena breakdown</p>
+          </div>
+        </div>
       }
       footer={
-        <Button
-          onClick={() => setOpenModals(false)}
-          className="ant-btn gx-bg-grey ant-modal-footer commission_btn ant-btn-default">
-          Close
-        </Button>
+        <div className="commission-modal-footer">
+          <span className="commission-modal-note">
+            All commission fields remain available on smaller screens.
+          </span>
+          <Button
+            onClick={() => setOpenModals(false)}
+            className="approved-primary-button commission-modal-close">
+            <CircleX size={16} strokeWidth={2} />
+            Close
+          </Button>
+        </div>
       }
-      closable={{ "aria-label": "Custom Close Button" }}>
+      closeIcon={<X aria-label="Close" size={22} strokeWidth={1.8} />}>
       {loading && <CustomLoading />}
-      <div
-        className="match_slip"
-        style={{
-          position: "relative",
-          maxHeight: "400px",
-          overflow: "scroll",
-        }}>
-        <Card
-          style={{ margin: "0px", width: "100%" }}
-          className="sport_detail team_name">
-          <div className="table_section statement_tabs_data ant-spin-nested-loading">
-            <table className="live_table login_data_table">
+      <div className="commission-modal-body">
+        {commissionDate?.length > 0 && (
+          <div className="commission-detail-summary">
+            <div>
+              <span className="summary-icon is-mila">
+                <TrendingUp size={18} strokeWidth={2.1} />
+              </span>
+              <p>Mila Hai</p>
+              <strong className="commission-value-success">
+                {mTotalData.toFixed(2)}
+              </strong>
+            </div>
+            <div>
+              <span className="summary-icon is-dena">
+                <TrendingDown size={18} strokeWidth={2.1} />
+              </span>
+              <p>Dena Hai</p>
+              <strong className="commission-value-danger">
+                {dTotalData.toFixed(2)}
+              </strong>
+            </div>
+            <div>
+              <span className="summary-icon is-bacha">
+                <PieChart size={18} strokeWidth={2.1} />
+              </span>
+              <p>Bacha Hai</p>
+              <strong
+                className={
+                  balanceTotal < 0
+                    ? "commission-value-danger"
+                    : "commission-value-bacha"
+                }>
+                {balanceTotal.toFixed(2)}
+              </strong>
+            </div>
+          </div>
+        )}
+
+        <div className="commission-modal-table-card">
+          <div className="commission-modal-table-scroll">
+            <table className="live_table login_data_table commission-table commission-modal-grouped-table">
               <thead>
-                <tr>
-                  <th style={{ textAlign: "center" }} colSpan={6}>
+                <tr className="commission-group-row">
+                  <th className=" commission-group-name"></th>
+                  <th
+                    className="text-center commission-group-label"
+                    colSpan={5}>
                     Mila Hai
                   </th>
-                  <th style={{ textAlign: "center" }} colSpan={4}>
+                  <th
+                    className="text-center commission-group-label commission-group-dena"
+                    colSpan={4}>
                     Dena Hai
                   </th>
-                  <th>Bacha Hai</th>
+                  <th className="text-center commission-group-label commission-group-bacha">
+                    Bacha Hai
+                  </th>
                 </tr>
                 <tr>
-                  <th>Name</th>
-                  <th>Date</th>
-                  <th>M.Comm.</th>
-                  <th>S.Comm.</th>
-                  <th>C.Comm.</th>
-                  <th>T.Comm.</th>
-                  <th>M.Comm.</th>
-                  <th>S.Comm.</th>
-                  <th>C.Comm.</th>
-                  <th>T.Comm.</th>
-                  <th>Comm.</th>
+                  <th className=" commission-name-head">Name</th>
+                  <th className="text-center">Date</th>
+                  <th className="text-center">M.Comm.</th>
+                  <th className="text-center">S.Comm.</th>
+                  <th className="text-center">C.Comm.</th>
+                  <th className="text-center">T.Comm.</th>
+                  <th className="text-center">M.Comm.</th>
+                  <th className="text-center">S.Comm.</th>
+                  <th className="text-center">C.Comm.</th>
+                  <th className="text-center">T.Comm.</th>
+                  <th className="text-center">Comm.</th>
                 </tr>
               </thead>
 
               <tbody>
                 {commissionDate?.length > 0 && (
-                  <tr style={{ background: "#000" }}>
+                  <tr className="commission-total-row">
+                    <td className=" commission-name-cell">Total</td>
                     <td></td>
-                    <td></td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-success">
                       {totals.mMatch.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-success">
                       {totals.mSession.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-success">
                       {totals.mCasino.toFixed(2)}
                     </td>
-                    <td style={{ color: "green", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-success">
                       {mTotalData.toFixed(2)}
                     </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-danger">
                       {totals.dMatch.toFixed(2)}
                     </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-danger">
                       {totals.dSession.toFixed(2)}
                     </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-danger">
                       {totals.dCasino.toFixed(2)}
                     </td>
-                    <td style={{ color: "red", fontWeight: 600 }}>
+                    <td className="commission-value commission-value-danger">
                       {dTotalData.toFixed(2)}
                     </td>
                     <td
-                      style={{
-                        color: mTotalData - dTotalData < 0 ? "red" : "green",
-                        fontWeight: 600,
-                      }}>
-                      {(mTotalData - dTotalData).toFixed(2)}
+                      className={`commission-value ${
+                        balanceTotal < 0
+                          ? "commission-value-danger"
+                          : "commission-value-bacha"
+                      }`}>
+                      {balanceTotal.toFixed(2)}
                     </td>
                   </tr>
                 )}
@@ -163,43 +224,46 @@ const UserCommissionModal = ({
 
                     return (
                       <tr key={idx}>
-                        <td style={{ fontWeight: 600 }}>{item.matchName}</td>
-                        <td style={{ fontWeight: 600, whiteSpace: "nowrap" }}>
+                        <td className="commission-sticky-cell commission-name-cell">
+                          {item.matchName}
+                        </td>
+                        <td className="commission-date-cell">
                           {item.date
                             ? moment(new Date(item.date)).format(
-                                "DD-MM-YYYY hh:mm A"
+                                "DD-MM-YYYY hh:mm A",
                               )
                             : "--"}
                         </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-success">
                           {item.matchCommMila?.toFixed(2)}
                         </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-success">
                           {item.sessionCommMila?.toFixed(2)}
                         </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-success">
                           {item.casinoCommMila?.toFixed(2)}
                         </td>
-                        <td style={{ color: "green", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-success">
                           {matchTotal.toFixed(2)}
                         </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-danger">
                           {item.matchCommDena?.toFixed(2)}
                         </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-danger">
                           {item.sessionCommDena?.toFixed(2)}
                         </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-danger">
                           {item.casinoCommDena?.toFixed(2)}
                         </td>
-                        <td style={{ color: "red", fontWeight: 600 }}>
+                        <td className="commission-value commission-value-danger">
                           {denaTotal.toFixed(2)}
                         </td>
                         <td
-                          style={{
-                            color: commB < 0 ? "red" : "green",
-                            fontWeight: 600,
-                          }}>
+                          className={`commission-value ${
+                            commB < 0
+                              ? "commission-value-danger"
+                              : "commission-value-bacha"
+                          }`}>
                           {commB.toFixed(2)}
                         </td>
                       </tr>
@@ -207,18 +271,36 @@ const UserCommissionModal = ({
                   })
                 ) : (
                   <tr>
-                    <td colSpan={11}>
-                      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                    <td className="commission-empty-cell" colSpan={11}>
+                      <Empty
+                        image={Empty.PRESENTED_IMAGE_SIMPLE}
+                        description={
+                          <span>
+                            <strong>No commission details found</strong>
+                            <small>
+                              There are no commission records available for this
+                              selection.
+                            </small>
+                          </span>
+                        }
+                      />
                     </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-        </Card>
+        </div>
       </div>
     </Modal>
   );
+};
+
+UserCommissionModal.propTypes = {
+  openModal: PropTypes.bool,
+  setOpenModals: PropTypes.func.isRequired,
+  commissionDate: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 export default UserCommissionModal;

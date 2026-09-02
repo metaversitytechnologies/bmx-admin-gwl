@@ -200,7 +200,6 @@ const MyLedger = () => {
           </section>
 
           <div className="table_section my-ledger-table-section">
-            <div className="my-ledger-mobile-hint">Swipe to view all columns</div>
             <div className="my-ledger-table-viewport">
               <Table
                 className="my-ledger-ant-table"

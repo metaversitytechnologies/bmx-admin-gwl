@@ -113,8 +113,10 @@ const Navbar = ({ action }) => {
 
       <Modal
         className="change_pass"
+        rootClassName="change-password-modal-root"
         title="Change Password"
         open={isModalOpen}
+        width={600}
         onCancel={handleCancel}
         destroyOnClose
         footer={false}>
