@@ -286,9 +286,10 @@ export const userlistApi = createApi({
       }),
     }),
     getMessage: build.query({
-      query: () => ({
+      query: (body) => ({
         url: `/message/get-message`,
         method: "POST",
+        body,
       }),
     }),
   }),
