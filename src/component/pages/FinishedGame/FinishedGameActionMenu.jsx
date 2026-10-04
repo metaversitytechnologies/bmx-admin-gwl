@@ -37,7 +37,9 @@ const FinishedGameActionMenu = ({
             <p
               className="title_section"
               onClick={() =>
-                onNavigate(`/matchplusminus/${match?.matchId}/${match?.eventName}`)
+                onNavigate(
+                  `/matchplusminus/${match?.matchId}/${match?.eventName}`,
+                )
               }>
               Match and Session Plus Minus 2
             </p>
@@ -117,16 +119,17 @@ const FinishedGameActionMenu = ({
     <button
       type="button"
       className={`admin-details-row-menu finished-game-action-button${
-        isOpen ? " admin-details-row-menu-open finished-game-action-button-open" : ""
+        isOpen
+          ? " admin-details-row-menu-open finished-game-action-button-open"
+          : ""
       }`}
       onClick={(e) => {
         e.preventDefault();
         onSelectMatch(match.eventName);
       }}
       aria-label="Row actions">
-      <Space>
-        <ChevronDown size={14} strokeWidth={2} />
-      </Space>
+      <span className="finished-game-action-button-label">Show</span>{" "}
+      <ChevronDown size={14} strokeWidth={2} />
     </button>
   </Dropdown>
 );

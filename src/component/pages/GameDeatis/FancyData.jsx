@@ -17,7 +17,7 @@ const FancyData = ({ data }) => {
     {
       matchId: id ?? "",
     },
-    { pollingInterval: 20000 }
+    { pollingInterval: 20000 },
   );
 
   const handleBookData = (fancyId, fancyName) => {
@@ -33,7 +33,7 @@ const FancyData = ({ data }) => {
   };
 
   const activeFancyIds = new Set(
-    activeSession?.data?.map((item) => item.fancyId) ?? []
+    activeSession?.data?.map((item) => item.fancyId) ?? [],
   );
 
   return (
@@ -42,7 +42,7 @@ const FancyData = ({ data }) => {
         Object.entries(data)
           ?.sort(
             ([, a], [, b]) =>
-              Number(a?.[0]?.srno ?? 0) - Number(b?.[0]?.srno ?? 0)
+              Number(a?.[0]?.srno ?? 0) - Number(b?.[0]?.srno ?? 0),
           )
           .map(([item, values]) => {
             if (["Odds", "Bookmaker"].includes(item)) return <></>;
@@ -118,8 +118,8 @@ const FancyData = ({ data }) => {
                                               className="ant-btn ant-btn-default gx-my-0"
                                               style={{
                                                 height: 30,
-                                                backgroundColor:
-                                                  "rgb(152, 215, 127)",
+                                                background:
+                                                  "linear-gradient(135deg, #5d6bff, #8a5cff)",
                                                 color: "white",
                                                 lineHeight: "30px",
                                                 marginLeft: 10,
@@ -127,7 +127,7 @@ const FancyData = ({ data }) => {
                                               onClick={() =>
                                                 handleBookData(
                                                   fancy?.sid,
-                                                  fancy?.nation
+                                                  fancy?.nation,
                                                 )
                                               }>
                                               <span> Book</span>

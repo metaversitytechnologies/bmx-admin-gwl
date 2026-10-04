@@ -248,7 +248,7 @@
     height: 32px;
     border: 1px solid #e6e8f2;
     border-radius: 10px;
-    color: #667085;
+    color: red;
     background: #f8f7ff;
     transition:
       background 180ms ease,
@@ -558,7 +558,7 @@
     justify-content: center;
     border: 1px solid #e7e4ff;
     border-radius: 9px;
-    color: #475467;
+    color: red;
     background: #f7f6ff;
 
     &:hover {
@@ -2117,6 +2117,7 @@
     .sub_open_btn svg {
       width: 20px;
       height: 20px;
+      color: #000;
     }
 
     .sub_menu_nav {
@@ -2362,8 +2363,7 @@
     height: 36px;
   }
 
-  .nav .nav_notification,
-  .nav .nav_username {
+  .nav .nav_notification {
     display: none;
   }
 }
@@ -3037,7 +3037,7 @@ a.ant-notification-notice-close {
   }
 
   .ant-btn-default {
-    background: rgb(152 215 127) !important;
+    background: linear-gradient(135deg, #5d6bff, #8a5cff) !important;
     color: #fff;
     border-radius: 2px;
     border: unset;
@@ -3260,7 +3260,7 @@ a.gx-bg-white:hover {
     right: 22px;
     width: 42px;
     height: 42px;
-    color: #667085;
+    color: red;
     border: 1px solid #e7e9f2;
     border-radius: 12px;
     background: #f7f7fc;
@@ -5106,7 +5106,7 @@ li.ant-pagination-item {
     right: 20px;
     width: 38px;
     height: 38px;
-    color: #475467;
+    color: red;
     border: 1px solid #e5e7f0;
     border-radius: 10px;
     background: #ffffff;
@@ -5443,7 +5443,7 @@ li.ant-pagination-item {
     right: 22px;
     width: 38px;
     height: 38px;
-    color: #475467;
+    color: red;
     border: 1px solid #e5e7f0;
     border-radius: 10px;
     background: #ffffff;
@@ -7173,7 +7173,7 @@ table {
 
 .sport_droupdown {
   .ant-space-item {
-    padding: 1px 6px !important;
+    padding: 1px !important;
     border-radius: 3px;
     // margin-left: -12px;
   }
@@ -8063,18 +8063,24 @@ table.live_table.mt-0 {
     align-items: center;
     gap: 8px;
     padding: 0 14px;
-    color: #5e50ef;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.22);
+    color: #fff !important;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #d2ccff;
     border-radius: 8px;
-    background: #ffffff;
     box-shadow: none;
     cursor: pointer;
     transition:
       background 160ms ease,
       border-color 160ms ease,
       color 160ms ease;
+    border: unset;
 
     &:hover {
       color: #4f43d8;
@@ -8571,7 +8577,7 @@ table.live_table.mt-0 {
     justify-content: center;
     border: 0 !important;
     border-radius: 9px;
-    color: #53607b;
+    color: red;
     background: transparent !important;
     transition:
       color 180ms ease,
@@ -9235,24 +9241,36 @@ table.live_table.mt-0 {
     align-items: center;
     gap: 8px;
     padding: 0 14px;
-    color: #5e50ef;
+
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #d2ccff;
+
     border-radius: 8px;
-    background: #ffffff;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.22);
+    color: #fff !important;
     box-shadow: none;
     cursor: pointer;
     transition:
       background 160ms ease,
       border-color 160ms ease,
       color 160ms ease;
+    border: unset;
 
     &:hover {
       color: #4f43d8;
       border-color: #a79cff;
       background: #f7f5ff;
     }
+  }
+
+  .show-pmr-header-btn-label {
+    background: red !important;
   }
 
   .admin-details-toolbar {
@@ -9481,13 +9499,12 @@ table.live_table.mt-0 {
       align-items: center;
       gap: 7px;
       padding: 0 16px;
-      color: #6254ef !important;
+      background: #22b917 !important;
       font-size: 12px;
       font-weight: 700;
       text-decoration: none;
       border: 1px solid #d2ccff !important;
       border-radius: 8px;
-      background: #ffffff !important;
       box-shadow: none;
       transition:
         background 160ms ease,
@@ -9495,9 +9512,7 @@ table.live_table.mt-0 {
         color 160ms ease;
 
       &:hover {
-        color: #4f43d8 !important;
-        border-color: #a79cff !important;
-        background: #f7f5ff !important;
+        background: #22b917 !important;
       }
     }
   }
@@ -9674,8 +9689,6 @@ table.live_table.mt-0 {
 
   .admin-details-row-add,
   .admin-details-row-menu {
-    width: 28px;
-    height: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -9703,14 +9716,16 @@ table.live_table.mt-0 {
   }
 
   .admin-details-row-menu {
-    color: #6254ef;
-    border: 1px solid #dfe3ee;
-    background: #ffffff !important;
+    border: unset;
+    background: linear-gradient(135deg, #0000ffc7, #9400d3cc);
+    color: #fff;
+    padding: 6px 5px !important;
+    border-radius: 5px;
 
     &:hover {
-      color: #5947ef;
-      border-color: #cfc7ff;
-      background: #f4f1ff !important;
+      color: #fff;
+
+      background: linear-gradient(135deg, #0000ff, #9400d3) !important;
     }
 
     &.admin-details-row-menu-open {
@@ -9763,6 +9778,9 @@ table.live_table.mt-0 {
       color 160ms ease,
       background 160ms ease,
       border-color 160ms ease;
+    color: #ffffff;
+    border-color: #6558f5;
+    background: #6558f5;
 
     &:hover {
       color: #6254ef;
@@ -10000,7 +10018,7 @@ table.live_table.mt-0 {
     }
 
     .admin-details-title {
-      font-size: 18px !important;
+      font-size: 16px !important;
     }
 
     .admin-details-subtitle {
@@ -12527,7 +12545,14 @@ table.live_table.mt-0 {
     width: 32px;
     height: 32px;
     margin: 0;
-    border: 1px solid #dfe3ee;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.22);
+    color: #fff !important;
 
     svg {
       transition: transform 160ms ease;
@@ -13139,7 +13164,7 @@ table.live_table.mt-0 {
     }
 
     .admin-details-title {
-      font-size: 18px !important;
+      font-size: 16px !important;
     }
 
     .pmr-header-title {
@@ -13157,9 +13182,9 @@ table.live_table.mt-0 {
       padding: 0 10px;
     }
 
-    .pmr-header-btn-label {
-      display: none;
-    }
+    // .pmr-header-btn-label {
+    //   display: none;
+    // }
   }
 
   .pmr-content {
@@ -13659,7 +13684,7 @@ table.live_table.mt-0 {
     }
 
     .admin-details-title {
-      font-size: 18px !important;
+      font-size: 16px !important;
     }
 
     .admin-details-subtitle {
@@ -14150,7 +14175,7 @@ table.live_table.mt-0 {
     }
 
     .admin-details-title {
-      font-size: 18px !important;
+      font-size: 16px !important;
     }
 
     .admin-details-back {
@@ -15275,7 +15300,7 @@ table.live_table.mt-0 {
     }
 
     .admin-details-title {
-      font-size: 18px !important;
+      font-size: 16px !important;
     }
 
     .admin-details-back {
@@ -17733,7 +17758,7 @@ table.live_table.mt-0 {
     }
 
     .admin-details-title {
-      font-size: 18px !important;
+      font-size: 16px !important;
     }
 
     .admin-details-back {
@@ -17825,7 +17850,7 @@ table.live_table.mt-0 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #53607b;
+    color: red;
     border: 1px solid #e5e7ef;
     border-radius: 10px;
     background: #ffffff;
@@ -19078,8 +19103,9 @@ table.live_table.mt-0 {
 
 .fg-pnl {
   font-variant-numeric: tabular-nums;
-  font-weight: 700;
+  font-weight: 700 !important;
   font-size: 13.5px;
+  text-align: right !important;
 }
 
 .fg-is-positive {
@@ -19694,18 +19720,26 @@ table.live_table.mt-0 {
     align-items: center;
     gap: 8px;
     padding: 0 14px;
-    color: #5e50ef;
+    background: linear-gradient(
+      135deg,
+      #5864f9 0%,
+      #7b54ff 52%,
+      #bc3bed 100%
+    ) !important;
+    box-shadow: 0 8px 18px rgba(123, 84, 255, 0.22);
+    color: #fff !important;
     font-size: 12px;
     font-weight: 600;
-    border: 1px solid #d2ccff;
+
     border-radius: 8px;
-    background: #ffffff;
+
     box-shadow: none;
     cursor: pointer;
     transition:
       background 160ms ease,
       border-color 160ms ease,
       color 160ms ease;
+    border: unset;
 
     &:hover {
       color: #4f43d8;
@@ -20611,7 +20645,7 @@ table.live_table.mt-0 {
 
 .fg-mobile-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 8px;
@@ -22566,8 +22600,10 @@ table.live_table.mt-0 {
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #171b2e;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
+  text-transform: uppercase;
+  color: #2879dd;
 }
 
 .fg-mobile-row {
@@ -22595,7 +22631,6 @@ table.live_table.mt-0 {
   align-items: center;
   gap: 5px;
   flex: 0 0 auto;
-  color: #98a2b5;
   font-size: 11.5px;
   font-weight: 600;
 }
@@ -28381,6 +28416,19 @@ $app-generic-table-panels: (
     background: #f8fafc;
   }
 
+  .isPaid {
+    background: #ff000026 !important;
+    color: red !important;
+  }
+
+  .isRecived {
+    background: #15803d26 !important;
+    color: #15803d !important;
+
+    background: #ff98003b;
+    color: #ff9800;
+  }
+
   .atx-done-by-cell {
     min-width: 220px;
     max-width: 280px;
@@ -30638,7 +30686,7 @@ $app-generic-table-panels: (
       right: 22px;
       width: 40px;
       height: 40px;
-      color: #475467;
+      color: red;
       border: 1px solid #e7e9f2;
       border-radius: 11px;
       background: #ffffff;
@@ -31710,6 +31758,13 @@ $app-generic-table-panels: (
   }
 }
 
+.finished-game-action-button-label {
+  display: none;
+  @media (max-width: 600px) {
+    display: block;
+  }
+}
+
 @media (max-width: 430px) {
   .main_live_section.list_supers.admin-details-panel.secure-code-panel {
     .secure-code-helper {
@@ -31725,4 +31780,8 @@ $app-generic-table-panels: (
       align-self: flex-start;
     }
   }
+}
+
+.show-pmr-header-btn-label {
+  background: red !important;
 }

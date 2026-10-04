@@ -25,7 +25,7 @@ const FinishedGameDesktopTable = ({
           <th>Action</th>
           <th>Match</th>
           <th>Match Time</th>
-          <th>Declared</th>
+          {/* <th>Declared</th> */}
           <th>Competition</th>
           <th>Result</th>
           <th className="fg-num-col">P/L</th>
@@ -34,7 +34,7 @@ const FinishedGameDesktopTable = ({
       <tbody>
         {rows.length > 0 ? (
           rows.map(({ match, globalIndex }) => {
-            const matchTime = formatDateParts(match.createdOn, "HH:mm:ss");
+            const matchTime = formatDateParts(match.createdOn, "hh:mm A");
             const declared = formatDateParts(match.createdOn, "h:mm A");
             const suspended = isSuspended(match.winner);
             return (
@@ -43,7 +43,7 @@ const FinishedGameDesktopTable = ({
                   <FinishedGameActionMenu
                     match={match}
                     isOpen={dropdownStates[globalIndex]}
-                    onToggle={() => toggleDropdown(globalIndex)}
+                    onToggle={(open) => toggleDropdown(globalIndex, open)}
                     onCloseAll={closeAllDropdowns}
                     onSelectMatch={onSelectMatch}
                     onPlusMinus={onPlusMinus}
@@ -66,16 +66,16 @@ const FinishedGameDesktopTable = ({
                     )}
                   </div>
                 </td>
-                <td data-label="Declared">
+                {/* <td data-label="Declared">
                   <div className="fg-date-cell">
                     <span>{declared.date}</span>
                     {declared.time && (
                       <span className="fg-date-time">{declared.time}</span>
                     )}
                   </div>
-                </td>
+                </td> */}
                 <td data-label="Competition">
-                  <span className="fg-competition-badge">T20</span>
+                  <span className="fg-competition-badge">--</span>
                 </td>
                 <td data-label="Result">
                   {suspended ? (
@@ -92,7 +92,7 @@ const FinishedGameDesktopTable = ({
                 </td>
                 <td
                   data-label="P/L"
-                  className={`fg-num-col fg-pnl ${getPnlColorClass(
+                  className={`fg-num-col  fg-pnl ${getPnlColorClass(
                     match.pnl
                   )}`}>
                   {formatAmount(match.pnl)}

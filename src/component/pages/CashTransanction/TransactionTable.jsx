@@ -110,14 +110,16 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
           </span>
           <div>
             <span>Balance</span>
-            <h3 className={totalBalance < 0 ? "text_danger" : "text_success"}>
+            <h3 className={totalBalance > 0 ? "text_danger" : "text_success"}>
               {formatAmount(-1 * totalBalance)}{" "}
               <small>{totalBalance > 0 ? "(Lena)" : "(Dena)"}</small>
             </h3>
           </div>
         </div>
         <div className="deleted_sec atx-deleted-action">
-          <Button className="approved-primary-button" onClick={fetchDeletedTran}>
+          <Button
+            className="approved-primary-button"
+            onClick={fetchDeletedTran}>
             <Trash2 size={16} strokeWidth={2} />
             Deleted
           </Button>
@@ -127,22 +129,12 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
         <table>
           <thead>
             <tr>
-              <th className="text-right atx-action-column">
-                #
-              </th>
+              <th className="text-right atx-action-column">#</th>
               <th>Date</th>
-              <th className="atx-sticky-column">
-                Collection Name
-              </th>
-              <th className="text-right">
-                Debit
-              </th>
-              <th className="text-right">
-                Credit
-              </th>
-              <th className="text-right">
-                Balance
-              </th>
+              <th className="atx-sticky-column">Collection Name</th>
+              <th className="text-right">Debit</th>
+              <th className="text-right">Credit</th>
+              <th className="text-right">Balance</th>
               <th>Payment Type</th>
               <th>Done By</th>
             </tr>
@@ -174,7 +166,9 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                     <span>{moment(res?.date).format("DD MMM")}</span>
                     <small>{moment(res?.date).format("hh:mm:ss A")}</small>
                   </td>
-                  <td className="atx-sticky-column atx-collection-cell" title={res?.collectionName}>
+                  <td
+                    className="atx-sticky-column atx-collection-cell"
+                    title={res?.collectionName}>
                     <span>{res?.collectionName}</span>
                   </td>
                   <td className="text-right atx-money atx-debit">
@@ -185,13 +179,14 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                   </td>
                   <td
                     className={`text-right atx-money atx-balance ${getBalanceTone(
-                      res?.balance
+                      res?.balance,
                     )}`}>
                     {formatAmount(-1 * res?.balance)}{" "}
                     <small>({res?.balance > 0 ? "Lena" : "Dena"})</small>
                   </td>
                   <td>
-                    <span className="atx-payment-badge">
+                    <span
+                      className={`atx-payment-badge ${res?.paymentType?.includes("Paid") ? "isPaid" : res?.paymentType?.includes("Received") ? "isRecived" : ""}`}>
                       {formatPaymentType(res?.paymentType)}
                     </span>
                   </td>
@@ -216,7 +211,8 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
 
 TransactionTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  clientId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  clientId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   trigger: PropTypes.func.isRequired,
 };
 

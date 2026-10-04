@@ -1,30 +1,25 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { TrendingUp } from "lucide-react";
-import { globalSelector } from "../../../../../store/global/slice";
 import PlusMinusTable from "./PlusMinusTable";
-import AppPageHeader from "../../../../common/AppPageHeader/AppPageHeader";
+import "./PlusMinusDetails.scss";
 
 const PlusMinusDetails = () => {
   const { state } = useLocation();
   const nav = useNavigate();
+  const title = state?.state?.dataNameee || state?.dataNameee || "Match profit and loss";
 
   return (
-    <>
-      <div className="main_live_section list_supers admin-details-panel plus-minus-details-panel">
-        <div className="_match plus_minus_sec">
-          <AppPageHeader
-            icon={<TrendingUp size={20} strokeWidth={1.8} />}
-            title={state?.state?.dataNameee}
-            subtitle="Review profit and loss for this match"
-            onBack={() => nav(-1)}
-          />
-          <div className="main_table_section">
-            <PlusMinusTable />
-          </div>
+    <div className="main_live_section pnl-page">
+      <header className="pnl-page-header">
+        <div className="pnl-match-heading">
+          <span className="pnl-match-label">MATCH</span>
+          <h1 title={title}>{title}</h1>
         </div>
-      </div>
-    </>
+        <button type="button" className="pnl-back" onClick={() => nav(-1)}>
+          <span aria-hidden="true">←</span> Back
+        </button>
+      </header>
+      <PlusMinusTable />
+    </div>
   );
 };
 

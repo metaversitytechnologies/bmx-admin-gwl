@@ -24,7 +24,7 @@ const FinishedGameMobileList = ({
   <div className="fg-mobile-list">
     {rows.length > 0 ? (
       rows.map(({ match, globalIndex }) => {
-        const matchTime = formatDateParts(match.createdOn, "HH:mm");
+        const matchTime = formatDateParts(match.createdOn, "hh:mm A");
         const declared = formatDateParts(match.createdOn, "h:mm A");
         const suspended = isSuspended(match.winner);
         return (
@@ -36,7 +36,7 @@ const FinishedGameMobileList = ({
               <FinishedGameActionMenu
                 match={match}
                 isOpen={dropdownStates[globalIndex]}
-                onToggle={() => toggleDropdown(globalIndex)}
+                onToggle={(open) => toggleDropdown(globalIndex, open)}
                 onCloseAll={closeAllDropdowns}
                 onSelectMatch={onSelectMatch}
                 onPlusMinus={onPlusMinus}
@@ -61,12 +61,12 @@ const FinishedGameMobileList = ({
               </span>
             </div>
 
-            <div className="fg-mobile-field">
+            {/* <div className="fg-mobile-field">
               <span className="fg-mobile-label">Declared</span>
               <span className="fg-mobile-value">
                 {declared.date} · {declared.time}
               </span>
-            </div>
+            </div> */}
 
             <div className="fg-mobile-field">
               <span className="fg-mobile-label">Result</span>

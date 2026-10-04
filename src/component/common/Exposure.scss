@@ -1,0 +1,138 @@
+.ant-modal.user-exposure-modal {
+  top: 24px;
+  max-height: none;
+  overflow: visible;
+  padding-bottom: 24px;
+  max-width: calc(100vw - 32px);
+  color: #142344;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - 48px);
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #e7e8f2;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 20px 70px #17234530;
+  }
+  .ant-modal-header {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 16px 64px 16px 20px !important;
+    background: #fff !important;
+    border-bottom: 1px solid #ececf5;
+  }
+  .exposure-heading { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .exposure-heading-icon {
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    width: 46px; height: 46px; border-radius: 13px; color: white; background: #794bff;
+    box-shadow: 0 4px 12px #794bff22;
+  }
+  .exposure-heading h1 { margin: 0; color: #111c3c; font-size: 24px; font-weight: 750; line-height: 1.25; letter-spacing: -.5px; }
+  .exposure-heading p { margin: 4px 0 0; color: #5b6680; font-size: 13px; font-weight: 500; line-height: 1.4; }
+  .ant-modal-close {
+    top: 19px; right: 16px; width: 40px; height: 40px; border-radius: 9px; color: #e53945;
+    &:hover { color: #c82431; background: #fff0f2; }
+    &:focus-visible { outline: 2px solid #7956e9; outline-offset: 2px; }
+  }
+  .ant-modal-close-x { width: auto; height: auto; display: flex; align-items: center; justify-content: center; }
+  .ant-modal-body { min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 0 !important; }
+  .exposure-scroll-body { overflow-y: auto; min-height: 0; padding: 16px 18px 12px; overscroll-behavior: contain; scrollbar-width: thin; }
+  .exposure-table-section {
+    overflow-x: auto; border: 1px solid #e8e9f3; border-radius: 12px;
+    + .exposure-table-section { margin-top: 16px; }
+  }
+  .ant-table { font-size: 13px; font-variant-numeric: tabular-nums; color: #233557; }
+  .ant-table-container table { min-width: 760px; table-layout: fixed; }
+  .ant-table-thead > tr > th {
+    height: 46px; padding: 10px; background: #f5f3fc; color: #17254a; font-size: 12px; font-weight: 650;
+    border-bottom: 1px solid #e8e9f3; white-space: normal;
+    &::before { display: none !important; }
+  }
+  .ant-table-tbody > tr > td { height: 60px; padding: 10px; font-size: 13px; background: #fff; border-bottom: 1px solid #edf0f6; overflow-wrap: anywhere; }
+  .ant-table-tbody > tr:nth-child(even) > td { background: #fcfcff; }
+  .ant-table-tbody > tr:hover > td { background: #f8f9fd; }
+  .ant-table-tbody > tr:last-child > td { border-bottom: 0; }
+  .ant-table-tbody > tr:not(.ant-table-placeholder) > td:first-child { position: relative; padding-left: 23px; }
+  .ant-table-tbody > tr:not(.ant-table-placeholder) > td:first-child::before {
+    content: ""; position: absolute; left: 9px; top: 13px; bottom: 13px; width: 4px; border-radius: 4px; background: #1677ff;
+  }
+  .ant-table-tbody > tr.exposure-lay > td:first-child::before { background: #e83e67; }
+  .exposure-match { color: #14203e; font-weight: 700; line-height: 1.4; }
+  .exposure-selection { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; padding: 5px 8px; border-radius: 7px; color: #175bca; background: #edf3ff; font-weight: 650; overflow-wrap: anywhere; }
+  .exposure-type { display: inline-flex; justify-content: center; padding: 6px 9px; border-radius: 7px; font-size: 12px; font-weight: 700; line-height: 1.3; }
+  .exposure-type.exposure-back { background: #e7f3ff; color: #1677ff; }
+  .exposure-type.exposure-lay { background: #fff0f3; color: #e83e67; }
+  .exposure-time { color: #64718a; font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
+  .exposure-money { display: inline-block; padding: 8px 10px; border-radius: 7px; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+  .exposure-loss { color: #d3293e; background: #ffedf0; }
+  .exposure-profit { color: #167540; background: #e7f8ec; }
+  .exposure-empty { display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 20px 8px; color: #78839a; }
+  .exposure-empty svg { color: #b3bbcf; margin-bottom: 3px; }
+  .exposure-empty strong { color: #59657e; font-size: 14px; font-weight: 500; }
+  .exposure-empty-help { font-size: 12px; }
+  .ant-table-placeholder > td { padding: 0 !important; }
+  .exposure-total {
+    display: flex; flex: 0 0 auto; align-items: center; gap: 16px;
+    margin: 0 18px 16px; padding: 10px 12px;
+    border: 1px solid #e7e5f6; border-radius: 12px; background: #f7f5ff;
+    > div { display: flex; align-items: center; gap: 8px; }
+    .exposure-money { min-width: 92px; text-align: center; }
+  }
+  .exposure-total-title { display: flex; align-items: center; gap: 10px; margin-right: auto; font-size: 18px; color: #182445; svg { color: #8154ee; } }
+  .exposure-total-label { font-size: 12px; color: #62708a; }
+  .exposure-mobile { display: none; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .ant-table-thead > tr > th, .ant-table-tbody > tr > td { padding-inline: 7px; font-size: 12px; }
+    .exposure-money { padding-inline: 7px; font-size: 12px; }
+  }
+  @media (max-width: 767px) {
+    top: 12px; margin: 0 auto; max-width: calc(100vw - 16px); padding-bottom: 12px;
+    .ant-modal-content { max-height: calc(100dvh - 24px); border-radius: 16px; }
+    .ant-modal-header { padding: 12px 48px 12px 12px !important; }
+    .ant-modal-close { top: 10px; right: 6px; }
+    .exposure-heading { gap: 10px; }
+    .exposure-heading-icon { width: 38px; height: 38px; border-radius: 10px; svg { width: 21px; } }
+    .exposure-heading h1 { font-size: 20px; }
+    .exposure-heading p { font-size: 11px; margin-top: 3px; }
+    .exposure-desktop { display: none; }
+    .exposure-mobile { display: block; min-width: 0; }
+    .exposure-scroll-body { padding: 10px; overflow-x: hidden; }
+    .exposure-cards { display: grid; gap: 8px; }
+    .exposure-card {
+      position: relative; min-width: 0; padding: 8px 10px; border: 1px solid #e6eaf3; border-radius: 10px; background: #fff;
+      &::before { content: ""; position: absolute; top: 10px; left: 0; width: 3px; height: 32px; border-radius: 3px; background: #1677ff; }
+      &.exposure-lay::before { background: #e83e67; }
+      h2 { margin: 0; font-size: 13px; line-height: 18px; font-weight: 700; color: #172340; overflow-wrap: anywhere; }
+      .exposure-time { font-size: 11px; line-height: 16px; }
+    }
+    .exposure-card-metrics {
+      display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, .85fr) minmax(0, 1fr); gap: 8px; margin: 5px 0;
+      > div { min-width: 0; }
+      dt { font-size: 10px; line-height: 12px; color: #6b7890; }
+      dd { margin: 2px 0 0; font-size: 12px; font-weight: 650; line-height: 18px; color: #1d2c4c; overflow-wrap: anywhere; }
+      .exposure-selection { padding: 0 7px; min-width: 25px; border-radius: 5px; }
+      .exposure-type { padding: 1px 6px; font-size: 11px; border-radius: 5px; }
+    }
+    .exposure-card-result {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px;
+      > div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2px 4px; padding: 4px 8px; border-radius: 6px; min-width: 0; }
+      > div > span:first-child { color: #43516b; font-size: 10px; }
+      .exposure-money { padding: 0; font-size: 12px; line-height: 18px; white-space: normal; overflow-wrap: anywhere; }
+    }
+    .exposure-second-section {
+      margin-top: 8px; border: 1px solid #e6e8f3; border-radius: 10px; background: #fcfcff;
+      summary { padding: 10px 12px; min-height: 40px; cursor: pointer; font-size: 12px; font-weight: 600; color: #324363; }
+      summary:focus-visible { outline: 2px solid #8154ee; outline-offset: -2px; }
+      .exposure-cards { padding: 0 8px 8px; }
+      .exposure-empty { padding: 0 8px 10px; gap: 2px; svg { width: 22px; height: 22px; margin: 0; } strong { font-size: 11px; } }
+    }
+    .exposure-empty-help { display: none; }
+    .exposure-mobile-loading { position: relative; min-height: 160px; display: grid; place-items: center; }
+    .exposure-total { margin: 0 10px 10px; padding: 8px 10px; gap: 8px; .exposure-money { min-width: 65px; padding: 7px 8px; font-size: 12px; } }
+    .exposure-total-title { font-size: 16px; gap: 7px; }
+    .exposure-total-label { display: none; }
+  }
+}

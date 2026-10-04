@@ -18,6 +18,9 @@ const FinishedGame = () => {
   const [, setDateData] = useState([timeBefore, time]);
   const [dataNameee, setDataNameee] = useState("");
   const [dropdownStates, setDropdownStates] = useState([]);
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia("(max-width: 767px)").matches
+  );
 
   const [indexData, setIndexData] = useState(0);
   const [paginationTotal, setPaginationTotal] = useState(50);
@@ -36,7 +39,7 @@ const FinishedGame = () => {
   });
 
   const handlePlusMinus = (matchId) => {
-    setDropdownStates(false);
+    closeAllDropdowns();
     nav(`/plus-minus-report/${matchId}/0`, { state: { dataNameee } });
   };
 
@@ -55,16 +58,27 @@ const FinishedGame = () => {
     setDropdownStates(initialStates);
   }, [data]);
 
-  const toggleDropdown = (index) => {
-    const updatedDropdownStates = [...dropdownStates].map((_, i) =>
-      i === index ? !dropdownStates[i] : false
-    );
-    setDropdownStates(updatedDropdownStates);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleLayoutChange = (event) => {
+      setIsMobile(event.matches);
+      setDropdownStates((states) => states.map(() => false));
+    };
+    mediaQuery.addEventListener("change", handleLayoutChange);
+    return () => mediaQuery.removeEventListener("change", handleLayoutChange);
+  }, []);
+
+  const toggleDropdown = (index, open) => {
+    setDropdownStates((states) => states.map((_, i) => i === index && open));
   };
 
   const closeAllDropdowns = () => {
-    setDropdownStates(false);
+    setDropdownStates((states) => states.map(() => false));
   };
+
+  // Ant Design portals menus outside the CSS-hidden responsive containers.
+  // Mount only one layout so each row owns exactly one dropdown.
+  const FinishedGameList = isMobile ? FinishedGameMobileList : FinishedGameDesktopTable;
 
   const matches = data?.data?.completedMatchList || [];
   const rows = matches.map((match, globalIndex) => ({ match, globalIndex }));
@@ -93,16 +107,7 @@ const FinishedGame = () => {
           <>
             <div style={{ position: "relative" }}>
               {(isFetching || isLoading) && <CustomLoading />}
-              <FinishedGameDesktopTable
-                rows={rows}
-                dropdownStates={dropdownStates}
-                toggleDropdown={toggleDropdown}
-                closeAllDropdowns={closeAllDropdowns}
-                onSelectMatch={setDataNameee}
-                onPlusMinus={handlePlusMinus}
-                onNavigate={nav}
-              />
-              <FinishedGameMobileList
+              <FinishedGameList
                 rows={rows}
                 dropdownStates={dropdownStates}
                 toggleDropdown={toggleDropdown}

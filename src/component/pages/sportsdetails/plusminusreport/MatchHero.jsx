@@ -19,9 +19,11 @@ const MatchHero = ({ matchName, onShow, onBack }) => (
       </div>
     </div>
     <div className="show_btn pmr-header-actions">
-      <button type="button" className="admin-details-back" onClick={onShow}>
-        <Eye size={15} strokeWidth={1.8} />
-        <span className="pmr-header-btn-label">Show</span>
+      <button
+        type="button"
+        className="admin-details-back show-pmr-header-btn-label"
+        onClick={onShow}>
+        <span className="pmr-header-btn-label ">Show</span>
       </button>
       <button type="button" className="admin-details-back" onClick={onBack}>
         <ArrowLeft size={15} strokeWidth={1.8} />

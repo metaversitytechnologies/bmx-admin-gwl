@@ -81,6 +81,9 @@ const Dashboard = () => {
       icon: UserRoundCog,
       tone: "purple",
       onClick: () => setOpenDashBoard(!openDashBoard),
+      bg: "linear-gradient(135deg, #6c57f4 0%, #8a71ff 100%)",
+      borderColor: "#8a71ff",
+      color: "#fff",
     },
     {
       title: "Sport's Details",
@@ -88,6 +91,9 @@ const Dashboard = () => {
       icon: Trophy,
       tone: "blue",
       onClick: () => setSportModals(!openSportModals),
+      bg: "linear-gradient(135deg, #d8efff 0%, #eff8ff 100%)",
+      borderColor: "##7dbdff",
+      color: "#000",
     },
     {
       title: "Ledger",
@@ -95,6 +101,9 @@ const Dashboard = () => {
       icon: WalletCards,
       tone: "green",
       onClick: () => setOpenModals(!openModal),
+      bg: "linear-gradient(135deg, #ddf8e1 0%, #f1fff4 100%)",
+      borderColor: "#8add99",
+      color: "#000",
     },
     {
       title: "Cash Transaction",
@@ -102,6 +111,9 @@ const Dashboard = () => {
       icon: Banknote,
       tone: "orange",
       onClick: () => setOpenModalsReport(!openModalReport),
+      bg: "linear-gradient(135deg, #fff0d2 0%, #fff8ec 100%)",
+      borderColor: "#ffb24d",
+      color: "#000",
     },
     {
       title: "Setting",
@@ -109,6 +121,9 @@ const Dashboard = () => {
       icon: Settings,
       tone: "purple",
       onClick: () => setSetting(!openSetting),
+      bg: "linear-gradient(135deg, #eadbff 0%, #fbf5ff 100%)",
+      borderColor: "#b997ef",
+      color: "#000",
     },
     {
       title: "Logout",
@@ -119,6 +134,9 @@ const Dashboard = () => {
         localStorage.clear();
         nav("/");
       },
+      bg: "linear-gradient(135deg, #ffe1e5 0%, #fff6f7 100%)",
+      borderColor: "#ff9aa6",
+      color: "#000",
     },
   ];
 
@@ -177,21 +195,48 @@ const Dashboard = () => {
   return (
     <>
       <div className="main_dash_class dashboard-modern">
-        <section className="dashboard-action-grid" aria-label="Dashboard actions">
+        <section
+          className="dashboard-action-grid"
+          aria-label="Dashboard actions">
           {quickActions.map(({ icon: Icon, ...item }) => (
             <button
               type="button"
               className="dashboard-action-card"
               key={item.title}
-              onClick={item.onClick}>
+              onClick={item.onClick}
+              style={{
+                background: item.bg,
+                borderColor: item.borderColor,
+                color: item.color,
+              }}>
               <span className={`dashboard-card-icon is-${item.tone}`}>
                 <Icon size={28} strokeWidth={1.9} />
               </span>
-              <span className="dashboard-action-copy">
-                <strong>{item.title}</strong>
-                <small>{item.desc}</small>
+              <span
+                className="dashboard-action-copy"
+                style={{
+                  color: item.color,
+                }}>
+                <strong
+                  style={{
+                    color: item.color,
+                  }}>
+                  {item.title}
+                </strong>
+                <small
+                  style={{
+                    color: item.color,
+                  }}>
+                  {item.desc}
+                </small>
               </span>
-              <ChevronRight className="dashboard-card-arrow" size={20} />
+              <ChevronRight
+                className="dashboard-card-arrow"
+                size={20}
+                style={{
+                  color: item.color,
+                }}
+              />
             </button>
           ))}
         </section>

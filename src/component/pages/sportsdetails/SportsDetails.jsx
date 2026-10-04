@@ -17,6 +17,9 @@ const SportsDetails = () => {
   const [, setDateData] = useState([timeBefore, time]);
   const [dataNameee, setDataNameee] = useState("");
   const [dropdownStates, setDropdownStates] = useState([]);
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia("(max-width: 767px)").matches
+  );
   const [activeTabData] = useState(4);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +34,7 @@ const SportsDetails = () => {
   } = useActiveMatchQuery(activeTabData);
 
   const handlePlusMinus = (matchId) => {
-    setDropdownStates(false);
+    closeAllDropdowns();
     nav(`/plus-minus-report/${matchId}/1`, { state: { dataNameee } });
   };
 
@@ -49,16 +52,27 @@ const SportsDetails = () => {
     setCurrentPage(1);
   }, [sportDetail]);
 
-  const toggleDropdown = (index) => {
-    const updatedDropdownStates = [...dropdownStates].map((_, i) =>
-      i === index ? !dropdownStates[i] : false
-    );
-    setDropdownStates(updatedDropdownStates);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const handleLayoutChange = (event) => {
+      setIsMobile(event.matches);
+      setDropdownStates((states) => states.map(() => false));
+    };
+    mediaQuery.addEventListener("change", handleLayoutChange);
+    return () => mediaQuery.removeEventListener("change", handleLayoutChange);
+  }, []);
+
+  const toggleDropdown = (index, open) => {
+    setDropdownStates((states) => states.map((_, i) => i === index && open));
   };
 
   const closeAllDropdowns = () => {
-    setDropdownStates(false);
+    setDropdownStates((states) => states.map(() => false));
   };
+
+  // Ant Design portals menus outside the CSS-hidden responsive containers.
+  // Mount only one layout so each row owns exactly one dropdown.
+  const SportsList = isMobile ? SportsMobileList : SportsDesktopTable;
 
   const matches = sportDetail?.data || [];
   const total = matches.length;
@@ -87,16 +101,7 @@ const SportsDetails = () => {
 
         <div style={{ position: "relative" }}>
           {(isFetching || isLoading) && <CustomLoading />}
-          <SportsDesktopTable
-            rows={pagedRows}
-            dropdownStates={dropdownStates}
-            toggleDropdown={toggleDropdown}
-            closeAllDropdowns={closeAllDropdowns}
-            onSelectMatch={setDataNameee}
-            onPlusMinus={handlePlusMinus}
-            onNavigate={nav}
-          />
-          <SportsMobileList
+          <SportsList
             rows={pagedRows}
             dropdownStates={dropdownStates}
             toggleDropdown={toggleDropdown}

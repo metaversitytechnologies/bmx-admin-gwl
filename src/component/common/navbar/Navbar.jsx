@@ -2,7 +2,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 // import { AiOutlineDown } from "react-icons/ai";
 import { Dropdown, Space, Modal, Button } from "antd";
-import { Bell, ChevronDown, PanelLeft } from "lucide-react";
+import { Bell, ChevronDown, Menu, PanelLeft } from "lucide-react";
 import { imgUrl } from "../../../store/constant";
 import { useAdminLogout } from "../useAdminLogout";
 
@@ -70,7 +70,7 @@ const Navbar = ({ action }) => {
         <div className="nav_start">
           <Space className="open_btn">
             <Button type="" className="sub_open_btn" onClick={action}>
-              <PanelLeft size={22} strokeWidth={1.9} />
+              <Menu size={22} strokeWidth={1.9} />
             </Button>
           </Space>
 
@@ -97,9 +97,7 @@ const Navbar = ({ action }) => {
                 onClick: handleModal,
               }}
               trigger={["click"]}>
-              <div
-                className="user_deatils"
-                onClick={(e) => e.preventDefault()}>
+              <div className="user_deatils" onClick={(e) => e.preventDefault()}>
                 <span className="nav_username">
                   {userData}
                   <ChevronDown size={17} strokeWidth={2} />

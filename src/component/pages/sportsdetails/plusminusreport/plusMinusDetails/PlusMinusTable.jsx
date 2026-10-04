@@ -1,56 +1,28 @@
 import { useLocation, useParams } from "react-router-dom";
-import { MapInteractionCSS } from "react-map-interaction";
-import { Spin } from "antd";
 import { useGetCompleteLedgerQuery } from "../../../../../store/service/SportDetailServices";
-import LedgerDataComponentSuper from "./LedgerData/LedgerDataComponentSuper";
-import LedgerDataAdmin from "./LedgerData/LedgerDataAdmin";
-import LedgerdataSubAdmin from "./LedgerData/LedgerdataSubAdmin";
-import LedgerdataSuperMaster from "./LedgerData/LedgerdataSuperMaster";
-import LedgerdataMaster from "./LedgerData/LedgerdataMaster";
-import LedgerdataAgent from "./LedgerData/LedgerdataAgent";
+import LedgerDashboard from "./components/LedgerDashboard";
 
 const PlusMinusTable = () => {
   const { state } = useLocation();
   const { id } = useParams();
-  const { data: ledgerData, isLoading } = useGetCompleteLedgerQuery({
+  const { data: ledgerData, isLoading, isFetching, isError, refetch } = useGetCompleteLedgerQuery({
     matchId: id,
-    matchCompleted: state?.matchCompleted || true,
+    matchCompleted: state?.matchCompleted ?? true,
     fancyIdList: state?.first,
     userIdList: state?.thirdUserid,
     oddsAndSessionBoth: true,
   });
 
-  const userType = localStorage.getItem("userType");
+  if (isLoading) return <div className="pnl-message" role="status">Loading match profit and loss…</div>;
+  if (isError) return <div className="pnl-message" role="alert">
+    <p>Unable to load this match’s ledger.</p>
+    <button type="button" onClick={refetch}>Try again</button>
+  </div>;
+  if (!ledgerData?.data) return <div className="pnl-message" role="status">No ledger data is available for this match.</div>;
 
-  return (
-    <div style={{ position: "relative" }}>
-      <MapInteractionCSS
-        defaultValue={{
-          scale: 1,
-          translation: { x: 0, y: 0 },
-        }}
-        minScale={0.2}
-        maxScale={3}
-        translationBounds={{
-          xMax: 200,
-          yMax: 100,
-        }}>
-        {userType === "7" && (
-          <LedgerDataComponentSuper ledgerData={ledgerData} />
-        )}
-        {userType === "6" && <LedgerDataAdmin ledgerData={ledgerData} />}
-        {userType === "5" && <LedgerdataSubAdmin ledgerData={ledgerData} />}
-        {userType === "4" && <LedgerdataSuperMaster ledgerData={ledgerData} />}
-        {userType === "3" && <LedgerdataMaster ledgerData={ledgerData} />}
-        {userType === "2" && <LedgerdataAgent ledgerData={ledgerData} />}
-      </MapInteractionCSS>
-      {isLoading && (
-        <div className="plus_spin">
-          <Spin size="large" />
-        </div>
-      )}
-    </div>
-  );
+  return <div aria-busy={isFetching}>
+    <LedgerDashboard data={ledgerData.data} userType={localStorage.getItem("userType")} />
+  </div>;
 };
 
 export default PlusMinusTable;

@@ -17,7 +17,9 @@ const SportsMobileList = ({
   <div className="sports-details-mobile-list">
     {rows.length > 0 ? (
       rows.map(({ match, globalIndex }) => (
-        <div className="sports-details-mobile-item" key={match.key || globalIndex}>
+        <div
+          className="sports-details-mobile-item"
+          key={match.key || globalIndex}>
           <div className="sports-details-mobile-top">
             <span className="sports-details-mobile-title">
               <span className="sports-details-mobile-code">
@@ -30,7 +32,9 @@ const SportsMobileList = ({
                 {match.matchName}
               </Link>
             </span>
-            <span className="sports-details-status">Inplay</span>
+            {match?.inPlay && (
+              <span className="sports-details-status">Inplay</span>
+            )}
           </div>
 
           <div className="sports-details-mobile-time">
@@ -46,7 +50,7 @@ const SportsMobileList = ({
             <SportsActionMenu
               match={match}
               isOpen={dropdownStates[globalIndex]}
-              onToggle={() => toggleDropdown(globalIndex)}
+              onToggle={(open) => toggleDropdown(globalIndex, open)}
               onCloseAll={closeAllDropdowns}
               onSelectMatch={onSelectMatch}
               onPlusMinus={onPlusMinus}
@@ -66,7 +70,7 @@ SportsMobileList.propTypes = {
     PropTypes.shape({
       match: PropTypes.object.isRequired,
       globalIndex: PropTypes.number.isRequired,
-    })
+    }),
   ).isRequired,
   dropdownStates: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   toggleDropdown: PropTypes.func.isRequired,

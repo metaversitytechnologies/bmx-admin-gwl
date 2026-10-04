@@ -486,16 +486,7 @@ const UserListTable = ({
                 </Form.Item>
               </Form>
             </div>
-            <div className="admin-details-toolbar-right">
-              <button
-                type="button"
-                className="admin-details-tool-button"
-                disabled>
-                <Columns3 size={15} strokeWidth={1.8} />
-                Columns
-              </button>
-              {actionSlot}
-            </div>
+            <div className="admin-details-toolbar-right">{actionSlot}</div>
           </div>
 
           <div

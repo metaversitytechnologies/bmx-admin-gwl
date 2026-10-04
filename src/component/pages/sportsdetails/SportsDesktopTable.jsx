@@ -35,14 +35,16 @@ const SportsDesktopTable = ({
                 <SportsActionMenu
                   match={match}
                   isOpen={dropdownStates[globalIndex]}
-                  onToggle={() => toggleDropdown(globalIndex)}
+                  onToggle={(open) => toggleDropdown(globalIndex, open)}
                   onCloseAll={closeAllDropdowns}
                   onSelectMatch={onSelectMatch}
                   onPlusMinus={onPlusMinus}
                   onNavigate={onNavigate}
                 />
               </td>
-              <td data-label="Code" className="admin-details-code sports-details-code">
+              <td
+                data-label="Code"
+                className="admin-details-code sports-details-code">
                 {String(globalIndex + 1).padStart(2, "0")}
               </td>
               <td data-label="Name" className="sports-details-name">
@@ -59,15 +61,25 @@ const SportsDesktopTable = ({
               <td data-label="Setting">
                 <span className="sports-details-setting-chip">No Change</span>
               </td>
-              <td data-label="Time" className="admin-details-number sports-details-time">
-                <Calendar size={13} strokeWidth={1.8} className="sports-details-time-icon" />
+              <td
+                data-label="Time"
+                className="admin-details-number sports-details-time">
+                <Calendar
+                  size={13}
+                  strokeWidth={1.8}
+                  className="sports-details-time-icon"
+                />
                 {moment(match.openDate).format("DD-MM-YYYY HH:mm:ss")}
               </td>
               <td data-label="Status">
-                <span className="sports-details-status">
-                  <PlayCircle size={13} strokeWidth={2} />
-                  Inplay
-                </span>
+                {match?.inPlay ? (
+                  <span className="sports-details-status">
+                    <PlayCircle size={13} strokeWidth={2} />
+                    Inplay
+                  </span>
+                ) : (
+                  <span>-</span>
+                )}
               </td>
               <td data-label="Declare">
                 <span className="sports-details-declare">No</span>
@@ -91,7 +103,7 @@ SportsDesktopTable.propTypes = {
     PropTypes.shape({
       match: PropTypes.object.isRequired,
       globalIndex: PropTypes.number.isRequired,
-    })
+    }),
   ).isRequired,
   dropdownStates: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   toggleDropdown: PropTypes.func.isRequired,
