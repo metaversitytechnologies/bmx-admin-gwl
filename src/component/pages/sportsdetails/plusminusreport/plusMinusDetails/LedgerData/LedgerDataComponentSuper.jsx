@@ -1,3 +1,5 @@
+import { UserRound } from "lucide-react";
+import LedgerAmount from "./LedgerAmount";
 import { convertCode } from "../../../../../../store/constant";
 
 const RecursiveCard = ({ data, depth }) => {
@@ -11,11 +13,17 @@ const RecursiveCard = ({ data, depth }) => {
           className={`card card-${depthColors[depth]}  ${
             depthColors[depth] === "dark" ? "bg-gray-light" : ""
           }`}>
-          <div className={` card-header ${`color_${depth}`} `}>
+          <div
+            className={` card-header ${`color_${depth}`} `}
+            data-ledger-role={depthKeys[depth]}>
             <h2 className="card-title text-bold">
-              <span className={`card_${depth}`}></span>
+              <span className="ledger-role-icon">
+                <UserRound size={19} aria-hidden="true" />
+              </span>
               <span className="border-title">{depthLabels[depth]}</span>
-              <span className="border-userid">{convertCode(item[depthKeys[depth]])}</span>
+              <span className="border-userid">
+                {convertCode(item[depthKeys[depth]])}
+              </span>
             </h2>
           </div>
           <div className="card-body">
@@ -23,8 +31,54 @@ const RecursiveCard = ({ data, depth }) => {
               <RecursiveCard data={item.ledgetList} depth={depth + 1} />
             ) : (
               <>
-                <div className="card-body" style={{ overflow: "scroll" }}>
-                  <table id="data" className="plus-table plus_minus_sec">
+                <div className="card-body">
+                  <div className="ledger-table-scroll">
+                  <table
+                    data-ledger-columns="40"
+                    id="data"
+                    className="plus-table plus_minus_sec">
+                    <colgroup>
+                      <col className="ledger-client-col" />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                      <col />
+                    </colgroup>
                     <thead>
                       <tr>
                         <th colSpan={4} />
@@ -86,118 +140,474 @@ const RecursiveCard = ({ data, depth }) => {
                           <td>
                             {convertCode(agent.userId)} {agent.username}
                           </td>
-                          <td>{agent?.matchAmount?.toFixed(2)}</td>
-                          <td>{agent?.sessionAmount?.toFixed(2)}</td>
-                          <td>{agent?.totalAmoount?.toFixed(2)}</td>
-                          <td>{agent?.matchCommissionDealer?.toFixed(2)}</td>
-                          <td>{agent?.sessionCommissionDealer?.toFixed(2)}</td>
-                          <td>{agent?.totalCommissionDealer?.toFixed(2)}</td>
-                          <td>{agent?.netAmountDealer?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountDealer?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountDealer?.toFixed(2)}</td>
-                          <td>{agent?.matchCommissionMaster?.toFixed(2)}</td>
-                          <td>{agent?.sessionCommissionMaster?.toFixed(2)}</td>
-                          <td>{agent?.totalCommissionMaster?.toFixed(2)}</td>
-                          <td>{agent?.netAmountMaster?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountMaster?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountMaster?.toFixed(2)}</td>
                           <td>
-                            {agent?.matchCommissionSuperMaster?.toFixed(2)}
+                            <LedgerAmount value={agent?.matchAmount}>
+                              {agent?.matchAmount?.toFixed(2)}
+                            </LedgerAmount>
                           </td>
                           <td>
-                            {agent?.sessionCommissionSuperMaster?.toFixed(2)}
+                            <LedgerAmount value={agent?.sessionAmount}>
+                              {agent?.sessionAmount?.toFixed(2)}
+                            </LedgerAmount>
                           </td>
                           <td>
-                            {agent?.totalCommissionSuperMaster?.toFixed(2)}
-                          </td>
-                          <td>{agent?.netAmountSuperMaster?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountSuperMaster?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountSuperMaster?.toFixed(2)}</td>
-                          <td>{agent?.matchCommissionSubAdmin?.toFixed(2)}</td>
-                          <td>
-                            {agent?.sessionCommissionSubAdmin?.toFixed(2)}
-                          </td>
-                          <td>{agent?.totalCommissionSubAdmin?.toFixed(2)}</td>
-                          <td>{agent?.netAmountSubAdmin?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountSubAdmin?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountSubAdmin?.toFixed(2)}</td>
-                          <td>{agent?.matchCommissionAdmin?.toFixed(2)}</td>
-                          <td>{agent?.sessionCommissionAdmin?.toFixed(2)}</td>
-                          <td>{agent?.totalCommissionAdmin?.toFixed(2)}</td>
-                          <td>{agent?.netAmountAdmin?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountAdmin?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountAdmin?.toFixed(2)}</td>
-                          <td>
-                            {agent?.matchCommissionSuperAdmin?.toFixed(2)}
+                            <LedgerAmount value={agent?.totalAmoount}>
+                              {agent?.totalAmoount?.toFixed(2)}
+                            </LedgerAmount>
                           </td>
                           <td>
-                            {agent?.sessionCommissionSuperAdmin?.toFixed(2)}
+                            <LedgerAmount value={agent?.matchCommissionDealer}>
+                              {agent?.matchCommissionDealer?.toFixed(2)}
+                            </LedgerAmount>
                           </td>
                           <td>
-                            {agent?.totalCommissionSuperAdmin?.toFixed(2)}
+                            <LedgerAmount
+                              value={agent?.sessionCommissionDealer}>
+                              {agent?.sessionCommissionDealer?.toFixed(2)}
+                            </LedgerAmount>
                           </td>
-                          <td>{agent?.netAmountSuperAdmin?.toFixed(2)}</td>
-                          <td>{agent?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                          <td>{agent?.finalAmountSuperAdmin?.toFixed(2)}</td>
+                          <td>
+                            <LedgerAmount value={agent?.totalCommissionDealer}>
+                              {agent?.totalCommissionDealer?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.netAmountDealer}>
+                              {agent?.netAmountDealer?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.shareAmountDealer}>
+                              {agent?.shareAmountDealer?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.finalAmountDealer}>
+                              {agent?.finalAmountDealer?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.matchCommissionMaster}>
+                              {agent?.matchCommissionMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.sessionCommissionMaster}>
+                              {agent?.sessionCommissionMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.totalCommissionMaster}>
+                              {agent?.totalCommissionMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.netAmountMaster}>
+                              {agent?.netAmountMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.shareAmountMaster}>
+                              {agent?.shareAmountMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.finalAmountMaster}>
+                              {agent?.finalAmountMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.matchCommissionSuperMaster}>
+                              {agent?.matchCommissionSuperMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.sessionCommissionSuperMaster}>
+                              {agent?.sessionCommissionSuperMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.totalCommissionSuperMaster}>
+                              {agent?.totalCommissionSuperMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.netAmountSuperMaster}>
+                              {agent?.netAmountSuperMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.shareAmountSuperMaster}>
+                              {agent?.shareAmountSuperMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.finalAmountSuperMaster}>
+                              {agent?.finalAmountSuperMaster?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.matchCommissionSubAdmin}>
+                              {agent?.matchCommissionSubAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.sessionCommissionSubAdmin}>
+                              {agent?.sessionCommissionSubAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.totalCommissionSubAdmin}>
+                              {agent?.totalCommissionSubAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.netAmountSubAdmin}>
+                              {agent?.netAmountSubAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.shareAmountSubAdmin}>
+                              {agent?.shareAmountSubAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.finalAmountSubAdmin}>
+                              {agent?.finalAmountSubAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.matchCommissionAdmin}>
+                              {agent?.matchCommissionAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.sessionCommissionAdmin}>
+                              {agent?.sessionCommissionAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.totalCommissionAdmin}>
+                              {agent?.totalCommissionAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.netAmountAdmin}>
+                              {agent?.netAmountAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.shareAmountAdmin}>
+                              {agent?.shareAmountAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.finalAmountAdmin}>
+                              {agent?.finalAmountAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.matchCommissionSuperAdmin}>
+                              {agent?.matchCommissionSuperAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.sessionCommissionSuperAdmin}>
+                              {agent?.sessionCommissionSuperAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount
+                              value={agent?.totalCommissionSuperAdmin}>
+                              {agent?.totalCommissionSuperAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.netAmountSuperAdmin}>
+                              {agent?.netAmountSuperAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.shareAmountSuperAdmin}>
+                              {agent?.shareAmountSuperAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
+                          <td>
+                            <LedgerAmount value={agent?.finalAmountSuperAdmin}>
+                              {agent?.finalAmountSuperAdmin?.toFixed(2)}
+                            </LedgerAmount>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                     <tfoot>
                       <tr>
                         <th>TOTAL</th>
-                        <td>{item?.matchAmount?.toFixed(2)}</td>
-                        <td>{item?.sessionAmount?.toFixed(2)}</td>
-                        <td>{item?.totalAmoount?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionDealer?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionDealer?.toFixed(2)}</td>
-                        <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
-                        <td>{item?.netAmountDealer?.toFixed(2)}</td>
-                        <td>{item?.shareAmountDealer?.toFixed(2)}</td>
-                        <td>{item?.finalAmountDealer?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionMaster?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionMaster?.toFixed(2)}</td>
-                        <td>{item?.totalCommissionMaster?.toFixed(2)}</td>
-                        <td>{item?.netAmountMaster?.toFixed(2)}</td>
-                        <td>{item?.shareAmountMaster?.toFixed(2)}</td>
-                        <td>{item?.finalAmountMaster?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionSuperMaster?.toFixed(2)}</td>
                         <td>
-                          {item?.sessionCommissionSuperMaster?.toFixed(2)}
+                          <LedgerAmount value={item?.matchAmount}>
+                            {item?.matchAmount?.toFixed(2)}
+                          </LedgerAmount>
                         </td>
-                        <td>{item?.totalCommissionSuperMaster?.toFixed(2)}</td>
-                        <td>{item?.netAmountSuperMaster?.toFixed(2)}</td>
-                        <td>{item?.shareAmountSuperMaster?.toFixed(2)}</td>
-                        <td>{item?.finalAmountSuperMaster?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionSubAdmin?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionSubAdmin?.toFixed(2)}</td>
-                        <td>{item?.totalCommissionSubAdmin?.toFixed(2)}</td>
-                        <td>{item?.netAmountSubAdmin?.toFixed(2)}</td>
-                        <td>{item?.shareAmountSubAdmin?.toFixed(2)}</td>
-                        <td>{item?.finalAmountSubAdmin?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionAdmin?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionAdmin?.toFixed(2)}</td>
-                        <td>{item?.totalCommissionAdmin?.toFixed(2)}</td>
-                        <td>{item?.netAmountAdmin?.toFixed(2)}</td>
-                        <td>{item?.shareAmountAdmin?.toFixed(2)}</td>
-                        <td>{item?.finalAmountAdmin?.toFixed(2)}</td>
-                        <td>{item?.matchCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.sessionCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.netAmountSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                        <td>{item?.finalAmountSuperAdmin?.toFixed(2)}</td>
+                        <td>
+                          <LedgerAmount value={item?.sessionAmount}>
+                            {item?.sessionAmount?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.totalAmoount}>
+                            {item?.totalAmoount?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.matchCommissionDealer}>
+                            {item?.matchCommissionDealer?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.sessionCommissionDealer}>
+                            {item?.sessionCommissionDealer?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.totalCommissionDealer}>
+                            {item?.totalCommissionDealer?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.netAmountDealer}>
+                            {item?.netAmountDealer?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.shareAmountDealer}>
+                            {item?.shareAmountDealer?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.finalAmountDealer}>
+                            {item?.finalAmountDealer?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.matchCommissionMaster}>
+                            {item?.matchCommissionMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.sessionCommissionMaster}>
+                            {item?.sessionCommissionMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.totalCommissionMaster}>
+                            {item?.totalCommissionMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.netAmountMaster}>
+                            {item?.netAmountMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.shareAmountMaster}>
+                            {item?.shareAmountMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.finalAmountMaster}>
+                            {item?.finalAmountMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount
+                            value={item?.matchCommissionSuperMaster}>
+                            {item?.matchCommissionSuperMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount
+                            value={item?.sessionCommissionSuperMaster}>
+                            {item?.sessionCommissionSuperMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount
+                            value={item?.totalCommissionSuperMaster}>
+                            {item?.totalCommissionSuperMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.netAmountSuperMaster}>
+                            {item?.netAmountSuperMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.shareAmountSuperMaster}>
+                            {item?.shareAmountSuperMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.finalAmountSuperMaster}>
+                            {item?.finalAmountSuperMaster?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.matchCommissionSubAdmin}>
+                            {item?.matchCommissionSubAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.sessionCommissionSubAdmin}>
+                            {item?.sessionCommissionSubAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.totalCommissionSubAdmin}>
+                            {item?.totalCommissionSubAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.netAmountSubAdmin}>
+                            {item?.netAmountSubAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.shareAmountSubAdmin}>
+                            {item?.shareAmountSubAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.finalAmountSubAdmin}>
+                            {item?.finalAmountSubAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.matchCommissionAdmin}>
+                            {item?.matchCommissionAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.sessionCommissionAdmin}>
+                            {item?.sessionCommissionAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.totalCommissionAdmin}>
+                            {item?.totalCommissionAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.netAmountAdmin}>
+                            {item?.netAmountAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.shareAmountAdmin}>
+                            {item?.shareAmountAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.finalAmountAdmin}>
+                            {item?.finalAmountAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.matchCommissionSuperAdmin}>
+                            {item?.matchCommissionSuperAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount
+                            value={item?.sessionCommissionSuperAdmin}>
+                            {item?.sessionCommissionSuperAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.totalCommissionSuperAdmin}>
+                            {item?.totalCommissionSuperAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.netAmountSuperAdmin}>
+                            {item?.netAmountSuperAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.shareAmountSuperAdmin}>
+                            {item?.shareAmountSuperAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
+                        <td>
+                          <LedgerAmount value={item?.finalAmountSuperAdmin}>
+                            {item?.finalAmountSuperAdmin?.toFixed(2)}
+                          </LedgerAmount>
+                        </td>
                       </tr>
                     </tfoot>
                   </table>
+                  </div>
                 </div>
               </>
             )}
           </div>
           {depthKeysF[depth] !== "A" && (
-            <div className="card-footer" style={{ overflow: "scroll" }}>
+            <div className="card-footer">
+              <div className="ledger-table-scroll">
               <table
+                data-ledger-columns="40"
                 className="plus-table plus_minus_sec"
                 style={{ height: "auto", minHeight: "auto" }}>
+                <colgroup>
+                  <col className="ledger-client-col" />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                  <col />
+                </colgroup>
                 <thead className="bg-gradient-white">
                   <tr>
                     <th
@@ -206,48 +616,205 @@ const RecursiveCard = ({ data, depth }) => {
                       }}>
                       {depthKeysF[depth]} TOTAL
                     </th>
-                    <td>{item?.matchAmount?.toFixed(2)}</td>
-                    <td>{item?.sessionAmount?.toFixed(2)}</td>
-                    <td>{item?.totalAmoount?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionDealer?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionDealer?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionDealer?.toFixed(2)}</td>
-                    <td>{item?.netAmountDealer?.toFixed(2)}</td>
-                    <td>{item?.shareAmountDealer?.toFixed(2)}</td>
-                    <td>{item?.finalAmountDealer?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionMaster?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionMaster?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionMaster?.toFixed(2)}</td>
-                    <td>{item?.netAmountMaster?.toFixed(2)}</td>
-                    <td>{item?.shareAmountMaster?.toFixed(2)}</td>
-                    <td>{item?.finalAmountMaster?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionSuperMaster?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionSuperMaster?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionSuperMaster?.toFixed(2)}</td>
-                    <td>{item?.netAmountSuperMaster?.toFixed(2)}</td>
-                    <td>{item?.shareAmountSuperMaster?.toFixed(2)}</td>
-                    <td>{item?.finalAmountSuperMaster?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionSubAdmin?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionSubAdmin?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionSubAdmin?.toFixed(2)}</td>
-                    <td>{item?.netAmountSubAdmin?.toFixed(2)}</td>
-                    <td>{item?.shareAmountSubAdmin?.toFixed(2)}</td>
-                    <td>{item?.finalAmountSubAdmin?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionAdmin?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionAdmin?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionAdmin?.toFixed(2)}</td>
-                    <td>{item?.netAmountAdmin?.toFixed(2)}</td>
-                    <td>{item?.shareAmountAdmin?.toFixed(2)}</td>
-                    <td>{item?.finalAmountAdmin?.toFixed(2)}</td>
-                    <td>{item?.matchCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.sessionCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.totalCommissionSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.netAmountSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                    <td>{item?.finalAmountSuperAdmin?.toFixed(2)}</td>
+                    <td>
+                      <LedgerAmount value={item?.matchAmount}>
+                        {item?.matchAmount?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionAmount}>
+                        {item?.sessionAmount?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalAmoount}>
+                        {item?.totalAmoount?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.matchCommissionDealer}>
+                        {item?.matchCommissionDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionCommissionDealer}>
+                        {item?.sessionCommissionDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalCommissionDealer}>
+                        {item?.totalCommissionDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.netAmountDealer}>
+                        {item?.netAmountDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.shareAmountDealer}>
+                        {item?.shareAmountDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.finalAmountDealer}>
+                        {item?.finalAmountDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.matchCommissionMaster}>
+                        {item?.matchCommissionMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionCommissionMaster}>
+                        {item?.sessionCommissionMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalCommissionMaster}>
+                        {item?.totalCommissionMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.netAmountMaster}>
+                        {item?.netAmountMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.shareAmountMaster}>
+                        {item?.shareAmountMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.finalAmountMaster}>
+                        {item?.finalAmountMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.matchCommissionSuperMaster}>
+                        {item?.matchCommissionSuperMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionCommissionSuperMaster}>
+                        {item?.sessionCommissionSuperMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalCommissionSuperMaster}>
+                        {item?.totalCommissionSuperMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.netAmountSuperMaster}>
+                        {item?.netAmountSuperMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.shareAmountSuperMaster}>
+                        {item?.shareAmountSuperMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.finalAmountSuperMaster}>
+                        {item?.finalAmountSuperMaster?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.matchCommissionSubAdmin}>
+                        {item?.matchCommissionSubAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionCommissionSubAdmin}>
+                        {item?.sessionCommissionSubAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalCommissionSubAdmin}>
+                        {item?.totalCommissionSubAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.netAmountSubAdmin}>
+                        {item?.netAmountSubAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.shareAmountSubAdmin}>
+                        {item?.shareAmountSubAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.finalAmountSubAdmin}>
+                        {item?.finalAmountSubAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.matchCommissionAdmin}>
+                        {item?.matchCommissionAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionCommissionAdmin}>
+                        {item?.sessionCommissionAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalCommissionAdmin}>
+                        {item?.totalCommissionAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.netAmountAdmin}>
+                        {item?.netAmountAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.shareAmountAdmin}>
+                        {item?.shareAmountAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.finalAmountAdmin}>
+                        {item?.finalAmountAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.matchCommissionSuperAdmin}>
+                        {item?.matchCommissionSuperAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.sessionCommissionSuperAdmin}>
+                        {item?.sessionCommissionSuperAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.totalCommissionSuperAdmin}>
+                        {item?.totalCommissionSuperAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.netAmountSuperAdmin}>
+                        {item?.netAmountSuperAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.shareAmountSuperAdmin}>
+                        {item?.shareAmountSuperAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={item?.finalAmountSuperAdmin}>
+                        {item?.finalAmountSuperAdmin?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
                   </tr>
                 </thead>
               </table>
+                  </div>
             </div>
           )}
         </div>
@@ -273,10 +840,54 @@ const LedgerDataComponentSuper = ({ ledgerData }) => {
       <div className={`card card-dark`}>
         <div className="card-body">
           <RecursiveCard data={ledgerData?.data?.ledgetList} depth={0} />
-          <div className="card-footer" style={{ overflow: "scroll" }}>
+          <div className="card-footer">
+            <div className="ledger-table-scroll">
             <table
+              data-ledger-columns="40"
               className="plus-table plus_minus_sec"
               style={{ height: "auto", minHeight: "auto" }}>
+              <colgroup>
+                <col className="ledger-client-col" />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+              </colgroup>
               <thead className="bg-gradient-white">
                 <tr>
                   <th
@@ -285,76 +896,232 @@ const LedgerDataComponentSuper = ({ ledgerData }) => {
                     }}>
                     AA TOTAL
                   </th>
-                  <td>{ledgerData?.data?.matchAmount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.sessionAmount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.totalAmoount?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionDealer?.toFixed(2)}</td>
                   <td>
-                    {ledgerData?.data?.sessionCommissionDealer?.toFixed(2)}
-                  </td>
-                  <td>{ledgerData?.data?.totalCommissionDealer?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.netAmountDealer?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.shareAmountDealer?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountDealer?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionMaster?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionMaster?.toFixed(2)}
-                  </td>
-                  <td>{ledgerData?.data?.totalCommissionMaster?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.netAmountMaster?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.shareAmountMaster?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountMaster?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.matchCommissionSuperMaster?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.matchAmount}>
+                      {ledgerData?.data?.matchAmount?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.sessionCommissionSuperMaster?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.sessionAmount}>
+                      {ledgerData?.data?.sessionAmount?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.totalCommissionSuperMaster?.toFixed(2)}
-                  </td>
-                  <td>{ledgerData?.data?.netAmountSuperMaster?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.shareAmountSuperMaster?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.totalAmoount}>
+                      {ledgerData?.data?.totalAmoount?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.finalAmountSuperMaster?.toFixed(2)}
+                    <LedgerAmount
+                      value={ledgerData?.data?.matchCommissionDealer}>
+                      {ledgerData?.data?.matchCommissionDealer?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.matchCommissionSubAdmin?.toFixed(2)}
+                    <LedgerAmount
+                      value={ledgerData?.data?.sessionCommissionDealer}>
+                      {ledgerData?.data?.sessionCommissionDealer?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.sessionCommissionSubAdmin?.toFixed(2)}
+                    <LedgerAmount
+                      value={ledgerData?.data?.totalCommissionDealer}>
+                      {ledgerData?.data?.totalCommissionDealer?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.totalCommissionSubAdmin?.toFixed(2)}
-                  </td>
-                  <td>{ledgerData?.data?.netAmountSubAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.shareAmountSubAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountSubAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.matchCommissionAdmin?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.sessionCommissionAdmin?.toFixed(2)}
-                  </td>
-                  <td>{ledgerData?.data?.totalCommissionAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.netAmountAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.shareAmountAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountAdmin?.toFixed(2)}</td>
-                  <td>
-                    {ledgerData?.data?.matchCommissionSuperAdmin?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.netAmountDealer}>
+                      {ledgerData?.data?.netAmountDealer?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.sessionCommissionSuperAdmin?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.shareAmountDealer}>
+                      {ledgerData?.data?.shareAmountDealer?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
                   <td>
-                    {ledgerData?.data?.totalCommissionSuperAdmin?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.finalAmountDealer}>
+                      {ledgerData?.data?.finalAmountDealer?.toFixed(2)}
+                    </LedgerAmount>
                   </td>
-                  <td>{ledgerData?.data?.netAmountSuperAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.shareAmountSuperAdmin?.toFixed(2)}</td>
-                  <td>{ledgerData?.data?.finalAmountSuperAdmin?.toFixed(2)}</td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.matchCommissionMaster}>
+                      {ledgerData?.data?.matchCommissionMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.sessionCommissionMaster}>
+                      {ledgerData?.data?.sessionCommissionMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.totalCommissionMaster}>
+                      {ledgerData?.data?.totalCommissionMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.netAmountMaster}>
+                      {ledgerData?.data?.netAmountMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.shareAmountMaster}>
+                      {ledgerData?.data?.shareAmountMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.finalAmountMaster}>
+                      {ledgerData?.data?.finalAmountMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.matchCommissionSuperMaster}>
+                      {ledgerData?.data?.matchCommissionSuperMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.sessionCommissionSuperMaster}>
+                      {ledgerData?.data?.sessionCommissionSuperMaster?.toFixed(
+                        2,
+                      )}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.totalCommissionSuperMaster}>
+                      {ledgerData?.data?.totalCommissionSuperMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.netAmountSuperMaster}>
+                      {ledgerData?.data?.netAmountSuperMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.shareAmountSuperMaster}>
+                      {ledgerData?.data?.shareAmountSuperMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.finalAmountSuperMaster}>
+                      {ledgerData?.data?.finalAmountSuperMaster?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.matchCommissionSubAdmin}>
+                      {ledgerData?.data?.matchCommissionSubAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.sessionCommissionSubAdmin}>
+                      {ledgerData?.data?.sessionCommissionSubAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.totalCommissionSubAdmin}>
+                      {ledgerData?.data?.totalCommissionSubAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.netAmountSubAdmin}>
+                      {ledgerData?.data?.netAmountSubAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.shareAmountSubAdmin}>
+                      {ledgerData?.data?.shareAmountSubAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.finalAmountSubAdmin}>
+                      {ledgerData?.data?.finalAmountSubAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.matchCommissionAdmin}>
+                      {ledgerData?.data?.matchCommissionAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.sessionCommissionAdmin}>
+                      {ledgerData?.data?.sessionCommissionAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.totalCommissionAdmin}>
+                      {ledgerData?.data?.totalCommissionAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.netAmountAdmin}>
+                      {ledgerData?.data?.netAmountAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.shareAmountAdmin}>
+                      {ledgerData?.data?.shareAmountAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.finalAmountAdmin}>
+                      {ledgerData?.data?.finalAmountAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.matchCommissionSuperAdmin}>
+                      {ledgerData?.data?.matchCommissionSuperAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.sessionCommissionSuperAdmin}>
+                      {ledgerData?.data?.sessionCommissionSuperAdmin?.toFixed(
+                        2,
+                      )}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.totalCommissionSuperAdmin}>
+                      {ledgerData?.data?.totalCommissionSuperAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount value={ledgerData?.data?.netAmountSuperAdmin}>
+                      {ledgerData?.data?.netAmountSuperAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.shareAmountSuperAdmin}>
+                      {ledgerData?.data?.shareAmountSuperAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
+                  <td>
+                    <LedgerAmount
+                      value={ledgerData?.data?.finalAmountSuperAdmin}>
+                      {ledgerData?.data?.finalAmountSuperAdmin?.toFixed(2)}
+                    </LedgerAmount>
+                  </td>
                 </tr>
               </thead>
             </table>
+                  </div>
           </div>
         </div>
       </div>

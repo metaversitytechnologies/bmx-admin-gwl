@@ -599,3 +599,7 @@ textarea.ant-input {
 table {
   width: 100% !important;
 }
+
+*::-webkit-scrollbar {
+  display: none !important;
+}

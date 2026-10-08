@@ -1,28 +1,48 @@
 import { useLocation, useParams } from "react-router-dom";
+import { useRef } from "react";
+import useLedgerSticky from "./useLedgerSticky";
+import { Spin } from "antd";
 import { useGetCompleteLedgerQuery } from "../../../../../store/service/SportDetailServices";
-import LedgerDashboard from "./components/LedgerDashboard";
+import LedgerDataComponentSuper from "./LedgerData/LedgerDataComponentSuper";
+import LedgerDataAdmin from "./LedgerData/LedgerDataAdmin";
+import LedgerdataSubAdmin from "./LedgerData/LedgerdataSubAdmin";
+import LedgerdataSuperMaster from "./LedgerData/LedgerdataSuperMaster";
+import LedgerdataMaster from "./LedgerData/LedgerdataMaster";
+import LedgerdataAgent from "./LedgerData/LedgerdataAgent";
 
 const PlusMinusTable = () => {
   const { state } = useLocation();
   const { id } = useParams();
-  const { data: ledgerData, isLoading, isFetching, isError, refetch } = useGetCompleteLedgerQuery({
+  const { data: ledgerData, isLoading } = useGetCompleteLedgerQuery({
     matchId: id,
-    matchCompleted: state?.matchCompleted ?? true,
+    matchCompleted: state?.matchCompleted || true,
     fancyIdList: state?.first,
     userIdList: state?.thirdUserid,
     oddsAndSessionBoth: true,
   });
 
-  if (isLoading) return <div className="pnl-message" role="status">Loading match profit and loss…</div>;
-  if (isError) return <div className="pnl-message" role="alert">
-    <p>Unable to load this match’s ledger.</p>
-    <button type="button" onClick={refetch}>Try again</button>
-  </div>;
-  if (!ledgerData?.data) return <div className="pnl-message" role="status">No ledger data is available for this match.</div>;
+  const viewportRef = useRef(null);
+  useLedgerSticky(viewportRef, ledgerData);
 
-  return <div aria-busy={isFetching}>
-    <LedgerDashboard data={ledgerData.data} userType={localStorage.getItem("userType")} />
-  </div>;
+  const userType = localStorage.getItem("userType");
+
+  return (
+    <div ref={viewportRef} className="ledger-live-viewport" style={{ position: "relative" }}>
+        {userType === "7" && (
+          <LedgerDataComponentSuper ledgerData={ledgerData} />
+        )}
+        {userType === "6" && <LedgerDataAdmin ledgerData={ledgerData} />}
+        {userType === "5" && <LedgerdataSubAdmin ledgerData={ledgerData} />}
+        {userType === "4" && <LedgerdataSuperMaster ledgerData={ledgerData} />}
+        {userType === "3" && <LedgerdataMaster ledgerData={ledgerData} />}
+        {userType === "2" && <LedgerdataAgent ledgerData={ledgerData} />}
+      {isLoading && (
+        <div className="plus_spin">
+          <Spin size="large" />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default PlusMinusTable;

@@ -1,3 +1,4 @@
+import LedgerAmount from "./LedgerAmount";
 
 const LedgerdataAgent = ({ ledgerData }) => {
   return (
@@ -9,7 +10,26 @@ const LedgerdataAgent = ({ ledgerData }) => {
         }}>
         <>
           <div className="card-body">
-            <table className="plus-table plus_minus_sec">
+            <div className="ledger-table-scroll">
+            <table
+              data-ledger-columns="14"
+              className="plus-table plus_minus_sec">
+              <colgroup>
+                <col className="ledger-client-col" />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+                <col />
+              </colgroup>
               <thead>
                 <tr>
                   <th colSpan={7} className="text-center">
@@ -44,43 +64,149 @@ const LedgerdataAgent = ({ ledgerData }) => {
                     <td>
                       {agent.userId} {agent.username}
                     </td>
-                    <td>{agent.matchAmount?.toFixed(2)}</td>
-                    <td>{agent.sessionAmount?.toFixed(2)}</td>
-                    <td>{agent.clientCommission?.toFixed(2)}</td>
-                    <td>{agent.clientNetAmount?.toFixed(2)}</td>
-                    <td>{agent.clientMobileApp?.toFixed(2)}</td>
-                    <td>{agent.clientFinal?.toFixed(2)}</td>
-                    <td>{agent.matchCommissionDealer?.toFixed(2)}</td>
-                    <td>{agent.sessionCommissionDealer?.toFixed(2)}</td>
-                    <td>{agent.totalCommissionDealer?.toFixed(2)}</td>
-                    <td>{agent.netAmountDealer?.toFixed(2)}</td>
-                    <td>{agent.shareAmountDealer?.toFixed(2)}</td>
-                    <td>{agent.mobileAppDealer?.toFixed(2)}</td>
-                    <td>{agent.finalAmountDealer?.toFixed(2)}</td>
+                    <td>
+                      <LedgerAmount value={agent.matchAmount}>
+                        {agent.matchAmount?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.sessionAmount}>
+                        {agent.sessionAmount?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.clientCommission}>
+                        {agent.clientCommission?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.clientNetAmount}>
+                        {agent.clientNetAmount?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.clientMobileApp}>
+                        {agent.clientMobileApp?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.clientFinal}>
+                        {agent.clientFinal?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.matchCommissionDealer}>
+                        {agent.matchCommissionDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.sessionCommissionDealer}>
+                        {agent.sessionCommissionDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.totalCommissionDealer}>
+                        {agent.totalCommissionDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.netAmountDealer}>
+                        {agent.netAmountDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.shareAmountDealer}>
+                        {agent.shareAmountDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.mobileAppDealer}>
+                        {agent.mobileAppDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
+                    <td>
+                      <LedgerAmount value={agent.finalAmountDealer}>
+                        {agent.finalAmountDealer?.toFixed(2)}
+                      </LedgerAmount>
+                    </td>
                   </tr>
                 ))}
               </tbody>
               <tfoot>
                 <tr>
                   <th>TOTAL</th>
-                  <th>{ledgerData?.data?.matchAmount?.toFixed(2)}</th>
-                  <th>{ledgerData?.data?.sessionAmount?.toFixed(2)}</th>
-                  <th>{ledgerData?.data?.clientCommission?.toFixed(2)}</th>
-                  <th>{ledgerData?.data?.clientNetAmount?.toFixed(2)}</th>
-                  <th>{ledgerData?.data?.clientMobileApp?.toFixed(2)}</th>
-                  <th>{ledgerData?.data?.clientFinal?.toFixed(2)}</th>
-                  <th>{ledgerData?.data.matchCommissionDealer?.toFixed(2)}</th>
                   <th>
-                    {ledgerData?.data.sessionCommissionDealer?.toFixed(2)}
+                    <LedgerAmount value={ledgerData?.data?.matchAmount}>
+                      {ledgerData?.data?.matchAmount?.toFixed(2)}
+                    </LedgerAmount>
                   </th>
-                  <th>{ledgerData?.data.totalCommissionDealer?.toFixed(2)}</th>
-                  <th>{ledgerData?.data.netAmountDealer?.toFixed(2)}</th>
-                  <th>{ledgerData?.data.shareAmountDealer?.toFixed(2)}</th>
-                  <th>{ledgerData?.data.mobileAppDealer?.toFixed(2)}</th>
-                  <th>{ledgerData?.data.finalAmountDealer?.toFixed(2)}</th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data?.sessionAmount}>
+                      {ledgerData?.data?.sessionAmount?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data?.clientCommission}>
+                      {ledgerData?.data?.clientCommission?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data?.clientNetAmount}>
+                      {ledgerData?.data?.clientNetAmount?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data?.clientMobileApp}>
+                      {ledgerData?.data?.clientMobileApp?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data?.clientFinal}>
+                      {ledgerData?.data?.clientFinal?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount
+                      value={ledgerData?.data.matchCommissionDealer}>
+                      {ledgerData?.data.matchCommissionDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount
+                      value={ledgerData?.data.sessionCommissionDealer}>
+                      {ledgerData?.data.sessionCommissionDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount
+                      value={ledgerData?.data.totalCommissionDealer}>
+                      {ledgerData?.data.totalCommissionDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data.netAmountDealer}>
+                      {ledgerData?.data.netAmountDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data.shareAmountDealer}>
+                      {ledgerData?.data.shareAmountDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data.mobileAppDealer}>
+                      {ledgerData?.data.mobileAppDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
+                  <th>
+                    <LedgerAmount value={ledgerData?.data.finalAmountDealer}>
+                      {ledgerData?.data.finalAmountDealer?.toFixed(2)}
+                    </LedgerAmount>
+                  </th>
                 </tr>
               </tfoot>
             </table>
+                  </div>
           </div>
         </>
       </div>
