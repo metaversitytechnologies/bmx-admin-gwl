@@ -1,8 +1,8 @@
+import ActionDropdown from "./ActionDropdown/ActionDropdown";
 import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Divider,
-  Dropdown,
   Empty,
   Form,
   Input,
@@ -207,9 +207,8 @@ const UserListTable = ({
     setIsOverlayOpen(false);
   };
 
-  const toggleDropdown = (index) => {
-    const updatedDropdownStates = [...dropdownOpenStates];
-    updatedDropdownStates[index] = !updatedDropdownStates[index];
+  const toggleDropdown = (index, open) => {
+    const updatedDropdownStates = dropdownOpenStates.map((_, row) => row === index && open);
     setDropdownOpenStates(updatedDropdownStates);
     setIsOverlayOpen(updatedDropdownStates[index]);
   };
@@ -757,11 +756,12 @@ const UserListTable = ({
                         </span>
                       </td>
                       <td className="admin-details-sticky-action">
-                        <Dropdown
+                        <ActionDropdown
+                          accountActions
                           className="droup_menu"
                           open={dropdownOpenStates[id]}
-                          onOpenChange={() => {
-                            toggleDropdown(id);
+                          onOpenChange={(open) => {
+                            toggleDropdown(id, open);
                           }}
                           menu={{
                             items: getActionMenuItems(res),
@@ -781,7 +781,7 @@ const UserListTable = ({
                             }}>
                             <MoreVertical size={16} strokeWidth={2} />
                           </button>
-                        </Dropdown>
+                        </ActionDropdown>
                       </td>
                     </tr>
                   ))

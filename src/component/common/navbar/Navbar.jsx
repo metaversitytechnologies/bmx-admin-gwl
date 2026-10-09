@@ -2,7 +2,8 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 // import { AiOutlineDown } from "react-icons/ai";
 import { Dropdown, Space, Modal, Button } from "antd";
-import { Bell, ChevronDown, Menu, PanelLeft } from "lucide-react";
+import { Bell, ChevronDown, Menu, Wallet, LockKeyhole, LogOut, ChevronRight } from "lucide-react";
+import "./Navbar.scss";
 import { imgUrl } from "../../../store/constant";
 import { useAdminLogout } from "../useAdminLogout";
 
@@ -17,22 +18,30 @@ const Navbar = ({ action }) => {
   const [isDepositeModalOpen, setIsDepositeModalOpen] = useState(false);
   const handleLogout = useAdminLogout();
 
+  const menuLabel = (label, Icon, tone) => (
+    <span className="profile-menu-row">
+      <span className={`profile-menu-icon profile-menu-icon--${tone}`}><Icon size={22} strokeWidth={2} aria-hidden="true" /></span>
+      <span className="profile-menu-label">{label}</span>
+      <ChevronRight className="profile-menu-chevron" size={22} aria-hidden="true" />
+    </span>
+  );
   const items = [
     ...(userType == "7"
       ? [
           {
-            label: "Deposit",
+            label: menuLabel("Deposit", Wallet, "green"),
             key: "2",
           },
         ]
       : []),
     {
-      label: "Change Password",
+      label: menuLabel("Change Password", LockKeyhole, "blue"),
       key: "0",
     },
 
     {
-      label: <p onClick={handleLogout}>Logout</p>,
+      label: menuLabel("Logout", LogOut, "red"),
+      className: "profile-menu-logout",
       key: "1",
     },
   ];
@@ -41,6 +50,8 @@ const Navbar = ({ action }) => {
       setIsModalOpen(true);
     } else if (e.key == 2) {
       setIsDepositeModalOpen(true);
+    } else if (e.key == 1) {
+      handleLogout();
     }
   };
 
@@ -63,6 +74,8 @@ const Navbar = ({ action }) => {
 
   const hostName = window.location.hostname;
   const avatarText = userData?.slice(0, 2)?.toUpperCase() || "SA";
+
+  const roleName = { 7: "Super Administrator", 6: "Admin", 5: "madmin", 4: "MasterAgent", 3: "SuperAgent", 2: "Agent" }[userType] || "";
 
   return (
     <>
@@ -89,7 +102,21 @@ const Navbar = ({ action }) => {
               <Bell size={23} strokeWidth={1.8} />
             </span>
             <Dropdown
-              style={{ zIndex: "999999" }}
+              overlayClassName="admin-profile-dropdown"
+              placement="bottomRight"
+              autoFocus
+              dropdownRender={(menu) => (
+                <div className="profile-menu-panel">
+                  <div className="profile-menu-heading">
+                    <span className="profile-menu-avatar">{avatarText}</span>
+                    <div className="profile-menu-identity">
+                      <strong>{userData}</strong>
+                      <span>{roleName}</span>
+                    </div>
+                  </div>
+                  {menu}
+                </div>
+              )}
               className="droup_nav"
               menu={{
                 className: "nav_droupdown",
@@ -97,13 +124,13 @@ const Navbar = ({ action }) => {
                 onClick: handleModal,
               }}
               trigger={["click"]}>
-              <div className="user_deatils" onClick={(e) => e.preventDefault()}>
+              <button type="button" className="user_deatils profile-menu-trigger" aria-label="Open profile menu">
                 <span className="nav_username">
                   {userData}
-                  <ChevronDown size={17} strokeWidth={2} />
+                  <ChevronDown size={15} strokeWidth={2} />
                 </span>
                 <span className="nav_avatar">{avatarText}</span>
-              </div>
+              </button>
             </Dropdown>
           </div>
         </div>

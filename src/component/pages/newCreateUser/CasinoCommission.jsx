@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const CasinoCommission = ({ createName, commiType }) => {
   const { id } = useParams();
   return (
-    <section className="create-admin-card create-admin-commission-card">
+    <section className="create-admin-card create-admin-commission-card create-admin-casino-card">
       <div className="create-admin-section-heading">
         <span className="create-admin-section-icon">
           <Dices size={16} strokeWidth={1.9} />

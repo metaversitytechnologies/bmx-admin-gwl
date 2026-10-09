@@ -9,12 +9,19 @@
   padding: 24px 32px;
   position: relative;
   background:
-    radial-gradient(circle at 20% 20%, rgba(126, 87, 255, 0.08), transparent 30%),
-    radial-gradient(circle at 85% 80%, rgba(92, 72, 255, 0.08), transparent 30%),
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(126, 87, 255, 0.08),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      rgba(92, 72, 255, 0.08),
+      transparent 30%
+    ),
     linear-gradient(135deg, #fbfbff 0%, #f5f3ff 52%, #eef0ff 100%);
 }
 
-.gx-app-login-wrap::before,
 .gx-app-login-wrap::after {
   content: "";
   position: absolute;
@@ -22,14 +29,13 @@
   height: 420px;
   pointer-events: none;
   opacity: 0.44;
-  background:
-    repeating-linear-gradient(
-      135deg,
-      rgba(98, 88, 220, 0.11) 0,
-      rgba(98, 88, 220, 0.11) 1px,
-      transparent 1px,
-      transparent 12px
-    );
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(98, 88, 220, 0.11) 0,
+    rgba(98, 88, 220, 0.11) 1px,
+    transparent 1px,
+    transparent 12px
+  );
 }
 
 .gx-app-login-wrap::before {
@@ -68,8 +74,16 @@
   padding: 28px 30px 26px;
   color: #ffffff;
   background:
-    radial-gradient(circle at 70% 45%, rgba(123, 84, 255, 0.16), transparent 32%),
-    radial-gradient(circle at 72% 35%, rgba(126, 79, 255, 0.2), transparent 32%),
+    radial-gradient(
+      circle at 70% 45%,
+      rgba(123, 84, 255, 0.16),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 72% 35%,
+      rgba(126, 79, 255, 0.2),
+      transparent 32%
+    ),
     linear-gradient(155deg, #11123f 0%, #17134d 48%, #292064 100%);
 }
 
@@ -78,7 +92,11 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 18% 58%, rgba(117, 89, 255, 0.18), transparent 20%),
+    radial-gradient(
+      circle at 18% 58%,
+      rgba(117, 89, 255, 0.18),
+      transparent 20%
+    ),
     repeating-linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.045) 0,
@@ -135,6 +153,10 @@
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.045);
   backdrop-filter: blur(8px);
+
+  @media (max-width: 800px) {
+    padding: 6px 0px;
+  }
 }
 
 .auth-feature-item {
@@ -159,8 +181,17 @@
   justify-content: center;
   border-radius: 9px;
   color: #ffffff;
-  background: linear-gradient(135deg, rgba(88, 100, 249, 0.95), rgba(123, 84, 255, 0.95));
+  background: linear-gradient(
+    135deg,
+    rgba(88, 100, 249, 0.95),
+    rgba(123, 84, 255, 0.95)
+  );
   box-shadow: 0 10px 18px rgba(39, 30, 124, 0.24);
+
+  @media (max-width: 800px) {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .auth-feature-icon svg {
@@ -358,7 +389,12 @@
   gap: 16px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #5864f9 0%, #7b54ff 52%, #bc3bed 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #5864f9 0%,
+    #7b54ff 52%,
+    #bc3bed 100%
+  ) !important;
   color: #ffffff;
   font-size: 12.5px;
   font-weight: 600;
@@ -371,7 +407,12 @@
 .antpro-signin-form .ant-btn-primary:hover,
 .antpro-signin-form .ant-btn-primary:focus {
   transform: translateY(-1px);
-  background: linear-gradient(135deg, #5864f9 0%, #7b54ff 52%, #bc3bed 100%) !important;
+  background: linear-gradient(
+    135deg,
+    #5864f9 0%,
+    #7b54ff 52%,
+    #bc3bed 100%
+  ) !important;
   box-shadow: 0 8px 20px rgba(123, 84, 255, 0.24);
 }
 
@@ -388,6 +429,9 @@
   gap: 18px;
   color: #313a5c;
   font-size: 11px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+  }
 }
 
 .antpro-notice-main,
@@ -443,8 +487,8 @@
   }
 
   .antpro-login-copy {
-    margin-top: 18px;
-    margin-bottom: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .antpro-login-copy h1 {
@@ -462,6 +506,7 @@
   .antpro-form-heading {
     gap: 11px;
     margin-bottom: 18px;
+    display: none;
   }
 
   .antpro-form-heading h2 {
@@ -551,7 +596,8 @@
   }
 
   .antpro-login-logo img {
-    width: 125px;
+    height: 50px;
+    width: auto;
   }
 
   .antpro-login-copy h1 {

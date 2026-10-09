@@ -8,7 +8,7 @@ const MatchCommission = ({ commissionType, commiType, data, createName }) => {
   const { Option } = Select;
 
   return (
-    <section className="create-admin-card create-admin-commission-card">
+    <section className="create-admin-card create-admin-commission-card create-admin-match-card">
       <div className="create-admin-section-heading">
         <span className="create-admin-section-icon">
           <BadgePercent size={16} strokeWidth={1.9} />

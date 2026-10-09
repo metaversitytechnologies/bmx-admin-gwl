@@ -12,33 +12,28 @@ const Bookmaker = ({
   return (
     <>
       <div
-        className="ant-table-wrapper gx-w-100 gx-mx-0 gx-my-0"
-        style={{ marginTop: 16 }}>
+        className="ant-table-wrapper gx-w-100 gx-mx-0 gx-my-0 game-details-bookmaker"
+        >
         <div className="ant-spin-nested-loading">
           <div className="ant-spin-container">
             <div className="ant-table ant-table-small ant-table-bordered">
               <div className="ant-table-container">
                 <div className="ant-table-content">
-                  <table style={{ tableLayout: "auto" }}>
+                    <table style={{ tableLayout: "fixed" }}>
                     <colgroup>
-                      <col style={{ width: "60%" }} />
-                      <col style={{ width: "20%" }} />
-                      <col style={{ width: "20%" }} />
+                      <col style={{ width: "51%" }} />
+                      <col style={{ width: "22%" }} />
+                      <col style={{ width: "27%" }} />
                     </colgroup>
                     <thead className="ant-table-thead">
                       <tr>
                         <th className="ant-table-cell matchdtailsNoYesBackground">
                           <div className="gx-bg-flex gx-justify-content-between gx-align-items-center minMax">
                             <div style={{ display: "flex" }}>
-                              <div
-                                style={{
-                                  padding: "6px 8px",
+                                  <div
+                                    className={`game-details-book-tab ${!showTtlBook ? "is-active" : ""}`}
+                                    style={{
                                   cursor: "pointer",
-                                  backgroundColor: !showTtlBook
-                                    ? "rgb(235, 109, 136)"
-                                    : "white",
-                                  color: !showTtlBook ? "white" : "black",
-                                  fontWeight: 500,
                                 }}
                                 onClick={() => {
                                   setShowTtlBook(false);
@@ -46,15 +41,10 @@ const Bookmaker = ({
                                 }}>
                                 Ttl Book
                               </div>
-                              <div
-                                style={{
-                                  padding: "6px 8px",
+                                  <div
+                                    className={`game-details-book-tab ${showTtlBook ? "is-active" : ""}`}
+                                    style={{
                                   cursor: "pointer",
-                                  backgroundColor: showTtlBook
-                                    ? "rgb(235, 109, 136)"
-                                    : "white",
-                                  color: showTtlBook ? "white" : "black",
-                                  fontWeight: 500,
                                 }}
                                 onClick={() => {
                                   setShowTtlBook(true);
@@ -65,22 +55,10 @@ const Bookmaker = ({
                             </div>
                           </div>
                         </th>
-                        <th
-                          className="ant-table-cell matchdtailsYesBackground"
-                          style={{
-                            backgroundColor: "rgb(99, 183, 247)",
-                            textAlign: "center",
-                            fontWeight: 500,
-                          }}>
+                        <th className="ant-table-cell matchdtailsYesBackground game-details-lagai-heading">
                           Lagai
                         </th>
-                        <th
-                          className="ant-table-cell matchdtailsNoBackground"
-                          style={{
-                            backgroundColor: "rgb(239, 131, 155)",
-                            textAlign: "center",
-                            fontWeight: 500,
-                          }}>
+                        <th className="ant-table-cell matchdtailsNoBackground game-details-khai-heading">
                           Khai
                         </th>
                       </tr>
@@ -141,8 +119,8 @@ const Bookmaker = ({
                             key={runner?.selectionId}
                             data-row-key={0}
                             className="ant-table-row ant-table-row-level-0">
-                            <td className="ant-table-cell matchdtailsBlackBackground">
-                              <div className="">
+                            <td className="ant-table-cell matchdtailsBlackBackground game-details-team-cell">
+                              <div>
                                 <div className=" gx-font-weight-semi-bold gx-text-uppercase">
                                   {runner?.nation}
                                 </div>
@@ -156,16 +134,12 @@ const Bookmaker = ({
                                 </div>
                               </div>
                             </td>
-                            <td
-                              className="ant-table-cell matchdtailsYesBackground"
-                              style={{ textAlign: "center" }}>
+                            <td className="ant-table-cell matchdtailsYesBackground game-details-odds-cell">
                               <div className="gx-font-weight-semi-bold">
                                 {runner?.b1}
                               </div>
                             </td>
-                            <td
-                              className="ant-table-cell matchdtailsNoBackground"
-                              style={{ textAlign: "center" }}>
+                            <td className="ant-table-cell matchdtailsNoBackground game-details-odds-cell">
                               <div className="gx-font-weight-semi-bold">
                                 {runner?.l1}
                               </div>

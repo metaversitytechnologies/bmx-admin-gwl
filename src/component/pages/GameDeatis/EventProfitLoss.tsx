@@ -50,49 +50,51 @@ const EventProfitLossList = () => {
       />
 
       <section className="event-pl-card">
-        
         <div className="event-pl-table-scroll">
           <table className="event-pl-table">
             <colgroup>
               <col className="event-pl-col-user" />
-              <col className="event-pl-col-date" />
               <col className="event-pl-col-selection" />
-              <col className="event-pl-col-result" />
+
               <col className="event-pl-col-mode" />
               <col className="event-pl-col-value" />
               <col className="event-pl-col-volume" />
               <col className="event-pl-col-stake" />
               <col className="event-pl-col-pnl" />
+              <col className="event-pl-col-date" />
+              <col className="event-pl-col-result" />
             </colgroup>
             <thead>
               <tr>
                 <th>Username</th>
-                <th>Date</th>
                 <th>Selection</th>
-                <th className="event-pl-center">Result</th>
                 <th>Back/Lay</th>
                 <th className="event-pl-num">Value</th>
                 <th className="event-pl-num">Volume</th>
                 <th className="event-pl-num">Stake</th>
                 <th className="event-pl-num">PnL</th>
+                <th>Date</th>
+                <th className="event-pl-center">Result</th>
               </tr>
             </thead>
             <tbody>
               {pagedRows.length > 0 ? (
                 pagedRows.map((res, index) => {
                   const tone = getPnlTone(res?.netPnl);
-                  const isBack = String(res?.mode).toUpperCase() === "YES";
+                  const isBack = String(res?.mode).toUpperCase() == "YES";
 
                   return (
                     <tr
                       key={`${res?.userId}-${res?.time}-${index}`}
-                      className={`event-pl-row ${tone}`}>
+                      className={`event-pl-row ${tone} ${isBack ? "is_back" : "is_lay"}`}>
                       <td className="event-pl-user">
                         {res?.username} ({res?.userId})
                       </td>
-                      <td className="event-pl-date">{res?.time}</td>
-                      <td className="event-pl-selection">{res?.selectionName}</td>
-                      <td className="event-pl-center">{res?.declared}</td>
+
+                      <td className="event-pl-selection">
+                        {res?.selectionName}
+                      </td>
+
                       <td>
                         <span
                           className={`event-pl-mode ${
@@ -107,6 +109,8 @@ const EventProfitLossList = () => {
                       <td className={`event-pl-num event-pl-pnl ${tone}`}>
                         {res?.netPnl}
                       </td>
+                      <td className="event-pl-date">{res?.time}</td>
+                      <td className="event-pl-center">{res?.declared}</td>
                     </tr>
                   );
                 })
@@ -118,7 +122,9 @@ const EventProfitLossList = () => {
                       description={
                         <span>
                           <strong>No profit &amp; loss records found</strong>
-                          <small>No betting activity is available for this event.</small>
+                          <small>
+                            No betting activity is available for this event.
+                          </small>
                         </span>
                       }
                     />
@@ -131,8 +137,8 @@ const EventProfitLossList = () => {
 
         <div className="event-pl-pagination">
           <p>
-            Showing <b>{pageStart}</b> to <b>{pageEnd}</b> of <b>{rows.length}</b>{" "}
-            entries
+            Showing <b>{pageStart}</b> to <b>{pageEnd}</b> of{" "}
+            <b>{rows.length}</b> entries
           </p>
           <div className="event-pl-pagination-controls">
             <Select

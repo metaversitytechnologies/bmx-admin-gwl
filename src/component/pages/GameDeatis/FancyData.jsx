@@ -58,24 +58,24 @@ const FancyData = ({ data }) => {
               return (
                 <div
                   key={item}
-                  className="ant-table-wrapper gx-w-100 gx-mx-0 gx-my-0 gx-table-responsive"
-                  style={{ marginTop: 16 }}>
+                  className="ant-table-wrapper gx-w-100 gx-mx-0 gx-my-0 gx-table-responsive game-details-fancy"
+                  >
                   <div className="ant-spin-nested-loading">
                     <div className="ant-spin-container">
                       <div className="ant-table ant-table-small ant-table-bordered">
                         <div className="ant-table-container">
                           <div className="ant-table-content">
-                            <table style={{ tableLayout: "auto" }}>
+                              <table style={{ tableLayout: "fixed" }}>
                               <colgroup>
-                                <col style={{ width: "60%" }} />
-                                <col style={{ width: "20%" }} />
-                                <col style={{ width: "20%" }} />
+                                  <col style={{ width: "51%" }} />
+                                  <col style={{ width: "22%" }} />
+                                  <col style={{ width: "27%" }} />
                               </colgroup>
                               <thead className="ant-table-thead">
                                 <tr>
-                                  <th className="ant-table-cell matchdtailsNoYesBackground">
+                                  <th className="ant-table-cell matchdtailsNoYesBackground game-details-fancy-heading">
                                     <div className="gx-bg-flex gx-justify-content-between gx-align-items-center gx-px-1">
-                                      <span className="gx-px-3 gx-py-1 gx-bg-primary">
+                                      <span className="gx-px-3 gx-py-1 gx-bg-primary game-details-fancy-name">
                                         {item}
                                       </span>
                                       <span style={{ whiteSpace: "nowrap" }}>
@@ -86,14 +86,14 @@ const FancyData = ({ data }) => {
                                     </div>
                                   </th>
                                   <th
-                                    className="ant-table-cell matchdtailsNoBackground"
+                                    className="ant-table-cell matchdtailsNoBackground game-details-no-heading"
                                     style={{
                                       textAlign: "center",
                                     }}>
                                     No
                                   </th>
                                   <th
-                                    className="ant-table-cell matchdtailsYesBackground"
+                                    className="ant-table-cell matchdtailsYesBackground game-details-yes-heading"
                                     style={{
                                       textAlign: "center",
                                     }}>
@@ -107,20 +107,17 @@ const FancyData = ({ data }) => {
                                     <tr
                                       key={fancy?.sid}
                                       className="ant-table-row ant-table-row-level-0">
-                                      <td className="ant-table-cell">
+                                      <td className="ant-table-cell game-details-fancy-team-cell">
                                         <div className="">
-                                          <div className="gx-bg-flex gx-my-0">
-                                            <div className="gx-font-weight-semi-bold text-white">
+                                        <div className="gx-bg-flex gx-my-0 game-details-fancy-market">
+                                            <div className="gx-font-weight-semi-bold text-white game-details-fancy-title">
                                               {fancy?.nation}
                                             </div>
                                             <button
                                               type="button"
-                                              className="ant-btn ant-btn-default gx-my-0"
+                                              className="ant-btn ant-btn-default gx-my-0 game-details-book-button"
                                               style={{
                                                 height: 30,
-                                                background:
-                                                  "linear-gradient(135deg, #5d6bff, #8a5cff)",
-                                                color: "white",
                                                 lineHeight: "30px",
                                                 marginLeft: 10,
                                               }}
@@ -139,7 +136,7 @@ const FancyData = ({ data }) => {
                                       {fancy?.gstatus == "" ? (
                                         <>
                                           <td
-                                            className="ant-table-cell matchdtailsNoBackground"
+                                            className="ant-table-cell matchdtailsNoBackground game-details-odds-cell"
                                             style={{ textAlign: "center" }}>
                                             <div style={{}}>
                                               <div className="gx-font-weight-semi-bold">
@@ -151,7 +148,7 @@ const FancyData = ({ data }) => {
                                             </div>
                                           </td>
                                           <td
-                                            className="ant-table-cell matchdtailsYesBackground"
+                                            className="ant-table-cell matchdtailsYesBackground game-details-odds-cell"
                                             style={{ textAlign: "center" }}>
                                             <div style={{}}>
                                               <div className="gx-font-weight-semi-bold">
@@ -167,7 +164,7 @@ const FancyData = ({ data }) => {
                                         <>
                                           {" "}
                                           <td
-                                            className="ant-table-cell matchdtailsSuspendBackground"
+                                            className="ant-table-cell matchdtailsSuspendBackground game-details-suspended-cell"
                                             style={{ textAlign: "center" }}>
                                             <div
                                               style={{ fontSize: 8 }}
@@ -176,7 +173,7 @@ const FancyData = ({ data }) => {
                                             </div>
                                           </td>
                                           <td
-                                            className="ant-table-cell matchdtailsSuspendBackground"
+                                            className="ant-table-cell matchdtailsSuspendBackground game-details-suspended-cell"
                                             style={{ textAlign: "center" }}>
                                             <div
                                               style={{ fontSize: 8 }}

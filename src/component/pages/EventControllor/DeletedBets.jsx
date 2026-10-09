@@ -1,10 +1,10 @@
+import ActionDropdown from "../../common/ActionDropdown/ActionDropdown";
 import {
   Card,
   Empty,
   Input,
   Row,
   Pagination,
-  Dropdown,
   Space,
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -100,7 +100,7 @@ const DeletedBets = () => {
                     {id + 1 + pageIndex * pageSize}
                   </td>
                   <td className="deleted-bets-menu-cell">
-                    <Dropdown
+                    <ActionDropdown
                       menu={{
                         items: getActionMenuItems(res),
                         className: "menu_data deleted-bets-menu",
@@ -116,7 +116,7 @@ const DeletedBets = () => {
                           <ChevronDown size={17} strokeWidth={2.1} />
                         </Space>
                       </button>
-                    </Dropdown>
+                    </ActionDropdown>
                   </td>
                   <td className="deleted-bets-name-column deleted-bets-name">
                     <span title={res?.matchName}>{res?.matchName}</span>

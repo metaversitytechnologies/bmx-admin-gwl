@@ -1,4 +1,5 @@
-import { Dropdown, Space } from "antd";
+import ActionDropdown from "../../common/ActionDropdown/ActionDropdown";
+import { Space } from "antd";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import PropTypes from "prop-types";
@@ -14,7 +15,7 @@ const SportsActionMenu = ({
   onPlusMinus,
   onNavigate,
 }) => (
-  <Dropdown
+  <ActionDropdown
     className="table_dropdown sport_droupdown"
     open={isOpen}
     onOpenChange={onToggle}
@@ -137,7 +138,7 @@ const SportsActionMenu = ({
         <ChevronDown size={14} strokeWidth={2} />
       </Space>
     </button>
-  </Dropdown>
+  </ActionDropdown>
 );
 
 SportsActionMenu.propTypes = {

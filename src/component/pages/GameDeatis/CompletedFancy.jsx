@@ -1,5 +1,11 @@
 import { Button, Empty, Input, Pagination, Select, Spin } from "antd";
-import { ChevronDown, ChevronRight, ChevronUp, RefreshCw, Search } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  ChevronUp,
+  RefreshCw,
+  Search,
+} from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetCompletedFancyMutation } from "../../../store/service/SportDetailServices";
@@ -22,7 +28,8 @@ const CompletedFancy = () => {
 
   const { id } = useParams();
   const nav = useNavigate();
-  const [trigger, { data: fancyData, isLoading }] = useGetCompletedFancyMutation();
+  const [trigger, { data: fancyData, isLoading }] =
+    useGetCompletedFancyMutation();
 
   const fetchCompletedFancy = useCallback(() => {
     trigger({
@@ -85,7 +92,9 @@ const CompletedFancy = () => {
         <div className="cfm-actions">
           <Button
             className="cfm-icon-btn"
-            aria-label={showComp ? "Collapse completed fancy" : "Expand completed fancy"}
+            aria-label={
+              showComp ? "Collapse completed fancy" : "Expand completed fancy"
+            }
             icon={
               showComp ? (
                 <ChevronUp size={18} strokeWidth={2.1} />
@@ -107,25 +116,6 @@ const CompletedFancy = () => {
       {showComp && (
         <div className="cfm-content">
           <div className="cfm-toolbar">
-            <div className="cfm-filters">
-              <Input
-                className="cfm-search"
-                prefix={<Search size={18} strokeWidth={1.9} />}
-                placeholder="Search Title..."
-                value={searchTitle}
-                onChange={(event) =>
-                  handleFilterChange(setSearchTitle)(event.target.value)
-                }
-              />
-              <Select
-                className="cfm-select"
-                value={selectedFancyId}
-                suffixIcon={<ChevronDown size={16} strokeWidth={2} />}
-                options={fancyOptions}
-                onChange={handleFilterChange(setSelectedFancyId)}
-              />
-            </div>
-
             <div
               className={`cfm-total-card ${getAmountTone(totalNetPnl)}`}
               aria-label="Total profit loss">
@@ -138,18 +128,11 @@ const CompletedFancy = () => {
             <div className="cfm-table-scroll">
               <Spin spinning={isLoading}>
                 <table className="cfm-table">
-                  <colgroup>
-                    <col className="cfm-col-title" />
-                    <col className="cfm-col-pnl" />
-                    <col className="cfm-col-won" />
-                    <col className="cfm-col-net" />
-                    <col className="cfm-col-action" />
-                  </colgroup>
                   <thead>
                     <tr>
                       <th>Title</th>
                       <th className="cfm-num">P&amp;L</th>
-                      <th className="cfm-center">Won By</th>
+                      <th className="cfm-center">Result</th>
                       <th className="cfm-num">Net P&amp;L</th>
                       <th className="cfm-action-col">Action</th>
                     </tr>
@@ -163,7 +146,8 @@ const CompletedFancy = () => {
                             item?.isBack ? "cfm-row-back" : "cfm-row-lay"
                           }`}>
                           <td className="cfm-title-cell">{item?.fancyName}</td>
-                          <td className={`cfm-num cfm-amount ${getAmountTone(item?.pnl)}`}>
+                          <td
+                            className={`cfm-num cfm-amount ${getAmountTone(item?.pnl)}`}>
                             {formatAmount(item?.pnl)}
                           </td>
                           <td className="cfm-center cfm-won">{item?.result}</td>
@@ -193,8 +177,12 @@ const CompletedFancy = () => {
                             image={Empty.PRESENTED_IMAGE_SIMPLE}
                             description={
                               <span>
-                                <strong>No completed fancy records found</strong>
-                                <small>Try changing your search or filter.</small>
+                                <strong>
+                                  No completed fancy records found
+                                </strong>
+                                <small>
+                                  Try changing your search or filter.
+                                </small>
                               </span>
                             }
                           />

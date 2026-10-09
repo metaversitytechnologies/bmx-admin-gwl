@@ -1,4 +1,4 @@
-import { Dropdown, Space } from "antd";
+import ActionDropdown from "../../common/ActionDropdown/ActionDropdown";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 import PropTypes from "prop-types";
@@ -16,7 +16,7 @@ const FinishedGameActionMenu = ({
   onPlusMinus,
   onNavigate,
 }) => (
-  <Dropdown
+  <ActionDropdown
     className="table_dropdown sport_droupdown"
     open={isOpen}
     onOpenChange={onToggle}
@@ -131,7 +131,7 @@ const FinishedGameActionMenu = ({
       <span className="finished-game-action-button-label">Show</span>{" "}
       <ChevronDown size={14} strokeWidth={2} />
     </button>
-  </Dropdown>
+  </ActionDropdown>
 );
 
 FinishedGameActionMenu.propTypes = {

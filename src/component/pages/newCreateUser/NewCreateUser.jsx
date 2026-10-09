@@ -230,6 +230,7 @@ const NewCreateUser = () => {
                   <Row className="super_agent create-admin-grid">
                     <Col xl={12} lg={12} md={24} xs={24}>
                       <Form.Item
+                        className="create-admin-name-item"
                         label="Name"
                         name="Name"
                         required

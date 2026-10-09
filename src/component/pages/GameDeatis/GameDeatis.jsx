@@ -125,18 +125,17 @@ const GameDeatis = () => {
   }, [showTv, channelId, userIp]);
 
   return (
-    <Row justify="center" className="main_details_page">
+    <Row justify="center" className="main_details_page game-details-page">
       <Col xs={24} lg={24}>
         <Row justify="center">
           <Col xs={24} lg={24}>
-            <div className="gx-px-1 gx-mb-5 gx-w-100 ">
+            <div className="gx-px-1 gx-mb-5 gx-w-100 game-details-shell">
               <Row
                 justify="start"
                 align="middle"
-                className="gx-px-2 gx-py-1"
-                style={{ backgroundColor: "#000" }}>
+                className="gx-px-2 gx-py-1 game-details-tv-header">
                 <span
-                  className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2"
+                  className="gx-bg-white gx-px-2 gx-py-1 gx-mr-2 game-details-control"
                   onClick={() => setShowFullScore(!showFullScore)}
                   style={{ cursor: "pointer" }}>
                   FS
@@ -145,9 +144,16 @@ const GameDeatis = () => {
                   onClick={() => setShowTv(!showTv)}
                   src="/Images/tv_icon.png"
                   alt="tv.png"
-                  className="gx-bg-white gx-py-1 gx-mr-2"
-                  style={{ width: 25, cursor: "pointer" }}
+                  className="gx-bg-white gx-py-1 gx-mr-2 game-details-tv-control"
+                  style={{ cursor: "pointer" }}
                 />
+                {/* <span
+                  className={`game-details-live-status ${
+                    showTv && tvUrl ? "is-live" : ""
+                  }`}>
+                  <i />
+                  Live TV
+                </span> */}
               </Row>
 
               <div className="ant-row" />
@@ -167,12 +173,7 @@ const GameDeatis = () => {
               )} */}
 
               {showTv && (
-                <div
-                  style={{
-                    width: "100%",
-                    height: "400px",
-                    background: "#000",
-                  }}>
+                <div className="game-details-stream">
                   {loadingTv ? (
                     <p style={{ color: "#fff", textAlign: "center" }}>
                       Loading stream...
@@ -205,7 +206,7 @@ const GameDeatis = () => {
                 </div>
               )}
               <div
-                className={`ant-row ${
+                className={`ant-row game-details-score ${
                   showFullScore ? "height_full" : "height_short"
                 }`}>
                 <iframe
@@ -218,7 +219,7 @@ const GameDeatis = () => {
               </div>
               {/* )} */}
 
-              <Row className="gx-px-0 gx-py-0 main_game_details">
+              <Row className="gx-px-0 gx-py-0 main_game_details game-details-markets">
                 <Col md={18} xs={24}>
                   {/* <MatchOdds data={data} pnl={oddsPnl?.data} /> */}
                   <Bookmaker
@@ -244,10 +245,10 @@ const GameDeatis = () => {
                 setFancyId={setFancyId}
                 fancyId={fancyId}
               />
-              <CompletedFancy />
             </div>
           </Col>
         </Row>
+        <CompletedFancy />
       </Col>
     </Row>
   );

@@ -771,6 +771,10 @@
     color: #344767;
     background: transparent;
   }
+  .ledger-amount-commission {
+    color: #ef174c;
+    background: #ffe8ec;
+  }
   @media (max-width: 767px) {
     padding: 8px;
     .ledger-live-viewport > .card-dark,

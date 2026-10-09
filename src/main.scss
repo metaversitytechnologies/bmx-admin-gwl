@@ -3713,6 +3713,345 @@ a.gx-bg-white:hover {
   height: 220px;
 }
 
+// Live market styling is scoped to GameDeatis so other Ant tables are untouched.
+.game-details-page {
+  margin: 10px 12px;
+
+  > .ant-col {
+    max-width: 100%;
+  }
+
+  .game-details-shell {
+    box-sizing: border-box;
+    padding: 10px 12px 20px;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid #e9edf5;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(35, 53, 89, 0.08);
+  }
+
+  .game-details-tv-header {
+    min-height: 58px;
+    padding: 8px 12px !important;
+    justify-content: flex-start;
+    gap: 8px;
+    border-radius: 16px 16px 0 0;
+    background: linear-gradient(
+      105deg,
+      #ef5b91 0%,
+      #b77cbd 30%,
+      #648fe5 58%,
+      #159bff 100%
+    );
+  }
+
+  .game-details-control,
+  .game-details-tv-control {
+    box-sizing: border-box;
+    width: 46px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 8px !important;
+    margin: 0 !important;
+    border: 0;
+    border-radius: 8px;
+  }
+
+  .game-details-control {
+    color: #101a44;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .game-details-tv-control {
+    object-fit: contain;
+  }
+
+  .game-details-live-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    margin-left: auto;
+    border-radius: 24px;
+    background: rgba(17, 81, 174, 0.58);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+
+    i {
+      width: 9px;
+      height: 9px;
+      display: inline-block;
+      border-radius: 50%;
+      background: #94a3b8;
+    }
+
+    &.is-live i {
+      background: #22c55e;
+    }
+  }
+
+  .game-details-stream {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    background: #e7e7e7;
+    border: 7px solid #dcecff;
+    border-radius: 0 0 16px 16px;
+
+    iframe {
+      border: 0;
+    }
+
+    p {
+      align-self: center;
+      color: #526078 !important;
+    }
+  }
+
+  .game-details-score {
+    overflow: hidden;
+    border: 7px solid #dcecff;
+    border-radius: 0 0 16px 16px;
+    background: #e7e7e7;
+
+    iframe {
+      border: 0;
+    }
+  }
+
+  .game-details-score.height_short {
+    height: 216px;
+  }
+
+  .game-details-stream + .game-details-score {
+    border-radius: 0 0 16px 16px;
+  }
+
+  .game-details-bookmaker,
+  .game-details-fancy {
+    margin-top: 8px !important;
+
+    .ant-table,
+    .ant-table-container,
+    table {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    table {
+      table-layout: fixed;
+    }
+
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+      padding: 8px 12px;
+      border: 1px solid #edf0f5;
+    }
+
+    .ant-table-thead > tr > th {
+      height: 48px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .ant-table-tbody > tr > td {
+      height: 48px;
+      font-size: 14px;
+    }
+
+    .game-details-team-cell,
+    .game-details-fancy-team-cell {
+      background: #ffffff !important;
+      color: #101a44;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .game-details-team-cell .gx-text-danger {
+      color: #ef2929 !important;
+    }
+
+    .game-details-odds-cell {
+      color: #465267;
+      font-weight: 700;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .matchdtailsYesBackground,
+    .game-details-yes-heading {
+      background: #49b7f2 !important;
+    }
+
+    .matchdtailsNoBackground,
+    .game-details-no-heading {
+      background: #f56f98 !important;
+    }
+
+    .game-details-lagai-heading {
+      background: #49b7f2 !important;
+    }
+
+    .game-details-khai-heading {
+      background: #f56f98 !important;
+    }
+
+    .matchdtailsNoYesBackground,
+    .game-details-fancy-heading {
+      background: linear-gradient(
+        105deg,
+        #ef5b91 0%,
+        #b77cbd 40%,
+        #159bff 100%
+      ) !important;
+    }
+
+    .matchdtailsSuspendBackground,
+    .game-details-suspended-cell {
+      background: #ffffff !important;
+      color: #596477;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .game-details-book-tab {
+      min-width: 88px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: #f56f98;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: center;
+
+      &.is-active {
+        background: #ffffff;
+        color: #101a44;
+      }
+    }
+
+    .game-details-fancy-name {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 4px 14px !important;
+      border-radius: 8px;
+      background: #159bff !important;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .game-details-fancy-title {
+      color: #101a44 !important;
+      font-size: 16px;
+    }
+
+    .game-details-fancy-market {
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .game-details-book-button {
+      min-width: 90px;
+      height: 36px !important;
+      border: 0 !important;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #5d6bff, #8a5cff) !important;
+      box-shadow: 0 5px 12px rgba(94, 79, 230, 0.2);
+      color: #ffffff !important;
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+
+  .game-details-fancy .game-details-fancy-team-cell {
+    width: 51%;
+  }
+
+  .game-details-markets {
+    display: block;
+
+    > .ant-col {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .game-details-page {
+    margin: 8px 4px;
+
+    .game-details-shell {
+      padding: 6px 6px 12px;
+      border-radius: 12px;
+    }
+
+    .game-details-tv-header {
+      min-height: 50px;
+      padding: 6px 8px !important;
+    }
+
+    .game-details-control,
+    .game-details-tv-control {
+      width: 40px;
+      height: 38px;
+    }
+
+    .game-details-stream {
+      height: 220px;
+    }
+
+    .game-details-bookmaker,
+    .game-details-fancy {
+      .ant-table-thead > tr > th,
+      .ant-table-tbody > tr > td {
+        padding: 6px;
+        font-size: 12px;
+      }
+
+      .game-details-team-cell,
+      .game-details-fancy-team-cell,
+      .game-details-fancy-title {
+        font-size: 12px;
+      }
+
+      .game-details-book-tab {
+        min-width: 70px;
+        padding: 6px;
+        font-size: 12px;
+      }
+
+      .game-details-fancy-name {
+        min-height: 30px;
+        padding: 3px 8px !important;
+        font-size: 12px;
+      }
+
+      .game-details-book-button {
+        min-width: 60px;
+        height: 30px !important;
+        padding: 0 8px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
 .match_ladger {
   .ant-picker.ant-picker-range {
     width: 92%;
@@ -8156,6 +8495,56 @@ table.live_table.mt-0 {
     }
   }
 
+  .create-admin-account-card {
+    .create-admin-section-heading {
+      min-height: 50px;
+      margin: -16px -18px 14px;
+      padding: 8px 12px;
+      border-radius: 13px 13px 0 0;
+      background: linear-gradient(110deg, #f5edff 0%, #edf8ff 100%);
+
+      h2 {
+        color: #9333ea;
+      }
+    }
+  }
+
+  .create-admin-match-card .create-admin-section-heading {
+    min-height: 50px;
+    margin: -16px -18px 14px;
+    padding: 8px 12px;
+    border-radius: 13px 13px 0 0;
+    background: linear-gradient(110deg, #fff1e9 0%, #fff9e8 100%);
+
+    h2,
+    p {
+      color: #ea580c;
+    }
+
+    .create-admin-section-icon {
+      background: linear-gradient(135deg, #f6a126 0%, #f97316 100%);
+      box-shadow: 0 7px 15px rgba(234, 88, 12, 0.18);
+    }
+  }
+
+  .create-admin-casino-card .create-admin-section-heading {
+    min-height: 50px;
+    margin: -16px -18px 14px;
+    padding: 8px 12px;
+    border-radius: 13px 13px 0 0;
+    background: linear-gradient(110deg, #eaf3ff 0%, #eef8ff 100%);
+
+    h2,
+    p {
+      color: #2563eb;
+    }
+
+    .create-admin-section-icon {
+      background: linear-gradient(135deg, #38a3f5 0%, #2563eb 100%);
+      box-shadow: 0 7px 15px rgba(37, 99, 235, 0.18);
+    }
+  }
+
   .create-admin-section-icon {
     width: 34px;
     height: 34px;
@@ -8197,7 +8586,7 @@ table.live_table.mt-0 {
 
     > label {
       height: auto;
-      color: #344054 !important;
+      color: #0066ff !important;
       font-size: 13px;
       font-weight: 600;
       line-height: 1.25;
@@ -9202,9 +9591,9 @@ table.live_table.mt-0 {
   }
 
   .admin-details-icon {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -16501,7 +16890,7 @@ table.live_table.mt-0 {
 
   .cfm-content {
     gap: 12px;
-    padding: 12px;
+    padding: 3px;
   }
 
   .cfm-toolbar {
@@ -16544,29 +16933,96 @@ table.live_table.mt-0 {
   }
 
   .cfm-table {
-    min-width: 720px;
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+
+    .cfm-col-title {
+      width: 27%;
+    }
+
+    .cfm-col-pnl {
+      width: 18%;
+    }
+
+    .cfm-col-won {
+      width: 11%;
+    }
+
+    .cfm-col-net {
+      width: 18%;
+    }
+
+    .cfm-col-action {
+      width: 26%;
+    }
+
+    tbody tr {
+      height: auto;
+    }
+
+    tbody tr.back td,
+    tbody tr.cfm-row-back td {
+      background: #eaf4ff !important;
+    }
+
+    tbody tr.lay td,
+    tbody tr.cfm-row-lay td {
+      background: #fff0f3 !important;
+    }
 
     th,
     td {
-      height: 48px;
-      padding-right: 10px;
-      padding-left: 10px;
-      font-size: 12px;
+      height: auto;
+      padding: 7px 8px;
+      color: #151515;
+      font-size: 15px;
+      line-height: 1.5;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      border-right: 1px solid rgba(255, 255, 255, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+      width: 100px;
     }
 
-    th:first-child,
     .cfm-title-cell {
-      position: sticky;
-      left: 0;
-      z-index: 2;
-      min-width: 200px;
-      max-width: 200px;
-      box-shadow: 8px 0 14px rgba(15, 23, 42, 0.06);
+      overflow: visible;
+      font-weight: 500 !important;
+      text-align: left;
+      text-overflow: clip;
     }
 
-    th:first-child {
-      z-index: 3;
-      background: #f7f6ff !important;
+    .cfm-num,
+    .cfm-won {
+      text-align: left !important;
+      font-size: 15px;
+      font-weight: 500 !important;
+    }
+
+    .cfm-action-col {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+
+    .cfm-show-bets {
+      width: 100%;
+      min-height: 32px;
+      height: auto;
+      gap: 4px;
+      padding: 0 6px;
+      color: #f97316;
+      border: 1px solid #fdba74;
+      border-radius: 8px;
+      background: rgba(255, 247, 237, 0.76);
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.1;
+      white-space: nowrap;
+
+      svg {
+        width: 13px;
+        min-width: 13px;
+      }
     }
   }
 
@@ -16779,13 +17235,13 @@ table.live_table.mt-0 {
   line-height: 1;
 
   &.is-back {
-    color: #dc2626;
-    background: #fff1f2;
+    color: #15803d;
+    background: #ecfdf3;
   }
 
   &.is-lay {
-    color: #15803d;
-    background: #ecfdf3;
+    color: #dc2626;
+    background: #fff1f2;
   }
 }
 
@@ -16965,11 +17421,6 @@ table.live_table.mt-0 {
 
     th:first-child,
     .event-pl-user {
-      position: sticky;
-      left: 0;
-      z-index: 2;
-      min-width: 190px;
-      max-width: 190px;
       box-shadow: 8px 0 14px rgba(15, 23, 42, 0.06);
     }
 
@@ -31784,4 +32235,16 @@ $app-generic-table-panels: (
 
 .show-pmr-header-btn-label {
   background: red !important;
+}
+
+.is_lay {
+  td {
+    background: #f9c9d4 !important;
+  }
+}
+
+.is_back {
+  td{
+      background: #a7d8fd !important;
+  }
 }

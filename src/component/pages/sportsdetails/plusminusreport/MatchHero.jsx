@@ -5,7 +5,7 @@ const MatchHero = ({ matchName, onShow, onBack }) => (
   <div className="admin-details-header pmr-header">
     <div className="admin-details-title-wrap">
       <span className="admin-details-icon">
-        <Trophy size={20} strokeWidth={1.8} />
+        <Trophy size={18} strokeWidth={1.8} />
       </span>
       <div>
         <div
@@ -13,9 +13,6 @@ const MatchHero = ({ matchName, onShow, onBack }) => (
           title={matchName}>
           {matchName}
         </div>
-        <p className="admin-details-subtitle">
-          Manage session and child access for this match
-        </p>
       </div>
     </div>
     <div className="show_btn pmr-header-actions">

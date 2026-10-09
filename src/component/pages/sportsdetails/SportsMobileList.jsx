@@ -32,9 +32,16 @@ const SportsMobileList = ({
                 {match.matchName}
               </Link>
             </span>
-            {match?.inPlay && (
-              <span className="sports-details-status">Inplay</span>
-            )}
+
+            <SportsActionMenu
+              match={match}
+              isOpen={dropdownStates[globalIndex]}
+              onToggle={(open) => toggleDropdown(globalIndex, open)}
+              onCloseAll={closeAllDropdowns}
+              onSelectMatch={onSelectMatch}
+              onPlusMinus={onPlusMinus}
+              onNavigate={onNavigate}
+            />
           </div>
 
           <div className="sports-details-mobile-time">
@@ -47,15 +54,9 @@ const SportsMobileList = ({
             <span className="sports-details-mobile-declare">
               Declare: <span className="sports-details-declare">No</span>
             </span>
-            <SportsActionMenu
-              match={match}
-              isOpen={dropdownStates[globalIndex]}
-              onToggle={(open) => toggleDropdown(globalIndex, open)}
-              onCloseAll={closeAllDropdowns}
-              onSelectMatch={onSelectMatch}
-              onPlusMinus={onPlusMinus}
-              onNavigate={onNavigate}
-            />
+            {match?.inPlay && (
+              <span className="sports-details-status">Inplay</span>
+            )}
           </div>
         </div>
       ))

@@ -180,7 +180,9 @@ const Signin = () => {
             )}
 
             <div className="gx-app-logo-content antpro-login-brand">
-              <div className="gx-app-logo antpro-login-logo">
+              <div
+                className="gx-app-logo antpro-login-logo"
+                style={{ textAlign: "center" }}>
                 <img alt="antpro" src={imgUrl} />
               </div>
 
@@ -292,13 +294,6 @@ const Signin = () => {
                     />
                   </Form.Item>
                 )}
-
-                <div className="antpro-form-options">
-                  <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                  </Form.Item>
-                  <span className="antpro-forgot">Forgot Password?</span>
-                </div>
 
                 <Form.Item className="sign_btn">
                   <Button type="primary" htmlType="submit">
