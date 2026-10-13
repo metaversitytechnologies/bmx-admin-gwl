@@ -4,6 +4,7 @@ import {
   Check,
   CircleDollarSign,
   Coins,
+  IndianRupee,
   Wallet,
   X,
 } from "lucide-react";
@@ -121,7 +122,8 @@ const Deposit = ({
               <div className="approved-deposit-wallet">
                 <Wallet size={30} strokeWidth={1.5} />
                 <span className="approved-deposit-coin-dot">
-                  <CircleDollarSign size={18} strokeWidth={2} />
+                  {/* <CircleDollarSign size={18} strokeWidth={2} /> */}
+                  <IndianRupee size={18} strokeWidth={2} />
                 </span>
               </div>
             </div>
@@ -144,7 +146,7 @@ const Deposit = ({
                 ]}>
                 <div className="approved-deposit-input-shell">
                   <span className="approved-deposit-input-icon">
-                    <CircleDollarSign size={18} strokeWidth={2} />
+                    <IndianRupee size={18} strokeWidth={2} />
                   </span>
                   <InputNumber
                     id="deposit-coins"
