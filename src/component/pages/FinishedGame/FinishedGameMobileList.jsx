@@ -1,4 +1,4 @@
-import { Calendar, CircleCheck } from "lucide-react";
+import { Calendar, CircleCheck, Trophy } from "lucide-react";
 import PropTypes from "prop-types";
 import FinishedGameActionMenu from "./FinishedGameActionMenu";
 import FinishedGameEmpty from "./FinishedGameEmpty";
@@ -30,6 +30,7 @@ const FinishedGameMobileList = ({
         return (
           <div className="fg-mobile-item" key={match.key ?? globalIndex}>
             <div className="fg-mobile-top">
+              <span className="fg-mobile-number">{String(globalIndex + 1).padStart(2, "0")}</span>
               <span className="fg-mobile-name" title={match.eventName}>
                 {match.eventName}
               </span>
@@ -46,41 +47,32 @@ const FinishedGameMobileList = ({
 
             <div className="fg-mobile-row">
               <span className="fg-competition-badge">T20</span>
-              <span className={`fg-pnl fg-mobile-pnl ${getPnlColorClass(match.pnl)}`}>
-                {formatAmount(match.pnl)}
-              </span>
             </div>
 
-            <div className="fg-mobile-field">
-              <span className="fg-mobile-label">
-                <Calendar size={11} strokeWidth={1.8} />
-                Match Time
-              </span>
-              <span className="fg-mobile-value">
-                {matchTime.date} · {matchTime.time}
-              </span>
-            </div>
+            <div className="fg-mobile-detail-grid">
+              <div className="fg-mobile-detail-content">
+                <div className="fg-mobile-field fg-mobile-time-field">
+                  <span className="fg-mobile-label"><Calendar size={16} strokeWidth={1.8} /> Match Time</span>
+                  <span className="fg-mobile-value">{matchTime.date} · {matchTime.time}</span>
+                </div>
 
-            {/* <div className="fg-mobile-field">
-              <span className="fg-mobile-label">Declared</span>
-              <span className="fg-mobile-value">
-                {declared.date} · {declared.time}
-              </span>
-            </div> */}
-
-            <div className="fg-mobile-field">
-              <span className="fg-mobile-label">Result</span>
-              {suspended ? (
-                <span className="fg-result-badge fg-result-suspended">
-                  <span className="fg-result-dot" />
-                  Suspended
-                </span>
-              ) : (
-                <span className="fg-result-badge fg-result-winner">
-                  <CircleCheck size={13} strokeWidth={2} />
-                  {match.winner}
-                </span>
-              )}
+                <div className="fg-mobile-field fg-mobile-result-field">
+                  <span className="fg-mobile-label"><Trophy size={16} strokeWidth={1.8} /> Result</span>
+                  {suspended ? (
+                    <span className="fg-result-badge fg-result-suspended">
+                      <span className="fg-result-dot" /> Suspended
+                    </span>
+                  ) : (
+                    <span className="fg-result-badge fg-result-winner">
+                      <CircleCheck size={13} strokeWidth={2} /> {match.winner}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className={`fg-mobile-pnl-box ${getPnlColorClass(match.pnl)}`}>
+                <span className="fg-mobile-pnl-icon" aria-hidden="true">▥</span>
+                <span className="fg-pnl fg-mobile-pnl">{formatAmount(match.pnl)}</span>
+              </div>
             </div>
           </div>
         );

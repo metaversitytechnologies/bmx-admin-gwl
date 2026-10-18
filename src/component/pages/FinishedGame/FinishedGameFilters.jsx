@@ -4,12 +4,10 @@ import PropTypes from "prop-types";
 
 const { RangePicker } = DatePicker;
 
-const FinishedGameFilters = ({
-  defaultValue,
-  onDateChange,
-  recordCount,
-}) => (
-  <div className="admin-details-toolbar finished-game-toolbar">
+const FinishedGameFilters = ({ defaultValue, onDateChange, recordCount }) => (
+  <div
+    className="admin-details-toolbar finished-game-toolbar"
+    >
     <div className="finished-game-filter-field">
       <RangePicker
         className="finished-game-range-picker"
@@ -28,9 +26,6 @@ const FinishedGameFilters = ({
         suffixIcon={<Trophy size={14} strokeWidth={1.8} />}
       />
     </div>
-    <span className="finished-game-record-count">
-      {recordCount} {recordCount === 1 ? "completed game" : "completed games"}
-    </span>
   </div>
 );
 

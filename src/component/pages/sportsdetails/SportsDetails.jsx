@@ -94,10 +94,10 @@ const SportsDetails = () => {
         />
       </div>
       <div className="table_section sport_detail m-0 admin-details-table-shell sports-details-table-shell">
-        <SportsDateFilter
+        {/* <SportsDateFilter
           defaultValue={[dayjs(timeBefore), dayjs(time)]}
           onChange={onChange}
-        />
+        /> */}
 
         <div style={{ position: "relative" }}>
           {(isFetching || isLoading) && <CustomLoading />}

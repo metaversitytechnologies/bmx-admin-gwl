@@ -23,8 +23,8 @@ const SportsMobileList = ({
           <div className="sports-details-mobile-top">
             <span className="sports-details-mobile-title">
               <span className="sports-details-mobile-code">
-                {String(globalIndex + 1).padStart(2, "0")} ·
-              </span>{" "}
+                {String(globalIndex + 1).padStart(2, "0")}
+              </span>
               <Link
                 to={`/Events/${match.matchId}/4/live-report`}
                 className="sports-details-name-link"
@@ -45,8 +45,10 @@ const SportsMobileList = ({
           </div>
 
           <div className="sports-details-mobile-time">
-            <Calendar size={12} strokeWidth={1.8} />
-            {moment(match.openDate).format("DD MMM YYYY · hh:mm A")}
+            <Calendar className="sports-details-mobile-calendar" size={18} strokeWidth={1.8} />
+            <span>{moment(match.openDate).format("DD MMM YYYY")}</span>
+            <span className="sports-details-mobile-dot">·</span>
+            <span>{moment(match.openDate).format("hh:mm A")}</span>
           </div>
 
           <div className="sports-details-mobile-bottom">

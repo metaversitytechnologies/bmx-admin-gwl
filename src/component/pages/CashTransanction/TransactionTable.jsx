@@ -110,8 +110,8 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
           </span>
           <div>
             <span>Balance</span>
-            <h3 className={totalBalance > 0 ? "text_danger" : "text_success"}>
-              {formatAmount(-1 * totalBalance)}{" "}
+            <h3 className={totalBalance < 0 ? "text_danger" : "text_success"}>
+              {formatAmount(totalBalance)}{" "}
               <small>{totalBalance > 0 ? "(Lena)" : "(Dena)"}</small>
             </h3>
           </div>

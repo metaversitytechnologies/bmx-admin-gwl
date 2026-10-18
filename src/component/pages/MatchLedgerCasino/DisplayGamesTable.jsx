@@ -6,7 +6,7 @@ import { getPnlColorClass } from "./displayGamesUtils";
 
 const DisplayGamesTable = ({ rows, onShowBets }) => (
   <div className="table_section admin-details-table-scroll display-games-table-scroll">
-    <table className="admin-details-table display-games-table">
+    <table className="">
       <thead>
         <tr>
           <th>S No.</th>

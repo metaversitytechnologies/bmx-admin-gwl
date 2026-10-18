@@ -19,7 +19,7 @@ const FinishedGame = () => {
   const [dataNameee, setDataNameee] = useState("");
   const [dropdownStates, setDropdownStates] = useState([]);
   const [isMobile, setIsMobile] = useState(
-    () => window.matchMedia("(max-width: 767px)").matches
+    () => window.matchMedia("(max-width: 767px)").matches,
   );
 
   const [indexData, setIndexData] = useState(0);
@@ -27,16 +27,11 @@ const FinishedGame = () => {
 
   const nav = useNavigate();
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetCompletedSportQuery({
-    index: indexData,
-    noOfRecords: 100,
-  });
+  const { data, isFetching, isLoading, isError, refetch } =
+    useGetCompletedSportQuery({
+      index: indexData,
+      noOfRecords: 100,
+    });
 
   const handlePlusMinus = (matchId) => {
     closeAllDropdowns();
@@ -53,7 +48,7 @@ const FinishedGame = () => {
 
   useEffect(() => {
     const initialStates = new Array(
-      data?.data?.completedMatchList?.length || 0
+      data?.data?.completedMatchList?.length || 0,
     ).fill(false);
     setDropdownStates(initialStates);
   }, [data]);
@@ -78,7 +73,9 @@ const FinishedGame = () => {
 
   // Ant Design portals menus outside the CSS-hidden responsive containers.
   // Mount only one layout so each row owns exactly one dropdown.
-  const FinishedGameList = isMobile ? FinishedGameMobileList : FinishedGameDesktopTable;
+  const FinishedGameList = isMobile
+    ? FinishedGameMobileList
+    : FinishedGameDesktopTable;
 
   const matches = data?.data?.completedMatchList || [];
   const rows = matches.map((match, globalIndex) => ({ match, globalIndex }));
@@ -105,7 +102,7 @@ const FinishedGame = () => {
           <FinishedGameError onRetry={refetch} />
         ) : (
           <>
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", marginTop: "12px" }}>
               {(isFetching || isLoading) && <CustomLoading />}
               <FinishedGameList
                 rows={rows}

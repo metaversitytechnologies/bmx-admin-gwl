@@ -81,8 +81,8 @@ const Dashboard = () => {
       icon: UserRoundCog,
       tone: "purple",
       onClick: () => setOpenDashBoard(!openDashBoard),
-      bg: "linear-gradient(135deg, #6c57f4 0%, #8a71ff 100%)",
-      borderColor: "#8a71ff",
+      bg: "linear-gradient(110deg,#850026,#b8003b 55%,#e0004f)",
+      borderColor: "#b8003b",
       color: "#fff",
     },
     {
