@@ -13,7 +13,7 @@ export const eventDerailApi = createApi({
   endpoints: (build) => ({
     eventDetail: build.query({
       query: (id) => ({
-        url: `/betfair_api/fancy/nsg/${id}`,
+        url: `/betfair_api/fancy/sap/${id}`,
         method: "GET",
       }),
     })

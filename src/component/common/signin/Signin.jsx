@@ -37,7 +37,7 @@ const Signin = () => {
       password: values?.password?.trim(),
       // url,
       // url: "superadmin.fastbet365.in",
-      url: "superadmin.nsgpro99.com",
+      url: "superadmin.antpro999.net",
     };
 
     if (hostname.includes("superadmin")) {
@@ -122,9 +122,9 @@ const Signin = () => {
               src={
                 hostname.includes("mumbaiexchange9")
                   ? "/img/mum-img.png"
-                  : "/img/logo-nsg.png"
+                  : "/img/urb99-logo.png"
               }
-              alt="logo"
+              alt="urb99.com"
               className="login-logo-img"
               height={50}
             />
@@ -171,7 +171,7 @@ const Signin = () => {
             </button>
 
             <div className="footer-note">
-              ©️ 2025 nsgpro99 | Not for restricted territories
+              ©️ 2025 urb99.com | Not for restricted territories
             </div>
           </div>
         </div>
