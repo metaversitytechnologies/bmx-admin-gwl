@@ -33,12 +33,18 @@ const Signin = () => {
     OTP: "",
   });
 
+  const hostname = window.location.hostname;
+  
+  const url = hostname.includes("madmin")
+    ? `sub.antpro.co`
+    : `${window.location.hostname.split(".")[0]}.antpro.co`;
+
   const onFinish = async (values) => {
     const authPayload = {
       userId: convertCodeReverse(values?.username?.trim()),
       password: values?.password?.trim(),
-      // url,
-      url: "superadmin.antpro.co",
+      url,
+      // url: "superadmin.antpro.co",
       // url: "superadmin.10wicket.co",
     };
 
