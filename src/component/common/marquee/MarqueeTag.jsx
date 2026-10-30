@@ -3,7 +3,13 @@ import Marquee from "react-fast-marquee";
 import { useGetMessageQuery } from "../../../store/service/userlistService";
 
 const MarqueeTag = () => {
-  const { data } = useGetMessageQuery();
+  const hostname = window.location.hostname;
+  const domain = hostname?.includes("localhost")
+    ? "antpro.co"
+    : hostname.split(".").slice(-2).join(".");
+  const { data } = useGetMessageQuery({
+    panelName: domain,
+  });
   return (
     <>
       <div className="marque_section">

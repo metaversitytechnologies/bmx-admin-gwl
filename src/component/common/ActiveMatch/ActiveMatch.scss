@@ -16,7 +16,6 @@
   margin-top: 5%;
 }
 
-
 .active_match_table {
   height: 100%;
   overflow-x: scroll;
@@ -61,12 +60,7 @@
     padding: 0 18px;
     border-bottom: 0;
     border-radius: 12px 12px 0 0;
-    background: linear-gradient(
-      90deg,
-      #5b50f5 0%,
-      #6545f2 50%,
-      #5745e8 100%
-    );
+    background: linear-gradient(90deg, #5b50f5 0%, #6545f2 50%, #5745e8 100%);
   }
 
   .ant-card-head-title {
@@ -164,6 +158,10 @@
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
+    background: linear-gradient(145deg, #ff9d18, #ff5a2f);
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: #fff;
   }
 
   .loading_active {
@@ -221,5 +219,71 @@
     .active-match-details {
       font-size: 11.5px;
     }
+  }
+}
+
+/* Common Status Badge */
+.match-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: #ffffff;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+/* Live Now - Red/Pink Gradient */
+.match-status.live {
+  background: linear-gradient(110deg, #4285ff, #0046ed);
+  box-shadow: 0 6px 16px rgba(21, 85, 255, 0.25);
+}
+
+/* Upcoming - Blue Gradient */
+.match-status.upcoming {
+  background: linear-gradient(110deg, #ff4b45 0%, #ff0055 100%);
+  box-shadow: 0 4px 12px rgba(255, 0, 85, 0.18);
+}
+
+/* Icons */
+.match-status svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Hover Effects */
+.match-status.live:hover {
+  background: linear-gradient(110deg, #4285ff, #0046ed);
+  box-shadow: 0 6px 16px rgba(21, 85, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.match-status.upcoming:hover {
+  background: linear-gradient(110deg, #ff3636, #e90049);
+  box-shadow: 0 6px 16px rgba(255, 0, 85, 0.25);
+  transform: translateY(-1px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .match-status {
+    min-width: 105px;
+    height: 34px;
+    padding: 0 10px;
+    gap: 5px;
+    font-size: 12px;
+    border-radius: 8px;
+  }
+
+  .match-status svg {
+    width: 15px;
+    height: 15px;
   }
 }

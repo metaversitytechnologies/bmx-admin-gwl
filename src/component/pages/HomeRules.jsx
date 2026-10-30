@@ -1,53 +1,51 @@
-const HomeRules = () => {
-  const host = window.location.hostname;
+import { Users } from "lucide-react";
 
-  return (
-    <>
-      <div className="custom-modal-text modal-body">
-        <h2> प्रिय ग्राहक,</h2>
+const DomainName = ({ domain }) =>
+  domain ? <strong className="duplicate-site-domain">{domain}</strong> : null;
+
+const HomeRules = ({ domain }) => (
+  <div className="duplicate-site-notices">
+    <section className="duplicate-site-notice is-hindi">
+      <span className="duplicate-site-notice-icon" aria-hidden="true">
+        <Users size={20} strokeWidth={2} />
+      </span>
+      <div className="duplicate-site-notice-copy" lang="hi">
+        <h2>प्रिय ग्राहक,</h2>
         <p>
-          {" "}
-          आपसे अनुरोध है हमारी कोई डुप्लीकेट साइट नही है हमारी आधिकारिक साइट
-          <span
-            style={{
-              textTransform: "uppercase",
-              padding: "0px 2px",
-              margin: "0px 2px",
-            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
-          से लॉगिन करें। लॉगइन करने से पहले साइट का नाम जरूर देख लें। आपके
-          समर्थन के लिए धन्यवाद। टीम {" '"}
-          <span
-            style={{
-              textTransform: "uppercase",
-              padding: "0px 2px",
-              margin: "0px 2px",
-            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
-          {"' "}
+          आपसे अनुरोध है हमारी कोई डुप्लीकेट साइट नहीं है। हमारी आधिकारिक साइट
+          {domain ? <> <DomainName domain={domain} /> </> : " "}
+          से लॉगिन करें। लॉगिन करने से पहले साइट का नाम जरूर देख लें। आपके समर्थन
+          के लिए धन्यवाद।
         </p>
-        <h2>Dear Client,</h2>
-        <p>
-          {" "}
-          We don&lsquo;t have any duplicate site , You are requested to login
-          with our official site {" '"}
-          <span
-            style={{
-              textTransform: "uppercase",
-              padding: "0px 2px",
-              margin: "0px 2px",
-            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
-          {"' "}.I only. Please check the site name before you login. Thanks for
-          your support. Team {" '"}
-          <span
-            style={{
-              textTransform: "uppercase",
-              padding: "0px 2px",
-              margin: "0px 2px",
-            }}>{`${host?.split(".")[1]}.${host?.split(".")[2]}`}</span>
-          {"' "}
+        <p className="duplicate-site-signoff">
+          {domain ? <>टीम '<DomainName domain={domain} />'</> : null}
         </p>
       </div>
-    </>
-  );
-};
+    </section>
+
+    <section className="duplicate-site-notice is-english">
+      <span className="duplicate-site-notice-icon" aria-hidden="true">
+        <Users size={20} strokeWidth={2} />
+      </span>
+      <div className="duplicate-site-notice-copy">
+        <h2>Dear Client,</h2>
+        <p>
+          We don't have any duplicate site. You are requested to login with our
+          {domain ? (
+            <> official site '<DomainName domain={domain} />' only.</>
+          ) : (
+            <> official website.</>
+          )}
+          Please check the site name before you login. Thanks for your support.
+        </p>
+        <p className="duplicate-site-signoff">
+          {domain ? <>Team '<DomainName domain={domain} />'</> : null}
+        </p>
+      </div>
+    </section>
+  </div>
+);
+
+HomeRules.defaultProps = { domain: "" };
 
 export default HomeRules;

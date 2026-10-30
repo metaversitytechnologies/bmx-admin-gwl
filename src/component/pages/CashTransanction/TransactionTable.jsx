@@ -104,7 +104,8 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
             <h3>{formatAmount(totalDebit)}</h3>
           </div>
         </div>
-        <div className="approved-summary-card atx-summary-card atx-balance-card">
+        <div
+          className={`approved-summary-card atx-summary-card atx-balance-card ${totalBalance < 0 ? "bg_danger" : "bg_success"}`}>
           <span className="approved-summary-icon atx-summary-icon">
             <FileText size={18} strokeWidth={1.8} />
           </span>
@@ -144,8 +145,8 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
               data.map((res, idx) => (
                 <tr
                   key={res._id || idx}
-                  className={res?.paymentType ? "gx-bg-yellow" : ""}>
-                  <td className="atx-row-action">
+                  className={` ${res?.paymentType?.includes("Paid") ? "isPaid" : res?.paymentType?.includes("Received") ? "isRecived" : ""}`}>
+                  <td className={`atx-row-action `}>
                     {res?.id && (
                       <Dropdown
                         className="table_dropdown sport_droupdown"
@@ -163,13 +164,19 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                     )}
                   </td>
                   <td className="atx-date-cell">
-                    <span>{moment(res?.date).format("DD MMM")}</span>
-                    <small>{moment(res?.date).format("hh:mm:ss A")}</small>
+                    <span>
+                      {moment(res?.date).format("DD MMM, hh:mm:ss A")}
+                    </span>
                   </td>
                   <td
                     className="atx-sticky-column atx-collection-cell"
                     title={res?.collectionName}>
-                    <span>{res?.collectionName}</span>
+                    <span
+                      className={
+                        res?.collectionName?.includes("Casino") ? "text_casino" : ""
+                      }>
+                      {res?.collectionName}
+                    </span>
                   </td>
                   <td className="text-right atx-money atx-debit">
                     {formatAmount(res?.debit)}
@@ -181,7 +188,7 @@ const TransactionTable = ({ data, clientId, trigger: triggerTran }) => {
                     className={`text-right atx-money atx-balance ${getBalanceTone(
                       res?.balance,
                     )}`}>
-                    {formatAmount(-1 * res?.balance)}{" "}
+                    {formatAmount(res?.balance)}{" "}
                     <small>({res?.balance > 0 ? "Lena" : "Dena"})</small>
                   </td>
                   <td>

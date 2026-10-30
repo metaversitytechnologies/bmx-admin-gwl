@@ -1,10 +1,12 @@
-import { Button, Layout, Modal } from "antd";
+import { Button, Checkbox, Layout, Modal } from "antd";
+import { ShieldAlert, X } from "lucide-react";
 import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import Sidebar from "../common/sidebar/Sidebar";
 const { Header, Content } = Layout;
 import Navbar from "../common/navbar/Navbar";
 
 import { Outlet, useNavigate } from "react-router-dom";
+import MarqueeTag from "../common/marquee/MarqueeTag";
 
 const HomeRules = lazy(() => import("../pages/HomeRules"));
 
@@ -14,6 +16,20 @@ const LayOut = () => {
   const [open, setOpen] = useState(false);
   const pType = localStorage.getItem("passType");
   const uType = localStorage.getItem("userType");
+  const hostname = window.location.hostname.toLowerCase();
+  const hostLabels = hostname
+    .split(".")
+    .filter(Boolean);
+  const isIpv4 = /^(\d{1,3}\.){3}\d{1,3}$/.test(hostname);
+  const hasCompoundSuffix = ["co", "com", "net", "org", "gov", "ac"].includes(
+    hostLabels.at(-2),
+  );
+  const websiteDomain =
+    !isIpv4 && hostLabels.length >= 3
+      ? hostLabels.slice(hasCompoundSuffix ? -3 : -2).join(".")
+      : !isIpv4 && hostLabels.length === 2
+        ? hostLabels.join(".")
+        : "";
 
   const collll = useCallback((val) => {
     setCollapsed(val);
@@ -60,6 +76,7 @@ const LayOut = () => {
             }}>
             <Navbar open={open} action={toggleDarawer} />
           </Header>
+          <MarqueeTag />
           <Content
             // style={{ margin: "2px 1px", padding: "21px 19px 0" }}
             className="main_section">
@@ -69,20 +86,50 @@ const LayOut = () => {
       </Layout>
       <Modal
         open={openRules}
-        className="modals_rule"
-        title={`${window.location.hostname.split(".")?.[1]}.${
-          window.location.hostname.split(".")?.[2]
-        } Rule`}
+        className="modals_rule duplicate-site-modal"
+        width={560}
+        title={
+          <div className="duplicate-site-header">
+            <span className="duplicate-site-header-icon" aria-hidden="true">
+              <ShieldAlert size={30} strokeWidth={2} />
+            </span>
+            <div className="duplicate-site-header-copy">
+              <h1>Duplicate Site Alert</h1>
+              <p>Please read the information below.</p>
+            </div>
+            <button
+              type="button"
+              className="duplicate-site-close-icon"
+              aria-label="Close alert"
+              onClick={handleCloseBtn}>
+              <X size={22} />
+            </button>
+          </div>
+        }
         onOk={handleOk}
         onCancel={handleCloseBtn}
-        footer={[
-          <Button key="back" onClick={handleCloseBtn}>
-            Close
-          </Button>,
-        ]}>
+        closable={false}
+        closeIcon={false}
+        footer={
+          <div className="duplicate-site-footer">
+            <Checkbox className="duplicate-site-checkbox">
+              Don&apos;t show again
+            </Checkbox>
+            <Button
+              className="duplicate-site-close-button"
+              key="close"
+              onClick={handleCloseBtn}>
+              Close
+            </Button>
+          </div>
+        }
+        maskStyle={{
+          background: "rgba(15, 23, 42, 0.60)",
+          backdropFilter: "blur(6px)",
+        }}>
         {openRules && (
           <Suspense fallback={null}>
-            <HomeRules />
+            <HomeRules domain={websiteDomain} />
           </Suspense>
         )}
       </Modal>

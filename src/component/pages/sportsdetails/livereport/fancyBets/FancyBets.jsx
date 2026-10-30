@@ -2,6 +2,7 @@ import { Button, Card, Empty, Input, Select } from "antd";
 import {
   ChevronDown,
   ChevronUp,
+  Crown,
   FileText,
   RefreshCw,
   Search,
@@ -51,28 +52,28 @@ const SummaryStrip = ({ rows, isMatchBet }) => {
 
   return (
     <div className="live-bets-summary-strip">
-      <div>
+      <div className="is-total-bets">
         <span className="live-bets-summary-icon is-purple">
           <Ticket size={17} strokeWidth={2} />
         </span>
         <p>Total Bets</p>
         <strong>{formatNumber(rows.length)}</strong>
       </div>
-      <div>
-        <span className="live-bets-summary-icon is-green">
+      <div className="is-total-amount">
+        <span className="live-bets-summary-icon is-blue">
           <WalletCards size={17} strokeWidth={2} />
         </span>
         <p>Total Amount</p>
         <strong>{formatNumber(totals.amount)}</strong>
       </div>
-      <div>
+      <div className="is-total-loss">
         <span className="live-bets-summary-icon is-red">
           <TrendingLossIcon />
         </span>
         <p>Total Loss</p>
         <strong>{formatNumber(totals.loss)}</strong>
       </div>
-      <div>
+      <div className="is-total-profit">
         <span className="live-bets-summary-icon is-green">
           <TrendingProfitIcon />
         </span>
@@ -221,8 +222,10 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                 setBetsData(true);
                 setFancyId("");
               }}>
-              <Ticket size={17} strokeWidth={2} />
-              <span>Match Bet</span>
+              <span className="live-bets-tab-icon is-match" aria-hidden="true">
+                <Ticket size={18} strokeWidth={2} />
+              </span>
+              <span className="live-bets-tab-title">Match Bet</span>
               <b>{matchRows.length || 0}</b>
             </button>
             <button
@@ -235,8 +238,10 @@ const FancyBets = ({ setFancyId, fancyId, setShowMatchBet, showMatchBet }) => {
                 setBetsData(true);
                 setFancyId("");
               }}>
-              <WalletCards size={17} strokeWidth={2} />
-              <span>Fancy Bet</span>
+              <span className="live-bets-tab-icon is-fancy" aria-hidden="true">
+                <Crown size={18} strokeWidth={2} />
+              </span>
+              <span className="live-bets-tab-title">Fancy Bet</span>
               <b>{fancyRows.length || 0}</b>
             </button>
           </div>

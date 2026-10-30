@@ -161,16 +161,11 @@ const Dashboard = () => {
     },
     {
       icon: Landmark,
-      title: `${dataDes?.data?.myShare}`,
+      title: `${dataDes?.data?.myShare}%`,
       desc: "My Share",
       tone: "share",
     },
-    {
-      icon: PieChart,
-      title: `${dataDes?.data?.companyShare}%`,
-      desc: "Company Share",
-      tone: "company",
-    },
+
     {
       icon: Percent,
       title: `${dataDes?.data?.matchCommission}%`,
@@ -182,6 +177,12 @@ const Dashboard = () => {
       title: `${dataDes?.data?.sessionCommission}%`,
       desc: "Session Commission",
       tone: "session",
+    },
+    {
+      icon: PieChart,
+      title: `${dataDes?.data?.companyShare}%`,
+      desc: "Company Share",
+      tone: "company",
     },
     {
       icon: ShieldCheck,

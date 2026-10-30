@@ -1,5 +1,5 @@
 import "./Signin.scss";
-import { Button, Checkbox, Form, Input, message } from "antd";
+import { Button, Form, Input, message } from "antd";
 import {
   useLoginMutation,
   useLoginWithOtpMutation,
@@ -34,7 +34,7 @@ const Signin = () => {
   });
 
   const hostname = window.location.hostname;
-  
+
   const url = hostname.includes("madmin")
     ? `sub.antpro.co`
     : `${window.location.hostname.split(".")[0]}.antpro.co`;

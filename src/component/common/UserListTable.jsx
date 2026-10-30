@@ -13,7 +13,7 @@ import {
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import ResetPassword from "./ResetPassword";
 import { SearchOutlined } from "@ant-design/icons";
-import { Columns3, Eye, MoreVertical, Plus, Search } from "lucide-react";
+import {  Eye, MoreVertical, Plus, Search } from "lucide-react";
 import PropTypes from "prop-types";
 import ModalsData from "../pages/supermaster/listsuper/ModalsData/ModalsData";
 
@@ -208,13 +208,11 @@ const UserListTable = ({
   };
 
   const toggleDropdown = (index, open) => {
-    const updatedDropdownStates = dropdownOpenStates.map((_, row) => row === index && open);
+    const updatedDropdownStates = dropdownOpenStates.map(
+      (_, row) => row === index && open,
+    );
     setDropdownOpenStates(updatedDropdownStates);
     setIsOverlayOpen(updatedDropdownStates[index]);
-  };
-
-  const handleScroll = () => {
-    resetDropdownStates();
   };
 
   useEffect(() => {
@@ -239,21 +237,6 @@ const UserListTable = ({
       setDropdownOpenStates(new Array(userDetailsData.length).fill(false));
     }
   }, [userDetailsData]);
-
-  useEffect(() => {
-    const element = myElementRef.current;
-    if (element) {
-      window.addEventListener("scroll", handleScroll);
-      element.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (element) {
-        window.removeEventListener("scroll", handleScroll);
-        element.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
 
   const totalPages = superuserListData?.data?.totalPages || 1;
   const currentPage = superuserListData?.data?.currentPage || 0;
@@ -635,12 +618,13 @@ const UserListTable = ({
                   <th>D.O.J </th>
                   <th>Share%</th>
                   <th>PWD</th>
-                  {userType == 1 && (
-                    <th style={{ textAlign: "right" }}>Exposure</th>
-                  )}
+
                   <th colSpan={3} className="text-center">
                     {Listname} Comm %
                   </th>
+                  {userType == 1 && (
+                    <th style={{ textAlign: "right" }}>Exposure</th>
+                  )}
                   <th className="text-right">C.Chips</th>
                   <th>Status</th>
                   <th className="admin-details-sticky-action">Action</th>
@@ -665,7 +649,9 @@ const UserListTable = ({
                         </div>
                       </td>
                       <td className="admin-details-code">
-                        {convertCode(res?.userId)}
+                        <span className="admin-code-badge">
+                          {convertCode(res?.userId)}
+                        </span>
                       </td>
                       <td>
                         <span
@@ -697,30 +683,11 @@ const UserListTable = ({
                         {res?.partnerShip}
                       </td>
                       <td className="admin-details-password">
-                        {isNsg ? "*******" : res?.password}
+                        <span className="pwd-badge">
+                          {isNsg ? "*******" : res?.password}
+                        </span>
                       </td>
-                      {userType == 1 && (
-                        <td className="admin-details-number text-right">
-                          <span
-                            onClick={() => {
-                              !forDeadClient &&
-                                res?.liability !== 0 &&
-                                handleExposure(res?.userId);
-                            }}
-                            style={{
-                              border: "1px solid #fff",
-                              fontWeight: 600,
-                              color: res?.liability !== 0 ? "#1890ff" : "#000",
-                              cursor: "pointer",
-                            }}>
-                            {/* <Tag color="#f50"> */}
-                            {res?.liability === 0
-                              ? "0"
-                              : res?.liability?.toFixed(2) || 0}
-                            {/* </Tag> */}
-                          </span>
-                        </td>
-                      )}
+
                       <td>
                         {res?.matchCommission === 0 &&
                         res?.sessionCommission === 0
@@ -733,16 +700,36 @@ const UserListTable = ({
                       <td className="admin-details-number">
                         {Number(res?.sessionCommission)?.toFixed(2)}
                       </td>
+                      {userType == 1 && (
+                        <td className="admin-details-number admin-details-exposure">
+                          <span
+                            className="exposure-badge"
+                            onClick={() => {
+                              !forDeadClient &&
+                                res?.liability !== 0 &&
+                                handleExposure(res?.userId);
+                            }}>
+                            {/* <Tag color="#f50"> */}
+                            {res?.liability === 0
+                              ? "0"
+                              : res?.liability?.toFixed(2) || 0}
+                            {/* </Tag> */}
+                          </span>
+                        </td>
+                      )}
                       <td className="text-right admin-details-number">
-                        {userType == 1
-                          ? (
-                              Number(res?.balance) +
-                              Number(res?.balanceWithPnl) -
-                              Number(res?.liability?.toFixed(2) || 0)
-                            )?.toFixed()
-                          : (
-                              Number(res?.balance) + Number(res?.balanceWithPnl)
-                            )?.toFixed()}
+                        <span className="chips-badge">
+                          {userType == 1
+                            ? (
+                                Number(res?.balance) +
+                                Number(res?.balanceWithPnl) -
+                                Number(res?.liability?.toFixed(2) || 0)
+                              )?.toFixed()
+                            : (
+                                Number(res?.balance) +
+                                Number(res?.balanceWithPnl)
+                              )?.toFixed()}
+                        </span>
                       </td>
                       <td>
                         <span

@@ -1,17 +1,7 @@
-import { Button, Card, Popover, message as AntMessage } from "antd";
+import { Button, Popover, message as AntMessage } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import {
-  BellRing,
-  Eye,
-  Info,
-  Megaphone,
-  MessageSquareText,
-  Send,
-  ShieldCheck,
-  Sparkles,
-  UsersRound,
-} from "lucide-react";
+import { Megaphone, Send } from "lucide-react";
 import {
   useGetMessageQuery,
   useSetMessageMutation,
@@ -57,8 +47,13 @@ const EMOJI_GROUPS = [
 
 const SetMessage = () => {
   const nav = useNavigate();
-
-  const { data, isLoading, refetch } = useGetMessageQuery();
+  const hostname = window.location.hostname;
+  const domain = hostname?.includes("localhost")
+    ? "antpro.co"
+    : hostname.split(".").slice(-2).join(".");
+  const { data, isLoading, refetch } = useGetMessageQuery({
+    panelName: domain,
+  });
   const [setMessageApi, { isLoading: isSaving }] = useSetMessageMutation();
 
   const [msg, setMsg] = useState("");
@@ -74,7 +69,10 @@ const SetMessage = () => {
 
   const handleSave = async () => {
     try {
-      await setMessageApi({ message: msg }).unwrap();
+      await setMessageApi({
+        message: msg,
+        panelName: domain,
+      }).unwrap();
       refetch();
       AntMessage.success("Message updated successfully!");
     } catch (err) {
@@ -189,13 +187,13 @@ const SetMessage = () => {
               </Popover>
             </div>
 
-            <div className="set-message-helper">
+            {/* <div className="set-message-helper">
               <Info size={16} strokeWidth={2} />
               <span>
                 Your message will be visible to all users immediately. Emojis
                 are supported.
               </span>
-            </div>
+            </div> */}
 
             <Button
               className="approved-primary-button set-message-submit"
