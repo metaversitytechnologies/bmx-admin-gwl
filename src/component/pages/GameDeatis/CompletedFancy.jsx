@@ -1,4 +1,4 @@
-import { Button, Empty, Input, Pagination, Select, Spin } from "antd";
+import { Button, Empty, Spin } from "antd";
 import {
   ChevronDown,
   ChevronRight,
@@ -23,8 +23,6 @@ const CompletedFancy = () => {
   const [showComp, setShowComp] = useState(true);
   const [searchTitle, setSearchTitle] = useState("");
   const [selectedFancyId, setSelectedFancyId] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
 
   const { id } = useParams();
   const nav = useNavigate();
@@ -71,15 +69,6 @@ const CompletedFancy = () => {
 
   const totalNetPnl =
     filteredRows.reduce((acc, item) => acc + Number(item?.netPnl || 0), 0) || 0;
-
-  const pageStart = filteredRows.length ? (page - 1) * pageSize + 1 : 0;
-  const pageEnd = Math.min(page * pageSize, filteredRows.length);
-  const pagedRows = filteredRows.slice((page - 1) * pageSize, page * pageSize);
-
-  const handleFilterChange = (callback) => (value) => {
-    callback(value);
-    setPage(1);
-  };
 
   return (
     <section className="completed-fancy-modern">
@@ -138,8 +127,8 @@ const CompletedFancy = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {pagedRows.length > 0 ? (
-                      pagedRows.map((item, index) => (
+                    {filteredRows.length > 0 ? (
+                      filteredRows.map((item, index) => (
                         <tr
                           key={`${item?.fancyId}-${index}`}
                           className={`${item?.isBack ? "back" : "lay"} ${
@@ -192,35 +181,6 @@ const CompletedFancy = () => {
                   </tbody>
                 </table>
               </Spin>
-            </div>
-
-            <div className="cfm-pagination">
-              <p>
-                Showing <b>{pageStart}</b> to <b>{pageEnd}</b> of{" "}
-                <b>{filteredRows.length}</b> entries
-              </p>
-              <div className="cfm-pagination-controls">
-                <Select
-                  className="cfm-page-size"
-                  value={pageSize}
-                  suffixIcon={<ChevronDown size={15} strokeWidth={2} />}
-                  options={[10, 25, 50].map((value) => ({
-                    value,
-                    label: `${value} / page`,
-                  }))}
-                  onChange={(value) => {
-                    setPageSize(value);
-                    setPage(1);
-                  }}
-                />
-                <Pagination
-                  current={page}
-                  pageSize={pageSize}
-                  total={filteredRows.length}
-                  showSizeChanger={false}
-                  onChange={setPage}
-                />
-              </div>
             </div>
           </div>
         </div>
